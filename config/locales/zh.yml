@@ -1,0 +1,12 @@
+zh:
+  hong_baos:
+    new:
+      title: "比特币红包"
+      subtitle: "购买比特币作为您的数字红包（3%手续费）"
+      amount_label: "美元金额"
+      amount_placeholder: "输入金额"
+      estimated_btc: "预计比特币"
+      platform_fee: "平台费用"
+      gas_fee: "矿工费"
+      total_cost: "总费用"
+      purchase_button: "购买比特币" 

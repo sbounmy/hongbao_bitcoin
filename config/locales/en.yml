@@ -28,4 +28,15 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  hong_baos:
+    new:
+      title: "Bitcoin Hong Bao"
+      subtitle: "Purchase Bitcoin for your digital red envelope (3% fee)"
+      amount_label: "Amount in USD"
+      amount_placeholder: "Enter amount"
+      estimated_btc: "Estimated BTC"
+      platform_fee: "Platform Fee"
+      gas_fee: "Gas Fee"
+      total_cost: "Total Cost"
+      purchase_button: "Purchase Bitcoin"
+      switch_language: "切换到中文"

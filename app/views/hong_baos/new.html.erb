@@ -1,0 +1,48 @@
+<div class="min-h-screen bg-[#FFE5E5] flex items-center justify-center p-4">
+  <div class="w-[400px] bg-[#F04747] rounded-[32px] p-8 border-2 border-[#FFB636] shadow-lg">
+    <%# Language Toggle %>
+    <div class="flex justify-end mb-6">
+      <div class="flex items-center gap-2">
+        <%= link_to t('.switch_language'),
+            { locale: I18n.locale == :en ? :'zh-CN' : :en },
+            class: "text-white text-sm" %>
+        <span class="text-blue-400">✓</span>
+      </div>
+    </div>
+
+    <%# Title %>
+    <h1 class="text-[28px] font-bold text-[#FFB636] text-center mb-3">
+      <%= t('.title') %>
+    </h1>
+    
+    <%# Form %>
+    <%= form_with model: @hong_bao, 
+        class: "space-y-6",
+        data: { controller: "hong-bao" } do |f| %>
+      
+      <div class="text-white text-[16px] mb-2">
+        <%= t('.amount_label') %>
+      </div>
+
+      <%= f.text_field :amount,
+          class: "w-full bg-[#FF5C5C] text-white placeholder-[#FFB3B3] 
+                 rounded-lg py-3 px-4 border-none focus:ring-0",
+          placeholder: t('.amount_placeholder'),
+          data: {
+            action: "input->hong-bao#calculateFees",
+            "hong-bao-target": "amount"
+          } %>
+
+      <%# Fee Calculation %>
+      <div data-hong-bao-target="feeCalculation" 
+          class="hidden bg-[#FF5C5C] rounded-lg p-4 text-white">
+      </div>
+
+      <%= f.button type: "submit",
+          class: "w-full bg-[#FFB636] text-[#F04747] py-3 rounded-lg
+                 font-medium hover:bg-[#FFC966] transition-colors" do %>
+        <%= t('.purchase_button') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
