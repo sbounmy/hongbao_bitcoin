@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_14_102248) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_14_130552) do
   create_table "hong_baos", force: :cascade do |t|
     t.decimal "amount"
     t.decimal "btc_amount"
@@ -21,5 +21,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_14_102248) do
     t.text "personal_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_session_id"
+    t.integer "status", default: 0
+    t.index ["stripe_session_id"], name: "index_hong_baos_on_stripe_session_id"
   end
 end

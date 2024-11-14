@@ -1,17 +1,31 @@
 class HongBaosController < ApplicationController
   def new
-    @hong_bao = HongBao.new
+    @hong_bao = HongBao.new(hong_bao_params)
   end
 
   def create
     @hong_bao = HongBao.new(hong_bao_params)
 
-    if @hong_bao.save
-      render turbo_stream: turbo_stream.replace(
-        "hong_bao_form",
-        partial: "success",
-        locals: { hong_bao: @hong_bao }
+    if @hong_bao.valid?
+      session = Stripe::Checkout::Session.create(
+        payment_method_types: [ "card" ],
+        line_items: [ {
+          price_data: {
+            currency: "usd",
+            unit_amount: @hong_bao.total_amount_cents,
+            product_data: {
+              name: "Bitcoin Hong Bao"
+            }
+          },
+          quantity: 1
+        } ],
+        mode: "payment",
+        success_url: success_hong_bao_url(@hong_bao),
+        cancel_url: new_hong_bao_url
       )
+
+      @hong_bao.update(stripe_session_id: session.id)
+      redirect_to session.url, allow_other_host: true
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,6 +43,6 @@ class HongBaosController < ApplicationController
   private
 
   def hong_bao_params
-    params.require(:hong_bao).permit(:amount, :personal_message)
+    params.fetch(:hong_bao, {}).permit(:amount, :recipient_name, :message)
   end
 end
