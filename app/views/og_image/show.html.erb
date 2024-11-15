@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="grid">
+    <%# Left side: Product showcase %>
+    <div class="showcase">
+      <%= image_tag "papers/bitcoin-bill-new-year-2025.jpg", class: "bill" %>
+      <%= image_tag "bitcoin-qrcode-example.jpg", class: "qr" %>
+      <%= image_tag "hongbao-bitcoin-logo-520.png", class: "envelope" %>
+    </div>
+    
+    <%# Right side: Text %>
+    <div class="content">
+      <%= image_tag "hongbao-bitcoin-logo-520.png", class: "logo" %>
+      <h1 class="title">Bitcoin Hong Bao</h1>
+      <div class="steps">
+        <p>1. Create your Bitcoin bill</p>
+        <p>2. Print with secure QR code</p>
+        <p>3. Pack in red envelope</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.container {
+  width: 1200px;
+  height: 630px;
+  background: #F04747;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  width: 100%;
+}
+
+.showcase {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bill {
+  width: 80%;
+  transform: rotate(-15deg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.qr {
+  position: absolute;
+  width: 100px;
+  bottom: 20px;
+  right: 20px;
+}
+
+.envelope {
+  position: absolute;
+  width: 200px;
+  bottom: -20px;
+  left: 20px;
+  transform: rotate(10deg);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: white;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  border: 3px solid #FFB636;
+}
+
+.title {
+  color: #FFB636;
+  font-size: 48px;
+  margin: 0;
+}
+
+.steps {
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.steps p {
+  margin: 10px 0;
+}
+</style> 
