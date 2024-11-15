@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-[#FFE5E5] flex items-center justify-center">
+<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center gap-8">
   <div class="w-full max-w-[480px] bg-[#F04747] rounded-[32px] p-8 border-2 border-[#FFB636] shadow-lg relative">
     <%# Logo %>
     <div class="flex justify-between mb-8">
@@ -67,5 +67,32 @@
           class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 border-none focus:ring-0 text-center",
           target: "_blank" %>
     </div>
+
+  </div>
+
+  <div class="w-full max-w-[480px] bg-[#F04747] rounded-[32px] p-8 border-2 border-[#FFB636] shadow-lg relative">
+        <%# FAQ Section %>
+      <div class="mt-8 space-y-4">
+        <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.faq.title') %></h2>
+        <div class="space-y-4">
+          <% t('.faq.questions').each do |key, qa| %>
+            <div class="border border-white/20 rounded-lg overflow-hidden">
+              <details class="group">
+                <summary class="flex justify-between items-center p-4 cursor-pointer text-[#FFB636] font-medium hover:bg-white/10 transition-colors">
+                  <%= qa[:q] %>
+                  <span class="transition-transform duration-200 group-open:-rotate-180">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </span>
+                </summary>
+                <div class="p-4 text-white bg-white/10 border-t border-white/20">
+                  <%= qa[:a] %>
+                </div>
+              </details>
+            </div>
+          <% end %>
+        </div>
+      </div>
   </div>
 </div>

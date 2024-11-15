@@ -39,3 +39,15 @@ en:
         classic: "Classic"
         modern: "Modern"
         lunar: "Lunar New Year"
+      faq:
+        title: "Frequently Asked Questions"
+        questions:
+          what_is:
+            q: "What is Bitcoin Hong Bao?"
+            a: "Bitcoin Hong Bao transforms the traditional red envelope (红包) into a lasting gift by combining a physical paper wallet with Bitcoin, preserving both cultural meaning and value."
+          how_works:
+            q: "How does it work?"
+            a: "Select a design, choose an amount, and purchase Bitcoin through our secure partner Mt Pelerin. You'll receive a unique link to print your HongBao to put in your red envelope."
+          security:
+            q: "Is it secure?"
+            a: "Yes, we use industry-standard security practices and partner with Mt Pelerin for secure Bitcoin transactions. We do not store any of your personal information and funds."
