@@ -51,8 +51,12 @@ en:
           security:
             q: "Is it secure?"
             a: "Yes, we use industry-standard security practices and partner with Mt Pelerin for secure Bitcoin transactions. We do not store any of your personal information and funds."
+      about:
+        title: "About me"
+        bio: "As a Chinese Teochew born and raised in France, I created Bitcoin Hong Bao to bridge traditional gift-giving with modern technology. Growing up with the red envelope tradition, I wanted to share the beauty of combining our cultural heritage with Bitcoin's innovation, making it easier for friends and family to preserve and share wealth across generations."
   layouts:
     application:
       meta:
         title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
         description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
+        keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
