@@ -8,31 +8,26 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# Create default papers
-papers = [
-  {
-    name: 'Bitcoin Bill',
-    filename: 'bitcoin-bill-1250.jpg',
-    style: :classic
-  },
-  {
-    name: 'Paper Design',
-    filename: 'bitcoin-paper.png',
-    style: :modern
-  }
-]
+# Get all image files from the papers directory
+paper_files = Dir.glob(Rails.root.join('app', 'assets', 'images', 'papers', '*'))
 
-papers.each_with_index do |paper_data, index|
-  paper = Paper.find_or_initialize_by(name: paper_data[:name])
+paper_files.each_with_index do |file_path, index|
+  filename = File.basename(file_path)
+  name = File.basename(file_path, '.*').titleize
+
+  # Skip if paper with this name already exists
+  next if Paper.exists?(name: name)
+
+  paper = Paper.new(name: name)
   paper.position = index + 1
-  paper.style = paper_data[:style]
 
-  if paper.new_record?
-    paper.image.attach(
-      io: File.open(Rails.root.join('app', 'assets', 'images', paper_data[:filename])),
-      filename: paper_data[:filename]
-    )
-  end
+  # Only attach image for new records
+  paper.image.attach(
+    io: File.open(file_path),
+    filename: filename,
+    content_type: Marcel::MimeType.for(file_path)
+  )
 
   paper.save!
+  puts "Created paper: #{name}"
 end
