@@ -98,5 +98,37 @@
           <% end %>
         </div>
       </div>
+    </div>
+
+    <%# About Section %>
+<%# About Section %>
+<div class="w-full max-w-[480px] bg-[#F04747] p-8 
+        border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
+        shadow-lg relative">
+  <div class="space-y-6">
+    <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.about.title') %></h2>
+    
+    <div class="flex gap-6 items-start"> <%# Changed to items-start and removed flex-col %>
+      <%= image_tag "sbounmy-laser-eyes.png", 
+          class: "w-24 h-24 rounded-full border-2 border-[#FFB636] object-cover shrink-0",
+          alt: "Stephane Bounmy" %>
+      
+      <div class="text-white space-y-4 flex-1">
+        <p class="font-medium text-[#FFB636] text-xl">Stephane Bounmy</p>
+        <p class="text-lg leading-relaxed"><%= t('.about.bio') %></p>
+        <div class="flex gap-4">
+          <%= link_to "Linkedin", "https://linkedin.com/in/stephanebounmy", 
+              class: "text-[#FFB636] hover:text-white transition-colors",
+              target: "_blank" %>
+          <%= link_to "Twitter", "https://twitter.com/sbounmy", 
+              class: "text-[#FFB636] hover:text-white transition-colors",
+              target: "_blank" %>
+          <%= link_to "GitHub", "https://github.com/sbounmy", 
+              class: "text-[#FFB636] hover:text-white transition-colors",
+              target: "_blank" %>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 </div>

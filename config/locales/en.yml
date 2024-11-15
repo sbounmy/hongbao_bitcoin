@@ -51,3 +51,6 @@ en:
           security:
             q: "Is it secure?"
             a: "Yes, we use industry-standard security practices and partner with Mt Pelerin for secure Bitcoin transactions. We do not store any of your personal information and funds."
+      about:
+        title: "About me"
+        bio: "As a Chinese Teochew born and raised in France, I created Bitcoin Hong Bao to bridge traditional gift-giving with modern technology. Growing up with the red envelope tradition, I wanted to share the beauty of combining our cultural heritage with Bitcoin's innovation, making it easier for friends and family to preserve and share wealth across generations."
