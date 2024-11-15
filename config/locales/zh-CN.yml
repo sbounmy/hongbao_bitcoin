@@ -4,7 +4,7 @@ zh-CN:
       title: "比特币红包"
       subtitle: "打印在纸上的比特币礼物"
       purchase_button: "购买比特币"
-      switch_language: "Switch to English" 
+      switch_language: "🇺🇸 English" 
       select_style: "选择样式"
       styles:
         classic: "传统"

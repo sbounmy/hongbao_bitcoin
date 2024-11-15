@@ -1,20 +1,31 @@
 <div class="min-h-screen bg-[#FFE5E5] flex items-center justify-center p-4">
-  <div class="w-[400px] bg-[#F04747] rounded-[32px] p-8 border-2 border-[#FFB636] shadow-lg">
+  <div class="w-[480px] bg-[#F04747] rounded-[32px] p-8 border-2 border-[#FFB636] shadow-lg relative">
+    <%# Logo %>
+    <div class="flex justify-between mb-8">
+
     <%# Language Toggle %>
-    <div class="flex justify-end mb-6">
+        <%= image_tag "hongbao-bitcoin-logo-520.png", 
+            class: "w-16 h-16 rounded-full border-2 border-[#FFB636]",
+            alt: "Bitcoin Hong Bao Logo" %>
+            <div>
+    <h1 class="text-[28px] font-bold text-[#FFB636] text-center">
+      <%= t('.title') %>
+    </h1>
+  
+    <div class="text-white text-center">
+      <%= t('.subtitle') %>
+    </div>
+    </div>
+
+    <div class="flex justify-end mb-6 items-center">
       <%= link_to t('.switch_language'),
           { locale: I18n.locale == :en ? :'zh-CN' : :en },
           class: "text-white" %>
     </div>
+    </div>
+
 
     <%# Title %>
-    <h1 class="text-[28px] font-bold text-[#FFB636] text-center mb-3">
-      <%= t('.title') %>
-    </h1>
-  
-    <div class="text-white text-center mb-6">
-      <%= t('.subtitle') %>
-    </div>
 
     <%# Paper Selection %>
     <div class="mb-6">
