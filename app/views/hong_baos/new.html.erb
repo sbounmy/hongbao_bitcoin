@@ -11,18 +11,47 @@
     <h1 class="text-[28px] font-bold text-[#FFB636] text-center mb-3">
       <%= t('.title') %>
     </h1>
-    
-    <%= form_with model: @hong_bao, 
-                  class: "space-y-6", url: new_hong_bao_path, method: :get do |f| %>
-      <div class="text-white mb-2">
-        <%= t('.amount_label') %>
-      </div>
+  
 
-      <%= f.number_field :amount,
-          class: "w-full bg-[#FF5C5C] text-white placeholder-[#FFB3B3] 
-                 rounded-lg py-3 px-4 border-none focus:ring-0",
-          placeholder: t('.amount_placeholder'), onchange: 'this.form.requestSubmit()' %>
-        <%= render "fee_calculation", hong_bao: @hong_bao %>
-    <% end %>
+    <%# Paper Selection %>
+    <div class="mb-6">
+      <div class="text-white mb-2"><%= t('.select_style') %></div>
+      <div class="grid grid-cols-1 gap-4">
+        <% Paper.active.each do |paper| %>
+          <%= link_to new_hong_bao_path(paper: paper.id, amount: params[:amount]), class: "relative group" do %>
+            <%= image_tag paper.image,
+                class: "w-full rounded-lg transition-all duration-200
+                        #{params[:paper] == paper.id.to_s ? 'ring-4 ring-[#FFB636]' : 'opacity-75 group-hover:opacity-100'}" %>
+            <div class="absolute bottom-2 left-2 text-white text-sm font-medium">
+              <%= t(".styles.#{paper.style}") %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Mt Pelerin Direct Link %>
+    <div class="space-y-6">
+      <%= link_to t('.submit'),
+          "https://buy.mtpelerin.com/?#{
+            {
+              _ctkn: "954139b2-ef3e-4914-82ea-33192d3f43d3",
+              type: 'direct-link',
+              lang: I18n.locale,
+              tab: 'buy',
+              tabs: 'buy',
+              net: 'bitcoin_mainnet',
+              nets: 'bitcoin_mainnet',
+              curs: 'EUR,USD,SGD',
+              ctry: 'FR',
+              primary: 'red',
+              success: '#FFB636',
+              amount: @hong_bao.amount || 50,
+              mylogo: image_url('hongbao-bitcoin-logo-520.png')
+            }.to_param
+          }",
+          class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 border-none focus:ring-0 text-center",
+          target: "_blank" %>
+    </div>
   </div>
 </div>

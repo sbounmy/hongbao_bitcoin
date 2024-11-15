@@ -1,3 +1,2 @@
 web: bin/rails server
 css: bin/rails tailwindcss:watch
-stripe: bin/stripe listen --forward-to localhost:3000/webhooks/stripe
