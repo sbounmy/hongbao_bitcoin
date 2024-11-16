@@ -61,9 +61,9 @@ en:
           If you'd like to support the project further, you can donate Bitcoin to:
         copy_tooltip: "Copy Bitcoin address"
         copied: "Bitcoin address copied to clipboard!"
-    layouts:
-      application:
-        meta:
-          title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
-          description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
-          keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
+  layouts:
+    application:
+      meta:
+        title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
+        description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
+        keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
