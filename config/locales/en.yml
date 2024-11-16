@@ -54,9 +54,16 @@ en:
       about:
         title: "About me"
         bio: "As a Chinese Teochew born and raised in France, I created Bitcoin Hong Bao to bridge traditional gift-giving with modern technology. Growing up with the red envelope tradition, I wanted to share the beauty of combining our cultural heritage with Bitcoin's innovation, making it easier for friends and family to preserve and share wealth across generations."
-  layouts:
-    application:
-      meta:
-        title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
-        description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
-        keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
+      donate:
+        title: "Support Hong Bao Bitcoin"
+        description_html: |
+          You can create HongBao for up to 500€ / year without any cost. Above that, <a href="https://www.mtpelerin.com/pricing" class="text-[#FFB636] hover:text-white transition-colors" target="_blank" rel="noopener">Mt Pelerin takes ~ 2% of fees</a> and share 25% of it to HongBao Bitcoin.
+          If you'd like to support the project further, you can donate Bitcoin to:
+        copy_tooltip: "Copy Bitcoin address"
+        copied: "Bitcoin address copied to clipboard!"
+    layouts:
+      application:
+        meta:
+          title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
+          description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
+          keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"

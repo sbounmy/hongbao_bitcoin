@@ -2,12 +2,12 @@ zh-CN:
   hong_baos:
     new:
       title: "比特币红包"
-      subtitle: "打印在纸上的比特币礼物"
-      purchase_button: "购买比特币"
-      switch_language: "🇺🇸 English" 
+      subtitle: "打印比特币纸钱包"
+      submit: "₿ 购买比特币"
+      switch_language: "🇺🇸 English"
       select_style: "选择样式"
       styles:
-        classic: "传统"
+        classic: "经典"
         modern: "现代"
         lunar: "农历新年"
       faq:
@@ -15,20 +15,23 @@ zh-CN:
         questions:
           what_is:
             q: "什么是比特币红包？"
-            a: "比特币红包将传统红包与比特币完美结合，通过实体纸钱包承载比特币，既保留了传统文化意义，又确保了价值的永续传承。"
+            a: "比特币红包将传统红包（利是封）与比特币结合，创造一份既有文化意义又能保值的礼物。通过纸钱包的形式，让比特币变得更有意义。"
           how_works:
             q: "如何使用？"
-            a: "选择设计，确定金额，通过我们的安全合作伙伴 Mt Pelerin 购买比特币。您将收到一个专属链接，可以打印您的红包并装入红包封。"
+            a: "选择设计样式，确定金额，通过我们的合作伙伴Mt Pelerin安全购买比特币。之后您将收到一个专属链接，用于打印红包并装入红封包中。"
           security:
             q: "安全吗？"
-            a: "是的，我们采用行业标准的安全措施，并与 Mt Pelerin 合作确保比特币交易安全。我们不会存储任何您的个人信息和资金。"
-      about:
-        title: "关于我"
-        bio: "作为一个在法国出生和长大的潮州人，我创建了比特币红包，将传统送礼方式与现代科技相结合。从小就有收发红包的传统，我希望通过将我们的文化传统与比特币创新结合起来，让亲朋好友能更容易地保存和传承财富。"
-        zh-CN:
+            a: "是的，我们采用行业标准的安全措施，并与Mt Pelerin合作进行安全的比特币交易。我们不会存储您的任何个人信息和资金。"
+      donate:
+        title: "支持比特币红包"
+        description_html: |
+          每年可免费创建总额不超过500欧元的红包。超过该金额时，<a href="https://www.mtpelerin.com/pricing" class="text-[#FFB636] hover:text-white transition-colors" target="_blank" rel="noopener">Mt Pelerin收取约2%的手续费</a>，其中25%将用于支持比特币红包的运营。
+          如果您想进一步支持这个项目，可以捐赠比特币至：
+        copy_tooltip: "复制比特币地址"
+        copied: "比特币地址已复制！"
   layouts:
     application:
       meta:
-        title: "比特币红包 - 打印比特币钞票装入红包"
-        description: "创建并打印精美的比特币钞票（附带二维码），装入传统红包。完美结合实体红包与比特币创新，是春节送礼的理想选择。"
-        keywords: "比特币红包, 数字红包, 虚拟货币红包, 春节比特币, 农历新年比特币, bitcoin hong bao, 加密货币红包, 新年礼物, 数字礼物, 比特币礼品, 比特币纸钱包, 实体比特币礼物"
+        title: "比特币红包 - 在传统红包中赠送比特币"
+        description: "为农历新年创建精美的比特币红包。将传统与科技结合，在实体红包中赠送比特币。是春节庆祝的完美礼物。"
+        keywords: "比特币红包, 数字红包, 虚拟货币红包, 春节比特币, 农历新年比特币, bitcoin hong bao, 加密货币红包, 新年礼物, 数字礼物, 比特币礼品"
