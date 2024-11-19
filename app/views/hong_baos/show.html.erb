@@ -1,16 +1,137 @@
+<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center gap-8 py-4">
+<div class="w-full max-w-[480px] bg-[#F04747] p-8 
+            border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
+            shadow-lg relative">
 <div class="container mx-auto p-4">
   <h1 class="text-2xl mb-4">Hong Bao Details</h1>
-  
-  <%# <% if @hong_bao.paid? %> %>
+    
+  <%# <% if @hong_bao.paid? %>
     <%# button_to "Print Hong Bao", 
                   print_hong_bao_path(@hong_bao),
                   method: :post,
                   class: "btn btn-primary" %>
-  <%# <% elsif @hong_bao.pending? %> %>
-    <div class="alert alert-info">
+  <%# <% elsif @hong_bao.pending? %>
+    <%# <div class="alert alert-info">
       Waiting for payment confirmation...
-    </div>
-  <%# <% end %> %>
-  
-  <!-- ... rest of the show view ... -->
+    </div> %>
+  <%# <% end %>
+  </div>
+<div class="mt-6 space-y-4 animate-fade-in">
+
+  <div class="relative">
+    <canvas id="imageCanvas" class="border w-full"></canvas>
+  </div>
+
+  <button id="saveButton" class= "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
+                    border-none focus:ring-0 text-center cursor-pointer">
+    <span>Save as PDF</span>
+  </button>
 </div>
+</div>
+</div>
+<script>
+  const { jsPDF } = window.jspdf;
+  const canvas = document.getElementById('imageCanvas');
+  const ctx = canvas.getContext('2d');
+  function loadImage(imageUrl) {
+    const img = new Image();
+    img.src = imageUrl; 
+
+    img.onload = () => {
+      canvas.width = img.width; 
+      canvas.height = img.height; 
+      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      ctx.font = '800 20px Arial';
+      ctx.fillStyle = 'black';
+      ctx.fillText('600', canvas.width * 0.1, canvas.height * 0.63);
+      ctx.fillText('0.0005', canvas.width * 0.85, canvas.height * 0.63);
+      
+      drawQRCodePrivate();
+      drawQRCodePublic();
+    };
+
+    img.onerror = () => {
+      console.error('Image failed to load.');
+    };
+  }
+
+  function drawQRCodePrivate() {
+    const qrImage = new Image();
+    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
+    qrImage.onload = () => {
+      const qrWidth = canvas.width * 0.17; 
+      const qrHeight = canvas.width * 0.17; 
+      ctx.drawImage(qrImage, canvas.width * 0.18, canvas.height * 0.4, qrWidth, qrHeight);
+    };
+  }
+
+  function drawQRCodePublic() {
+    const qrImage = new Image();
+    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
+    qrImage.onload = () => {
+      const qrWidth = canvas.width * 0.17; 
+      const qrHeight = canvas.width * 0.17; 
+      ctx.drawImage(qrImage, canvas.width * 0.65, canvas.height * 0.4, qrWidth, qrHeight); 
+    };
+  }
+
+  document.getElementById('saveButton').addEventListener('click', function() {
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: 'a4',
+      putOnlyUsedFonts: true,
+      floatPrecision: 16
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+
+    const a4Width = 210;
+    const a4Height = 297;
+
+    const imgWidth = canvas.width * 0.264583;
+    const imgHeight = canvas.height * 0.264583;
+
+    const widthRatio = a4Width / imgWidth;
+    const heightRatio = a4Height / imgHeight;
+    const scalingFactor = Math.min(widthRatio, heightRatio);
+
+    const scaledWidth = imgWidth * scalingFactor;
+    const scaledHeight = imgHeight * scalingFactor;
+
+    const x = (a4Width - scaledWidth) / 2;
+    const y = (a4Height - scaledHeight) / 2;
+
+    pdf.addImage(imgData, 'PNG', x, y, scaledWidth, scaledHeight);
+
+    const margin = 4;
+    const dashLength = 5;
+    const gapLength = 3;
+    const lineWidth = 1;
+
+    pdf.setLineWidth(lineWidth);
+    pdf.setDrawColor(0, 0, 0);
+    pdf.setLineDash([dashLength, gapLength], 0);
+
+    pdf.line(x - margin, y - margin, x + scaledWidth + margin, y - margin); // Top line
+    pdf.line(x + scaledWidth + margin, y - margin, x + scaledWidth + margin, y + scaledHeight + margin); // Right line
+    pdf.line(x + scaledWidth + margin, y + scaledHeight + margin, x - margin, y + scaledHeight + margin); // Bottom line
+    pdf.line(x - margin, y + scaledHeight + margin, x - margin, y - margin); // Left line
+
+    const scissorsIcon = "✂";
+    const iconSize = 60;
+
+    pdf.text(scissorsIcon, x - margin - iconSize, y - margin - iconSize); // Top-left
+    pdf.text(scissorsIcon, x + scaledWidth + margin, y - margin - iconSize); // Top-right
+    pdf.text(scissorsIcon, x - margin - iconSize, y + scaledHeight + margin); // Bottom-left
+    pdf.text(scissorsIcon, x + scaledWidth + margin, y + scaledHeight + margin); // Bottom-right
+
+    pdf.save('bill.pdf');
+  });
+
+      const paperImageUrl = '<%= @hong_bao.paper.image.attached? ? url_for(@hong_bao.paper.image) : "" %>'; // Use the associated paper image
+      loadImage(paperImageUrl);
+
+</script> 

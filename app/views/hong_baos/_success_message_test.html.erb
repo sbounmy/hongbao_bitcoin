@@ -1,37 +1,8 @@
 <div class="mt-6 space-y-4 animate-fade-in">
-  <div class="bg-red-400 rounded-lg p-4 text-yellow-100">
-    <div class="flex items-center space-x-2 mb-4">
-      <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <h2 class="font-semibold"><%= t('.success_message') %></h2>
-    </div>
-
-    <div class="space-y-2">
-      <p class="text-sm"><%= t('.private_key_label') %></p>
-      <div class="bg-red-500 p-3 rounded-lg">
-        <p class="text-xs break-all font-mono"><%= @hong_bao.private_key %></p>
-      </div>
-    </div>
-  </div>
 
   <div class="relative">
     <canvas id="imageCanvas" class="border w-full"></canvas>
   </div>
-
-  <%= button_to print_hong_bao_path(@hong_bao),
-      method: :get,
-      class: "w-full bg-yellow-500 text-red-600 hover:bg-yellow-400
-             active:bg-yellow-600 rounded-lg py-3 px-4 text-base font-medium
-             transition-colors duration-200 flex items-center justify-center
-             space-x-2" do %>
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-    </svg>
-    <span><%= t('.print_button') %></span>
-  <% end unless @hong_bao.new_record?%>
 
   <button id="saveButton" class="w-full bg-blue-500 text-white hover:bg-blue-400
           active:bg-blue-600 rounded-lg py-3 px-4 text-base font-medium
@@ -48,6 +19,7 @@
   const ctx = canvas.getContext('2d');
 
   function loadImage(imageUrl) {
+    console.log('image url', imageUrl);
     const img = new Image();
     img.src = imageUrl; 
 
