@@ -32,7 +32,6 @@ class HongBao < ApplicationRecord
       Rails.logger.error "Mt Pelerin Hash Generation Error: #{e.class}"
       Rails.logger.error e.message
       Rails.logger.error e.backtrace.join("\n")
-      raise
     end
   end
 end

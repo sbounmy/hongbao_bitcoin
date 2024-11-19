@@ -7,7 +7,11 @@ class HongBaosController < ApplicationController
     @hong_bao = HongBao.new(hong_bao_params)
 
     if @hong_bao.save
-      redirect_to mt_pelerin_url(@hong_bao)
+      if params[:preview] == "true"
+        redirect_to hong_bao_path(@hong_bao)
+      else
+        redirect_to mt_pelerin_url(@hong_bao), allow_other_host: true
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -15,12 +19,12 @@ class HongBaosController < ApplicationController
 
   def show
     @hong_bao = HongBao.find(params[:id])
-    redirect_to new_hong_bao_path unless @hong_bao.paid?
+    # redirect_to new_hong_bao_path unless @hong_bao.paid?
   end
 
   def print
     @hong_bao = HongBao.find(params[:id])
-    redirect_to new_hong_bao_path unless @hong_bao.paid?
+    # redirect_to new_hong_bao_path unless @hong_bao.paid?
     render layout: "print"
   end
 
@@ -44,11 +48,11 @@ class HongBaosController < ApplicationController
       primary: "#F04747",
       success: "#FFB636",
       amount: hong_bao.amount || 50,
-      mylogo: image_url("hongbao-bitcoin-logo-520.png"),
+      mylogo: ActionController::Base.helpers.asset_url("hongbao-bitcoin-logo-520.png"),
       # Mt Pelerin address validation params
       addr: hong_bao.public_key,
-      code: hong_bao.code,
-      hash: hong_bao.generate_mt_pelerin_hash
+      code: hong_bao.mt_pelerin_request_code,
+      hash: hong_bao.mt_pelerin_request_hash
     }
 
     "https://buy.mtpelerin.com/?#{params.to_param}"

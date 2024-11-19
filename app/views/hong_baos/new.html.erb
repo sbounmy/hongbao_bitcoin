@@ -51,6 +51,7 @@
       <%= form_with model: @hong_bao, data: { turbo: false } do |f| %>
         <%= f.hidden_field :amount, value: params[:amount] || 50 %>
         <%= f.hidden_field :paper_id, value: params[:paper] %>
+        <%= hidden_field_tag :preview, params[:preview] %>
         
         <%= f.submit t('.submit'),
             class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
