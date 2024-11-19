@@ -1,0 +1,156 @@
+<div class="mt-6 space-y-4 animate-fade-in">
+  <div class="bg-red-400 rounded-lg p-4 text-yellow-100">
+    <div class="flex items-center space-x-2 mb-4">
+      <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <h2 class="font-semibold"><%= t('.success_message') %></h2>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-sm"><%= t('.private_key_label') %></p>
+      <div class="bg-red-500 p-3 rounded-lg">
+        <p class="text-xs break-all font-mono"><%= @hong_bao.private_key %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative">
+    <canvas id="imageCanvas" class="border w-full"></canvas>
+  </div>
+
+  <%= button_to print_hong_bao_path(@hong_bao),
+      method: :get,
+      class: "w-full bg-yellow-500 text-red-600 hover:bg-yellow-400
+             active:bg-yellow-600 rounded-lg py-3 px-4 text-base font-medium
+             transition-colors duration-200 flex items-center justify-center
+             space-x-2" do %>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+    </svg>
+    <span><%= t('.print_button') %></span>
+  <% end unless @hong_bao.new_record?%>
+
+  <button id="saveButton" class="w-full bg-blue-500 text-white hover:bg-blue-400
+          active:bg-blue-600 rounded-lg py-3 px-4 text-base font-medium
+          transition-colors duration-200 flex items-center justify-center
+          space-x-2">
+    <span>Save as PDF</span>
+  </button>
+</div>
+
+<script>
+  const { jsPDF } = window.jspdf;
+
+  const canvas = document.getElementById('imageCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function loadImage(imageUrl) {
+    const img = new Image();
+    img.src = imageUrl; 
+
+    img.onload = () => {
+      canvas.width = img.width; 
+      canvas.height = img.height; 
+      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      ctx.font = '800 20px Arial';
+      ctx.fillStyle = 'black';
+      ctx.fillText('600', canvas.width * 0.1, canvas.height * 0.63);
+      ctx.fillText('0.0005', canvas.width * 0.85, canvas.height * 0.63);
+      
+      drawQRCodePrivate();
+      drawQRCodePublic();
+    };
+
+    img.onerror = () => {
+      console.error('Image failed to load.');
+    };
+  }
+
+  function drawQRCodePrivate() {
+    const qrImage = new Image();
+    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
+    qrImage.onload = () => {
+      const qrWidth = canvas.width * 0.17; 
+      const qrHeight = canvas.width * 0.17; 
+      ctx.drawImage(qrImage, canvas.width * 0.18, canvas.height * 0.4, qrWidth, qrHeight);
+    };
+  }
+
+  function drawQRCodePublic() {
+    const qrImage = new Image();
+    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
+    qrImage.onload = () => {
+      const qrWidth = canvas.width * 0.17; 
+      const qrHeight = canvas.width * 0.17; 
+      ctx.drawImage(qrImage, canvas.width * 0.65, canvas.height * 0.4, qrWidth, qrHeight); 
+    };
+  }
+
+  document.getElementById('saveButton').addEventListener('click', function() {
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: 'a4',
+      putOnlyUsedFonts: true,
+      floatPrecision: 16
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+
+    const a4Width = 210;
+    const a4Height = 297;
+
+    const imgWidth = canvas.width * 0.264583;
+    const imgHeight = canvas.height * 0.264583;
+
+    const widthRatio = a4Width / imgWidth;
+    const heightRatio = a4Height / imgHeight;
+    const scalingFactor = Math.min(widthRatio, heightRatio);
+
+    const scaledWidth = imgWidth * scalingFactor;
+    const scaledHeight = imgHeight * scalingFactor;
+
+    const x = (a4Width - scaledWidth) / 2;
+    const y = (a4Height - scaledHeight) / 2;
+
+    pdf.addImage(imgData, 'PNG', x, y, scaledWidth, scaledHeight);
+
+    const margin = 4;
+    const dashLength = 5;
+    const gapLength = 3;
+    const lineWidth = 1;
+
+    pdf.setLineWidth(lineWidth);
+    pdf.setDrawColor(0, 0, 0);
+    pdf.setLineDash([dashLength, gapLength], 0);
+
+    pdf.line(x - margin, y - margin, x + scaledWidth + margin, y - margin); // Top line
+    pdf.line(x + scaledWidth + margin, y - margin, x + scaledWidth + margin, y + scaledHeight + margin); // Right line
+    pdf.line(x + scaledWidth + margin, y + scaledHeight + margin, x - margin, y + scaledHeight + margin); // Bottom line
+    pdf.line(x - margin, y + scaledHeight + margin, x - margin, y - margin); // Left line
+
+    const scissorsIcon = "✂";
+    const iconSize = 60;
+
+    pdf.text(scissorsIcon, x - margin - iconSize, y - margin - iconSize); // Top-left
+    pdf.text(scissorsIcon, x + scaledWidth + margin, y - margin - iconSize); // Top-right
+    pdf.text(scissorsIcon, x - margin - iconSize, y + scaledHeight + margin); // Bottom-left
+    pdf.text(scissorsIcon, x + scaledWidth + margin, y + scaledHeight + margin); // Bottom-right
+
+    pdf.save('bill.pdf');
+  });
+
+  document.querySelectorAll('.image-link').forEach(imageLink => {
+    imageLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('successMessage').classList.remove('hidden');
+      const imageUrl = this.querySelector('img').src; // Get the image URL from the clicked link
+      loadImage(imageUrl); // Load the image onto the canvas
+    });
+  });
+</script> 
