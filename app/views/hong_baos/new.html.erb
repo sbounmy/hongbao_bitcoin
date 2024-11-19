@@ -48,26 +48,24 @@
 
     <%# Mt Pelerin Direct Link %>
     <div class="space-y-6">
-      <%= link_to t('.submit'),
-          "https://buy.mtpelerin.com/?#{
-            {
-              _ctkn: "954139b2-ef3e-4914-82ea-33192d3f43d3",
-              type: 'direct-link',
-              lang: I18n.locale,
-              tab: 'buy',
-              tabs: 'buy',
-              net: 'bitcoin_mainnet',
-              nets: 'bitcoin_mainnet',
-              curs: 'EUR,USD,SGD',
-              ctry: 'FR',
-              primary: '#F04747',
-              success: '#FFB636',
-              amount: @hong_bao.amount || 50,
-              mylogo: image_url('hongbao-bitcoin-logo-520.png')
-            }.to_param
-          }",
-          class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 border-none focus:ring-0 text-center",
-          target: "_blank" %>
+      <%= form_with model: @hong_bao, data: { turbo: false } do |f| %>
+        <%= f.hidden_field :amount, value: params[:amount] || 50 %>
+        <%= f.hidden_field :paper_id, value: params[:paper] %>
+        
+        <%= f.submit t('.submit'),
+            class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
+                    border-none focus:ring-0 text-center cursor-pointer",
+            disabled: params[:paper].blank?,
+            data: {
+              tooltip_target: "paper-tooltip"
+            } %>
+            
+        <%# Optional: Add tooltip when paper is not selected %>
+        <div id="paper-tooltip" class="text-white text-sm text-center mt-2" 
+             style="<%= 'display: none' if params[:paper].present? %>">
+          <%= t('.select_paper_first') %>
+        </div>
+      <% end %>
     </div>
 
   </div>

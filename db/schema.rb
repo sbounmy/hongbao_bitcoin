@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_15_091433) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_18_103113) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,6 +51,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_091433) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.integer "paper_id"
+    t.string "public_key"
+    t.string "address"
+    t.string "passphrase"
+    t.json "mt_pelerin_response"
+    t.json "mt_pelerin_request"
     t.index ["paper_id"], name: "index_hong_baos_on_paper_id"
   end
 
