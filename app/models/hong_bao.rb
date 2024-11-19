@@ -1,4 +1,6 @@
 class HongBao < ApplicationRecord
+  include AASM
+
   belongs_to :paper
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
@@ -20,6 +22,30 @@ class HongBao < ApplicationRecord
     hash160 = Bitcoin.hash160([ public_key ].pack("H*"))
     # Encode with version byte to get final Bitcoin address
     Bitcoin.encode_address(hash160, Bitcoin.network[:pubkey_version])
+  end
+
+  aasm column: :state do
+    state :pending, initial: true
+    state :paid
+    state :failed
+    state :expired
+
+    event :pay do
+      transitions from: :pending, to: :paid
+
+      after do
+        # Add any after-transition logic here
+        # For example: notify user, trigger other processes, etc.
+      end
+    end
+
+    event :fail do
+      transitions from: :pending, to: :failed
+    end
+
+    event :expire do
+      transitions from: :pending, to: :expired
+    end
   end
 
   private

@@ -36,3 +36,5 @@
 .devcontainer/tmp/*
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+/config/credentials/test.key

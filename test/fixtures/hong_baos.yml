@@ -1,17 +1,8 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  amount: 9.99
-  btc_amount: 9.99
-  platform_fee: 9.99
-  gas_fee: 9.99
-  private_key: MyString
-  personal_message: MyText
-
-two:
-  amount: 9.99
-  btc_amount: 9.99
-  platform_fee: 9.99
-  gas_fee: 9.99
-  private_key: MyString
-  personal_message: MyText
+  paper: one
+  amount: 100
+  public_key: "your_test_public_key"
+  private_key: "your_test_private_key"
+  address: "your_test_bitcoin_address"
