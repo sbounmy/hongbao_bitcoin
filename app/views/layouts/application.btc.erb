@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <%# Mobile Viewport Meta Tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <%# Primary Meta Tags %>
+    <title><%= t('.meta.title') %></title>
+    <meta name="title" content="<%= t('.meta.title') %>">
+    <meta name="description" content="<%= t('.meta.description') %>">
+    <meta name="keywords" content="<%= t('.meta.keywords') %>">
+    
+    <%# Open Graph / Facebook %>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= root_url %>">
+    <meta property="og:title" content="<%= t('.meta.title') %>">
+    <meta property="og:description" content="<%= t('.meta.description') %>">
+    <meta property="og:image" content="<%= image_url('og-image.jpg') %>">
+
+    <%# Twitter %>
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= root_url %>">
+    <meta property="twitter:title" content="<%= t('.meta.title') %>">
+    <meta property="twitter:description" content="<%= t('.meta.description') %>">
+    <meta property="twitter:image" content="<%= image_url('og-image.jpg') %>">
+    
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <%# Includes all stylesheet files in app/views/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
