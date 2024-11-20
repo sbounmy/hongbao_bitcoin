@@ -44,6 +44,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   </head>
   <body>
+    <%= render "shared/header" %>
+    
+    <% if notice %>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="bg-green-50 text-green-600 px-4 py-3 rounded-lg">
+          <%= notice %>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if alert %>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="bg-red-50 text-red-600 px-4 py-3 rounded-lg">
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
