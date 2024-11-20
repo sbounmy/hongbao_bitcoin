@@ -1,0 +1,31 @@
+<div class="bg-white px-8 py-6 sm:px-12 sm:py-8 rounded-xl max-w-md w-full text-center">
+  <%# Logo %>
+  <div class="mb-6">
+    <%= image_tag "hongbao-bitcoin-logo-520.png", 
+        class: "w-16 h-16 mx-auto",
+        alt: "Bitcoin Hong Bao Logo" %>
+  </div>
+
+  <%# Title %>
+  <h2 class="text-2xl font-semibold text-gray-900 mb-2">
+    Continue with Hong Bao
+  </h2>
+  
+  <%# Subtitle %>
+  <p class="text-gray-600 mb-8">
+    To use Hong Bao, create an account or log into an existing one.
+  </p>
+
+  <%# Buttons %>
+  <div class="space-y-3">
+    <%= link_to signup_path,
+        class: "block w-full py-3 px-4 rounded-lg bg-black text-white font-medium hover:bg-gray-800 transition-colors" do %>
+      Sign Up
+    <% end %>
+
+    <%= link_to login_path,
+        class: "block w-full py-3 px-4 rounded-lg bg-white text-black font-medium border border-gray-300 hover:bg-gray-50 transition-colors" do %>
+      Sign In
+    <% end %>
+  </div>
+</div>
