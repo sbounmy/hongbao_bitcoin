@@ -19,7 +19,11 @@ class HongBaosController < ApplicationController
 
   def show
     @hong_bao = HongBao.find(params[:id])
-    # redirect_to new_hong_bao_path unless @hong_bao.paid?
+
+    respond_to do |format|
+      format.html # renders show.html.erb
+      format.btc  # renders show.btc.erb
+    end
   end
 
   def print
