@@ -1,31 +1,56 @@
-<div class="bg-white px-8 py-6 sm:px-12 sm:py-8 rounded-xl max-w-md w-full text-center">
-  <%# Logo %>
-  <div class="mb-6">
-    <%= image_tag "hongbao-bitcoin-logo-520.png", 
-        class: "w-16 h-16 mx-auto",
-        alt: "Bitcoin Hong Bao Logo" %>
-  </div>
+<div data-controller="auth-popup">
+  <%# Modal Content - Single layer %>
+  <div class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex min-h-full items-center justify-center p-4">
+      <%# Backdrop %>
+      <div class="fixed inset-0 bg-black/20 backdrop-blur-sm" 
+           data-action="click->auth-popup#close"
+           aria-hidden="true"></div>
+           
+      <%# Content %>
+      <div class="bg-white px-8 py-6 sm:px-12 sm:py-8 rounded-xl max-w-md w-full relative z-[60]">
+        <%# Initial Form State %>
+        <div data-auth-popup-target="formSection">
+          <div class="text-center mb-6">
+            <%= image_tag "hongbao-bitcoin-logo-520.png", 
+                class: "w-20 h-20 mx-auto",
+                alt: "Bitcoin Hong Bao Logo" %>
+          </div>
 
-  <%# Title %>
-  <h2 class="text-2xl font-semibold text-gray-900 mb-2">
-    Continue with Hong Bao
-  </h2>
-  
-  <%# Subtitle %>
-  <p class="text-gray-600 mb-8">
-    To use Hong Bao, create an account or log into an existing one.
-  </p>
+          <h2 class="text-[32px] font-bold text-center mb-3">
+            Continue with Hong Bao
+          </h2>
+          
+          <p class="text-gray-600 text-center text-lg mb-8">
+            To use Hong Bao, create an account or log into an existing one.
+          </p>
 
-  <%# Buttons %>
-  <div class="space-y-3">
-    <%= link_to signup_path,
-        class: "block w-full py-3 px-4 rounded-lg bg-black text-white font-medium hover:bg-gray-800 transition-colors" do %>
-      Sign Up
-    <% end %>
+          <%= form_with(url: magic_links_path, 
+                      class: "space-y-6") do |form| %>
+            <div>
+              <%= form.email_field :email_address, 
+                  class: "block w-full rounded-lg border-gray-300 py-3 px-4 text-lg
+                         shadow-sm placeholder:text-gray-400
+                         focus:border-[#F04747] focus:ring focus:ring-[#F04747] focus:ring-opacity-50",
+                  placeholder: "Enter your email address",
+                  required: true,
+                  data: { auth_popup_target: "emailInput" } %>
+            </div>
 
-    <%= link_to login_path,
-        class: "block w-full py-3 px-4 rounded-lg bg-white text-black font-medium border border-gray-300 hover:bg-gray-50 transition-colors" do %>
-      Sign In
-    <% end %>
+            <p class="text-gray-500 text-center">
+              Don't worry, we respect your privacy and dislike spam as much as you do!
+            </p>
+
+            <div class="space-y-3 pt-2">
+              <%= form.submit "Send magic link", 
+                  class: "w-full py-3 px-4 rounded-lg bg-[#F04747] text-white text-lg font-medium 
+                         hover:bg-[#F04747]/90 transition-colors",
+                  data: { disable_with: "Sending..." }  %>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>

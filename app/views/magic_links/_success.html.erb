@@ -1,0 +1,22 @@
+<%= turbo_frame_tag "magic_link_form" do %>
+  <div class="text-center">
+    <div class="mb-6">
+      <svg class="w-16 h-16 mx-auto text-[#F04747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    </div>
+    
+    <h2 class="text-[32px] font-bold text-center mb-3">
+      Check your email
+    </h2>
+    
+    <p class="text-gray-600 mb-6">
+      We've sent a magic link to <strong class="text-[#F04747]"><%= email_address %></strong>
+    </p>
+    
+    <p class="text-sm text-gray-500">
+      The link will expire in 30 minutes for security reasons.
+    </p>
+  </div>
+<% end %> 

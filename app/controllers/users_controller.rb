@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: %i[new create]
   def new
     @user = User.new
   end
@@ -8,8 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      start_new_session_for @user
-      redirect_to root_path, notice: "Account created successfully!"
+      redirect_to login_path, notice: "Account created! Please check your email to sign in."
     else
       render :new, status: :unprocessable_entity
     end
@@ -18,6 +16,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email_address, :password, :password_confirmation)
+    params.require(:user).permit(:email_address)
   end
 end

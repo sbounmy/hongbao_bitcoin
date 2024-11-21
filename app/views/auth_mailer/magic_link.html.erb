@@ -1,0 +1,15 @@
+<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h1>Welcome to Hong Bao!</h1>
+  
+  <p>Click the button below to sign in to your account. This magic link will expire in 30 minutes.</p>
+  
+  <div style="text-align: center; margin: 30px 0;">
+    <%= link_to "Sign in to Hong Bao", 
+        @verify_url,
+        style: "display: inline-block; padding: 12px 24px; background-color: #F04747; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;" %>
+  </div>
+  
+  <p style="color: #666; font-size: 14px;">
+    If you didn't request this magic link, you can safely ignore it.
+  </p>
+</div> 
