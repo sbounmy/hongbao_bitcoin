@@ -44,6 +44,7 @@ class HongBaosController < ApplicationController
   def mt_pelerin_url(hong_bao)
     params = {
       _ctkn: "954139b2-ef3e-4914-82ea-33192d3f43d3",
+      email: ERB::Util.url_encode(Current.user.email_address),
       type: "direct-link",
       lang: I18n.locale,
       tab: "buy",
@@ -55,7 +56,7 @@ class HongBaosController < ApplicationController
       primary: "#F04747",
       success: "#FFB636",
       amount: hong_bao.amount || 50,
-      mylogo: ActionController::Base.helpers.asset_url("hongbao-bitcoin-logo-520.png"),
+      mylogo: ActionController::Base.helpers.asset_url("hongnew.bao-bitcoin-logo-520.png"),
       # Mt Pelerin address validation params
       addr: hong_bao.public_key,
       code: hong_bao.mt_pelerin_request_code,
