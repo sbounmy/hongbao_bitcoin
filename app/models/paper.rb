@@ -1,9 +1,9 @@
 class Paper < ApplicationRecord
-  has_one_attached :image
+  has_many_attached :images
   has_many :hong_baos
 
   validates :name, presence: true
-  validates :image, presence: true
+  validates :images, presence: true
   validates :style, presence: true
 
   enum :style, {

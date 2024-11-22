@@ -11,23 +11,43 @@
 # Get all image files from the papers directory
 paper_files = Dir.glob(Rails.root.join('app', 'assets', 'images', 'papers', '*'))
 
-paper_files.each_with_index do |file_path, index|
-  filename = File.basename(file_path)
-  name = File.basename(file_path, '.*').titleize
+# Group files by their base name (without 'front'/'back' suffix)
+paper_groups = paper_files.group_by do |file_path|
+  filename = File.basename(file_path, '.*')
+  filename.gsub(/_?front|_?back/i, '') # Remove front/back suffixes
+end
+
+paper_groups.each_with_index do |(base_name, files), index|
+  name = base_name.titleize
 
   # Skip if paper with this name already exists
   next if Paper.exists?(name: name)
 
-  paper = Paper.new(name: name)
-  paper.position = index + 1
+  # Find front and back images
+  front_image = files.find { |f| f.downcase.include?('front') }
+  back_image = files.find { |f| f.downcase.include?('back') }
 
-  # Only attach image for new records
-  paper.image.attach(
-    io: File.open(file_path),
-    filename: filename,
-    content_type: Marcel::MimeType.for(file_path)
-  )
+  if front_image && back_image
+    paper = Paper.new(name: name)
+    paper.position = index + 1
 
-  paper.save!
-  puts "Created paper: #{name}"
+    # Attach both images
+    paper.images.attach([
+      {
+        io: File.open(front_image),
+        filename: File.basename(front_image),
+        content_type: Marcel::MimeType.for(front_image)
+      },
+      {
+        io: File.open(back_image),
+        filename: File.basename(back_image),
+        content_type: Marcel::MimeType.for(back_image)
+      }
+    ])
+
+    paper.save!
+    puts "Created paper: #{name} with front and back images"
+  else
+    puts "Warning: Skipping #{name} - missing front or back image"
+  end
 end

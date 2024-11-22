@@ -35,7 +35,8 @@
       <div class="grid grid-cols-1 gap-4">
         <% Paper.active.each do |paper| %>
           <%= link_to new_hong_bao_path(paper: paper.id, amount: params[:amount]), class: "relative group" do %>
-            <%= image_tag paper.image,
+            <% front_image = paper.images.find { |image| image.filename.to_s.downcase.include?('front') } %>
+            <%= image_tag front_image,
                 class: "w-full rounded-lg transition-all duration-200
                         #{params[:paper] == paper.id.to_s ? 'ring-4 ring-[#FFB636]' : 'opacity-75 group-hover:opacity-100'}" %>
             <div class="absolute bottom-2 left-2 text-white text-sm font-medium">

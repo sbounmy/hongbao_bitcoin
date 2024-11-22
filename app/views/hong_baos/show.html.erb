@@ -19,6 +19,9 @@
 <div class="mt-6 space-y-4 animate-fade-in">
 
   <div class="relative">
+    <canvas id="imageCanvasBack" class="border w-full"></canvas>
+  </div>
+    <div class="relative">
     <canvas id="imageCanvas" class="border w-full"></canvas>
   </div>
 </div>
@@ -26,24 +29,31 @@
 </div>
 <script>
   const canvas = document.getElementById('imageCanvas');
+  const canvasBack = document.getElementById('imageCanvasBack');
+
   const ctx = canvas.getContext('2d');
-  function loadImage(imageUrl) {
+  const ctxBack = canvasBack.getContext('2d');
+  function loadImageFront(imageUrl) {
     const img = new Image();
     img.src = imageUrl; 
 
     img.onload = () => {
       canvas.width = img.width; 
       canvas.height = img.height; 
+      img.style.border = '2px dashed #000';
+      img.style.padding = '10px';
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height); 
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
-      ctx.font = '800 20px Arial';
+      ctx.font = 'bold '+img.height*0.2+'px Arial';
       ctx.fillStyle = 'black';
-      ctx.fillText('600', canvas.width * 0.1, canvas.height * 0.63);
-      ctx.fillText('0.0005', canvas.width * 0.85, canvas.height * 0.63);
       
-      drawQRCodePrivate();
-      drawQRCodePublic();
+      const amount = '<%= @hong_bao.amount %>';
+      ctx.fillText(amount, canvas.width * 0.72, canvas.height * 0.55);
+      
+      ctx.font = '800 20px Arial';
+      ctx.fillText('0.0005', canvas.width * 0.72, canvas.height * 0.7);
     };
 
     img.onerror = () => {
@@ -51,26 +61,73 @@
     };
   }
 
-  function drawQRCodePrivate() {
+  function loadImageBack(imageUrl) {
+    const imgBack = new Image();
+    imgBack.src = imageUrl; 
+    imgBack.height = 250.56;
+    imgBack.width = 589.44;
+    imgBack.onload = () => {
+      canvasBack.width = imgBack.width; 
+      canvasBack.height = imgBack.height; 
+      
+      // Save the current context state
+      ctxBack.save();
+      
+      // Flip the context vertically
+      // ctxBack.scale(1, -1);
+      // ctxBack.translate(0, -canvasBack.height);
+      
+      ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height); 
+      ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
+      
+      // Flip back for text and QR codes to be readable
+      // ctxBack.scale(1, -1);
+      // ctxBack.translate(0, -canvasBack.height);
+      
+      ctxBack.font = '600 18px Arial';
+      ctxBack.fillStyle = 'black';
+      ctxBack.fillText('u12gejv12yvejy12veh12', canvasBack.width * 0.32, canvasBack.height * 0.45);
+      ctxBack.fillText('u12gejv12yvejy12veh12', canvasBack.width * 0.32, canvasBack.height * 0.73);
+      
+      drawQRCodePrivate(canvasBack, ctxBack);
+      drawQRCodePublic(canvasBack, ctxBack);
+      
+      // Restore the context to its original state
+      // ctxBack.restore();
+    };
+
+    imgBack.onerror = () => {
+      console.error('Image Back failed to load.');
+    };
+  }
+
+  function drawQRCodePrivate(canvas,ctx) {
     const qrImage = new Image();
     qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
     qrImage.onload = () => {
       const qrWidth = canvas.width * 0.17; 
       const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.18, canvas.height * 0.4, qrWidth, qrHeight);
+      ctx.drawImage(qrImage, canvas.width * 0.1, canvas.height * 0.3, qrWidth, qrHeight);
     };
   }
 
-  function drawQRCodePublic() {
+  function drawQRCodePublic(canvas,ctx) {
     const qrImage = new Image();
     qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
     qrImage.onload = () => {
       const qrWidth = canvas.width * 0.17; 
       const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.65, canvas.height * 0.4, qrWidth, qrHeight); 
+      ctx.drawImage(qrImage, canvas.width * 0.75, canvas.height * 0.3, qrWidth, qrHeight); 
     };
   }
-      const paperImageUrl = '<%= @hong_bao.paper.image.attached? ? url_for(@hong_bao.paper.image) : "" %>'; // Use the associated paper image
-      loadImage(paperImageUrl);
-
+  const paperImageFrontUrl = '<%= 
+    front_image = @hong_bao.paper.images.find { |image| image.filename.to_s.downcase.include?('front') }
+    front_image ? url_for(front_image) : ""
+  %>';
+  loadImageFront(paperImageFrontUrl);
+  const paperImageBackUrl = '<%= 
+    back_image = @hong_bao.paper.images.find { |image| image.filename.to_s.downcase.include?('back') }
+    back_image ? url_for(back_image) : ""
+  %>'; 
+  loadImageBack(paperImageBackUrl);
 </script> 
