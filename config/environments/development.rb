@@ -71,4 +71,11 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.action_controller.asset_host = "http://localhost:3000"
+
+  # Use Letter Opener for emails in development
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
+
+  # Optional: mount the Letter Opener web interface
+  config.action_mailer.default_url_options = { host: "localhost:3000" }
 end
