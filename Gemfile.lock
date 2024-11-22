@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/sbounmy/bitcoin-ruby.git
+  revision: 63b690a7c647b5ae3a0d430a8bf606edd2ef5737
+  specs:
+    bitcoin-ruby (0.0.20)
+      eventmachine
+      ffi
+      scrypt
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -85,10 +94,6 @@ GEM
     benchmark (0.4.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
-    bitcoin-ruby (0.0.20)
-      eventmachine
-      ffi
-      scrypt
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     brakeman (6.2.2)
@@ -406,7 +411,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   bcrypt (~> 3.1.7)
-  bitcoin-ruby
+  bitcoin-ruby!
   bootsnap
   brakeman
   capybara
