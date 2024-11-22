@@ -58,7 +58,7 @@ class HongBaosController < ApplicationController
       amount: hong_bao.amount || 50,
       mylogo: ActionController::Base.helpers.asset_url("hongbao-bitcoin-logo-520.png"),
       # Mt Pelerin address validation params
-      addr: hong_bao.public_key,
+      addr: hong_bao.address,
       code: hong_bao.mt_pelerin_request_code,
       hash: hong_bao.mt_pelerin_request_hash
     }
