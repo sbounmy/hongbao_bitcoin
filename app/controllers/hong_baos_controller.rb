@@ -49,8 +49,8 @@ class HongBaosController < ApplicationController
       lang: I18n.locale,
       tab: "buy",
       tabs: "buy",
-      net: "bitcoin_mainnet",
-      nets: "bitcoin_mainnet",
+      net: bitcoin_network,
+      nets: bitcoin_network,
       curs: "EUR,USD,SGD",
       ctry: "FR",
       primary: "#F04747",
@@ -64,5 +64,9 @@ class HongBaosController < ApplicationController
     }
 
     "https://buy.mtpelerin.com/?#{params.to_param}"
+  end
+
+  def bitcoin_network
+    Rails.env.production? ? :bitcoin_mainnet : :bitcoin_testnet
   end
 end
