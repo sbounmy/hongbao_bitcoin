@@ -48,15 +48,24 @@ class HongBao < ApplicationRecord
     end
   end
 
+  # Add encryption for sensitive fields
+  encrypts :mnemonic, :private_key, :seed, :entropy
+
+  # Validate uniqueness of seed
+  validates :mnemonic, :private_key, :seed, :entropy, uniqueness: true, allow_nil: true
+
   private
 
   # Generates a new Bitcoin keypair and stores it
   # Called before create as part of before_create callback
   def generate_bitcoin_keys
-    key = Bitcoin::Key.generate
-    self.public_key = key.pub
-    self.private_key = key.priv
-    self.address = key.addr
+    master = Bitcoin::Master.generate
+    self.public_key = master.key.pub
+    self.private_key = master.key.priv
+    self.address = master.key.addr
+    self.mnemonic = master.mnemonic
+    self.seed = master.seed
+    self.entropy = master.entropy
   end
 
   # Generates Mt Pelerin request signature

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_20_111916) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_25_114943) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,7 +57,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_20_111916) do
     t.json "mt_pelerin_response"
     t.json "mt_pelerin_request"
     t.string "state"
+    t.text "mnemonic"
+    t.text "seed"
+    t.text "entropy"
     t.index ["paper_id"], name: "index_hong_baos_on_paper_id"
+    t.index ["seed"], name: "index_hong_baos_on_seed", unique: true
   end
 
   create_table "papers", force: :cascade do |t|

@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/sbounmy/bitcoin-ruby.git
-  revision: 63b690a7c647b5ae3a0d430a8bf606edd2ef5737
+  revision: 0bcb39e227bb3d596794a280b0936c02cfee3661
+  branch: bip39-mnemonic
   specs:
     bitcoin-ruby (0.0.20)
       eventmachine
