@@ -1,4 +1,4 @@
-- name: "Bitcoin Bill"
+- name: "Yellow Paper"
   image_front_url: "assets/images/papers/bitcoin_bill_front.png"
   image_back_url: "assets/images/papers/bitcoin_bill_back.png"
   elements:
@@ -7,63 +7,63 @@
       y: 0.1
       size: 0.2
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.05
       y: 0.65
       size: 18
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.735
       y: 0.375
       size: 0.235
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.74
-      y: 0.3 
+      y: 0.3
       size: 18
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address"
       x: 0.32
       y: 0.45
       size: 10
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address_label"
       x: 0.32
       y: 0.35
       size: 18
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address"
       x: 0.32
       y: 0.73
       size: 10
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address_label"
       x: 0.32
       y: 0.63
       size: 18
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount"
       x: 0.72
       y: 0.55
       size: 24
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount_btc"
       x: 0.72
       y: 0.7
       size: 18
       color: "245, 211, 150"
-      opacity: "0.60"    
+      opacity: "0.60"
 
-- name: "Bitcoin Bill Wedding"
+- name: "Wedding Bill"
   image_front_url: "assets/images/papers/bitcoin_bill_wedding_front.png"
   image_back_url: "assets/images/papers/bitcoin_bill_wedding_back.png"
   elements:
@@ -72,63 +72,63 @@
       y: 0.3
       size: 0.17
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.1
       y: 0.8
       size: 18
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.75
       y: 0.3
       size: 0.17
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.75
-      y: 0.8 
+      y: 0.8
       size: 18
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address"
       x: 0.32
       y: 0.45
       size: 10
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address_label"
       x: 0.32
       y: 0.35
       size: 18
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address"
       x: 0.32
       y: 0.73
       size: 10
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address_label"
       x: 0.32
       y: 0.63
       size: 18
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount"
       x: 0.72
       y: 0.55
       size: 44
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount_btc"
       x: 0.72
       y: 0.7
       size: 20
       color: "239, 238, 231"
-      opacity: "0.60"    
+      opacity: "0.60"
 
-- name: "Bitcoin Bill New Year 2025"
+- name: "New Year 2025 Bill"
   image_front_url: "assets/images/papers/bitcoin_bill_new_year_front.png"
   image_back_url: "assets/images/papers/bitcoin_bill_new_year_back.png"
   elements:
@@ -137,62 +137,62 @@
       y: 0.35
       size: 15
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.1
       y: 0.8
       size: 18
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.75
       y: 0.35
       size: 0.15
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.75
-      y: 0.8 
+      y: 0.8
       size: 18
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address"
       x: 0.32
       y: 0.45
       size: 16
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "private_key_address_label"
       x: 0.32
       y: 0.35
       size: 16
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address"
       x: 0.32
       y: 0.73
       size: 16
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "public_key_address_label"
       x: 0.32
       y: 0.63
       size: 16
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount"
       x: 0.72
       y: 0.55
       size: 44
       color: "197, 7, 16"
-      opacity: "0.60"    
+      opacity: "0.60"
     - name: "amount_btc"
       x: 0.72
       y: 0.7
       size: 20
       color: "197, 7, 16"
-      opacity: "0.60"    
-- name: "Bitcoin Bill 1250"
+      opacity: "0.60"
+- name: "Orange Bill"
   image_front_url: "assets/images/papers/bitcoin_bill_1250_front.png"
   image_back_url: "assets/images/papers/bitcoin_bill_1250_back.png"
   elements:
@@ -201,58 +201,58 @@
       y: 0.3
       size: 0.17
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "qrcode_private_key_label"
       x: 0.1
       y: 0.46
       size: 18
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "qrcode_public_key"
       x: 0.75
       y: 0.3
       size: 0.17
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "qrcode_public_key_label"
       x: 0.75
-      y: 0.46 
+      y: 0.46
       size: 12
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "private_key_address"
       x: 0.32
       y: 0.45
       size: 18
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "private_key_address_label"
       x: 0.32
       y: 0.35
       size: 18
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "public_key_address"
       x: 0.32
       y: 0.73
       size: 18
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "public_key_address_label"
       x: 0.32
       y: 0.63
       size: 18
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "amount"
       x: 0.72
       y: 0.55
       size: 44
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"
     - name: "amount_btc"
       x: 0.72
       y: 0.55
       size: 20
       color: "224, 120, 1"
-      opacity: "0"   
+      opacity: "0"

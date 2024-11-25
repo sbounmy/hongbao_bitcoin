@@ -11,22 +11,11 @@
 bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
 
 bills.each do |bill_data|
-  next if Paper.exists?(name: bill_data['name'])
-
-  paper = Paper.new(
-    name: bill_data['name'],
-    style: :modern
-  )
+  paper = Paper.find_or_initialize_by(name: bill_data['name'])
 
   elements_hash = {}
   bill_data['elements'].each do |element|
-    elements_hash[element['name']] = {
-      'x' => element['x'],
-      'y' => element['y'],
-      'size' => element['size'],
-      'color' => element['color'],
-      'opacity' => element['opacity']
-    }
+    elements_hash[element['name']] = element.except('name')
   end
 
   paper.elements = elements_hash
