@@ -1,0 +1,12 @@
+{
+  "qrcode_private_key": { "x": 0.1, "y": 0.3, "size": 0.17, "color": "224, 120, 1", "opacity": "0" },
+  "qrcode_private_key_label": { "x": 0.1, "y": 0.46, "size": 12, "color": "224, 120, 1", "opacity": "0" },
+  "qrcode_public_key": { "x": 0.75, "y": 0.3, "size": 0.17, "color": "224, 120, 1", "opacity": "0" },
+  "qrcode_public_key_label": { "x": 0.75, "y": 0.46, "size": 12, "color": "224, 120, 1", "opacity": "0" },
+  "private_key_address": { "x": 0.32, "y": 0.45, "size": 18, "color": "224, 120, 1", "opacity": "0" },
+  "private_key_address_label": { "x": 0.32, "y": 0.35, "size": 18, "color": "224, 120, 1", "opacity": "0" },
+  "public_key_address": { "x": 0.32, "y": 0.73, "size": 18, "color": "224, 120, 1", "opacity": "0" },
+  "public_key_address_label": { "x": 0.32, "y": 0.63, "size": 18, "color": "224, 120, 1", "opacity": "0" },
+  "amount": { "x": 0.72, "y": 0.55, "size": 44, "color": "224, 120, 1", "opacity": "0" },
+  "amount_btc": { "x": 0.72, "y": 0.7, "size": 20, "color": "224, 120, 1", "opacity": "0" }
+} 

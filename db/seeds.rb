@@ -47,6 +47,20 @@ paper_groups.each_with_index do |(base_name, files), index|
 
     paper.save!
     puts "Created paper: #{name} with front and back images"
+
+    json_filename = name.parameterize(separator: '_').downcase + '.json'
+    json_path = Rails.root.join('app', 'assets', 'JSON', json_filename)
+
+    if File.exist?(json_path)
+      sample_elements = JSON.parse(File.read(json_path))
+      paper.update!(elements: sample_elements)
+      puts "Updated elements for paper: #{paper.name} from #{json_filename}"
+    else
+      puts "Warning: No JSON file found for #{paper.name} at #{json_path}"
+      # Optionally fall back to default sample_elements.json
+      # sample_elements = JSON.parse(File.read(Rails.root.join('app', 'assets', 'JSON', 'sample_elements.json')))
+      # paper.update!(elements: sample_elements)
+    end
   else
     puts "Warning: Skipping #{name} - missing front or back image"
   end

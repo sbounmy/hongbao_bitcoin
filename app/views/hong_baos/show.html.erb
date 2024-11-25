@@ -4,26 +4,10 @@
             shadow-lg relative">
 <div class="container mx-auto p-4">
   <h1 class="text-2xl mb-4">Hong Bao Details</h1>
-    
-  <%# <% if @hong_bao.paid? %>
-    <%# button_to "Print Hong Bao", 
-                  print_hong_bao_path(@hong_bao),
-                  method: :post,
-                  class: "btn btn-primary" %>
-  <%# <% elsif @hong_bao.pending? %>
-    <%# <div class="alert alert-info">
-      Waiting for payment confirmation...
-    </div> %>
-  <%# <% end %>
   </div>
 <div class="mt-6 space-y-4 animate-fade-in">
-
-  <div class="relative">
     <canvas id="imageCanvasBack" class="border w-full"></canvas>
-  </div>
-    <div class="relative">
     <canvas id="imageCanvas" class="border w-full"></canvas>
-  </div>
 </div>
 </div>
 </div>
@@ -33,93 +17,155 @@
 
   const ctx = canvas.getContext('2d');
   const ctxBack = canvasBack.getContext('2d');
+
+  function drawLabelWithBackground(ctx, text, labelCoords, canvas) {
+    ctx.font = `${labelCoords["size"]}px Arial`;
+    ctx.textBaseline = 'middle';
+    
+    const textMetrics = ctx.measureText(text);
+    const padding = 5;
+    const borderRadius = 20;
+    
+    ctx.fillStyle = `rgba(${labelCoords["color"]}, ${labelCoords["opacity"]})`;
+    ctx.beginPath();
+    ctx.roundRect(
+      canvas.width * labelCoords["x"] - padding,
+      canvas.height * labelCoords["y"] - labelCoords["size"]/2 - padding,
+      textMetrics.width + (padding * 2),
+      labelCoords["size"] + (padding * 2),
+      borderRadius
+    );
+    ctx.fill();
+    
+    ctx.fillStyle = 'black';
+    ctx.fillText(text, 
+      canvas.width * labelCoords["x"], 
+      canvas.height * labelCoords["y"]
+    );
+  }
+
   function loadImageFront(imageUrl) {
     const img = new Image();
     img.src = imageUrl; 
-
+    img.height = 374.1;
+    img.width = 793.7;
     img.onload = () => {
       canvas.width = img.width; 
       canvas.height = img.height; 
-      img.style.border = '2px dashed #000';
-      img.style.padding = '10px';
       
       ctx.clearRect(0, 0, canvas.width, canvas.height); 
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
-      ctx.font = 'bold '+img.height*0.2+'px Arial';
+           
       ctx.fillStyle = 'black';
-      
       const amount = '<%= @hong_bao.amount %>';
-      ctx.fillText(amount, canvas.width * 0.72, canvas.height * 0.55);
+      const amountCoords = <%= raw @hong_bao.paper.elements["amount"].to_json %>; 
       
-      ctx.font = '800 20px Arial';
-      ctx.fillText('0.0005', canvas.width * 0.72, canvas.height * 0.7);
-    };
-
-    img.onerror = () => {
-      console.error('Image failed to load.');
+      ctx.font = `bold ${amountCoords["size"]}px Arial`;
+      ctx.fillText(amount, 
+        canvas.width * amountCoords["x"], 
+        canvas.height * amountCoords["y"]
+      );
+      
+      const amountBtcCoords = <%= raw @hong_bao.paper.elements["amount_btc"].to_json %>;
+      ctx.font = `800 ${amountBtcCoords["size"]}px Arial`;
+      ctx.fillText('0.0005', 
+        canvas.width * amountBtcCoords["x"], 
+        canvas.height * amountBtcCoords["y"]
+      );
     };
   }
 
   function loadImageBack(imageUrl) {
     const imgBack = new Image();
     imgBack.src = imageUrl; 
-    imgBack.height = 250.56;
-    imgBack.width = 589.44;
+    imgBack.height = 374.1;
+    imgBack.width = 793.7;
     imgBack.onload = () => {
       canvasBack.width = imgBack.width; 
       canvasBack.height = imgBack.height; 
       
-      // Save the current context state
-      ctxBack.save();
-      
-      // Flip the context vertically
-      // ctxBack.scale(1, -1);
-      // ctxBack.translate(0, -canvasBack.height);
-      
       ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height); 
       ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
       
-      // Flip back for text and QR codes to be readable
-      // ctxBack.scale(1, -1);
-      // ctxBack.translate(0, -canvasBack.height);
-      
-      ctxBack.font = '600 18px Arial';
+      const privateKeyAddressCoords = <%= raw @hong_bao.paper.elements["private_key_address"].to_json %>; 
       ctxBack.fillStyle = 'black';
-      ctxBack.fillText('u12gejv12yvejy12veh12', canvasBack.width * 0.32, canvasBack.height * 0.45);
-      ctxBack.fillText('u12gejv12yvejy12veh12', canvasBack.width * 0.32, canvasBack.height * 0.73);
+      ctxBack.font = `600 ${privateKeyAddressCoords["size"]}px Arial`;
+      ctxBack.fillText('2c6ae4daf15f015e4280dda81412ca0be915e846db46a58d951a86e2a82ef2fe', 
+        canvasBack.width * privateKeyAddressCoords["x"], 
+        canvasBack.height * privateKeyAddressCoords["y"]
+      );
+      
+      const privateKeyAddressLabelCoords = <%= raw @hong_bao.paper.elements["private_key_address_label"].to_json %>; 
+      ctxBack.fillStyle = 'black';
+      ctxBack.font = `600 ${privateKeyAddressLabelCoords["size"]}px Arial`;
+      ctxBack.fillText('Private Key Address', 
+        canvasBack.width * privateKeyAddressLabelCoords["x"], 
+        canvasBack.height * privateKeyAddressLabelCoords["y"]
+      );
+      
+      const publicKeyAddressCoords = <%= raw @hong_bao.paper.elements["public_key_address"].to_json %>; 
+      ctxBack.font = `600 ${publicKeyAddressCoords["size"]}px Arial`;
+      ctxBack.fillText('03f75dda406b1c20201aef7f3fcd7adb0ef6cab1cad3519dbb08a43cfd3adef460', 
+        canvasBack.width * publicKeyAddressCoords["x"], 
+        canvasBack.height * publicKeyAddressCoords["y"]
+      );
+      
+      const publicKeyAddressLabelCoords = <%= raw @hong_bao.paper.elements["public_key_address_label"].to_json %>; 
+      ctxBack.fillStyle = 'black';
+      ctxBack.font = `600 ${publicKeyAddressLabelCoords["size"]}px Arial`;
+      ctxBack.fillText('Public Key Address', 
+        canvasBack.width * publicKeyAddressLabelCoords["x"], 
+        canvasBack.height * publicKeyAddressLabelCoords["y"]
+      );
       
       drawQRCodePrivate(canvasBack, ctxBack);
       drawQRCodePublic(canvasBack, ctxBack);
-      
-      // Restore the context to its original state
-      // ctxBack.restore();
-    };
-
-    imgBack.onerror = () => {
-      console.error('Image Back failed to load.');
     };
   }
 
-  function drawQRCodePrivate(canvas,ctx) {
+  function drawQRCodePrivate(canvas, ctx) {
     const qrImage = new Image();
     qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
     qrImage.onload = () => {
-      const qrWidth = canvas.width * 0.17; 
-      const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.1, canvas.height * 0.3, qrWidth, qrHeight);
+      // Draw QR code
+      const qrcodePrivateCoords = <%= raw @hong_bao.paper.elements["qrcode_private_key"].to_json %>; 
+      const qrWidth = canvas.width * qrcodePrivateCoords["size"]; 
+      const qrHeight = canvas.width * qrcodePrivateCoords["size"]; 
+      ctx.drawImage(qrImage, 
+        canvas.width * qrcodePrivateCoords["x"], 
+        canvas.height * qrcodePrivateCoords["y"], 
+        qrWidth, 
+        qrHeight
+      );
+
+      // Draw label
+      const labelCoords = <%= raw @hong_bao.paper.elements["qrcode_private_key_label"].to_json %>;
+      drawLabelWithBackground(ctx, 'Private Key', labelCoords, canvas);
     };
   }
 
-  function drawQRCodePublic(canvas,ctx) {
+  function drawQRCodePublic(canvas, ctx) {
     const qrImage = new Image();
     qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
     qrImage.onload = () => {
-      const qrWidth = canvas.width * 0.17; 
-      const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.75, canvas.height * 0.3, qrWidth, qrHeight); 
+      // Draw QR code
+      const qrcodePublicCoords = <%= raw @hong_bao.paper.elements["qrcode_public_key"].to_json %>; 
+      const qrWidth = canvas.width * qrcodePublicCoords["size"]; 
+      const qrHeight = canvas.width * qrcodePublicCoords["size"]; 
+      ctx.drawImage(qrImage, 
+        canvas.width * qrcodePublicCoords["x"], 
+        canvas.height * qrcodePublicCoords["y"], 
+        qrWidth, 
+        qrHeight
+      );
+
+      // Draw label
+      const labelCoords = <%= raw @hong_bao.paper.elements["qrcode_public_key_label"].to_json %>;
+      drawLabelWithBackground(ctx, 'Public Key', labelCoords, canvas);
     };
   }
+
   const paperImageFrontUrl = '<%= 
     front_image = @hong_bao.paper.images.find { |image| image.filename.to_s.downcase.include?('front') }
     front_image ? url_for(front_image) : ""
