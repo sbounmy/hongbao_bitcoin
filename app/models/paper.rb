@@ -1,9 +1,11 @@
 class Paper < ApplicationRecord
-  has_many_attached :images
+  has_one_attached :image_front
+  has_one_attached :image_back
   has_many :hong_baos
 
   validates :name, presence: true
-  validates :images, presence: true
+  validates :image_front, presence: true
+  validates :image_back, presence: true
   validates :style, presence: true
 
   enum :style, {
@@ -42,81 +44,4 @@ class Paper < ApplicationRecord
   end
 
   after_initialize :set_default_elements, if: :new_record?
-
-  private
-
-  def set_default_elements
-    self.elements ||= {
-      "qrcode_private_key" => {
-        "x" => 100,
-        "y" => 100,
-        "size" => 150,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "qrcode_private_key_label" => {
-        "x" => 100,
-        "y" => 260,
-        "size" => 12,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "qrcode_public_key" => {
-        "x" => 300,
-        "y" => 100,
-        "size" => 150,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "qrcode_public_key_label" => {
-        "x" => 300,
-        "y" => 260,
-        "size" => 12,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "private_key_address" => {
-        "x" => 100,
-        "y" => 300,
-        "size" => 10,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "private_key_address_label" => {
-        "x" => 100,
-        "y" => 320,
-        "size" => 12,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "public_key_address" => {
-        "x" => 300,
-        "y" => 300,
-        "size" => 10,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "public_key_address_label" => {
-        "x" => 300,
-        "y" => 320,
-        "size" => 12,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "amount" => {
-        "x" => 200,
-        "y" => 400,
-        "size" => 24,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      },
-      "amount_btc" => {
-        "x" => 200,
-        "y" => 430,
-        "size" => 18,
-        "color" => "#fff",
-        "opacity" => "0.25"
-      }
-    }
-  end
 end

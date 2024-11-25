@@ -8,60 +8,51 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# Get all image files from the papers directory
-paper_files = Dir.glob(Rails.root.join('app', 'assets', 'images', 'papers', '*'))
+bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
 
-# Group files by their base name (without 'front'/'back' suffix)
-paper_groups = paper_files.group_by do |file_path|
-  filename = File.basename(file_path, '.*')
-  filename.gsub(/_?front|_?back/i, '') # Remove front/back suffixes
-end
+bills.each do |bill_data|
+  next if Paper.exists?(name: bill_data['name'])
 
-paper_groups.each_with_index do |(base_name, files), index|
-  name = base_name.titleize
+  paper = Paper.new(
+    name: bill_data['name'],
+    style: :modern
+  )
 
-  # Skip if paper with this name already exists
-  next if Paper.exists?(name: name)
-
-  # Find front and back images
-  front_image = files.find { |f| f.downcase.include?('front') }
-  back_image = files.find { |f| f.downcase.include?('back') }
-
-  if front_image && back_image
-    paper = Paper.new(name: name)
-    paper.position = index + 1
-
-    # Attach both images
-    paper.images.attach([
-      {
-        io: File.open(front_image),
-        filename: File.basename(front_image),
-        content_type: Marcel::MimeType.for(front_image)
-      },
-      {
-        io: File.open(back_image),
-        filename: File.basename(back_image),
-        content_type: Marcel::MimeType.for(back_image)
-      }
-    ])
-
-    paper.save!
-    puts "Created paper: #{name} with front and back images"
-
-    json_filename = name.parameterize(separator: '_').downcase + '.json'
-    json_path = Rails.root.join('app', 'assets', 'JSON', json_filename)
-
-    if File.exist?(json_path)
-      sample_elements = JSON.parse(File.read(json_path))
-      paper.update!(elements: sample_elements)
-      puts "Updated elements for paper: #{paper.name} from #{json_filename}"
-    else
-      puts "Warning: No JSON file found for #{paper.name} at #{json_path}"
-      # Optionally fall back to default sample_elements.json
-      # sample_elements = JSON.parse(File.read(Rails.root.join('app', 'assets', 'JSON', 'sample_elements.json')))
-      # paper.update!(elements: sample_elements)
-    end
-  else
-    puts "Warning: Skipping #{name} - missing front or back image"
+  elements_hash = {}
+  bill_data['elements'].each do |element|
+    elements_hash[element['name']] = {
+      'x' => element['x'],
+      'y' => element['y'],
+      'size' => element['size'],
+      'color' => element['color'],
+      'opacity' => element['opacity']
+    }
   end
+
+  paper.elements = elements_hash
+
+  front_image_path = Rails.root.join('app', bill_data['image_front_url'])
+  if File.exist?(front_image_path)
+    paper.image_front.attach(
+      io: File.open(front_image_path),
+      filename: File.basename(front_image_path)
+    )
+    puts "Attached front image for #{paper.name}"
+  else
+    puts "Warning: Front image not found at #{front_image_path}"
+  end
+
+  back_image_path = Rails.root.join('app', bill_data['image_back_url'])
+  if File.exist?(back_image_path)
+    paper.image_back.attach(
+      io: File.open(back_image_path),
+      filename: File.basename(back_image_path)
+    )
+    puts "Attached back image for #{paper.name}"
+  else
+    puts "Warning: Back image not found at #{back_image_path}"
+  end
+
+  paper.save!
+  puts "Created paper: #{paper.name}"
 end
