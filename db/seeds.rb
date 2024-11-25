@@ -8,26 +8,51 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# Get all image files from the papers directory
-paper_files = Dir.glob(Rails.root.join('app', 'assets', 'images', 'papers', '*'))
+bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
 
-paper_files.each_with_index do |file_path, index|
-  filename = File.basename(file_path)
-  name = File.basename(file_path, '.*').titleize
+bills.each do |bill_data|
+  next if Paper.exists?(name: bill_data['name'])
 
-  # Skip if paper with this name already exists
-  next if Paper.exists?(name: name)
-
-  paper = Paper.new(name: name)
-  paper.position = index + 1
-
-  # Only attach image for new records
-  paper.image.attach(
-    io: File.open(file_path),
-    filename: filename,
-    content_type: Marcel::MimeType.for(file_path)
+  paper = Paper.new(
+    name: bill_data['name'],
+    style: :modern
   )
 
+  elements_hash = {}
+  bill_data['elements'].each do |element|
+    elements_hash[element['name']] = {
+      'x' => element['x'],
+      'y' => element['y'],
+      'size' => element['size'],
+      'color' => element['color'],
+      'opacity' => element['opacity']
+    }
+  end
+
+  paper.elements = elements_hash
+
+  front_image_path = Rails.root.join('app', bill_data['image_front_url'])
+  if File.exist?(front_image_path)
+    paper.image_front.attach(
+      io: File.open(front_image_path),
+      filename: File.basename(front_image_path)
+    )
+    puts "Attached front image for #{paper.name}"
+  else
+    puts "Warning: Front image not found at #{front_image_path}"
+  end
+
+  back_image_path = Rails.root.join('app', bill_data['image_back_url'])
+  if File.exist?(back_image_path)
+    paper.image_back.attach(
+      io: File.open(back_image_path),
+      filename: File.basename(back_image_path)
+    )
+    puts "Attached back image for #{paper.name}"
+  else
+    puts "Warning: Back image not found at #{back_image_path}"
+  end
+
   paper.save!
-  puts "Created paper: #{name}"
+  puts "Created paper: #{paper.name}"
 end

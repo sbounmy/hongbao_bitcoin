@@ -35,9 +35,16 @@
       <div class="grid grid-cols-1 gap-4">
         <% Paper.active.each do |paper| %>
           <%= link_to new_hong_bao_path(paper: paper.id, amount: params[:amount]), class: "relative group" do %>
-            <%= image_tag paper.image,
-                class: "w-full rounded-lg transition-all duration-200
-                        #{params[:paper] == paper.id.to_s ? 'ring-4 ring-[#FFB636]' : 'opacity-75 group-hover:opacity-100'}" %>
+            <% if paper.image_front.attached? %>
+              <%= image_tag paper.image_front,
+                  class: "w-full rounded-lg transition-all duration-200
+                          #{params[:paper] == paper.id.to_s ? 'ring-4 ring-[#FFB636]' : 'opacity-75 group-hover:opacity-100'}" %>
+            <% else %>
+              <%# Fallback if no image is attached %>
+              <div class="w-full aspect-[1.618] bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                No image
+              </div>
+            <% end %>
             <div class="absolute bottom-2 left-2 text-white text-sm font-medium">
               <%= t(".styles.#{paper.style}") %>
             </div>

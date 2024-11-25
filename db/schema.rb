@@ -71,6 +71,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_25_114943) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "elements"
   end
 
   create_table "sessions", force: :cascade do |t|

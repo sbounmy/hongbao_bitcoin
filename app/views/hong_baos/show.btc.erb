@@ -1,26 +1,11 @@
-<div class="min-h-screen bg-red-600 flex items-center justify-center p-4">
-  <div class="bg-[#F7931A] rounded-lg shadow-xl max-w-md w-full p-8 relative overflow-hidden">
-    <!-- Bitcoin pattern overlay -->
-    <div class="absolute inset-0 opacity-10">
-      <svg class="w-full h-full" viewBox="0 0 100 100">
-        <path d="M50 25L55 35H45L50 25Z" fill="currentColor" />
-      </svg>
-    </div>
-    
-    <!-- Main content -->
-    <div class="relative z-10 text-center">
-      <div class="text-white mb-6">
-        <svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 32 32">
-          <path d="M15.5 2C8.596 2 3 7.596 3 14.5S8.596 27 15.5 27 28 21.404 28 14.5 22.404 2 15.5 2z" fill="currentColor"/>
-        </svg>
-        <h1 class="text-2xl font-bold mb-2">Bitcoin Red Packet</h1>
-        <p class="text-lg"><%= @hong_bao.amount %> BTC</p>
-      </div>
-
-      <div class="border-t border-white/20 pt-6">
-        <%# <p class="text-white/90 mb-4"><%= @hong_bao.message %></p> %>
-        <%# <p class="text-white/70 text-sm">From: <%= @hong_bao.sender_name %></p> %>
-      </div>
+<div class="flex flex-col justify-center items-center">
+  <div class="border-dashed border-2 border-sky-500 m-5">
+    <div class="m-5">
+      <%= render partial: "back_bill", locals: { hong_bao: @hong_bao },formats: [:html]%>
     </div>
   </div>
-</div> 
+  <div class="border-dashed border-2 border-sky-500 m-5">
+    <div class="m-5">
+    <%= render partial: "front_bill", locals: { hong_bao: @hong_bao }, formats: [:html] %>
+  </div>
+</div>

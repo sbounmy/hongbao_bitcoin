@@ -4,73 +4,14 @@
             shadow-lg relative">
 <div class="container mx-auto p-4">
   <h1 class="text-2xl mb-4">Hong Bao Details</h1>
-    
-  <%# <% if @hong_bao.paid? %>
-    <%# button_to "Print Hong Bao", 
-                  print_hong_bao_path(@hong_bao),
-                  method: :post,
-                  class: "btn btn-primary" %>
-  <%# <% elsif @hong_bao.pending? %>
-    <%# <div class="alert alert-info">
-      Waiting for payment confirmation...
-    </div> %>
-  <%# <% end %>
   </div>
 <div class="mt-6 space-y-4 animate-fade-in">
-
-  <div class="relative">
-    <canvas id="imageCanvas" class="border w-full"></canvas>
+  <div class="border w-full">
+    <%= render partial: "back_bill", locals: { hong_bao: @hong_bao }%>
+  </div>
+  <div class="border w-full">
+    <%= render partial: "front_bill", locals: { hong_bao: @hong_bao }%>
   </div>
 </div>
 </div>
 </div>
-<script>
-  const canvas = document.getElementById('imageCanvas');
-  const ctx = canvas.getContext('2d');
-  function loadImage(imageUrl) {
-    const img = new Image();
-    img.src = imageUrl; 
-
-    img.onload = () => {
-      canvas.width = img.width; 
-      canvas.height = img.height; 
-      ctx.clearRect(0, 0, canvas.width, canvas.height); 
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
-      ctx.font = '800 20px Arial';
-      ctx.fillStyle = 'black';
-      ctx.fillText('600', canvas.width * 0.1, canvas.height * 0.63);
-      ctx.fillText('0.0005', canvas.width * 0.85, canvas.height * 0.63);
-      
-      drawQRCodePrivate();
-      drawQRCodePublic();
-    };
-
-    img.onerror = () => {
-      console.error('Image failed to load.');
-    };
-  }
-
-  function drawQRCodePrivate() {
-    const qrImage = new Image();
-    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
-    qrImage.onload = () => {
-      const qrWidth = canvas.width * 0.17; 
-      const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.18, canvas.height * 0.4, qrWidth, qrHeight);
-    };
-  }
-
-  function drawQRCodePublic() {
-    const qrImage = new Image();
-    qrImage.src = '<%= asset_path("donation-qrcode.png") %>';
-    qrImage.onload = () => {
-      const qrWidth = canvas.width * 0.17; 
-      const qrHeight = canvas.width * 0.17; 
-      ctx.drawImage(qrImage, canvas.width * 0.65, canvas.height * 0.4, qrWidth, qrHeight); 
-    };
-  }
-      const paperImageUrl = '<%= @hong_bao.paper.image.attached? ? url_for(@hong_bao.paper.image) : "" %>'; // Use the associated paper image
-      loadImage(paperImageUrl);
-
-</script> 
