@@ -7,7 +7,7 @@ export default class extends Controller {
   }
 
   copy() {
-    navigator.clipboard.writeText(this.addressTarget.textContent.trim())
+    navigator.clipboard.writeText(this.addressTarget.value.trim())
       .then(() => {
         alert(this.successMessageValue)
       })

@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
+  include Authentication
   before_action :set_locale
+  helper_method :authenticated?
 
   private
 

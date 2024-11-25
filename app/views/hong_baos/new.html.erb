@@ -55,28 +55,50 @@
 
     <%# Mt Pelerin Direct Link %>
     <div class="space-y-6">
-      <%= form_with model: @hong_bao, data: { turbo: false } do |f| %>
-        <%= f.hidden_field :amount, value: params[:amount] || 50 %>
-        <%= f.hidden_field :paper_id, value: params[:paper] %>
-        <%= hidden_field_tag :preview, params[:preview] %>
-        
-        <%= f.submit t('.submit'),
-            class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
-                    border-none focus:ring-0 text-center cursor-pointer",
-            disabled: params[:paper].blank?,
-            data: {
-              tooltip_target: "paper-tooltip"
-            } %>
+      
+      <% if authenticated? %>
+        <%= form_with model: @hong_bao, data: { turbo: false } do |f| %>
+          <%= f.hidden_field :amount, value: params[:amount] || 50 %>
+          <%= f.hidden_field :paper_id, value: params[:paper] %>
+          <%= hidden_field_tag :preview, params[:preview] %>
+          <%= f.submit t('.submit'),
+                  class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
+                          border-none focus:ring-0 text-center cursor-pointer",
+                  disabled: params[:paper].blank?,
+                  data: {
+                    tooltip_target: "paper-tooltip"
+                  } %>
+        <% end %>
+      <% else %>
+        <div data-controller="popup">
+            <button type="button" 
+                    class="block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
+                            border-none focus:ring-0 text-center cursor-pointer"
+                    data-action="click->popup#open">
+              <%= t('.submit') %>
+            </button>
+
+          <div data-popup-target="modal"
+                class="relative z-50 hidden"
+                aria-labelledby="modal-title" 
+                role="dialog" 
+                aria-modal="true">
             
-        <%# Optional: Add tooltip when paper is not selected %>
-        <div id="paper-tooltip" class="text-white text-sm text-center mt-2" 
-             style="<%= 'display: none' if params[:paper].present? %>">
-          <%= t('.select_paper_first') %>
+            <!-- Background backdrop -->
+            <div class="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm transition-opacity"
+                  data-action="click->popup#close"></div>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div class="flex min-h-full items-center justify-center p-4">
+                <%= render "sessions/popup" %>
+              </div>
+            </div>
         </div>
       <% end %>
     </div>
-
+    
   </div>
+
 
     <div class="w-full max-w-[480px] bg-[#F04747] p-8 
             border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
