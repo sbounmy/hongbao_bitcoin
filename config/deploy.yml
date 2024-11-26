@@ -57,6 +57,7 @@ aliases:
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole"
+  migrate: app exec --interactive --reuse "bin/rails db:migrate"
 
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
