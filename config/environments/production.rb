@@ -90,4 +90,26 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.action_controller.asset_host = "https://hongbaob.tc"
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: Rails.application.credentials.dig(:brevo, :smtp_server),
+    port: Rails.application.credentials.dig(:brevo, :port),
+    user_name: Rails.application.credentials.dig(:brevo, :login),
+    password: Rails.application.credentials.dig(:brevo, :password),
+    authentication: :login,
+    enable_starttls_auto: true
+  }
+
+  # Don't forget to set your default URL options for mailer
+  config.action_mailer.default_url_options = {
+    host: "hongbaob.tc", # replace with your domain
+    protocol: "https"
+  }
+
+  # Ensure emails are sent in production
+  config.action_mailer.perform_deliveries = true
+
+  # Raise errors if email sending fails (optional, but recommended for debugging)
+  config.action_mailer.raise_delivery_errors = true
 end
