@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center items-center">
+  <div class="flex flex-col justify-center items-center">
   <div class="border-dashed border-2 border-sky-500 m-5">
     <div class="m-5">
       <%= render partial: "back_bill", locals: { hong_bao: @hong_bao },formats: [:html]%>
@@ -6,6 +6,61 @@
   </div>
   <div class="border-dashed border-2 border-sky-500 m-5">
     <div class="m-5">
-    <%= render partial: "front_bill", locals: { hong_bao: @hong_bao }, formats: [:html] %>
+      <%= render partial: "front_bill", locals: { hong_bao: @hong_bao }, formats: [:html] %>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col justify-center items-center">
+  <div class="flex gap-8 m-5 flex flex-col justify-center items-center">
+    <div class="border-2 w-[793.7px] h-[374.1px] bg-[#F04747]
+                border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+                shadow-lg">
+      <div class="flex justify-between p-4">
+        <div class="flex flex-col gap-2 w-1/2">
+          <div class="w-3/4 h-3/4">
+            <%= image_tag "rb_2149985033.png", class: "w-full h-full object-contain" %>
+          </div>
+          <div class="amount-placeholder font-bold">
+            Amount: ___________
+          </div>
+          <div class="btc-amount-placeholder font-bold">
+            BTC: ___________
+          </div>
+        </div>
+        <div class="w-1/2 flex items-center justify-center">
+          <div class="text-center text-gray-500 w-full">
+            <div class="grid grid-cols-4 gap-4 text-xs">
+              <% "flower cat tree four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty-one twenty-two twenty-three twenty-four".split(' ').each_with_index do |item, index| %>
+                <div class="border-4 border-[#FFB636] rounded-lg p-1 text-black"><%= index + 1 %>. <%= item %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-2 w-[793.7px] h-[374.1px] bg-[#F04747]
+                border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+                shadow-lg">
+      <div class="flex flex-col items-center justify-between h-full p-4">
+        <div class="flex justify-between w-full h-3/4">
+          <div class="qr-placeholder w-[200px] h-[200px] border-2 border-gray-300 flex items-center justify-center">
+            QR 1
+          </div>
+          <div class="w-[300px] h-[300px]">
+            <%= image_tag "rb_2149985033.png", class: "w-full h-full object-contain" %>
+          </div>
+          <div class="qr-placeholder w-[200px] h-[200px] border-2 border-gray-300 flex items-center justify-center">
+            QR 2
+          </div>
+        </div>
+        <div class="w-full h-1/4 text-center mt-4 font-mono">
+          <div class="border-b-2 border-gray-300">
+            XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

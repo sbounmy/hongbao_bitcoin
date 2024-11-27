@@ -30,18 +30,4 @@ class Paper < ApplicationRecord
   ]
 
   store :elements, coder: JSON
-
-  # Define accessors for each element with coordinates
-  ELEMENTS.each do |element|
-    define_method(element) do
-      elements&.dig(element.to_s)
-    end
-
-    define_method("#{element}=") do |value|
-      self.elements ||= {}
-      self.elements[element.to_s] = value.is_a?(Hash) ? value : { "x" => 0, "y" => 0, "size" => 0 }
-    end
-  end
-
-  after_initialize :set_default_elements, if: :new_record?
 end
