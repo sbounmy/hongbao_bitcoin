@@ -31,4 +31,6 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
+
+  get "bitcoin-test", to: "pages#bitcoin_test"
 end
