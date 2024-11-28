@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+
     <%# Primary Meta Tags %>
     <title><%= t('.meta.title') %></title>
     <meta name="title" content="<%= t('.meta.title') %>">
     <meta name="description" content="<%= t('.meta.description') %>">
     <meta name="keywords" content="<%= t('.meta.keywords') %>">
-    
+
     <%# Open Graph / Facebook %>
     <meta property="og:type" content="website">
     <meta property="og:url" content="<%= root_url %>">
@@ -25,7 +25,7 @@
     <meta property="twitter:title" content="<%= t('.meta.title') %>">
     <meta property="twitter:description" content="<%= t('.meta.description') %>">
     <meta property="twitter:image" content="<%= image_url('og-image.jpg') %>">
-    
+
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
@@ -44,7 +44,7 @@
   </head>
   <body>
     <%= render "shared/header" %>
-    
+
     <% if notice %>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         <div class="bg-green-50 text-green-600 px-4 py-3 rounded-lg">
@@ -52,7 +52,7 @@
         </div>
       </div>
     <% end %>
-    
+
     <% if alert %>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         <div class="bg-red-50 text-red-600 px-4 py-3 rounded-lg">
@@ -62,5 +62,6 @@
     <% end %>
 
     <%= yield %>
+    <%= javascript_include_tag "https://widget.mtpelerin.com/mtp-widget.js", "data-turbo-track": "reload" %>
   </body>
 </html>

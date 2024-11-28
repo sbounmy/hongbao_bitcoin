@@ -1,9 +1,12 @@
 class HongBaosController < ApplicationController
   # skip authentication for new
-  allow_unauthenticated_access only: %i[new]
+  allow_unauthenticated_access only: %i[new create]
 
   def new
-    @hong_bao = HongBao.new(hong_bao_params)
+    @hong_bao = HongBao.new(amount: params[:amount])
+    @papers = Paper.all
+    @payment_methods = PaymentMethod.active
+    @current_step = (params[:step] || 1).to_i
   end
 
   def create
@@ -12,10 +15,11 @@ class HongBaosController < ApplicationController
     if @hong_bao.save
       if params[:preview] == "true"
         redirect_to hong_bao_path(@hong_bao)
-      else
-        redirect_to mt_pelerin_url(@hong_bao), allow_other_host: true
+      elsif @hong_bao.payment_method.name == "mt_pelerin"
+        render :mt_pelerin_popup, layout: false
       end
     else
+      @payment_methods = PaymentMethod.active
       render :new, status: :unprocessable_entity
     end
   end
@@ -38,7 +42,7 @@ class HongBaosController < ApplicationController
   private
 
   def hong_bao_params
-    params.fetch(:hong_bao, {}).permit(:amount, :paper_id)
+    params.fetch(:hong_bao, {}).permit(:amount, :paper_id, :payment_method_id)
   end
 
   def mt_pelerin_url(hong_bao)

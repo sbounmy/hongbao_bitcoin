@@ -1,207 +1,159 @@
-<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center gap-8 py-4">
-  <div class="w-full max-w-[480px] bg-[#F04747] p-8 
-            border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
-            shadow-lg relative">
-    <%# Logo %>
+<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center p-4">
+  <div class="w-full max-w-md bg-[#F04747] p-8
+              border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+              shadow-lg relative">
+
+    <%# Logo and Title %>
+    <div class="text-center mb-8">
+      <%= image_tag "hongbao-bitcoin-logo-520.png",
+          class: "w-16 h-16 mx-auto mb-4 rounded-full border-2 border-[#FFB636]",
+          alt: "Bitcoin Hong Bao Logo" %>
+      <h1 class="text-2xl font-bold text-[#FFB636]">Bitcoin Hong Bao</h1>
+      <p class="text-white/80">Gift Bitcoin printed on a Paper</p>
+    </div>
+
+    <%# Steps Progress %>
     <div class="flex justify-between mb-8">
-
-    <%# Language Toggle %>
-        <%= image_tag "hongbao-bitcoin-logo-520.png", 
-            class: "w-16 h-16 rounded-full border-2 border-[#FFB636]",
-            alt: "Bitcoin Hong Bao Logo" %>
-            <div>
-    <h1 class="text-[28px] font-bold text-[#FFB636] text-center">
-      <%= t('.title') %>
-    </h1>
-  
-    <div class="text-white text-center">
-      <%= t('.subtitle') %>
-    </div>
-    </div>
-
-    <div class="flex justify-end mb-6 items-center">
-      <%= link_to t('.switch_language'),
-          { locale: I18n.locale == :en ? :'zh-CN' : :en },
-          class: "text-white" %>
-    </div>
-    </div>
-
-
-    <%# Title %>
-
-    <%# Paper Selection %>
-    <div class="mb-6">
-      <div class="text-white mb-2"><%= t('.select_style') %></div>
-      <div class="grid grid-cols-1 gap-4">
-        <% Paper.active.each do |paper| %>
-          <%= link_to new_hong_bao_path(paper: paper.id, amount: params[:amount]), class: "relative group" do %>
-            <% if paper.image_front.attached? %>
-              <%= image_tag paper.image_front,
-                  class: "w-full rounded-lg transition-all duration-200
-                          #{params[:paper] == paper.id.to_s ? 'ring-4 ring-[#FFB636]' : 'opacity-75 group-hover:opacity-100'}" %>
-            <% else %>
-              <%# Fallback if no image is attached %>
-              <div class="w-full aspect-[1.618] bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
-                No image
-              </div>
-            <% end %>
-            <div class="absolute bottom-2 left-2 text-white text-sm font-medium">
-              <%= t(".styles.#{paper.style}") %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <%# Mt Pelerin Direct Link %>
-    <div class="space-y-6">
-      
-      <% if authenticated? %>
-        <%= form_with model: @hong_bao, data: { turbo: false } do |f| %>
-          <%= f.hidden_field :amount, value: params[:amount] || 50 %>
-          <%= f.hidden_field :paper_id, value: params[:paper] %>
-          <%= hidden_field_tag :preview, params[:preview] %>
-          <%= f.submit t('.submit'),
-                  class: "block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
-                          border-none focus:ring-0 text-center cursor-pointer",
-                  disabled: params[:paper].blank?,
-                  data: {
-                    tooltip_target: "paper-tooltip"
-                  } %>
-        <% end %>
-      <% else %>
-        <div data-controller="popup">
-            <button type="button" 
-                    class="block w-full bg-[#FFB636] text-white rounded-lg py-3 px-4 
-                            border-none focus:ring-0 text-center cursor-pointer"
-                    data-action="click->popup#open">
-              <%= t('.submit') %>
-            </button>
-
-          <div data-popup-target="modal"
-                class="relative z-50 hidden"
-                aria-labelledby="modal-title" 
-                role="dialog" 
-                aria-modal="true">
-            
-            <!-- Background backdrop -->
-            <div class="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm transition-opacity"
-                  data-action="click->popup#close"></div>
-
-            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div class="flex min-h-full items-center justify-center p-4">
-                <%= render "sessions/popup" %>
-              </div>
-            </div>
+      <% ["Choose Paper", "Instructions", "Payment"].each_with_index do |step, index| %>
+        <div class="flex flex-col items-center">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center
+                      <%= index + 1 == @current_step ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>">
+            <%= index + 1 %>
+          </div>
+          <span class="text-xs mt-1 text-white/80"><%= step %></span>
         </div>
+        <% if index < 2 %>
+          <div class="flex-1 h-0.5 mt-4 <%= index + 1 < @current_step ? 'bg-[#FFB636]' : 'bg-white/20' %>"></div>
+        <% end %>
       <% end %>
     </div>
-    
-  </div>
 
+    <%= form_with(model: @hong_bao,
+                  class: "space-y-6",
+                  data: {
+                    controller: "hong-bao",
+                    hong_bao_current_step_value: @current_step
+                  }) do |form| %>
 
-    <div class="w-full max-w-[480px] bg-[#F04747] p-8 
-            border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
-            shadow-lg relative">
-        <%# FAQ Section %>
-      <div class="space-y-4">
-        <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.faq.title') %></h2>
-        <div class="space-y-4">
-          <% t('.faq.questions').each do |key, qa| %>
-            <div class="border border-white/20 rounded-lg overflow-hidden">
-              <details class="group">
-                <summary class="flex justify-between items-center p-4 cursor-pointer text-[#FFB636] font-medium hover:bg-white/10 transition-colors">
-                  <%= qa[:q] %>
-                  <span class="transition-transform duration-200 group-open:-rotate-180">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </span>
-                </summary>
-                <div class="p-4 text-white bg-white/10 border-t border-white/20">
-                  <%= qa[:a] %>
+      <% if @hong_bao.errors.any? %>
+        <div class="bg-red-500/10 text-red-400 p-4 rounded-lg">
+          <ul class="list-disc list-inside">
+            <% @hong_bao.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%# Step 1: Choose Paper %>
+      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 1 %>">
+        <%# Template Selection Buttons - Completely separate section %>
+        <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
+          <% @papers.each do |paper| %>
+            <button type="button"
+                    class="px-4 py-2 rounded-lg text-sm
+                           <%= paper == @papers.first ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
+                    data-action="click->hong-bao#switchTemplate"
+                    data-paper-id="<%= paper.id %>">
+              <%= paper.name %>
+            </button>
+          <% end %>
+        </nav>
+
+        <%# Papers Display Container - Separate section %>
+        <div data-hong-bao-target="paperContainer">
+          <%= form.hidden_field :paper_id,
+              data: { hong_bao_target: "selectedPaper" },
+              value: @papers.first.id %>
+
+          <%# Papers Display %>
+          <% @papers.each do |paper| %>
+            <div data-paper-preview data-paper-id="<%= paper.id %>"
+                 class="space-y-4 <%= paper == @papers.first ? '' : 'hidden' %>">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="border-2 border-[#FFB636] rounded-lg p-2">
+                  <%= image_tag paper.image_front, class: "w-full rounded" if paper.image_front.attached? %>
                 </div>
-              </details>
+                <div class="border-2 border-[#FFB636] rounded-lg p-2">
+                  <%= image_tag paper.image_back, class: "w-full rounded" if paper.image_back.attached? %>
+                </div>
+              </div>
+
+              <%# Mnemonic and Address Display %>
+              <% if @hong_bao.mnemonic && @hong_bao.address %>
+                <div class="text-white space-y-2">
+                  <div class="bg-black/20 p-3 rounded">
+                    <p class="text-sm font-mono break-all">
+                      <span class="text-white/60">Mnemonic:</span>
+                      <%= @hong_bao.mnemonic %>
+                    </p>
+                  </div>
+                  <div class="bg-black/20 p-3 rounded">
+                    <p class="text-sm font-mono break-all">
+                      <span class="text-white/60">Address:</span>
+                      <%= @hong_bao.address %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
             </div>
           <% end %>
         </div>
       </div>
-    </div>
 
-    <%# About Section %>
-<%# About Section %>
-<div class="w-full max-w-[480px] bg-[#F04747] p-8 
-        border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
-        shadow-lg relative">
-  <div class="space-y-6">
-    <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.about.title') %></h2>
-    
-    <div class="flex gap-6 items-start"> <%# Changed to items-start and removed flex-col %>
-      <%= image_tag "sbounmy-laser-eyes.png", 
-          class: "w-24 h-24 rounded-full border-2 border-[#FFB636] object-cover shrink-0",
-          alt: "Stephane Bounmy" %>
-      
-      <div class="text-white space-y-4 flex-1">
-        <p class="font-medium text-[#FFB636] text-xl">Stephane Bounmy</p>
-        <p class="text-lg leading-relaxed"><%= t('.about.bio') %></p>
-        <div class="flex gap-4">
-          <%= link_to "Linkedin", "https://linkedin.com/in/stephanebounmy", 
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
-          <%= link_to "Twitter", "https://twitter.com/sbounmy", 
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
-          <%= link_to "GitHub", "https://github.com/sbounmy", 
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
+      <%# Step 2: Instructions %>
+      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 2 %>">
+        <div class="text-white space-y-4">
+          <h3 class="font-bold">Important Instructions</h3>
+          <ul class="list-disc list-inside space-y-2">
+            <li>Print this page and keep it in a safe place</li>
+            <li>You'll need the recovery phrase to access the funds</li>
+            <li>Share the printed hong bao with the recipient</li>
+          </ul>
+          <%= form.number_field :amount,
+              class: "mt-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FFB636] focus:ring focus:ring-[#FFB636] focus:ring-opacity-50",
+              placeholder: "Enter amount (1-1000)",
+              required: true,
+              min: 1,
+              max: 1000 %>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-  <div class="w-full max-w-[480px] bg-[#F04747] p-8 
-          border-4 border-[#FFB636] outline outline-8 outline-[#F04747] 
-          shadow-lg relative">
-    <div class="space-y-4">
-      <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.donate.title') %></h2>
-      
-      <div class="text-white space-y-4">
-        <p class="text-lg leading-relaxed">
-          <%= t('.donate.description_html') %>
-        </p>
-        
-        <div class="bg-white/10 p-4 rounded-lg space-y-4"
-            data-controller="clipboard"
-            data-clipboard-success-message-value="<%= t('.donate.copied') %>">
-          <%# QR Code - Full Width %>
-          <%= image_tag "donation-qrcode.png", 
-              class: "w-full aspect-square bg-white p-4 rounded-lg",
-              alt: "Bitcoin Donation QR Code for hongbaob.tc" %>
-          
-          <%# Bitcoin Address Input %>
-          <div class="flex items-center gap-2 bg-black/20 rounded-lg p-2">
-            <input type="text"
-                   value="bc1qpjhgsvmuww0t6glzsnekva4p4rs6zvx6520d4e"
-                   readonly
-                   class="flex-1 bg-transparent text-[#FFB636] text-sm font-mono border-none focus:ring-0 cursor-text"
-                   data-clipboard-target="address">
-            
-            <button data-action="clipboard#copy" 
-                    class="shrink-0 p-2 text-white hover:text-[#FFB636] transition-colors rounded-lg hover:bg-white/10"
-                    title="<%= t('.donate.copy_tooltip') %>">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-              </svg>
-            </button>
-          </div>
+      <%# Step 3: Payment Method %>
+      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 3 %>">
+        <div class="grid grid-cols-3 gap-4">
+          <% @payment_methods.each do |method| %>
+            <label class="cursor-pointer">
+              <%= form.radio_button :payment_method_id, method.id,
+                  class: "hidden peer" %>
+              <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center">
+                <%= image_tag method.logo, class: "w-12 h-12 mx-auto mb-2" if method.logo.attached? %>
+                <span class="text-white text-sm"><%= method.name %></span>
+              </div>
+            </label>
+          <% end %>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<div data-clipboard-target="toast" 
-     class="hidden fixed bottom-4 right-4 bg-[#FFB636] text-white px-4 py-2 rounded-lg shadow-lg">
-  <%= t('.donate.copied') %>
+      <%# Navigation Buttons %>
+      <div class="flex justify-between space-x-4">
+        <% unless @current_step == 1 %>
+          <%= button_tag "Previous",
+              type: "button",
+              class: "flex-1 py-2 px-4 border border-[#FFB636] rounded-md shadow-sm text-sm font-medium text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10",
+              data: { action: "hong-bao#previousStep" } %>
+        <% end %>
+
+        <% if @current_step == 3 %>
+          <%= form.submit "Create Hong Bao",
+              class: "flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90" %>
+        <% else %>
+          <%= button_tag "Next",
+              type: "button",
+              class: "flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90",
+              data: { action: "hong-bao#nextStep" } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -29,6 +29,19 @@ zh-CN:
           如果您想进一步支持这个项目，可以捐赠比特币至：
         copy_tooltip: "复制比特币地址"
         copied: "比特币地址已复制！"
+      enter_amount: "输入金额"
+      amount_hint: "输入1美元至1000美元之间的金额"
+      bill:
+        mnemonic: "恢复短语（请妥善保管！）"
+        address: "比特币地址"
+        instructions: "请打印此页面并妥善保管。您需要恢复短语来访问资金。"
+        save_private_key: "保存恢复短语（允许收件人登录）"
+        purchase_bitcoin: "购买比特币"
+        payment_method: "选择支付方式"
+      payment_methods:
+        mt_pelerin: "信用卡"
+        bitstack: "Bitstack"
+        ledger: "Ledger"
   layouts:
     application:
       meta:

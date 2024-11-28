@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="8" width="24" height="24" rx="2" fill="#000000"/>
+  <rect x="16" y="14" width="12" height="12" rx="1" fill="#FFFFFF"/>
+  <text x="45" y="25" font-family="Arial" font-size="16" fill="#000000">Ledger</text>
+</svg>

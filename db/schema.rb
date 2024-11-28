@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_26_110352) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_28_171032) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -60,7 +60,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_26_110352) do
     t.text "mnemonic"
     t.text "seed"
     t.text "entropy"
+    t.integer "payment_method_id"
     t.index ["paper_id"], name: "index_hong_baos_on_paper_id"
+    t.index ["payment_method_id"], name: "index_hong_baos_on_payment_method_id"
     t.index ["seed"], name: "index_hong_baos_on_seed", unique: true
   end
 
@@ -72,6 +74,16 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_26_110352) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "instructions"
+    t.boolean "active", default: true
+    t.json "settings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_payment_methods_on_name", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -96,5 +108,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_26_110352) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "hong_baos", "papers"
+  add_foreign_key "hong_baos", "payment_methods"
   add_foreign_key "sessions", "users"
 end

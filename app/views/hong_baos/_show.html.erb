@@ -1,21 +1,3 @@
-<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center gap-8 py-4">
-<div class="w-full max-w-[480px] bg-[#F04747] p-8
-            border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-            shadow-lg relative">
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl mb-4">Hong Bao Details</h1>
-  </div>
-<div class="mt-6 space-y-4 animate-fade-in">
-  <div class="border w-full">
-    <%= render partial: "back_bill", locals: { hong_bao: @hong_bao }%>
-  </div>
-  <div class="border w-full">
-    <%= render partial: "front_bill", locals: { hong_bao: @hong_bao }%>
-  </div>
-</div>
-</div>
-</div>
-
 <% if @hong_bao.payment_method&.name == "mt_pelerin" %>
   <div class="mt-4">
     <button onclick="openMtPelerinModal()" class="btn btn-primary">
@@ -39,7 +21,6 @@
         success: "#FFB636",
         amount: "<%= @hong_bao.amount %>",
         mylogo: "<%= asset_url("hongbao-bitcoin-logo-520.png") %>",
-        // Mt Pelerin address validation params
         addr: "<%= @hong_bao.address %>",
         code: "<%= @hong_bao.mt_pelerin_request_code %>",
         hash: "<%= @hong_bao.mt_pelerin_request_hash %>"

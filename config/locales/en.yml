@@ -61,6 +61,19 @@ en:
           If you'd like to support the project further, you can donate Bitcoin to:
         copy_tooltip: "Copy Bitcoin address"
         copied: "Bitcoin address copied to clipboard!"
+      enter_amount: "Enter amount"
+      amount_hint: "Enter an amount between $1 and $1000"
+      bill:
+        mnemonic: "Recovery Phrase (Keep this safe!)"
+        address: "Bitcoin Address"
+        instructions: "Print this page and keep it in a safe place. You'll need the recovery phrase to access the funds."
+        save_private_key: "Save recovery phrase (allows recipient to login)"
+        purchase_bitcoin: "Purchase Bitcoin"
+        payment_method: "Choose payment method"
+      payment_methods:
+        mt_pelerin: "Credit Card"
+        bitstack: "Bitstack"
+        ledger: "Ledger"
   layouts:
     application:
       meta:

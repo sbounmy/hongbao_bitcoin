@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 8L28 20L20 32H12L20 20L12 8H20Z" fill="#F7931A"/>
+  <path d="M28 8L36 20L28 32H20L28 20L20 8H28Z" fill="#F7931A"/>
+  <text x="45" y="25" font-family="Arial" font-size="16" fill="#F7931A">Bitstack</text>
+</svg>
