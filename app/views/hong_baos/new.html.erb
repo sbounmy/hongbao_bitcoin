@@ -1,11 +1,9 @@
 <div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center p-4">
-  <%= render "shared/donation_banner" %>
-
-  <div class="w-full max-w-md bg-[#F04747] p-8
+  <div class="w-full max-w-lg bg-[#F04747] p-8
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
               rounded-2xl shadow-2xl relative">
 
-    <%= render "shared/header" %>
+    <%= render "hong_baos/new/header" %>
 
     <%= form_with(model: @hong_bao,
                   class: "space-y-6",
@@ -37,4 +35,6 @@
   </div>
 
   <%= render "shared/footer" %>
+  <%= render "shared/donation_banner" %>
+
 </div>

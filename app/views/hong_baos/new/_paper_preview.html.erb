@@ -6,7 +6,7 @@
   <% papers.each do |paper| %>
     <div data-paper-preview data-paper-id="<%= paper.id %>"
          class="space-y-4 <%= paper == papers.first ? '' : 'hidden' %>">
-      <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
         <div class="border-2 border-[#FFB636] rounded-lg p-2">
           <%= image_tag paper.image_front, class: "w-full rounded" if paper.image_front.attached? %>
         </div>
