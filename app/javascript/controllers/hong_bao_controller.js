@@ -11,7 +11,9 @@ export default class extends Controller {
     "nextButton",
     "verifyButton",
     "paymentMethod",
-    "mtPelerinData"
+    "mtPelerinData",
+    "walletModal",
+    "walletInstructions"
   ]
 
   static values = {
@@ -66,27 +68,34 @@ export default class extends Controller {
     }
   }
 
-  paymentMethodSelected() {
-    if (this.hasMtPelerinDataTarget) {
-      const data = JSON.parse(this.mtPelerinDataTarget.dataset.options)
-      showMtpModal({
-        _ctkn: data.ctkn,
-        type: 'direct-link',
-        lang: data.locale,
-        tab: 'buy',
-        tabs: 'buy',
-        net: data.network,
-        nets: data.network,
-        curs: 'EUR,USD,SGD',
-        ctry: 'FR',
-        primary: '#F04747',
-        success: '#FFB636',
-        amount: data.amount,
-        mylogo: data.logo,
-        addr: data.address,
-        code: data.requestCode,
-        hash: data.requestHash
-      });
+  paymentMethodSelected(event) {
+    const methodId = event.target.value
+    const methodName = event.target.dataset.methodName
+
+    if (methodName === 'mt_pelerin') {
+      if (this.hasMtPelerinDataTarget) {
+        const data = JSON.parse(this.mtPelerinDataTarget.dataset.options)
+        showMtpModal({
+          _ctkn: data.ctkn,
+          type: 'direct-link',
+          lang: data.locale,
+          tab: 'buy',
+          tabs: 'buy',
+          net: data.network,
+          nets: data.network,
+          curs: 'EUR,USD,SGD',
+          ctry: 'FR',
+          primary: '#F04747',
+          success: '#FFB636',
+          amount: data.amount,
+          mylogo: data.logo,
+          addr: data.address,
+          code: data.requestCode,
+          hash: data.requestHash
+        });
+      }
+    } else if (['bitstack', 'ledger'].includes(methodName)) {
+      this.showWalletInstructions(methodName)
     }
   }
 
@@ -177,5 +186,56 @@ export default class extends Controller {
       .forEach(paperDiv => {
         paperDiv.classList.toggle('hidden', paperDiv.dataset.paperId !== selectedPaperId)
       })
+  }
+
+  showWalletInstructions(wallet) {
+    if (this.hasWalletModalTarget && this.hasWalletInstructionsTarget) {
+      // Set wallet-specific content
+      const instructions = this.getWalletInstructions(wallet)
+      this.walletInstructionsTarget.innerHTML = instructions
+
+      // Show modal
+      this.walletModalTarget.classList.remove('hidden')
+    }
+  }
+
+  hideWalletModal() {
+    if (this.hasWalletModalTarget) {
+      this.walletModalTarget.classList.add('hidden')
+    }
+  }
+
+  getWalletInstructions(wallet) {
+    const qrCode = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.hongBaoAddress}"
+                       alt="Bitcoin Address QR Code" class="mx-auto mb-4">`
+
+    const instructions = {
+      bitstack: `
+        <h3 class="text-lg font-bold mb-4">Send with Bitstack</h3>
+        ${qrCode}
+        <ol class="list-decimal list-inside space-y-2 text-sm">
+          <li>Open your Bitstack wallet</li>
+          <li>Tap the send button</li>
+          <li>Scan this QR code or paste the address</li>
+          <li>Enter the amount and confirm</li>
+        </ol>
+      `,
+      ledger: `
+        <h3 class="text-lg font-bold mb-4">Send with Ledger</h3>
+        ${qrCode}
+        <ol class="list-decimal list-inside space-y-2 text-sm">
+          <li>Connect your Ledger device</li>
+          <li>Open the Bitcoin app</li>
+          <li>Use Ledger Live to send</li>
+          <li>Verify the address on your device</li>
+        </ol>
+      `
+    }
+
+    return instructions[wallet]
+  }
+
+  get hongBaoAddress() {
+    return this.element.querySelector('[data-hong-bao-address]').dataset.hongBaoAddress
   }
 }

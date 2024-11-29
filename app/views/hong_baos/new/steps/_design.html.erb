@@ -1,4 +1,5 @@
 <div data-hong-bao-target="step">
+  <%# Template Selection Buttons %>
   <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
     <% papers.each do |paper| %>
       <button type="button"
@@ -11,5 +12,6 @@
     <% end %>
   </nav>
 
-  <%= render "paper_preview", papers: papers, hong_bao: hong_bao, form: form %>
+  <%# Papers Display %>
+  <%= render "hong_baos/new/paper_preview", papers: papers, form: form, hong_bao: hong_bao %>
 </div>

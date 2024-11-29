@@ -1,11 +1,11 @@
 <div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center p-4">
-  <%= render "donation_banner" %>
+  <%= render "shared/donation_banner" %>
 
   <div class="w-full max-w-md bg-[#F04747] p-8
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
               rounded-2xl shadow-2xl relative">
 
-    <%= render "header" %>
+    <%= render "shared/header" %>
 
     <%= form_with(model: @hong_bao,
                   class: "space-y-6",
@@ -14,17 +14,27 @@
                     hong_bao_current_step_value: @current_step || 1
                   }) do |form| %>
 
-      <%= render "progress_steps", current_step: @current_step %>
+      <%= render "hong_baos/new/progress_steps", current_step: @current_step %>
 
       <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
-      <%= render "step_design", papers: @papers, hong_bao: @hong_bao, form: form %>
-      <%= render "step_instructions", form: form %>
-      <%= render "step_payment", hong_bao: @hong_bao, payment_methods: @payment_methods, form: form %>
-      <%= render "navigation_buttons", current_step: @current_step, hong_bao: @hong_bao %>
+      <%= render "hong_baos/new/steps/design",
+          form: form,
+          papers: @papers,
+          hong_bao: @hong_bao %>
+
+      <%= render "hong_baos/new/steps/print",
+          form: form %>
+
+      <%= render "hong_baos/new/steps/top_up",
+          form: form,
+          payment_methods: @payment_methods,
+          hong_bao: @hong_bao %>
+
+      <%= render "hong_baos/new/navigation_buttons", current_step: @current_step, hong_bao: @hong_bao %>
 
     <% end %>
   </div>
 
-  <%= render "footer" %>
+  <%= render "shared/footer" %>
 </div>

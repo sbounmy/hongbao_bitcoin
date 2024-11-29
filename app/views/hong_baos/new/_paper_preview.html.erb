@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <%= render "wallet_info", hong_bao: hong_bao if hong_bao.mnemonic && hong_bao.address %>
+      <%= render "hong_baos/new/wallet_info", hong_bao: hong_bao if hong_bao.mnemonic && hong_bao.address %>
     </div>
   <% end %>
 </div>
