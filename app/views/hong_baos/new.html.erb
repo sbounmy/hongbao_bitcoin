@@ -12,32 +12,35 @@
       <p class="text-white/80">Gift Bitcoin printed on a Paper</p>
     </div>
 
-    <%# Steps Progress %>
-    <div class="flex justify-between mb-8">
-      <% ["Choose Paper", "Instructions", "Payment"].each_with_index do |step, index| %>
-        <div class="flex flex-col items-center">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center
-                      <%= index + 1 == @current_step ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>">
-            <%= index + 1 %>
-          </div>
-          <span class="text-xs mt-1 text-white/80"><%= step %></span>
-        </div>
-        <% if index < 2 %>
-          <div class="flex-1 h-0.5 mt-4 <%= index + 1 < @current_step ? 'bg-[#FFB636]' : 'bg-white/20' %>"></div>
-        <% end %>
-      <% end %>
-    </div>
 
     <%= form_with(model: @hong_bao,
                   class: "space-y-6",
                   data: {
                     controller: "hong-bao",
-                    hong_bao_current_step_value: @current_step
+                    hong_bao_current_step_value: @current_step || 1
                   }) do |form| %>
 
-      <% if @hong_bao.errors.any? %>
-        <div class="bg-red-500/10 text-red-400 p-4 rounded-lg">
-          <ul class="list-disc list-inside">
+    <%# Steps Progress %>
+    <div class="flex justify-between mb-8">
+      <% ["Choose Template", "Print", "Top up"].each_with_index do |step, index| %>
+        <div class="flex flex-col items-center">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center
+                      <%= index + 1 == @current_step ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
+               data-hong-bao-target="stepIndicator">
+            <%= index + 1 %>
+          </div>
+          <span class="text-xs mt-1 text-white/80"><%= step %></span>
+        </div>
+        <% if index < 2 %>
+          <div class="flex-1 h-0.5 mt-4 <%= index + 1 < @current_step ? 'bg-[#FFB636]' : 'bg-white/20' %>"
+               data-hong-bao-target="stepConnector"></div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @hong_bao.errors.any? %>
+      <div class="bg-red-500/10 text-red-400 p-4 rounded-lg">
+        <ul class="list-disc list-inside">
             <% @hong_bao.errors.full_messages.each do |message| %>
               <li><%= message %></li>
             <% end %>
@@ -46,7 +49,7 @@
       <% end %>
 
       <%# Step 1: Choose Paper %>
-      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 1 %>">
+      <div data-hong-bao-target="step">
         <%# Template Selection Buttons - Completely separate section %>
         <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
           <% @papers.each do |paper| %>
@@ -102,7 +105,7 @@
       </div>
 
       <%# Step 2: Instructions %>
-      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 2 %>">
+      <div data-hong-bao-target="step">
         <div class="text-white space-y-4">
           <h3 class="font-bold">Important Instructions</h3>
           <ul class="list-disc list-inside space-y-2">
@@ -120,7 +123,7 @@
       </div>
 
       <%# Step 3: Payment Method %>
-      <div data-hong-bao-target="step" class="<%= 'hidden' unless @current_step == 3 %>">
+      <div data-hong-bao-target="step">
         <div class="grid grid-cols-3 gap-4">
           <% @payment_methods.each do |method| %>
             <label class="cursor-pointer">
@@ -137,21 +140,23 @@
 
       <%# Navigation Buttons %>
       <div class="flex justify-between space-x-4">
-        <% unless @current_step == 1 %>
-          <%= button_tag "Previous",
-              type: "button",
-              class: "flex-1 py-2 px-4 border border-[#FFB636] rounded-md shadow-sm text-sm font-medium text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10",
-              data: { action: "hong-bao#previousStep" } %>
+        <% if @current_step != 1 %>
+          <button type="button"
+                  class="flex-1 py-2 px-4 border border-[#FFB636] rounded-md shadow-sm text-sm font-medium text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10"
+                  data-action="hong-bao#previousStep">
+            Previous
+          </button>
         <% end %>
 
         <% if @current_step == 3 %>
           <%= form.submit "Create Hong Bao",
               class: "flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90" %>
         <% else %>
-          <%= button_tag "Next",
-              type: "button",
-              class: "flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90",
-              data: { action: "hong-bao#nextStep" } %>
+          <button type="button"
+                  class="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90"
+                  data-action="hong-bao#nextStep">
+            Next
+          </button>
         <% end %>
       </div>
     <% end %>

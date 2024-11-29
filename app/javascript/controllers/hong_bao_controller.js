@@ -1,11 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["step", "selectedPaper"]
+  static targets = ["step", "selectedPaper", "stepIndicator", "stepConnector"]
 
   connect() {
     const params = new URLSearchParams(window.location.search)
-    const stepParam = parseInt(params.get('step'))
+    const stepParam = parseInt(params.get('step') || 1)
 
     if (stepParam && stepParam <= this.stepTargets.length) {
       this.currentStepValue = stepParam
@@ -38,15 +38,16 @@ export default class extends Controller {
   }
 
   nextStep() {
-    if (this.currentStep < this.stepTargets.length) {
-      this.currentStep++
+    console.log("nextStep", this.currentStepValue)
+    if (this.currentStepValue < this.stepTargets.length) {
+      this.currentStepValue++
       this.showCurrentStep()
     }
   }
 
   previousStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--
+    if (this.currentStepValue > 1) {
+      this.currentStepValue--
       this.showCurrentStep()
     }
   }
@@ -54,6 +55,29 @@ export default class extends Controller {
   showCurrentStep() {
     this.stepTargets.forEach((step, index) => {
       step.classList.toggle('hidden', index + 1 !== this.currentStepValue)
+    })
+
+    console.log("showCurrentStep", this.stepIndicatorTargets)
+    // Update step indicators
+    this.stepIndicatorTargets.forEach((indicator, index) => {
+      if (index + 1 === this.currentStepValue) {
+        indicator.classList.remove('bg-white/20', 'text-white')
+        indicator.classList.add('bg-[#FFB636]', 'text-[#F04747]')
+      } else {
+        indicator.classList.remove('bg-[#FFB636]', 'text-[#F04747]')
+        indicator.classList.add('bg-white/20', 'text-white')
+      }
+    })
+
+    // Update connecting lines
+    this.stepConnectorTargets.forEach((connector, index) => {
+      if (index + 1 < this.currentStepValue) {
+        connector.classList.remove('bg-white/20')
+        connector.classList.add('bg-[#FFB636]')
+      } else {
+        connector.classList.remove('bg-[#FFB636]')
+        connector.classList.add('bg-white/20')
+      }
     })
 
     // Update URL with current step
