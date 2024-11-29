@@ -51,6 +51,12 @@
   <%# Hidden address data for JS %>
   <div data-hong-bao-address="<%= hong_bao.address %>" class="hidden"></div>
 
+  <div data-hong-bao-qr-code="<%= bitcoin_qr_code(bitcoin_url(
+    hong_bao.address,
+    { amount: hong_bao.amount }),
+    size: 200
+  ) %>" class="hidden"></div>
+
   <div data-hong-bao-target="mtPelerinData"
        data-options="<%= {
          ctkn: '954139b2-ef3e-4914-82ea-33192d3f43d3',
