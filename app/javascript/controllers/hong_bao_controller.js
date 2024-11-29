@@ -7,7 +7,9 @@ export default class extends Controller {
     "stepIndicator",
     "stepConnector",
     "amountDisplay",
-    "previousButton"
+    "previousButton",
+    "paymentMethod",
+    "mtPelerinData"
   ]
 
   static values = {
@@ -59,6 +61,30 @@ export default class extends Controller {
       this.currentStepValue--
       this.showCurrentStep()
       this.updatePreviousButton()
+    }
+  }
+
+  paymentMethodSelected() {
+    if (this.hasMtPelerinDataTarget) {
+      const data = JSON.parse(this.mtPelerinDataTarget.dataset.options)
+      showMtpModal({
+        _ctkn: data.ctkn,
+        type: 'direct-link',
+        lang: data.locale,
+        tab: 'buy',
+        tabs: 'buy',
+        net: data.network,
+        nets: data.network,
+        curs: 'EUR,USD,SGD',
+        ctry: 'FR',
+        primary: '#F04747',
+        success: '#FFB636',
+        amount: data.amount,
+        mylogo: data.logo,
+        addr: data.address,
+        code: data.requestCode,
+        hash: data.requestHash
+      });
     }
   }
 
