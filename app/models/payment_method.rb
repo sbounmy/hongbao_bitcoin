@@ -5,8 +5,6 @@ class PaymentMethod < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :instructions, presence: true
 
-  validates :name, inclusion: { in: METHODS }
-
   # Scope for active payment methods
   scope :active, -> { where(active: true) }
 end
