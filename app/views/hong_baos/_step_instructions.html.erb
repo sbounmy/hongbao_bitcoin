@@ -1,0 +1,16 @@
+<div data-hong-bao-target="step">
+  <div class="text-white space-y-4">
+    <h3 class="font-bold">Important Instructions</h3>
+    <ul class="list-disc list-inside space-y-2">
+      <li>Print this page and keep it in a safe place</li>
+      <li>You'll need the recovery phrase to access the funds</li>
+      <li>Share the printed hong bao with the recipient</li>
+    </ul>
+    <%= form.number_field :amount,
+        class: "mt-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FFB636] focus:ring focus:ring-[#FFB636] focus:ring-opacity-50",
+        placeholder: "Enter amount (1-1000)",
+        required: true,
+        min: 1,
+        max: 1000 %>
+  </div>
+</div>

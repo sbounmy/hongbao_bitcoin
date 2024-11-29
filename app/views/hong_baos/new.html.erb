@@ -1,23 +1,11 @@
 <div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center p-4">
-  <%# Donation Banner at the top %>
-  <div class="w-full max-w-md mb-4 bg-[#FFB636] p-3 rounded-lg text-center text-[#F04747] text-sm">
-    <p>❤️ Support this project by donating:</p>
-    <p class="font-mono text-xs mt-1">bc1q...</p>
-  </div>
+  <%= render "donation_banner" %>
 
   <div class="w-full max-w-md bg-[#F04747] p-8
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
               rounded-2xl shadow-2xl relative">
 
-    <%# Logo and Title - Updated styling %>
-    <div class="text-center mb-12">
-      <%= image_tag "hongbao-bitcoin-logo-520.png",
-          class: "w-24 h-24 mx-auto mb-4 rounded-full border-4 border-[#FFB636] shadow-lg transform hover:scale-105 transition-transform duration-300",
-          alt: "Bitcoin Hong Bao Logo" %>
-      <h1 class="text-3xl font-bold text-[#FFB636] mb-2">Bitcoin Hong Bao</h1>
-      <p class="text-white/90 text-lg">Gift Bitcoin printed on a Paper</p>
-    </div>
-
+    <%= render "header" %>
 
     <%= form_with(model: @hong_bao,
                   class: "space-y-6",
@@ -26,217 +14,17 @@
                     hong_bao_current_step_value: @current_step || 1
                   }) do |form| %>
 
-    <%# Steps Progress - Enhanced styling %>
-    <div class="flex justify-between mb-12 relative">
-      <% ["Design", "Print", "Top up"].each_with_index do |step, index| %>
-        <div class="flex flex-col items-center relative z-10">
-          <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold
-                      transition-all duration-300 transform hover:scale-110
-                      <%= index + 1 == @current_step ? 'bg-[#FFB636] text-[#F04747] shadow-lg' : 'bg-white/20 text-white' %>"
-               data-hong-bao-target="stepIndicator">
-            <%= index + 1 %>
-          </div>
-          <span class="text-sm mt-2 font-medium text-white/90"><%= step %></span>
-        </div>
-        <% if index < 2 %>
-          <div class="flex-1 h-1 mt-6 rounded-full <%= index + 1 < @current_step ? 'bg-[#FFB636]' : 'bg-white/20' %>"
-               data-hong-bao-target="stepConnector"></div>
-        <% end %>
-      <% end %>
-    </div>
+      <%= render "progress_steps", current_step: @current_step %>
 
-    <% if @hong_bao.errors.any? %>
-      <div class="bg-red-500/10 text-red-400 p-4 rounded-lg">
-        <ul class="list-disc list-inside">
-            <% @hong_bao.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
-      <%# Step 1: Choose Paper %>
-      <div data-hong-bao-target="step">
-        <%# Template Selection Buttons - Completely separate section %>
-        <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
-          <% @papers.each do |paper| %>
-            <button type="button"
-                    class="px-4 py-2 rounded-lg text-sm
-                           <%= paper == @papers.first ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
-                    data-action="click->hong-bao#switchTemplate"
-                    data-paper-id="<%= paper.id %>">
-              <%= paper.name %>
-            </button>
-          <% end %>
-        </nav>
+      <%= render "step_design", papers: @papers, hong_bao: @hong_bao, form: form %>
+      <%= render "step_instructions", form: form %>
+      <%= render "step_payment", hong_bao: @hong_bao, payment_methods: @payment_methods, form: form %>
+      <%= render "navigation_buttons", current_step: @current_step, hong_bao: @hong_bao %>
 
-        <%# Papers Display Container - Separate section %>
-        <div data-hong-bao-target="paperContainer">
-          <%= form.hidden_field :paper_id,
-              data: { hong_bao_target: "selectedPaper" },
-              value: @papers.first.id %>
-
-          <%# Papers Display %>
-          <% @papers.each do |paper| %>
-            <div data-paper-preview data-paper-id="<%= paper.id %>"
-                 class="space-y-4 <%= paper == @papers.first ? '' : 'hidden' %>">
-              <div class="grid grid-cols-2 gap-4">
-                <div class="border-2 border-[#FFB636] rounded-lg p-2">
-                  <%= image_tag paper.image_front, class: "w-full rounded" if paper.image_front.attached? %>
-                </div>
-                <div class="border-2 border-[#FFB636] rounded-lg p-2">
-                  <%= image_tag paper.image_back, class: "w-full rounded" if paper.image_back.attached? %>
-                </div>
-              </div>
-
-              <%# Mnemonic and Address Display %>
-              <% if @hong_bao.mnemonic && @hong_bao.address %>
-                <div class="text-white space-y-2">
-                  <div class="bg-black/20 p-3 rounded">
-                    <p class="text-sm font-mono break-all">
-                      <span class="text-white/60">Mnemonic:</span>
-                      <%= @hong_bao.mnemonic %>
-                    </p>
-                  </div>
-                  <div class="bg-black/20 p-3 rounded">
-                    <p class="text-sm font-mono break-all">
-                      <span class="text-white/60">Address:</span>
-                      <%= @hong_bao.address %>
-                    </p>
-                  </div>
-                  <div class="flex justify-end mb-2">
-                    <%= link_to new_hong_bao_path,
-                              class: "text-sm px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/90
-                                     transition-colors duration-300 flex items-center gap-2" do %>
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                      Generate
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <%# Step 2: Instructions %>
-      <div data-hong-bao-target="step">
-        <div class="text-white space-y-4">
-          <h3 class="font-bold">Important Instructions</h3>
-          <ul class="list-disc list-inside space-y-2">
-            <li>Print this page and keep it in a safe place</li>
-            <li>You'll need the recovery phrase to access the funds</li>
-            <li>Share the printed hong bao with the recipient</li>
-          </ul>
-          <%= form.number_field :amount,
-              class: "mt-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FFB636] focus:ring focus:ring-[#FFB636] focus:ring-opacity-50",
-              placeholder: "Enter amount (1-1000)",
-              required: true,
-              min: 1,
-              max: 1000 %>
-        </div>
-      </div>
-
-      <%# Step 3: Payment Method %>
-      <div data-hong-bao-target="step">
-        <%# Instructions and Address Display %>
-        <div class="mb-8 text-white space-y-4">
-          <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
-          <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
-
-          <%# Bitcoin Address Display %>
-          <div class="bg-black/20 p-4 rounded-lg">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-sm text-white/60">Bitcoin Address:</span>
-              <button onclick="navigator.clipboard.writeText('<%= @hong_bao.address %>')"
-                      class="text-xs px-2 py-1 bg-white/10 hover:bg-white/20 rounded transition-colors duration-300 text-white/90">
-                Copy
-              </button>
-            </div>
-            <p class="font-mono text-sm break-all"><%= @hong_bao.address %></p>
-          </div>
-        </div>
-
-        <%# Payment Methods Grid %>
-        <div class="grid grid-cols-3 gap-4">
-          <% @payment_methods.each do |method| %>
-            <label class="cursor-pointer">
-              <%= form.radio_button :payment_method_id, method.id,
-                  class: "hidden peer",
-                  data: { hong_bao_target: "paymentMethod", action: "hong-bao#paymentMethodSelected" } %>
-              <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center">
-                <%= image_tag method.logo, class: "w-12 h-12 mx-auto mb-2" if method.logo.attached? %>
-                <span class="text-white text-sm"><%= method.name %></span>
-              </div>
-            </label>
-          <% end %>
-        </div>
-
-        <%# Mt Pelerin Integration %>
-        <div data-hong-bao-target="mtPelerinData"
-             data-options="<%= {
-               ctkn: '954139b2-ef3e-4914-82ea-33192d3f43d3',
-               locale: I18n.locale,
-               network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
-               amount: @hong_bao.amount,
-               logo: asset_url('hongbao-bitcoin-logo-520.png'),
-               address: @hong_bao.address,
-               requestCode: @hong_bao.mt_pelerin_request_code,
-               requestHash: @hong_bao.mt_pelerin_request_hash
-             }.to_json %>">
-        </div>
-      </div>
-
-      <%# Navigation Buttons - Enhanced styling %>
-      <div class="flex items-center space-x-4 mt-8">
-        <%# Smaller Previous button %>
-        <button type="button"
-                class="w-1/4 py-3 px-4 border-2 border-[#FFB636] rounded-xl shadow-lg text-sm font-medium
-                       text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10 transition-colors duration-300"
-                data-action="hong-bao#previousStep"
-                data-hong-bao-target="previousButton"
-                style="<%= @current_step == 1 ? 'display: none;' : '' %>">
-          ←
-        </button>
-
-        <%# Larger Next/Verify button container %>
-        <div class="flex-1">
-          <%# Verify Button %>
-          <%= link_to "https://mempool.space/#{Rails.env.production? ? '' : 'testnet/'}address/#{@hong_bao.address}",
-              target: "_blank",
-              data: { hong_bao_target: "verifyButton" },
-              style: @current_step == 3 ? "" : "display: none;",
-              class: "w-full py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium
-                     text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300
-                     flex items-center justify-center" do %>
-            <span class="flex items-center gap-2">
-              Verify funds
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-              </svg>
-            </span>
-          <% end %>
-
-          <%# Next Button %>
-          <button type="button"
-                  class="w-full py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium
-                         text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300"
-                  data-action="hong-bao#nextStep"
-                  data-hong-bao-target="nextButton"
-                  style="<%= @current_step == 3 ? 'display: none;' : '' %>">
-            Next →
-          </button>
-        </div>
-      </div>
     <% end %>
   </div>
 
-  <%# Footer with additional info %>
-  <div class="w-full max-w-md mt-4 text-center text-[#F04747]/80 text-sm">
-    <p>Made with ❤️ by the Bitcoin community</p>
-    <a href="#" class="underline hover:text-[#F04747] transition-colors duration-300">About</a>
-  </div>
+  <%= render "footer" %>
 </div>

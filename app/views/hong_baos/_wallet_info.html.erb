@@ -1,0 +1,25 @@
+<div class="text-white space-y-2">
+  <div class="bg-black/20 p-3 rounded">
+    <p class="text-sm font-mono break-all">
+      <span class="text-white/60">Mnemonic:</span>
+      <%= hong_bao.mnemonic %>
+    </p>
+  </div>
+  <div class="bg-black/20 p-3 rounded">
+    <p class="text-sm font-mono break-all">
+      <span class="text-white/60">Address:</span>
+      <%= hong_bao.address %>
+    </p>
+  </div>
+  <div class="flex justify-end mb-2">
+    <%= link_to new_hong_bao_path,
+                class: "text-sm px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/90
+                       transition-colors duration-300 flex items-center gap-2" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+      Generate
+    <% end %>
+  </div>
+</div>

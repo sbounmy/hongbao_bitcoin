@@ -1,0 +1,15 @@
+<div data-hong-bao-target="step">
+  <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
+    <% papers.each do |paper| %>
+      <button type="button"
+              class="px-4 py-2 rounded-lg text-sm
+                     <%= paper == papers.first ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
+              data-action="click->hong-bao#switchTemplate"
+              data-paper-id="<%= paper.id %>">
+        <%= paper.name %>
+      </button>
+    <% end %>
+  </nav>
+
+  <%= render "paper_preview", papers: papers, hong_bao: hong_bao, form: form %>
+</div>
