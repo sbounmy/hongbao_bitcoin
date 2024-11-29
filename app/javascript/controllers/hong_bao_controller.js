@@ -1,44 +1,49 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["step", "selectedPaper", "stepIndicator", "stepConnector"]
+  static targets = [
+    "step",
+    "selectedPaper",
+    "stepIndicator",
+    "stepConnector",
+    "amountDisplay"
+  ]
+
+  static values = {
+    currentStep: { type: Number, default: 1 }
+  }
 
   connect() {
-    const params = new URLSearchParams(window.location.search)
-    const stepParam = parseInt(params.get('step') || 1)
+    this.initializeStep()
+    this.initializeAmountListener()
+  }
 
+  // Private Methods
+  initializeStep() {
+    const stepParam = parseInt(new URLSearchParams(window.location.search).get('step') || 1)
     if (stepParam && stepParam <= this.stepTargets.length) {
       this.currentStepValue = stepParam
     }
-
     this.showCurrentStep()
-    this.updatePreview()
   }
 
-  updatePreview() {
-    // Update amount display when amount changes
+  initializeAmountListener() {
     const amountInput = this.element.querySelector('input[name="hong_bao[amount]"]')
-    if (amountInput) {
-      amountInput.addEventListener('input', (e) => {
-        this.amountDisplayTarget.textContent = parseFloat(e.target.value || 0).toFixed(2)
-      })
-    }
+    if (!amountInput) return
+
+    amountInput.addEventListener('input', (e) => {
+      if (this.hasAmountDisplayTarget) {
+        this.amountDisplayTarget.textContent = this.formatAmount(e.target.value)
+      }
+    })
   }
 
-  selectPaper(event) {
-    if (event.target.checked) {
-      // Update selected paper preview
-      this.paperRadioTargets.forEach(radio => {
-        radio.closest('label').classList.toggle('ring-2', radio.checked)
-      })
-
-      // Auto-advance to next step after paper selection
-      setTimeout(() => this.nextStep(), 300)
-    }
+  formatAmount(value) {
+    return parseFloat(value || 0).toFixed(2)
   }
 
+  // Navigation Methods
   nextStep() {
-    console.log("nextStep", this.currentStepValue)
     if (this.currentStepValue < this.stepTargets.length) {
       this.currentStepValue++
       this.showCurrentStep()
@@ -52,62 +57,68 @@ export default class extends Controller {
     }
   }
 
+  // UI Update Methods
   showCurrentStep() {
+    this.updateStepVisibility()
+    this.updateStepIndicators()
+    this.updateStepConnectors()
+    this.updateURL()
+  }
+
+  updateStepVisibility() {
     this.stepTargets.forEach((step, index) => {
       step.classList.toggle('hidden', index + 1 !== this.currentStepValue)
     })
+  }
 
-    console.log("showCurrentStep", this.stepIndicatorTargets)
-    // Update step indicators
+  updateStepIndicators() {
     this.stepIndicatorTargets.forEach((indicator, index) => {
-      if (index + 1 === this.currentStepValue) {
-        indicator.classList.remove('bg-white/20', 'text-white')
-        indicator.classList.add('bg-[#FFB636]', 'text-[#F04747]')
-      } else {
-        indicator.classList.remove('bg-[#FFB636]', 'text-[#F04747]')
-        indicator.classList.add('bg-white/20', 'text-white')
-      }
+      const isCurrentStep = index + 1 === this.currentStepValue
+      indicator.classList.toggle('bg-[#FFB636]', isCurrentStep)
+      indicator.classList.toggle('text-[#F04747]', isCurrentStep)
+      indicator.classList.toggle('bg-white/20', !isCurrentStep)
+      indicator.classList.toggle('text-white', !isCurrentStep)
     })
+  }
 
-    // Update connecting lines
+  updateStepConnectors() {
     this.stepConnectorTargets.forEach((connector, index) => {
-      if (index + 1 < this.currentStepValue) {
-        connector.classList.remove('bg-white/20')
-        connector.classList.add('bg-[#FFB636]')
-      } else {
-        connector.classList.remove('bg-[#FFB636]')
-        connector.classList.add('bg-white/20')
-      }
+      const isCompleted = index + 1 < this.currentStepValue
+      connector.classList.toggle('bg-[#FFB636]', isCompleted)
+      connector.classList.toggle('bg-white/20', !isCompleted)
     })
+  }
 
-    // Update URL with current step
+  updateURL() {
     const url = new URL(window.location)
     url.searchParams.set('step', this.currentStepValue)
     window.history.pushState({}, '', url)
   }
 
+  // Template Selection Methods
   switchTemplate(event) {
     const paperId = event.currentTarget.dataset.paperId
     this.selectedPaperTarget.value = paperId
 
-    // Update button styles
-    this.element.querySelectorAll('[data-action="hong-bao#switchTemplate"]').forEach(button => {
-      if (button.dataset.paperId === paperId) {
-        button.classList.add('bg-[#FFB636]', 'text-[#F04747]')
-        button.classList.remove('bg-white/20', 'text-white')
-      } else {
-        button.classList.remove('bg-[#FFB636]', 'text-[#F04747]')
-        button.classList.add('bg-white/20', 'text-white')
-      }
-    })
+    this.updateTemplateButtons(paperId)
+    this.updatePaperPreviews(paperId)
+  }
 
-    // Show selected paper preview, hide others
-    this.element.querySelectorAll('[data-paper-preview][data-paper-id]').forEach(paperDiv => {
-      if (paperDiv.dataset.paperId === paperId) {
-        paperDiv.classList.remove('hidden')
-      } else {
-        paperDiv.classList.add('hidden')
-      }
-    })
+  updateTemplateButtons(selectedPaperId) {
+    this.element.querySelectorAll('[data-action="hong-bao#switchTemplate"]')
+      .forEach(button => {
+        const isSelected = button.dataset.paperId === selectedPaperId
+        button.classList.toggle('bg-[#FFB636]', isSelected)
+        button.classList.toggle('text-[#F04747]', isSelected)
+        button.classList.toggle('bg-white/20', !isSelected)
+        button.classList.toggle('text-white', !isSelected)
+      })
+  }
+
+  updatePaperPreviews(selectedPaperId) {
+    this.element.querySelectorAll('[data-paper-preview][data-paper-id]')
+      .forEach(paperDiv => {
+        paperDiv.classList.toggle('hidden', paperDiv.dataset.paperId !== selectedPaperId)
+      })
   }
 }
