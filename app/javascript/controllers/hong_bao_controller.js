@@ -8,6 +8,8 @@ export default class extends Controller {
     "stepConnector",
     "amountDisplay",
     "previousButton",
+    "nextButton",
+    "verifyButton",
     "paymentMethod",
     "mtPelerinData"
   ]
@@ -96,11 +98,27 @@ export default class extends Controller {
     }
   }
 
+  // Add new method to update navigation buttons
+  updateNavigationButtons() {
+    // Update Previous button
+    this.updatePreviousButton()
+
+    // Update Next and Verify buttons
+    if (this.currentStepValue === 3) {
+      this.nextButtonTarget.style.display = "none"
+      this.verifyButtonTarget.style.display = "block"
+    } else {
+      this.nextButtonTarget.style.display = "block"
+      this.verifyButtonTarget.style.display = "none"
+    }
+  }
+
   // UI Update Methods
   showCurrentStep() {
     this.updateStepVisibility()
     this.updateStepIndicators()
     this.updateStepConnectors()
+    this.updateNavigationButtons()
     this.updateURL()
   }
 
