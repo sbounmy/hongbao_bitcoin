@@ -17,7 +17,8 @@ export default class extends Controller {
   ]
 
   static values = {
-    currentStep: { type: Number, default: 1 }
+    currentStep: { type: Number, default: 1 },
+    isTopUpStep: { type: Boolean, default: false }
   }
 
   connect() {
@@ -25,6 +26,23 @@ export default class extends Controller {
     this.initializeAmountListener()
     this.showCurrentStep()
     this.updatePreviousButton()
+    this.setupRefreshWarning()
+  }
+
+  setupRefreshWarning() {
+    window.addEventListener('beforeunload', (e) => this.handleBeforeUnload(e))
+  }
+
+  disconnect() {
+    window.removeEventListener('beforeunload', (e) => this.handleBeforeUnload(e))
+  }
+
+  handleBeforeUnload(e) {
+    if (this.isTopUpStepValue) {
+      e.preventDefault()
+      e.returnValue = ''
+      return ''
+    }
   }
 
   // Private Methods
@@ -129,6 +147,8 @@ export default class extends Controller {
     this.updateStepConnectors()
     this.updateNavigationButtons()
     this.updateURL()
+    this.isTopUpStepValue = (this.currentStepValue === 3)
+
   }
 
   updateStepVisibility() {
