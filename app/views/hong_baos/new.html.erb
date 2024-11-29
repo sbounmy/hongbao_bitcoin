@@ -140,13 +140,13 @@
 
       <%# Navigation Buttons %>
       <div class="flex justify-between space-x-4">
-        <% if @current_step != 1 %>
-          <button type="button"
-                  class="flex-1 py-2 px-4 border border-[#FFB636] rounded-md shadow-sm text-sm font-medium text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10"
-                  data-action="hong-bao#previousStep">
-            Previous
-          </button>
-        <% end %>
+        <button type="button"
+                class="flex-1 py-2 px-4 border border-[#FFB636] rounded-md shadow-sm text-sm font-medium text-[#FFB636] bg-transparent hover:bg-[#FFB636]/10"
+                data-action="hong-bao#previousStep"
+                data-hong-bao-target="previousButton"
+                style="<%= @current_step == 1 ? 'display: none;' : '' %>">
+          Previous
+        </button>
 
         <% if @current_step == 3 %>
           <%= form.submit "Create Hong Bao",

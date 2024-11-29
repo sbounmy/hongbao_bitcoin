@@ -6,7 +6,8 @@ export default class extends Controller {
     "selectedPaper",
     "stepIndicator",
     "stepConnector",
-    "amountDisplay"
+    "amountDisplay",
+    "previousButton"
   ]
 
   static values = {
@@ -16,6 +17,8 @@ export default class extends Controller {
   connect() {
     this.initializeStep()
     this.initializeAmountListener()
+    this.showCurrentStep()
+    this.updatePreviousButton()
   }
 
   // Private Methods
@@ -44,9 +47,10 @@ export default class extends Controller {
 
   // Navigation Methods
   nextStep() {
-    if (this.currentStepValue < this.stepTargets.length) {
+    if (this.currentStepValue < 3) {
       this.currentStepValue++
       this.showCurrentStep()
+      this.updatePreviousButton()
     }
   }
 
@@ -54,6 +58,15 @@ export default class extends Controller {
     if (this.currentStepValue > 1) {
       this.currentStepValue--
       this.showCurrentStep()
+      this.updatePreviousButton()
+    }
+  }
+
+  updatePreviousButton() {
+    if (this.currentStepValue > 1) {
+      this.previousButtonTarget.style.display = "block"
+    } else {
+      this.previousButtonTarget.style.display = "none"
     }
   }
 
