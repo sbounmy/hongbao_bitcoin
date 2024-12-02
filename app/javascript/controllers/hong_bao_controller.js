@@ -185,6 +185,12 @@ export default class extends Controller {
   updateURL() {
     const url = new URL(window.location)
     url.searchParams.set('step', this.currentStepValue)
+
+    // Add paper_id to URL if we're moving to step 2 and have a selected paper
+    if (this.currentStepValue === 2 && this.selectedPaperTarget.value) {
+      url.searchParams.set('paper_id', this.selectedPaperTarget.value)
+    }
+
     window.history.pushState({}, '', url)
   }
 
@@ -195,6 +201,11 @@ export default class extends Controller {
 
     this.updateTemplateButtons(paperId)
     this.updatePaperPreviews(paperId)
+
+    // Update URL when template is switched
+    const url = new URL(window.location)
+    url.searchParams.set('paper_id', paperId)
+    window.history.pushState({}, '', url)
   }
 
   updateTemplateButtons(selectedPaperId) {
@@ -287,5 +298,13 @@ export default class extends Controller {
 
   get hongBaoQrCode() {
     return this.element.querySelector('[data-hong-bao-qr-code]').dataset.hongBaoQrCode
+  }
+
+  // Add new method for PDF generation
+  generatePDF() {
+    const paperId = this.selectedPaperTarget.value
+    if (!paperId) return
+
+    window.open(`/hong_baos/preview_pdf?paper_id=${paperId}`, '_blank')
   }
 }
