@@ -22,7 +22,10 @@
           hong_bao: @hong_bao %>
 
       <%= render "hong_baos/new/steps/print",
-          form: form %>
+          form: form,
+          hong_bao: @hong_bao,
+          papers: @papers,
+          selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
 
       <%= render "hong_baos/new/steps/top_up",
           form: form,

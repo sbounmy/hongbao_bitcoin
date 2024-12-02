@@ -4,8 +4,8 @@
     <% papers.each do |paper| %>
       <button type="button"
               class="px-4 py-2 rounded-lg text-sm
-                     <%= paper == papers.first ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
-              data-action="click->hong-bao#switchTemplate"
+                     <%= paper.id.to_s == form.object.paper_id.to_s ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
+              data-action="hong-bao#switchTemplate"
               data-paper-id="<%= paper.id %>">
         <%= paper.name %>
       </button>
