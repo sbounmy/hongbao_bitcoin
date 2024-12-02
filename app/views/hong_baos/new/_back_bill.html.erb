@@ -49,7 +49,7 @@
       const x = startX + (col * (boxWidth + gapX));
       const y = startY + (row * (boxHeight + gapY));
 
-      ctxBack_<%= paper.id %>.fillStyle = 'black';
+      ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
       ctxBack_<%= paper.id %>.font = `${elementParams["size"]}px Arial`;
       ctxBack_<%= paper.id %>.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4);
     });
@@ -57,7 +57,7 @@
 
   function drawTextBack_<%= paper.id %>(text, element) {
     const elementParams = elementConfigsBack_<%= paper.id %>[element];
-    ctxBack_<%= paper.id %>.fillStyle = 'black';
+    ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
     ctxBack_<%= paper.id %>.font = `bold ${elementParams["size"]}px Arial`;
     ctxBack_<%= paper.id %>.fillText(text,
         canvasBack_<%= paper.id %>.width * elementParams["x"],

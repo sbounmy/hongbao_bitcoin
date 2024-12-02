@@ -17,8 +17,10 @@
 
       ctx_<%= paper.id %>.clearRect(0, 0, canvas_<%= paper.id %>.width, canvas_<%= paper.id %>.height);
       ctx_<%= paper.id %>.drawImage(img, 0, 0, canvas_<%= paper.id %>.width, canvas_<%= paper.id %>.height);
-      // drawTextFront_<%= paper.id %>('600', 'amount');
-      // drawTextFront_<%= paper.id %>('0.0005', 'amount_btc');
+
+      // Draw amounts in corners
+      // drawAmountInTopCorners_<%= paper.id %>('600');
+      // drawAmountInBottomCorners_<%= paper.id %>('600');
       drawTextFront_<%= paper.id %>('<%= @hong_bao.address %>', 'public_key_address');
       drawQRCodePublic_<%= paper.id %>(canvas_<%= paper.id %>, ctx_<%= paper.id %>);
     };
@@ -59,4 +61,33 @@
   }
   const paperImageFrontUrl_<%= paper.id %> = '<%= paper.image_front.attached? ? url_for(paper.image_front) : "" %>';
   loadImageFront_<%= paper.id %>(paperImageFrontUrl_<%= paper.id %>);
+
+  function drawAmountInTopCorners_<%= paper.id %>(amount) {
+    // Set text properties
+    ctx_<%= paper.id %>.fillStyle = 'black';
+    ctx_<%= paper.id %>.font = 'bold 42px Arial';
+
+    // Padding from edges
+    const padding = 30;
+
+    // Draw in top-left corner
+    ctx_<%= paper.id %>.fillText(amount, canvas_<%= paper.id %>.width*0.1, canvas_<%= paper.id %>.height *0.1);
+
+    // Draw in top-right corner
+    ctx_<%= paper.id %>.fillText(amount, canvas_<%= paper.id %>.width *0.9, canvas_<%= paper.id %>.height *0.1);
+  }
+
+  function drawAmountInBottomCorners_<%= paper.id %>(amount) {
+    // Set text properties
+    ctx_<%= paper.id %>.fillStyle = 'black';
+    ctx_<%= paper.id %>.font = 'bold 42px Arial';
+
+    // Padding from edges
+    const padding = 30;
+    // Draw in bottom-left corner
+    ctx_<%= paper.id %>.fillText(amount, canvas_<%= paper.id %>.width*0.03, canvas_<%= paper.id %>.height*0.9);
+
+    // Draw in bottom-right corner
+    ctx_<%= paper.id %>.fillText(amount, canvas_<%= paper.id %>.width *0.9, canvas_<%= paper.id %>.height *0.9);
+  }
 </script>
