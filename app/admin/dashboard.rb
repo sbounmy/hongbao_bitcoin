@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
@@ -12,5 +13,12 @@ ActiveAdmin.register_page "Dashboard" do
         text_node "file to get started."
       end
     end
+  end
+
+  controller do
+    http_basic_authenticate_with(
+      name: Rails.application.credentials.dig(:active_admin, :name),
+      password: Rails.application.credentials.dig(:active_admin, :password)
+    )
   end
 end
