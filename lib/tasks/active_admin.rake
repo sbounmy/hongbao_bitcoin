@@ -19,3 +19,5 @@ namespace :active_admin do
       "-c", Rails.root.join("config/tailwind-active_admin.config.js").to_s
   end
 end
+
+Rake::Task["assets:precompile"].enhance([ "active_admin:build" ])
