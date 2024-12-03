@@ -66,6 +66,8 @@ end
 
 gem "tailwindcss-rails"
 
-gem "bitcoin-ruby", require:'bitcoin', github: "sbounmy/bitcoin-ruby", branch: "bip39-mnemonic"
+gem "bitcoin-ruby", require: "bitcoin", github: "sbounmy/bitcoin-ruby", branch: "bip39-mnemonic"
 
-gem 'aasm'
+gem "aasm"
+
+gem "rqrcode"

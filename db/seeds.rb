@@ -45,3 +45,19 @@ bills.each do |bill_data|
   paper.save!
   puts "Created paper: #{paper.name}"
 end
+
+
+# Load payment methods from YAML
+payment_methods = YAML.load_file(Rails.root.join('db/seeds/payment_methods.yml'))['payment_methods']
+
+payment_methods.each do |attributes|
+  pm = PaymentMethod.find_or_initialize_by(name: attributes['name'])
+  pm.logo.attach(
+    io: File.open(Rails.root.join("app/assets/images/payment-methods/#{attributes['logo']}")),
+    filename: attributes['logo']
+  )
+  pm.instructions = attributes['instructions'].join("\n")
+  pm.save!
+end
+
+puts "Created #{PaymentMethod.count} payment methods"

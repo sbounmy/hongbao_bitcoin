@@ -1,0 +1,22 @@
+<div data-hong-bao-target="step" data-controller="paper-selector">
+  <div class="flex flex-col gap-4 max-w-xl mx-auto">
+    <% papers.each do |paper| %>
+      <div class="w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
+           data-paper-id="<%= paper.id %>"
+           data-action="click->paper-selector#select">
+
+        <div class="relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)]"
+             data-paper-selector-target="flipCardInner">
+
+          <div class="w-full [backface-visibility:hidden]">
+            <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao } %>
+          </div>
+
+          <div class="absolute top-0 left-0 w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao } %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

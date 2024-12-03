@@ -31,4 +31,21 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
+
+  # Basic validation for Bitcoin address format
+  # Supports both Mainnet and Testnet addresses:
+  # - Legacy (1, m, n)
+  # - SegWit (3, 2)
+  # - Native SegWit (bc1, tb1)
+  direct :bitcoin do |address, options|
+    raise ArgumentError, "Bitcoin address is required" if address.blank?
+    raise ArgumentError, "Invalid Bitcoin address" unless address.match?(
+      /\A(?:[13][a-km-zA-HJ-NP-Z1-9]{25,34}|[mn2][a-km-zA-HJ-NP-Z1-9]{25,34}|(?:bc|tb)1[a-zA-HJ-NP-Z0-9]{25,39})\z/
+    )
+
+    params = options.compact.to_param
+    uri = "bitcoin:#{address}"
+    uri << "?#{params}" if params.present?
+    uri
+  end
 end

@@ -39,28 +39,19 @@ en:
         classic: "Classic"
         modern: "Modern"
         lunar: "Lunar New Year"
-      faq:
-        title: "Frequently Asked Questions"
-        questions:
-          what_is:
-            q: "What is Bitcoin Hong Bao?"
-            a: "Bitcoin Hong Bao transforms the traditional red envelope (红包) into a lasting gift by combining a physical paper wallet with Bitcoin, preserving both cultural meaning and value."
-          how_works:
-            q: "How does it work?"
-            a: "Select a design, choose an amount, and purchase Bitcoin through our secure partner Mt Pelerin. You'll receive a unique link to print your HongBao to put in your red envelope."
-          security:
-            q: "Is it secure?"
-            a: "Yes, we use industry-standard security practices and partner with Mt Pelerin for secure Bitcoin transactions. We do not store any of your personal information and funds."
-      about:
-        title: "About me"
-        bio: "As a Chinese Teochew born and raised in France, I created Bitcoin Hong Bao to bridge traditional gift-giving with modern technology. Growing up with the red envelope tradition, I wanted to share the beauty of combining our cultural heritage with Bitcoin's innovation, making it easier for friends and family to preserve and share wealth across generations."
-      donate:
-        title: "Support Hong Bao Bitcoin"
-        description_html: |
-          You can create HongBao for up to 500€ / year without any cost. Above that, <a href="https://www.mtpelerin.com/pricing" class="text-[#FFB636] hover:text-white transition-colors" target="_blank" rel="noopener">Mt Pelerin takes ~ 2% of fees</a> and share 25% of it to HongBao Bitcoin.
-          If you'd like to support the project further, you can donate Bitcoin to:
-        copy_tooltip: "Copy Bitcoin address"
-        copied: "Bitcoin address copied to clipboard!"
+      enter_amount: "Enter amount"
+      amount_hint: "Enter an amount between $1 and $1000"
+      bill:
+        mnemonic: "Recovery Phrase (Keep this safe!)"
+        address: "Bitcoin Address"
+        instructions: "Print this page and keep it in a safe place. You'll need the recovery phrase to access the funds."
+        save_private_key: "Save recovery phrase (allows recipient to login)"
+        purchase_bitcoin: "Purchase Bitcoin"
+        payment_method: "Choose payment method"
+      payment_methods:
+        mt_pelerin: "Credit Card"
+        bitstack: "Bitstack"
+        ledger: "Ledger"
   layouts:
     application:
       meta:

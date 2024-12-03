@@ -2,16 +2,19 @@ class HongBao < ApplicationRecord
   include AASM
 
   belongs_to :paper
+  belongs_to :payment_method
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :paper_id, presence: true
+  validates :payment_method_id, presence: true
 
-  before_create :generate_bitcoin_keys, :generate_mt_pelerin_request
+  before_create :generate_mt_pelerin_request
 
   # Store JSON fields for Mt Pelerin API responses and requests
   store :mt_pelerin_response, accessors: [ :id, :amount, :currency, :address, :hash, :external_id ], prefix: true
   store :mt_pelerin_request, accessors: [ :hash, :code, :message ], prefix: true
 
+  after_initialize :generate_bitcoin_keys, if: :new_record?
   # Elliptic curve used by Bitcoin
   CURVE = "secp256k1"
 
@@ -22,6 +25,15 @@ class HongBao < ApplicationRecord
     hash160 = Bitcoin.hash160([ public_key ].pack("H*"))
     # Encode with version byte to get final Bitcoin address
     Bitcoin.encode_address(hash160, Bitcoin.network[:pubkey_version])
+  end
+
+  def save_private_key=(value)
+    if value == "0"
+      self.private_key = nil
+      self.mnemonic = nil
+      self.seed = nil
+      self.entropy = nil
+    end
   end
 
   aasm column: :state do

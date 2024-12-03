@@ -1,0 +1,72 @@
+<div data-hong-bao-target="step">
+  <div class="mb-8 text-white space-y-4">
+    <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
+    <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
+
+    <%# Bitcoin Address Display %>
+    <%= render "shared/bitcoin_address", address: hong_bao.address %>
+  </div>
+
+  <%# Payment Methods Grid %>
+  <div class="grid grid-cols-2 gap-4">
+    <% payment_methods.each do |method| %>
+      <label class="cursor-pointer">
+        <%= form.radio_button :payment_method_id,
+            method.id,
+            class: "hidden peer",
+            data: {
+              hong_bao_target: "paymentMethod",
+              action: "hong-bao#paymentMethodSelected",
+              method_name: method.name.downcase
+            } %>
+        <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
+                    bg-white/10 hover:bg-white/20 transition-colors duration-300">
+          <div class="w-full h-4 m-auto">
+            <%= render_payment_logo(method.logo) %>
+          </div>
+        </div>
+      </label>
+    <% end %>
+  </div>
+
+  <%# Wallet Instructions Modal %>
+  <div data-hong-bao-target="walletModal"
+       class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-md w-full relative">
+      <%# Close button %>
+      <button onclick="this.closest('[data-hong-bao-target=walletModal]').classList.add('hidden')"
+              class="absolute top-2 right-2 text-white/60 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <%# Dynamic wallet instructions content %>
+      <div data-hong-bao-target="walletInstructions" class="text-white">
+        <%# Content will be injected by JS %>
+      </div>
+    </div>
+  </div>
+
+  <%# Hidden address data for JS %>
+  <div data-hong-bao-address="<%= hong_bao.address %>" class="hidden"></div>
+
+  <div data-hong-bao-qr-code="<%= bitcoin_qr_code(bitcoin_url(
+    hong_bao.address,
+    { amount: hong_bao.amount }),
+    size: 200
+  ) %>" class="hidden"></div>
+
+  <div data-hong-bao-target="mtPelerinData"
+       data-options="<%= {
+         ctkn: '954139b2-ef3e-4914-82ea-33192d3f43d3',
+         locale: I18n.locale,
+         network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
+         amount: hong_bao.amount,
+         logo: asset_url('hongbao-bitcoin-logo-520.png'),
+         address: hong_bao.address,
+         requestCode: hong_bao.mt_pelerin_request_code,
+         requestHash: hong_bao.mt_pelerin_request_hash
+       }.to_json %>">
+  </div>
+</div>

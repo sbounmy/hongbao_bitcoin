@@ -1,0 +1,93 @@
+<canvas id="imageCanvasBack_<%= paper.id %>" class="border w-full"></canvas>
+<script>
+  const canvasBack_<%= paper.id %> = document.getElementById('imageCanvasBack_<%= paper.id %>');
+  const ctxBack_<%= paper.id %> = canvasBack_<%= paper.id %>.getContext('2d');
+
+  function loadImageBack_<%= paper.id %>(imageUrl) {
+    const imgBack = new Image();
+    imgBack.src = imageUrl;
+    imgBack.height = 374.1;
+    imgBack.width = 793.7;
+    imgBack.onload = () => {
+      canvasBack_<%= paper.id %>.width = imgBack.width;
+      canvasBack_<%= paper.id %>.height = imgBack.height;
+
+      ctxBack_<%= paper.id %>.save();
+
+      ctxBack_<%= paper.id %>.clearRect(0, 0, canvasBack_<%= paper.id %>.width, canvasBack_<%= paper.id %>.height);
+      ctxBack_<%= paper.id %>.drawImage(imgBack, 0, 0, canvasBack_<%= paper.id %>.width, canvasBack_<%= paper.id %>.height);
+      //drawTextMnemonic_<%= paper.id %>('awkward section gravity pen such rely script cabin setup weird breeze truly enlist aspect tonight taxi nominee february share distance monster grunt garage fly', 'mnemonic');
+      drawTextMnemonic_<%= paper.id %>('<%= @hong_bao.mnemonic %>', 'mnemonic');
+
+      drawQRCodePrivate_<%= paper.id %>(canvasBack_<%= paper.id %>, ctxBack_<%= paper.id %>);
+
+    };
+
+    imgBack.onerror = () => {
+      console.error('Image Back failed to load.');
+    };
+  }
+
+  const elementConfigsBack_<%= paper.id %> = <%= raw paper.elements.to_json %>;
+
+  function drawTextMnemonic_<%= paper.id %>(text, element) {
+    const words = text.split(' ');
+    const elementParams = elementConfigsBack_<%= paper.id %>[element];
+    const startX = canvasBack_<%= paper.id %>.width * elementParams["x"];
+    const startY = canvasBack_<%= paper.id %>.height * elementParams["y"];
+
+    const boxWidth = 100;
+    const boxHeight = 30;
+    const gapX = 5;
+    const gapY = 2;
+    const cols = 4;
+
+    words.forEach((word, index) => {
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+
+      const x = startX + (col * (boxWidth + gapX));
+      const y = startY + (row * (boxHeight + gapY));
+
+      ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
+      ctxBack_<%= paper.id %>.font = `${elementParams["size"]}px Arial`;
+      ctxBack_<%= paper.id %>.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4);
+    });
+  }
+
+  function drawTextBack_<%= paper.id %>(text, element) {
+    const elementParams = elementConfigsBack_<%= paper.id %>[element];
+    ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
+    ctxBack_<%= paper.id %>.font = `bold ${elementParams["size"]}px Arial`;
+    ctxBack_<%= paper.id %>.fillText(text,
+        canvasBack_<%= paper.id %>.width * elementParams["x"],
+        canvasBack_<%= paper.id %>.height * elementParams["y"]
+    );
+  }
+
+  function drawQRCodePrivate_<%= paper.id %>(canvas, ctx) {
+    const qrImage = new Image();
+    qrImage.src = '<%= bitcoin_qr_code(hong_bao.private_key)%>';
+    qrImage.onload = () => {
+      // Draw QR code
+      const qrcodePrivateCoords = <%= raw paper.elements["qrcode_private_key"].to_json %>;
+      const qrWidth = canvas.width * qrcodePrivateCoords["size"];
+      const qrHeight = canvas.width * qrcodePrivateCoords["size"];
+      ctx.drawImage(qrImage,
+        canvas.width * qrcodePrivateCoords["x"],
+        canvas.height * qrcodePrivateCoords["y"],
+        qrWidth,
+        qrHeight
+      );
+
+      // Draw label
+      const labelCoords = <%= raw paper.elements["qrcode_private_key_label"].to_json %>;
+      drawTextBack_<%= paper.id %>('Private Key', 'qrcode_private_key_label');
+    };
+  }
+
+
+
+  const paperImageBackUrl_<%= paper.id %> = '<%= paper.image_back.attached? ? url_for(paper.image_back) : "" %>';
+  loadImageBack_<%= paper.id %>(paperImageBackUrl_<%= paper.id %>);
+</script>
