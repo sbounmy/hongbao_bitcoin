@@ -5,14 +5,14 @@
            data-paper-id="<%= paper.id %>"
            data-action="mouseenter->paper-selector#flipCard mouseleave->paper-selector#unflipCard">
 
-        <div class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d]"
+        <div class="relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)]"
              data-paper-selector-target="flipCardInner">
 
-          <div class="w-full h-full [backface-visibility:hidden]">
+          <div class="w-full [backface-visibility:hidden]">
             <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao } %>
           </div>
 
-          <div class="absolute top-0 left-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div class="absolute top-0 left-0 w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
             <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao } %>
           </div>
         </div>

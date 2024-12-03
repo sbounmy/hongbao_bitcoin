@@ -28,12 +28,12 @@ export default class extends Controller {
     this.updatePreviousButton()
     this.setupRefreshWarning()
 
-    // Initialize the selected paper
-    const selectedPaperId = this.selectedPaperTarget.value
-    if (selectedPaperId) {
-      this.updateTemplateButtons(selectedPaperId)
-      this.updatePaperPreviews(selectedPaperId)
-    }
+    // // Initialize the selected paper
+    // const selectedPaperId = this.selectedPaperTarget.value
+    // if (selectedPaperId) {
+    //   this.updateTemplateButtons(selectedPaperId)
+    //   this.updatePaperPreviews(selectedPaperId)
+    // }
   }
 
   setupRefreshWarning() {
