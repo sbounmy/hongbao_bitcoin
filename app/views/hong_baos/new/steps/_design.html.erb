@@ -1,17 +1,22 @@
 <div data-hong-bao-target="step">
-  <%# Template Selection Buttons %>
-  <nav class="flex gap-2 mb-4" data-hong-bao-target="templateButtons">
+  <div class="flex flex-col gap-4 max-w-xl mx-auto">
     <% papers.each do |paper| %>
-      <button type="button"
-              class="px-4 py-2 rounded-lg text-sm
-                     <%= paper.id.to_s == form.object.paper_id.to_s ? 'bg-[#FFB636] text-[#F04747]' : 'bg-white/20 text-white' %>"
-              data-action="hong-bao#switchTemplate"
-              data-paper-id="<%= paper.id %>">
-        <%= paper.name %>
-      </button>
-    <% end %>
-  </nav>
+      <div class="w-full cursor-pointer flex-shrink-0 [perspective:1000px]"
+           data-paper-id="<%= paper.id %>"
+           data-action="mouseenter->paper-selector#flipCard mouseleave->paper-selector#unflipCard">
 
-  <%# Papers Display %>
-  <%= render "hong_baos/new/paper_preview", papers: papers, form: form, hong_bao: hong_bao %>
+        <div class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d]"
+             data-paper-selector-target="flipCardInner">
+
+          <div class="w-full h-full [backface-visibility:hidden]">
+            <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao } %>
+          </div>
+
+          <div class="absolute top-0 left-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao } %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
