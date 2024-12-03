@@ -273,3 +273,12 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
 end
+
+Rails.configuration.to_prepare do
+  ActiveAdmin::BaseController.class_eval do
+    http_basic_authenticate_with(
+      name: Rails.application.credentials.dig(:active_admin, :name),
+      password: Rails.application.credentials.dig(:active_admin, :password)
+    ) if ENV["SECRET_KEY_BASE_DUMMY"].nil?
+  end
+end

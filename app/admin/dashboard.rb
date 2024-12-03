@@ -14,11 +14,4 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
   end
-
-  controller do
-    http_basic_authenticate_with(
-      name: Rails.application.credentials.dig(:active_admin, :name),
-      password: Rails.application.credentials.dig(:active_admin, :password)
-    )
-  end
 end
