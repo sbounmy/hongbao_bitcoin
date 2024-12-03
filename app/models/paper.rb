@@ -1,7 +1,7 @@
 class Paper < ApplicationRecord
   has_one_attached :image_front
   has_one_attached :image_back
-  has_many :hong_baos
+  has_many :hong_baos, dependent: :nullify
 
   validates :name, presence: true
   validates :image_front, presence: true
