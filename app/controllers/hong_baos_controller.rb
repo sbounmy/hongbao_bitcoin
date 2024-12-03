@@ -1,6 +1,6 @@
 class HongBaosController < ApplicationController
   # skip authentication for new
-  # allow_unauthenticated_access only: %i[new create]
+  allow_unauthenticated_access only: %i[new create]
 
   def new
     @hong_bao = HongBao.new(amount: params[:amount])

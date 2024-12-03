@@ -1,4 +1,6 @@
 class MagicLinksController < ApplicationController
+  allow_unauthenticated_access only: %i[create verify]
+
   def create
     @user = User.find_or_initialize_by(email_address: magic_link_params[:email_address].downcase)
 

@@ -276,6 +276,8 @@ end
 
 Rails.configuration.to_prepare do
   ActiveAdmin::BaseController.class_eval do
+    allow_unauthenticated_access
+
     http_basic_authenticate_with(
       name: Rails.application.credentials.dig(:active_admin, :name),
       password: Rails.application.credentials.dig(:active_admin, :password)
