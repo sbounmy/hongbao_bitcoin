@@ -71,3 +71,5 @@ gem "bitcoin-ruby", require: "bitcoin", github: "sbounmy/bitcoin-ruby", branch: 
 gem "aasm"
 
 gem "rqrcode"
+
+gem "activeadmin", '4.0.0.beta14'

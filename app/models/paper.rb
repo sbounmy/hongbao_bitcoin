@@ -16,18 +16,26 @@ class Paper < ApplicationRecord
 
   scope :active, -> { where(active: true).order(position: :asc) }
 
-  ELEMENTS = [
-    :qrcode_private_key,
-    :qrcode_private_key_label,
-    :qrcode_public_key,
-    :qrcode_public_key_label,
-    :private_key_address,
-    :private_key_address_label,
-    :public_key_address,
-    :public_key_address_label,
-    :amount,
-    :amount_btc
-  ]
+  ELEMENTS = %w[
+    qrcode_private_key
+    qrcode_private_key_label
+    qrcode_public_key
+    qrcode_public_key_label
+    mnemonic
+    public_key_address
+    amount
+    amount_btc
+  ].freeze
+
+  ELEMENT_ATTRIBUTES = %i[x y size color opacity].freeze
 
   store :elements, accessors: ELEMENTS, prefix: true
+
+  def self.ransackable_associations(auth_object = nil)
+    [ "hong_baos" ]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    [ "active", "created_at", "id", "name", "updated_at" ] # add any other attributes you want to be searchable
+  end
 end

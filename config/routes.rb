@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   resource :session
   resources :passwords, param: :token
   scope "(:locale)", locale: /en|zh-CN/ do
