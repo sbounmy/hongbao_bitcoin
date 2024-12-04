@@ -1,25 +1,25 @@
-<canvas id="imageCanvasBack_<%= paper.id %>" class="border w-full"></canvas>
+<canvas id="imageCanvasBack_<%= paper.id %>_<%= context %>" class="border w-full"></canvas>
 <script>
-  const canvasBack_<%= paper.id %> = document.getElementById('imageCanvasBack_<%= paper.id %>');
-  const ctxBack_<%= paper.id %> = canvasBack_<%= paper.id %>.getContext('2d');
+  const canvasBack_<%= paper.id %>_<%= context %> = document.getElementById('imageCanvasBack_<%= paper.id %>_<%= context %>');
+  const ctxBack_<%= paper.id %>_<%= context %> = canvasBack_<%= paper.id %>_<%= context %>.getContext('2d');
 
-  function loadImageBack_<%= paper.id %>(imageUrl) {
+  function loadImageBack_<%= paper.id %>_<%= context %>(imageUrl) {
     const imgBack = new Image();
     imgBack.src = imageUrl;
     imgBack.height = 374.1;
     imgBack.width = 793.7;
     imgBack.onload = () => {
-      canvasBack_<%= paper.id %>.width = imgBack.width;
-      canvasBack_<%= paper.id %>.height = imgBack.height;
+      canvasBack_<%= paper.id %>_<%= context %>.width = imgBack.width;
+      canvasBack_<%= paper.id %>_<%= context %>.height = imgBack.height;
 
-      ctxBack_<%= paper.id %>.save();
+      ctxBack_<%= paper.id %>_<%= context %>.save();
 
-      ctxBack_<%= paper.id %>.clearRect(0, 0, canvasBack_<%= paper.id %>.width, canvasBack_<%= paper.id %>.height);
-      ctxBack_<%= paper.id %>.drawImage(imgBack, 0, 0, canvasBack_<%= paper.id %>.width, canvasBack_<%= paper.id %>.height);
-      //drawTextMnemonic_<%= paper.id %>('awkward section gravity pen such rely script cabin setup weird breeze truly enlist aspect tonight taxi nominee february share distance monster grunt garage fly', 'mnemonic');
-      drawTextMnemonic_<%= paper.id %>('<%= @hong_bao.mnemonic %>', 'mnemonic');
+      ctxBack_<%= paper.id %>_<%= context %>.clearRect(0, 0, canvasBack_<%= paper.id %>_<%= context %>.width, canvasBack_<%= paper.id %>_<%= context %>.height);
+      ctxBack_<%= paper.id %>_<%= context %>.drawImage(imgBack, 0, 0, canvasBack_<%= paper.id %>_<%= context %>.width, canvasBack_<%= paper.id %>_<%= context %>.height);
+      //drawTextMnemonic_<%= paper.id %>_<%= context %>('awkward section gravity pen such rely script cabin setup weird breeze truly enlist aspect tonight taxi nominee february share distance monster grunt garage fly', 'mnemonic');
+      drawTextMnemonic_<%= paper.id %>_<%= context %>('<%= @hong_bao.mnemonic %>', 'mnemonic');
 
-      drawQRCodePrivate_<%= paper.id %>(canvasBack_<%= paper.id %>, ctxBack_<%= paper.id %>);
+      drawQRCodePrivate_<%= paper.id %>_<%= context %>(canvasBack_<%= paper.id %>_<%= context %>, ctxBack_<%= paper.id %>_<%= context %>);
 
     };
 
@@ -28,13 +28,13 @@
     };
   }
 
-  const elementConfigsBack_<%= paper.id %> = <%= raw paper.elements.to_json %>;
+  const elementConfigsBack_<%= paper.id %>_<%= context %> = <%= raw paper.elements.to_json %>;
 
-  function drawTextMnemonic_<%= paper.id %>(text, element) {
+  function drawTextMnemonic_<%= paper.id %>_<%= context %>(text, element) {
     const words = text.split(' ');
-    const elementParams = elementConfigsBack_<%= paper.id %>[element];
-    const startX = canvasBack_<%= paper.id %>.width * elementParams["x"];
-    const startY = canvasBack_<%= paper.id %>.height * elementParams["y"];
+    const elementParams = elementConfigsBack_<%= paper.id %>_<%= context %>[element];
+    const startX = canvasBack_<%= paper.id %>_<%= context %>.width * elementParams["x"];
+    const startY = canvasBack_<%= paper.id %>_<%= context %>.height * elementParams["y"];
 
     const boxWidth = 100;
     const boxHeight = 30;
@@ -49,23 +49,23 @@
       const x = startX + (col * (boxWidth + gapX));
       const y = startY + (row * (boxHeight + gapY));
 
-      ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
-      ctxBack_<%= paper.id %>.font = `${elementParams["size"]}px Arial`;
-      ctxBack_<%= paper.id %>.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4);
+      ctxBack_<%= paper.id %>_<%= context %>.fillStyle = `${elementParams["color"]}`;
+      ctxBack_<%= paper.id %>_<%= context %>.font = `${elementParams["size"]}px Arial`;
+      ctxBack_<%= paper.id %>_<%= context %>.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4);
     });
   }
 
-  function drawTextBack_<%= paper.id %>(text, element) {
-    const elementParams = elementConfigsBack_<%= paper.id %>[element];
-    ctxBack_<%= paper.id %>.fillStyle = `${elementParams["color"]}`;
-    ctxBack_<%= paper.id %>.font = `bold ${elementParams["size"]}px Arial`;
-    ctxBack_<%= paper.id %>.fillText(text,
-        canvasBack_<%= paper.id %>.width * elementParams["x"],
-        canvasBack_<%= paper.id %>.height * elementParams["y"]
+  function drawTextBack_<%= paper.id %>_<%= context %>(text, element) {
+    const elementParams = elementConfigsBack_<%= paper.id %>_<%= context %>[element];
+    ctxBack_<%= paper.id %>_<%= context %>.fillStyle = `${elementParams["color"]}`;
+    ctxBack_<%= paper.id %>_<%= context %>.font = `bold ${elementParams["size"]}px Arial`;
+    ctxBack_<%= paper.id %>_<%= context %>.fillText(text,
+        canvasBack_<%= paper.id %>_<%= context %>.width * elementParams["x"],
+        canvasBack_<%= paper.id %>_<%= context %>.height * elementParams["y"]
     );
   }
 
-  function drawQRCodePrivate_<%= paper.id %>(canvas, ctx) {
+  function drawQRCodePrivate_<%= paper.id %>_<%= context %>(canvas, ctx) {
     const qrImage = new Image();
     qrImage.src = '<%= bitcoin_qr_code(hong_bao.private_key)%>';
     qrImage.onload = () => {
@@ -82,12 +82,12 @@
 
       // Draw label
       const labelCoords = <%= raw paper.elements["qrcode_private_key_label"].to_json %>;
-      drawTextBack_<%= paper.id %>('Private Key', 'qrcode_private_key_label');
+      drawTextBack_<%= paper.id %>_<%= context %>('Private Key', 'qrcode_private_key_label');
     };
   }
 
 
 
-  const paperImageBackUrl_<%= paper.id %> = '<%= paper.image_back.attached? ? url_for(paper.image_back) : "" %>';
-  loadImageBack_<%= paper.id %>(paperImageBackUrl_<%= paper.id %>);
+  const paperImageBackUrl_<%= paper.id %>_<%= context %> = '<%= paper.image_back.attached? ? url_for(paper.image_back) : "" %>';
+  loadImageBack_<%= paper.id %>_<%= context %>(paperImageBackUrl_<%= paper.id %>_<%= context %>);
 </script>

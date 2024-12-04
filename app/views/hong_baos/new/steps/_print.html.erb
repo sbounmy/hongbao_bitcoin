@@ -39,11 +39,11 @@
         <div class="grid grid-cols-1 gap-4">
           <div class="border-2 border-[#FFB636] rounded-lg p-2">
             <%= render partial: "hong_baos/new/front_bill",
-                     locals: { paper: selected_paper, hong_bao: hong_bao } %>
+                     locals: { paper: selected_paper, hong_bao: hong_bao, context: 'print' } %>
           </div>
           <div class="border-2 border-[#FFB636] rounded-lg p-2">
             <%= render partial: "hong_baos/new/back_bill",
-                     locals: { paper: selected_paper, hong_bao: hong_bao } %>
+                     locals: { paper: selected_paper, hong_bao: hong_bao, context: 'print' } %>
           </div>
         </div>
       </div>
@@ -53,11 +53,11 @@
     <div class="grid grid-cols-1 gap-4">
       <div class="border-2 border-[#FFB636] rounded-lg p-2">
         <%= render partial: "hong_baos/new/front_bill",
-                   locals: { paper: selected_paper, hong_bao: hong_bao } %>
+                   locals: { paper: selected_paper, hong_bao: hong_bao, context: 'preview' } %>
       </div>
       <div class="border-2 border-[#FFB636] rounded-lg p-2">
         <%= render partial: "hong_baos/new/back_bill",
-                   locals: { paper: selected_paper, hong_bao: hong_bao } %>
+                   locals: { paper: selected_paper, hong_bao: hong_bao, context: 'preview' } %>
       </div>
     </div>
   </div>
