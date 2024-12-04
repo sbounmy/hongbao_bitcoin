@@ -9,7 +9,8 @@
                   class: "space-y-6",
                   data: {
                     controller: "hong-bao",
-                    hong_bao_current_step_value: @current_step
+                    hong_bao_current_step_value: @current_step,
+                    hong_bao_current_paper_value: @hong_bao.paper_id
                   }) do |form| %>
 
       <%= render "hong_baos/new/progress_steps", current_step: @current_step %>

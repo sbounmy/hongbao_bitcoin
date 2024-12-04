@@ -3,7 +3,7 @@ class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new create]
 
   def new
-    @hong_bao = HongBao.new(amount: params[:amount])
+    @hong_bao = HongBao.new(paper_id: params[:paper_id])
     @papers = Paper.all
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i

@@ -13,11 +13,13 @@ export default class extends Controller {
     "paymentMethod",
     "mtPelerinData",
     "walletModal",
-    "walletInstructions"
+    "walletInstructions",
+    "paper"
   ]
 
   static values = {
     currentStep: { type: Number, default: 1 },
+    currentPaper: { type: Number },
     isTopUpStep: { type: Boolean, default: false }
   }
 
@@ -44,6 +46,17 @@ export default class extends Controller {
   currentStepValueChanged(event) {
     this.showCurrentStep()
     this.updatePreviousButton()
+  }
+
+  paperSelected(event) {
+    this.currentPaperValue = event.currentTarget.dataset.paperId
+  }
+
+  currentPaperValueChanged(event) {
+    this.paperTargets.forEach(paper => {
+      paper.toggleAttribute('open', Number(paper.dataset.paperId) === this.currentPaperValue)
+    })
+    this.updateURL()
   }
 
   // Navigation Methods
@@ -136,6 +149,7 @@ export default class extends Controller {
   updateURL() {
     const url = new URL(window.location)
     url.searchParams.set('step', this.currentStepValue)
+    url.searchParams.set('paper_id', this.currentPaperValue)
     window.history.pushState({}, '', url)
   }
 
@@ -203,13 +217,5 @@ export default class extends Controller {
 
   get hongBaoQrCode() {
     return this.element.querySelector('[data-hong-bao-qr-code]').dataset.hongBaoQrCode
-  }
-
-  // Add new method for PDF generation
-  generatePDF() {
-    const paperId = this.selectedPaperTarget.value
-    if (!paperId) return
-
-    window.open(`/hong_baos/preview_pdf?paper_id=${paperId}`, '_blank')
   }
 }

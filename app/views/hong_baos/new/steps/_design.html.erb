@@ -1,11 +1,12 @@
-<div data-hong-bao-target="step" data-controller="paper-selector">
+<div data-hong-bao-target="step">
   <div class="flex flex-col gap-4 max-w-xl mx-auto">
     <% papers.each do |paper| %>
-      <div class="w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
-           data-paper-id="<%= paper.id %>"
-           data-action="click->paper-selector#select">
+      <div class="group/paper w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
+           data-paper-id=<%= paper.id %>
+           data-action="click->hong-bao#paperSelected"
+           data-hong-bao-target="paper">
 
-        <div class="relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)]"
+        <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 group-open/paper:opacity-100 opacity-50 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)]"
              data-paper-selector-target="flipCardInner">
 
           <div class="w-full [backface-visibility:hidden]">
