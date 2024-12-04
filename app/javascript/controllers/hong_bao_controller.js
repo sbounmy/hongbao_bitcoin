@@ -50,6 +50,16 @@ export default class extends Controller {
 
   paperSelected(event) {
     this.currentPaperValue = event.currentTarget.dataset.paperId
+
+    // Dispatch a custom event with paper data
+    this.dispatch("select", {
+      detail: {
+        paperId: event.currentTarget.dataset.paperId,
+        imageFrontUrl: event.currentTarget.dataset.paperImageFrontUrl,
+        imageBackUrl: event.currentTarget.dataset.paperImageBackUrl,
+        elements: JSON.parse(event.currentTarget.dataset.paperElements)
+      }
+    })
   }
 
   currentPaperValueChanged(event) {

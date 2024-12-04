@@ -4,17 +4,20 @@
       <div class="group/paper w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
            data-paper-id=<%= paper.id %>
            data-action="click->hong-bao#paperSelected"
-           data-hong-bao-target="paper">
+           data-hong-bao-target="paper"
+           data-paper-image-front-url="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
+           data-paper-image-back-url="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>"
+           data-paper-elements="<%= paper.elements.to_json %>">
 
         <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 group-open/paper:opacity-100 opacity-50 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)]"
              data-paper-selector-target="flipCardInner">
 
           <div class="w-full [backface-visibility:hidden]">
-            <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
+            <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design', frozen: true } %>
           </div>
 
           <div class="absolute top-0 left-0 w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-            <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
+            <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design', frozen: true } %>
           </div>
         </div>
       </div>

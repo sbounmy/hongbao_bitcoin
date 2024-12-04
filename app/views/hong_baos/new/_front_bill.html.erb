@@ -1,94 +1,11 @@
-<canvas id="imageCanvas_<%= paper.id %>_<%= context %>" class="border w-full"></canvas>
-<script>
-  console.log('paper', <%= paper.id %>);
-  if (typeof canvas_<%= paper.id %>_<%= context %> === 'undefined') {
-    const canvas_<%= paper.id %>_<%= context %> = document.getElementById('imageCanvas_<%= paper.id %>_<%= context %>');
-    const ctx_<%= paper.id %>_<%= context %> = canvas_<%= paper.id %>_<%= context %>.getContext('2d');
-    const elementConfigsFront_<%= paper.id %> = <%= raw paper.elements.to_json %>;
-
-    function loadImageFront_<%= paper.id %>_<%= context %>(imageUrl) {
-      const img = new Image();
-      img.src = imageUrl;
-      img.height = 374.1;
-      img.width = 793.7;
-      img.onload = () => {
-        canvas_<%= paper.id %>_<%= context %>.width = img.width;
-        canvas_<%= paper.id %>_<%= context %>.height = img.height;
-        img.style.border = '2px dashed #000';
-        img.style.padding = '10px';
-
-        ctx_<%= paper.id %>_<%= context %>.clearRect(0, 0, canvas_<%= paper.id %>_<%= context %>.width, canvas_<%= paper.id %>_<%= context %>.height);
-        ctx_<%= paper.id %>_<%= context %>.drawImage(img, 0, 0, canvas_<%= paper.id %>_<%= context %>.width, canvas_<%= paper.id %>_<%= context %>.height);
-
-
-        drawTextFront_<%= paper.id %>_<%= context %>('<%= @hong_bao.address %>', 'public_key_address');
-        drawQRCodePublic_<%= paper.id %>_<%= context %>(canvas_<%= paper.id %>_<%= context %>, ctx_<%= paper.id %>_<%= context %>);
-      };
-
-      img.onerror = () => {
-        console.error('Image failed to load.');
-      };
-    }
-
-    function drawTextFront_<%= paper.id %>_<%= context %>(text, element) {
-      const elementParams = elementConfigsFront_<%= paper.id %>[element];
-      ctx_<%= paper.id %>_<%= context %>.fillStyle = `rgb(${elementParams["color"]})`;
-      ctx_<%= paper.id %>_<%= context %>.font = `bold ${elementParams["size"]}px Arial`;
-      ctx_<%= paper.id %>_<%= context %>.fillText(text,
-          canvas_<%= paper.id %>_<%= context %>.width * elementParams["x"],
-          canvas_<%= paper.id %>_<%= context %>.height * elementParams["y"]
-      );
-    }
-    function drawQRCodePublic_<%= paper.id %>_<%= context %>(canvas, ctx) {
-      const qrImage = new Image();
-      qrImage.src = '<%= bitcoin_qr_code(hong_bao.address) %>';
-      qrImage.onload = () => {
-        // Draw QR code
-        const qrcodePublicCoords = <%= raw paper.elements["qrcode_public_key"].to_json %>;
-        const qrWidth = canvas_<%= paper.id %>_<%= context %>.width * qrcodePublicCoords["size"];
-        const qrHeight = canvas_<%= paper.id %>_<%= context %>.width * qrcodePublicCoords["size"];
-        ctx_<%= paper.id %>_<%= context %>.drawImage(qrImage,
-          canvas_<%= paper.id %>_<%= context %>.width * qrcodePublicCoords["x"],
-          canvas_<%= paper.id %>_<%= context %>.height * qrcodePublicCoords["y"],
-          qrWidth,
-          qrHeight
-        );
-
-        // Draw label
-        const labelCoords = <%= raw paper.elements["qrcode_public_key_label"].to_json %>;
-        drawTextFront_<%= paper.id %>_<%= context %>('Public Key', 'qrcode_public_key_label');
-      };
-    }
-    const paperImageFrontUrl_<%= paper.id %> = '<%= paper.image_front.attached? ? url_for(paper.image_front) : "" %>';
-    loadImageFront_<%= paper.id %>_<%= context %>(paperImageFrontUrl_<%= paper.id %>);
-
-    function drawAmountInTopCorners_<%= paper.id %>(amount) {
-      // Set text properties
-      ctx_<%= paper.id %>_<%= context %>.fillStyle = 'black';
-      ctx_<%= paper.id %>_<%= context %>.font = 'bold 42px Arial';
-
-      // Padding from edges
-      const padding = 30;
-
-      // Draw in top-left corner
-      ctx_<%= paper.id %>_<%= context %>.fillText(amount, canvas_<%= paper.id %>_<%= context %>.width*0.1, canvas_<%= paper.id %>_<%= context %>.height *0.1);
-
-      // Draw in top-right corner
-      ctx_<%= paper.id %>_<%= context %>.fillText(amount, canvas_<%= paper.id %>_<%= context %>.width *0.9, canvas_<%= paper.id %>_<%= context %>.height *0.1);
-    }
-
-    function drawAmountInBottomCorners_<%= paper.id %>(amount) {
-      // Set text properties
-      ctx_<%= paper.id %>_<%= context %>.fillStyle = 'black';
-      ctx_<%= paper.id %>_<%= context %>.font = 'bold 42px Arial';
-
-      // Padding from edges
-      const padding = 30;
-      // Draw in bottom-left corner
-      ctx_<%= paper.id %>_<%= context %>.fillText(amount, canvas_<%= paper.id %>_<%= context %>.width*0.03, canvas_<%= paper.id %>_<%= context %>.height*0.9);
-
-      // Draw in bottom-right corner
-      ctx_<%= paper.id %>_<%= context %>.fillText(amount, canvas_<%= paper.id %>_<%= context %>.width *0.9, canvas_<%= paper.id %>_<%= context %>.height *0.9);
-    }
-  }
-</script>
+<div data-controller="canvas-front"
+     data-action="hong-bao:select@window->canvas-front#updatePaper"
+     data-canvas-front-paper-id-value="<%= paper.id %>"
+     data-canvas-front-context-value="<%= context %>"
+     data-canvas-front-elements-value="<%= paper.elements.to_json %>"
+     data-canvas-front-image-url-value="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
+     data-canvas-front-address-value="<%= @hong_bao.address %>"
+     data-canvas-front-frozen-value="<%= frozen %>"
+     data-canvas-front-public-key-qr-value="<%= bitcoin_qr_code(hong_bao.address) %>">
+  <canvas data-canvas-front-target="canvas" class="border w-full"></canvas>
+</div>
