@@ -7,7 +7,6 @@ export default class extends Controller {
     context: String,
     elements: Object,
     imageUrl: String,
-    frozen: { type: Boolean, default: false }
   }
 
   connect() {

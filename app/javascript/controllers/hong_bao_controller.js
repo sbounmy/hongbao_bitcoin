@@ -20,7 +20,7 @@ export default class extends Controller {
   static values = {
     currentStep: { type: Number, default: 1 },
     currentPaper: { type: Number },
-    isTopUpStep: { type: Boolean, default: false }
+    isTopUpStep: { type: Boolean, default: false },
   }
 
   connect() {

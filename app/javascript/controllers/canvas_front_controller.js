@@ -8,7 +8,6 @@ export default class extends CanvasBaseController {
   }
 
   updatePaper({ detail }) {
-    if (this.frozenValue) return
     const { paperId, imageFrontUrl, elements } = detail
     this.paperIdValue = paperId
     this.imageUrlValue = imageFrontUrl

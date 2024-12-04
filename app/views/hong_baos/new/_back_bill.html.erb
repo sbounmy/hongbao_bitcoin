@@ -1,5 +1,5 @@
 <div data-controller="canvas-back"
-     data-action="hong-bao:select@window->canvas-back#updatePaper"
+     data-action="<%= frozen ? '' : 'hong-bao:select@window->canvas-back#updatePaper' %>"
      data-canvas-back-paper-id-value="<%= paper.id %>"
      data-canvas-back-context-value="<%= context %>"
      data-canvas-back-elements-value="<%= paper.elements.to_json %>"

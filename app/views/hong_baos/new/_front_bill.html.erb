@@ -1,11 +1,10 @@
 <div data-controller="canvas-front"
-     data-action="hong-bao:select@window->canvas-front#updatePaper"
+     data-action="<%= frozen ? '' : 'hong-bao:select@window->canvas-front#updatePaper' %>"
      data-canvas-front-paper-id-value="<%= paper.id %>"
      data-canvas-front-context-value="<%= context %>"
      data-canvas-front-elements-value="<%= paper.elements.to_json %>"
      data-canvas-front-image-url-value="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
      data-canvas-front-address-value="<%= @hong_bao.address %>"
-     data-canvas-front-frozen-value="<%= frozen %>"
      data-canvas-front-public-key-qr-value="<%= bitcoin_qr_code(hong_bao.address) %>">
   <canvas data-canvas-front-target="canvas" class="border w-full"></canvas>
 </div>
