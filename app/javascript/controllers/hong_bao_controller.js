@@ -22,18 +22,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.initializeStep()
-    this.initializeAmountListener()
-    this.showCurrentStep()
-    this.updatePreviousButton()
     this.setupRefreshWarning()
-
-    // // Initialize the selected paper
-    // const selectedPaperId = this.selectedPaperTarget.value
-    // if (selectedPaperId) {
-    //   this.updateTemplateButtons(selectedPaperId)
-    //   this.updatePaperPreviews(selectedPaperId)
-    // }
   }
 
   setupRefreshWarning() {
@@ -52,45 +41,18 @@ export default class extends Controller {
     }
   }
 
-  // Private Methods
-  initializeStep() {
-    const stepParam = parseInt(new URLSearchParams(window.location.search).get('step') || 1)
-    if (stepParam && stepParam <= this.stepTargets.length) {
-      this.currentStepValue = stepParam
-    }
+  currentStepValueChanged(event) {
     this.showCurrentStep()
-  }
-
-  initializeAmountListener() {
-    const amountInput = this.element.querySelector('input[name="hong_bao[amount]"]')
-    if (!amountInput) return
-
-    amountInput.addEventListener('input', (e) => {
-      if (this.hasAmountDisplayTarget) {
-        this.amountDisplayTarget.textContent = this.formatAmount(e.target.value)
-      }
-    })
-  }
-
-  formatAmount(value) {
-    return parseFloat(value || 0).toFixed(2)
+    this.updatePreviousButton()
   }
 
   // Navigation Methods
   nextStep() {
-    if (this.currentStepValue < 3) {
-      this.currentStepValue++
-      this.showCurrentStep()
-      this.updatePreviousButton()
-    }
+    this.currentStepValue++
   }
 
   previousStep() {
-    if (this.currentStepValue > 1) {
-      this.currentStepValue--
-      this.showCurrentStep()
-      this.updatePreviousButton()
-    }
+    this.currentStepValue--
   }
 
   paymentMethodSelected(event) {
@@ -150,12 +112,10 @@ export default class extends Controller {
   // UI Update Methods
   showCurrentStep() {
     this.updateStepVisibility()
-    this.updateStepIndicators()
-    this.updateStepConnectors()
+    this.updateProgressSteps()
     this.updateNavigationButtons()
     this.updateURL()
     this.isTopUpStepValue = (this.currentStepValue === 3)
-
   }
 
   updateStepVisibility() {
@@ -164,60 +124,21 @@ export default class extends Controller {
     })
   }
 
-  updateStepIndicators() {
+  updateProgressSteps() {
     this.stepIndicatorTargets.forEach((indicator, index) => {
       const isCurrentStep = index + 1 === this.currentStepValue
-      indicator.classList.toggle('bg-[#FFB636]', isCurrentStep)
-      indicator.classList.toggle('text-[#F04747]', isCurrentStep)
-      indicator.classList.toggle('bg-white/20', !isCurrentStep)
-      indicator.classList.toggle('text-white', !isCurrentStep)
-    })
-  }
-
-  updateStepConnectors() {
-    this.stepConnectorTargets.forEach((connector, index) => {
-      const isCompleted = index + 1 < this.currentStepValue
-      connector.classList.toggle('bg-[#FFB636]', isCompleted)
-      connector.classList.toggle('bg-white/20', !isCompleted)
+      const isDone = index + 1 < this.currentStepValue
+      indicator.toggleAttribute('open', isCurrentStep)
+      indicator.toggleAttribute('done', isDone)
     })
   }
 
   updateURL() {
     const url = new URL(window.location)
     url.searchParams.set('step', this.currentStepValue)
-
-    // Add paper_id to URL if we're moving to step 2 and have a selected paper
-    if (this.currentStepValue === 2 && this.selectedPaperTarget.value) {
-      url.searchParams.set('paper_id', this.selectedPaperTarget.value)
-    }
-
     window.history.pushState({}, '', url)
   }
 
-  // Template Selection Methods
-  switchTemplate(event) {
-    const paperId = event.currentTarget.dataset.paperId
-    this.selectedPaperTarget.value = paperId
-
-    this.updateTemplateButtons(paperId)
-    this.updatePaperPreviews(paperId)
-
-    // Update URL when template is switched
-    const url = new URL(window.location)
-    url.searchParams.set('paper_id', paperId)
-    window.history.pushState({}, '', url)
-  }
-
-  updateTemplateButtons(selectedPaperId) {
-    this.element.querySelectorAll('[data-action="hong-bao#switchTemplate"]')
-      .forEach(button => {
-        const isSelected = button.dataset.paperId === selectedPaperId
-        button.classList.toggle('bg-[#FFB636]', isSelected)
-        button.classList.toggle('text-[#F04747]', isSelected)
-        button.classList.toggle('bg-white/20', !isSelected)
-        button.classList.toggle('text-white', !isSelected)
-      })
-  }
 
   updatePaperPreviews(selectedPaperId) {
     this.element.querySelectorAll('[data-paper-preview][data-paper-id]')
@@ -226,22 +147,6 @@ export default class extends Controller {
       })
   }
 
-  showWalletInstructions(wallet) {
-    if (this.hasWalletModalTarget && this.hasWalletInstructionsTarget) {
-      // Set wallet-specific content
-      const instructions = this.getWalletInstructions(wallet)
-      this.walletInstructionsTarget.innerHTML = instructions
-
-      // Show modal
-      this.walletModalTarget.classList.remove('hidden')
-    }
-  }
-
-  hideWalletModal() {
-    if (this.hasWalletModalTarget) {
-      this.walletModalTarget.classList.add('hidden')
-    }
-  }
 
   getWalletInstructions(wallet) {
     const qrCode = `<img src="${this.hongBaoQrCode}"
