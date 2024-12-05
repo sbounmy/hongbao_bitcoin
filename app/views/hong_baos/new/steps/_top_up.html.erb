@@ -59,14 +59,15 @@
 
   <div data-hong-bao-target="mtPelerinData"
        data-options="<%= {
-         ctkn: '954139b2-ef3e-4914-82ea-33192d3f43d3',
+         ctkn: Rails.application.credentials.dig(:mt_pelerin, :token),
          locale: I18n.locale,
          network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
-         amount: hong_bao.amount,
+         amount: 50,
          logo: asset_url('hongbao-bitcoin-logo-520.png'),
          address: hong_bao.address,
          requestCode: hong_bao.mt_pelerin_request_code,
-         requestHash: hong_bao.mt_pelerin_request_hash
+         requestHash: hong_bao.mt_pelerin_request_hash,
+         rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
        }.to_json %>">
   </div>
 </div>

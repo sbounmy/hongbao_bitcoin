@@ -8,13 +8,12 @@ class HongBao < ApplicationRecord
   validates :paper_id, presence: true
   validates :payment_method_id, presence: true
 
-  before_create :generate_mt_pelerin_request
-
   # Store JSON fields for Mt Pelerin API responses and requests
   store :mt_pelerin_response, accessors: [ :id, :amount, :currency, :address, :hash, :external_id ], prefix: true
   store :mt_pelerin_request, accessors: [ :hash, :code, :message ], prefix: true
 
   after_initialize :generate_bitcoin_keys, if: :new_record?
+  after_initialize :generate_mt_pelerin_request, if: :new_record?
   # Elliptic curve used by Bitcoin
   CURVE = "secp256k1"
 
@@ -68,8 +67,7 @@ class HongBao < ApplicationRecord
 
   private
 
-  # Generates a new Bitcoin keypair and stores it
-  # Called before create as part of before_create callback
+  # Generates a new Bitcoin keypair
   def generate_bitcoin_keys
     master = Bitcoin::Master.generate
     self.public_key = master.key.pub
