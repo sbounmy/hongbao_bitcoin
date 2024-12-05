@@ -13,7 +13,6 @@ export default class extends Controller {
     "paymentMethod",
     "mtPelerinData",
     "walletModal",
-    "walletInstructions",
     "paper"
   ]
 
@@ -79,8 +78,12 @@ export default class extends Controller {
   }
 
   paymentMethodSelected(event) {
+    event.preventDefault()
     const methodId = event.target.value
     const methodName = event.target.dataset.methodName
+
+    // Hide all wallet modals first
+    this.walletModalTargets.forEach(modal => modal.classList.add('hidden'))
 
     if (methodName === 'mt_pelerin') {
       if (this.hasMtPelerinDataTarget) {
@@ -105,7 +108,9 @@ export default class extends Controller {
         });
       }
     } else if (['bitstack', 'ledger'].includes(methodName)) {
-      this.showWalletInstructions(methodName)
+      // Show the corresponding wallet modal
+      const modal = this.walletModalTargets.find(m => m.dataset.walletType === methodName)
+      if (modal) modal.classList.remove('hidden')
     }
   }
 
@@ -163,69 +168,13 @@ export default class extends Controller {
     window.history.pushState({}, '', url)
   }
 
-
-  updatePaperPreviews(selectedPaperId) {
-    this.element.querySelectorAll('[data-paper-preview][data-paper-id]')
-      .forEach(paperDiv => {
-        paperDiv.classList.toggle('hidden', paperDiv.dataset.paperId !== selectedPaperId)
-      })
+  closeWalletModal(event) {
+    event.preventDefault()
+    this.walletModalTargets.forEach(modal => modal.classList.add('hidden'))
   }
 
-
-  getWalletInstructions(wallet) {
-    const qrCode = `<img src="${this.hongBaoQrCode}"
-                       alt="Bitcoin Payment QR Code"
-                       class="mx-auto mb-4 w-48 h-48">`
-
-    const instructions = {
-      bitstack: `
-        <h3 class="text-xl font-bold mb-4">Send Bitcoin</h3>
-        ${qrCode}
-        <div class="space-y-2 text-sm">
-          <p>1. Open your Bitcoin wallet</p>
-          <p>2. Tap the send button</p>
-          <p>3. Scan this QR code or paste the address</p>
-          <p>4. Enter the amount and confirm</p>
-        </div>
-
-        <div class="mt-4 flex items-center justify-center gap-2 bg-white/10 p-2 rounded">
-          <code class="text-sm">${this.hongBaoAddress}</code>
-          <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('${this.hongBaoAddress}')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </button>
-        </div>
-      `,
-      ledger: `
-        <h3 class="text-xl font-bold mb-4">Send Bitcoin</h3>
-        ${qrCode}
-        <div class="space-y-2 text-sm">
-          <p>1. Connect your Ledger device</p>
-          <p>2. Open the Bitcoin app</p>
-          <p>3. Scan this QR code or paste the address</p>
-          <p>4. Verify the address on your device</p>
-        </div>
-
-        <div class="mt-4 flex items-center justify-center gap-2 bg-white/10 p-2 rounded">
-          <code class="text-sm">${this.hongBaoAddress}</code>
-          <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('${this.hongBaoAddress}')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </button>
-        </div>
-      `
-    }
-
-    return instructions[wallet]
-  }
-
-  get hongBaoAddress() {
-    return this.element.querySelector('[data-hong-bao-address]').dataset.hongBaoAddress
-  }
-
-  get hongBaoQrCode() {
-    return this.element.querySelector('[data-hong-bao-qr-code]').dataset.hongBaoQrCode
+  copyAddress(event) {
+    event.preventDefault()
+    navigator.clipboard.writeText(this.element.querySelector('[data-hong-bao-address]').dataset.hongBaoAddress)
   }
 }
