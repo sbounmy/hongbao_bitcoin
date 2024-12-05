@@ -55,7 +55,7 @@
 /* Optional: Style the inner content wrapper if needed */
 .mtp-modal-content {
   @apply relative !important;  /* For proper stacking */
-  @apply w-full max-w-md !important;  /* Control width */
+  @apply w-full max-w-xl !important;  /* Control width */
   @apply bg-white !important;  /* Background color */
   @apply rounded-xl !important;  /* Rounded corners */
   @apply shadow-xl !important;  /* Add shadow */
