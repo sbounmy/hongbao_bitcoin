@@ -90,7 +90,6 @@ export default class extends Controller {
         const data = JSON.parse(this.mtPelerinDataTarget.dataset.options)
         showMtpModal({
           _ctkn: data.ctkn,
-          type: 'direct-link',
           lang: data.locale,
           tab: 'buy',
           tabs: 'buy',

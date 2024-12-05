@@ -44,3 +44,19 @@
 }
 
 */
+
+/* Mt Pelerin Widget Modal Styling */
+#MtPelerinModal {
+  @apply fixed inset-0 z-50 !important;  /* Cover full screen */
+  /* @apply flex items-center justify-center !important; # this breaks the close button (not clickable) dont know why*/
+  @apply bg-black/75 !important;  /* Dark overlay */
+}
+
+/* Optional: Style the inner content wrapper if needed */
+.mtp-modal-content {
+  @apply relative !important;  /* For proper stacking */
+  @apply w-full max-w-md !important;  /* Control width */
+  @apply bg-white !important;  /* Background color */
+  @apply rounded-xl !important;  /* Rounded corners */
+  @apply shadow-xl !important;  /* Add shadow */
+}
