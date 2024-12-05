@@ -13,6 +13,9 @@ export default class extends CanvasBaseController {
     this.imageUrlValue = imageFrontUrl
     this.elementsValue = elements
     this.loadImage()
+    console.log("About to dispatch canvasReady event")
+    this.dispatch("canvasReady")
+    console.log("canvasReady event dispatched")
   }
 
 

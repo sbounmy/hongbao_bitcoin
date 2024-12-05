@@ -3,7 +3,7 @@ import { jsPDF } from "jspdf"
 import html2canvas from "html2canvas"
 
 export default class extends Controller {
-  static targets = ["printableArea", "printButton"]
+  static targets = ["printableArea", "printButton", "pdfViewer"]
 
   connect() {
     console.log("PaperPDF controller connected")
@@ -12,7 +12,6 @@ export default class extends Controller {
   async generatePDF() {
     console.log("generatePDF called")
     const printableArea = this.printableAreaTarget
-    console.log("printableArea:", printableArea)
 
     // Temporarily make printable area visible
     printableArea.classList.remove('hidden')
@@ -22,10 +21,7 @@ export default class extends Controller {
     this.printButtonTarget.textContent = "Generating PDF..."
 
     try {
-      // Dynamically import jsPDF
       const { default: jsPDF } = await import("jspdf")
-
-      // Create PDF
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -33,15 +29,12 @@ export default class extends Controller {
       })
 
       console.log("Converting to canvas...")
-      // Convert the HTML content to canvas
       const canvas = await html2canvas(printableArea, {
-        scale: 2, // Higher quality
+        scale: 2,
         useCORS: true,
-        logging: true, // Enable logging
+        logging: true,
         backgroundColor: null
       })
-      console.log("Canvas created:", canvas)
-
       // Add cutting instructions
       pdf.setFontSize(14)
       pdf.text('Cutting Instructions:', 20, 20)
@@ -52,20 +45,58 @@ export default class extends Controller {
         '3. Place the folded slip inside the red envelope',
         '4. Keep the recovery information in a safe place'
       ], 20, 30)
-
-      // Add the hong bao content
+      console.log("canvas:", canvas)
       const imgData = canvas.toDataURL('image/png')
+      console.log("imgData:", imgData)
       pdf.addImage(imgData, 'PNG', 20, 70, 170, 200)
 
-      // Save the PDF
-      pdf.save('bitcoin-hongbao.pdf')
+      // Create blob and display in viewer
+      const pdfBlob = pdf.output('blob')
+      const pdfUrl = URL.createObjectURL(pdfBlob)
+      printableArea.classList.add('hidden')
+
+      return pdfUrl
     } catch (error) {
       console.error('PDF generation failed:', error)
     } finally {
-      // Reset button state and hide printable area
       this.printButtonTarget.disabled = false
       this.printButtonTarget.textContent = "Download Printable PDF"
-      printableArea.classList.add('hidden')
     }
+  }
+
+  downloadPdf() {
+    this.generatePDF().then(pdfUrl => {
+      console.log("downloadPdf called")
+      console.log("pdfUrl:", pdfUrl)
+      window.open(pdfUrl, '_blank')
+    })
+  }
+
+  showPdfViewer() {
+    console.log("showPdfViewer called")
+    // setTimeout(() => {
+    this.generatePDF().then(pdfUrl => {
+    console.log("pdfUrl:", pdfUrl)
+    if (this.hasPdfViewerTarget) {
+      const viewer = this.pdfViewerTarget
+      viewer.setAttribute('type', 'application/pdf')
+      viewer.style.width = '100%'
+      viewer.style.height = '600px'
+      viewer.src = pdfUrl
+      viewer.classList.remove('hidden')
+
+      viewer.onload = () => {
+        console.log('PDF viewer loaded')
+        console.log('Viewer dimensions:', viewer.offsetWidth, 'x', viewer.offsetHeight)
+      }
+
+      viewer.onerror = (error) => {
+        console.error('Failed to load PDF:', error)
+      }
+    } else {
+      console.error('PDF viewer target not found')
+      }
+      })
+    // }, 3000)
   }
 }

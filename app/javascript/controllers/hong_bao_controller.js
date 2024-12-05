@@ -45,6 +45,9 @@ export default class extends Controller {
   currentStepValueChanged(event) {
     this.showCurrentStep()
     this.updatePreviousButton()
+
+    // Dispatch an event when the step changes
+    this.dispatch("stepChanged", { detail: { currentStep: this.currentStepValue } })
   }
 
   paperSelected(event) {
@@ -130,6 +133,10 @@ export default class extends Controller {
     if (this.currentStepValue === 3) {
       this.nextButtonTarget.style.display = "none"
       this.verifyButtonTarget.style.display = "block"
+    } else if (this.currentStepValue === 2) {
+      this.nextButtonTarget.textContent = "Save and Next"
+      this.nextButtonTarget.style.display = "block"
+      this.verifyButtonTarget.style.display = "none"
     } else {
       this.nextButtonTarget.style.display = "block"
       this.verifyButtonTarget.style.display = "none"
