@@ -10,6 +10,8 @@ en:
         If you'd like to support the project further, you can donate Bitcoin to:
       copy_tooltip: "Copy Bitcoin address"
       copied: "Bitcoin address copied to clipboard!"
+    bitcoin_address:
+      copied: "Bitcoin address copied to clipboard!"
     faq:
       title: "Frequently Asked Questions"
       questions:

@@ -18,12 +18,15 @@
             alt: "Bitcoin Donation QR Code for hongbaob.tc" %>
 
         <%# Bitcoin Address Input %>
-        <div class="flex items-center gap-2 bg-black/20 rounded-lg p-2">
+        <div class="flex items-center gap-2 bg-black/20 rounded-lg p-2"
+             data-controller="clipboard"
+             data-clipboard-address-value="<%= address %>"
+             data-clipboard-success-message-value="<%= t('.copied') %>">
           <input type="text"
-                 value="bc1qpjhgsvmuww0t6glzsnekva4p4rs6zvx6520d4e"
+                 value="<%= address %>"
                  readonly
                  class="flex-1 bg-transparent text-[#FFB636] text-sm font-mono border-none focus:ring-0 cursor-text"
-                 data-clipboard-target="address">
+                 >
 
           <button data-action="clipboard#copy"
                   class="shrink-0 p-2 text-white hover:text-[#FFB636] transition-colors rounded-lg hover:bg-white/10"

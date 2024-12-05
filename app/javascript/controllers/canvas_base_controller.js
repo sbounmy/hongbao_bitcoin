@@ -40,15 +40,13 @@ export default class extends Controller {
     }
   }
 
-
-  // To be implemented by child classes
   drawBill() {
     throw new Error('Must be implemented by child class')
   }
 
   drawText(text, element) {
     const elementParams = this.elementsValue[element]
-    this.ctx.fillStyle = elementParams.color
+    this.ctx.fillStyle = `${elementParams.color}`
     this.ctx.font = `bold ${elementParams.size}px Arial`
     this.ctx.fillText(text,
       this.canvasTarget.width * elementParams.x,
@@ -56,17 +54,4 @@ export default class extends Controller {
     )
   }
 
-  drawAmountInTopCorners(amount) {
-    this.ctx.fillStyle = 'black'
-    this.ctx.font = 'bold 42px Arial'
-    this.ctx.fillText(amount, this.canvasTarget.width * 0.1, this.canvasTarget.height * 0.1)
-    this.ctx.fillText(amount, this.canvasTarget.width * 0.9, this.canvasTarget.height * 0.1)
-  }
-
-  drawAmountInBottomCorners(amount) {
-    this.ctx.fillStyle = 'black'
-    this.ctx.font = 'bold 42px Arial'
-    this.ctx.fillText(amount, this.canvasTarget.width * 0.03, this.canvasTarget.height * 0.9)
-    this.ctx.fillText(amount, this.canvasTarget.width * 0.9, this.canvasTarget.height * 0.9)
-  }
 }
