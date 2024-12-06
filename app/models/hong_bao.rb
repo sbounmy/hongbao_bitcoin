@@ -71,7 +71,7 @@ class HongBao < ApplicationRecord
   def generate_bitcoin_keys
     master = Bitcoin::Master.generate
     self.public_key = master.key.pub
-    self.private_key = master.key.priv
+    self.private_key = master.key.to_base58
     self.address = master.key.addr
     self.mnemonic = master.mnemonic
     self.seed = master.seed
@@ -85,7 +85,7 @@ class HongBao < ApplicationRecord
     self.mt_pelerin_request_code ||= rand(1000..9999).to_s
     message = "MtPelerin-#{mt_pelerin_request_code}"
 
-    bitcoin_key = Bitcoin::Key.new(private_key, public_key)
+    bitcoin_key = Bitcoin::Key.new(Bitcoin::Key.from_base58(private_key).priv, public_key)
     signature = bitcoin_key.sign_message(message)
     self.mt_pelerin_request_hash = signature
   end
