@@ -163,4 +163,10 @@ export default class extends Controller {
       })
     // }, 3000)
   }
+
+  reset() {
+    this.pdfViewerTarget.classList.add('hidden')
+    this.pdfViewerPlaceHolderTarget.classList.remove('hidden')
+    this.pdfViewerTarget.src = ''
+  }
 }
