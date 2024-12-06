@@ -83,6 +83,10 @@ export default class extends Controller {
   }
 
   previousStep() {
+    console.log("currentStepValue:", this.currentStepValue)
+    if (this.currentStepValue === 2) {
+      this.dispatch("backToStep1")
+    }
     this.currentStepValue--
   }
 
