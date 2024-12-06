@@ -15,8 +15,9 @@ export default class extends CanvasBaseController {
     this.loadImage()
   }
 
+
   drawBill() {
-    this.typewriterText(this.addressValue, 'public_key_address')
+    this.drawText(this.addressValue, 'public_key_address')
     this.drawQRCode()
   }
 
