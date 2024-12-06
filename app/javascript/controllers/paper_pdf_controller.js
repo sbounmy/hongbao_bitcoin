@@ -3,7 +3,7 @@ import { jsPDF } from "jspdf"
 import html2canvas from "html2canvas"
 
 export default class extends Controller {
-  static targets = ["printableArea", "printButton", "pdfViewerPlaceHolder", "pdfViewer", "previewArea"]
+  static targets = ["printableArea", "printButton", "pdfViewerPlaceHolder", "pdfViewer"]
   static values = {
     qrYoutubeUrl: String
   }
@@ -15,10 +15,8 @@ export default class extends Controller {
   async generatePDF() {
     console.log("generatePDF called")
     const printableArea = this.printableAreaTarget
-    const previewArea = this.previewAreaTarget
     // Temporarily make printable area visible
     printableArea.classList.remove('hidden')
-    previewArea.classList.add('hidden')
     // Show loading state
     this.printButtonTarget.disabled = true
     this.printButtonTarget.textContent = "Generating PDF..."

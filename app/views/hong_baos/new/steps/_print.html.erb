@@ -2,19 +2,7 @@
      data-paper-pdf-qr-youtube-url-value="<%= image_path('pdf/satoshi-mystery.png') %>">
   <div class="text-white space-y-4">
 
-    <%# Preview Area %>
-    <div class="grid grid-cols-1 gap-4"
-         data-paper-pdf-target="previewArea"
-    >
-      <div class="border-2 border-[#FFB636] rounded-lg p-2">
-        <%= render partial: "hong_baos/new/front_bill",
-                   locals: { paper: selected_paper, hong_bao: hong_bao, context: 'preview', frozen: false } %>
-      </div>
-      <div class="border-2 border-[#FFB636] rounded-lg p-2">
-        <%= render partial: "hong_baos/new/back_bill",
-                   locals: { paper: selected_paper, hong_bao: hong_bao, context: 'preview', frozen: false } %>
-      </div>
-    </div>
+
     <%# Printable Area - This will be converted to PDF %>
     <div data-paper-pdf-target="printableArea" class="bg-transparent hidden">
       <div class="relative">
