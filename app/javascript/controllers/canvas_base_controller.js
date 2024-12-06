@@ -54,4 +54,8 @@ export default class extends Controller {
     )
   }
 
+  get canvasData() {
+    return this.canvasTarget.toDataURL('image/png')
+  }
+
 }

@@ -63,8 +63,8 @@ export default class extends Controller {
     this.dispatch("select", {
       detail: {
         paperId: event.currentTarget.dataset.paperId,
-        imageFrontUrl: event.currentTarget.dataset.paperImageFrontUrl,
-        imageBackUrl: event.currentTarget.dataset.paperImageBackUrl,
+        imageFrontUrl: event.currentTarget.dataset.paperCanvaFrontUrl,
+        imageBackUrl: event.currentTarget.dataset.paperCanvaBackUrl,
         elements: JSON.parse(event.currentTarget.dataset.paperElements)
       }
     })
@@ -191,5 +191,15 @@ export default class extends Controller {
   copyAddress(event) {
     event.preventDefault()
     navigator.clipboard.writeText(this.element.querySelector('[data-hong-bao-address]').dataset.hongBaoAddress)
+  }
+
+  cache({ detail: { side, base64url, paperId } }) {
+    const paper = this.paperTargets.find(paper => Number(paper.dataset.paperId) === paperId)
+
+    if (side === 'back') {
+      paper.dataset.paperCanvaBackUrl = base64url
+    } else if (side === 'front') {
+      paper.dataset.paperCanvaFrontUrl = base64url
+    }
   }
 }

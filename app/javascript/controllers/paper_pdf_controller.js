@@ -3,15 +3,28 @@ import { jsPDF } from "jspdf"
 import html2canvas from "html2canvas"
 
 export default class extends Controller {
-  static targets = ["printableArea", "printButton", "pdfViewerPlaceHolder", "pdfViewer"]
+  static targets = [
+    "printableArea",
+    "printButton",
+    "pdfViewerPlaceHolder",
+    "pdfViewer",
+    "frontImage",
+    "backImage"
+  ]
   static values = {
-    qrYoutubeUrl: String
+    qrYoutubeUrl: String,
+    frontImage: String,
+    backImage: String
   }
 
   connect() {
     console.log("PaperPDF controller connected")
   }
-
+  updateImages({ detail: { imageFrontUrl, imageBackUrl } }) {
+    console.log("updateImages called", imageFrontUrl, imageBackUrl)
+    this.frontImageTarget.src = imageFrontUrl
+    this.backImageTarget.src = imageBackUrl
+  }
   async generatePDF() {
     console.log("generatePDF called")
     const printableArea = this.printableAreaTarget
@@ -29,18 +42,13 @@ export default class extends Controller {
         format: 'a4'
       })
 
-      console.log("Converting to canvas...")
-      const canvas = await html2canvas(printableArea, {
-        scale: 2,
-        useCORS: true,
-        logging: true,
-        backgroundColor: null
-      })
-      printableArea.classList.add('hidden')
-
-      // Add the paper bill image to the top 2/3 of the page
-      const imgData = canvas.toDataURL('image/png')
-      pdf.addImage(imgData, 'PNG', 20, 20, 170, 180) // Adjust dimensions as needed
+      // Add front and back images directly instead of using html2canvas
+      if (this.frontImageTarget.src) {
+        pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 20, 170, 90)
+      }
+      if (this.backImageTarget.src) {
+        pdf.addImage(this.backImageTarget.src, 'PNG', 20, 110, 170, 90)
+      }
 
       // Left Column: What is Bitcoin
       pdf.setFillColor(240, 240, 240)
@@ -162,11 +170,5 @@ export default class extends Controller {
       }
       })
     // }, 3000)
-  }
-
-  reset() {
-    this.pdfViewerTarget.classList.add('hidden')
-    this.pdfViewerPlaceHolderTarget.classList.remove('hidden')
-    this.pdfViewerTarget.src = ''
   }
 }
