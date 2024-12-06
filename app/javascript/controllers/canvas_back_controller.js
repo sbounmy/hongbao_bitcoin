@@ -40,9 +40,7 @@ export default class extends CanvasBaseController {
       const x = startX + (col * (boxWidth + gapX))
       const y = startY + (row * (boxHeight + gapY))
 
-      this.ctx.fillStyle = elementParams.color
-      this.ctx.font = `${elementParams.size}px Arial`
-      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
+      this.typewriterText(`${index + 1}. ${word}`, element, x + 10, y + (boxHeight / 2) + 4)
     })
   }
 

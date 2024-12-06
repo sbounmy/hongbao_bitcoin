@@ -54,4 +54,24 @@ export default class extends Controller {
     )
   }
 
+  typewriterText(text, element, x = null, y = null) {
+    const elementParams = this.elementsValue[element]
+    const startX = x !== null ? x : this.canvasTarget.width * elementParams.x
+    const startY = y !== null ? y : this.canvasTarget.height * elementParams.y
+    const color = elementParams.color
+    const fontSize = elementParams.size
+
+    this.ctx.fillStyle = color
+    this.ctx.font = `bold ${fontSize}px Arial`
+
+    let index = 0
+    const interval = setInterval(() => {
+      if (index < text.length) {
+        this.ctx.fillText(text[index], startX + this.ctx.measureText(text.slice(0, index)).width, startY)
+        index++
+      } else {
+        clearInterval(interval)
+      }
+    }, 100) // Adjust the speed of the typewriter effect by changing the interval time
+  }
 }
