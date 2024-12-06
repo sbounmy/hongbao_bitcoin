@@ -4,9 +4,11 @@ en:
       title: "About me"
       bio: "As a Chinese Teochew born and raised in France, I created Bitcoin Hong Bao to bridge traditional gift-giving with modern technology. Growing up with the red envelope tradition, I wanted to share the beauty of combining our cultural heritage with Bitcoin's innovation, making it easier for friends and family to preserve and share wealth across generations."
     donate:
-      title: "Support Hong Bao Bitcoin"
+      title: "Why is it free ?"
       description_html: |
-        You can create HongBao for up to 500€ / year without any cost. Above that, <a href="https://www.mtpelerin.com/pricing" class="text-[#FFB636] hover:text-white transition-colors" target="_blank" rel="noopener">Mt Pelerin takes ~ 2% of fees</a> and share 25% of it to HongBao Bitcoin.
+        Bitcoin sofware is free. HongBao is open source and free to use.
+        The best way to educate people about Bitcoin is to make it easy to use for everyone.
+        We earn few cents per transaction through <a href="https://developers.mtpelerin.com/service-information/revenue-sharing" class="text-[#FFB636] hover:text-white transition-colors" target="_blank" rel="noopener">Mt Pelerin</a>.
         If you'd like to support the project further, you can donate Bitcoin to:
       copy_tooltip: "Copy Bitcoin address"
       copied: "Bitcoin address copied to clipboard!"
