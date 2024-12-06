@@ -20,10 +20,16 @@ export default class extends Controller {
     currentStep: { type: Number, default: 1 },
     currentPaper: { type: Number },
     isTopUpStep: { type: Boolean, default: false },
+    isPdfDownloaded: { type: Boolean, default: false }
   }
 
   connect() {
     this.setupRefreshWarning()
+    this.isPdfDownloaded = false
+    document.addEventListener('paper-pdf:pdfDownloaded', () => {
+      this.isPdfDownloaded = true
+      this.updateNavigationButtons()
+    })
   }
 
   setupRefreshWarning() {
@@ -134,11 +140,14 @@ export default class extends Controller {
       this.nextButtonTarget.style.display = "none"
       this.verifyButtonTarget.style.display = "block"
     } else if (this.currentStepValue === 2) {
-      this.nextButtonTarget.textContent = "Save and Next"
       this.nextButtonTarget.style.display = "block"
+      this.nextButtonTarget.disabled = !this.isPdfDownloaded
+      this.nextButtonTarget.classList.toggle('disabled:opacity-50', !this.isPdfDownloaded)
       this.verifyButtonTarget.style.display = "none"
     } else {
       this.nextButtonTarget.style.display = "block"
+      this.nextButtonTarget.disabled = false
+      this.nextButtonTarget.classList.remove('disabled:opacity-50')
       this.verifyButtonTarget.style.display = "none"
     }
   }

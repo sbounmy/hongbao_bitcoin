@@ -6,5 +6,5 @@
      data-canvas-back-image-url-value="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>"
      data-canvas-back-mnemonic-value="<%= @hong_bao.mnemonic %>"
      data-canvas-back-private-key-qr-value="<%= bitcoin_qr_code(hong_bao.private_key) %>">
-  <canvas data-canvas-back-target="canvas" class="border w-full"></canvas>
+  <canvas data-canvas-back-target="canvas" class="w-full"></canvas>
 </div>
