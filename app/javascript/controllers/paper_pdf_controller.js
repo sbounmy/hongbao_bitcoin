@@ -4,6 +4,9 @@ import html2canvas from "html2canvas"
 
 export default class extends Controller {
   static targets = ["printableArea", "printButton", "pdfViewerPlaceHolder", "pdfViewer", "previewArea"]
+  static values = {
+    qrYoutubeUrl: String
+  }
 
   connect() {
     console.log("PaperPDF controller connected")
@@ -36,23 +39,77 @@ export default class extends Controller {
         backgroundColor: null
       })
       printableArea.classList.add('hidden')
-      // Add cutting instructions
-      pdf.setFontSize(14)
-      pdf.text('Cutting Instructions:', 20, 20)
-      pdf.setFontSize(12)
-      pdf.text([
-        '1. Cut along the dashed lines',
-        '2. Fold the instruction slip along the marked lines',
-        '3. Place the folded slip inside the red envelope',
-        '4. Keep the recovery information in a safe place'
-      ], 20, 30)
+
+      // Add the paper bill image to the top 2/3 of the page
       const imgData = canvas.toDataURL('image/png')
-      pdf.addImage(imgData, 'PNG', 20, 70, 170, 200)
+      pdf.addImage(imgData, 'PNG', 20, 20, 170, 180) // Adjust dimensions as needed
+
+      // Left Column: What is Bitcoin
+      pdf.setFillColor(240, 240, 240)
+      pdf.rect(15, 210, 85, 8, 'F')
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(14)
+      pdf.setTextColor(50, 50, 50)
+      pdf.text('Instructions:', 20, 216)
+
+      // Left column content with QR code and text
+      pdf.setFont('helvetica', 'normal')
+      pdf.setFontSize(11)
+      pdf.setTextColor(60, 60, 60)
+
+      const instructions = [
+        'Bitcoin is digital money that works',
+        'without banks or intermediaries.',
+        '',
+        'WARNING: Keep your private key safe!',
+        'Never share it with anyone.'
+      ]
+
+      // Add instructions text
+      instructions.forEach((text, index) => {
+        pdf.text(text, 20, 230 + (index * 6))
+      })
+
+      // Add QR code below the instructions
+      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 260, 30, 30)
+
+      // Right Column: FAQ (keep existing FAQ section)
+      pdf.setFillColor(240, 240, 240)
+      pdf.rect(110, 210, 85, 8, 'F')
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(14)
+      pdf.text('FAQ', 115, 216)
+
+      // Right column content
+      pdf.setFont('helvetica', 'normal')
+      pdf.setFontSize(11)
+
+      const faq = [
+        'How to check balance?',
+        '• Visit mempool.space and enter address',
+        '',
+        'How to convert to cash (€,$)?',
+        '• Use exchanges like Kraken, Binance',
+        '• Use Mt Pelerin for direct bank transfer',
+        '',
+        'How to use hardware wallet?',
+        '• Get Ledger or Trezor device',
+        '• Follow device setup instructions',
+        '• Transfer funds using wallet software'
+      ]
+
+      faq.forEach((text, index) => {
+        pdf.text(text, 115, 230 + (index * 6))
+      })
+
+      // Add vertical divider between columns
+      pdf.setDrawColor(200, 200, 200)
+      pdf.setLineWidth(0.5)
+      pdf.line(105, 210, 105, 280)
 
       // Create blob and display in viewer
       const pdfBlob = pdf.output('blob')
       const pdfUrl = URL.createObjectURL(pdfBlob)
-
 
       return { pdfUrl, pdf }
     } catch (error) {
