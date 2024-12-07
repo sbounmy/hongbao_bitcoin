@@ -141,8 +141,8 @@ export default class extends Controller {
       this.verifyButtonTarget.style.display = "block"
     } else if (this.currentStepValue === 2) {
       this.nextButtonTarget.style.display = "block"
-      this.nextButtonTarget.disabled = !this.isPdfDownloaded
-      this.nextButtonTarget.classList.toggle('disabled:opacity-50', !this.isPdfDownloaded)
+      // this.nextButtonTarget.disabled = !this.isPdfDownloaded
+      // this.nextButtonTarget.classList.toggle('disabled:opacity-50', !this.isPdfDownloaded)
       this.verifyButtonTarget.style.display = "none"
     } else {
       this.nextButtonTarget.style.display = "block"
