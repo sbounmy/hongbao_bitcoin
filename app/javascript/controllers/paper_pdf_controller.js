@@ -153,7 +153,7 @@ export default class extends Controller {
       const viewer = this.pdfViewerTarget
       viewer.setAttribute('type', 'application/pdf')
       viewer.style.width = '100%'
-      viewer.style.height = '600px'
+      viewer.style.height = '680px'
       viewer.src = pdfUrl
       viewer.classList.remove('hidden')
 
