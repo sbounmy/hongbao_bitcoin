@@ -44,7 +44,7 @@
 
             <div class="text-white">
               <h3 class="text-xl font-bold mb-4"><%= t("wallet_instructions.#{method.name.downcase}.title") %></h3>
-              <img src="<%= bitcoin_qr_code(bitcoin_url(hong_bao.address, { amount: hong_bao.amount }), size: 200) %>"
+              <img src="<%= bitcoin_qr_code(bitcoin_url(hong_bao.address), size: 200) %>"
                    alt="Bitcoin Payment QR Code"
                    class="mx-auto mb-4 w-48 h-48">
 
@@ -72,8 +72,7 @@
   <div data-hong-bao-address="<%= hong_bao.address %>" class="hidden"></div>
 
   <div data-hong-bao-qr-code="<%= bitcoin_qr_code(bitcoin_url(
-    hong_bao.address,
-    { amount: hong_bao.amount }),
+    hong_bao.address),
     size: 200
   ) %>" class="hidden"></div>
 

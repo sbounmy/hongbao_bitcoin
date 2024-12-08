@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   scope "(:locale)", locale: /en|zh-CN/ do
-    resources :hong_baos, only: [ :new, :create, :show ] do
+    resources :hong_baos, only: [ :new ] do
     end
     root "hong_baos#new"
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_03_104010) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_08_080635) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -51,33 +51,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_104010) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "hong_baos", force: :cascade do |t|
-    t.decimal "amount"
-    t.decimal "btc_amount"
-    t.decimal "platform_fee"
-    t.decimal "gas_fee"
-    t.string "private_key"
-    t.decimal "total_cost"
-    t.text "personal_message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0
-    t.integer "paper_id"
-    t.string "public_key"
-    t.string "address"
-    t.string "passphrase"
-    t.json "mt_pelerin_response"
-    t.json "mt_pelerin_request"
-    t.string "state"
-    t.text "mnemonic"
-    t.text "seed"
-    t.text "entropy"
-    t.integer "payment_method_id"
-    t.index ["paper_id"], name: "index_hong_baos_on_paper_id"
-    t.index ["payment_method_id"], name: "index_hong_baos_on_payment_method_id"
-    t.index ["seed"], name: "index_hong_baos_on_seed", unique: true
   end
 
   create_table "papers", force: :cascade do |t|
@@ -121,7 +94,5 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_104010) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "hong_baos", "papers"
-  add_foreign_key "hong_baos", "payment_methods"
   add_foreign_key "sessions", "users"
 end
