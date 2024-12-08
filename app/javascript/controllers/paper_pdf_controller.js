@@ -50,13 +50,13 @@ export default class extends Controller {
         pdf.addImage(this.backImageTarget.src, 'PNG', 20, 110, 170, 90)
       }
 
-      // Left Column: What is Bitcoin
+      // Left Column: What is Bitcoin (now narrower)
       pdf.setFillColor(240, 240, 240)
-      pdf.rect(15, 210, 85, 8, 'F')
+      pdf.rect(15, 210, 65, 8, 'F')  // Reduced width from 85 to 65
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
       pdf.setTextColor(50, 50, 50)
-      pdf.text('Instructions:', 20, 216)
+      pdf.text('ABOUT BITCOIN', 20, 216)
 
       // Left column content with QR code and text
       pdf.setFont('helvetica', 'normal')
@@ -67,51 +67,50 @@ export default class extends Controller {
         'Bitcoin is digital money that works',
         'without banks or intermediaries.',
         '',
-        'WARNING: Keep your private key safe!',
+        'Always keep your private key safe.',
         'Never share it with anyone.'
       ]
 
       // Add instructions text
       instructions.forEach((text, index) => {
-        pdf.text(text, 20, 230 + (index * 6))
+        pdf.text(text, 20, 225 + (index * 6))
       })
 
-      // Add QR code below the instructions
-      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 260, 30, 30)
+      // Add QR code below the instructions (adjusted position)
+      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30)
 
-      // Right Column: FAQ (keep existing FAQ section)
+      // Right Column: FAQ (now wider)
       pdf.setFillColor(240, 240, 240)
-      pdf.rect(110, 210, 85, 8, 'F')
+      pdf.rect(90, 210, 105, 8, 'F')  // Increased width from 85 to 105, moved left from 110 to 90
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
-      pdf.text('FAQ', 115, 216)
+      pdf.text('FAQ', 95, 216)  // Moved left from 115 to 95
 
-      // Right column content
+      // Right column content with adjusted x position
       pdf.setFont('helvetica', 'normal')
       pdf.setFontSize(11)
 
       const faq = [
         'How to check balance?',
-        '• Visit mempool.space and enter address',
+        'Visit mempool.space and enter address / public key',
         '',
         'How to convert to cash (€,$)?',
-        '• Use exchanges like Kraken, Binance',
-        '• Use Mt Pelerin for direct bank transfer',
+        'Use exchanges like Coinbase, Kraken, Binance or Mt Pelerin',
         '',
-        'How to use hardware wallet?',
-        '• Get Ledger or Trezor device',
+        'What should I do with this ?',
+        '(Best) Send the funds to a hardware wallet ',
         '• Follow device setup instructions',
         '• Transfer funds using wallet software'
       ]
 
       faq.forEach((text, index) => {
-        pdf.text(text, 115, 230 + (index * 6))
+        pdf.text(text, 95, 225 + (index * 6))  // Moved left from 115 to 95
       })
 
-      // Add vertical divider between columns
+      // Add vertical divider between columns (adjusted position)
       pdf.setDrawColor(200, 200, 200)
       pdf.setLineWidth(0.5)
-      pdf.line(105, 210, 105, 280)
+      pdf.line(85, 210, 85, 280)  // Moved left from 105 to 85
 
       // Create blob and display in viewer
       const pdfBlob = pdf.output('blob')
