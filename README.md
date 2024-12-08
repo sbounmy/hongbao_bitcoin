@@ -1,11 +1,27 @@
-
-
-
 # Bitcoin Hong Bao
 
 Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包).
 
+🌐 **Live Website**: [https://hongbaob.tc](https://hongbaob.tc)
+
+## Dependencies
+
+This project relies on a fork of [bitcoin-ruby](https://github.com/sbounmy/bitcoin-ruby) that supports mnemonic and openssl 3 for Bitcoin private/public key generation.
+
 ## Development
+
+### Setup
+
+```bash
+# Install dependencies
+bin/bundle install
+
+# Setup database
+bin/rails db:setup
+
+# Start the server
+bin/rails server
+```
 
 ### Email Testing
 
@@ -23,16 +39,3 @@ Example of testing the magic link flow:
 3. Click the link to complete the authentication
 
 Note: This only works in development environment. In production, real emails will be sent.
-
-### Setup
-
-```bash
-# Install dependencies
-bin/bundle install
-
-# Setup database
-bin/rails db:setup
-
-# Start the server
-bin/rails server
-```
