@@ -3,9 +3,8 @@
   <a href="#" class="underline hover:text-[#F04747] transition-colors duration-300">About</a>
 </div>
 
-
 <%# GitHub Footer %>
-<div class="text-center">
+<div class="text-center flex flex-col items-center gap-2">
   <%= link_to github_url,
       class: "inline-flex items-center gap-2 text-gray-600 hover:text-[#F04747] transition-colors",
       target: "_blank",
@@ -15,4 +14,13 @@
     </svg>
     View source code
   <% end %>
+
+  <div class="text-xs text-gray-500">
+    <%= link_to "#{github_url}/commit/#{GitInfo.commit_hash}",
+        class: "hover:text-[#F04747] transition-colors",
+        target: "_blank",
+        rel: "noopener" do %>
+      <%= GitInfo.commit_hash %> - <%= time_ago_in_words(Time.parse(GitInfo.commit_time)) %> ago
+    <% end %>
+  </div>
 </div>
