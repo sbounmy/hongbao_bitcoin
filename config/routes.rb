@@ -49,4 +49,8 @@ Rails.application.routes.draw do
     uri << "?#{params}" if params.present?
     uri
   end
+
+  direct :github do
+    "https://github.com/sbounmy/hongbao_bitcoin"
+  end
 end
