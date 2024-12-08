@@ -49,6 +49,8 @@ env:
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
+    COMMIT_SHA: '<%= `git rev-parse --short HEAD`.strip %>'
+    COMMIT_TIME: '<%= `git show -s --format=%ci HEAD`.strip %>'
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
@@ -79,12 +81,13 @@ builder:
   # remote: ssh://docker@docker-builder-server
   #
   # # Pass arguments and secrets to the Docker build process
-  # args:
+  args:
   #   RUBY_VERSION: 3.2.2
   # secrets:
   #   - GITHUB_TOKEN
   #   - RAILS_MASTER_KEY
-
+    COMMIT_SHA: <%= `git rev-parse HEAD`.strip %>
+    COMMIT_TIME: <%= `git show -s --format=%ci HEAD`.strip %>
 # Use a different ssh user than root
 # ssh:
 #   user: app
