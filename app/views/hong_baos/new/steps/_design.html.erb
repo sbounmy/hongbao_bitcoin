@@ -16,10 +16,20 @@
 
           <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
             <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
+            <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
+              <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
+                <%= paper.name %>
+              </div>
+            </div>
           </div>
 
           <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
             <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
+            <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
+              <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
+                <%= paper.name %>
+              </div>
+            </div>
           </div>
         </div>
       </div>
