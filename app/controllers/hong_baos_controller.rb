@@ -4,7 +4,7 @@ class HongBaosController < ApplicationController
 
   def new
     @hong_bao = HongBao.new(paper_id: params[:paper_id])
-    @papers = Paper.all
+    @papers = Paper.active
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
   end
