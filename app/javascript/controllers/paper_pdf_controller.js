@@ -9,7 +9,8 @@ export default class extends Controller {
     "pdfViewerPlaceHolder",
     "pdfViewer",
     "frontImage",
-    "backImage"
+    "backImage",
+    "nextButtonWrapper"
   ]
   static values = {
     qrYoutubeUrl: String,
@@ -141,10 +142,13 @@ export default class extends Controller {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
       const filename = `${this.formattedDate}_HongBaoBitcoin.pdf`;
       pdf.save(filename);
-    }).catch((error) => {
-      console.error('PDF download failed:', error);
-    }).finally(() => {
-      this.dispatch('pdfDownloaded');
+
+      // Enable next button after download
+      this.nextButtonWrapperTarget.dataset.downloaded = 'true';
+      const nextButton = this.nextButtonWrapperTarget.querySelector('button');
+      if (nextButton) {
+        nextButton.disabled = false;
+      }
     });
   }
 
