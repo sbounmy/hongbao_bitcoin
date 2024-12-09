@@ -89,4 +89,11 @@
          rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
        }.to_json %>">
   </div>
+
+  <div class="flex items-center space-x-4 mt-8">
+    <%= render "hong_baos/new/previous_button", current_step: 3 %>
+    <div class="flex-1">
+      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+    </div>
+  </div>
 </div>
