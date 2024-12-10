@@ -62,7 +62,6 @@ export default class extends CanvasBaseController {
         qrHeight
       )
 
-      this.drawText('Private Key', 'qrcode_private_key_label')
       this.dispatch("done", {
         detail: {
           base64url: this.canvasData,
