@@ -15,7 +15,8 @@ export default class extends Controller {
   static values = {
     qrYoutubeUrl: String,
     frontImage: String,
-    backImage: String
+    backImage: String,
+    address: String
   }
 
   connect() {
@@ -140,7 +141,7 @@ export default class extends Controller {
 
   downloadPdf() {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
-      const filename = `${this.formattedDate}_HongBaoBitcoin.pdf`;
+      const filename = `Bitcoin_HongBao_${this.formattedDate}_${this.addressValue}.pdf`;
       pdf.save(filename);
 
       // Enable next button after download
