@@ -18,13 +18,9 @@ class Paper < ApplicationRecord
 
   ELEMENTS = %w[
     qrcode_private_key
-    qrcode_private_key_label
     qrcode_public_key
-    qrcode_public_key_label
     mnemonic
     public_key_address
-    amount
-    amount_btc
   ].freeze
 
   ELEMENT_ATTRIBUTES = %i[x y size color opacity].freeze
