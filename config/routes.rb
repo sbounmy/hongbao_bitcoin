@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   resource :session
   resources :passwords, param: :token
+  resources :hong_baos, only: [ :show, :index ] do
+    put :transfer, on: :member
+  end
+
   scope "(:locale)", locale: /en|zh-CN/ do
-    resources :hong_baos, only: [ :new ] do
-    end
+    resources :hong_baos, only: [ :new, :show, :index ]
     root "hong_baos#new"
   end
 

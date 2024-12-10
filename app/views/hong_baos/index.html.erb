@@ -1,0 +1,33 @@
+<div class="min-h-screen bg-[#FFE5E5] flex flex-col gap-10 items-center justify-center p-4">
+  <div class="w-full max-w-xl bg-[#F04747] p-8
+              border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+              rounded-2xl shadow-2xl relative">
+
+    <h2 class="text-2xl font-bold text-white text-center mb-6">Scan Hong Bao QR Code</h2>
+
+    <div class="bg-white/90 rounded-xl p-4 shadow-inner">
+      <div id="qr-reader" class="w-full rounded-lg overflow-hidden"></div>
+      <div id="qr-reader-results" class="mt-4 text-center text-gray-700"></div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  document.addEventListener('turbo:load', function() {
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "qr-reader", {
+        fps: 5,
+        qrbox: 250,
+        rememberLastUsedCamera: true,
+      });
+
+    function onScanSuccess(decodedText, decodedResult) {
+      const resultDiv = document.getElementById('qr-reader-results');
+      resultDiv.textContent = 'Loading...';
+
+      window.location.href = `/hong_baos/${decodedText}`;
+    }
+
+    html5QrcodeScanner.render(onScanSuccess);
+  });
+<% end %>

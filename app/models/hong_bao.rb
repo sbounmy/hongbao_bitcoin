@@ -2,7 +2,7 @@ class HongBao
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  # Define attributes
+  # Existing attributes for generation
   attribute :paper_id, :integer
   attribute :public_key, :string
   attribute :private_key, :string
@@ -13,16 +13,26 @@ class HongBao
   attribute :mt_pelerin_request_code, :string
   attribute :mt_pelerin_request_hash, :string
 
-  validates :paper_id, presence: true
+  # New attributes for scanning/transfer
+  attribute :balance, :decimal
+  attribute :to_address, :string
+  attribute :amount, :decimal
+  attribute :scanned_key, :string # For storing scanned public/private key
 
-  # Initialize with bitcoin keys generation
-  def initialize(attributes = {})
-    super
-    generate_bitcoin_keys
-    generate_mt_pelerin_request
+  validates :paper_id, presence: true
+  validates :amount, numericality: { greater_than: 0 }, allow_nil: true
+
+  def self.generate(paper_id:)
+    hong_bao = new(paper_id: paper_id)
+    hong_bao.generate_bitcoin_keys
+    hong_bao.generate_mt_pelerin_request
+    hong_bao
   end
 
-  private
+  def self.from_scan(key)
+    hong_bao = new(scanned_key: key, paper_id: 0)
+    hong_bao
+  end
 
   def generate_bitcoin_keys
     master = Bitcoin::Master.generate
@@ -40,5 +50,20 @@ class HongBao
 
     bitcoin_key = Bitcoin::Key.new(Bitcoin::Key.from_base58(private_key).priv, public_key)
     self.mt_pelerin_request_hash = bitcoin_key.sign_message(message)
+  end
+
+  def scanned_key=(key)
+    Bitcoin.network = :bitcoin
+    if Bitcoin.valid_address?(key)
+      self.address = key
+    else
+      self.private_key = Bitcoin::Key.from_base58(key)
+      self.public_key = self.private_key.pub
+      self.address = self.private_key.addr
+    end
+  end
+
+  def balance
+    @balance ||= Balance.fetch_for_address(address)
   end
 end
