@@ -53,7 +53,7 @@ class HongBao
   end
 
   def scanned_key=(key)
-    Bitcoin.network = :bitcoin
+    Bitcoin.network = :bitcoin # beucase I tested a bill topped up with mt pelerin
     if Bitcoin.valid_address?(key)
       self.address = key
     else

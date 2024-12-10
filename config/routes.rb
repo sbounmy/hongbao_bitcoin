@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do
+    post :search, on: :collection
     put :transfer, on: :member
   end
 

@@ -1,8 +1,17 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show index transfer]
+  allow_unauthenticated_access only: %i[new show index search]
 
   def index
     # Just render the QR scanner view
+  end
+
+  def search
+    @hong_bao = HongBao.from_scan(params[:hong_bao][:scanned_key])
+    if @hong_bao.present?
+      redirect_to hong_bao_path(@hong_bao.address)
+    else
+      redirect_to hong_baos_path, alert: "Invalid QR code"
+    end
   end
 
   def new

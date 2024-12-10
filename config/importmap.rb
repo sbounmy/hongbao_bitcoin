@@ -8,6 +8,10 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
 pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js" # @2.5.2
 
+# Add html5-qrcode with ga.jspm.io
+pin "qr-scanner", to: "https://ga.jspm.io/npm:qr-scanner@1.4.2/qr-scanner.min.js"
+pin "qr-scanner-worker", to: "https://ga.jspm.io/npm:qr-scanner@1.4.2/qr-scanner-worker.min.js"
+
 # jsPDF and its dependencies
 pin "@babel/runtime/helpers/typeof", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/typeof.js"
 pin "@babel/runtime/helpers/asyncToGenerator", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/asyncToGenerator.js"
