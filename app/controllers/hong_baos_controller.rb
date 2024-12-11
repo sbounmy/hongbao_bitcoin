@@ -24,11 +24,23 @@ class HongBaosController < ApplicationController
 
   def show
     @hong_bao = HongBao.from_scan(params[:id])
+    @payment_methods = PaymentMethod.active
+  end
+
+  def transfer
+    @hong_bao =  HongBao.from_private_key(session[:private_key])
+    @payment_methods = PaymentMethod.active
+
+    if @hong_bao.transfer(transfer_params)
+      redirect_to hong_bao_path(@hong_bao.address), notice: "Funds transferred successfully"
+    else
+      render :show
+    end
   end
 
   private
 
   def transfer_params
-    params.require(:hong_bao).permit(:to_address, :amount, :mnemonic)
+    params.require(:hong_bao).permit(:to_address, :payment_method_id)
   end
 end

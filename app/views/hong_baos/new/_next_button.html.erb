@@ -5,7 +5,7 @@
                <%= local_assigns[:html_options]&.dig(:class) %>"
         data-action="hong-bao#nextStep"
         data-hong-bao-target="nextButton"
-        style="<%= current_step == 3 ? 'display: none;' : '' %>"
+        data-step="<%= local_assigns[:current_step] %>"
         <%= 'disabled' if local_assigns[:html_options]&.dig(:disabled) %>>
   Next →
 </button>

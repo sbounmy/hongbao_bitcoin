@@ -1,4 +1,4 @@
-<div data-hong-bao-target="step">
+<div data-controller="payment-method" data-mode="deposit" data-hong-bao-target="step">
   <div class="mb-8 text-white space-y-4">
     <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
     <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
@@ -15,8 +15,8 @@
             method.id,
             class: "hidden peer",
             data: {
-              hong_bao_target: "paymentMethod",
-              action: "click->hong-bao#paymentMethodSelected",
+              payment_method_target: "paymentMethod",
+              action: "click->payment-method#methodSelected",
               method_name: method.name.downcase
             } %>
         <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
@@ -29,54 +29,22 @@
     <% end %>
   </div>
 
-    <% payment_methods.each do |method| %>
-      <% if ['bitstack', 'ledger'].include?(method.name.downcase) %>
-        <div data-hong-bao-target="walletModal"
-             data-wallet-type="<%= method.name.downcase %>"
-             class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-md w-full relative">
-            <button data-action="click->hong-bao#closeWalletModal"
-                    class="absolute top-2 right-2 text-white/60 hover:text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+  <div class="flex items-center space-x-4 mt-8">
+    <%= render "hong_baos/new/previous_button", current_step: 3 %>
+    <div class="flex-1">
+      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+    </div>
+  </div>
 
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-4"><%= t("wallet_instructions.#{method.name.downcase}.title") %></h3>
-              <img src="<%= bitcoin_qr_code(bitcoin_url(hong_bao.address), size: 200) %>"
-                   alt="Bitcoin Payment QR Code"
-                   class="mx-auto mb-4 w-48 h-48">
+  <%= render "hong_baos/shared/wallet_modals",
+      hong_bao: hong_bao,
+      payment_methods: payment_methods,
+      mode: :deposit %>
 
-              <div class="space-y-2 text-sm">
-                <% t("wallet_instructions.#{method.name.downcase}.steps").each do |step| %>
-                  <p><%= step %></p>
-                <% end %>
-              </div>
+  <%# Hidden data for JS %>
+  <div data-payment-method-address="<%= hong_bao.address %>" class="hidden"></div>
 
-              <div class="mt-4 flex items-center justify-center gap-2 bg-white/10 p-2 rounded">
-                <code class="text-sm"><%= hong_bao.address %></code>
-                <button class="btn btn-ghost btn-sm" data-action="click->hong-bao#copyAddress">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-
-  <%# Hidden address data for JS %>
-  <div data-hong-bao-address="<%= hong_bao.address %>" class="hidden"></div>
-
-  <div data-hong-bao-qr-code="<%= bitcoin_qr_code(bitcoin_url(
-    hong_bao.address),
-    size: 200
-  ) %>" class="hidden"></div>
-
-  <div data-hong-bao-target="mtPelerinData"
+  <div data-payment-method-target="mtPelerinData"
        data-options="<%= {
          ctkn: Rails.application.credentials.dig(:mt_pelerin, :token),
          locale: I18n.locale,
@@ -88,12 +56,5 @@
          requestHash: hong_bao.mt_pelerin_request_hash,
          rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
        }.to_json %>">
-  </div>
-
-  <div class="flex items-center space-x-4 mt-8">
-    <%= render "hong_baos/new/previous_button", current_step: 3 %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
-    </div>
   </div>
 </div>
