@@ -39,3 +39,18 @@ Example of testing the magic link flow:
 3. Click the link to complete the authentication
 
 Note: This only works in development environment. In production, real emails will be sent.
+
+### Adding JavaScript Dependencies
+
+We use ImportMaps with [JSPM](https://jspm.io/). To add new JavaScript dependencies:
+
+-1. Visit [JSPM Generator](https://generator.jspm.io/)
+2. Search and select your package
+3. Copy the generated import URL from the right panel as shown below:
+
+![JSPM Generator Screenshot](/app/assets/images/readme/importmap.png)
+
+4. Add the URL to your `config/importmap.rb`:
+
+```ruby
+pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js"
