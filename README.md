@@ -44,7 +44,7 @@ We use ImportMaps with [JSPM](https://jspm.io/). To add new JavaScript dependenc
 2. Search and select your package
 3. Copy the generated import URL from the right panel as shown below:
 
-![JSPM Generator Screenshot](/app/assets/images/importmap.png)
+![JSPM Generator Screenshot](/app/assets/images/readme/importmap.png)
 
 4. Add the URL to your `config/importmap.rb`:
 
