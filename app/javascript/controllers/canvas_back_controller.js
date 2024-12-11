@@ -62,13 +62,36 @@ export default class extends CanvasBaseController {
         qrHeight
       )
 
-      this.dispatch("done", {
-        detail: {
-          base64url: this.canvasData,
-          paperId: this.paperIdValue,
-          side: 'back'
-        }
-      })
+      const svgString = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+          <circle cx="12" cy="12" r="11" fill="white"/>
+          <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+        </svg>`
+
+
+      const blob = new Blob([svgString], { type: 'image/svg+xml' })
+      const url = URL.createObjectURL(blob)
+      const svgImage = new Image()
+
+      svgImage.onload = () => {
+        const overlaySize = qrWidth * 0.25
+        const centerX = (this.canvasTarget.width * coords.x) + (qrWidth / 2) - (overlaySize / 2)
+        const centerY = (this.canvasTarget.height * coords.y) + (qrHeight / 2) - (overlaySize / 2)
+
+        this.ctx.drawImage(svgImage, centerX, centerY, overlaySize, overlaySize)
+
+        URL.revokeObjectURL(url)
+
+        this.dispatch("done", {
+          detail: {
+            base64url: this.canvasData,
+            paperId: this.paperIdValue,
+            side: 'back'
+          }
+        })
+      }
+
+      svgImage.src = url
     }
   }
 }
