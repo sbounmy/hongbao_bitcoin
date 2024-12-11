@@ -6,7 +6,7 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
-pin "jspdf", to: "https://unpkg.com/jspdf@latest/dist/jspdf.es.min.js" # @2.5.2
+pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js" # @2.5.2
 
 # jsPDF and its dependencies
 pin "@babel/runtime/helpers/typeof", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/typeof.js"
