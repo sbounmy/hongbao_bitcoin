@@ -8,6 +8,7 @@ class HongBaosController < ApplicationController
   def search
     @hong_bao = HongBao.from_scan(params[:hong_bao][:scanned_key])
     if @hong_bao.present?
+      session[:private_key] = @hong_bao.private_key if @hong_bao.private_key.present?
       redirect_to hong_bao_path(@hong_bao.address)
     else
       redirect_to hong_baos_path, alert: "Invalid QR code"

@@ -11,9 +11,12 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
         </svg>
-        <div class="text-sm">
-          <p class="font-semibold">Important:</p>
-          <p>Please scan the QR code from the <span class="font-bold text-success">public key side</span> of the Hong Bao.</p>
+        <div class="text-sm space-y-1">
+          <p class="font-semibold">Scan either side of your Hong Bao:</p>
+          <ul class="list-disc list-inside ml-2 space-y-0.5">
+            <li>Front side to view balance</li>
+            <li>Back side to enable transfers</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -22,7 +25,8 @@
                  data: { controller: "qr-scanner" } do |form| %>
       <div class="bg-white/90 rounded-xl p-4 shadow-inner">
         <div id="qr-reader" class="w-full rounded-lg overflow-hidden"></div>
-        <div data-qr-scanner-target="results" class="mt-4 text-center text-gray-700"></div>
+        <div data-qr-scanner-target="results"
+             class="mt-4 text-center text-gray-700 font-medium"></div>
       </div>
 
       <%= form.hidden_field :scanned_key,
@@ -30,7 +34,7 @@
     <% end %>
   </div>
 
-  <%# Optional: Add a help tooltip %>
+  <%# Help tooltip %>
   <div class="text-sm text-gray-700 bg-white/90 rounded-xl p-4 max-w-md text-center">
     <p class="font-medium">💡 Tip:</p>
     <p>Make sure the QR code is well-lit and centered in the camera view.</p>

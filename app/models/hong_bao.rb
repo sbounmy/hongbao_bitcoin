@@ -57,13 +57,19 @@ class HongBao
     if Bitcoin.valid_address?(key)
       self.address = key
     else
-      self.private_key = Bitcoin::Key.from_base58(key)
-      self.public_key = self.private_key.pub
-      self.address = self.private_key.addr
+      # self.private_key = Bitcoin::Key.from_base58(key)
+      pkey = Bitcoin::Key.new(key)
+      self.private_key = pkey.priv
+      self.public_key = pkey.pub
+      self.address = pkey.addr
     end
   end
 
   def balance
     @balance ||= Balance.fetch_for_address(address)
+  end
+
+  def can_transfer?
+    private_key.present?
   end
 end
