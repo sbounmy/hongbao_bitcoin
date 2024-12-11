@@ -24,6 +24,8 @@
   </button>
 </div>
 
+<%= turbo_frame_tag "qr_scanner" %>
+
 <div class="min-h-screen bg-[#FFE5E5] flex flex-col gap-10 items-center justify-center p-4">
   <div class="w-full max-w-xl bg-[#F04747] p-8
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
@@ -40,7 +42,6 @@
                   }) do |form| %>
 
       <%= render "hong_baos/new/progress_steps", current_step: @current_step %>
-
       <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
       <%= render "hong_baos/new/steps/design",
@@ -61,9 +62,9 @@
 
     <% end %>
   </div>
+
   <%= render "shared/faq" %>
   <%= render "shared/about" %>
   <%= render "shared/donate" %>
-
   <%= render "shared/footer" %>
 </div>

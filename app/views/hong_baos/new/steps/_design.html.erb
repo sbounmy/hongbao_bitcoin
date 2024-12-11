@@ -42,4 +42,28 @@
       <%= render "hong_baos/new/next_button", current_step: 1 %>
     </div>
   </div>
+  <div class="mt-8 pt-8 border-t-2 border-[#FFB636]/30">
+    <div class="text-center space-y-4">
+      <h3 class="text-xl font-bold text-[#FFB636]">Already have a Hong Bao?</h3>
+      <%= link_to hong_baos_path,
+          target: "_blank",
+          rel: "noopener",
+          class: "w-full inline-flex items-center justify-center gap-2 px-6 py-3.5
+                 bg-transparent hover:bg-amber-100/10 text-amber-100
+                 rounded-xl border-2 border-amber-100/50
+                 shadow-lg transform hover:scale-102 transition-all duration-200
+                 text-base font-medium group" do %>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5 group-hover:scale-110 transition-transform duration-200"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor"
+             stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Scan your Hong Bao here
+      <% end %>
+    </div>
+  </div>
 </div>
