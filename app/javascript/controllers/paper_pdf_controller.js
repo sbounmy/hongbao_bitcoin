@@ -16,7 +16,8 @@ export default class extends Controller {
     qrYoutubeUrl: String,
     frontImage: String,
     backImage: String,
-    address: String
+    address: String,
+    hongbaoQr: String
   }
 
   connect() {
@@ -81,38 +82,41 @@ export default class extends Controller {
       // Add QR code below the instructions (adjusted position)
       pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30)
 
-      // Right Column: FAQ (now wider)
+      // Right Column: FAQ
       pdf.setFillColor(240, 240, 240)
-      pdf.rect(90, 210, 105, 8, 'F')  // Increased width from 85 to 105, moved left from 110 to 90
+      pdf.rect(90, 210, 105, 8, 'F')
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
-      pdf.text('FAQ', 95, 216)  // Moved left from 115 to 95
+      pdf.text('FAQ', 95, 216)
 
-      // Right column content with adjusted x position
+      // Add HongBao QR code in the top-right corner with new text
+      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30)
+      pdf.setFontSize(9)
+      pdf.text('Verify balance', 168, 223)
+
+      // Right column content - FAQ text without questions
       pdf.setFont('helvetica', 'normal')
-      pdf.setFontSize(11)
+      pdf.setFontSize(12)
 
-      const faq = [
-        'How to check balance?',
-        'Visit mempool.space and enter address / public key',
+      const faqLines = [
+        'This banknote contains keys to access',
+        'your Bitcoin stored on the blockchain.',
         '',
-        'How to convert to cash (€,$)?',
-        'Use exchanges like Coinbase, Kraken, Binance or Mt Pelerin',
+        'Public key (IBAN) is QRcode / address.',
+        'You can check balance or receive funds.',
         '',
-        'What should I do with this ?',
-        '(Best) Send the funds to a hardware wallet ',
-        '• Follow device setup instructions',
-        '• Transfer funds using wallet software'
+        'Private key (Password) is used to move funds.',
+        '',
+        'For better security, we recommend transferring',
+        'to a hardware wallet (Passport Foundation,',
+        'Trezor, or Ledger).'
       ]
 
-      faq.forEach((text, index) => {
-        pdf.text(text, 95, 225 + (index * 6))  // Moved left from 115 to 95
+      // Render FAQ with consistent spacing
+      faqLines.forEach((line, index) => {
+        const y = 230 + (index * 6)
+        pdf.text(line, 95, y)
       })
-
-      // Add vertical divider between columns (adjusted position)
-      pdf.setDrawColor(200, 200, 200)
-      pdf.setLineWidth(0.5)
-      pdf.line(85, 210, 85, 280)  // Moved left from 105 to 85
 
       // Create blob and display in viewer
       const pdfBlob = pdf.output('blob')

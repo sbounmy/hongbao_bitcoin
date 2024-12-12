@@ -1,6 +1,7 @@
 <div data-hong-bao-target="step" data-controller="paper-pdf"
      data-action="hong-bao:select@window->paper-pdf#updateImages hong-bao:select@window->paper-pdf#showPdfViewer"
      data-paper-pdf-qr-youtube-url-value="<%= image_path('pdf/satoshi-mystery.png') %>"
+     data-paper-pdf-hongbao-qr-value="<%= hongbao_qr_code(hong_bao.address) %>"
      data-paper-pdf-front-image-value=""
      data-paper-pdf-back-image-value=""
      data-paper-pdf-address-value="<%= hong_bao.address %>">
