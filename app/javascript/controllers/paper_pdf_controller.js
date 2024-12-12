@@ -92,7 +92,7 @@ export default class extends Controller {
       // Add HongBao QR code in the top-right corner with new text
       pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30)
       pdf.setFontSize(9)
-      pdf.text('Verify balance', 168, 223)
+      pdf.text('Verify balance', 172, 223)
 
       // Right column content - FAQ text without questions
       pdf.setFont('helvetica', 'normal')
@@ -112,9 +112,9 @@ export default class extends Controller {
         'Trezor, or Ledger).'
       ]
 
-      // Render FAQ with consistent spacing
+      // Render FAQ with reduced initial spacing
       faqLines.forEach((line, index) => {
-        const y = 230 + (index * 6)
+        const y = 225 + (index * 6)  // Changed from 230 to 225 to match left column
         pdf.text(line, 95, y)
       })
 
