@@ -24,7 +24,7 @@ class Balance
     new(
       address: address,
       satoshis: balance_data.fetch('balance', 0),
-      confirmations: tx_ref&.fetch('confirmations', 0),
+      confirmations: tx_ref&.fetch('confirmations', 0) || 0,
       exchange_rate: usd_rate,
       confirmed_at: tx_ref&.fetch('confirmed')&.then { |date| Time.parse(date) },
       historical_price: fetch_historical_price(tx_ref&.fetch('confirmed'))
@@ -73,7 +73,7 @@ class Balance
   end
 
   def status
-    if confirmations.zero?
+    if confirmations.zero? && satoshis > 0
       { icon: :pending, text: 'pending' }
     else
       { icon: :checkmark, text: 'confirmed' }
