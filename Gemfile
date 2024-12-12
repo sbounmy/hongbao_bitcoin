@@ -72,6 +72,6 @@ gem "aasm"
 
 gem "rqrcode"
 
-gem "activeadmin", '4.0.0.beta14'
+gem "activeadmin", '4.0.0.beta15'
 
 gem 'blockcypher-ruby', require: 'blockcypher'
