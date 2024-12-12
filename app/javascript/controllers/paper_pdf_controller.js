@@ -30,12 +30,12 @@ export default class extends Controller {
   }
   async generatePDF() {
     console.log("generatePDF called")
-    const printableArea = this.printableAreaTarget
-    // Temporarily make printable area visible
-    printableArea.classList.remove('hidden')
-    // Show loading state
-    this.printButtonTarget.disabled = true
-    this.printButtonTarget.textContent = "Generating PDF..."
+    // const printableArea = this.printableAreaTarget
+    // // Temporarily make printable area visible
+    // printableArea.classList.remove('hidden')
+    // // Show loading state
+    // this.printButtonTarget.disabled = true
+    // this.printButtonTarget.textContent = "Generating PDF..."
 
     try {
       const { default: jsPDF } = await import("jspdf")
@@ -45,12 +45,37 @@ export default class extends Controller {
         format: 'a4'
       })
 
-      // Add front and back images directly instead of using html2canvas
-      if (this.frontImageTarget.src) {
-        pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 20, 170, 90)
-      }
+      // Add back image first (on top)
+      pdf.setLineDashPattern([1, 1]);
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setLineWidth(1);
+      // pdf.line(10, 10, 200, 10)
       if (this.backImageTarget.src) {
-        pdf.addImage(this.backImageTarget.src, 'PNG', 20, 110, 170, 90)
+        pdf.addImage(this.backImageTarget.src, 'PNG', 190, -80, 170, 90, undefined, undefined, 180);
+      }
+
+      // Add separator line with "FOLD" text
+      pdf.setLineDashPattern([]);
+
+      //pdf.setLineWidth(0.5);
+      pdf.line(20, 105, 190, 105);
+
+      // Add "FOLD" text at both ends
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text('FOLD', 15, 104);
+      pdf.text('FOLD', 192, 104);
+
+      // Add front image below
+      if (this.frontImageTarget.src) {
+        // Draw dotted border around front image
+        pdf.setLineDashPattern([1, 1]);
+        pdf.rect(15, 5, 180, 200); // Rectangle matching image dimensions
+        pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 110, 170, 90);
+
+        // Add dotted line after front image
+        //pdf.line(20, 205, 190, 205); // Draw line below front image
       }
 
       // Left Column: What is Bitcoin (now narrower)
