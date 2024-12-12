@@ -87,7 +87,7 @@ export default class extends Controller {
       pdf.rect(90, 210, 105, 8, 'F')
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
-      pdf.text('FAQ', 95, 216)
+      pdf.text('HOW IT WORKS', 95, 216)
 
       // Add HongBao QR code in the top-right corner with new text
       pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30)
