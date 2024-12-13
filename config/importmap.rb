@@ -19,3 +19,7 @@ pin "@babel/runtime/helpers/classCallCheck", to: "https://ga.jspm.io/npm:@babel/
 pin "@babel/runtime/helpers/createClass", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/createClass.js"
 pin "@babel/runtime/regenerator", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/regenerator/index.js"
 pin "fflate", to: "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm"
+
+# Chart.js and its dependencies
+pin "chart.js", to: "https://ga.jspm.io/npm:chart.js@4.4.1/auto/auto.js"
+pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.2/dist/color.esm.js"
