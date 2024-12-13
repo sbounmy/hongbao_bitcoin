@@ -92,14 +92,6 @@ Rails.application.configure do
   config.action_controller.asset_host = "https://hongbaob.tc"
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: Rails.application.credentials.dig(:brevo, :smtp_server),
-    port: Rails.application.credentials.dig(:brevo, :port),
-    user_name: Rails.application.credentials.dig(:brevo, :login),
-    password: Rails.application.credentials.dig(:brevo, :password),
-    authentication: :login,
-    enable_starttls_auto: true
-  }
 
   # Don't forget to set your default URL options for mailer
   config.action_mailer.default_url_options = {
