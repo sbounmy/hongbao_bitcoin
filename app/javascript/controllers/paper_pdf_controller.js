@@ -1,6 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { jsPDF } from "jspdf"
-import html2canvas from "html2canvas"
 
 export default class extends Controller {
   static targets = [
@@ -17,7 +15,8 @@ export default class extends Controller {
     frontImage: String,
     backImage: String,
     address: String,
-    hongbaoQr: String
+    hongbaoQr: String,
+    scissorsImageUrl: String
   }
 
   connect() {
@@ -30,12 +29,6 @@ export default class extends Controller {
   }
   async generatePDF() {
     console.log("generatePDF called")
-    // const printableArea = this.printableAreaTarget
-    // // Temporarily make printable area visible
-    // printableArea.classList.remove('hidden')
-    // // Show loading state
-    // this.printButtonTarget.disabled = true
-    // this.printButtonTarget.textContent = "Generating PDF..."
 
     try {
       const { default: jsPDF } = await import("jspdf")
@@ -45,48 +38,38 @@ export default class extends Controller {
         format: 'a4'
       })
 
-      // Add back image first (on top)
       pdf.setLineDashPattern([1, 1]);
       pdf.setDrawColor(200, 200, 200);
       pdf.setLineWidth(1);
-      // pdf.line(10, 10, 200, 10)
       if (this.backImageTarget.src) {
         pdf.addImage(this.backImageTarget.src, 'PNG', 190, -80, 170, 90, undefined, undefined, 180);
       }
 
-      // Add separator line with "FOLD" text
       pdf.setLineDashPattern([]);
 
-      //pdf.setLineWidth(0.5);
       pdf.line(20, 105, 190, 105);
 
-      // Add "FOLD" text at both ends
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
       pdf.setTextColor(150, 150, 150);
-      pdf.text('FOLD', 15, 104);
-      pdf.text('FOLD', 192, 104);
+      pdf.text('FOLD', 5, 106);
+      pdf.text('FOLD', 200, 106);
 
       // Add front image below
+      pdf.setLineDashPattern([1, 1]);
+      pdf.addImage(this.scissorsImageUrlValue, 'PNG', 6, 1, 6, 6);
+      pdf.rect(15, 5, 180, 200);
       if (this.frontImageTarget.src) {
-        // Draw dotted border around front image
-        pdf.setLineDashPattern([1, 1]);
-        pdf.rect(15, 5, 180, 200); // Rectangle matching image dimensions
         pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 110, 170, 90);
-
-        // Add dotted line after front image
-        //pdf.line(20, 205, 190, 205); // Draw line below front image
       }
 
-      // Left Column: What is Bitcoin (now narrower)
       pdf.setFillColor(240, 240, 240)
-      pdf.rect(15, 210, 65, 8, 'F')  // Reduced width from 85 to 65
+      pdf.rect(15, 210, 65, 8, 'F')
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
       pdf.setTextColor(50, 50, 50)
       pdf.text('ABOUT BITCOIN', 20, 216)
 
-      // Left column content with QR code and text
       pdf.setFont('helvetica', 'normal')
       pdf.setFontSize(11)
       pdf.setTextColor(60, 60, 60)
@@ -184,7 +167,6 @@ export default class extends Controller {
 
   showPdfViewer() {
     console.log("showPdfViewer called")
-    // setTimeout(() => {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
     console.log("pdfUrl:", pdfUrl)
     if (this.hasPdfViewerTarget) {
@@ -204,9 +186,8 @@ export default class extends Controller {
         console.error('Failed to load PDF:', error)
       }
     } else {
-      console.error('PDF viewer target not found')
+        console.error('PDF viewer target not found')
       }
-      })
-    // }, 3000)
+    })
   }
 }
