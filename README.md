@@ -16,6 +16,15 @@ Create and print beautiful Bitcoin bills with QR codes to pack inside traditiona
 # Install dependencies
 bin/bundle install
 
+# Setup credentials
+# The credentials.yml.enc file is encrypted and can't be directly edited
+# Use Rails credentials editor to set up your credentials:
+EDITOR="nano --wait" bin/rails credentials:edit
+
+# When the editor opens, refer to config/credentials.yml.example
+# for the required structure and keys
+# Note: Make sure to keep your `master.key` file secure and never commit it to version control.
+
 # Setup database
 bin/rails db:setup
 
