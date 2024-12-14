@@ -1,6 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { jsPDF } from "jspdf"
-import html2canvas from "html2canvas"
 
 export default class extends Controller {
   static targets = [
@@ -17,7 +15,8 @@ export default class extends Controller {
     frontImage: String,
     backImage: String,
     address: String,
-    hongbaoQr: String
+    hongbaoQr: String,
+    scissorsImageUrl: String
   }
 
   connect() {
@@ -30,12 +29,6 @@ export default class extends Controller {
   }
   async generatePDF() {
     console.log("generatePDF called")
-    const printableArea = this.printableAreaTarget
-    // Temporarily make printable area visible
-    printableArea.classList.remove('hidden')
-    // Show loading state
-    this.printButtonTarget.disabled = true
-    this.printButtonTarget.textContent = "Generating PDF..."
 
     try {
       const { default: jsPDF } = await import("jspdf")
@@ -45,23 +38,56 @@ export default class extends Controller {
         format: 'a4'
       })
 
-      // Add front and back images directly instead of using html2canvas
-      if (this.frontImageTarget.src) {
-        pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 20, 170, 90)
-      }
+      pdf.setLineDashPattern([1, 1]);
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setLineWidth(1);
       if (this.backImageTarget.src) {
-        pdf.addImage(this.backImageTarget.src, 'PNG', 20, 110, 170, 90)
+        pdf.addImage(
+          this.backImageTarget.src,
+          'PNG',
+          190, -80, 170, 90,
+          'back',
+          'FAST', // Add compression
+          180 // Rotate for folding
+        )
       }
 
-      // Left Column: What is Bitcoin (now narrower)
+      pdf.setLineDashPattern([]);
+
+      pdf.line(20, 105, 190, 105);
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text('FOLD', 10, 105, { angle: 90 });
+
+      pdf.text('FOLD', 200, 105, { angle: -90 });
+
+      pdf.text('INSERT INTO ENVELOPE', 10, 250, { angle: 90 });
+
+      pdf.text('INSERT INTO ENVELOPE', 200, 250, { angle: -90 });
+
+      // Add front image below
+      pdf.setLineDashPattern([1, 1]);
+      pdf.addImage(this.scissorsImageUrlValue, 'PNG', 6, 1, 6, 6);
+      pdf.rect(15, 5, 180, 200);
+      if (this.frontImageTarget.src) {
+        pdf.addImage(
+          this.frontImageTarget.src,
+          'PNG',
+          20, 110, 170, 90,
+          undefined,
+          'FAST' // Add compression
+        )
+      }
+
       pdf.setFillColor(240, 240, 240)
-      pdf.rect(15, 210, 65, 8, 'F')  // Reduced width from 85 to 65
+      pdf.rect(15, 210, 65, 8, 'F')
       pdf.setFont('helvetica', 'bold')
       pdf.setFontSize(14)
       pdf.setTextColor(50, 50, 50)
       pdf.text('ABOUT BITCOIN', 20, 216)
 
-      // Left column content with QR code and text
       pdf.setFont('helvetica', 'normal')
       pdf.setFontSize(11)
       pdf.setTextColor(60, 60, 60)
@@ -80,7 +106,7 @@ export default class extends Controller {
       })
 
       // Add QR code below the instructions (adjusted position)
-      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30)
+      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30, undefined, 'FAST')
 
       // Right Column: FAQ
       pdf.setFillColor(240, 240, 240)
@@ -90,7 +116,7 @@ export default class extends Controller {
       pdf.text('HOW IT WORKS', 95, 216)
 
       // Add HongBao QR code in the top-right corner with new text
-      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30)
+      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30, undefined, 'FAST')
       pdf.setFontSize(9)
       pdf.text('Verify balance', 172, 223)
 
@@ -159,7 +185,6 @@ export default class extends Controller {
 
   showPdfViewer() {
     console.log("showPdfViewer called")
-    // setTimeout(() => {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
     console.log("pdfUrl:", pdfUrl)
     if (this.hasPdfViewerTarget) {
@@ -179,9 +204,8 @@ export default class extends Controller {
         console.error('Failed to load PDF:', error)
       }
     } else {
-      console.error('PDF viewer target not found')
+        console.error('PDF viewer target not found')
       }
-      })
-    // }, 3000)
+    })
   }
 }
