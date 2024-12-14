@@ -59,8 +59,13 @@ export default class extends Controller {
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
       pdf.setTextColor(150, 150, 150);
-      pdf.text('FOLD', 5, 106);
-      pdf.text('FOLD', 200, 106);
+      pdf.text('FOLD', 10, 105, { angle: 90 });
+
+      pdf.text('FOLD', 200, 105, { angle: -90 });
+
+      pdf.text('INSERT INTO ENVELOPE', 10, 250, { angle: 90 });
+
+      pdf.text('INSERT INTO ENVELOPE', 200, 250, { angle: -90 });
 
       // Add front image below
       pdf.setLineDashPattern([1, 1]);
