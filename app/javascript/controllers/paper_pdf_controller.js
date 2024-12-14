@@ -42,13 +42,13 @@ export default class extends Controller {
       pdf.setDrawColor(200, 200, 200);
       pdf.setLineWidth(1);
       if (this.backImageTarget.src) {
-        // pdf.addImage(this.backImageTarget.src, 'PNG', 190, -80, 170, 90, undefined, undefined, 180);
         pdf.addImage(
           this.backImageTarget.src,
           'PNG',
-          20, 110, 170, 90,
-          undefined,
-          'FAST' // Add compression
+          190, -80, 170, 90,
+          'back',
+          'FAST', // Add compression
+          180 // Rotate for folding
         )
       }
 
@@ -70,7 +70,7 @@ export default class extends Controller {
         pdf.addImage(
           this.frontImageTarget.src,
           'PNG',
-          20, 20, 170, 90,
+          20, 110, 170, 90,
           undefined,
           'FAST' // Add compression
         )
