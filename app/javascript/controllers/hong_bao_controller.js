@@ -84,15 +84,24 @@ export default class extends Controller {
       this.currentNextButton.disabled = false
     }
 
-    // Dispatch a custom event with paper data
-    this.dispatch("select", {
-      detail: {
-        paperId: event.currentTarget.dataset.paperId,
-        imageFrontUrl: event.currentTarget.dataset.paperCanvaFrontUrl,
-        imageBackUrl: event.currentTarget.dataset.paperCanvaBackUrl,
-        elements: JSON.parse(event.currentTarget.dataset.paperElements)
-      }
-    })
+    this.dispatchPaperSelect(this.currentPaperValue)
+  }
+
+  dispatchPaperSelect(paperId) {
+    const paperElement = this.paperTargets.find(paper =>
+      Number(paper.dataset.paperId) === Number(paperId)
+    )
+
+    if (paperElement) {
+      this.dispatch("select", {
+        detail: {
+          paperId: paperElement.dataset.paperId,
+          imageFrontUrl: paperElement.dataset.paperCanvaFrontUrl,
+          imageBackUrl: paperElement.dataset.paperCanvaBackUrl,
+          elements: JSON.parse(paperElement.dataset.paperElements)
+        }
+      })
+    }
   }
 
   // UI Update Methods
@@ -135,6 +144,11 @@ export default class extends Controller {
       } else if (side === 'front') {
         paper.dataset.paperCanvaFrontUrl = base64url
       }
+    }
+    if (paper.dataset.paperCanvaFrontUrl &&
+      paper.dataset.paperCanvaBackUrl &&
+      Number(paperId) === this.currentPaperValue) {
+      this.dispatchPaperSelect(paperId)
     }
   }
 }

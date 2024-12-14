@@ -20,11 +20,11 @@ class Balance
     balance_data = client.address_details(address)
 
     tx_ref = balance_data.fetch('txrefs', []).first
-
+    Rails.logger.info "Balance data: #{balance_data.inspect}"
     new(
       address: address,
-      satoshis: balance_data.fetch('balance', 0),
-      confirmations: tx_ref&.fetch('confirmations', 0) || 0,
+      satoshis: balance_data.fetch('final_balance', 0),
+      confirmations: balance_data.fetch('confirmations', 0) || 0,
       exchange_rate: usd_rate,
       confirmed_at: tx_ref&.fetch('confirmed')&.then { |date| Time.parse(date) },
       historical_price: fetch_historical_price(tx_ref&.fetch('confirmed'))

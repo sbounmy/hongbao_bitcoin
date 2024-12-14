@@ -42,7 +42,14 @@ export default class extends Controller {
       pdf.setDrawColor(200, 200, 200);
       pdf.setLineWidth(1);
       if (this.backImageTarget.src) {
-        pdf.addImage(this.backImageTarget.src, 'PNG', 190, -80, 170, 90, undefined, undefined, 180);
+        // pdf.addImage(this.backImageTarget.src, 'PNG', 190, -80, 170, 90, undefined, undefined, 180);
+        pdf.addImage(
+          this.backImageTarget.src,
+          'PNG',
+          20, 110, 170, 90,
+          undefined,
+          'FAST' // Add compression
+        )
       }
 
       pdf.setLineDashPattern([]);
@@ -60,7 +67,13 @@ export default class extends Controller {
       pdf.addImage(this.scissorsImageUrlValue, 'PNG', 6, 1, 6, 6);
       pdf.rect(15, 5, 180, 200);
       if (this.frontImageTarget.src) {
-        pdf.addImage(this.frontImageTarget.src, 'PNG', 20, 110, 170, 90);
+        pdf.addImage(
+          this.frontImageTarget.src,
+          'PNG',
+          20, 20, 170, 90,
+          undefined,
+          'FAST' // Add compression
+        )
       }
 
       pdf.setFillColor(240, 240, 240)
@@ -88,7 +101,7 @@ export default class extends Controller {
       })
 
       // Add QR code below the instructions (adjusted position)
-      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30)
+      pdf.addImage(this.qrYoutubeUrlValue, 'PNG', 20, 255, 30, 30, undefined, 'FAST')
 
       // Right Column: FAQ
       pdf.setFillColor(240, 240, 240)
@@ -98,7 +111,7 @@ export default class extends Controller {
       pdf.text('HOW IT WORKS', 95, 216)
 
       // Add HongBao QR code in the top-right corner with new text
-      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30)
+      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30, undefined, 'FAST')
       pdf.setFontSize(9)
       pdf.text('Verify balance', 172, 223)
 
