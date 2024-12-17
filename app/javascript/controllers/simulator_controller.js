@@ -7,7 +7,7 @@ export default class extends Controller {
     "birthdayAmount", "birthdayTotal", "birthdayCalc",
     "christmasAmount", "christmasTotal", "christmasCalc",
     "cnyAmount", "cnyTotal", "cnyCalc",
-    "btcTotal", "totalValue", "+",
+    "btcTotal", "totalValue", "btcPrice",
     "chart"
   ]
 
