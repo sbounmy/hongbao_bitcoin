@@ -45,7 +45,9 @@
     </div>
     <div class="flex flex-col gap-4">
       <iframe data-paper-pdf-target="pdfViewer" class="hidden" data-action="hong-bao:backToStep1@window->paper-pdf#reset"></iframe>
-        <!-- Download PDF Button -->
+
+      <div class="flex flex-col gap-4">
+        <!-- Download button -->
         <button type="button"
                 class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
                        text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
@@ -56,6 +58,23 @@
           </svg>
           Download PDF
         </button>
+
+        <!-- Open in new tab button -->
+        <button type="button"
+                class="w-full py-3 px-4 bg-white border-2 border-[#FFB636] rounded-xl shadow-lg text-sm font-medium
+                       text-black hover:bg-gray-50 transition-colors duration-300 flex items-center justify-center gap-2"
+                data-action="click->paper-pdf#openPdfInNewTab">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+          Open PDF in New Tab
+        </button>
+
+        <!-- Mobile compatibility message -->
+        <div data-paper-pdf-target="mobileMessage" class="hidden">
+          <p class="text-sm text-gray-400 text-center">Some mobile browsers may not display PDFs correctly.</p>
+        </div>
+      </div>
     </div>
 
     <div class="flex items-center space-x-4 mt-8">

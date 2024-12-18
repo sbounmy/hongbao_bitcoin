@@ -8,7 +8,8 @@ export default class extends Controller {
     "pdfViewer",
     "frontImage",
     "backImage",
-    "nextButtonWrapper"
+    "nextButtonWrapper",
+    "mobileMessage"
   ]
   static values = {
     qrYoutubeUrl: String,
@@ -21,9 +22,12 @@ export default class extends Controller {
 
   connect() {
     console.log("PaperPDF controller connected")
+    this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    if (this.isMobile && this.hasPdfViewerTarget) {
+      this.pdfViewerTarget.classList.add('hidden')
+    }
   }
   updateImages({ detail: { imageFrontUrl, imageBackUrl } }) {
-    console.log("updateImages called", imageFrontUrl, imageBackUrl)
     this.frontImageTarget.src = imageFrontUrl
     this.backImageTarget.src = imageBackUrl
   }
@@ -186,26 +190,41 @@ export default class extends Controller {
   showPdfViewer() {
     console.log("showPdfViewer called")
     this.generatePDF().then(({ pdfUrl, pdf }) => {
-    console.log("pdfUrl:", pdfUrl)
-    if (this.hasPdfViewerTarget) {
-      const viewer = this.pdfViewerTarget
-      viewer.setAttribute('type', 'application/pdf')
-      viewer.style.width = '100%'
-      viewer.style.height = '680px'
-      viewer.src = pdfUrl
-      viewer.classList.remove('hidden')
+      console.log("pdfUrl:", pdfUrl)
+      if (this.hasPdfViewerTarget) {
+        const viewer = this.pdfViewerTarget
+        viewer.setAttribute('type', 'application/pdf')
+        viewer.style.width = '100%'
+        viewer.style.height = '680px'
 
-      viewer.onload = () => {
-        console.log('PDF viewer loaded')
-        console.log('Viewer dimensions:', viewer.offsetWidth, 'x', viewer.offsetHeight)
-      }
+        // Only show iframe if not on mobile
+        if (!this.isMobile) {
+          viewer.classList.remove('hidden')
+        }
 
-      viewer.onerror = (error) => {
-        console.error('Failed to load PDF:', error)
-      }
-    } else {
-        console.error('PDF viewer target not found')
+        viewer.src = pdfUrl
+
+        // Show mobile message if on mobile device
+        if (this.isMobile && this.hasMobileMessageTarget) {
+          this.mobileMessageTarget.classList.remove('hidden')
+        }
+
+        viewer.onload = () => {
+          console.log('PDF viewer loaded')
+        }
+
+        viewer.onerror = (error) => {
+          console.error('Failed to load PDF:', error)
+          if (this.hasMobileMessageTarget) {
+            this.mobileMessageTarget.classList.remove('hidden')
+          }
+        }
       }
     })
+  }
+
+  async openPdfInNewTab() {
+    const { pdfUrl } = await this.generatePDF()
+    window.open(pdfUrl, '_blank')
   }
 }
