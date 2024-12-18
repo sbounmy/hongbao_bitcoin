@@ -23,7 +23,6 @@ export default class extends Controller {
     console.log("PaperPDF controller connected")
   }
   updateImages({ detail: { imageFrontUrl, imageBackUrl } }) {
-    console.log("updateImages called", imageFrontUrl, imageBackUrl)
     this.frontImageTarget.src = imageFrontUrl
     this.backImageTarget.src = imageBackUrl
   }
@@ -45,7 +44,7 @@ export default class extends Controller {
         pdf.addImage(
           this.backImageTarget.src,
           'PNG',
-          190, -80, 170, 90,
+          190, -80, 165, 85,
           'back',
           'FAST', // Add compression
           180 // Rotate for folding
@@ -54,14 +53,14 @@ export default class extends Controller {
 
       pdf.setLineDashPattern([]);
 
-      pdf.line(20, 105, 190, 105);
+      pdf.line(25, 93, 190, 93);
 
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
       pdf.setTextColor(150, 150, 150);
-      pdf.text('FOLD', 10, 105, { angle: 90 });
+      pdf.text('FOLD', 15, 93, { angle: 90 });
 
-      pdf.text('FOLD', 200, 105, { angle: -90 });
+      pdf.text('FOLD', 200, 93, { angle: -90 });
 
       pdf.text('INSERT INTO ENVELOPE', 10, 250, { angle: 90 });
 
@@ -69,13 +68,13 @@ export default class extends Controller {
 
       // Add front image below
       pdf.setLineDashPattern([1, 1]);
-      pdf.addImage(this.scissorsImageUrlValue, 'PNG', 6, 1, 6, 6);
-      pdf.rect(15, 5, 180, 200);
+      pdf.addImage(this.scissorsImageUrlValue, 'PNG', 10, 1, 6, 6);
+      pdf.rect(23, 5, 170, 178);
       if (this.frontImageTarget.src) {
         pdf.addImage(
           this.frontImageTarget.src,
           'PNG',
-          20, 110, 170, 90,
+          25, 95, 165, 85,
           undefined,
           'FAST' // Add compression
         )
