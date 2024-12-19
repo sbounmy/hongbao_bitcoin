@@ -8,3 +8,10 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
+
+bitcoin_price_fetch:
+  class: BitcoinPriceFetcher
+  method: fetch_historical_prices
+  schedule: "0 0 * * *"  # Run at midnight every day
+  description: "Fetch daily Bitcoin prices for USD and EUR"
+  queue: default

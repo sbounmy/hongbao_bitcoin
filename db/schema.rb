@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_08_080635) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_145147) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -51,6 +51,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_08_080635) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bitcoin_prices", force: :cascade do |t|
+    t.date "date", null: false
+    t.decimal "price", precision: 15, scale: 2, null: false
+    t.string "currency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date", "currency"], name: "index_bitcoin_prices_on_date_and_currency", unique: true
   end
 
   create_table "papers", force: :cascade do |t|
