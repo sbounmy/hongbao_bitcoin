@@ -1,5 +1,5 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
 class Balance
   include ActiveModel::Model
@@ -11,23 +11,45 @@ class Balance
   attribute :address, :string
   attribute :confirmed_at, :datetime
   attribute :historical_price, :float
+  attribute :utxos
 
   SATOSHIS_PER_BTC = 100_000_000
-  COINBASE_URI = URI('https://api.coinbase.com/v2/prices/btc-usd/spot')
+  COINBASE_URI = URI("https://api.coinbase.com/v2/prices/btc-usd/spot")
+
+  attr_accessor :utxos
+
+  def initialize(attributes = {})
+    @utxos = []
+    super
+  end
 
   def self.fetch_for_address(address)
     client = BlockCypher::Api.new api_token: Rails.application.credentials.dig(:blockcypher, :token)
     balance_data = client.address_details(address)
 
-    tx_ref = balance_data.fetch('txrefs', []).first
+    tx_ref = balance_data.fetch("txrefs", []).first
     Rails.logger.info "Balance data: #{balance_data.inspect}"
+
+    utxos = balance_data.fetch("txrefs", [])
+      .select { |tx| tx["spent"] == false }
+      .map do |tx|
+        {
+          txid: tx["tx_hash"],
+          vout: tx["tx_output_n"],
+          script: tx["script"],
+          value: tx["value"],
+          confirmations: tx["confirmations"]
+        }
+      end
+
     new(
       address: address,
-      satoshis: balance_data.fetch('final_balance', 0),
-      confirmations: balance_data.fetch('confirmations', 0) || 0,
+      satoshis: balance_data.fetch("final_balance", 0),
+      confirmations: tx_ref&.fetch("confirmations", 0) || 0,
       exchange_rate: usd_rate,
-      confirmed_at: tx_ref&.fetch('confirmed')&.then { |date| Time.parse(date) },
-      historical_price: fetch_historical_price(tx_ref&.fetch('confirmed'))
+      confirmed_at: tx_ref&.fetch("confirmed")&.then { |date| Time.parse(date) },
+      historical_price: fetch_historical_price(tx_ref&.fetch("confirmed")),
+      utxos: utxos
     )
   rescue SocketError, Net::HTTPError => e
     Rails.logger.error "Failed to fetch data: #{e.message}"
@@ -37,11 +59,11 @@ class Balance
   def self.fetch_historical_price(date)
     return nil unless date
 
-    date = Date.parse(date).strftime('%Y-%m-%d')
+    date = Date.parse(date).strftime("%Y-%m-%d")
     Rails.cache.fetch("historical_btc_price:#{date}", expires_in: 24.hours) do
       uri = URI("https://api.coinbase.com/v2/prices/BTC-USD/spot?date=#{date}")
       response = Net::HTTP.get(uri)
-      JSON.parse(response).dig('data', 'amount')&.to_f
+      JSON.parse(response).dig("data", "amount")&.to_f
     end
   rescue StandardError => e
     Rails.logger.error "Failed to fetch historical price: #{e.message}"
@@ -51,7 +73,7 @@ class Balance
   def self.usd_rate
     Rails.cache.fetch("coinbase_btc_usd_rate", expires_in: 10.minutes) do
       response = Net::HTTP.get(COINBASE_URI)
-      JSON.parse(response).dig('data', 'amount')&.to_f
+      JSON.parse(response).dig("data", "amount")&.to_f
     end
   rescue StandardError => e
     Rails.logger.error "Failed to fetch Coinbase rate: #{e.message}"
@@ -74,9 +96,9 @@ class Balance
 
   def status
     if confirmations.zero? && satoshis > 0
-      { icon: :pending, text: 'pending' }
+      { icon: :pending, text: "pending" }
     else
-      { icon: :checkmark, text: 'confirmed' }
+      { icon: :checkmark, text: "confirmed" }
     end
   end
 
@@ -94,5 +116,16 @@ class Balance
       current_price: exchange_rate,
       change_percentage: ((exchange_rate - historical_price) / historical_price * 100).round(2)
     }
+  end
+
+  def utxos_for_transaction
+    utxos.map do |utxo|
+      {
+        txid: utxo[:txid],
+        vout: utxo[:vout],
+        script: utxo[:script],
+        value: utxo[:value]
+      }
+    end
   end
 end

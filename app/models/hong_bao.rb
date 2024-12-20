@@ -72,4 +72,16 @@ class HongBao
   def can_transfer?
     private_key.present?
   end
+
+  def broadcast_transaction(signed_transaction)
+    client = BlockCypher::Api.new(api_token: Rails.application.credentials.dig(:blockcypher, :token))
+    response = client.push_tx(hex: signed_transaction)
+
+    Rails.logger.info "Transaction broadcast response: #{response.inspect}"
+    response["tx"]["hash"].present?
+  rescue StandardError => e
+    Rails.logger.error "Failed to broadcast transaction: #{e.message}"
+    errors.add(:base, "Failed to broadcast transaction: #{e.message}")
+    false
+  end
 end
