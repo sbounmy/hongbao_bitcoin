@@ -1,29 +1,3 @@
-<div class="sticky top-0 z-50 bg-amber-50 px-4 py-2 flex items-center justify-between text-sm"
-      data-controller="notification">
-  <div class="flex items-center gap-6">
-    <div class="flex items-center gap-2">
-      <span class="text-amber-600">⚠️</span>
-      <span class="font-medium text-amber-800">Real Bitcoin Keys Generated</span>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-2">
-      <span class="text-amber-700">Address:</span>
-      <code class="font-mono text-amber-700 bg-amber-100/50 px-2 py-0.5 rounded">
-        <%= @hong_bao&.address&.first(8) %>...<%= @hong_bao&.address&.last(8) %>
-      </code>
-      <span class="text-amber-700">Mnemonic:</span>
-      <code class="font-mono text-amber-700 bg-amber-100/50 px-2 py-0.5 rounded">
-        <%= @hong_bao&.mnemonic&.split(' ')&.first %> ... <%= @hong_bao&.mnemonic&.split(' ')&.last %>
-      </code>
-    </div>
-
-    <span class="text-amber-600 font-medium">If you top up, please save the pdf or they will be lost!</span>
-  </div>
-  <button data-action="notification#dismiss" class="text-amber-400 hover:text-amber-600">
-    ✕
-  </button>
-</div>
-
 <%= turbo_frame_tag "qr_scanner" %>
 
 <div class="min-h-screen bg-[#FFE5E5] flex flex-col gap-10 items-center justify-center p-4">
