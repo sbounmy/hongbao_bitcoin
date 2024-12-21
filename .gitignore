@@ -38,3 +38,5 @@
 !/app/assets/builds/.keep
 
 /config/credentials/test.key
+
+.vscode

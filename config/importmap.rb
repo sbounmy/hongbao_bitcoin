@@ -5,6 +5,8 @@ pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
+pin_all_from "app/javascript/services", under: "services"
+
 pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
 pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js" # @2.5.2
 
@@ -67,3 +69,7 @@ pin "bip32", to: "https://ga.jspm.io/npm:bip32@4.0.0/src/index.js"
 # Bip32 dependencies
 pin "@scure/base", to: "https://ga.jspm.io/npm:@scure/base@1.2.1/lib/esm/index.js"
 pin "@noble/hashes/sha512", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/esm/sha512.js"
+
+pin "qrcode", to: "https://ga.jspm.io/npm:qrcode@1.5.3/lib/browser.js"
+pin "dijkstrajs", to: "https://ga.jspm.io/npm:dijkstrajs@1.0.3/dijkstra.js"
+pin "encode-utf8", to: "https://ga.jspm.io/npm:encode-utf8@1.0.3/index.js"

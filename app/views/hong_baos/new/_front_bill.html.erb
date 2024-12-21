@@ -1,12 +1,13 @@
 <div data-controller="canvas-front"
      data-canvas-front-target="container"
-     data-action="canvas-front:done->hong-bao#cache"
+     data-action="canvas-front:done->hong-bao#cache
+                  bitcoin-keypair:generated@window->canvas-front#updateKeys
+                  bitcoin-keypair:generated@window->canvas-front#redrawCanvas"
      data-canvas-front-paper-id-value="<%= paper.id %>"
      data-canvas-front-context-value="<%= context %>"
      data-canvas-front-elements-value="<%= paper.elements.to_json %>"
      data-canvas-front-image-url-value="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
-     data-canvas-front-address-value="<%= @hong_bao.address %>"
-     data-canvas-front-public-key-qr-value="<%= bitcoin_qr_code(hong_bao.address, icon: 'globe') %>"
-     data-canvas-url-value="">
+     data-canvas-front-address-value=""
+     data-canvas-front-public-key-qr-value="">
   <canvas data-canvas-front-target="canvas" class="w-full"></canvas>
 </div>

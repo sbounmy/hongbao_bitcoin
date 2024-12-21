@@ -51,9 +51,9 @@
          network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
          amount: 50,
          logo: asset_url('hongbao-bitcoin-logo-520.png'),
-         address: hong_bao.address,
-         requestCode: hong_bao.mt_pelerin_request_code,
-         requestHash: hong_bao.mt_pelerin_request_hash,
+         address: '',
+         requestCode: '',
+         requestHash: '',
          rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
        }.to_json %>">
   </div>

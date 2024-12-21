@@ -58,4 +58,8 @@ export default class extends Controller {
     return this.canvasTarget.toDataURL('image/png')
   }
 
+  redrawCanvas() {
+    this.loadImage()
+  }
+
 }
