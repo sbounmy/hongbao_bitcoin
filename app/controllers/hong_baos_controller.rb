@@ -20,6 +20,7 @@ class HongBaosController < ApplicationController
     @papers = Paper.active
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
+    @simulator = BitcoinPrice.new simulator_params
   end
 
   def show
@@ -42,5 +43,8 @@ class HongBaosController < ApplicationController
 
   def transfer_params
     params.require(:hong_bao).permit(:to_address, :payment_method_id)
+  end
+  def simulator_params
+    (params[:simulator_bitcoin] || {})
   end
 end
