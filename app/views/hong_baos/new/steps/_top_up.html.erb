@@ -1,10 +1,15 @@
-<div data-controller="payment-method" data-mode="deposit" data-hong-bao-target="step">
+<div data-controller="payment-method"
+     data-mode="deposit"
+     data-hong-bao-target="step"
+     data-action="bitcoin-keypair:generated@window->payment-method#updateAddress">
   <div class="mb-8 text-white space-y-4">
     <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
     <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
 
     <%# Bitcoin Address Display %>
-    <%= render "shared/bitcoin_address", address: hong_bao.address %>
+    <div data-payment-method-target="addressDisplay">
+      <%= render "shared/bitcoin_address", address: hong_bao.address %>
+    </div>
   </div>
 
   <%# Payment Methods Grid %>
@@ -17,7 +22,9 @@
             data: {
               payment_method_target: "paymentMethod",
               action: "click->payment-method#methodSelected",
-              method_name: method.name.downcase
+              method_name: method.name.downcase,
+              mt_pelerin_token: method.name.downcase == "mt_pelerin" ? Rails.application.credentials.dig(:mt_pelerin, :token) : nil,
+              mt_pelerin_rfr: method.name.downcase == "mt_pelerin" ? Rails.application.credentials.dig(:mt_pelerin, :rfr) : nil
             } %>
         <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
                     bg-white/10 hover:bg-white/20 transition-colors duration-300">
@@ -42,19 +49,5 @@
       mode: :deposit %>
 
   <%# Hidden data for JS %>
-  <div data-payment-method-address="<%= hong_bao.address %>" class="hidden"></div>
-
-  <div data-payment-method-target="mtPelerinData"
-       data-options="<%= {
-         ctkn: Rails.application.credentials.dig(:mt_pelerin, :token),
-         locale: I18n.locale,
-         network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
-         amount: 50,
-         logo: asset_url('hongbao-bitcoin-logo-520.png'),
-         address: '',
-         requestCode: '',
-         requestHash: '',
-         rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
-       }.to_json %>">
-  </div>
+  <div data-payment-method-target="addressData" class="hidden"></div>
 </div>
