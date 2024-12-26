@@ -6,12 +6,22 @@ import { Buffer } from 'buffer'
 import 'bip39'
 import { BIP32Factory } from 'bip32'
 import { magicHash } from 'services/bitcoin_message'
+import QRCode from 'qrcode'
 
 export default class BitcoinWallet {
-  constructor(networkType = 'testnet') {
+  static network = 'testnet'
+
+  constructor(options = {}) {
     this.initializeDependencies()
-    this.network = networkType === 'testnet' ? bitcoin.networks.testnet : bitcoin.networks.bitcoin
-    this.currentKeyPair = null
+    this.network = BitcoinWallet.network === 'testnet' ? bitcoin.networks.testnet : bitcoin.networks.bitcoin
+
+    if (options.mnemonic) {
+      this.initializeFromMnemonic(options.mnemonic)
+    } else if (options.seed) {
+      this.initializeFromSeed(options.seed)
+    } else if (options.privateKey) {
+      this.initializeFromPrivateKey(options.privateKey)
+    }
   }
 
   initializeDependencies() {
@@ -23,65 +33,85 @@ export default class BitcoinWallet {
     this.bip32 = BIP32Factory(secp256k1)
   }
 
-  async generateKeyPair() {
-    const mnemonic = window.bip39.generateMnemonic(256)
-    const seed = window.bip39.mnemonicToSeedSync(mnemonic)
-    const root = this.bip32.fromSeed(seed)
+  initializeFromMnemonic(mnemonic) {
+    if (!window.bip39.validateMnemonic(mnemonic)) {
+      throw new Error('Invalid mnemonic')
+    }
+    this.mnemonic = mnemonic
+    this.seed = window.bip39.mnemonicToSeedSync(mnemonic)
+    this.root = this.bip32.fromSeed(this.seed, this.network)
+    // Entropy can be recovered from mnemonic if needed
+    this.entropy = window.bip39.mnemonicToEntropy(mnemonic)
+  }
 
-    const path = this.network === bitcoin.networks.testnet ?
-      "m/44'/1'/0'/0/0" : "m/44'/0'/0'/0/0"
-    const child = root.derivePath(path)
+  initializeFromSeed(seed) {
+    if (typeof seed === 'string') {
+      seed = Buffer.from(seed, 'hex')
+    }
+    this.seed = seed
+    this.root = this.bip32.fromSeed(this.seed, this.network)
+    this.mnemonic = null
+    this.entropy = null
+  }
 
-    const keyPair = this.ECPair.fromPrivateKey(child.privateKey, { network: this.network })
+  initializeFromPrivateKey(privateKey) {
+    const keyPair = this.ECPair.fromWIF(privateKey, this.network)
+    this.root = this.bip32.fromPrivateKey(keyPair.privateKey, Buffer.alloc(32), this.network)
+    this.mnemonic = null
+    this.seed = null
+    this.entropy = null
+  }
 
-    this.currentKeyPair = {
-      privateKeyWIF: keyPair.toWIF(),
+  static setNetwork(network) {
+    BitcoinWallet.network = network
+  }
+
+  static generate() {
+    const entropy = window.crypto.getRandomValues(new Uint8Array(32))
+    const mnemonic = window.bip39.generateMnemonic(256, null, window.bip39.wordlists.english)
+    return new BitcoinWallet({ mnemonic })
+  }
+
+  nodePathFor(path) {
+    if (!this.root) throw new Error('Wallet not initialized properly')
+
+    const node = this.root.derivePath(path)
+    const keyPair = this.ECPair.fromPrivateKey(node.privateKey, { network: this.network })
+
+    return {
+      publicKey: node.publicKey.toString('hex'),
+      privateKey: keyPair.toWIF(),
       address: bitcoin.payments.p2pkh({
-        pubkey: Buffer.from(child.publicKey),
+        pubkey: node.publicKey,
         network: this.network
       }).address,
-      mnemonic: mnemonic
+      async addressQrcode() {
+        return await QRCode.toDataURL(this.address)
+      },
+      async privateKeyQrcode() {
+        return await QRCode.toDataURL(this.privateKey)
+      },
+      async publicKeyQrcode() {
+        return await QRCode.toDataURL(this.publicKey)
+      }
     }
-
-    return this.currentKeyPair
   }
 
   async generateMtPelerinRequest() {
-    if (!this.currentKeyPair) {
-      throw new Error('No key pair generated yet. Call generateKeyPair first.')
-    }
-
+    const key = this.nodePathFor("m/44'/0'/0'/0/0")
     const requestCode = Math.floor(1000 + Math.random() * 9000).toString()
     const message = `MtPelerin-${requestCode}`
 
-    const keyPair = this.ECPair.fromWIF(this.currentKeyPair.privateKeyWIF, this.network)
-
+    const keyPair = this.ECPair.fromWIF(key.privateKey, this.network)
     const messagePrefix = this.network === bitcoin.networks.testnet ? 'testnet' : 'bitcoin'
     const messageHash = magicHash(message, messagePrefix)
     const signature = keyPair.sign(messageHash)
 
-    const signatureBuffer = Buffer.from(signature)
-    const signatureBase64 = signatureBuffer.toString('base64')
-
     return {
       requestCode,
-      requestHash: signatureBase64
+      requestHash: Buffer.from(signature).toString('base64')
     }
   }
-
-  getCheckmarkIcon() {
-    return `
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-      </svg>
-    `
-  }
-
-  getCopyIcon() {
-    return `
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-      </svg>
-    `
-  }
 }
+
+window.BitcoinWallet = BitcoinWallet

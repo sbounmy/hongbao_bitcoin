@@ -40,3 +40,7 @@
 /config/credentials/test.key
 
 .vscode
+
+# Ignore js stuff
+node_modules
+coveragejs
