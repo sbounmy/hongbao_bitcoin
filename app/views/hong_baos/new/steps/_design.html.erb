@@ -1,13 +1,11 @@
 <div data-hong-bao-target="step">
-  <div data-controller="bitcoin-keypair"
-       class="mb-8">
-
-    <div data-bitcoin-keypair-target="result" class="space-y-3">
+  <div class="mb-8">
+    <div data-hong-bao-target="walletInfo" class="space-y-3">
       <div class="space-y-1">
         <div class="flex items-center justify-between">
           <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
           <button type="button"
-                  data-action="bitcoin-keypair#generate"
+                  data-action="hong-bao#generateWallet"
                   class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -15,11 +13,11 @@
           </button>
         </div>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Recovery phrase copied!">
-          <textarea data-bitcoin-keypair-target="mnemonic"
-                    readonly
+          <textarea readonly
                     rows="3"
                     class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none"
-                    data-clipboard-target="source"></textarea>
+                    data-clipboard-target="source"
+                    data-hong-bao-target="mnemonic"></textarea>
           <button data-action="clipboard#copy"
                   class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -34,10 +32,10 @@
           <span class="text-[#FFB636]">Private Key</span>
           <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
             <input type="text"
-                   data-bitcoin-keypair-target="privateKey"
                    readonly
                    class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                   data-clipboard-target="source">
+                   data-clipboard-target="source"
+                   data-hong-bao-target="privateKey"></input>
             <button data-action="clipboard#copy"
                     class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -51,10 +49,10 @@
           <span class="text-[#FFB636]">Bitcoin Address</span>
           <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
             <input type="text"
-                   data-bitcoin-keypair-target="address"
                    readonly
                    class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                   data-clipboard-target="source">
+                   data-clipboard-target="source"
+                   data-hong-bao-target="address"></input>
             <button data-action="clipboard#copy"
                     class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -64,9 +62,6 @@
           </div>
         </div>
       </div>
-
-      <input type="hidden" data-bitcoin-keypair-target="mtPelerinCode">
-      <input type="hidden" data-bitcoin-keypair-target="mtPelerinHash">
     </div>
   </div>
 
