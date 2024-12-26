@@ -36,12 +36,14 @@ class HongBao
 
   def generate_bitcoin_keys
     master = Bitcoin::Master.generate
-    self.public_key = master.key.pub
-    self.private_key = master.key.to_base58
-    self.address = master.key.addr
     self.mnemonic = master.mnemonic
     self.seed = master.seed
     self.entropy = master.entropy
+
+    key = master.node_for_path("m/44'/0'/0'/0/0'")
+    self.public_key = key.pub
+    self.private_key = key.to_base58
+    self.address = key.addr
   end
 
   def generate_mt_pelerin_request
