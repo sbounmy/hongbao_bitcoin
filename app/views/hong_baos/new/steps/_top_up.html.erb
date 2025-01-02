@@ -1,6 +1,6 @@
 <div data-controller="payment-method"
+     data-steps-target="content"
      data-mode="deposit"
-     data-hong-bao-target="step"
      data-action="hong-bao:walletChanged@window->payment-method#updateAddress">
   <div class="mb-8 text-white space-y-4">
     <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
@@ -37,7 +37,7 @@
   </div>
 
   <div class="flex items-center space-x-4 mt-8">
-    <%= render "hong_baos/new/previous_button", current_step: 3 %>
+    <%= render "hong_baos/new/previous_button" %>
     <div class="flex-1">
       <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
     </div>

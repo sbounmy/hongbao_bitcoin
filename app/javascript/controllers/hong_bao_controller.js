@@ -3,14 +3,6 @@ import BitcoinWallet from "services/bitcoin_wallet"
 
 export default class extends Controller {
   static targets = [
-    "step",
-    "selectedPaper",
-    "stepIndicator",
-    "stepConnector",
-    "amountDisplay",
-    "previousButton",
-    "nextButton",
-    "verifyButton",
     "paper",
     "paymentMethod",
     "mtPelerinData",
@@ -18,7 +10,6 @@ export default class extends Controller {
   ]
 
   static values = {
-    currentStep: { type: Number, default: 1 },
     currentPaper: { type: Number },
     wallet: { type: Object, default: {} }
   }
@@ -79,89 +70,40 @@ export default class extends Controller {
     }
   }
 
-  currentStepValueChanged() {
-    this.showCurrentStep()
-    this.dispatch("stepChanged", { detail: { currentStep: this.currentStepValue } })
-  }
-
   currentPaperValueChanged() {
     this.paperTargets.forEach(paper => {
       paper.toggleAttribute('open', Number(paper.dataset.paperId) === this.currentPaperValue)
     })
-    this.updateURL()
-  }
-
-  get currentNextButton() {
-    return this.nextButtonTargets.find(button =>
-      Number(button.dataset.step) === this.currentStepValue
-    )
-  }
-
-  nextStep() {
-    if (this.currentStepValue < this.stepTargets.length) {
-      this.currentStepValue++
-    }
-  }
-
-  previousStep() {
-    if (this.currentStepValue > 1) {
-      this.currentStepValue--
-    }
+    this.#updateURL()
   }
 
   paperSelected(event) {
     this.currentPaperValue = Number(event.currentTarget.dataset.paperId)
-
-    if (this.currentNextButton) {
-      this.currentNextButton.disabled = false
-    }
-
-    this.dispatchPaperSelect(this.currentPaperValue)
+    this.dispatchPaperSelect()
   }
 
-  dispatchPaperSelect(paperId) {
-    const paperElement = this.paperTargets.find(paper =>
-      Number(paper.dataset.paperId) === Number(paperId)
+  get currentPaper() {
+    return this.paperTargets.find(paper =>
+      Number(paper.dataset.paperId) === Number(this.currentPaperValue)
     )
+  }
 
-    if (paperElement) {
+  dispatchPaperSelect() {
+
+    if (this.currentPaper) {
       this.dispatch("select", {
         detail: {
-          paperId: paperElement.dataset.paperId,
-          imageFrontUrl: paperElement.dataset.paperCanvaFrontUrl,
-          imageBackUrl: paperElement.dataset.paperCanvaBackUrl,
-          elements: JSON.parse(paperElement.dataset.paperElements)
+          paperId: this.currentPaper.dataset.paperId,
+          imageFrontUrl: this.currentPaper.dataset.paperCanvaFrontUrl,
+          imageBackUrl: this.currentPaper.dataset.paperCanvaBackUrl,
+          elements: JSON.parse(this.currentPaper.dataset.paperElements)
         }
       })
     }
   }
 
-  // UI Update Methods
-  showCurrentStep() {
-    this.updateStepVisibility()
-    this.updateProgressSteps()
-    this.updateURL()
-    this.isTopUpStepValue = (this.currentStepValue === 3)
-  }
-
-  updateStepVisibility() {
-    this.stepTargets.forEach((step, index) => {
-      step.classList.toggle('hidden', index + 1 !== this.currentStepValue)
-    })
-  }
-
-  updateProgressSteps() {
-    this.stepIndicatorTargets.forEach((indicator, index) => {
-      const isCurrentStep = index + 1 === this.currentStepValue
-      const isDone = index + 1 < this.currentStepValue
-      indicator.toggleAttribute('open', isCurrentStep)
-      indicator.toggleAttribute('done', isDone)
-    })
-  }
-
-  updateURL() {
+  #updateURL() {
     const url = new URL(window.location)
-    url.searchParams.set('step', this.currentStepValue)
     if (this.currentPaperValue) {
       url.searchParams.set('paper_id', this.currentPaperValue)
     }
