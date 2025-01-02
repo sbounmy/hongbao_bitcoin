@@ -39,17 +39,6 @@ export default class extends Controller {
   }
 
   walletValueChanged() {
-    console.log('hasMnemonicTarget:', this.hasMnemonicTarget)
-    if (this.hasMnemonicTarget) {
-      this.mnemonicTarget.value = this.walletValue.mnemonic
-    }
-    if (this.hasPrivateKeyTarget) {
-      this.privateKeyTarget.value = this.walletValue.privateKey
-    }
-    if (this.hasAddressTarget) {
-      this.addressTarget.value = this.walletValue.address
-    }
-
     // Dispatch event for other controllers
     this.dispatch("walletChanged", { detail: this.walletValue })
   }
