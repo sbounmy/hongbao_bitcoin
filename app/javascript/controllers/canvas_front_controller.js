@@ -25,7 +25,7 @@ export default class extends CanvasBaseController {
 
   drawQRCode() {
     const qrImage = new Image()
-    qrImage.src = this.publicKeyQrValue
+    qrImage.src = this.addressQrcode
 
     qrImage.onload = () => {
       const coords = this.elementsValue.qrcode_public_key
@@ -50,20 +50,9 @@ export default class extends CanvasBaseController {
   }
 
   async updateKeys(event) {
-    const { address } = event.detail
+    const { address, addressQrcode } = event.detail
     this.addressValue = address
-
-    // Generate QR code
-    const qrCode = await QRCode.toDataURL(address, {
-      width: 150,
-      margin: 4,
-      color: {
-        dark: '#000000',
-        light: '#ffffff'
-      }
-    })
-
-    this.publicKeyQrValue = qrCode
+    this.addressQrcode = addressQrcode
     this.redrawCanvas()
   }
 }

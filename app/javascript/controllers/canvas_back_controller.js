@@ -75,20 +75,10 @@ export default class extends CanvasBaseController {
   }
 
   async updateKeys(event) {
-    const { privateKeyWIF, mnemonic } = event.detail
+    const { privateKeyWIF, mnemonic, privateKeyQrcode } = event.detail
     this.mnemonicValue = mnemonic
 
-    // Generate QR code
-    const qrCode = await QRCode.toDataURL(privateKeyWIF, {
-      width: 150,
-      margin: 4,
-      color: {
-        dark: '#000000',
-        light: '#ffffff'
-      }
-    })
-
-    this.privateKeyQrValue = qrCode
+    this.privateKeyQrValue = privateKeyQrcode
     this.redrawCanvas()
   }
 }
