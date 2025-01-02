@@ -78,7 +78,6 @@ export default class extends Controller {
   }
 
   dispatchPaperSelect() {
-
     if (this.currentPaper) {
       this.dispatch("select", {
         detail: {

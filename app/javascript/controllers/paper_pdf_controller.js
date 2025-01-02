@@ -7,8 +7,7 @@ export default class extends Controller {
     "pdfViewerPlaceHolder",
     "pdfViewer",
     "frontImage",
-    "backImage",
-    "nextButtonWrapper"
+    "backImage"
   ]
   static values = {
     qrYoutubeUrl: String,
@@ -172,14 +171,9 @@ export default class extends Controller {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
       const filename = `Bitcoin_HongBao_${this.formattedDate}_${this.addressValue}.pdf`;
       pdf.save(filename);
-
-      // Enable next button after download
-      this.nextButtonWrapperTarget.dataset.downloaded = 'true';
-      const nextButton = this.nextButtonWrapperTarget.querySelector('button');
-      if (nextButton) {
-        nextButton.disabled = false;
-      }
+      this.dispatch("downloaded", { detail: { pdfUrl } });
     });
+
   }
 
   showPdfViewer() {

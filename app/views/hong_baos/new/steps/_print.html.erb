@@ -67,7 +67,8 @@
         <div class="" data-paper-pdf-target="nextButtonWrapper">
           <%= render "hong_baos/new/next_button",
               html_options: {
-                disabled: true
+                disabled: true,
+                data_action: "paper-pdf:downloaded@window->disabled#remove"
               } %>
         </div>
       </div>
