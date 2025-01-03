@@ -2,19 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    name: String,
-    template: String
-  }
-
-  connect() {
-    this.templateValue = this.templateValue || this.element.getAttribute('src') || this.element.value
+    name: String
   }
 
   src(event) {
-    const interpolatedUrl = this.templateValue.replace(/%{([^}]+)}/g, (_, key) => {
-      return event.detail[key] || `%{${key}}`
-    })
-    this.element.setAttribute('src', interpolatedUrl)
+    this.element.setAttribute('src', event.detail[this.nameValue])
   }
 
   value(event) {
