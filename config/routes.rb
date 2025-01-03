@@ -57,26 +57,4 @@ Rails.application.routes.draw do
   direct :github do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
-
-  direct :mt_pelerin_widget do |params|
-    uri = URI("https://widget.mtpelerin.com/")
-
-    # Required parameters
-    uri.query = {
-      lang: I18n.locale,
-      type: "web",
-      tabs: "buy",
-      tab: "buy",
-      nets: "bitcoin_#{Rails.env.production? ? "mainnet" : "testnet"}",
-      _ctkn: Rails.application.credentials.mt_pelerin.token,
-      rfr: Rails.application.credentials.mt_pelerin.rfr,
-
-      # Interpolated values by stimulus binding_controller
-      addr: "%{address}",
-      code: "%{code}",
-      hash: "%{hash}"
-    }.compact.to_param
-
-    uri.to_s
-  end
 end

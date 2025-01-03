@@ -1,11 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["iframe"]
   static values = {
     addr: String,
     code: String,
-    hash: String
+    hash: String,
+    ctkn: String,
+    rfr: String,
+    network: String,
+    logo: String,
+    primary: String,
+    success: String
   }
 
   async walletChanged(event) {
@@ -16,34 +21,36 @@ export default class extends Controller {
     const code = Math.floor(1000 + Math.random() * 9000).toString()
     const hash = wallet.sign(`MtPelerin-${code}`)
 
-    // Update values which will trigger URL update
+    // Update values
     this.addrValue = address
     this.codeValue = code
     this.hashValue = hash
 
-    this.dispatch("requestGenerated", {
-      detail: {
-        addr: this.addrValue,
-        code: this.codeValue,
-        hash: this.hashValue
-      }
-    })
+    // Open modal with updated values
+    this.openModal()
   }
 
-  // Automatically called when any value changes
-  addrValueChanged() { this.updateIframeUrl() }
-  codeValueChanged() { this.updateIframeUrl() }
-  hashValueChanged() { this.updateIframeUrl() }
-
-  updateIframeUrl() {
-    if (!this.hasIframeTarget || !this.hasAllValues()) return
-
-    const url = new URL(this.iframeTarget.getAttribute("src"))
-    url.searchParams.set("addr", this.addrValue)
-    url.searchParams.set("code", this.codeValue)
-    url.searchParams.set("hash", this.hashValue)
-
-    this.iframeTarget.src = url.toString()
+  openModal() {
+    if (!this.hasAllValues()) return
+    console.log(this.ctknValue, this.rfrValue)
+    console.log(this.addrValue, this.codeValue, this.hashValue)
+    window.showMtpModal({
+      lang: document.documentElement.lang || 'en',
+      tabs: 'buy',
+      tab: 'buy',
+      net: this.networkValue,
+      nets: this.networkValue,
+      curs: 'EUR,USD,SGD',
+      ctry: 'FR',
+      primary: this.primaryValue,
+      success: this.successValue,
+      mylogo: this.logoValue,
+      addr: this.addrValue,
+      code: this.codeValue,
+      hash: this.hashValue,
+      _ctkn: this.ctknValue,
+      rfr: this.rfrValue
+    })
   }
 
   hasAllValues() {

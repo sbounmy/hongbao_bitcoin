@@ -22,34 +22,10 @@ class HongBao
   validates :paper_id, presence: true
   validates :amount, numericality: { greater_than: 0 }, allow_nil: true
 
-  def self.generate(paper_id:)
-    hong_bao = new(paper_id: paper_id)
-    hong_bao.generate_bitcoin_keys
-    hong_bao.generate_mt_pelerin_request
-    hong_bao
-  end
 
   def self.from_scan(key)
     hong_bao = new(scanned_key: key, paper_id: 0)
     hong_bao
-  end
-
-  def generate_bitcoin_keys
-    master = Bitcoin::Master.generate
-    self.public_key = master.key.pub
-    self.private_key = master.key.to_base58
-    self.address = master.key.addr
-    self.mnemonic = master.mnemonic
-    self.seed = master.seed
-    self.entropy = master.entropy
-  end
-
-  def generate_mt_pelerin_request
-    self.mt_pelerin_request_code = rand(1000..9999).to_s
-    message = "MtPelerin-#{mt_pelerin_request_code}"
-
-    bitcoin_key = Bitcoin::Key.new(Bitcoin::Key.from_base58(private_key).priv, public_key)
-    self.mt_pelerin_request_hash = bitcoin_key.sign_message(message)
   end
 
   def scanned_key=(key)

@@ -120,6 +120,26 @@ export default class BitcoinWallet {
     return Buffer.from(signature).toString('base64')
   }
 
+  verify(message, signature) {
+    try {
+      // Convert base64 signature back to buffer
+      const signatureBuffer = Buffer.from(signature, 'base64')
+
+      // Get the message hash
+      const messagePrefix = BitcoinWallet.network === 'testnet' ? 'testnet' : 'bitcoin'
+      const messageHash = magicHash(message, messagePrefix)
+
+      // Get public key from the address
+      const { publicKey } = this.nodePathFor("m/44'/0'/0'/0/0")
+      const keyPair = this.ECPair.fromPublicKey(Buffer.from(publicKey, 'hex'), { network: this.network })
+
+      // Verify the signature
+      return keyPair.verify(messageHash, signatureBuffer)
+    } catch (error) {
+      console.error('Signature verification failed:', error)
+      return false
+    }
+  }
 }
 
 // Initialize global wallet
