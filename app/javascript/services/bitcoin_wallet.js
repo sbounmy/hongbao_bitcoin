@@ -10,6 +10,7 @@ import QRCode from 'qrcode'
 
 export default class BitcoinWallet {
   static network = 'testnet'
+  static instance = null
 
   constructor(options = {}) {
     this.initializeDependencies()
@@ -97,21 +98,29 @@ export default class BitcoinWallet {
     }
   }
 
-  async generateMtPelerinRequest() {
-    const key = this.nodePathFor("m/44'/0'/0'/0/0")
-    const requestCode = Math.floor(1000 + Math.random() * 9000).toString()
-    const message = `MtPelerin-${requestCode}`
+  static getInstance() {
+    if (!BitcoinWallet.instance) {
+      BitcoinWallet.instance = BitcoinWallet.generate()
+    }
+    return BitcoinWallet.instance
+  }
 
-    const keyPair = this.ECPair.fromWIF(key.privateKey, this.network)
-    const messagePrefix = this.network === bitcoin.networks.testnet ? 'testnet' : 'bitcoin'
+  static setInstance(wallet) {
+    BitcoinWallet.instance = wallet
+  }
+
+  sign(message) {
+    if (!this.root) throw new Error('Wallet not initialized properly')
+
+    const keyPair = this.ECPair.fromWIF(this.nodePathFor("m/44'/0'/0'/0/0").privateKey, this.network)
+    const messagePrefix = BitcoinWallet.network === 'testnet' ? 'testnet' : 'bitcoin'
     const messageHash = magicHash(message, messagePrefix)
     const signature = keyPair.sign(messageHash)
 
-    return {
-      requestCode,
-      requestHash: Buffer.from(signature).toString('base64')
-    }
+    return Buffer.from(signature).toString('base64')
   }
+
 }
 
-window.BitcoinWallet = BitcoinWallet
+// Initialize global wallet
+window.wallet = BitcoinWallet

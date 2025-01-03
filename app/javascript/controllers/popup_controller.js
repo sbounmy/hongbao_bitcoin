@@ -17,7 +17,8 @@ export default class extends Controller {
     this.modalTarget.classList.remove('hidden')
   }
 
-  close() {
+  close(event) {
+    event.preventDefault()
     this.modalTarget.classList.add('hidden')
   }
 
@@ -26,4 +27,4 @@ export default class extends Controller {
       this.close()
     }
   }
-} 
+}

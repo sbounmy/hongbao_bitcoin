@@ -4,9 +4,6 @@ import BitcoinWallet from "services/bitcoin_wallet"
 export default class extends Controller {
   static targets = [
     "paper",
-    "paymentMethod",
-    "mtPelerinData",
-    "walletModal"
   ]
 
   static values = {
@@ -23,18 +20,13 @@ export default class extends Controller {
     const wallet = BitcoinWallet.generate()
     const key = wallet.nodePathFor("m/44'/0'/0'/0/0")
 
-    // Generate Mt Pelerin request if needed
-    const mtPelerin = await wallet.generateMtPelerinRequest()
-
     this.walletValue = {
       address: key.address,
       privateKey: key.privateKey,
       mnemonic: wallet.mnemonic,
       addressQrcode: await key.addressQrcode(),
       privateKeyQrcode: await key.privateKeyQrcode(),
-      publicKeyQrcode: await key.publicKeyQrcode(),
-      mtPelerinCode: mtPelerin.requestCode,
-      mtPelerinHash: mtPelerin.requestHash
+      publicKeyQrcode: await key.publicKeyQrcode()
     }
   }
 
