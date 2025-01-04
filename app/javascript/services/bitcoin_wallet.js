@@ -1,15 +1,75 @@
 import * as bitcoin from 'bitcoinjs-lib'
 import { ECPairFactory } from 'ecpair'
 import { initEccLib } from 'bitcoinjs-lib'
-import * as secp256k1 from '@bitcoinerlab/secp256k1'
+import * as secp256k1 from 'secp256k1'
 import { Buffer } from 'buffer'
 import 'bip39'
 import { BIP32Factory } from 'bip32'
-import { magicHash } from 'services/bitcoin_message'
 import QRCode from 'qrcode'
+import { randomBytes } from '@noble/hashes/utils'
+
+// Initialize secp256k1 before importing bitcoinjs-message
+initEccLib(secp256k1)
+import bitcoinMessage from 'bitcoinjs-message'
+
+// DIRTYFIX Override the sign function with access to the internal functions
+function prepareSign(messagePrefixArg, sigOptions) {
+  if (typeof messagePrefixArg === 'object' && sigOptions === undefined) {
+    sigOptions = messagePrefixArg
+    messagePrefixArg = undefined
+  }
+  let { segwitType, extraEntropy } = sigOptions || {}
+  if (segwitType && (typeof segwitType === 'string' || segwitType instanceof String)) {
+    segwitType = segwitType.toLowerCase()
+  }
+  if (segwitType && segwitType !== 'p2sh(p2wpkh)' && segwitType !== 'p2wpkh') {
+    throw new Error('Unrecognized segwitType: use "p2sh(p2wpkh)" or "p2wpkh"')
+  }
+  return { messagePrefixArg, segwitType, extraEntropy }
+}
+
+function isSigner(obj) {
+  return obj && typeof obj.sign === 'function'
+}
+
+function encodeSignature(signature, recovery, compressed, segwitType) {
+  if (segwitType !== undefined) {
+    recovery += 8
+    if (segwitType === 'p2wpkh') recovery += 4
+  } else {
+    if (compressed) recovery += 4
+  }
+  return Buffer.concat([Buffer.alloc(1, recovery + 27), signature])
+}
+
+// Override the sign function with access to the internal functions
+bitcoinMessage.sign = function sign(
+  message,
+  privateKey,
+  compressed,
+  messagePrefix,
+  sigOptions
+) {
+  const {
+    messagePrefixArg,
+    segwitType,
+    extraEntropy
+  } = prepareSign(messagePrefix, sigOptions)
+  const hash = bitcoinMessage.magicHash(message, messagePrefixArg)
+  const sigObj = isSigner(privateKey)
+    ? privateKey.sign(hash, extraEntropy)
+    : secp256k1.signRecoverable(hash, privateKey, extraEntropy)
+  return encodeSignature(
+    sigObj.signature,
+    sigObj.recoveryId,
+    compressed,
+    segwitType
+  )
+}.bind(bitcoinMessage)
+// DIRTYFIX END
 
 export default class BitcoinWallet {
-  static network = 'testnet'
+  static network = 'mainnet'
   static instance = null
 
   constructor(options = {}) {
@@ -26,7 +86,6 @@ export default class BitcoinWallet {
   }
 
   initializeDependencies() {
-    initEccLib(secp256k1)
     if (typeof window !== 'undefined' && !window.Buffer) {
       window.Buffer = Buffer
     }
@@ -113,33 +172,38 @@ export default class BitcoinWallet {
     if (!this.root) throw new Error('Wallet not initialized properly')
 
     const keyPair = this.ECPair.fromWIF(this.nodePathFor("m/44'/0'/0'/0/0").privateKey, this.network)
-    const messagePrefix = BitcoinWallet.network === 'testnet' ? 'testnet' : 'bitcoin'
-    const messageHash = magicHash(message, messagePrefix)
-    const signature = keyPair.sign(messageHash)
 
-    return Buffer.from(signature).toString('base64')
+    // Convert message to Buffer
+    const messageBuffer = Buffer.from(message)
+    const privateKeyBuffer = keyPair.privateKey
+
+    try {
+      const signature = bitcoinMessage.sign(
+        messageBuffer,
+        privateKeyBuffer,
+        keyPair.compressed,
+        { extraEntropy: randomBytes(32) }  // Pass extraEntropy as an options object with 'data' key
+      )
+      return signature.toString('base64')
+    } catch (error) {
+      console.error('Signing error:', error)
+      throw error
+    }
   }
 
-  verify(message, signature) {
+  verify(message, signature, address) {
     try {
-      // Convert base64 signature back to buffer
-      const signatureBuffer = Buffer.from(signature, 'base64')
-
-      // Get the message hash
-      const messagePrefix = BitcoinWallet.network === 'testnet' ? 'testnet' : 'bitcoin'
-      const messageHash = magicHash(message, messagePrefix)
-
-      // Get public key from the address
-      const { publicKey } = this.nodePathFor("m/44'/0'/0'/0/0")
-      const keyPair = this.ECPair.fromPublicKey(Buffer.from(publicKey, 'hex'), { network: this.network })
-
-      // Verify the signature
-      return keyPair.verify(messageHash, signatureBuffer)
+      return bitcoinMessage.verify(
+        message,
+        address,
+        Buffer.from(signature, 'base64')
+      )
     } catch (error) {
       console.error('Signature verification failed:', error)
       return false
     }
   }
+
 }
 
 // Initialize global wallet

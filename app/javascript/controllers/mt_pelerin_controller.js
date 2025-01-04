@@ -41,6 +41,7 @@ export default class extends Controller {
       net: this.networkValue,
       nets: this.networkValue,
       curs: 'EUR,USD,SGD',
+      bsc: 'EUR',
       ctry: 'FR',
       primary: this.primaryValue,
       success: this.successValue,

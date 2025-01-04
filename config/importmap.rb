@@ -49,7 +49,7 @@ pin "@noble/hashes/utils", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/esm/u
 
 # ECPair and secp256k1
 pin "ecpair", to: "https://ga.jspm.io/npm:ecpair@3.0.0-rc.0/src/esm/index.js"
-pin "@bitcoinerlab/secp256k1", to: "https://ga.jspm.io/npm:@bitcoinerlab/secp256k1@1.2.0/dist/index.js"
+pin "secp256k1", to: "https://ga.jspm.io/npm:@bitcoinerlab/secp256k1@1.2.0/dist/index.js"
 pin "valibot", to: "https://ga.jspm.io/npm:valibot@1.0.0-beta.9/dist/index.js"
 pin "wif", to: "https://ga.jspm.io/npm:wif@5.0.0/src/esm/index.js"
 pin "uint8array-tools", to: "https://ga.jspm.io/npm:uint8array-tools@0.0.9/src/mjs/browser.js"
@@ -73,3 +73,23 @@ pin "@noble/hashes/sha512", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/esm/
 pin "qrcode", to: "https://ga.jspm.io/npm:qrcode@1.5.3/lib/browser.js"
 pin "dijkstrajs", to: "https://ga.jspm.io/npm:dijkstrajs@1.0.3/dijkstra.js"
 pin "encode-utf8", to: "https://ga.jspm.io/npm:encode-utf8@1.0.3/index.js"
+
+# Bitcoin message signing
+pin "bitcoinjs-message", to: "https://ga.jspm.io/npm:bitcoinjs-message@2.2.0/index.js"
+pin "buffer-equals", to: "https://ga.jspm.io/npm:buffer-equals@1.0.4/index.js"
+pin "create-hash", to: "https://ga.jspm.io/npm:create-hash@1.2.0/browser.js"
+pin "inherits", to: "https://ga.jspm.io/npm:inherits@2.0.4/inherits_browser.js"
+pin "md5.js", to: "https://ga.jspm.io/npm:md5.js@1.3.5/index.js"
+pin "ripemd160", to: "https://ga.jspm.io/npm:ripemd160@2.0.2/index.js"
+pin "sha.js", to: "https://ga.jspm.io/npm:sha.js@2.4.11/index.js"
+pin "cipher-base", to: "https://ga.jspm.io/npm:cipher-base@1.0.6/index.js"
+pin "hash-base", to: "https://ga.jspm.io/npm:hash-base@3.1.0/index.js"
+pin "readable-stream", to: "https://ga.jspm.io/npm:readable-stream@3.6.2/readable-browser.js"
+pin "events", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/events.js"
+pin "#lib/internal/streams/stream.js", to: "https://ga.jspm.io/npm:readable-stream@3.6.2/lib/internal/streams/stream-browser.js"
+pin "util", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/util.js"
+pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/process.js"
+pin "string_decoder", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/string_decoder.js"
+pin "#lib/internal/streams/from.js", to: "https://ga.jspm.io/npm:readable-stream@3.6.2/lib/internal/streams/from-browser.js"
+pin "util-deprecate", to: "https://ga.jspm.io/npm:util-deprecate@1.0.2/browser.js"
+pin "stream", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/stream.js"

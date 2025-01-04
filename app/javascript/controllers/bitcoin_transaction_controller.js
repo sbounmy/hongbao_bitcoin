@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import * as bitcoin from 'bitcoinjs-lib'
 import { ECPairFactory } from 'ecpair'
 import { initEccLib } from 'bitcoinjs-lib'
-import * as secp256k1 from '@bitcoinerlab/secp256k1'
+import * as secp256k1 from 'secp256k1'
 import { Buffer } from 'buffer'
 
 // Initialize the Bitcoin library with secp256k1
