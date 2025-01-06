@@ -13,27 +13,12 @@ export default class extends Controller {
     success: String
   }
 
-  async walletChanged(event) {
-    const { address } = event.detail
-    const wallet = window.wallet.getInstance()
+  open(event) {
+    event.preventDefault()
+    this.#generateRequest()
 
-    // Generate request code and sign message
-    const code = Math.floor(1000 + Math.random() * 9000).toString()
-    const hash = wallet.sign(`MtPelerin-${code}`)
+    if (!this.#hasAllValues) return
 
-    // Update values
-    this.addrValue = address
-    this.codeValue = code
-    this.hashValue = hash
-
-    // Open modal with updated values
-    this.openModal()
-  }
-
-  openModal() {
-    if (!this.hasAllValues()) return
-    console.log(this.ctknValue, this.rfrValue)
-    console.log(this.addrValue, this.codeValue, this.hashValue)
     window.showMtpModal({
       lang: document.documentElement.lang || 'en',
       tabs: 'buy',
@@ -54,7 +39,20 @@ export default class extends Controller {
     })
   }
 
-  hasAllValues() {
+  #generateRequest() {
+    const { address } = window.wallet.nodePathFor("m/44'/0'/0'/0/0")
+
+    // Generate request code and sign message
+    const code = Math.floor(1000 + Math.random() * 9000).toString()
+    const hash = window.wallet.sign(`MtPelerin-${code}`)
+
+    // Update values
+    this.addrValue = address
+    this.codeValue = code
+    this.hashValue = hash
+  }
+
+  get #hasAllValues() {
     return this.addrValue && this.codeValue && this.hashValue
   }
 }

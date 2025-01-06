@@ -70,7 +70,6 @@ bitcoinMessage.sign = function sign(
 
 export default class BitcoinWallet {
   static network = 'mainnet'
-  static instance = null
 
   constructor(options = {}) {
     this.initializeDependencies()
@@ -157,17 +156,6 @@ export default class BitcoinWallet {
     }
   }
 
-  static getInstance() {
-    if (!BitcoinWallet.instance) {
-      BitcoinWallet.instance = BitcoinWallet.generate()
-    }
-    return BitcoinWallet.instance
-  }
-
-  static setInstance(wallet) {
-    BitcoinWallet.instance = wallet
-  }
-
   sign(message) {
     if (!this.root) throw new Error('Wallet not initialized properly')
 
@@ -181,8 +169,8 @@ export default class BitcoinWallet {
       const signature = bitcoinMessage.sign(
         messageBuffer,
         privateKeyBuffer,
-        keyPair.compressed,
-        { extraEntropy: randomBytes(32) }  // Pass extraEntropy as an options object with 'data' key
+        keyPair.compressed
+        //{ extraEntropy: randomBytes(32) }  // Pass extraEntropy as an options object with 'data' key
       )
       return signature.toString('base64')
     } catch (error) {
@@ -206,5 +194,5 @@ export default class BitcoinWallet {
 
 }
 
-// Initialize global wallet
-window.wallet = BitcoinWallet
+// Initialize global wallet immediately
+window.wallet = BitcoinWallet.generate()

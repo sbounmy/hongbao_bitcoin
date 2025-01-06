@@ -5,9 +5,8 @@
      data-mt-pelerin-network-value="<%= Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet' %>"
      data-mt-pelerin-logo-value="<%= asset_url('hongbao-bitcoin-logo-520.png') %>"
      data-mt-pelerin-success-value="#FFB636"
-     data-mt-pelerin-primary-value="#F04747"
-     data-action="hong-bao:walletChanged@window->mt-pelerin#walletChanged">
-  <button data-action="mt-pelerin#openModal" class="btn btn-primary">
+     data-mt-pelerin-primary-value="#F04747">
+  <button data-action="popup:opened@window->mt-pelerin#open" class="btn btn-primary">
     Buy with Mt Pelerin
   </button>
 </div>

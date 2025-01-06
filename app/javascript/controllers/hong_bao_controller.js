@@ -17,13 +17,12 @@ export default class extends Controller {
   }
 
   async generateWallet() {
-    const wallet = BitcoinWallet.generate()
-    const key = wallet.nodePathFor("m/44'/0'/0'/0/0")
+    const key = window.wallet.nodePathFor("m/44'/0'/0'/0/0")
 
     this.walletValue = {
       address: key.address,
       privateKey: key.privateKey,
-      mnemonic: wallet.mnemonic,
+      mnemonic: window.wallet.mnemonic,
       addressQrcode: await key.addressQrcode(),
       privateKeyQrcode: await key.privateKeyQrcode(),
       publicKeyQrcode: await key.publicKeyQrcode()
