@@ -1,12 +1,41 @@
 <div data-popup-target="modal"
      data-controller="mt-pelerin"
-     data-mt-pelerin-ctkn-value="<%= Rails.application.credentials.mt_pelerin.token %>"
-     data-mt-pelerin-rfr-value="<%= Rails.application.credentials.mt_pelerin.rfr %>"
-     data-mt-pelerin-network-value="<%= Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet' %>"
-     data-mt-pelerin-logo-value="<%= asset_url('hongbao-bitcoin-logo-520.png') %>"
-     data-mt-pelerin-success-value="#FFB636"
-     data-mt-pelerin-primary-value="#F04747">
-  <button data-action="popup:opened@window->mt-pelerin#open" class="btn btn-primary">
-    Buy with Mt Pelerin
-  </button>
+     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+  <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-2xl w-full relative">
+    <button data-action="popup#close"
+            class="absolute top-2 right-2 text-white/60 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="text-white">
+      <h3 class="text-xl font-bold mb-4">
+        <%= t("wallet_instructions.mt_pelerin.title") %>
+      </h3>
+
+      <iframe
+        data-mt-pelerin-target="iframe"
+        allow="usb; ethereum; clipboard-write; payment; microphone; camera"
+        loading="lazy"
+        src="https://widget.mtpelerin.com/?<%= {
+          lang: I18n.locale || 'en',
+          tabs: 'buy',
+          tab: 'buy',
+          net: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+          nets: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+          curs: 'EUR,USD,SGD',
+          bsc: 'EUR',
+          ctry: 'FR',
+          mylogo: asset_url('hongbao-bitcoin-logo-520.png'),
+          primary: '#F04747',
+          success: '#FFB636',
+          _ctkn: Rails.application.credentials.mt_pelerin.token,
+          rfr: Rails.application.credentials.mt_pelerin.rfr
+        }.to_param %>"
+        title="Mt Pelerin exchange widget"
+        class="w-full h-[600px] border-0 rounded-lg bg-white"
+      ></iframe>
+    </div>
+  </div>
 </div>
