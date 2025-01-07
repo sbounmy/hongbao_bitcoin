@@ -78,7 +78,7 @@ export default class extends CanvasBaseController {
     const { privateKeyWIF, mnemonic, privateKeyQrcode } = event.detail
     this.mnemonicValue = mnemonic
 
-    this.privateKeyQrValue = privateKeyQrcode
+    this.privateKeyQrValue = await privateKeyQrcode()
     this.redrawCanvas()
   }
 }

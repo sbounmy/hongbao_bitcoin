@@ -1,12 +1,10 @@
 <div data-controller="canvas-back"
      data-action="canvas-back:done->hong-bao#cache
-                  hong-bao:walletChanged@window->canvas-back#updateKeys
-                  hong-bao:walletChanged@window->canvas-back#redrawCanvas"
+                  bitcoin:changed@window->canvas-back#updateKeys
+                  bitcoin:changed@window->canvas-back#redrawCanvas"
      data-canvas-back-paper-id-value="<%= paper.id %>"
      data-canvas-back-context-value="<%= context %>"
      data-canvas-back-elements-value="<%= paper.elements.to_json %>"
-     data-canvas-back-image-url-value="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>"
-     data-canvas-back-mnemonic-value=""
-     data-canvas-back-private-key-qr-value="">
+     data-canvas-back-image-url-value="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>">
   <canvas data-canvas-back-target="canvas" class="w-full"></canvas>
 </div>

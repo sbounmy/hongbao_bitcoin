@@ -138,23 +138,18 @@ export default class BitcoinWallet {
 
     const node = this.root.derivePath(path)
     const keyPair = this.ECPair.fromPrivateKey(node.privateKey, { network: this.network })
+    const address = bitcoin.payments.p2pkh({
+      pubkey: node.publicKey,
+      network: this.network
+    }).address
 
     return {
       publicKey: node.publicKey.toString('hex'),
       privateKey: keyPair.toWIF(),
-      address: bitcoin.payments.p2pkh({
-        pubkey: node.publicKey,
-        network: this.network
-      }).address,
-      async addressQrcode() {
-        return await QRCode.toDataURL(this.address)
-      },
-      async privateKeyQrcode() {
-        return await QRCode.toDataURL(this.privateKey)
-      },
-      async publicKeyQrcode() {
-        return await QRCode.toDataURL(this.publicKey)
-      }
+      address,
+      addressQrcode: async () => await QRCode.toDataURL(address),
+      privateKeyQrcode: async () => await QRCode.toDataURL(keyPair.toWIF()),
+      publicKeyQrcode: async () => await QRCode.toDataURL(node.publicKey.toString('hex'))
     }
   }
 
@@ -177,7 +172,6 @@ export default class BitcoinWallet {
       return signature.toString('base64')
     } catch (error) {
       console.error('Signing error:', error)
-      throw error
     }
   }
 
@@ -199,7 +193,9 @@ export default class BitcoinWallet {
       bubbles: true,
       detail: {
         ...detail,
-        wallet: this  // Pass the actual wallet instance
+        wallet: this,  // Pass the actual wallet instance
+        mnemonic: this.mnemonic
+
       }
     })
     window.dispatchEvent(event)

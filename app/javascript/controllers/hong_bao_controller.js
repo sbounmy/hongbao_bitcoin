@@ -1,37 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
-import BitcoinWallet from "services/bitcoin_wallet"
 
 export default class extends Controller {
-  static targets = [
-    "paper",
-  ]
-
+  static targets = ["paper"]
   static values = {
-    currentPaper: { type: Number },
-    wallet: { type: Object, default: {} }
+    currentPaper: { type: Number }
   }
 
   connect() {
     this.setupRefreshWarning()
-    this.generateWallet()
   }
 
+  // This method is now just for UI regeneration
   async generateWallet() {
-    const key = window.wallet.nodePathFor("m/44'/0'/0'/0/0")
-
-    this.walletValue = {
-      address: key.address,
-      privateKey: key.privateKey,
-      mnemonic: window.wallet.mnemonic,
-      addressQrcode: await key.addressQrcode(),
-      privateKeyQrcode: await key.privateKeyQrcode(),
-      publicKeyQrcode: await key.publicKeyQrcode()
-    }
-  }
-
-  walletValueChanged() {
-    // Dispatch event for other controllers
-    this.dispatch("walletChanged", { detail: this.walletValue })
+    // Generate new wallet and let the BitcoinWallet singleton handle the event dispatch
+    window.wallet = BitcoinWallet.generate()
   }
 
   setupRefreshWarning() {

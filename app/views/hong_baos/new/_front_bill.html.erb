@@ -1,13 +1,11 @@
 <div data-controller="canvas-front"
      data-canvas-front-target="container"
      data-action="canvas-front:done->hong-bao#cache
-                  hong-bao:walletChanged@window->canvas-front#updateKeys
-                  hong-bao:walletChanged@window->canvas-front#redrawCanvas"
+                  bitcoin:changed@window->canvas-front#updateKeys
+                  bitcoin:changed@window->canvas-front#redrawCanvas"
      data-canvas-front-paper-id-value="<%= paper.id %>"
      data-canvas-front-context-value="<%= context %>"
      data-canvas-front-elements-value="<%= paper.elements.to_json %>"
-     data-canvas-front-image-url-value="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
-     data-canvas-front-address-value=""
-     data-canvas-front-public-key-qr-value="">
+     data-canvas-front-image-url-value="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>">
   <canvas data-canvas-front-target="canvas" class="w-full"></canvas>
 </div>

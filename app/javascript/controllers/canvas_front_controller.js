@@ -52,7 +52,7 @@ export default class extends CanvasBaseController {
   async updateKeys(event) {
     const { address, addressQrcode } = event.detail
     this.addressValue = address
-    this.addressQrcode = addressQrcode
+    this.addressQrcode = await addressQrcode()
     this.redrawCanvas()
   }
 }
