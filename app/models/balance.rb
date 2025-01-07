@@ -44,8 +44,8 @@ class Balance
 
     new(
       address: address,
-      satoshis: balance_data.fetch("final_balance", 0),
-      confirmations: tx_ref&.fetch("confirmations", 0) || 0,
+      satoshis: balance_data.fetch('final_balance', 0),
+      confirmations: tx_ref&.fetch('confirmations', 0) || 0,
       exchange_rate: usd_rate,
       confirmed_at: tx_ref&.fetch("confirmed")&.then { |date| Time.parse(date) },
       historical_price: fetch_historical_price(tx_ref&.fetch("confirmed")),
@@ -71,7 +71,7 @@ class Balance
   end
 
   def self.usd_rate
-    Rails.cache.fetch("coinbase_btc_usd_rate", expires_in: 10.minutes) do
+    Rails.cache.fetch('coinbase_btc_usd_rate', expires_in: 10.minutes) do
       response = Net::HTTP.get(COINBASE_URI)
       JSON.parse(response).dig("data", "amount")&.to_f
     end
