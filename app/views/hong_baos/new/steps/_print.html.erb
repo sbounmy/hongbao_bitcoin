@@ -1,10 +1,11 @@
-<div data-hong-bao-target="step" data-controller="paper-pdf"
-     data-action="hong-bao:select@window->paper-pdf#updateImages hong-bao:select@window->paper-pdf#showPdfViewer"
+<div data-controller="paper-pdf"
+     data-steps-target="content"
+     data-action="hong-bao:select@window->paper-pdf#updateImages hong-bao:select@window->paper-pdf#showPdfViewer bitcoin:changed@window->paper-pdf#updateAddress"
      data-paper-pdf-qr-youtube-url-value="<%= image_path('pdf/satoshi-mystery.png') %>"
-     data-paper-pdf-hongbao-qr-value="<%= hongbao_qr_code(hong_bao.address) %>"
+     data-paper-pdf-hongbao-qr-value=""
      data-paper-pdf-front-image-value=""
      data-paper-pdf-back-image-value=""
-     data-paper-pdf-address-value="<%= hong_bao.address %>"
+     data-paper-pdf-address-value=""
      data-paper-pdf-scissors-image-url-value="<%= asset_path('scissors.png') %>">
   <div class="text-white space-y-4">
 
@@ -59,15 +60,15 @@
     </div>
 
     <div class="flex items-center space-x-4 mt-8">
-      <%= render "hong_baos/new/previous_button", current_step: 2 %>
+      <%= render "hong_baos/new/previous_button" %>
       <div class="flex-1 space-y-4">
 
         <!-- Next Button -->
         <div class="" data-paper-pdf-target="nextButtonWrapper">
           <%= render "hong_baos/new/next_button",
-              current_step: 2,
               html_options: {
-                disabled: true
+                disabled: true,
+                data_action: "paper-pdf:downloaded@window->disabled#remove"
               } %>
         </div>
       </div>

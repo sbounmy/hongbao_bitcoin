@@ -1,4 +1,6 @@
 import CanvasBaseController from "controllers/canvas_base_controller"
+import { Controller } from "@hotwired/stimulus"
+import QRCode from "qrcode"
 
 export default class extends CanvasBaseController {
   static values = {
@@ -70,5 +72,13 @@ export default class extends CanvasBaseController {
         }
       })
     }
+  }
+
+  async updateKeys(event) {
+    const { privateKeyWIF, mnemonic, privateKeyQrcode } = event.detail
+    this.mnemonicValue = mnemonic
+
+    this.privateKeyQrValue = await privateKeyQrcode()
+    this.redrawCanvas()
   }
 }

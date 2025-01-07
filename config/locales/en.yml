@@ -87,3 +87,7 @@ en:
         - "Verify the receiving address"
         - "Click the button below to initiate transfer"
       withdrawal_action: "Connect Ledger"
+    mt_pelerin:
+      title: "Pay with your local currency"
+      withdrawal_title: "Withdraw to Mt Pelerin"
+      withdrawal_action: "Connect Mt Pelerin"

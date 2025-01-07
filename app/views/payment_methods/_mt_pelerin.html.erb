@@ -1,0 +1,44 @@
+<div data-popup-target="modal"
+     data-controller="mt-pelerin"
+     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+     data-action="wallet:changed@window->mt-pelerin#update">
+  <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-2xl w-full relative max-h-[90vh] flex flex-col">
+    <button data-action="popup#close"
+            class="absolute top-2 right-2 text-white/60 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="text-white flex flex-col min-h-0">
+      <h3 class="text-xl font-bold mb-4">
+        <%= t("wallet_instructions.mt_pelerin.title") %>
+      </h3>
+
+      <iframe
+        data-mt-pelerin-target="iframe"
+        allow="usb; clipboard-write; payment; microphone; camera"
+        loading="lazy"
+        src="https://widget.mtpelerin.com/?<%= {
+          lang: I18n.locale || 'en',
+          tabs: 'buy',
+          tab: 'buy',
+          dnet: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+          nets: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+          bdc: 'BTC',
+          bsc: 'EUR',
+          bsa: 50,
+          ctry: 'FR',
+          mylogo: asset_url('hongbao-bitcoin-logo-520.png'),
+          primary: '#F04747',
+          success: '#FFB636',
+          type: 'web',
+          _ctkn: Rails.env.production? ? Rails.application.credentials.mt_pelerin.token : 'bec6626e-8913-497d-9835-6e6ae9edb144',
+          rfr: Rails.application.credentials.mt_pelerin.rfr
+        }.to_param %>"
+        title="Mt Pelerin exchange widget"
+        class="w-full h-[700px] border-0 rounded-lg bg-white"
+      ></iframe>
+    </div>
+  </div>
+</div>

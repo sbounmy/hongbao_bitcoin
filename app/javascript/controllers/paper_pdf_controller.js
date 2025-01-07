@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import QRCode from 'qrcode'
 
 export default class extends Controller {
   static targets = [
@@ -7,15 +8,14 @@ export default class extends Controller {
     "pdfViewerPlaceHolder",
     "pdfViewer",
     "frontImage",
-    "backImage",
-    "nextButtonWrapper"
+    "backImage"
   ]
   static values = {
     qrYoutubeUrl: String,
     frontImage: String,
     backImage: String,
     address: String,
-    hongbaoQr: String,
+    explorerQrCode: String,
     scissorsImageUrl: String
   }
 
@@ -115,7 +115,7 @@ export default class extends Controller {
       pdf.text('HOW IT WORKS', 95, 216)
 
       // Add HongBao QR code in the top-right corner with new text
-      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30, undefined, 'FAST')
+      pdf.addImage(await this.explorerQrCode(), 'PNG', 168, 225, 30, 30, undefined, 'FAST')
       pdf.setFontSize(9)
       pdf.text('Verify balance', 172, 223)
 
@@ -160,6 +160,14 @@ export default class extends Controller {
     }
   }
 
+  updateAddress({ detail: { address } }) {
+    this.addressValue = address
+  }
+
+  get explorerQrCode() {
+    return async () => await QRCode.toDataURL("https://hongbaob.tc/hong_baos/" + this.addressValue)
+  }
+
   get formattedDate() {
     const date = new Date();
     const year = date.getFullYear();
@@ -172,14 +180,9 @@ export default class extends Controller {
     this.generatePDF().then(({ pdfUrl, pdf }) => {
       const filename = `Bitcoin_HongBao_${this.formattedDate}_${this.addressValue}.pdf`;
       pdf.save(filename);
-
-      // Enable next button after download
-      this.nextButtonWrapperTarget.dataset.downloaded = 'true';
-      const nextButton = this.nextButtonWrapperTarget.querySelector('button');
-      if (nextButton) {
-        nextButton.disabled = false;
-      }
+      this.dispatch("downloaded", { detail: { pdfUrl } });
     });
+
   }
 
   showPdfViewer() {

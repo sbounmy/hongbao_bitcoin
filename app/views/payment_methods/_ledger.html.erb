@@ -1,0 +1,43 @@
+<div data-popup-target="modal"
+        data-wallet-type="<%= payment_method.name.downcase %>"
+        class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-md w-full relative">
+    <button data-action="popup#close"
+            class="absolute top-2 right-2 text-white/60 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+
+    <div class="text-white">
+        <h3 class="text-xl font-bold mb-4">
+        <%= t("wallet_instructions.#{payment_method.name.downcase}.title") %>
+        </h3>
+
+        <img data-controller="value"
+                data-value-name-value="addressQrcode"
+                data-action="hong-bao:walletChanged@window->value#update"
+                alt="Bitcoin Payment QR Code"
+                class="mx-auto mb-4 w-48 h-48">
+
+        <div class="space-y-2 text-sm">
+        <% t("wallet_instructions.#{payment_method.name.downcase}.steps").each do |step| %>
+            <p><%= step %></p>
+        <% end %>
+        </div>
+
+        <div class="mt-4 flex items-center justify-center gap-2 bg-white/10 p-2 rounded">
+        <code data-controller="value"
+                data-value-name-value="address"
+                data-action="hong-bao:walletChanged@window->value#update"
+                class="text-sm"></code>
+        <button class="btn btn-ghost btn-sm" data-action="click->payment-method#copyAddress">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+        </button>
+        </div>
+
+    </div>
+    </div>
+</div>

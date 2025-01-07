@@ -16,7 +16,7 @@ class HongBaosController < ApplicationController
   end
 
   def new
-    @hong_bao = HongBao.generate(paper_id: params[:paper_id])
+    @hong_bao = HongBao.new(paper_id: params[:paper_id])
     @papers = Paper.active
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
@@ -28,10 +28,10 @@ class HongBaosController < ApplicationController
   end
 
   def transfer
-    @hong_bao =  HongBao.from_private_key(session[:private_key])
+    @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
 
-    if @hong_bao.transfer(transfer_params)
+    if @hong_bao.broadcast_transaction(transfer_params[:signed_transaction])
       redirect_to hong_bao_path(@hong_bao.address), notice: "Funds transferred successfully"
     else
       render :show
@@ -41,6 +41,6 @@ class HongBaosController < ApplicationController
   private
 
   def transfer_params
-    params.require(:hong_bao).permit(:to_address, :payment_method_id)
+    params.require(:hong_bao).permit(:to_address, :signed_transaction)
   end
 end

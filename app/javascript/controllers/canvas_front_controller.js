@@ -1,4 +1,6 @@
 import CanvasBaseController from "controllers/canvas_base_controller"
+import { Controller } from "@hotwired/stimulus"
+import QRCode from "qrcode"
 
 export default class extends CanvasBaseController {
   static values = {
@@ -23,7 +25,7 @@ export default class extends CanvasBaseController {
 
   drawQRCode() {
     const qrImage = new Image()
-    qrImage.src = this.publicKeyQrValue
+    qrImage.src = this.addressQrcode
 
     qrImage.onload = () => {
       const coords = this.elementsValue.qrcode_public_key
@@ -45,5 +47,12 @@ export default class extends CanvasBaseController {
         }
       })
     }
+  }
+
+  async updateKeys(event) {
+    const { address, addressQrcode } = event.detail
+    this.addressValue = address
+    this.addressQrcode = await addressQrcode()
+    this.redrawCanvas()
   }
 }

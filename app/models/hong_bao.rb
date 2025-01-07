@@ -22,36 +22,10 @@ class HongBao
   validates :paper_id, presence: true
   validates :amount, numericality: { greater_than: 0 }, allow_nil: true
 
-  def self.generate(paper_id:)
-    hong_bao = new(paper_id: paper_id)
-    hong_bao.generate_bitcoin_keys
-    hong_bao.generate_mt_pelerin_request
-    hong_bao
-  end
 
   def self.from_scan(key)
     hong_bao = new(scanned_key: key, paper_id: 0)
     hong_bao
-  end
-
-  def generate_bitcoin_keys
-    master = Bitcoin::Master.generate
-    self.mnemonic = master.mnemonic
-    self.seed = master.seed
-    self.entropy = master.entropy
-
-    key = master.node_for_path("m/44'/0'/0'/0/0'")
-    self.public_key = key.pub
-    self.private_key = key.to_base58
-    self.address = key.addr
-  end
-
-  def generate_mt_pelerin_request
-    self.mt_pelerin_request_code = rand(1000..9999).to_s
-    message = "MtPelerin-#{mt_pelerin_request_code}"
-
-    bitcoin_key = Bitcoin::Key.new(Bitcoin::Key.from_base58(private_key).priv, public_key)
-    self.mt_pelerin_request_hash = bitcoin_key.sign_message(message)
   end
 
   def scanned_key=(key)
@@ -73,5 +47,17 @@ class HongBao
 
   def can_transfer?
     private_key.present?
+  end
+
+  def broadcast_transaction(signed_transaction)
+    client = BlockCypher::Api.new(api_token: Rails.application.credentials.dig(:blockcypher, :token))
+    response = client.push_tx(hex: signed_transaction)
+
+    Rails.logger.info "Transaction broadcast response: #{response.inspect}"
+    response["tx"]["hash"].present?
+  rescue StandardError => e
+    Rails.logger.error "Failed to broadcast transaction: #{e.message}"
+    errors.add(:base, "Failed to broadcast transaction: #{e.message}")
+    false
   end
 end
