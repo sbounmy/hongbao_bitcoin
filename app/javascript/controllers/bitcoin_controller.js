@@ -33,7 +33,7 @@ export default class extends Controller {
       detail: {
         wallet: this.wallet,
         mnemonic: this.wallet.mnemonic,
-        ...this.getNodeInfo(),
+        ...this.getNodeInfo()
       }
     })
   }

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import QRCode from 'qrcode'
 
 export default class extends Controller {
   static targets = [
@@ -14,7 +15,7 @@ export default class extends Controller {
     frontImage: String,
     backImage: String,
     address: String,
-    hongbaoQr: String,
+    explorerQrCode: String,
     scissorsImageUrl: String
   }
 
@@ -114,7 +115,7 @@ export default class extends Controller {
       pdf.text('HOW IT WORKS', 95, 216)
 
       // Add HongBao QR code in the top-right corner with new text
-      pdf.addImage(this.hongbaoQrValue, 'PNG', 168, 225, 30, 30, undefined, 'FAST')
+      pdf.addImage(await this.explorerQrCode(), 'PNG', 168, 225, 30, 30, undefined, 'FAST')
       pdf.setFontSize(9)
       pdf.text('Verify balance', 172, 223)
 
@@ -157,6 +158,14 @@ export default class extends Controller {
         </svg>
         <p><strong>Generate</strong> my paper PDF</p>`
     }
+  }
+
+  updateAddress({ detail: { address } }) {
+    this.addressValue = address
+  }
+
+  get explorerQrCode() {
+    return async () => await QRCode.toDataURL("https://hongbaob.tc/hong_baos/" + this.addressValue)
   }
 
   get formattedDate() {
