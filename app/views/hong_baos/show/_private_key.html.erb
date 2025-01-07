@@ -1,0 +1,63 @@
+<div class="space-y-6">
+  <h3 class="text-xl font-bold text-[#FFB636]">Verify Ownership</h3>
+
+  <div class="space-y-4">
+    <div class="grid grid-cols-2 gap-4">
+      <button type="button"
+              data-action="steps#showPrivateKeyInput"
+              class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
+                     hover:bg-white/20 transition-colors">
+        Private Key
+      </button>
+      <button type="button"
+              data-action="steps#showMnemonicInput"
+              class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
+                     hover:bg-white/20 transition-colors">
+        24 Words
+      </button>
+    </div>
+
+    <%# Private Key Input %>
+    <div data-steps-target="privateKeyInput" class="hidden space-y-4">
+      <div class="relative">
+        <%= form.text_field :private_key,
+            class: "w-full bg-white/10 text-white border-2 border-transparent
+                    focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
+                    placeholder-white/50 focus:outline-none",
+            placeholder: "Scan or enter private key",
+            data: { action: "input->steps#validatePrivateKey" } %>
+
+        <button type="button"
+                data-action="steps#scanPrivateKey"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
+                       transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <%# Mnemonic Input %>
+    <div data-steps-target="mnemonicInput" class="hidden">
+      <%= form.text_area :mnemonic,
+          class: "w-full bg-white/10 text-white border-2 border-transparent
+                  focus:border-[#FFB636] rounded-lg py-3 px-4
+                  placeholder-white/50 focus:outline-none resize-none h-32",
+          placeholder: "Enter your 24 words recovery phrase",
+          data: { action: "input->steps#validateMnemonic" } %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <%= render "hong_baos/new/previous_button" %>
+    <div class="flex-1">
+      <%= render "hong_baos/new/next_button",
+          html_options: {
+            disabled: true,
+            data_action: "steps#submit",
+            text: "Confirm Transfer"
+          } %>
+    </div>
+  </div>
+</div>

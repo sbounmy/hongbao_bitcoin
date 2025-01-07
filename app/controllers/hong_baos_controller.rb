@@ -20,11 +20,13 @@ class HongBaosController < ApplicationController
     @papers = Paper.active
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
+    @steps = [ "Design", "Print", "Top up" ]
   end
 
   def show
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
+    @steps = [ "Balance", "Destination", "Private key", "Complete" ]
   end
 
   def transfer

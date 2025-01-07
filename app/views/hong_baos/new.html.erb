@@ -24,7 +24,7 @@
                     }.to_json
                   }) do |form| %>
 
-      <%= render "hong_baos/new/progress_steps", current_step: @current_step %>
+      <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
       <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
       <%= render "hong_baos/new/steps/design",

@@ -1,0 +1,81 @@
+<div class="space-y-6">
+  <h3 class="text-xl font-bold text-[#FFB636]">Your Balance</h3>
+
+  <%# Balance Display %>
+  <div class="text-white">
+    <div class="flex items-center gap-2 mb-2">
+      <h2 class="text-xl text-white/80">
+        <% status = @hong_bao.balance.status %>
+        <% if status[:icon] == :pending %>
+          <div class="inline-flex items-center">
+            <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Pending balance
+          </div>
+        <% else %>
+          <div class="inline-flex items-center">
+            <svg class="h-5 w-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Confirmed balance
+          </div>
+        <% end %>
+      </h2>
+    </div>
+
+    <div class="flex flex-col space-y-1">
+      <%# BTC Amount %>
+      <div class="flex items-baseline">
+        <div class="text-4xl font-mono tracking-wider">
+          ₿<%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %>
+        </div>
+        <%# <div class="text-2xl text-white/80 ml-2">BTC</div> %>
+      </div>
+
+      <%# Price Information %>
+      <% if price_info = @hong_bao.balance.price_info %>
+        <div class="space-y-1">
+          <%# Current Value %>
+          <div class="text-3xl font-mono text-green-400">
+            $<%= number_with_precision(@hong_bao.balance.usd, precision: 2) %>
+            <span class="text-sm ml-2 <%= price_info[:change_percentage].positive? ? 'text-green-400' : 'text-red-400' %>">
+              (<%= price_info[:change_percentage].positive? ? '+' : '' %><%= price_info[:change_percentage] %>%)
+            </span>
+          </div>
+
+          <%# Purchase Info %>
+          <div class="text-sm text-white/60">
+            Purchased <%= time_ago_in_words(@hong_bao.balance.confirmed_at) %> ago
+            at $<%= number_with_delimiter(price_info[:purchase_price].round(2)) %>/BTC
+          </div>
+
+          <%# Current Price %>
+          <div class="text-sm text-white/60">
+            Current BTC price: $<%= number_with_delimiter(price_info[:current_price].round(2)) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-4 text-sm text-white/80">
+      <div class="flex items-center gap-4">
+        <span><%= @hong_bao.balance.confirmations %> confirmations</span>
+        <a href="https://mempool.space/address/<%= @hong_bao.address %>"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center hover:text-white transition-colors">
+          <span>View on Mempool.space</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end">
+    <%= render "hong_baos/new/next_button" %>
+  </div>
+</div>
