@@ -103,11 +103,6 @@
               <% end %>
             </div>
 
-            <%= render "hong_baos/shared/wallet_modals",
-                hong_bao: @hong_bao,
-                payment_methods: @payment_methods,
-                mode: :withdrawal %>
-
             <%# Hidden data for JS %>
             <div data-payment-method-address="<%= @hong_bao.address %>" class="hidden"></div>
 
