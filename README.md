@@ -10,8 +10,6 @@ Create and print beautiful Bitcoin bills with QR codes to pack inside traditiona
 
 ## Development
 
-### Setup
-
 ```bash
 # Install dependencies
 bin/bundle install
@@ -32,34 +30,32 @@ bin/rails db:setup
 bin/rails server
 ```
 
-### Email Testing
+## FAQ
 
-In development, emails are caught by Letter Opener and displayed in your browser instead of being sent. This makes it easy to preview and debug email templates.
 
-You can view sent emails in two ways:
+<details>
+<summary>How do I test emails in development?</summary>
 
-1. **Automatic Preview**: When an email is sent (e.g., magic link), it automatically opens in a new browser tab
+Emails are caught by Letter Opener and displayed in your browser:
+- Automatic Preview: Opens in new tab when email is sent
+- Email Dashboard: Visit http://localhost:3000/letter_opener
+</details>
 
-2. **Email Dashboard**: Visit http://localhost:3000/letter_opener to see all emails sent during your development session
+<details>
+<summary>How do I add JavaScript dependencies?</summary>
 
-Example of testing the magic link flow:
-1. Click "Sign in" and enter your email
-2. A new tab will open showing the email with the magic link
-3. Click the link to complete the authentication
-
-Note: This only works in development environment. In production, real emails will be sent.
-
-### Adding JavaScript Dependencies
-
-We use ImportMaps with [JSPM](https://jspm.io/). To add new JavaScript dependencies:
-
--1. Visit [JSPM Generator](https://generator.jspm.io/)
+We use ImportMaps with [JSPM](https://jspm.io/):
+1. Visit [JSPM Generator](https://generator.jspm.io/)
 2. Search and select your package
-3. Copy the generated import URL from the right panel as shown below:
+3. Copy the generated import URL
+4. Add to `config/importmap.rb`
+</details>
 
-![JSPM Generator Screenshot](/app/assets/images/readme/importmap.png)
+<details>
+<summary>Arc/Chrome: PDF iframe blob not displaying with error `No enabled plugin supports this MIME type`</summary>
 
-4. Add the URL to your `config/importmap.rb`:
-
-```ruby
-pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js"
+- Chrome shows "No enabled plugin supports this MIME type"
+- Only affects localhost environment
+- Workaround: Use Safari for local PDF testing
+- [Issue #39](https://github.com/sbounmy/hongbao_bitcoin/issues/39)
+</details>
