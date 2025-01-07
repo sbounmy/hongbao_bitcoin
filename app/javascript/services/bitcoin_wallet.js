@@ -99,8 +99,8 @@ export default class BitcoinWallet {
     this.mnemonic = mnemonic
     this.seed = window.bip39.mnemonicToSeedSync(mnemonic)
     this.root = this.bip32.fromSeed(this.seed, this.network)
-    // Entropy can be recovered from mnemonic if needed
     this.entropy = window.bip39.mnemonicToEntropy(mnemonic)
+    this.dispatchWalletEvent('changed')
   }
 
   initializeFromSeed(seed) {
@@ -128,7 +128,9 @@ export default class BitcoinWallet {
   static generate() {
     const entropy = window.crypto.getRandomValues(new Uint8Array(32))
     const mnemonic = window.bip39.generateMnemonic(256, null, window.bip39.wordlists.english)
-    return new BitcoinWallet({ mnemonic })
+    const wallet = new BitcoinWallet({ mnemonic })
+    wallet.dispatchWalletEvent('changed')
+    return wallet
   }
 
   nodePathFor(path) {
@@ -190,6 +192,17 @@ export default class BitcoinWallet {
       console.error('Signature verification failed:', error)
       return false
     }
+  }
+
+  dispatchWalletEvent(eventName, detail = {}) {
+    const event = new CustomEvent(`wallet:${eventName}`, {
+      bubbles: true,
+      detail: {
+        ...detail,
+        wallet: this  // Pass the actual wallet instance
+      }
+    })
+    window.dispatchEvent(event)
   }
 
 }

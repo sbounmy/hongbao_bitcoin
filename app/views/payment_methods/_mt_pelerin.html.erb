@@ -1,6 +1,7 @@
 <div data-popup-target="modal"
      data-controller="mt-pelerin"
-     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+     data-action="wallet:changed@window->mt-pelerin#update">
   <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-2xl w-full relative max-h-[90vh] flex flex-col">
     <button data-action="popup#close"
             class="absolute top-2 right-2 text-white/60 hover:text-white">
