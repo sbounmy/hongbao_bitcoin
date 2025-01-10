@@ -5,8 +5,12 @@ export default class extends Controller {
   static targets = ["input", "validIcon", "errorIcon"]
   static classes = ["valid", "invalid"]
 
+  get word() {
+    return this.inputTarget.value.trim()
+  }
+
   validateWord() {
-    const word = this.inputTarget.value.trim()
+    const word = this.word
     this.#removeStateClasses()
     this.#hideIcons()
 
@@ -15,6 +19,21 @@ export default class extends Controller {
     const isValid = this.bitcoinMnemonicOutlet.validateWord(word)
     this.#toggleValidationState(isValid)
     this.#showIcon(isValid)
+  }
+
+  fill(event) {
+    console.log("fill")
+    event.preventDefault()
+    const pastedText = event.clipboardData.getData('text')
+    const words = pastedText.trim().split(/\s+/)
+
+    // Multiple words: dispatch to parent for filling multiple inputs
+    this.dispatch("fill", {
+      detail: {
+        startIndex: parseInt(this.inputTarget.getAttribute('tabindex')),
+        words: words
+      }
+    })
   }
 
   // Private methods

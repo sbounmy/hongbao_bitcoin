@@ -2,10 +2,29 @@ import BitcoinKeyController from "controllers/bitcoin_key_controller"
 import 'bip39'
 
 export default class extends BitcoinKeyController {
-  static outlets = ["mnemonic-word"]
+  static outlets = ["word"]
 
   connect() {
     this.validWords = bip39.wordlists.english
+  }
+
+  fill(event) {
+    const { startIndex, words } = event.detail
+    const outlets = this.wordOutlets
+
+    words.forEach((word, index) => {
+      const targetIndex = startIndex + index
+      const outlet = this.wordOutlets[targetIndex]
+      if (!outlet) return
+      outlet.inputTarget.value = word
+      outlet.validateWord()
+    })
+
+    // Focus the next empty input after filling
+    const nextEmptyOutlet = this.wordOutlets.find(outlet => !outlet.inputTarget.value.trim())
+    if (nextEmptyOutlet) {
+      nextEmptyOutlet.inputTarget.focus()
+    }
   }
 
   _validate(mnemonic) {
@@ -22,7 +41,7 @@ export default class extends BitcoinKeyController {
 
   // Get all words for full validation
   get phrase() {
-    return this.mnemonicWordOutlets
+    return this.wordOutlets
       .map(outlet => outlet.word)
       .filter(Boolean)
       .join(" ")

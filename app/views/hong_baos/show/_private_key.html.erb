@@ -60,28 +60,31 @@
   <div data-tabs-target="tab"
        data-tab-id="mnemonic"
        data-controller="bitcoin-mnemonic"
-       class="hidden bitcoin-mnemonic">
+       data-action="word:fill->bitcoin-mnemonic#fill"
+       class="hidden bitcoin-mnemonic"
+       data-bitcoin-mnemonic-word-outlet=".word">
     <div class="grid grid-cols-4 gap-2">
       <% 24.times do |i| %>
-        <div class="relative"
-             data-controller="mnemonic-word"
-             data-mnemonic-word-bitcoin-mnemonic-outlet=".bitcoin-mnemonic"
-             data-mnemonic-word-valid-class="border-green-500"
-             data-mnemonic-word-invalid-class="border-red-500">
+        <div class="relative word"
+             data-controller="word"
+             data-word-valid-class="border-green-500"
+             data-word-invalid-class="border-red-500"
+             data-word-bitcoin-mnemonic-outlet=".bitcoin-mnemonic">
           <span class="absolute left-2 top-1/2 -translate-y-1/2 text-white/50">
             <%= i + 1 %>.
           </span>
           <input type="text"
-                 tabindex="<%= i + 1 %>"
-                 data-mnemonic-word-target="input"
-                 data-action="input->mnemonic-word#validateWord"
+                 tabindex="<%= i %>"
+                 data-word-target="input"
+                 data-action="input->word#validateWord
+                             paste->word#fill"
                  class="w-full bg-white/10 text-white border-2 border-transparent
                         focus:border-[#FFB636] rounded-lg py-2 pl-8 pr-8
                         placeholder-white/50 focus:outline-none text-sm"
                  placeholder="word">
 
           <%# Valid Icon %>
-          <div data-mnemonic-word-target="validIcon"
+          <div data-word-target="validIcon"
                class="validation-icon absolute right-2 top-1/2 -translate-y-1/2 hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -89,7 +92,7 @@
           </div>
 
           <%# Error Icon %>
-          <div data-mnemonic-word-target="errorIcon"
+          <div data-word-target="errorIcon"
                class="validation-icon absolute right-2 top-1/2 -translate-y-1/2 hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
