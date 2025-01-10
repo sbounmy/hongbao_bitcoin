@@ -1,63 +1,119 @@
-<div class="space-y-6">
-  <h3 class="text-xl font-bold text-[#FFB636]">Verify Ownership</h3>
+<div data-controller="tabs transfer-confirmation"
+     data-tabs-active-class="bg-[#FFB636] text-white"
+     data-tabs-default-tab-value="private-key">
 
-  <div class="space-y-4">
-    <div class="grid grid-cols-2 gap-4">
-      <button type="button"
-              data-action="steps#showPrivateKeyInput"
-              class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
-                     hover:bg-white/20 transition-colors">
-        Private Key
-      </button>
-      <button type="button"
-              data-action="steps#showMnemonicInput"
-              class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
-                     hover:bg-white/20 transition-colors">
-        24 Words
-      </button>
-    </div>
+  <h3 class="text-xl font-bold text-[#FFB636] mb-6">Verify Ownership</h3>
 
-    <%# Private Key Input %>
-    <div data-steps-target="privateKeyInput" class="hidden space-y-4">
-      <div class="relative">
-        <%= form.text_field :private_key,
-            class: "w-full bg-white/10 text-white border-2 border-transparent
-                    focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
-                    placeholder-white/50 focus:outline-none",
-            placeholder: "Scan or enter private key",
-            data: { action: "input->steps#validatePrivateKey" } %>
+  <%# Tab Buttons %>
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <button type="button"
+            data-tabs-target="btn"
+            data-tab-id="private-key"
+            data-action="tabs#select"
+            class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
+                   hover:bg-white/20 transition-colors">
+      Private Key
+    </button>
+    <button type="button"
+            data-tabs-target="btn"
+            data-tab-id="mnemonic"
+            data-action="tabs#select"
+            class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
+                   hover:bg-white/20 transition-colors">
+      24 Words
+    </button>
+  </div>
 
-        <button type="button"
-                data-action="steps#scanPrivateKey"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
-                       transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-          </svg>
-        </button>
-      </div>
-    </div>
+  <%# Private Key Tab %>
+  <div data-tabs-target="tab"
+       data-tab-id="private-key"
+       data-controller="qr-scanner"
+       class="space-y-4">
+    <%# Camera Icon Button %>
+    <button type="button"
+            data-action="qr-scanner#startScanning"
+            class="w-full py-8 bg-white/10 rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-white/20 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      <span class="text-white text-sm">Scan QR Code</span>
+    </button>
 
-    <%# Mnemonic Input %>
-    <div data-steps-target="mnemonicInput" class="hidden">
-      <%= form.text_area :mnemonic,
+    <div id="qr-reader" class="hidden w-full bg-white/10 rounded-lg overflow-hidden"></div>
+
+    <div class="relative">
+      <%= form.text_field :private_key,
           class: "w-full bg-white/10 text-white border-2 border-transparent
                   focus:border-[#FFB636] rounded-lg py-3 px-4
-                  placeholder-white/50 focus:outline-none resize-none h-32",
-          placeholder: "Enter your 24 words recovery phrase",
-          data: { action: "input->steps#validateMnemonic" } %>
+                  placeholder-white/50 focus:outline-none",
+          placeholder: "Enter private key",
+          data: {
+            qr_scanner_target: "scanValue",
+            action: "input->bitcoin-wif#validate",
+            transfer_confirmation_target: "privateKey"
+          } %>
     </div>
   </div>
 
-  <div class="flex items-center gap-4">
-    <%= render "hong_baos/new/previous_button" %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/next_button",
-          html_options: {
-            disabled: true,
-            data_action: "steps#submit",
-            text: "Confirm Transfer"
-          } %>
+  <%# Mnemonic Words Tab %>
+  <div data-tabs-target="tab"
+       data-tab-id="mnemonic"
+       data-controller="mnemonic-input"
+       class="hidden">
+    <div class="grid grid-cols-4 gap-2">
+      <% 24.times do |i| %>
+        <div class="relative">
+          <span class="absolute left-2 top-1/2 -translate-y-1/2 text-white/50">
+            <%= i + 1 %>.
+          </span>
+          <input type="text"
+                 class="w-full bg-white/10 text-white border-2 border-transparent
+                        focus:border-[#FFB636] rounded-lg py-2 pl-8 pr-2
+                        placeholder-white/50 focus:outline-none text-sm"
+                 data-mnemonic-input-target="word"
+                 data-action="keydown->mnemonic-input#handleTab
+                            input->bitcoin-mnemonic#validate"
+                 placeholder="word">
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Confirm Button %>
+  <div class="mt-6">
+    <button type="button"
+            data-action="transfer-confirmation#confirm"
+            class="w-full bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
+                   hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            data-transfer-confirmation-target="confirmButton"
+            disabled>
+      Confirm and Transfer
+    </button>
+  </div>
+
+  <%# Confirmation Modal %>
+  <div class="hidden fixed inset-0 bg-black/50 flex items-center justify-center"
+       data-transfer-confirmation-target="modal">
+    <div class="bg-[#E84142] p-6 rounded-lg max-w-md w-full mx-4">
+      <h4 class="text-lg font-bold text-white mb-4">Confirm Transfer</h4>
+      <p class="text-white/90 mb-4">
+        Are you sure you want to transfer to:
+        <span class="block mt-2 font-mono bg-white/10 p-2 rounded"
+              data-transfer-confirmation-target="address"></span>
+      </p>
+      <div class="flex gap-4">
+        <button type="button"
+                class="flex-1 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-colors"
+                data-action="transfer-confirmation#cancel">
+          Cancel
+        </button>
+        <button type="button"
+                class="flex-1 bg-[#FFB636] text-white py-2 rounded-lg hover:bg-[#FFB636]/90 transition-colors"
+                data-action="transfer-confirmation#proceed">
+          Confirm
+        </button>
+      </div>
     </div>
   </div>
 </div>
