@@ -6,7 +6,7 @@ describe('BitcoinWallet', () => {
     mnemonic: 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
     seed: 'c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04',
     paths: {
-      "m/44'/0'/0'/0/0": {
+      "m/84'/0'/0'/0/0": {
         testnet: {
           privateKey: 'cQZmGLJBQDXGF5kpGrqeCzLUkGj9h7WYpNFhVoAXhqFKPBRuEJ8Q',
           publicKey: '0330d54fd0dd420a6e5f8d3624f5f3482cae350f79d5f0753bf5beef9c2d91af3c',
@@ -61,7 +61,7 @@ describe('BitcoinWallet', () => {
 
     it('derives correct testnet keys and address', () => {
       BitcoinWallet.setNetwork('testnet')
-      const path = "m/44'/0'/0'/0/0"
+      const path = "m/84'/0'/0'/0/0"
       const key = wallet.node
     })
   })
