@@ -26,6 +26,7 @@ class HongBaosController < ApplicationController
   def show
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
+    @current_step = (params[:step] || 1).to_i
     @steps = [ "Balance", "Destination", "Private key", "Complete" ]
   end
 

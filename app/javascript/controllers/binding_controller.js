@@ -12,4 +12,8 @@ export default class extends Controller {
   value(event) {
     this.element.value = event.detail[this.nameValue]
   }
+
+  html(event) {
+    this.element.innerHTML = event.detail[this.nameValue]
+  }
 }
