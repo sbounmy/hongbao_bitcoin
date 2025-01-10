@@ -23,7 +23,7 @@ export default class extends Controller {
     return this.wallet.verify(message, signature, address)
   }
 
-  getNodeInfo(path = "m/44'/0'/0'/0/0") {
+  getNodeInfo(path = "m/84'/0'/0'/0/0") {
     return this.wallet.nodePathFor(path)
   }
 

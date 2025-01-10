@@ -138,7 +138,7 @@ export default class BitcoinWallet {
 
     const node = this.root.derivePath(path)
     const keyPair = this.ECPair.fromPrivateKey(node.privateKey, { network: this.network })
-    const address = bitcoin.payments.p2pkh({
+    const address = bitcoin.payments.p2wpkh({
       pubkey: node.publicKey,
       network: this.network
     }).address
@@ -156,7 +156,7 @@ export default class BitcoinWallet {
   sign(message) {
     if (!this.root) throw new Error('Wallet not initialized properly')
 
-    const keyPair = this.ECPair.fromWIF(this.nodePathFor("m/44'/0'/0'/0/0").privateKey, this.network)
+    const keyPair = this.ECPair.fromWIF(this.nodePathFor("m/84'/0'/0'/0/0").privateKey, this.network)
 
     // Convert message to Buffer
     const messageBuffer = Buffer.from(message)
