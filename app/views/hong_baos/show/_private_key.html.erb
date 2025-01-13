@@ -61,6 +61,7 @@
        data-tab-id="mnemonic"
        data-controller="bitcoin-mnemonic"
        data-action="word:fill->bitcoin-mnemonic#fill"
+       data-bitcoin-mnemonic-address-value="<%= @hong_bao.address %>"
        class="hidden bitcoin-mnemonic"
        data-bitcoin-mnemonic-word-outlet=".word">
     <div class="grid grid-cols-4 gap-2">
@@ -101,12 +102,17 @@
         </div>
       <% end %>
     </div>
+    <div data-bitcoin-mnemonic-target="errorMessage"
+        class="text-white/50 text-sm mt-2 hidden w-full">
+      Please enter a valid 24-word mnemonic phrase.
+    </div>
   </div>
 
   <%# Confirm Button %>
   <div class="mt-6">
     <button type="button"
-            data-action="transfer-confirmation#confirm"
+            data-controller="disabled"
+            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add transfer-confirmation#confirm"
             class="w-full bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
                    hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             data-transfer-confirmation-target="confirmButton"

@@ -138,10 +138,19 @@ export default class BitcoinWallet {
 
     const node = this.root.derivePath(path)
     const keyPair = this.ECPair.fromPrivateKey(node.privateKey, { network: this.network })
-    const address = bitcoin.payments.p2wpkh({
-      pubkey: node.publicKey,
-      network: this.network
-    }).address
+    let address = null
+
+    if (path.startsWith("m/84'/0'/0'/0/0")) {
+      address = bitcoin.payments.p2wpkh({
+        pubkey: node.publicKey,
+        network: this.network
+      }).address
+    } else {
+      address = bitcoin.payments.p2pkh({
+        pubkey: node.publicKey,
+        network: this.network
+      }).address
+    }
 
     return {
       publicKey: node.publicKey.toString('hex'),

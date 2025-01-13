@@ -19,6 +19,7 @@ export default class extends Controller {
     const isValid = this.bitcoinMnemonicOutlet.validateWord(word)
     this.#toggleValidationState(isValid)
     this.#showIcon(isValid)
+    this.bitcoinMnemonicOutlet.validate()
   }
 
   fill(event) {
