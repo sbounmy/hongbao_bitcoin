@@ -108,16 +108,18 @@
     </div>
   </div>
 
+
   <%# Confirm Button %>
   <div class="mt-6">
+    <%= render "hong_baos/new/previous_button" %>
+
     <button type="button"
             data-controller="disabled"
-            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add transfer-confirmation#confirm"
-            class="w-full bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
+            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next"
+            class="bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
                    hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            data-transfer-confirmation-target="confirmButton"
             disabled>
-      Confirm and Transfer
+      Continue
     </button>
   </div>
 

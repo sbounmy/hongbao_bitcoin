@@ -21,14 +21,14 @@
           <%= render "hong_baos/show/balance", hong_bao: @hong_bao %>
         </div>
 
-        <%# Step 2: Destination %>
-        <div data-steps-target="content" class="hidden">
-          <%= render "hong_baos/show/destination", form: form %>
-        </div>
-
-        <%# Step 3: Private Key %>
+        <%# Step 2: Private Key %>
         <div data-steps-target="content" class="hidden">
           <%= render "hong_baos/show/private_key", form: form %>
+        </div>
+
+        <%# Step 3: Destination %>
+        <div data-steps-target="content" class="hidden">
+          <%= render "hong_baos/show/destination", form: form %>
         </div>
 
         <%# Step 4: Complete %>
