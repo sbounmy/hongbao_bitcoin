@@ -48,7 +48,15 @@ export default class extends BitcoinKeyController {
   validate() {
     const validationResult = this._validate()
     this.updateErrorMessage(validationResult.error)
-    this.dispatch(validationResult.isValid ? 'valid' : 'invalid')
+
+    if (validationResult.isValid) {
+      // Initialize global wallet with the valid mnemonic
+      window.wallet = new BitcoinWallet({ mnemonic: this.phrase })
+      this.dispatch('valid')
+    } else {
+      this.dispatch('invalid')
+    }
+
     return validationResult.isValid
   }
 

@@ -211,6 +211,3 @@ export default class BitcoinWallet {
   }
 
 }
-
-// Initialize global wallet immediately
-window.wallet = BitcoinWallet.generate()

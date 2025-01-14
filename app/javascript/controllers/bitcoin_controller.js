@@ -3,15 +3,17 @@ import BitcoinWallet from "services/bitcoin_wallet"
 
 export default class extends Controller {
   static values = {
-    network: { type: String, default: 'mainnet' }
+    network: { type: String, default: 'mainnet' },
+    autoGenerate: { type: Boolean, default: false }
   }
 
   static targets = ["mnemonic", "privateKey", "address"]
 
   connect() {
     BitcoinWallet.setNetwork(this.networkValue)
-    this.generate()
-    window.bitcoin = this
+    if (this.autoGenerateValue) {
+      this.generate()
+    }
   }
 
   // Public API methods that other controllers can use
