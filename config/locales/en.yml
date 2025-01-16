@@ -91,3 +91,15 @@ en:
       title: "Pay with your local currency"
       withdrawal_title: "Withdraw to Mt Pelerin"
       withdrawal_action: "Connect Mt Pelerin"
+  datetime:
+    distance_in_words:
+      short:
+        x_minutes:
+          one: "1 min"
+          other: "%{count} min"
+        about_x_hours:
+          one: "1 hr"
+          other: "%{count} hr"
+        x_days:
+          one: "1 day"
+          other: "%{count} days"

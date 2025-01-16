@@ -38,4 +38,16 @@ module HongBaosHelper
       end
     end
   end
+
+  # Creates an error message target for the form_controller
+  # @return [String] HTML for the error message target
+  def error_message_target
+    tag.div(
+      data: { form_target: "errorMessage" },
+      class: "flex items-center gap-2 text-white text-sm mt-2 hidden"
+    ) do
+      concat(heroicon "exclamation-triangle", variant: :solid, class: "h-5 w-5 text-yellow-500")
+      concat(tag.span)
+    end
+  end
 end

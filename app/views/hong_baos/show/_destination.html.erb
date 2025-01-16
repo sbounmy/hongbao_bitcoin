@@ -1,37 +1,72 @@
 <div class="space-y-6">
   <h3 class="text-xl font-bold text-[#FFB636]">Enter Destination</h3>
 
-  <div class="relative"
-       data-controller="bitcoin-address"
+  <div class="flex flex-col gap-4"
+       data-controller="bitcoin-address form"
+       data-action="bitcoin-address:error->form#error bitcoin-address:success->form#success"
        data-bitcoin-address-network-value="mainnet">
-    <%= form.text_field :to_address,
-        class: "w-full bg-white/10 text-white border-2 border-transparent
-                focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
-                placeholder-white/50 focus:outline-none",
-        placeholder: "Enter Bitcoin address",
-        data: {
-          action: "input->bitcoin-address#validate",
-          bitcoin_address_target: "input"
-        } %>
-
-    <button type="button"
-            data-action="click->steps#scanQR"
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
-                   transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-      </svg>
-    </button>
-  </div>
-
-  <div class="flex items-center gap-4">
-    <%= render "hong_baos/new/previous_button" %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/next_button",
-          html_options: {
-            disabled: true,
-            data_action: "bitcoin-address:success@window->disabled#remove"
+    <div>
+      <%= form.text_field :to_address,
+          class: "w-full bg-white/10 text-white border-2 border-transparent
+                  focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
+                  placeholder-white/50 focus:outline-none",
+          placeholder: "Enter Bitcoin address",
+          data: {
+            action: "input->bitcoin-address#validate",
+            bitcoin_address_target: "input"
           } %>
+
+      <button type="button"
+              data-action="click->steps#scanQR"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
+                    transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+        </svg>
+      </button>
+
+      <%= error_message_target %>
+
     </div>
-  </div>
+    <div class="grid grid-cols-3 gap-4">
+      <% TransactionFee.current.priority_options.each do |option| %>
+        <label class="cursor-pointer">
+          <%= form.radio_button :fee_rate,
+              option[:satoshis],
+              class: "hidden peer",
+              checked: option[:default] %>
+          <div class="p-4 bg-white/10 rounded-lg border-2 border-transparent
+                      peer-checked:border-[#FFB636] peer-checked:bg-white/20
+                      hover:bg-white/20 transition-colors text-white">
+            <div class="flex justify-between mb-2">
+              <span class="font-medium"><%= option[:name] %></span>
+              <span class="px-2 py-1 text-xs bg-white/20 rounded-full">
+                ~<%= time_ago_in_words(option[:minutes].minutes.ago,
+                    scope: 'datetime.distance_in_words.short') %>
+              </span>
+            </div>
+            <div class="space-y-0.5">
+              <div class="text-sm">
+                ₿<%= number_with_precision(option[:amount], precision: 8) %>
+              </div>
+              <div class="text-sm text-white/70">
+                ($<%= number_with_precision(option[:amount] * Balance.usd_rate, precision: 2) %>)
+              </div>
+            </div>
+          </div>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="flex items-center mt-4 gap-4">
+      <%= render "hong_baos/new/previous_button" %>
+      <div class="flex-1">
+        <%= render "hong_baos/new/next_button",
+            html_options: {
+              disabled: true
+            } %>
+        </div>
+      </div>
+    </div>
+
 </div>
