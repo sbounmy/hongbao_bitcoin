@@ -1,4 +1,4 @@
-<div data-controller="tabs transfer-confirmation"
+<div data-controller="tabs"
      data-tabs-active-class="bg-[#FFB636] text-white"
      data-tabs-default-tab-value="private-key">
 
@@ -121,30 +121,5 @@
             disabled>
       Continue
     </button>
-  </div>
-
-  <%# Confirmation Modal %>
-  <div class="hidden fixed inset-0 bg-black/50 flex items-center justify-center"
-       data-transfer-confirmation-target="modal">
-    <div class="bg-[#E84142] p-6 rounded-lg max-w-md w-full mx-4">
-      <h4 class="text-lg font-bold text-white mb-4">Confirm Transfer</h4>
-      <p class="text-white/90 mb-4">
-        Are you sure you want to transfer to:
-        <span class="block mt-2 font-mono bg-white/10 p-2 rounded"
-              data-transfer-confirmation-target="address"></span>
-      </p>
-      <div class="flex gap-4">
-        <button type="button"
-                class="flex-1 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-colors"
-                data-action="transfer-confirmation#cancel">
-          Cancel
-        </button>
-        <button type="button"
-                class="flex-1 bg-[#FFB636] text-white py-2 rounded-lg hover:bg-[#FFB636]/90 transition-colors"
-                data-action="transfer-confirmation#proceed">
-          Confirm
-        </button>
-      </div>
-    </div>
   </div>
 </div>
