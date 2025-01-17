@@ -1,5 +1,5 @@
 import BitcoinKeyController from "controllers/bitcoin_key_controller"
-import BitcoinWallet from "services/bitcoin_wallet"
+import Master from "services/bitcoin/master"
 import 'bip39'
 
 export default class extends BitcoinKeyController {
@@ -82,11 +82,22 @@ export default class extends BitcoinKeyController {
       }
     }
 
-    // Validate if the derived address matches
-    if (this.derivedAddress !== this.addressValue) {
+    // Create master wallet and verify address
+    try {
+      const master = new Master({ mnemonic: this.phrase })
+      const node = master.deriveForAddress(this.addressValue)
+
+      if (node.address !== this.addressValue) {
+        return {
+          isValid: false,
+          error: `This mnemonic does not correspond to the address ${this.addressValue}. Please use private key to verify if your bill was created before 2025.`
+        }
+      }
+    } catch (error) {
+      console.error('Error validating address:', error)
       return {
         isValid: false,
-        error: `This mnemonic does not correspond to the address ${this.addressValue}. Please use private key to verify if your bill was created before 2025.`
+        error: "Error validating mnemonic. Please check your words."
       }
     }
 

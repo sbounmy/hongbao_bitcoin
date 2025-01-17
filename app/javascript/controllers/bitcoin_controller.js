@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import BitcoinWallet from "services/bitcoin_wallet"
+import Master from "services/bitcoin/master"
 
 export default class extends Controller {
   static values = {
@@ -8,25 +8,26 @@ export default class extends Controller {
   }
 
   connect() {
-    BitcoinWallet.setNetwork(this.networkValue)
+    // BitcoinWallet.setNetwork(this.networkValue)
     if (this.autoGenerateValue) {
       this.generate()
     }
   }
 
   generate() {
-    this.wallet = BitcoinWallet.generate()
+    this.master = Master.generate()
+    this.wallet = this.master.derive("m/84'/0'/0'/0/0")
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
-        mnemonic: this.wallet.mnemonic,
-        ...this.getNodeInfo()
+        mnemonic: this.master.mnemonic,
+        ...this.wallet.info
       }
     })
   }
 
   new(privateKey, mnemonic) {
-    this.wallet = new BitcoinWallet({ privateKey, mnemonic })
+    this.wallet = Master.new({ privateKey, mnemonic })
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
