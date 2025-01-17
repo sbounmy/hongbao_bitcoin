@@ -10,7 +10,7 @@ export default class extends Controller {
     this.submitButtonTarget.disabled = true
   }
 
-  success() {
+  success(event) {
     this.errorMessageTarget.querySelector('span').textContent = ''
     this.errorMessageTarget.classList.add('hidden')
     this.submitButtonTarget.disabled = false

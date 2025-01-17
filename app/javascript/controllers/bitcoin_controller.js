@@ -7,12 +7,47 @@ export default class extends Controller {
     autoGenerate: { type: Boolean, default: false }
   }
 
-  static targets = ["mnemonic", "privateKey", "address"]
-
   connect() {
     BitcoinWallet.setNetwork(this.networkValue)
     if (this.autoGenerateValue) {
       this.generate()
+    }
+  }
+
+  generate() {
+    this.wallet = BitcoinWallet.generate()
+    this.dispatch("changed", {
+      detail: {
+        wallet: this.wallet,
+        mnemonic: this.wallet.mnemonic,
+        ...this.getNodeInfo()
+      }
+    })
+  }
+
+  new(privateKey, mnemonic) {
+    this.wallet = new BitcoinWallet({ privateKey, mnemonic })
+    this.dispatch("changed", {
+      detail: {
+        wallet: this.wallet,
+        mnemonic: this.wallet?.mnemonic,
+        ...this.getNodeInfo()
+      }
+    })
+  }
+
+  async transfer(address, fee) {
+    if (!this.wallet) {
+      console.error("No wallet initialized")
+      return
+    }
+
+    try {
+      const transaction = await this.wallet.buildTransaction(address, fee)
+      this.dispatch("transfer:success", { detail: result })
+    } catch (error) {
+      console.error("Error transferring transaction", error)
+      this.dispatch("transfer:error", { detail: { error: error.message } })
     }
   }
 
@@ -26,17 +61,6 @@ export default class extends Controller {
   }
 
   getNodeInfo(path = "m/84'/0'/0'/0/0") {
-    return this.wallet.nodePathFor(path)
-  }
-
-  generate() {
-    this.wallet = BitcoinWallet.generate()
-    this.dispatch("changed", {
-      detail: {
-        wallet: this.wallet,
-        mnemonic: this.wallet.mnemonic,
-        ...this.getNodeInfo()
-      }
-    })
+    return this.wallet?.nodePathFor(path)
   }
 }

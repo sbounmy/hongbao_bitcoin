@@ -4,7 +4,6 @@ import 'bip39'
 
 export default class extends BitcoinKeyController {
   static outlets = ["word"]
-  static targets = ["errorMessage"]
   static values = {
     address: String
   }
@@ -50,8 +49,6 @@ export default class extends BitcoinKeyController {
     this.updateErrorMessage(validationResult.error)
 
     if (validationResult.isValid) {
-      // Initialize global wallet with the valid mnemonic
-      window.wallet = new BitcoinWallet({ mnemonic: this.phrase })
       this.dispatch('valid')
     } else {
       this.dispatch('invalid')
@@ -117,16 +114,6 @@ export default class extends BitcoinKeyController {
       .map(outlet => outlet.word)
       .filter(Boolean)
       .join(" ")
-  }
-
-  // Helper methods for error handling
-  updateErrorMessage(message) {
-    if (message) {
-      this.errorMessageTarget.textContent = message
-      this.errorMessageTarget.classList.remove('hidden')
-    } else {
-      this.errorMessageTarget.classList.add('hidden')
-    }
   }
 
   // Check if all entered words are valid

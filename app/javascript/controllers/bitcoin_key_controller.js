@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import * as bitcoin from 'bitcoinjs-lib'
 
 export default class extends Controller {
-  static targets = ["input"]
+  static targets = ["input", "errorMessage"]
   static values = {
     network: { type: String, default: "mainnet" }
   }
@@ -12,7 +12,6 @@ export default class extends Controller {
 
     try {
       this._validate(input)
-      console.log('success', input)
       this.dispatch("success", { detail: { input } })
     } catch (e) {
       console.error(input, e.message)
@@ -30,4 +29,15 @@ export default class extends Controller {
       ? bitcoin.networks.testnet
       : bitcoin.networks.bitcoin
   }
+
+    // Helper methods for error handling
+    updateErrorMessage(message) {
+      if (message) {
+        this.errorMessageTarget.textContent = message
+        this.errorMessageTarget.classList.remove('hidden')
+      } else {
+        this.errorMessageTarget.classList.add('hidden')
+      }
+    }
+
 }

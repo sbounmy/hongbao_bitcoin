@@ -1,6 +1,8 @@
-<div data-controller="tabs"
+<div data-controller="tabs form-wallet"
      data-tabs-active-class="bg-[#FFB636] text-white"
-     data-tabs-default-tab-value="private-key">
+     data-tabs-default-tab-value="private-key"
+     data-form-wallet-bitcoin-outlet="#bitcoin"
+     data-form-wallet-bitcoin-mnemonic-outlet="#bitcoin-mnemonic">
 
   <h3 class="text-xl font-bold text-[#FFB636] mb-6">Verify Ownership</h3>
 
@@ -27,7 +29,7 @@
   <%# Private Key Tab %>
   <div data-tabs-target="tab"
        data-tab-id="private-key"
-       data-controller="qr-scanner"
+       data-controller="qr-scanner bitcoin-wif"
        class="space-y-4">
     <%# Camera Icon Button %>
     <button type="button"
@@ -50,17 +52,21 @@
           placeholder: "Enter private key",
           data: {
             qr_scanner_target: "scanValue",
-            action: "input->bitcoin-wif#validate",
-            transfer_confirmation_target: "privateKey"
+            action: "input->bitcoin-wif#validate"
           } %>
+      <div data-bitcoin-wif-target="errorMessage"
+           class="text-white/50 text-sm mt-2 hidden w-full">
+        Please enter a valid private key.
+      </div>
     </div>
   </div>
 
   <%# Mnemonic Words Tab %>
   <div data-tabs-target="tab"
+       id="bitcoin-mnemonic"
        data-tab-id="mnemonic"
        data-controller="bitcoin-mnemonic"
-       data-action="word:fill->bitcoin-mnemonic#fill"
+       data-action="word:fill->bitcoin-mnemonic#fill bitcoin-mnemonic:initialized->bitcoin#new"
        data-bitcoin-mnemonic-address-value="<%= @hong_bao.address %>"
        class="hidden bitcoin-mnemonic"
        data-bitcoin-mnemonic-word-outlet=".word">
@@ -115,7 +121,7 @@
 
     <button type="button"
             data-controller="disabled"
-            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next"
+            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next form-wallet#import bitcoin-wif:valid@window->disabled#remove bitcoin-wif:invalid@window->disabled#add"
             class="bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
                    hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled>

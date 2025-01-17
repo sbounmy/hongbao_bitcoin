@@ -2,8 +2,9 @@
   <h3 class="text-xl font-bold text-[#FFB636]">Enter Destination</h3>
 
   <div class="flex flex-col gap-4"
-       data-controller="bitcoin-address form"
-       data-action="bitcoin-address:error->form#error bitcoin-address:success->form#success"
+       data-controller="bitcoin-address form-wallet"
+       data-form-wallet-bitcoin-outlet="#bitcoin"
+       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
        data-bitcoin-address-network-value="mainnet">
     <div>
       <%= form.text_field :to_address,
@@ -13,7 +14,8 @@
           placeholder: "Enter Bitcoin address",
           data: {
             action: "input->bitcoin-address#validate",
-            bitcoin_address_target: "input"
+            bitcoin_address_target: "input",
+            form_wallet_target: "destination"
           } %>
 
       <button type="button"
@@ -25,7 +27,7 @@
         </svg>
       </button>
 
-      <%= error_message_target %>
+      <%= error_message_target(controller: "form-wallet") %>
 
     </div>
     <div class="grid grid-cols-3 gap-4">
@@ -34,7 +36,10 @@
           <%= form.radio_button :fee_rate,
               option[:satoshis],
               class: "hidden peer",
-              checked: option[:default] %>
+              checked: option[:default],
+              data: {
+                form_wallet_target: "fee"
+              } %>
           <div class="p-4 bg-white/10 rounded-lg border-2 border-transparent
                       peer-checked:border-[#FFB636] peer-checked:bg-white/20
                       hover:bg-white/20 transition-colors text-white">
@@ -60,12 +65,17 @@
 
     <div class="flex items-center mt-4 gap-4">
       <%= render "hong_baos/new/previous_button" %>
+
+
       <div class="flex-1">
-        <%= render "hong_baos/new/next_button",
-            html_options: {
-              disabled: true
-            } %>
-        </div>
+        <%= button_tag "Transfer",
+        class: "w-full py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium
+               text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300
+               disabled:opacity-30",
+        data: {
+          action: "form-wallet#transfer",
+          form_wallet_target: "submitButton"
+        } %>
       </div>
     </div>
 
