@@ -1,9 +1,21 @@
-import Node from 'services/bitcoin/node'
+import Wallet from 'services/bitcoin/wallet'
 import { BIP32Factory } from 'bip32'
 import * as secp256k1 from 'secp256k1'
 import 'bip39'
+import bitcoin from 'bitcoinjs-lib'
 
-export default class Master extends Node {
+export default class Master extends Wallet {
+  static PATHS = {
+    LEGACY: {
+      path: "m/44'/0'/0'/0/0",
+      payment: (publicKey, network) => bitcoin.payments.p2pkh({ pubkey: publicKey, network })
+    },
+    SEGWIT: {
+      path: "m/84'/0'/0'/0/0",
+      payment: (publicKey, network) => bitcoin.payments.p2wpkh({ pubkey: publicKey, network })
+    }
+  }
+
   constructor(options = {}) {
     super(options)
     this.bip32 = BIP32Factory(secp256k1)
@@ -12,7 +24,7 @@ export default class Master extends Node {
       this.initializeFromMnemonic(options.mnemonic)
     } else if (options.seed) {
       this.initializeFromSeed(options.seed)
-    } else if (!options.node && !options.privateKey) {
+    } else if (!options.wallet && !options.privateKey) {
       this.generate()
     }
   }
@@ -32,8 +44,8 @@ export default class Master extends Node {
     }
     this.mnemonic = mnemonic
     this.seed = window.bip39.mnemonicToSeedSync(mnemonic)
-    this.node = this.bip32.fromSeed(this.seed, this.network)
-    super.initializeFromNode(this.node)
+    this.wallet = this.bip32.fromSeed(this.seed, this.network)
+    super.initializeFromWallet(this.wallet)
   }
 
   initializeFromSeed(seed) {
@@ -41,27 +53,24 @@ export default class Master extends Node {
       seed = Buffer.from(seed, 'hex')
     }
     this.seed = seed
-    this.node = this.bip32.fromSeed(this.seed, this.network)
-    super.initializeFromNode(this.node)
+    this.wallet = this.bip32.fromSeed(this.seed, this.network)
+    super.initializeFromWallet(this.wallet)
+  }
+
+  deriveForAddress(address) {
+    const scheme = address.startsWith('1') ? Master.PATHS.LEGACY : Master.PATHS.SEGWIT
+    const wallet = this.derive(scheme.path)
+    wallet.payment = scheme.payment
+    return wallet
   }
 
   derive(path) {
-    if (!this.node) throw new Error('HD node not initialized')
-    const childNode = this.node.derivePath(path)
-    return new Node({
-      node: childNode,
+    if (!this.wallet) throw new Error('HD node not initialized')
+    const childWallet = this.wallet.derivePath(path)
+    return new Wallet({
+      wallet: childWallet,
       network: this.network
     })
-  }
-
-  // Extended key methods
-  toExtendedPublic() {
-    return this.node.neutered().toBase58()
-  }
-
-  toExtendedPrivate() {
-    if (!this.node.privateKey) throw new Error('No private key available')
-    return this.node.toBase58()
   }
 
   dispatchWalletEvent(eventName, detail = {}) {
@@ -74,19 +83,5 @@ export default class Master extends Node {
       }
     })
     window.dispatchEvent(event)
-  }
-
-  static getDerivationPath(address) {
-    // For legacy addresses (starting with 1)
-    if (address.startsWith("1")) {
-      return "m/44'/0'/0'/0/0"
-    }
-    // For native segwit addresses (starting with bc1)
-    return "m/84'/0'/0'/0/0"
-  }
-
-  deriveForAddress(address) {
-    const path = Master.getDerivationPath(address)
-    return this.derive(path)
   }
 }

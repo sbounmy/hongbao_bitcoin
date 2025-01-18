@@ -4,6 +4,7 @@ import { initEccLib } from 'bitcoinjs-lib'
 import * as secp256k1 from 'secp256k1'
 import { Buffer } from 'buffer'
 import QRCode from 'qrcode'
+import { BIP32Factory } from 'bip32'
 
 // Initialize secp256k1 before importing bitcoinjs-message
 initEccLib(secp256k1)
@@ -65,13 +66,13 @@ bitcoinMessage.sign = function sign(
 }.bind(bitcoinMessage)
 // DIRTYFIX END
 
-export default class Node {
+export default class Wallet {
   constructor(options = {}) {
     this.initializeDependencies()
     this.network = options.network || bitcoin.networks.bitcoin
 
-    if (options.node) {
-      this.initializeFromNode(options.node)
+    if (options.wallet) {
+      this.initializeFromWallet(options.wallet)
     } else if (options.privateKey) {
       this.initializeFromPrivateKey(options.privateKey)
     }
@@ -82,30 +83,31 @@ export default class Node {
       window.Buffer = Buffer
     }
     this.ECPair = ECPairFactory(secp256k1)
+    this.bip32 = BIP32Factory(secp256k1)
   }
 
-  initializeFromNode(node) {
-    this.node = node
-    this.privateKey = node.privateKey
-    this.publicKey = node.publicKey
+  initializeFromWallet(wallet) {
+    this.wallet = wallet
+    this.privateKey = wallet.privateKey
+    this.publicKey = wallet.publicKey
   }
 
   initializeFromPrivateKey(privateKey) {
-    this.keyPair = this.ECPair.fromWIF(privateKey, this.network)
-  }
-
-  set keyPair(keyPair) {
-    this.keyPair = keyPair
-    this.privateKey = keyPair.privateKey
-    this.publicKey = keyPair.publicKey
+    const ecPair = this.ECPair.fromWIF(privateKey, this.network)
+    this.keyPair = this.bip32.fromPrivateKey(Buffer.from(ecPair.privateKey), Buffer.alloc(32))
+    this.privateKey = this.keyPair.privateKey
+    this.publicKey = this.keyPair.publicKey
   }
 
   get wif() {
     return this.ECPair.fromPrivateKey(this.privateKey).toWIF()
   }
 
+
   get address() {
-    return bitcoin.payments.p2wpkh({
+    const paymentFn = this.payment || bitcoin.payments.p2wpkh
+
+    return paymentFn({
       pubkey: this.publicKey,
       network: this.network
     }).address

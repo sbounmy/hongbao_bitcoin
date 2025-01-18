@@ -1,7 +1,7 @@
 import FormController from "controllers/form_controller"
 
 export default class extends FormController {
-  static targets = ["destination", "fee", "submitButton"]
+  static targets = ["destination", "fee", "submitButton", "privateKey"]
   static outlets = ["bitcoin", "bitcoin-mnemonic"]
 
   error(event) {
@@ -19,7 +19,7 @@ export default class extends FormController {
 
   import(event) {
     console.log("import", event)
-    this.bitcoinOutlet.new(null, this.bitcoinMnemonicOutlet.phrase)
+    this.bitcoinOutlet.new(this.privateKeyTarget.value, this.bitcoinMnemonicOutlet.phrase)
   }
 
   transfer(event) {

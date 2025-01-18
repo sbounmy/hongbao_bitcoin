@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Master from "services/bitcoin/master"
+import Wallet from "services/bitcoin/wallet"
 
 export default class extends Controller {
   static values = {
@@ -27,12 +28,17 @@ export default class extends Controller {
   }
 
   new(privateKey, mnemonic) {
-    this.wallet = Master.new({ privateKey, mnemonic })
+    if (!privateKey && mnemonic) {
+      this.master = new Master({ mnemonic })
+      this.wallet = this.master.derive("m/84'/0'/0'/0/0")
+    } else {
+      this.wallet = new Wallet({ privateKey })
+    }
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
-        mnemonic: this.wallet?.mnemonic,
-        ...this.getNodeInfo()
+        mnemonic: this.master?.mnemonic,
+        ...this.wallet.info
       }
     })
   }
@@ -59,9 +65,5 @@ export default class extends Controller {
 
   verify(message, signature, address) {
     return this.wallet.verify(message, signature, address)
-  }
-
-  getNodeInfo(path = "m/84'/0'/0'/0/0") {
-    return this.wallet?.nodePathFor(path)
   }
 }
