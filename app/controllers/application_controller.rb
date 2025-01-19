@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   include Authentication
   before_action :set_locale
-  helper_method :authenticated?
+  before_action :set_network
+  helper_method :authenticated?, :testnet?
 
   private
 
@@ -10,7 +11,19 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { locale: I18n.locale }
+    {
+      locale: I18n.locale,
+      testnet: testnet?
+    }.compact
+  end
+
+  def testnet?
+    value = ActiveModel::Type::Boolean.new.cast(params[:testnet])
+    value.nil? ? false : value
+  end
+
+  def set_network
+    Current.network = testnet? ? :testnet : :mainnet
   end
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.

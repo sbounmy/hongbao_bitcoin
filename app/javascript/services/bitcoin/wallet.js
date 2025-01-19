@@ -69,7 +69,7 @@ bitcoinMessage.sign = function sign(
 export default class Wallet {
   constructor(options = {}) {
     this.initializeDependencies()
-    this.network = options.network || bitcoin.networks.bitcoin
+    this.network = options.network == 'mainnet' ? bitcoin.networks.bitcoin : bitcoin.networks.testnet
 
     if (options.wallet) {
       this.initializeFromWallet(options.wallet)
@@ -103,14 +103,12 @@ export default class Wallet {
     return this.ECPair.fromPrivateKey(this.privateKey).toWIF()
   }
 
-
   get address() {
-    const paymentFn = this.payment || bitcoin.payments.p2wpkh
+    if (!this.payment) {
+      throw new Error('Payment method must be defined in derived wallet class')
+    }
 
-    return paymentFn({
-      pubkey: this.publicKey,
-      network: this.network
-    }).address
+    return this.payment(this.publicKey, this.network).address
   }
 
   sign(message) {

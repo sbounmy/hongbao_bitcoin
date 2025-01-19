@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import Master from "services/bitcoin/master"
-import Wallet from "services/bitcoin/wallet"
+import WalletFactory from "services/bitcoin/wallet_factory"
 
 export default class extends Controller {
   static values = {
@@ -16,28 +15,28 @@ export default class extends Controller {
   }
 
   generate() {
-    this.master = Master.generate()
-    this.wallet = this.master.derive("m/84'/0'/0'/0/0")
+    this.master = WalletFactory.createDefault({ network: this.networkValue })
+    this.wallet = this.master.derive('0')
+    this.dispatchWalletChanged()
+  }
+
+  new(privateKey, mnemonic) {
+    const options = {
+      privateKey,
+      mnemonic,
+      network: this.networkValue
+    }
+
+    console.log(options)
+    this.wallet = WalletFactory.createDefault(options)
+    this.dispatchWalletChanged()
+  }
+
+  dispatchWalletChanged() {
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
         mnemonic: this.master.mnemonic,
-        ...this.wallet.info
-      }
-    })
-  }
-
-  new(privateKey, mnemonic) {
-    if (!privateKey && mnemonic) {
-      this.master = new Master({ mnemonic })
-      this.wallet = this.master.derive("m/84'/0'/0'/0/0")
-    } else {
-      this.wallet = new Wallet({ privateKey })
-    }
-    this.dispatch("changed", {
-      detail: {
-        wallet: this.wallet,
-        mnemonic: this.master?.mnemonic,
         ...this.wallet.info
       }
     })

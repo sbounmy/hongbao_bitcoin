@@ -61,7 +61,8 @@
     <div class="mt-4 text-sm text-white/80">
       <div class="flex items-center gap-4">
         <span><%= @hong_bao.balance.confirmations %> confirmations</span>
-        <a href="https://mempool.space/address/<%= @hong_bao.address %>"
+        <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+        <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
            target="_blank"
            rel="noopener noreferrer"
            class="inline-flex items-center hover:text-white transition-colors">

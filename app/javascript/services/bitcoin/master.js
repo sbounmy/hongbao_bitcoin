@@ -5,15 +5,23 @@ import 'bip39'
 import bitcoin from 'bitcoinjs-lib'
 
 export default class Master extends Wallet {
-  static PATHS = {
-    LEGACY: {
-      path: "m/44'/0'/0'/0/0",
-      payment: (publicKey, network) => bitcoin.payments.p2pkh({ pubkey: publicKey, network })
-    },
-    SEGWIT: {
-      path: "m/84'/0'/0'/0/0",
-      payment: (publicKey, network) => bitcoin.payments.p2wpkh({ pubkey: publicKey, network })
+  static COIN_TYPE = {
+    MAINNET: "0'",
+    TESTNET: "1'"
+  }
+
+  // Rename to make it clearer this is the prefix
+  get derivationPrefix() {
+    if (!this.constructor.PURPOSE) {
+      throw new Error('PURPOSE must be defined in derived wallet class')
     }
+    return `m/${this.constructor.PURPOSE}/${this.coinType}/0'/0/`
+  }
+
+  get coinType() {
+    return this.network === bitcoin.networks.testnet ?
+      Master.COIN_TYPE.TESTNET :
+      Master.COIN_TYPE.MAINNET
   }
 
   constructor(options = {}) {
@@ -64,13 +72,19 @@ export default class Master extends Wallet {
     return wallet
   }
 
-  derive(path) {
+  derive(path = '0') {
     if (!this.wallet) throw new Error('HD node not initialized')
-    const childWallet = this.wallet.derivePath(path)
-    return new Wallet({
+    const fullPath = `${this.derivationPrefix}${path}`
+    const childWallet = this.wallet.derivePath(fullPath)
+
+    return new this.constructor({
       wallet: childWallet,
-      network: this.network
+      network: this.networkString
     })
+  }
+
+  get networkString() {
+    return this.network === bitcoin.networks.bitcoin ? 'mainnet' : 'testnet'
   }
 
   dispatchWalletEvent(eventName, detail = {}) {
