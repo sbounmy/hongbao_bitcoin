@@ -24,35 +24,56 @@ class Balance
   end
 
   def self.fetch_for_address(address)
-    client = BlockCypher::Api.new api_token: Rails.application.credentials.dig(:blockcypher, :token)
-    balance_data = client.address_details(address)
+    base_url = address.start_with?("tb1") ? "https://mempool.space/testnet/api" : "https://mempool.space/api"
 
-    tx_ref = balance_data.fetch("txrefs", []).first
-    Rails.logger.info "Balance data: #{balance_data.inspect}"
+    # Fetch address UTXOs
+    utxos_uri = URI("#{base_url}/address/#{address}/utxo")
+    utxos_response = Net::HTTP.get(utxos_uri)
+    utxo_data = JSON.parse(utxos_response)
 
-    utxos = balance_data.fetch("txrefs", [])
-      .select { |tx| tx["spent"] == false }
-      .map do |tx|
-        {
-          txid: tx["tx_hash"],
-          vout: tx["tx_output_n"],
-          script: tx["script"],
-          value: tx["value"],
-          confirmations: tx["confirmations"]
-        }
-      end
+    # Calculate total balance from UTXOs
+    total_balance = utxo_data.sum { |utxo| utxo["value"] }
+
+    # Get latest block height for confirmation calculation
+    height_uri = URI("#{base_url}/blocks/tip/height")
+    current_height = Net::HTTP.get(height_uri).to_i
+
+    # Transform UTXOs into our format
+    formatted_utxos = utxo_data.map do |utxo|
+      confirmations = utxo["status"]["block_height"] ? current_height - utxo["status"]["block_height"] + 1 : 0
+      {
+        txid: utxo["txid"],
+        vout: utxo["vout"],
+        value: utxo["value"],
+        script: utxo["status"]["script_hex"],
+        confirmations: confirmations
+      }
+    end
+
+    # Get confirmation count from the first UTXO (if any)
+    first_utxo = utxo_data.first
+    confirmations = if first_utxo && first_utxo["status"]["block_height"]
+      current_height - first_utxo["status"]["block_height"] + 1
+    else
+      0
+    end
+
+    # Get confirmed timestamp from first confirmed UTXO
+    confirmed_at = if first_utxo && first_utxo["status"]["block_time"]
+      Time.at(first_utxo["status"]["block_time"])
+    end
 
     new(
       address: address,
-      satoshis: balance_data.fetch('final_balance', 0),
-      confirmations: tx_ref&.fetch('confirmations', 0) || 0,
+      satoshis: total_balance,
+      confirmations: confirmations,
       exchange_rate: usd_rate,
-      confirmed_at: tx_ref&.fetch("confirmed")&.then { |date| Time.parse(date) },
-      historical_price: fetch_historical_price(tx_ref&.fetch("confirmed")),
-      utxos: utxos
+      confirmed_at: confirmed_at,
+      historical_price: fetch_historical_price(confirmed_at&.iso8601),
+      utxos: formatted_utxos
     )
   rescue SocketError, Net::HTTPError => e
-    Rails.logger.error "Failed to fetch data: #{e.message}"
+    Rails.logger.error "Failed to fetch data from mempool.space: #{e.message}"
     new(address: address)
   end
 
@@ -71,7 +92,7 @@ class Balance
   end
 
   def self.usd_rate
-    Rails.cache.fetch('coinbase_btc_usd_rate', expires_in: 10.minutes) do
+    Rails.cache.fetch("coinbase_btc_usd_rate", expires_in: 10.minutes) do
       response = Net::HTTP.get(COINBASE_URI)
       JSON.parse(response).dig("data", "amount")&.to_f
     end
