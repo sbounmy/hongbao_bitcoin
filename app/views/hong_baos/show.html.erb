@@ -11,6 +11,7 @@
                       controller: "steps bitcoin",
                       steps_hidden_class: "hidden",
                       steps_current_value: @current_step,
+                      bitcoin_network_value: Current.network,
                       bitcoin_utxos_value: @hong_bao.balance.utxos_for_transaction.to_json
                     }) do |form| %>
 

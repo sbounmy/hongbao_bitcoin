@@ -6,11 +6,6 @@ export default class extends BitcoinKeyController {
     network: String
   }
 
-  connect() {
-    // Get network from data attribute, fallback to mainnet
-    this.networkValue = document.documentElement.dataset.testnet === 'true' ? 'testnet' : 'mainnet'
-  }
-
   _validate(address) {
     if (!address) throw new Error("Address is required")
 

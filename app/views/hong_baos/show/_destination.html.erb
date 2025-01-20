@@ -5,7 +5,7 @@
        data-controller="bitcoin-address form-wallet"
        data-form-wallet-bitcoin-outlet="#bitcoin"
        data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
-       data-bitcoin-address-network-value="mainnet">
+       data-bitcoin-address-network-value="<%= Current.network %>">
     <div>
       <%= form.text_field :to_address,
           class: "w-full bg-white/10 text-white border-2 border-transparent

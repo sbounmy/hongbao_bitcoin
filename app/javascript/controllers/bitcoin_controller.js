@@ -4,7 +4,8 @@ import WalletFactory from "services/bitcoin/wallet_factory"
 export default class extends Controller {
   static values = {
     network: { type: String, default: 'mainnet' },
-    autoGenerate: { type: Boolean, default: false }
+    autoGenerate: { type: Boolean, default: false },
+    utxos: { type: String, default: '' }
   }
 
   connect() {
@@ -36,7 +37,7 @@ export default class extends Controller {
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
-        mnemonic: this.master.mnemonic,
+        mnemonic: this.master?.mnemonic,
         ...this.wallet.info
       }
     })
@@ -49,12 +50,16 @@ export default class extends Controller {
     }
 
     try {
-      const transaction = await this.wallet.buildTransaction(address, fee)
+      const transaction = await this.wallet.buildTransaction(address, fee, this.utxos)
       this.dispatch("transfer:success", { detail: result })
     } catch (error) {
       console.error("Error transferring transaction", error)
       this.dispatch("transfer:error", { detail: { error: error.message } })
     }
+  }
+
+  get utxos() {
+    return JSON.parse(this.utxosValue)
   }
 
   // Public API methods that other controllers can use

@@ -22,7 +22,7 @@ export default class extends BitcoinKeyController {
   _validate(wif) {
     try {
       const ECPair = ECPairFactory(secp256k1)
-      ECPair.fromWIF(wif, this._network)
+      ECPair.fromWIF(wif, this.network)
       return {
         isValid: true,
         error: null

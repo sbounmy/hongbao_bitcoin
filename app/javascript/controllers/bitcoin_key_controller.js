@@ -24,7 +24,7 @@ export default class extends Controller {
     throw new Error("Validation not implemented")
   }
 
-  get _network() {
+  get network() {
     return this.networkValue === "testnet"
       ? bitcoin.networks.testnet
       : bitcoin.networks.bitcoin

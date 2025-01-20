@@ -40,12 +40,20 @@ class Balance
 
     # Transform UTXOs into our format
     formatted_utxos = utxo_data.map do |utxo|
+      # Fetch transaction details to get script hex
+      tx_uri = URI("#{base_url}/tx/#{utxo["txid"]}")
+      tx_response = Net::HTTP.get(tx_uri)
+      tx_data = JSON.parse(tx_response)
+
+      # Get the script for this specific output
+      script_hex = tx_data["vout"][utxo["vout"]]["scriptpubkey"]
+
       confirmations = utxo["status"]["block_height"] ? current_height - utxo["status"]["block_height"] + 1 : 0
       {
         txid: utxo["txid"],
         vout: utxo["vout"],
         value: utxo["value"],
-        script: utxo["status"]["script_hex"],
+        script: script_hex,
         confirmations: confirmations
       }
     end
