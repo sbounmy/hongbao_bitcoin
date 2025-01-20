@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import WalletFactory from "services/bitcoin/wallet_factory"
+import Transaction from "services/bitcoin/transaction"
 
 export default class extends Controller {
   static values = {
@@ -44,17 +45,30 @@ export default class extends Controller {
   }
 
   async transfer(address, fee) {
-    if (!this.wallet) {
-      console.error("No wallet initialized")
-      return
-    }
-
     try {
-      const transaction = await this.wallet.buildTransaction(address, fee, this.utxos)
-      this.dispatch("transfer:success", { detail: result })
+
+      const transaction = new Transaction(
+        this.wallet.privateKey,
+        address,
+        fee,
+        this.utxos,
+        this.networkValue
+      )
+
+      await transaction.build()
+      console.log(transaction)
+      const result = await transaction.broadcast()
+
+      this.dispatch("transfer:success", {
+        detail: {
+          txid: result.txid,
+          hex: result.hex,
+          url: transaction.explorerUrl
+        }
+      })
     } catch (error) {
       console.error("Error transferring transaction", error)
-      this.dispatch("transfer:error", { detail: { error: error.message } })
+      this.dispatch("transfer:error", { detail: error.message })
     }
   }
 
