@@ -75,6 +75,45 @@
     </div>
   </div>
 
+  <%# Transaction History %>
+  <div class="mt-8">
+    <h3 class="text-xl text-white/80 mb-4">Transaction History</h3>
+    <div class="space-y-2">
+      <% if @hong_bao.balance.transactions.any? %>
+        <div class="bg-white/10 rounded-lg overflow-hidden">
+          <% @hong_bao.balance.transactions.each do |tx| %>
+            <div class="p-4 border-b border-white/10 last:border-b-0">
+              <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span class="text-sm text-white/80">
+                    <%= tx[:timestamp].strftime("%B %d, %Y at %H:%M") %>
+                  </span>
+                  <span class="text-xs text-white/60">
+                    <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+                    <%= link_to tx[:txid], "#{explorer_base_url}/tx/#{tx[:txid]}",
+                        class: "hover:text-white transition-colors",
+                        target: "_blank",
+                        rel: "noopener noreferrer" %>
+                  </span>
+                </div>
+                <div class="flex items-center">
+                  <span class="<%= tx[:type] == 'deposit' ? 'text-green-400' : 'text-red-400' %> font-mono">
+                    <%= tx[:type] == 'deposit' ? '+' : '-' %>
+                    ₿<%= number_with_precision(tx[:amount].abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-white/60 text-center py-4">
+          No transactions found
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <div class="flex justify-end">
     <%= render "hong_baos/new/next_button" %>
   </div>

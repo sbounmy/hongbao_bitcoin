@@ -12,6 +12,7 @@ class Balance
   attribute :confirmed_at, :datetime
   attribute :historical_price, :float
   attribute :utxos
+  attribute :transactions, array: true, default: []
 
   SATOSHIS_PER_BTC = 100_000_000
   COINBASE_URI = URI("https://api.coinbase.com/v2/prices/btc-usd/spot")
@@ -71,6 +72,26 @@ class Balance
       Time.at(first_utxo["status"]["block_time"])
     end
 
+    # Fetch address transactions
+    txs_uri = URI("#{base_url}/address/#{address}/txs")
+    txs_response = Net::HTTP.get(txs_uri)
+    tx_data = JSON.parse(txs_response)
+
+    # Process transactions
+    transactions = tx_data.map do |tx|
+      # Calculate the net amount for this address
+      amount = tx["vout"].sum { |out| out["scriptpubkey_address"] == address ? out["value"] : 0 } -
+               tx["vin"].sum { |input| input["prevout"]["scriptpubkey_address"] == address ? input["prevout"]["value"] : 0 }
+
+      {
+        txid: tx["txid"],
+        timestamp: Time.at(tx["status"]["block_time"]),
+        amount: amount,
+        type: amount.positive? ? "deposit" : "withdrawal",
+        block_height: tx["status"]["block_height"]
+      }
+    end
+
     new(
       address: address,
       satoshis: total_balance,
@@ -78,7 +99,8 @@ class Balance
       exchange_rate: usd_rate,
       confirmed_at: confirmed_at,
       historical_price: fetch_historical_price(confirmed_at&.iso8601),
-      utxos: formatted_utxos
+      utxos: formatted_utxos,
+      transactions: transactions
     )
   rescue SocketError, Net::HTTPError => e
     Rails.logger.error "Failed to fetch data from mempool.space: #{e.message}"
