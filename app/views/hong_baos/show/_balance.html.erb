@@ -11,9 +11,19 @@
             Pending
           </div>
         <% else %>
-          <div class="inline-flex items-center">
+          <div class="inline-flex gap-2 items-center">
             <%= heroicon "check", variant: "solid", class: "h-5 w-5 mr-2 text-green-400" %>
-            Confirmed
+            <span>Confirmed</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-2 py-1 text-xs font-medium text-white">
+              <%= pluralize(@hong_bao.balance.confirmations, 'confirmation') %>
+            <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+            <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="inline-flex items-center hover:text-white transition-colors">
+              <%= heroicon "arrow-top-right-on-square", class: "w-3 h-3" %>
+            </a>
+            </span>
           </div>
         <% end %>
       </h2>
@@ -25,45 +35,11 @@
         <div class="text-4xl font-mono tracking-wider">
           ₿<%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %>
         </div>
-        <%# <div class="text-2xl text-white/80 ml-2">BTC</div> %>
       </div>
-
-      <%# Price Information %>
-      <% if price_info = @hong_bao.balance.price_info %>
-        <div class="space-y-1">
-          <%# Current Value %>
-          <div class="text-3xl font-mono text-green-400">
-            $<%= number_with_precision(@hong_bao.balance.usd, precision: 2) %>
-            <span class="text-sm ml-2 <%= price_info[:change_percentage].positive? ? 'text-green-400' : 'text-red-400' %>">
-              (<%= price_info[:change_percentage].positive? ? '+' : '' %><%= price_info[:change_percentage] %>%)
-            </span>
-          </div>
-
-          <%# Purchase Info %>
-          <div class="text-sm text-white/60">
-            Purchased <%= time_ago_in_words(@hong_bao.balance.confirmed_at) %> ago
-            at $<%= number_with_delimiter(price_info[:purchase_price].round(2)) %>/BTC
-          </div>
-
-          <%# Current Price %>
-          <div class="text-sm text-white/60">
-            Current BTC price: $<%= number_with_delimiter(price_info[:current_price].round(2)) %>
-          </div>
+      <div class="flex items-baseline">
+        <div class="text-2xl text-white/60 tracking-wider">
+          <%= number_to_currency(@hong_bao.balance.usd, precision: 2) %>
         </div>
-      <% end %>
-    </div>
-
-    <div class="mt-4 text-sm text-white/80">
-      <div class="flex items-center gap-4">
-        <span><%= @hong_bao.balance.confirmations %> confirmations</span>
-        <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
-        <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="inline-flex items-center hover:text-white transition-colors">
-          <span>View on Mempool.space</span>
-          <%= heroicon "arrow-top-right-on-square", class: "w-4 h-4 ml-1" %>
-        </a>
       </div>
     </div>
   </div>
@@ -108,9 +84,12 @@
                 </div>
 
                 <%# Right side with amount %>
-                <div class="flex items-center">
+                <div class="flex flex-col items-end">
                   <span class="<%= tx.type == 'deposit' ? 'text-green-400' : 'text-white' %> font-mono text-lg">
-                    <%= tx.type == 'deposit' ? '+' : '-' %>₿<%= number_with_precision(tx.amount.abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
+                    <%= tx.type == 'deposit' ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
+                  </span>
+                  <span class="text-sm text-white/60 ml-2">
+                    (<%= number_to_currency(tx.usd.abs, precision: 2) %>)
                   </span>
                 </div>
               </div>

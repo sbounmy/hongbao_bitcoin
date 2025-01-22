@@ -3,6 +3,8 @@ class Transaction
 
   attr_accessor :id, :timestamp, :amount, :type, :block_height, :address
 
+  SATOSHIS_PER_BTC = 100_000_000
+
   def self.from_mempool_data(data, address)
     amount = calculate_amount(data, address)
 
@@ -26,6 +28,18 @@ class Transaction
 
   def pretty_address
     address[0..6] + "..." + address[-6..-1]
+  end
+
+  def btc
+    (amount.to_f / SATOSHIS_PER_BTC).round(8)
+  end
+
+  def usd
+    (btc * Spot.new(date: timestamp).to(:usd))
+  end
+
+  def eur
+    (btc * Spot.new(date: timestamp).to(:eur))
   end
 
   private
