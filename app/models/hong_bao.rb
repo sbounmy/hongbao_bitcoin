@@ -42,7 +42,7 @@ class HongBao
   end
 
   def balance
-    @balance ||= Balance.fetch_for_address(address)
+    @balance ||= Balance.new(address: address)
   end
 
   def can_transfer?

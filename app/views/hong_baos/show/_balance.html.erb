@@ -7,17 +7,12 @@
         <% status = @hong_bao.balance.status %>
         <% if status[:icon] == :pending %>
           <div class="inline-flex items-center">
-            <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+            <%= heroicon "arrow-path", variant: "solid", class: "animate-spin h-5 w-5 mr-2 text-white" %>
             Pending
           </div>
         <% else %>
           <div class="inline-flex items-center">
-            <svg class="h-5 w-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+            <%= heroicon "check", variant: "solid", class: "h-5 w-5 mr-2 text-green-400" %>
             Confirmed
           </div>
         <% end %>
@@ -67,9 +62,7 @@
            rel="noopener noreferrer"
            class="inline-flex items-center hover:text-white transition-colors">
           <span>View on Mempool.space</span>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-          </svg>
+          <%= heroicon "arrow-top-right-on-square", class: "w-4 h-4 ml-1" %>
         </a>
       </div>
     </div>
@@ -84,22 +77,41 @@
           <% @hong_bao.balance.transactions.each do |tx| %>
             <div class="p-4 border-b border-white/10 last:border-b-0">
               <div class="flex items-center justify-between">
-                <div class="flex flex-col">
-                  <span class="text-sm text-white/80">
-                    <%= tx[:timestamp].strftime("%B %d, %Y at %H:%M") %>
-                  </span>
-                  <span class="text-xs text-white/60">
-                    <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
-                    <%= link_to tx[:txid], "#{explorer_base_url}/tx/#{tx[:txid]}",
-                        class: "hover:text-white transition-colors",
-                        target: "_blank",
-                        rel: "noopener noreferrer" %>
-                  </span>
+                <%# Left side with icon and address %>
+                <div class="flex items-center gap-4">
+                  <%# Transaction icon %>
+                  <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <% if tx.type == 'deposit' %>
+                      <%= heroicon "arrow-down", variant: "solid", class: "h-5 w-5 text-green-400" %>
+                    <% else %>
+                      <%= heroicon "arrow-up", variant: "solid", class: "h-5 w-5 text-white" %>
+                    <% end %>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <%# Address display %>
+                    <span class="text-white/80 font-medium">
+                      <%= tx.type == 'deposit' ? 'From' : 'To' %>: <%= tx.pretty_address %>
+                    </span>
+                    <%# Date and transaction ID %>
+                    <div class="flex items-center gap-2 text-xs text-white/60">
+                      <span><%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %></span>
+                      <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+                      <%= link_to "#{explorer_base_url}/tx/#{tx.id}",
+                          class: "hover:text-white transition-colors",
+                          target: "_blank",
+                          rel: "noopener noreferrer" do %>
+                        <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
+                      <% end %>
+                    </div>
+                  </div>
                 </div>
+
+                <%# Right side with amount %>
                 <div class="flex items-center">
-                  <span class="<%= tx[:type] == 'deposit' ? 'text-green-400' : 'text-red-400' %> font-mono">
-                    <%= tx[:type] == 'deposit' ? '+' : '-' %>
-                    ₿<%= number_with_precision(tx[:amount].abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
+                  <span class="<%= tx.type == 'deposit' ? 'text-green-400' : 'text-white' %> font-mono text-lg">
+                    <%= tx.type == 'deposit' ? '+' : '-' %>
+                    ₿<%= number_with_precision(tx.amount.abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
                   </span>
                 </div>
               </div>
