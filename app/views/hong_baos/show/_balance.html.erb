@@ -110,8 +110,7 @@
                 <%# Right side with amount %>
                 <div class="flex items-center">
                   <span class="<%= tx.type == 'deposit' ? 'text-green-400' : 'text-white' %> font-mono text-lg">
-                    <%= tx.type == 'deposit' ? '+' : '-' %>
-                    ₿<%= number_with_precision(tx.amount.abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
+                    <%= tx.type == 'deposit' ? '+' : '-' %>₿<%= number_with_precision(tx.amount.abs.to_f / Balance::SATOSHIS_PER_BTC, precision: 8, strip_insignificant_zeros: true) %>
                   </span>
                 </div>
               </div>
