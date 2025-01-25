@@ -128,7 +128,7 @@ GEM
     crass (1.0.6)
     csv (3.3.0)
     date (3.4.0)
-    debug (1.9.2)
+    debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
     dotenv (3.1.4)
@@ -176,8 +176,8 @@ GEM
       has_scope (>= 0.6)
       railties (>= 6.0)
       responders (>= 2)
-    io-console (0.7.2)
-    irb (1.14.1)
+    io-console (0.8.0)
+    irb (1.14.3)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jbuilder (2.13.0)
@@ -270,7 +270,8 @@ GEM
       activesupport (>= 7.0.0)
       rack
       railties (>= 7.0.0)
-    psych (5.2.0)
+    psych (5.2.2)
+      date
       stringio
     public_suffix (6.0.1)
     puma (6.4.3)
@@ -322,10 +323,10 @@ GEM
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
-    rdoc (6.7.0)
+    rdoc (6.10.0)
       psych (>= 4.0.0)
     regexp_parser (2.9.2)
-    reline (0.5.11)
+    reline (0.6.0)
       io-console (~> 0.5)
     responders (3.1.1)
       actionpack (>= 5.2)
