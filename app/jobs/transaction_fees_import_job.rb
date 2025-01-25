@@ -4,10 +4,6 @@ require "json"
 class TransactionFeesImportJob < ApplicationJob
   queue_as :default
 
-  # Add recurring schedule - will run every hour
-  include SolidQueue::Recurring
-  recurring every: 1.day
-
   MEMPOOL_API = "https://mempool.space/api/v1/fees/recommended"
 
   def perform
