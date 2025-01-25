@@ -31,7 +31,7 @@ class Balance
   end
 
   def confirmations
-    utxos.first&.confirmations || 0
+    transactions.first&.confirmations || 0
   end
 
 

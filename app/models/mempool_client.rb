@@ -20,7 +20,7 @@ class MempoolClient
     tx_data = fetch_raw_transactions
     # Sort by status.block_time in descending order (newest first)
     sorted_tx_data = tx_data.sort_by { |tx| -tx["status"]["block_time"].to_i }
-    sorted_tx_data.map { |tx| Transaction.from_mempool_data(tx, address) }
+    sorted_tx_data.map { |tx| Transaction.from_mempool_data(tx, address, fetch_block_height) }
   end
 
   def fetch_transaction(txid)

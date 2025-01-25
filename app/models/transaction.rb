@@ -1,12 +1,14 @@
 class Transaction
   include ActiveModel::Model
 
-  attr_accessor :id, :timestamp, :amount, :type, :block_height, :address
+  attr_accessor :id, :timestamp, :amount, :type, :block_height, :address, :confirmations
 
   SATOSHIS_PER_BTC = 100_000_000
 
-  def self.from_mempool_data(data, address)
+  def self.from_mempool_data(data, address, current_height)
     amount = calculate_amount(data, address)
+    confirmations = data["status"]["block_height"] ?
+    current_height - data["status"]["block_height"] + 1 : 0
 
     new(
       id: data["txid"],
@@ -14,6 +16,7 @@ class Transaction
       amount: amount,
       address: data["vout"][0]["scriptpubkey_address"],
       type: amount.positive? ? "deposit" : "withdrawal",
+      confirmations: confirmations,
       block_height: data["status"]["block_height"]
     )
   end
