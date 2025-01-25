@@ -26,11 +26,15 @@
     </button>
   </div>
 
+  <%# Determine the controller name based on address format %>
+  <% key_controller = @hong_bao.address.start_with?('1', 'm', 'n') ? 'bitcoin-legacy-key' : 'bitcoin-segwit-key' %>
+
   <%# Private Key Tab %>
   <div data-tabs-target="tab"
        data-tab-id="private-key"
-       data-controller="qr-scanner bitcoin-wif"
-       data-bitcoin-wif-network-value="<%= Current.network %>"
+       data-controller="qr-scanner <%= key_controller %>"
+       data-<%= key_controller %>-network-value="<%= Current.network %>"
+       data-<%= key_controller %>-address-value="<%= @hong_bao.address %>"
        class="space-y-4">
     <%# Camera Icon Button %>
     <button type="button"
@@ -54,9 +58,9 @@
           data: {
             form_wallet_target: "privateKey",
             qr_scanner_target: "scanValue",
-            action: "input->bitcoin-wif#validate"
+            action: "input->#{key_controller}#validate"
           } %>
-      <div data-bitcoin-wif-target="errorMessage"
+      <div data-<%= key_controller %>-target="errorMessage"
            class="text-white/50 text-sm mt-2 hidden w-full">
         Please enter a valid private key.
       </div>
@@ -123,7 +127,7 @@
 
     <button type="button"
             data-controller="disabled"
-            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next form-wallet#import bitcoin-wif:valid@window->disabled#remove bitcoin-wif:invalid@window->disabled#add"
+            data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next form-wallet#import <%= key_controller %>:valid@window->disabled#remove <%= key_controller %>:invalid@window->disabled#add"
             class="bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
                    hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled>
