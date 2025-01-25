@@ -1,5 +1,5 @@
 <div class="flex justify-between mb-12 relative">
-  <% ["Design", "Print", "Top up"].each_with_index do |step, index| %>
+  <% steps.each_with_index do |step, index| %>
     <div class="flex flex-col items-center relative z-10 group/step" data-steps-target="indicator">
       <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold
                   transition-all duration-300 transform hover:scale-110 group-open/step:bg-[#FFB636] group-open/step:text-[#F04747] group-open/step:shadow-lg bg-white/20 text-white"
@@ -8,7 +8,7 @@
       </div>
       <span class="text-sm mt-2 font-medium text-white/90"><%= step %></span>
     </div>
-    <% if index < 2 %>
+    <% if index < steps.size - 1 %>
       <div class="flex-1 h-1 mt-6 rounded-full group/donegroup-done/step:bg-[#FFB636] bg-white/20"
            data-hong-bao-target="stepConnector"></div>
     <% end %>

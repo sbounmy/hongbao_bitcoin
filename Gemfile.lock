@@ -106,9 +106,6 @@ GEM
     benchmark (0.4.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
-    blockcypher-ruby (0.2.7)
-      bitcoin-ruby (~> 0.0.5)
-      ffi
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     brakeman (6.2.2)
@@ -308,6 +305,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails_heroicon (2.3.0)
+      actionview
+      railties
     railties (8.0.0)
       actionpack (= 8.0.0)
       activesupport (= 8.0.0)
@@ -471,7 +471,6 @@ DEPENDENCIES
   activeadmin (= 4.0.0.beta14)
   bcrypt (~> 3.1.7)
   bitcoin-ruby!
-  blockcypher-ruby
   bootsnap
   brakeman
   capybara
@@ -485,6 +484,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)
+  rails_heroicon
   rqrcode
   rubocop-rails-omakase
   selenium-webdriver

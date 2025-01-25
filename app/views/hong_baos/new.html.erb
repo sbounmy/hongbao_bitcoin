@@ -14,17 +14,11 @@
                     steps_hidden_class: "hidden",
                     steps_current_value: @current_step,
                     hong_bao_current_paper_value: @hong_bao.paper_id,
-                    hong_bao_wallet_value: {
-                      address: "",
-                      privateKey: "",
-                      mnemonic: "",
-                      addressQrcode: "",
-                      privateKeyQrcode: "",
-                      publicKeyQrcode: ""
-                    }.to_json
+                    bitcoin_auto_generate_value: true,
+                    bitcoin_network_value: Current.network
                   }) do |form| %>
 
-      <%= render "hong_baos/new/progress_steps", current_step: @current_step %>
+      <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
       <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
       <%= render "hong_baos/new/steps/design",

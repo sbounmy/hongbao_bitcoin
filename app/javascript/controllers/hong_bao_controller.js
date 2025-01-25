@@ -10,12 +10,6 @@ export default class extends Controller {
     this.setupRefreshWarning()
   }
 
-  // This method is now just for UI regeneration
-  async generateWallet() {
-    // Generate new wallet and let the BitcoinWallet singleton handle the event dispatch
-    window.wallet = BitcoinWallet.generate()
-  }
-
   setupRefreshWarning() {
     window.addEventListener('beforeunload', (e) => this.handleBeforeUnload(e))
   }

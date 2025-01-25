@@ -74,4 +74,4 @@ gem "rqrcode"
 
 gem "activeadmin", '4.0.0.beta14'
 
-gem 'blockcypher-ruby', require: 'blockcypher'
+gem "rails_heroicon"

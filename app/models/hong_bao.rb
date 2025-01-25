@@ -29,7 +29,7 @@ class HongBao
   end
 
   def scanned_key=(key)
-    Bitcoin.network = :bitcoin # beucase I tested a bill topped up with mt pelerin
+    Bitcoin.network = Current.network_gem
     if Bitcoin.valid_address?(key)
       self.address = key
     else
@@ -42,22 +42,10 @@ class HongBao
   end
 
   def balance
-    @balance ||= Balance.fetch_for_address(address)
+    @balance ||= Balance.new(address: address)
   end
 
   def can_transfer?
     private_key.present?
-  end
-
-  def broadcast_transaction(signed_transaction)
-    client = BlockCypher::Api.new(api_token: Rails.application.credentials.dig(:blockcypher, :token))
-    response = client.push_tx(hex: signed_transaction)
-
-    Rails.logger.info "Transaction broadcast response: #{response.inspect}"
-    response["tx"]["hash"].present?
-  rescue StandardError => e
-    Rails.logger.error "Failed to broadcast transaction: #{e.message}"
-    errors.add(:base, "Failed to broadcast transaction: #{e.message}")
-    false
   end
 end

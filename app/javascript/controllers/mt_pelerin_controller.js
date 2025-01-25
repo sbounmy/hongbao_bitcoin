@@ -5,7 +5,7 @@ export default class extends Controller {
 
   update(event) {
     const wallet = event.detail.wallet
-    const { address } = wallet.nodePathFor("m/84'/0'/0'/0/0")
+    const { address } = wallet.info
     const code = Math.floor(1000 + Math.random() * 9000).toString()
     const hash = wallet.sign(`MtPelerin-${code}`)
 

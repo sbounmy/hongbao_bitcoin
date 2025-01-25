@@ -24,7 +24,8 @@ export default class extends Controller {
   }
 
   connect() {
-    this.network = this.networkValue === 'testnet' ? bitcoin.networks.testnet : bitcoin.networks.bitcoin
+    const isTestnet = document.documentElement.dataset.testnet === 'true'
+    this.network = isTestnet ? bitcoin.networks.testnet : bitcoin.networks.bitcoin
   }
 
   async signAndSubmit(event) {

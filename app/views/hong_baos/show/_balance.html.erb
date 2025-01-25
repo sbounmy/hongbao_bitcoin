@@ -1,0 +1,107 @@
+<div class="space-y-6">
+
+  <%# Balance Display %>
+  <div class="text-white">
+    <div class="flex justify-center gap-2 mb-2">
+      <h2 class="text-xl text-white/80">
+        <% status = @hong_bao.balance.status %>
+        <% if status[:icon] == :pending %>
+          <div class="inline-flex items-center">
+            <%= heroicon "arrow-path", variant: "solid", class: "animate-spin h-5 w-5 mr-2 text-white" %>
+            Pending
+          </div>
+        <% else %>
+          <div class="inline-flex gap-2 items-center">
+            <%= heroicon "check", variant: "solid", class: "h-5 w-5 mr-2 text-green-400" %>
+            <span>Confirmed</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-2 py-1 text-xs font-medium text-white">
+              <%= pluralize(@hong_bao.balance.confirmations, 'confirmation') %>
+            <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+            <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="inline-flex items-center hover:text-white transition-colors">
+              <%= heroicon "arrow-top-right-on-square", class: "w-3 h-3" %>
+            </a>
+            </span>
+          </div>
+        <% end %>
+      </h2>
+    </div>
+
+    <div class="flex items-baseline justify-center">
+      <div class="text-4xl font-mono tracking-wider">
+        ₿<%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %>
+      </div>
+    </div>
+    <div class="flex items-baseline justify-center">
+      <div class="text-2xl text-white/60 tracking-wider">
+        (<%= number_to_currency(@hong_bao.balance.usd, precision: 2) %>)
+      </div>
+    </div>
+  </div>
+
+  <%# Transaction History %>
+  <div class="mt-8">
+    <h3 class="text-xl text-white/80 mb-4">Transaction History</h3>
+    <div class="space-y-2">
+      <% if @hong_bao.balance.transactions.any? %>
+        <div class="bg-white/10 rounded-lg overflow-hidden">
+          <% @hong_bao.balance.transactions.each do |tx| %>
+            <div class="p-4 border-b border-white/10 last:border-b-0">
+              <div class="flex items-center justify-between">
+                <%# Left side with icon and address %>
+                <div class="flex items-center gap-4">
+                  <%# Transaction icon %>
+                  <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <% if tx.type == 'deposit' %>
+                      <%= heroicon "arrow-down", variant: "solid", class: "h-5 w-5 text-green-400" %>
+                    <% else %>
+                      <%= heroicon "arrow-up", variant: "solid", class: "h-5 w-5 text-white" %>
+                    <% end %>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <%# Address display %>
+                    <span class="text-white/80 font-medium">
+                      <%= tx.type == 'deposit' ? 'From' : 'To' %>: <%= tx.pretty_address %>
+                    </span>
+                    <%# Date and transaction ID %>
+                    <div class="flex items-center gap-2 text-xs text-white/60">
+                      <span><%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %></span>
+                      <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+                      <%= link_to "#{explorer_base_url}/tx/#{tx.id}",
+                          class: "hover:text-white transition-colors",
+                          target: "_blank",
+                          rel: "noopener noreferrer" do %>
+                        <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <%# Right side with amount %>
+                <div class="flex flex-col items-end">
+                  <span class="<%= tx.type == 'deposit' ? 'text-green-400' : 'text-white' %> font-mono text-lg">
+                    <%= tx.type == 'deposit' ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
+                  </span>
+                  <span class="text-sm text-white/60 ml-2">
+                    (<%= number_to_currency(tx.usd.abs, precision: 2) %>)
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-white/60 text-center py-4">
+          No transactions found
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex justify-end">
+    <%= render "hong_baos/new/next_button" %>
+  </div>
+</div>
