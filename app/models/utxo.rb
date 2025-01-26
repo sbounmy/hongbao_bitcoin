@@ -1,13 +1,14 @@
 class Utxo
   include ActiveModel::Model
 
-  attr_accessor :txid, :vout, :value, :script, :confirmations, :confirmed_at
+  attr_accessor :hex, :txid, :vout, :value, :script, :confirmations, :confirmed_at
 
-  def self.from_mempool_data(data, tx_data, current_height)
+  def self.from_mempool_data(data, tx_data, hex, current_height)
     confirmations = data["status"]["block_height"] ?
       current_height - data["status"]["block_height"] + 1 : 0
 
     new(
+      hex: hex,
       txid: data["txid"],
       vout: data["vout"],
       value: data["value"],

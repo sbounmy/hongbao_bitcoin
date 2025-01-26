@@ -51,6 +51,7 @@ class Balance
   def utxos_for_transaction
     utxos.map do |utxo|
       {
+        hex: utxo.hex,
         txid: utxo.txid,
         vout: utxo.vout,
         value: utxo.value,

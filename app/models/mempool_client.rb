@@ -12,7 +12,8 @@ class MempoolClient
 
     utxo_data.map do |utxo|
       tx_data = fetch_transaction(utxo["txid"])
-      Utxo.from_mempool_data(utxo, tx_data, current_height)
+      tx_hex = fetch_transaction_hex(utxo["txid"])
+      Utxo.from_mempool_data(utxo, tx_data, tx_hex, current_height)
     end
   end
 
@@ -25,6 +26,10 @@ class MempoolClient
 
   def fetch_transaction(txid)
     get("/tx/#{txid}")
+  end
+
+  def fetch_transaction_hex(txid)
+    get("/tx/#{txid}/hex")
   end
 
   def fetch_block_height
@@ -42,8 +47,18 @@ class MempoolClient
   end
 
   def get(path)
-    response = Net::HTTP.get(URI("#{@base_url}#{path}"))
-    JSON.parse(response)
+    uri = URI("#{@base_url}#{path}")
+    response = Net::HTTP.get_response(uri)
+
+    case response.content_type
+    when "application/json"
+      JSON.parse(response.body)
+    when "text/plain"
+      response.body
+    else
+      Rails.logger.warn "Unexpected content type: #{response.content_type} for path: #{path}"
+      response.body
+    end
   rescue StandardError => e
     Rails.logger.error "MempoolClient error: #{e.message}"
     raise

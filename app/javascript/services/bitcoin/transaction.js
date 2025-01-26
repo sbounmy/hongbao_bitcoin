@@ -19,13 +19,21 @@ export default class Transaction {
   }
 
   estimateTransactionSize() {
-    // P2WPKH (Native SegWit) transaction size estimation
     const overhead = 10  // nVersion, nLocktime
-    const inputSize = 68  // ~68 vbytes per P2WPKH input
     const outputSize = 31  // ~31 vbytes per P2WPKH output
     const outputCount = 1  // We're creating 1 output (recipient)
 
-    return overhead + (inputSize * this.utxos.length) + (outputSize * outputCount)
+    // Calculate input sizes based on type
+    let totalInputSize = 0
+    for (const utxo of this.utxos) {
+      if (this.isSegWit(utxo.script)) {
+        totalInputSize += 68  // ~68 vbytes per P2WPKH input
+      } else {
+        totalInputSize += 148  // ~148 vbytes per P2PKH input
+      }
+    }
+
+    return overhead + totalInputSize + (outputSize * outputCount)
   }
 
   async build() {
@@ -54,7 +62,12 @@ export default class Transaction {
           }
         })
       } else {
-        throw new Error('Non-SegWit inputs are not supported')
+        // For non-SegWit, use the full transaction hex
+        psbt.addInput({
+          hash: utxo.txid,
+          index: utxo.vout,
+          nonWitnessUtxo: Buffer.from(utxo.hex, 'hex')
+        })
       }
     }
 
