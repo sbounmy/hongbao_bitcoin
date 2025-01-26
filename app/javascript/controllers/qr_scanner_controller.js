@@ -7,6 +7,7 @@ export default class extends Controller {
   static targets = ["results", "scanValue"]
 
   connect() {
+    return
     if (!this.videoElem) {
       this.videoElem = document.createElement('video')
       document.getElementById('qr-reader').appendChild(this.videoElem)
