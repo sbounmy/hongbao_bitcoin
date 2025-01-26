@@ -4,11 +4,11 @@ module HongBaosHelper
   end
 
   # Creates a permission request banner for camera/microphone access
-  # @param types [Array<String>] List of permissions to request ('video' and/or 'audio')
+  # @param types [Array<String>] List of permissions to request (camera, bluetooth, microphone, geolocation)
   # @return [String] HTML for the permission banner
   # @example
-  #   <%= permission_banner('video', 'audio') %> # Requests both camera and mic
-  #   <%= permission_banner('video') %>          # Requests only camera
+  #   <%= permission_banner('camera', 'microphone') %> # Requests both camera and mic
+  #   <%= permission_banner('camera') %>          # Requests only camera
   #
   # @note Permission Errors:
   #   The getUserMedia API requires:
