@@ -24,7 +24,7 @@
     </div>
 
     <%= form_for HongBao.new, url: search_hong_baos_path, method: :post,
-                 data: { controller: "qr-scanner" } do |form| %>
+                 data: { controller: "qr-scanner", "qr-scanner-auto-start-value": true } do |form| %>
       <div class="bg-white/90 rounded-xl p-4 shadow-inner">
         <div id="qr-reader" class="w-full rounded-lg overflow-hidden"></div>
         <div data-qr-scanner-target="results"
