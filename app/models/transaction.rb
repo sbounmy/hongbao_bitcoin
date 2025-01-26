@@ -12,7 +12,7 @@ class Transaction
 
     new(
       id: data["txid"],
-      timestamp: Time.at(data["status"]["block_time"]),
+      timestamp: data["status"]["block_time"] ? Time.at(data["status"]["block_time"]) : nil,
       amount: amount,
       address: data["vout"][0]["scriptpubkey_address"],
       type: amount.positive? ? "deposit" : "withdrawal",

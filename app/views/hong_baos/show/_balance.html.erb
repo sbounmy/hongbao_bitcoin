@@ -68,7 +68,7 @@
                     </span>
                     <%# Date and transaction ID %>
                     <div class="flex items-center gap-2 text-xs text-white/60">
-                      <span><%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %></span>
+                      <span><%= tx.timestamp&.strftime("%B %d, %Y at %H:%M") %></span>
                       <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
                       <%= link_to "#{explorer_base_url}/tx/#{tx.id}",
                           class: "hover:text-white transition-colors",
