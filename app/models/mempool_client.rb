@@ -19,8 +19,13 @@ class MempoolClient
 
   def transactions
     tx_data = fetch_raw_transactions
-    # Sort by status.block_time in descending order (newest first)
-    sorted_tx_data = tx_data.sort_by { |tx| -tx["status"]["block_time"].to_i }
+
+    # Sort by block_time, putting nil (unconfirmed) first
+    sorted_tx_data = tx_data.sort_by do |tx|
+      # Use max integer for unconfirmed to ensure they come first
+      -(tx["status"]["block_time"] || Float::INFINITY)
+    end
+
     sorted_tx_data.map { |tx| Transaction.from_mempool_data(tx, address, fetch_block_height) }
   end
 
