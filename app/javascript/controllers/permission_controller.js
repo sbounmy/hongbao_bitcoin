@@ -1,5 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
+const USER_MEDIA = {
+  camera: 'video',
+  microphone: 'audio'
+}
+
 export default class extends Controller {
   static values = {
     types: Array
@@ -17,9 +22,16 @@ export default class extends Controller {
   }
 
   get #constraints() {
-    return {
-      name: this.typesValue[0] // Permissions must be queried individually
-    }
+    const constraints = {}
+
+    this.typesValue.forEach(type => {
+      const mediaType = USER_MEDIA[type]
+      if (mediaType) {
+        constraints[mediaType] = true
+      }
+    })
+
+    return constraints
   }
 
   async #query() {
