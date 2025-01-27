@@ -5,7 +5,7 @@ class BitcoinPrice < ApplicationRecord
 
   attr_accessor :birthdate, :birthday_amount, :christmas_amount, :cny_amount
 
-  def birthdate_price(birthdate)
+  def birthdate_price_btc(birthdate)
     birth_date = birthdate.to_date
     current_date = Date.current
 
@@ -14,26 +14,41 @@ class BitcoinPrice < ApplicationRecord
              birth_date.strftime("%m"), birth_date.strftime("%d"))
       .where("date >= ? AND date <= ?", birth_date, current_date)
       .order(date: :asc)
-    puts prices.inspect
-    # Convert each birthday amount to BTC using historical prices and sum
-    prices.sum do |price_record|
+    sum = 0
+    prices.each do |price_record|
       puts price_record.inspect
-      (birthday_amount.to_f / price_record.price).round(2)
+      puts (birthday_amount.to_f / price_record.price).round(4)
+      sum += (birthday_amount.to_f / price_record.price).round(4)
     end
+    sum
   end
 
-  def christmas_price(birthdate, christmas_date)
-    @christmas_price ||= BitcoinPrice
-      .where("EXTRACT(MONTH FROM date) = 12 AND EXTRACT(DAY FROM date) = 25")
+  def christmas_price_btc(birthdate)
+    christmas_price = BitcoinPrice
+      .where("strftime('%m', date) = '12' AND strftime('%d', date) = '25'")
       .where("date >= ?", birthdate)
       .order(date: :asc)
+    sum = 0
+    christmas_price.each do |price_record|
+      puts price_record.inspect
+      puts (christmas_amount.to_f / price_record.price).round(4)
+      sum += (christmas_amount.to_f / price_record.price).round(4)
+    end
+    sum
   end
 
-  def lunar_new_year_price(birthdate)
-    @lunar_new_year_price ||= BitcoinPrice
+  def lunar_new_year_price_btc(birthdate)
+    lunar_new_year_price = BitcoinPrice
       .where("date >= ?", birthdate)
-      .where("EXTRACT(MONTH FROM date) = 2 AND EXTRACT(DAY FROM date) = 1")
+      .where("strftime('%m', date) = '02' AND strftime('%d', date) = '01'")
       .order(date: :asc)
+    sum = 0
+    lunar_new_year_price.each do |price_record|
+      puts price_record.inspect
+      puts (cny_amount.to_f / price_record.price).round(4)
+      sum += (cny_amount.to_f / price_record.price).round(4)
+    end
+    sum
   end
 
   def calculate_totals
@@ -48,12 +63,10 @@ class BitcoinPrice < ApplicationRecord
     {
       age: age,
       birthday_total: calculate_gift_total(age, birthday_amount),
-      birthday_calc: calculate_gift_calc(age, birthday_amount),
       christmas_total: calculate_gift_total(age, christmas_amount),
-      christmas_calc: calculate_gift_calc(age, christmas_amount),
       cny_total: calculate_gift_total(age, cny_amount),
-      cny_calc: calculate_gift_calc(age, cny_amount),
-      yearly_data: calculate_yearly_data(age)
+      total_btc: total_btc[:btc],
+      total_btc_to_usd: total_btc[:usd]
     }
   end
 
@@ -73,32 +86,13 @@ class BitcoinPrice < ApplicationRecord
     (amount.to_f * age).round(2)
   end
 
-  def calculate_gift_calc(age, amount)
-    (amount.to_f * age).round(2)
-  end
-
-  def calculate_yearly_data(age)
-    current_price = BitcoinPrice.where(currency: "EUR")
-                              .order(date: :desc)
-                              .first&.price || 43000
-
-    yearly_data = []
-    (1..age).each do |year|
-      yearly_total = (birthday_amount.to_f + christmas_amount.to_f + cny_amount.to_f) * year
-      yearly_data << {
-        year: year,
-        euros: yearly_total.round(2),
-        btc: (yearly_total / current_price).round(8)
-      }
-    end
-    yearly_data
-  end
-
-  def total_dollars
-    birthday_total + christmas_total + cny_total
-  end
-
   def total_btc
-    total_dollars / current_btc_price
+    btc_amount = birthdate_price_btc(birthdate) + christmas_price_btc(birthdate) + lunar_new_year_price_btc(birthdate)
+    current_price = BitcoinPriceFetcher.fetch_current_price
+
+    {
+      btc: btc_amount.round(8),
+      usd: (btc_amount * current_price).round(2)
+    }
   end
 end

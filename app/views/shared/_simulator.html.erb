@@ -11,7 +11,7 @@
       <%= form_with(model: @bitcoin_price, url: root_path, method: :get,
                     class: "space-y-6") do |form| %>
       <%# Birthday Input Section %>
-      <div class="bg-black/20 p-4 rounded-lg">
+      <div class="bg-black/20 border-2 border-[#FFB636] rounded-lg p-4 text-center">
         <div class="space-y-2">
           <label for="birthday" class="text-[#FFB636]">Child's Birthday</label>
           <%= form.date_field :birthdate, required: true,
@@ -34,46 +34,40 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <%# Birthday Card %>
         <div class="bg-black/20 border-2 border-[#FFB636] rounded-lg p-4 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 text-[#FFB636]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-          </svg>
+    <%= image_tag "icons/gift.svg", class: "w-8 h-8 mx-auto mb-2 text-[#FFB636]" %>
           <h3 class="text-lg font-bold text-[#FFB636]">Birthday</h3>
           <div class="space-y-2 mt-2">
             <%= form.number_field :birthday_amount, required: true,
                                   onchange: 'this.form.requestSubmit()',
                                   class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
-            <p class="text-xl font-bold"><%= @birthdate_price %> $</p>
-            <p class="text-sm text-white/60"><%= @birthdate_price %> BTC</p>
+            <p class="text-xl font-bold"><%= @totals[:birthday_total] %> $</p>
+            <p class="text-sm text-white/60"><%= @birthdate_price_btc %> BTC</p>
           </div>
         </div>
 
         <%# Christmas Card %>
         <div class="bg-black/20 border-2 border-[#FFB636] rounded-lg p-4 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 text-[#FFB636]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
+          <%= image_tag "icons/tree.svg", class: "w-8 h-8 mx-auto mb-2 text-[#FFB636]" %>
           <h3 class="text-lg font-bold text-[#FFB636]">Christmas</h3>
           <div class="space-y-2 mt-2">
             <%= form.number_field :christmas_amount, required: true,
                                   onchange: 'this.form.requestSubmit()',
                                   class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
             <p class="text-xl font-bold"><%= @totals[:christmas_total] %> $</p>
-            <p class="text-sm text-white/60"><%= @totals[:christmas_calc] %> BTC</p>
+            <p class="text-sm text-white/60"><%= @christmas_price_btc %> BTC</p>
           </div>
         </div>
 
         <%# Chinese New Year Card %>
         <div class="bg-black/20 border-2 border-[#FFB636] rounded-lg p-4 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 text-[#FFB636]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <%= image_tag "icons/chinese-lantern.svg", class: "w-8 h-8 mx-auto mb-2 text-[#FFB636]" %>
           <h3 class="text-lg font-bold text-[#FFB636]">Chinese New Year</h3>
           <div class="space-y-2 mt-2">
             <%= form.number_field :cny_amount, required: true,
                                   onchange: 'this.form.requestSubmit()',
                                   class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
             <p class="text-xl font-bold"><%= @totals[:cny_total] %> $</p>
-            <p class="text-sm text-white/60"><%= @totals[:cny_calc] %> BTC</p>
+            <p class="text-sm text-white/60"><%= @lunar_new_year_price_btc %> BTC</p>
           </div>
         </div>
       </div>
@@ -82,14 +76,14 @@
       <div class="bg-[#FFB636] border-2 border-[#FFB636] rounded-lg p-4 text-center">
         <h3 class="text-2xl font-bold text-white">Total Bitcoin</h3>
         <p class="text-3xl font-bold text-white">
-          <%= @totals[:total_dollars] %> $
+          <%= (@totals&.dig(:birthday_total) || 0) + (@totals&.dig(:christmas_total) || 0) + (@totals&.dig(:cny_total) || 0) %> $
         </p>
         <p class="text-sm text-white/80">
-          <%= @totals[:total_calc] %> BTC
+          <%= @totals&.dig(:total_btc) || 0 %> BTC
           <br>
-          BTC Price: €<span data-simulator-target="btcPrice">43000</span>
+          BTC Price:<span data-simulator-target="btcPrice"><%= @totals&.dig(:total_btc_to_usd) || 0 %> €</span>
         </p>
-        </div>
+      </div>
       <% end %>
     </div>
   </div>

@@ -22,7 +22,9 @@ class HongBaosController < ApplicationController
     @current_step = (params[:step] || 1).to_i
     @bitcoin_price = BitcoinPrice.new bitcoin_price_params
     @totals = @bitcoin_price.calculate_totals
-    @birthdate_price = @bitcoin_price.birthdate_price(bitcoin_price_params[:birthdate])
+    @birthdate_price_btc = @bitcoin_price.birthdate_price_btc(bitcoin_price_params[:birthdate])
+    @christmas_price_btc = @bitcoin_price.christmas_price_btc(bitcoin_price_params[:birthdate])
+    @lunar_new_year_price_btc = @bitcoin_price.lunar_new_year_price_btc(bitcoin_price_params[:birthdate])
   end
 
   def show

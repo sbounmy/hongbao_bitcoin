@@ -39,4 +39,17 @@ class BitcoinPriceFetcher
       end
     end
   end
+
+  def self.fetch_current_price(currency = "USD")
+    uri = URI(BASE_URL % currency)
+
+    begin
+      response = Net::HTTP.get(uri)
+      data = JSON.parse(response)
+      data.dig("data", "amount")&.to_f
+    rescue StandardError => e
+      puts "Error fetching current #{currency} price: #{e.message}"
+      nil
+    end
+  end
 end
