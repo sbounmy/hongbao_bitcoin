@@ -8,16 +8,25 @@
     </div>
 
     <div class="p-6 space-y-6">
+      <%= form_with(model: @bitcoin_price, url: root_path, method: :get,
+                    class: "space-y-6") do |form| %>
       <%# Birthday Input Section %>
       <div class="bg-black/20 p-4 rounded-lg">
         <div class="space-y-2">
           <label for="birthday" class="text-[#FFB636]">Child's Birthday</label>
-          <input type="date"
-                 id="birthday"
-                 data-simulator-target="birthday"
-                 data-action="simulator#calculate"
-                 class="w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3">
-          <p class="text-[#FFB636]" data-simulator-target="ageDisplay"></p>
+          <%= form.date_field :birthdate, required: true,
+                            data: { format: 'dd/mm/yyyy' },
+                            class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3" %>
+          <% if @totals&.dig(:age) %>
+            <p class="text-[#FFB636]">Age: <%= @totals[:age] %> years old</p>
+          <% end %>
+
+          <%# Calculate Bitcoin Price Button %>
+          <%= form.button type: "button",
+                         onclick: "this.form.requestSubmit()",
+                         class: "w-full mt-2 bg-[#FFB636] hover:bg-[#FFB636]/90 text-white font-bold py-2 px-4 rounded-lg transition-colors" do %>
+            Calculate Bitcoin Price Estimates
+          <% end %>
         </div>
       </div>
 
@@ -30,13 +39,11 @@
           </svg>
           <h3 class="text-lg font-bold text-[#FFB636]">Birthday</h3>
           <div class="space-y-2 mt-2">
-            <input type="number"
-                   data-simulator-target="birthdayAmount"
-                   data-action="simulator#calculate"
-                   value="500"
-                   class="w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center">
-            <p class="text-xl font-bold" data-simulator-target="birthdayTotal"></p>
-            <p class="text-sm text-white/60" data-simulator-target="birthdayCalc"></p>
+            <%= form.number_field :birthday_amount, required: true,
+                                  onchange: 'this.form.requestSubmit()',
+                                  class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
+            <p class="text-xl font-bold"><%= @birthdate_price %> $</p>
+            <p class="text-sm text-white/60"><%= @birthdate_price %> BTC</p>
           </div>
         </div>
 
@@ -47,13 +54,11 @@
           </svg>
           <h3 class="text-lg font-bold text-[#FFB636]">Christmas</h3>
           <div class="space-y-2 mt-2">
-            <input type="number"
-                   data-simulator-target="christmasAmount"
-                   data-action="simulator#calculate"
-                   value="500"
-                   class="w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center">
-            <p class="text-xl font-bold" data-simulator-target="christmasTotal"></p>
-            <p class="text-sm text-white/60" data-simulator-target="christmasCalc"></p>
+            <%= form.number_field :christmas_amount, required: true,
+                                  onchange: 'this.form.requestSubmit()',
+                                  class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
+            <p class="text-xl font-bold"><%= @totals[:christmas_total] %> $</p>
+            <p class="text-sm text-white/60"><%= @totals[:christmas_calc] %> BTC</p>
           </div>
         </div>
 
@@ -64,13 +69,11 @@
           </svg>
           <h3 class="text-lg font-bold text-[#FFB636]">Chinese New Year</h3>
           <div class="space-y-2 mt-2">
-            <input type="number"
-                   data-simulator-target="cnyAmount"
-                   data-action="simulator#calculate"
-                   value="500"
-                   class="w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center">
-            <p class="text-xl font-bold" data-simulator-target="cnyTotal"></p>
-            <p class="text-sm text-white/60" data-simulator-target="cnyCalc"></p>
+            <%= form.number_field :cny_amount, required: true,
+                                  onchange: 'this.form.requestSubmit()',
+                                  class: "w-full bg-white/10 text-white border-2 border-[#FFB636] rounded-lg py-2 px-3 text-center" %>
+            <p class="text-xl font-bold"><%= @totals[:cny_total] %> $</p>
+            <p class="text-sm text-white/60"><%= @totals[:cny_calc] %> BTC</p>
           </div>
         </div>
       </div>
@@ -78,21 +81,16 @@
       <%# Total Bitcoin Card %>
       <div class="bg-[#FFB636] border-2 border-[#FFB636] rounded-lg p-4 text-center">
         <h3 class="text-2xl font-bold text-white">Total Bitcoin</h3>
-        <p class="text-3xl font-bold text-white" data-simulator-target="btcTotal"></p>
+        <p class="text-3xl font-bold text-white">
+          <%= @totals[:total_dollars] %> $
+        </p>
         <p class="text-sm text-white/80">
-          <span data-simulator-target="totalValue"></span>
+          <%= @totals[:total_calc] %> BTC
           <br>
           BTC Price: €<span data-simulator-target="btcPrice">43000</span>
         </p>
-      </div>
-
-      <%# Chart %>
-      <div class="bg-black/20 border-2 border-[#FFB636] rounded-lg p-4">
-        <h3 class="text-xl font-bold text-[#FFB636] mb-4 text-center">Growth Chart</h3>
-        <div class="w-full h-[300px]">
-          <canvas data-simulator-target="chart"></canvas>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>

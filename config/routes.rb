@@ -57,4 +57,6 @@ Rails.application.routes.draw do
   direct :github do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
+
+  resource :simulator, only: [ :show ], controller: "hong_baos", action: "simulator"
 end

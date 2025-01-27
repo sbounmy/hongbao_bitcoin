@@ -20,7 +20,9 @@ class HongBaosController < ApplicationController
     @papers = Paper.active
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
-    @simulator = BitcoinPrice.new simulator_params
+    @bitcoin_price = BitcoinPrice.new bitcoin_price_params
+    @totals = @bitcoin_price.calculate_totals
+    @birthdate_price = @bitcoin_price.birthdate_price(bitcoin_price_params[:birthdate])
   end
 
   def show
@@ -44,7 +46,10 @@ class HongBaosController < ApplicationController
   def transfer_params
     params.require(:hong_bao).permit(:to_address, :payment_method_id)
   end
-  def simulator_params
-    (params[:simulator_bitcoin] || {})
+
+  def bitcoin_price_params
+    params.require(:bitcoin_price).permit(:birthdate, :birthday_amount, :christmas_amount, :cny_amount)
+  rescue ActionController::ParameterMissing
+    { birthdate: 10.years.ago.to_date, birthday_amount: 500, christmas_amount: 500, cny_amount: 500 }
   end
 end
