@@ -30,8 +30,8 @@
     </div>
 
     <div class="flex items-baseline justify-center">
-      <div class="text-4xl font-mono tracking-wider">
-        ₿<%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %>
+      <div class="text-4xl tracking-wider">
+        <%= number_to_bitcoin(@hong_bao.balance.btc, significant_class: "text-4xl font-bold text-[#FFB636]", insignificant_class: "text-2xl text-white/60") %>
       </div>
     </div>
     <div class="flex items-baseline justify-center">
