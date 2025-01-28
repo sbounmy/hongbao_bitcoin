@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import WalletFactory from "services/bitcoin/wallet_factory"
 import Transaction from "services/bitcoin/transaction"
+import TransactionFactory from "services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
@@ -46,8 +47,7 @@ export default class extends Controller {
 
   async transfer(address, fee) {
     try {
-
-      const transaction = new Transaction(
+      const transaction = TransactionFactory.create(
         this.wallet.privateKey,
         address,
         fee,
