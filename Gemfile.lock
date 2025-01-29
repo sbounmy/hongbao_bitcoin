@@ -211,6 +211,8 @@ GEM
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
+    leoandruby (0.4.3)
+      rails (>= 6.0)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     letter_opener_web (3.0.0)
@@ -479,6 +481,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal (>= 2.0.0.rc2)
+  leoandruby
   letter_opener
   letter_opener_web
   propshaft
