@@ -14,9 +14,9 @@
         <%= t("wallet_instructions.#{payment_method.name.downcase}.title") %>
         </h3>
 
-        <img data-controller="value"
-                data-value-name-value="addressQrcode"
-                data-action="hong-bao:walletChanged@window->value#update"
+        <img data-controller="binding"
+                data-binding-name-value="addressQrcode"
+                data-action="bitcoin:changed@window->binding#src"
                 alt="Bitcoin Payment QR Code"
                 class="mx-auto mb-4 w-48 h-48">
 
@@ -27,9 +27,9 @@
         </div>
 
         <div class="mt-4 flex items-center justify-center gap-2 bg-white/10 p-2 rounded">
-        <code data-controller="value"
-                data-value-name-value="address"
-                data-action="hong-bao:walletChanged@window->value#update"
+        <code data-controller="binding"
+                data-binding-name-value="address"
+                data-action="bitcoin:changed@window->binding#html"
                 class="text-sm"></code>
         <button class="btn btn-ghost btn-sm" data-action="click->payment-method#copyAddress">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

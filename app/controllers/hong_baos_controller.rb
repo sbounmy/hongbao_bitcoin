@@ -31,19 +31,5 @@ class HongBaosController < ApplicationController
   end
 
   def transfer
-    @hong_bao = HongBao.from_scan(params[:id])
-    @payment_methods = PaymentMethod.active
-
-    if @hong_bao.broadcast_transaction(transfer_params[:signed_transaction])
-      redirect_to hong_bao_path(@hong_bao.address), notice: "Funds transferred successfully"
-    else
-      render :show
-    end
-  end
-
-  private
-
-  def transfer_params
-    params.require(:hong_bao).permit(:to_address, :signed_transaction)
   end
 end
