@@ -73,7 +73,7 @@
   </div>
 
   <div class="relative">
-    <div class="flex flex-col gap-4 mx-auto h-[680px] overflow-y-auto">
+    <div class="flex flex-col gap-4 mx-auto max-h-[50vh] overflow-y-auto">
       <% papers.each do |paper| %>
         <% cache paper do %>
           <div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"

@@ -28,45 +28,45 @@
 
       <!-- Scrollable Content -->
       <div class="p-8 pt-0">
-        <div class="mx-auto space-y-32">
+        <div class="mx-auto space-y-24">
           <!-- Hero Section -->
           <div class="mt-24 space-y-8">
-            <h1 class="text-6xl font-bold text-white leading-tight">
-              <span class="text-[#F04747]">Print</span> & <span class="text-[#FFB636]">gift</span><br/>
-              <span class="text-white">bitcoin instantly</span>
+            <h1 class="text-7xl font-extrabold text-white leading-tight tracking-tight font-display">
+              <span class="text-[#F04747] drop-shadow-lg">Print</span> & <span class="text-[#FFB636] drop-shadow-lg">gift</span><br/>
+              <span class="text-white drop-shadow-lg">Bitcoin instantly</span>
             </h1>
-            <p class="text-xl text-white/90 leading-relaxed max-w-lg">
+            <p class="text-xl text-white/90 leading-relaxed max-w-lg font-light">
               HongBao Bitcoin lets you create beautiful bills containing bitcoin. Perfect for gifting during Chinese New Year or any special occasion.
             </p>
-            <div class="flex gap-4 pt-4">
+            <div class="flex gap-4 pt-8">
               <%= link_to "Get started", "#form-section",
                   class: "inline-flex items-center px-8 py-4 rounded-full
                          bg-[#F04747] text-white text-lg font-medium
                          hover:bg-[#FFB636] transform hover:scale-105
-                         transition duration-300" %>
+                         transition duration-300 shadow-lg" %>
             </div>
           </div>
 
           <!-- About Section -->
-          <section class="space-y-24">
+          <section class="space-y-16">
             <!-- About Me -->
-            <div class="relative">
+            <div class="relative bg-black/20 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
               <%= render "shared/about" %>
             </div>
 
             <!-- FAQ -->
-            <div class="relative">
+            <div class="relative bg-black/20 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
               <%= render "shared/faq" %>
             </div>
 
             <!-- Donate -->
-            <div class="relative">
+            <div class="relative bg-black/20 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
               <%= render "shared/donate" %>
             </div>
           </section>
 
           <!-- Footer -->
-          <div class="pt-16 pb-8">
+          <div class="pt-16 pb-8 text-white/70">
             <%= render "shared/footer" %>
           </div>
         </div>
