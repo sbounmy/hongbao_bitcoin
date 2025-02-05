@@ -1,0 +1,7 @@
+alias g='git'
+alias ga='git add'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gca='git commit --amend --no-edit'
+alias gco='git checkout'
+alias gst='git status'
