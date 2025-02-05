@@ -57,4 +57,8 @@ Rails.application.routes.draw do
   direct :github do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
+
+  direct :youtube_arte do
+    "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
+  end
 end
