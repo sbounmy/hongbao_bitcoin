@@ -48,6 +48,68 @@
             </div>
           </div>
 
+          <!-- Security Section -->
+          <div class="space-y-8">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-[#FFB636] flex items-center justify-center">
+                <%= heroicon "shield-check", class: "w-6 h-6 text-white" %>
+              </div>
+              <h2 class="text-4xl font-bold text-white">Security First</h2>
+            </div>
+
+            <div class="space-y-6">
+              <!-- Main security message -->
+              <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <p class="text-lg text-white/90 leading-relaxed">
+                  Everything is computed only in your browser. Nothing ever leaves your machine, or even your browser tab.
+                  There is no database, no server-side code. Everything vanishes when you close your tab.
+                </p>
+              </div>
+
+              <!-- Security options -->
+              <div class="space-y-4">
+                <p class="text-lg text-white/90">
+                  HongBao Bitcoin cannot and will never store your private key. To ensure your key remains private, you have several options:
+                </p>
+
+                <div class="grid gap-4 md:grid-cols-3">
+                  <!-- Option 1 -->
+                  <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition duration-300">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div class="w-8 h-8 rounded-full bg-[#F04747] flex items-center justify-center">
+                        <%= heroicon "signal-slash", class: "w-4 h-4 text-white" %>
+                      </div>
+                      <h3 class="text-lg font-medium text-white">Offline Mode</h3>
+                    </div>
+                    <p class="text-white/80">Once the web page is loaded, you can turn off the internet and continue using the app - only top up by wallet with work</p>
+                  </div>
+
+                  <!-- Option 2 -->
+                  <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition duration-300">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div class="w-8 h-8 rounded-full bg-[#F04747] flex items-center justify-center">
+                        <%= heroicon "arrow-down-tray", class: "w-4 h-4 text-white" %>
+                      </div>
+                      <h3 class="text-lg font-medium text-white">Local Build</h3>
+                    </div>
+                    <p class="text-white/80">You can download the latest build and use it on a completely offline computer</p>
+                  </div>
+
+                  <!-- Option 3 -->
+                  <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition duration-300">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div class="w-8 h-8 rounded-full bg-[#F04747] flex items-center justify-center">
+                        <%= heroicon "code-bracket", class: "w-4 h-4 text-white" %>
+                      </div>
+                      <h3 class="text-lg font-medium text-white">Open Source</h3>
+                    </div>
+                    <p class="text-white/80">The code is 100% open source and available on GitHub - you can review it before using it</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- About Section -->
           <section class="space-y-24">
             <!-- About Me -->
