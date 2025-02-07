@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_04_083509) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -51,6 +51,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "ai_generations", force: :cascade do |t|
+    t.string "prompt", null: false
+    t.string "generation_id", null: false
+    t.string "status", null: false
+    t.text "image_urls"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["generation_id"], name: "index_ai_generations_on_generation_id", unique: true
   end
 
   create_table "papers", force: :cascade do |t|

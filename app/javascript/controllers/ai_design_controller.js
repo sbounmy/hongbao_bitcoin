@@ -1,10 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
+import { createConsumer } from "@rails/actioncable"
+
+const consumer = createConsumer()
 
 export default class extends Controller {
-  static targets = ["fileInput", "imagePreview", "customText", "occasion", "results"]
+  static targets = ["fileInput", "imagePreview", "customText", "occasion", "results", "generateButton", "buttonText", "loadingText"]
+  static values = { generationId: String }
 
   connect() {
+    console.log("AI Design controller connected")
     this.maxFiles = 1
+    this.channel = null
+  }
+
+  disconnect() {
+    if (this.channel) {
+      this.channel.unsubscribe()
+    }
   }
 
   triggerFileInput() {
@@ -60,50 +72,76 @@ export default class extends Controller {
     })
   }
 
-  async generate() {
-    const formData = new FormData()
-
-    // Add files if any are selected
-    if (this.hasFileInputTarget) {
-      Array.from(this.fileInputTarget.files).forEach((file) => {
-        formData.append('images[]', file)
-      })
-    }
-
-    // Add other form data
-    formData.append('prompt', this.customTextTarget.value)
-    formData.append('occasion', this.occasionTarget.value)
+  async generate(event) {
+    event.preventDefault()
+    this.setLoading(true)
 
     try {
-      const response = await fetch('/leonardo_datasets/generate_design', {
-        method: 'POST',
+      const response = await fetch("/ai_designs/generate", {
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
         },
-        body: formData,
-        // Add these options to handle redirects properly
-        redirect: 'follow',
-        credentials: 'same-origin'
+        body: JSON.stringify({
+          prompt: this.customTextTarget.value,
+          occasion: this.occasionTarget.value
+        })
       })
 
-      // Check if we got redirected to the login page
-      if (response.redirected) {
-        window.location.href = response.url
-        return
-      }
-
       const data = await response.json()
+      console.log("Generation response:", data)
 
-      if (response.ok) {
-        this.displayResults(data.image_urls)
+      if (data.success) {
+        console.log("Subscribing to updates with signed stream name:", data.stream_name)
+        this.subscribeToUpdates(data.generation_id, data.stream_name)
       } else {
-        throw new Error(data.error || 'Failed to generate designs')
+        throw new Error(data.error || 'Failed to generate image')
       }
+
     } catch (error) {
       console.error('Error generating designs:', error)
-      alert(error.message)
+      alert(error.message || 'Failed to generate design. Please try again.')
+    } finally {
+      this.setLoading(false)
     }
+  }
+
+  subscribeToUpdates(generationId, signedStreamName) {
+    console.log("Setting up subscription for generation:", generationId)
+
+    if (this.channel) {
+      console.log("Unsubscribing from existing channel")
+      this.channel.unsubscribe()
+    }
+
+    this.channel = consumer.subscriptions.create(
+      {
+        channel: "Turbo::StreamsChannel",
+        signed_stream_name: signedStreamName
+      },
+      {
+        connected() {
+          console.log("Connected to channel for generation:", generationId)
+        },
+        disconnected() {
+          console.log("Disconnected from channel")
+        },
+        received(data) {
+          console.log("Received update:", data)
+          Turbo.renderStreamMessage(data)
+        },
+        rejected() {
+          console.log("Subscription was rejected")
+        }
+      }
+    )
+  }
+
+  setLoading(isLoading) {
+    this.generateButtonTarget.disabled = isLoading
+    this.buttonTextTarget.classList.toggle('hidden', isLoading)
+    this.loadingTextTarget.classList.toggle('hidden', !isLoading)
   }
 
   displayResults(imageUrls) {

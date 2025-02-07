@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
+  has_secure_password
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   validates :email_address, presence: true,
                    uniqueness: { case_sensitive: false },
                    format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, length: { minimum: 8 }, allow_nil: true
 
   def generate_magic_link
     update(

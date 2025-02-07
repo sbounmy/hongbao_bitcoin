@@ -12,7 +12,10 @@ default: &default
 development:
   <<: *default
   database: storage/development.sqlite3
-
+cable:
+    <<: *default
+    database: storage/development_cable.sqlite3
+    migrations_paths: db/cable_migrate
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
