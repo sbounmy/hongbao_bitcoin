@@ -76,5 +76,4 @@ gem "activeadmin", '4.0.0.beta14'
 
 gem "rails_heroicon"
 
-# Leonardo AI API client
-gem "leoandruby"
+gem 'httparty'

@@ -65,4 +65,5 @@ Rails.application.routes.draw do
 
   post "/ai_designs/generate", to: "ai_designs#generate"
   resources :ai_generations
+  get 'ai_designs/user_info', to: 'ai_designs#get_user_info'
 end
