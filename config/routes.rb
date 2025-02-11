@@ -64,6 +64,13 @@ Rails.application.routes.draw do
   end
 
   post "/ai_designs/generate", to: "ai_designs#generate"
+
   resources :ai_generations
-  get 'ai_designs/user_info', to: 'ai_designs#get_user_info'
+
+  # Add elements routes
+  resources :elements, only: [ :index ] do
+    collection do
+      get :get_elements_by_user_id
+    end
+  end
 end
