@@ -1,5 +1,4 @@
 class AiDesignsController < ApplicationController
-  require 'httparty'
   allow_unauthenticated_access only: [ :generate ]
 
   def index
@@ -14,62 +13,37 @@ class AiDesignsController < ApplicationController
         return render json: { success: false, error: "API configuration error" }, status: :internal_server_error
       end
 
+      client = LeoAndRuby::Client.new(Rails.application.credentials.dig(:leonardo, :api_key))
+
       # Get parameters from the request
       prompt = params[:prompt]
       occasion = params[:occasion]
-      model_id = "b24e16ff-06e3-43eb-8d33-4416c2d75876"
+      model_id = "de7d3faf-762f-48e0-b3b7-9d0ac3a3fcf3"
 
-      # Log the incoming parameters
-      Rails.logger.info "Generating image with prompt: #{prompt}, occasion: #{occasion}"
-
-      # Validate required parameters
       unless prompt.present?
         return render json: { success: false, error: "Prompt is required" }, status: :unprocessable_entity
       end
 
       # Combine prompt with occasion if provided
-      full_prompt = "A beautiful, modern, elegant and #{prompt} bank note for a #{occasion}."
-      Rails.logger.info "Full prompt: #{full_prompt}"
+      full_prompt = [ prompt, occasion ].compact.join(" for ")
 
-      # Create an AiGeneration record to track the request
       generation = AiGeneration.create!(
         prompt: full_prompt,
         status: "pending",
         generation_id: SecureRandom.uuid
       )
 
-      # Make direct API call to Leonardo
-      url = "https://cloud.leonardo.ai/api/rest/v1/generations"
-      headers = {
-        "Authorization" => "Bearer #{api_key}",
-        "Content-Type" => "application/json"
-      }
-
-      body = {
+      response = client.generate_image(
         prompt: full_prompt,
-        modelId: model_id,
+        model_id: model_id,
         width: 512,
         height: 512,
-        num_images: 1,
-        negative_prompt: "has background",
-        userElements: [
-          {
-            userLoraId: 26060,  # BIRTHDAY THEME BILLS element
-            weight: 0.7
-          }
-        ]
-      }
-
-      response = HTTParty.post(
-        url,
-        headers: headers,
-        body: body.to_json
+        num_images: 1
       )
 
-      if response.success? && response.parsed_response["sdGenerationJob"].present?
-        generation_data = response.parsed_response["sdGenerationJob"]
+      if response["sdGenerationJob"].present?
         generation.update!(
-          generation_id: generation_data["generationId"],
+          generation_id: response["sdGenerationJob"]["generationId"],
           status: "processing"
         )
 
@@ -80,7 +54,7 @@ class AiDesignsController < ApplicationController
           message: "Generation started"
         }
       else
-        Rails.logger.error "Leonardo API error: #{response.body}"
+        Rails.logger.error "Leonardo API error: #{response}"
         render json: { success: false, error: "Invalid API response" }, status: :unprocessable_entity
       end
 
@@ -91,122 +65,12 @@ class AiDesignsController < ApplicationController
     end
   end
 
-  def get_user_info
-    begin
-      url = "https://cloud.leonardo.ai/api/rest/v1/me"
-      headers = {
-        "Authorization" => "Bearer #{Rails.application.credentials.dig(:leonardo, :api_key)}",
-        "Content-Type" => "application/json"
-      }
-
-      response = HTTParty.get(
-        url,
-        headers: headers
-      )
-
-      if response.success?
-        render json: {
-          success: true,
-          user_info: response.parsed_response
-        }
-      else
-        Rails.logger.error "Leonardo API error: #{response.body}"
-        render json: {
-          success: false,
-          error: "Failed to fetch user information"
-        }, status: :unprocessable_entity
-      end
-
-    rescue StandardError => e
-      Rails.logger.error "Leonardo user info error: #{e.message}\n#{e.backtrace.join("\n")}"
-      render json: {
-        success: false,
-        error: "An error occurred while fetching user information"
-      }, status: :internal_server_error
-    end
-  end
-
-  def get_custom_elements
-    begin
-      # Get user info using existing method
-      user_response = get_user_info_data
-
-      unless user_response[:success]
-        return render json: user_response, status: :unprocessable_entity
-      end
-
-      user_id = user_response[:user_info]["user_details"][0]["user"]["id"]
-
-      # Get the custom elements using the user ID
-      elements_url = "https://cloud.leonardo.ai/api/rest/v1/elements/user/#{user_id}"
-      headers = {
-        "Authorization" => "Bearer #{Rails.application.credentials.dig(:leonardo, :api_key)}",
-        "Content-Type" => "application/json"
-      }
-
-      elements_response = HTTParty.get(
-        elements_url,
-        headers: headers
-      )
-
-      if elements_response.success?
-        render json: {
-          success: true,
-          elements: elements_response.parsed_response
-        }
-      else
-        Rails.logger.error "Leonardo API error: #{elements_response.body}"
-        render json: {
-          success: false,
-          error: "Failed to fetch custom elements"
-        }, status: :unprocessable_entity
-      end
-
-    rescue StandardError => e
-      Rails.logger.error "Leonardo custom elements error: #{e.message}\n#{e.backtrace.join("\n")}"
-      render json: {
-        success: false,
-        error: "An error occurred while fetching custom elements"
-      }, status: :internal_server_error
-    end
-  end
-
   private
 
   def webhook_url(generation_id)
+    # Make sure APP_URL is set in your environment
     base_url = ENV["APP_URL"] || "https://#{request.host_with_port}"
     "#{base_url}/leonardo_webhook?generation_id=#{generation_id}"
-  end
-
-  def get_user_info_data
-    url = "https://cloud.leonardo.ai/api/rest/v1/me"
-    headers = {
-      "Authorization" => "Bearer #{Rails.application.credentials.dig(:leonardo, :api_key)}",
-      "Content-Type" => "application/json"
-    }
-
-    response = HTTParty.get(
-      url,
-      headers: headers
-    )
-
-    if response.success?
-      {
-        success: true,
-        user_info: response.parsed_response
-      }
-    else
-      Rails.logger.error "Leonardo API error: #{response.body}"
-      {
-        success: false,
-        error: "Failed to fetch user information"
-      }
-    end
-  rescue StandardError => e
-    Rails.logger.error "Leonardo user info error: #{e.message}\n#{e.backtrace.join("\n")}"
-    {
-      success: false,
-      error: "An error occurred while fetching user information"
-    }
+    puts "Webhook URL: #{base_url}/leonardo_webhook?generation_id=#{generation_id}"
   end
 end

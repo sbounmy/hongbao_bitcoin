@@ -8,6 +8,12 @@ GIT
       ffi
       scrypt
 
+PATH
+  remote: /app/vendor/gems/LeoAndRuby
+  specs:
+    leoandruby (0.4.3)
+      rails (>= 6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -486,6 +492,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal (>= 2.0.0.rc2)
+  leoandruby!
   letter_opener
   letter_opener_web
   propshaft

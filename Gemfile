@@ -76,4 +76,4 @@ gem "activeadmin", '4.0.0.beta14'
 
 gem "rails_heroicon"
 
-gem 'httparty'
+gem 'leoandruby', path: '/app/vendor/gems/LeoAndRuby'

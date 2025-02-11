@@ -1,6 +1,5 @@
-<% Rails.logger.debug "🔍 Rendering generated_images with URLs: #{image_urls.inspect}" %>
 <%= turbo_stream_from("ai_generations") %>
-<div id="ai_generations" class="grid grid-cols-2 gap-4">
+<div id="ai_generations">
   <h4>Generated Designs</h4>
   <% if image_urls.present? %>
     <% image_urls.each do |url| %>
