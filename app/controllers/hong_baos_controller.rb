@@ -21,7 +21,7 @@ class HongBaosController < ApplicationController
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
     @steps = Step.for_new
-    @instagram_posts = InstagramService.new.fetch_media
+    @instagram_posts = cache("instagram_posts", expires_in: 1.hour) { InstagramService.new.fetch_media }
   end
 
   def show
