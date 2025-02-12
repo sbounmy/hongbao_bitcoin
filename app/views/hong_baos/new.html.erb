@@ -159,6 +159,11 @@
 
           <!-- About Section -->
           <section class="space-y-24">
+                        <!-- About Me -->
+            <div class="relative">
+              <%= render "shared/instagram_feed", posts: @instagram_posts %>
+            </div>
+
             <!-- About Me -->
             <div class="relative">
               <%= render "shared/about" %>

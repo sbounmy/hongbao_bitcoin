@@ -61,4 +61,6 @@ Rails.application.routes.draw do
   direct :youtube_arte do
     "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
   end
+
+  get "instagram/feed", to: "instagram#feed"
 end
