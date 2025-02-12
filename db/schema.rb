@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_104900) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_090120) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -69,6 +69,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_104900) do
     t.string "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
+    t.datetime "leonardo_created_at"
+    t.datetime "leonardo_updated_at"
     t.index ["element_id"], name: "index_elements_on_element_id", unique: true
   end
 

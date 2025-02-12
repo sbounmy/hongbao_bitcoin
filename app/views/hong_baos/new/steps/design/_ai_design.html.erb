@@ -51,19 +51,10 @@
         <select class="w-full bg-white rounded-lg p-3 text-black appearance-none cursor-pointer"
                 data-ai-design-target="occasion">
           <option value="" disabled selected>Select occasion</option>
-          <option value="birthday">Birthday</option>
-          <option value="wedding">Wedding</option>
-          <option value="christmas">Christmas</option>
-          <option value="chinese-new-year">Chinese New Year</option>
-          <option value="anniversary">Anniversary</option>
-          <option value="general">General</option>
+          <% Ai::Theme.all.each do |theme| %>
+            <option value="<%= theme.title.downcase %>"><%= theme.title %></option>
+          <% end %>
         </select>
-        <!-- Custom dropdown arrow -->
-        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
       </div>
     </div>
 

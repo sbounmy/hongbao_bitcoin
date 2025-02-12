@@ -24,7 +24,10 @@ class ElementsController < ApplicationController
         elements = response["user_loras"].map do |lora|
           Ai::Element.find_or_create_by!(element_id: lora["id"]) do |element|
             element.title = lora["name"]
+            element.status = lora["status"]
             element.weight = 1
+            element.leonardo_created_at = Time.parse(lora["createdAt"])
+            element.leonardo_updated_at = Time.parse(lora["updatedAt"])
           end
         end
         { success: true, count: elements.length }

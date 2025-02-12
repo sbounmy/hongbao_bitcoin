@@ -17,9 +17,18 @@ ActiveAdmin.register Ai::Theme do
   filter :created_at
 
   form do |f|
+    f.semantic_errors
     f.inputs do
       f.input :title
-      f.input :elements, as: :select, input_html: { multiple: true }
+      f.input :elements,
+              as: :select,
+              input_html: {
+                multiple: true,
+                size: 20,
+                style: "min-width: 50%; height: auto;"
+              },
+              required: true,
+              collection: Ai::Element.all.map { |e| [ "#{e.title} (#{e.status}) --- #{e.leonardo_updated_at&.strftime('%B %d, %Y')}", e.id ] }
     end
     f.actions
   end
@@ -35,6 +44,7 @@ ActiveAdmin.register Ai::Theme do
           column :element_id
           column :title
           column :weight
+          column :status
         end
       end
     end
