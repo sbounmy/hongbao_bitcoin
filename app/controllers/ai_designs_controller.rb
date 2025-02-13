@@ -18,16 +18,13 @@ class AiDesignsController < ApplicationController
       # Get parameters from the request
       prompt = params[:prompt]
       occasion = params[:occasion]
-      model_id = "b24e16ff-06e3-43eb-8d33-4416c2d75876"
+      model_id = "2067ae52-33fd-4a82-bb92-c2c55e7d2786"
 
-      unless prompt.present?
-        return render json: { success: false, error: "Prompt is required" }, status: :unprocessable_entity
-      end
       unless occasion.present?
         return render json: { success: false, error: "Occasion is required" }, status: :unprocessable_entity
       end
       # Combine prompt with occasion if provided
-      full_prompt = "A clean bill for #{occasion}"
+      full_prompt = "A #{occasion} bill with public address and private key"
       Rails.logger.info "Full prompt: #{full_prompt}"
       generation = AiGeneration.create!(
         prompt: full_prompt,
@@ -35,6 +32,7 @@ class AiDesignsController < ApplicationController
         generation_id: SecureRandom.uuid
       )
 
+      # Get theme elements
       theme = Ai::Theme.find_by(title: occasion.titleize)
       user_elements_data = theme.elements.map do |element|
         {
@@ -45,6 +43,7 @@ class AiDesignsController < ApplicationController
 
       Rails.logger.info "User elements data: #{user_elements_data}"
 
+      # Generate image
       response = client.generate_image_with_user_elements(
         model_id: model_id,
         prompt: full_prompt,
@@ -53,6 +52,7 @@ class AiDesignsController < ApplicationController
         num_images: 1,
         user_elements: user_elements_data
       )
+
       if response["sdGenerationJob"].present?
         generation.update!(
           generation_id: response["sdGenerationJob"]["generationId"],
@@ -80,9 +80,7 @@ class AiDesignsController < ApplicationController
   private
 
   def webhook_url(generation_id)
-    # Make sure APP_URL is set in your environment
     base_url = ENV["APP_URL"] || "https://#{request.host_with_port}"
     "#{base_url}/leonardo_webhook?generation_id=#{generation_id}"
-    puts "Webhook URL: #{base_url}/leonardo_webhook?generation_id=#{generation_id}"
   end
 end
