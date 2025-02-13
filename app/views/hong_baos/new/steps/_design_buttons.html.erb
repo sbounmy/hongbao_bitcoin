@@ -1,9 +1,0 @@
-  <div data-steps-target="content" data-steps-index="1" class="flex items-center space-x-4">
-    <div class="flex-1">
-      <%= render "hong_baos/new/next_button",
-                html_options: {
-                  disabled: @hong_bao.paper_id.blank?,
-                  data_action: "hong-bao:select@window->disabled#remove"
-                } %>
-    </div>
-  </div>

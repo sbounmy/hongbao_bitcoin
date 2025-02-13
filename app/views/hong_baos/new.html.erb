@@ -221,45 +221,21 @@
             </div>
           </div>
 
-          <!-- Scrollable Content Area -->
-          <div class="flex-1 overflow-y-auto">
-            <div class="p-8">
-              <%= render "hong_baos/new/steps/design",
-                  form: form,
-                  papers: @papers,
-                  hong_bao: @hong_bao %>
+          <%= render "hong_baos/new/steps/design",
+              form: form,
+              papers: @papers,
+              hong_bao: @hong_bao %>
 
-              <%= render "hong_baos/new/steps/print",
-                  form: form,
-                  hong_bao: @hong_bao,
-                  papers: @papers,
-                  selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
+          <%= render "hong_baos/new/steps/print",
+              form: form,
+              hong_bao: @hong_bao,
+              papers: @papers,
+              selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
 
-              <%= render "hong_baos/new/steps/top_up",
-                  form: form,
-                  payment_methods: @payment_methods,
-                  hong_bao: @hong_bao %>
-            </div>
-          </div>
-
-          <!-- Sticky Buttons -->
-          <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
-            <div class="p-8">
-              <div data-steps-target="buttons">
-                <!-- Each step's buttons will be shown/hidden by the steps controller -->
-                <div data-steps-target="designButtons">
-                  <%= render "hong_baos/new/steps/design_buttons", form: form %>
-                </div>
-                <div data-steps-target="printButtons">
-                  <%= render "hong_baos/new/steps/print_buttons", form: form %>
-                </div>
-                <div data-steps-target="topUpButtons">
-                  <%= render "hong_baos/new/steps/top_up_buttons", form: form %>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <%= render "hong_baos/new/steps/top_up",
+              form: form,
+              payment_methods: @payment_methods,
+              hong_bao: @hong_bao %>
         <% end %>
       </div>
     </div>
