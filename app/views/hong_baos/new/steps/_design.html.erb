@@ -1,4 +1,4 @@
-<div data-steps-target="content">
+<div data-steps-target="content" data-steps-index="1" class="flex flex-col">
 
   <div class="mb-8">
     <div data-hong-bao-target="walletInfo" class="space-y-3">
@@ -73,7 +73,7 @@
   </div>
 
   <div class="relative">
-    <div class="flex flex-col gap-4 mx-auto max-h-[50vh] overflow-y-auto">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
       <% papers.each do |paper| %>
         <% cache paper do %>
           <div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
@@ -113,15 +113,5 @@
     </div>
 
     <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[#F04747] to-transparent pointer-events-none"></div>
-  </div>
-
-  <div class="flex items-center space-x-4 mt-8">
-    <div class="flex-1">
-      <%= render "hong_baos/new/next_button",
-                html_options: {
-                  disabled: @hong_bao.paper_id.blank?,
-                  data_action: "hong-bao:select@window->disabled#remove"
-                } %>
-    </div>
   </div>
 </div>
