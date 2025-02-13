@@ -195,15 +195,15 @@
 
   <!-- Right Column - Fixed Form -->
   <div class="lg:w-1/2 lg:h-screen relative">
-    <!-- Form Container -->
     <div class="h-full flex items-center justify-center p-8 bg-[#F04747]">
-      <div class="w-full lg:mx-8 bg-[#FFB636]/5 backdrop-blur-lg p-8
-                  rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]">
+      <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
+                  rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+                  flex flex-col">
         <%= turbo_frame_tag "qr_scanner" %>
 
         <%= form_with(model: @hong_bao,
                       url: new_hong_bao_path,
-                      class: "space-y-6",
+                      class: "flex flex-col h-full",
                       data: {
                         controller: "hong-bao steps bitcoin",
                         steps_hidden_class: "hidden",
@@ -213,8 +213,13 @@
                         bitcoin_network_value: Current.network
                       }) do |form| %>
 
-          <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
-          <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
+          <!-- Sticky Progress Steps -->
+          <div class="sticky top-0 rounded-t-3xl z-30 bg-[#F04747] border-b border-[#FFB636]/20">
+            <div class="p-8">
+              <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
+              <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
+            </div>
+          </div>
 
           <%= render "hong_baos/new/steps/design",
               form: form,
