@@ -8,7 +8,6 @@ services:
 
     volumes:
     - ../..:/workspaces:cached
-    - ~/Downloads/Salma-Stephane/LeoAndRuby:/app/vendor/gems/LeoAndRuby
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 

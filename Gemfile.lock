@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/SalmaTalbi/LeoAndRuby
+  revision: 430b2c516b7e010c2ff2be32861ea7a88071bfdd
+  specs:
+    leoandruby (0.4.3)
+      rails (>= 6.0)
+
+GIT
   remote: https://github.com/sbounmy/bitcoin-ruby.git
   revision: 4b20d628f7b201610d3e90c28ba081b384e95867
   branch: bip39-mnemonic
@@ -7,12 +14,6 @@ GIT
       eventmachine
       ffi
       scrypt
-
-PATH
-  remote: /app/vendor/gems/LeoAndRuby
-  specs:
-    leoandruby (0.4.3)
-      rails (>= 6.0)
 
 GEM
   remote: https://rubygems.org/
