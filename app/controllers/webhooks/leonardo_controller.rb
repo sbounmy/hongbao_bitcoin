@@ -53,11 +53,13 @@ module Webhooks
     def process_images(generation)
       image_url = generation.image_urls.first
 
-      # Create a new Paper record
+      # Create a new Paper record using the user from the generation
       paper = Paper.new(
         name: "AI Generated #{generation.prompt}",
         style: :modern,
-        active: true
+        active: true,
+        public: false,
+        user: generation.user
       )
 
       # Download and verify the source image using Net::HTTP

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_090120) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_113757) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -60,7 +60,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_090120) do
     t.text "image_urls"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["generation_id"], name: "index_ai_generations_on_generation_id", unique: true
+    t.index ["user_id"], name: "index_ai_generations_on_user_id"
   end
 
   create_table "elements", force: :cascade do |t|
@@ -90,6 +92,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_090120) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"
+    t.integer "user_id"
+    t.boolean "public", default: false
+    t.index ["user_id"], name: "index_papers_on_user_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -137,5 +142,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_090120) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_generations", "users"
+  add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
 end

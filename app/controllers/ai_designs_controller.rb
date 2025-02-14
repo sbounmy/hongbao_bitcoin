@@ -1,6 +1,4 @@
 class AiDesignsController < ApplicationController
-  allow_unauthenticated_access only: [ :generate ]
-
   def index
   end
 
@@ -16,7 +14,6 @@ class AiDesignsController < ApplicationController
       client = LeoAndRuby::Client.new(Rails.application.credentials.dig(:leonardo, :api_key))
 
       # Get parameters from the request
-      prompt = params[:prompt]
       occasion = params[:occasion]
       model_id = "2067ae52-33fd-4a82-bb92-c2c55e7d2786"
 
@@ -29,7 +26,8 @@ class AiDesignsController < ApplicationController
       generation = AiGeneration.create!(
         prompt: full_prompt,
         status: "pending",
-        generation_id: SecureRandom.uuid
+        generation_id: SecureRandom.uuid,
+        user: current_user
       )
 
       # Get theme elements
