@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/SalmaTalbi/LeoAndRuby
-  revision: 430b2c516b7e010c2ff2be32861ea7a88071bfdd
+  revision: 52b7c2ca65f5cf7e5e69697c099112f79b83d510
+  branch: additional_endpoints
   specs:
     leoandruby (0.4.3)
       rails (>= 6.0)
