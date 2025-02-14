@@ -31,13 +31,23 @@
         <div class="mx-auto space-y-32">
           <!-- Hero Section -->
           <div class="mt-24 space-y-8">
-            <h1 class="text-6xl font-bold text-white leading-tight">
-              <span class="text-orange-500">Bitcoin</span> as the <br/>most precious <span class="text-gold">gift</span>
-              <%# <span class="text-white">forever</span> %>
+            <h1 class="text-6xl font-bold text-white leading-none tracking-tight">
+              Make every
+              <div class="inline-block">
+                <span class="text-[#F7931A]">Bitcoin</span>
+              </div>
+              <br/>
+              <div class="mt-2">
+                the most unique
+                <span class="text-[#F04747] relative">
+                  gift
+                  <span class="absolute -bottom-2 left-0 w-full h-1 bg-[#F04747]/30 rounded-full"></span>
+                </span>
+              </div>
             </h1>
-            <p class="text-xl text-white/90 leading-relaxed max-w-lg">
-              HongBao Bitcoin is an <%= link_to "open source", github_url, target: "_blank", class: "underline" %> tool using your web browser to generate BTC Paper Wallet.<br/>
-              Choose the design of your liking, print it out, and top up by credit card, bank transfer, or wallet.
+            <p class="text-xl text-white/90 leading-relaxed max-w-xl mt-8">
+              Customize Bitcoin paper wallets with your face and design.<br/>
+              Design your envelope, print it out, and add funds easily.
             </p>
             <div class="flex gap-4 pt-4">
               <%= link_to "Get started", "#form-section",
