@@ -17,7 +17,9 @@ servers:
 # Set ssl: false if using something like Cloudflare to terminate SSL (but keep host!).
 proxy:
   ssl: true
-  host: hongbaob.tc
+  hosts:
+    - hongbaob.tc
+    - www.hongbaob.tc
 
 # Credentials for your image host.
 registry:
