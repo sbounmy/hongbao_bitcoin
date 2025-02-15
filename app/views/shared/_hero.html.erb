@@ -32,7 +32,8 @@
             Design your envelope, print it out, and add funds easily.
         </p>
         <div class="flex gap-4 pt-4">
-            <%= link_to "Get started", "#form-section",
+            <%= link_to "Get started", "#new-paper",
+                data: { controller: "scroll-to" },
                 class: "inline-flex items-center px-8 py-4 rounded-full
                         bg-[#F04747] text-white text-lg font-medium
                         hover:bg-[#FFB636] transform hover:scale-105
