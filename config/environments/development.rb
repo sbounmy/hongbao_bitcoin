@@ -79,11 +79,11 @@ Rails.application.configure do
     # config.generators.apply_rubocop_autocorrect_after_generate!
 
     # Configure asset host to use ngrok URL when accessed through ngrok
-    if ENV["NGROK_HOST"].present?
-      config.action_controller.asset_host = "https://#{ENV['NGROK_HOST']}"
-    else
+    # if ENV["NGROK_HOST"].present?
+    #   config.action_controller.asset_host = "https://#{ENV['NGROK_HOST']}"
+    # else
     config.action_controller.asset_host = "http://localhost:3000"
-    end
+  # end
 
   # Use Letter Opener for emails in development
   config.action_mailer.delivery_method = :letter_opener
@@ -93,8 +93,8 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost:3000" }
 
   # Allow ngrok hosts for development
-  config.hosts << ".ngrok-free.app"
-  config.hosts << "sweet-ewe-first.ngrok-free.app"
+  # config.hosts << ".ngrok-free.app"
+  # config.hosts << "sweet-ewe-first.ngrok-free.app"
 
   config.web_console.whitelisted_ips = "0.0.0.0/0"
 end
