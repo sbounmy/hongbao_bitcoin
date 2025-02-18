@@ -21,7 +21,7 @@ class AiDesignsController < ApplicationController
         return render json: { success: false, error: "Occasion is required" }, status: :unprocessable_entity
       end
 
-      full_prompt = "A bitcoin bill with public address and private key"
+      full_prompt = "Blue"
       Rails.logger.info "Full prompt: #{full_prompt}"
       generation = AiGeneration.create!(
         prompt: full_prompt,

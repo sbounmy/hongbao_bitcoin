@@ -17,10 +17,13 @@ class HongBaosController < ApplicationController
 
   def new
     @hong_bao = HongBao.new(paper_id: params[:paper_id])
-    @papers = Paper.active
+    @papers = Paper.active.where(public: true)
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
     @steps = [ "Design", "Print", "Top up" ]
+
+    # Only fetch user's papers if they're logged in
+    @papers_by_user = current_user ? Paper.where(user: current_user) : Paper.none
   end
 
   def show

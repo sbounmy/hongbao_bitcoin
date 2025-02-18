@@ -70,9 +70,9 @@
 
     <!-- Generated Designs Display -->
     <div data-ai-design-target="results" class="mt-4">
-        <%= render "hong_baos/new/steps/design/generated_images",
-                  image_urls: @ai_generation&.image_urls,
-                  generation: @ai_generation %>
-      </div>
+      <%= render "hong_baos/new/steps/design/generated_designs",
+                paper: @ai_generation&.paper,
+                papers_by_user: papers_by_user %>
+    </div>
   </div>
 </div>

@@ -31,44 +31,13 @@
           <div class="flex flex-col gap-4 max-w-xl mx-auto h-[480px] overflow-y-auto">
             <% papers.each do |paper| %>
               <% cache paper do %>
-                <div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
-                     data-paper-id=<%= paper.id %>
-                     data-action="click->hong-bao#paperSelected"
-                     data-hong-bao-target="paper"
-                     data-paper-image-front-url="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
-                     data-paper-image-back-url="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>"
-                     data-paper-elements="<%= paper.elements.to_json %>"
-                     data-paper-canva-front-url=""
-                     data-paper-canva-back-url="">
-
-                  <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]"
-                       data-hong-bao-target="flipCardInner">
-
-                    <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
-                      <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
-                      <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
-                          <%= paper.name %>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                      <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
-                      <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
-                          <%= paper.name %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <%= render "hong_baos/new/steps/design/paper", paper: paper %>
               <% end %>
             <% end %>
           </div>
         </div>
 
-        <%= render "hong_baos/new/steps/design/ai_design" %>
+        <%= render "hong_baos/new/steps/design/ai_design", papers_by_user: papers_by_user %>
 
       </div>
     </div>

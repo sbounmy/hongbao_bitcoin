@@ -1,5 +1,5 @@
 class Paper < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   has_one_attached :image_front
   has_one_attached :image_back
   has_many :hong_baos, dependent: :nullify
@@ -10,7 +10,6 @@ class Paper < ApplicationRecord
   validates :image_front, presence: true
   validates :image_back, presence: true
   validates :style, presence: true
-  validates :user, presence: true
 
   enum :style, {
     classic: 0,
