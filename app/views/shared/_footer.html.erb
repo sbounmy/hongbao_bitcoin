@@ -1,14 +1,14 @@
-<footer class="flex flex-col items-center gap-4 mt-4">
+<footer class="flex flex-col items-center gap-4 p-8 bg-black">
   <%# Main Message %>
-  <div class="text-[#F04747]/80 text-sm">
+  <div class="text-white/80 text-sm">
     <p>Made with ❤️ by the Bitcoin community</p>
-    <a href="#" class="underline hover:text-[#F04747] transition-colors duration-300">About</a>
+    <a href="#" class="underline hover:text-[#FFB636] transition-colors duration-300">About</a>
   </div>
 
   <%# Links Section %>
-  <div class="flex items-center gap-4 text-gray-600">
+  <div class="flex items-center gap-4 text-white/60">
     <%= link_to github_url,
-        class: "hover:text-[#F04747] transition-colors",
+        class: "hover:text-[#FFB636] transition-colors",
         target: "_blank",
         rel: "noopener" do %>
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -17,7 +17,7 @@
     <% end %>
 
     <%= link_to "https://plausible.io/hongbaob.tc",
-        class: "hover:text-[#F04747] transition-colors",
+        class: "hover:text-[#FFB636] transition-colors",
         target: "_blank",
         rel: "noopener" do %>
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -27,9 +27,9 @@
   </div>
 
   <%# Commit Info %>
-  <div class="text-xs text-gray-500">
+  <div class="text-xs text-white/60">
     <%= link_to "#{github_url}/commit/#{GitInfo.commit_hash}",
-        class: "hover:text-[#F04747] transition-colors",
+        class: "hover:text-[#FFB636] transition-colors",
         target: "_blank",
         rel: "noopener" do %>
       <%= GitInfo.commit_hash %> - <%= time_ago_in_words(Time.parse(GitInfo.commit_time)) %> ago

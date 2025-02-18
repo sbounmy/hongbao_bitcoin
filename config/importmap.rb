@@ -95,5 +95,7 @@ pin "#lib/internal/streams/from.js", to: "https://ga.jspm.io/npm:readable-stream
 pin "util-deprecate", to: "https://ga.jspm.io/npm:util-deprecate@1.0.2/browser.js"
 pin "stream", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/stream.js"
 
+pin "@stimulus-components/scroll-to", to: "@stimulus-components--scroll-to.js" # @5.0.1
+
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"

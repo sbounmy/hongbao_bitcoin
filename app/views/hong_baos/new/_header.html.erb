@@ -1,12 +1,11 @@
-<div class="flex items-center justify-between mb-8">
+<div class="flex items-center justify-between">
   <div class="flex items-center gap-8">
     <%= image_tag "hongbao-bitcoin-logo-520.png",
         class: "w-20 h-20 rounded-full border-4 border-[#FFB636] shadow-lg transform hover:scale-105 transition-transform duration-300",
         alt: "Bitcoin Hong Bao Logo" %>
     <div class="text-left">
-      <h1 class="text-3xl font-bold text-[#FFB636] mb-1">Hong₿ao Bitcoin</h1>
+      <h1 class="text-3xl font-bold text-[#FFB636] mb-1">Hong₿ao<br/>Bitcoin</h1>
       <p class="text-white/90 text-lg">
-        Gift Bitcoin printed on a Paper
         <% if testnet? %>
           <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
             Testnet
@@ -20,11 +19,6 @@
       target: "_blank",
       rel: "noopener",
       class: "w-16 h-16 flex items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
-    <div class="relative w-10 h-10">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    </div>
+    <%= heroicon "viewfinder-circle", class: "w-10 h-10 text-amber-600" %>
   <% end %>
 </div>

@@ -33,8 +33,9 @@ export default class extends Controller {
   }
 
   #updateVisibility() {
-    this.contentTargets.forEach((step, index) => {
-      step.classList.toggle('hidden', index + 1 !== this.currentValue)
+    this.contentTargets.forEach(element => {
+      const stepIndex = parseInt(element.dataset.stepsIndex)
+      element.classList.toggle(this.hiddenClass, stepIndex !== this.currentValue)
     })
   }
 

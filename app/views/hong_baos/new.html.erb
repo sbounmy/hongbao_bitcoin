@@ -1,25 +1,64 @@
-<%= turbo_frame_tag "qr_scanner" %>
+<div class="min-h-screen lg:flex">
 
-<div class="min-h-screen bg-[#FFE5E5] flex flex-col gap-10 items-center justify-center p-4">
-  <div class="w-full max-w-xl bg-[#F04747] p-8
-              border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-              rounded-2xl shadow-2xl relative">
+  <!-- Bitcoin logo center -->
+  <div class="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+    <div class="w-24 h-24 rounded-full bg-[#F7931A] flex items-center justify-center">
+      <span class="text-6xl ml-1 font-bold rotate-12 text-white">₿</span>
+    </div>
+  </div>
 
-    <%= render "hong_baos/new/header" %>
-    <%= form_with(model: @hong_bao,
-                  url: new_hong_bao_path,
-                  class: "space-y-6",
-                  data: {
-                    controller: "hong-bao steps bitcoin",
-                    steps_hidden_class: "hidden",
-                    steps_current_value: @current_step,
-                    hong_bao_current_paper_value: @hong_bao.paper_id,
-                    bitcoin_auto_generate_value: true,
-                    bitcoin_network_value: Current.network
-                  }) do |form| %>
+  <div class="lg:w-1/2 lg:h-screen lg:overflow-y-auto relative">
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 h-0">
+      <div class="absolute top-0 inset-x-0 z-50 p-4 bg-gradient-to-b from-black to-transparent">
+        <%= render "hong_baos/new/header" %>
+      </div>
+    </div>
 
-      <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
-      <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
+    <%= render "shared/hero" %>
+
+    <%= render "shared/instagram_feed", posts: @instagram_posts %>
+
+    <%= render "shared/security" %>
+
+    <%= render "shared/about" %>
+
+    <%= render "shared/faq" %>
+
+    <%= render "shared/donate" %>
+
+    <%= render "shared/footer" %>
+
+  </div>
+
+  <!-- Right Column - Fixed Form -->
+  <div class="lg:w-1/2 lg:h-screen relative">
+    <div class="h-full flex items-center justify-center p-8 bg-[#F04747]">
+      <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
+                  rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+                  flex flex-col">
+        <%= turbo_frame_tag "qr_scanner" %>
+
+        <%= form_with(model: @hong_bao,
+                      url: new_hong_bao_path,
+                      id: "new-paper",
+                      class: "flex flex-col h-full",
+                      data: {
+                        controller: "hong-bao steps bitcoin",
+                        steps_hidden_class: "hidden",
+                        steps_current_value: @current_step,
+                        hong_bao_current_paper_value: @hong_bao.paper_id,
+                        bitcoin_auto_generate_value: true,
+                        bitcoin_network_value: Current.network
+                      }) do |form| %>
+
+          <!-- Sticky Progress Steps -->
+          <div class="sticky top-0 rounded-t-3xl z-30 bg-[#F04747] border-b border-[#FFB636]/20">
+            <div class="p-8">
+              <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
+              <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
+            </div>
+          </div>
 
       <%= render "hong_baos/new/steps/design",
           form: form,
@@ -27,22 +66,34 @@
           hong_bao: @hong_bao,
           papers_by_user: @papers_by_user %>
 
-      <%= render "hong_baos/new/steps/print",
-          form: form,
-          hong_bao: @hong_bao,
-          papers: @papers,
-          selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
+          <%= render "hong_baos/new/steps/print",
+              form: form,
+              hong_bao: @hong_bao,
+              papers: @papers,
+              selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
 
-      <%= render "hong_baos/new/steps/top_up",
-          form: form,
-          payment_methods: @payment_methods,
-          hong_bao: @hong_bao %>
-
-    <% end %>
+          <%= render "hong_baos/new/steps/top_up",
+              form: form,
+              payment_methods: @payment_methods,
+              hong_bao: @hong_bao %>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <%= render "shared/faq" %>
-  <%= render "shared/about" %>
-  <%= render "shared/donate" %>
-  <%= render "shared/footer" %>
 </div>
+
+<!-- Add this right after opening body tag or at the start of your main container -->
+<%= link_to github_url, class: "github-corner fixed top-0 right-0 z-50", target: "_blank", aria: { label: "View source on GitHub" } do %>
+  <svg width="80"
+       height="80"
+       viewBox="0 0 250 250"
+       class="absolute top-0 right-0 border-0 text-white fill-[#151513]"
+       aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+          class="fill-current origin-[130px_106px] group-hover:animate-wave"
+          style="transform-origin: 130px 106px;"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+          class="fill-current"></path>
+  </svg>
+<% end%>

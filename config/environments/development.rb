@@ -38,7 +38,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3002 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -65,10 +65,10 @@ Rails.application.configure do
   config.action_cable.disable_request_forgery_protection = true
 
   # Use async adapter for development
-  config.action_cable.url = "ws://localhost:3000/cable"
+  config.action_cable.url = "ws://localhost:3002/cable"
   config.action_cable.allowed_request_origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://localhost:3002",
+    "http://127.0.0.1:3002",
     /https?:\/\/localhost:*/
   ]
 
@@ -82,7 +82,7 @@ Rails.application.configure do
     # if ENV["NGROK_HOST"].present?
     #   config.action_controller.asset_host = "https://#{ENV['NGROK_HOST']}"
     # else
-    config.action_controller.asset_host = "http://localhost:3000"
+    config.action_controller.asset_host = "http://localhost:3002"
   # end
 
   # Use Letter Opener for emails in development
@@ -90,7 +90,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
 
   # Optional: mount the Letter Opener web interface
-  config.action_mailer.default_url_options = { host: "localhost:3000" }
+  config.action_mailer.default_url_options = { host: "localhost:3002" }
 
   # Allow ngrok hosts for development
   # config.hosts << ".ngrok-free.app"

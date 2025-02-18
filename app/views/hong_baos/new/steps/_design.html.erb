@@ -1,8 +1,95 @@
+<div class="flex flex-col h-full max-h-full overflow-y-auto pb-16" data-steps-target="content" data-steps-index="1">
+  <!-- Scrollable Content Area -->
+  <div class="flex-1">
+    <div class="p-8">
+      <div class="flex flex-col">
+        <div class="mb-8">
+          <div data-hong-bao-target="walletInfo" class="space-y-3">
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
+                <button type="button"
+                        data-action="bitcoin#generate"
+                        class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                </button>
+              </div>
+              <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Recovery phrase copied!">
+                <textarea readonly
+                          rows="3"
+                          class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none"
+                          data-clipboard-target="source"
+                          data-controller="binding"
+                          data-binding-name-value="mnemonic"
+                          data-action="bitcoin:changed@window->binding#value"></textarea>
+                <button data-action="clipboard#copy"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                  </svg>
+                </button>
+              </div>
+            </div>
 <div data-steps-target="content">
 
   <div class="mb-8">
     <div data-hong-bao-target="walletInfo" class="space-y-3">
-      <div data-controller="tabs"
+
+
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="space-y-1">
+                <span class="text-[#FFB636]">Private Key</span>
+                <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
+                  <input type="text"
+                         readonly
+                         class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
+                         data-clipboard-target="source"
+                         data-controller="binding"
+                         data-binding-name-value="privateKey"
+                         data-action="bitcoin:changed@window->binding#value"></input>
+                  <button data-action="clipboard#copy"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="space-y-1">
+                <span class="text-[#FFB636]">Bitcoin Address</span>
+                <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
+                  <input type="text"
+                         readonly
+                         class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
+                         data-clipboard-target="source"
+                         data-controller="binding"
+                         data-binding-name-value="address"
+                         data-action="bitcoin:changed@window->binding#value"></input>
+                  <button data-action="clipboard#copy"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+          <div data-controller="tabs"
            data-tabs-active-class="bg-[#FFB636] text-[#F04747]"
            data-tabs-default-tab-value="templates">
 
@@ -40,40 +127,16 @@
         <%= render "hong_baos/new/steps/design/ai_design", papers_by_user: papers_by_user %>
 
       </div>
-    </div>
   </div>
 
-  <div class="flex items-center space-x-4 mt-8">
-    <div class="flex-1">
+  <!-- Fixed Footer instead of Sticky -->
+  <div class="fixed bottom-0 left-0 right-0 mt-auto flex-none bg-[#F04747] border-t border-[#FFB636]/20 p-4 rounded-b-3xl">
       <%= render "hong_baos/new/next_button",
                 html_options: {
                   disabled: @hong_bao.paper_id.blank?,
                   data_action: "hong-bao:select@window->disabled#remove"
                 } %>
-    </div>
   </div>
-  <div class="mt-8 pt-8 border-t-2 border-[#FFB636]/30">
-    <div class="text-center space-y-4">
-      <h3 class="text-xl font-bold text-[#FFB636]">Already have a Hong Bao?</h3>
-      <%= link_to hong_baos_path,
-          target: "_blank",
-          rel: "noopener",
-          class: "w-full inline-flex items-center justify-center gap-2 px-6 py-3.5
-                 bg-transparent hover:bg-amber-100/10 text-amber-100
-                 rounded-xl border-2 border-amber-100/50
-                 shadow-lg transform hover:scale-102 transition-all duration-200
-                 text-base font-medium group" do %>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             class="h-5 w-5 group-hover:scale-110 transition-transform duration-200"
-             fill="none"
-             viewBox="0 0 24 24"
-             stroke="currentColor"
-             stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        Scan your Hong Bao here
-      <% end %>
-    </div>
-  </div>
+
 </div>
+
