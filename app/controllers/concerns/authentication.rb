@@ -13,8 +13,9 @@ module Authentication
   end
 
   private
+
     def current_user
-      Current.session&.user
+      resume_session&.user
     end
 
     def authenticated?

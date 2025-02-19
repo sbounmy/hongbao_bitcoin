@@ -78,22 +78,25 @@
         <div data-controller="tabs"
              data-tabs-active-class="bg-[#FFB636] text-[#F04747]"
              data-tabs-default-tab-value="templates">
-          <div class="flex gap-2 mb-6">
-            <button type="button"
-                    data-tabs-target="btn"
-                    data-tab-id="templates"
-                    data-action="tabs#select"
-                    class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
-              Templates
-            </button>
-            <button type="button"
-                    data-tabs-target="btn"
-                    data-tab-id="ai-design"
-                    data-action="tabs#select"
-                    class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
-              AI Design
-            </button>
-          </div>
+
+          <% if current_user %>
+            <div class="flex gap-2 mb-6">
+              <button type="button"
+                      data-tabs-target="btn"
+                      data-tab-id="templates"
+                      data-action="tabs#select"
+                      class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                Templates
+              </button>
+              <button type="button"
+                      data-tabs-target="btn"
+                      data-tab-id="ai-design"
+                      data-action="tabs#select"
+                      class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                AI Design
+              </button>
+            </div>
+          <% end %>
 
           <div data-tabs-target="tab"
                data-tab-id="templates"
