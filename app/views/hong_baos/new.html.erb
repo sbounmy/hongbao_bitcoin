@@ -60,22 +60,22 @@
             </div>
           </div>
 
-      <%= render "hong_baos/new/steps/design",
-          form: form,
-          papers: @papers,
-          hong_bao: @hong_bao,
-          papers_by_user: @papers_by_user %>
+        <%= render "hong_baos/new/steps/design",
+            form: form,
+            papers: @papers,
+            hong_bao: @hong_bao,
+            papers_by_user: @papers_by_user %>
 
-          <%= render "hong_baos/new/steps/print",
-              form: form,
-              hong_bao: @hong_bao,
-              papers: @papers,
-              selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
+        <%= render "hong_baos/new/steps/print",
+            form: form,
+            hong_bao: @hong_bao,
+            papers: @papers,
+            selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
 
-          <%= render "hong_baos/new/steps/top_up",
-              form: form,
-              payment_methods: @payment_methods,
-              hong_bao: @hong_bao %>
+        <%= render "hong_baos/new/steps/top_up",
+            form: form,
+            payment_methods: @payment_methods,
+            hong_bao: @hong_bao %>
         <% end %>
       </div>
     </div>
