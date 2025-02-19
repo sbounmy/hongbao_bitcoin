@@ -17,14 +17,14 @@ class HongBaosController < ApplicationController
 
   def new
     @hong_bao = HongBao.new(paper_id: params[:paper_id])
-    @papers = Paper.active.public
+    @papers = Paper.active.template
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
 
     # Only fetch user's papers if they're logged in
     @papers_by_user = current_user ? Paper.where(user: current_user) : Paper.none
     @steps = Step.for_new
-    @instagram_posts = cache("instagram_posts", expires_in: 1.hour) { InstagramService.new.fetch_media }
+    @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { InstagramService.new.fetch_media }
   end
 
   def show

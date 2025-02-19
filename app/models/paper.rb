@@ -18,7 +18,7 @@ class Paper < ApplicationRecord
   }
 
   scope :active, -> { where(active: true).order(position: :asc) }
-  scope :public, -> { where(public: true) }
+  scope :template, -> { where(public: true) }
 
   ELEMENTS = %w[
     qrcode_private_key
