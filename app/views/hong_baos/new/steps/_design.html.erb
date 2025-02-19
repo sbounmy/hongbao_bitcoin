@@ -98,7 +98,7 @@
           <div data-tabs-target="tab"
                data-tab-id="templates"
                class="relative">
-            <div class="flex flex-col gap-4 max-w-xl mx-auto h-[480px] overflow-y-auto">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
               <% papers.each do |paper| %>
                 <% cache paper do %>
                   <%= render "hong_baos/new/steps/design/paper", paper: paper %>
