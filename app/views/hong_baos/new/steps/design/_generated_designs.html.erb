@@ -4,6 +4,8 @@
   <div class="grid grid-cols-1 gap-4">
     <% if papers_by_user.present? %>
       <% papers_by_user.each do |paper| %>
+        <% Rails.logger.info "Paper: #{paper.inspect}" %>
+        <p><%= paper.inspect %></p>
         <% cache paper do %>
           <%= render "hong_baos/new/steps/design/paper", paper: paper %>
         <% end %>

@@ -23,7 +23,7 @@ class AiDesignsController < ApplicationController
 
       full_prompt = "Blue"
       Rails.logger.info "Full prompt: #{full_prompt}"
-      generation = AiGeneration.create!(
+      generation = Ai::Generation.create!(
         prompt: full_prompt,
         status: "pending",
         generation_id: SecureRandom.uuid,
@@ -57,21 +57,29 @@ class AiDesignsController < ApplicationController
           status: "processing"
         )
 
-        render json: {
-          success: true,
-          generation_id: generation.id,
-          generation: generation,
-          message: "Generation started"
-        }
+        respond_to do |format|
+          Turbo::StreamsChannel.broadcast_update_to(
+            "ai_generations",
+            target: "ai_generations",
+            partial: "hong_baos/new/steps/design/generated_designs",
+            locals: { papers_by_user: user.papers }
+          )
+          format.turbo_stream {
+            render turbo_stream: [
+              turbo_stream.update("ai_designs_results",
+                partial: "hong_baos/new/steps/design/generated_designs",
+                locals: { papers_by_user: current_user.papers }
+              )
+            ]
+          }
+        end
       else
-        Rails.logger.error "Leonardo API error: #{response}"
-        render json: { success: false, error: "Invalid API response" }, status: :unprocessable_entity
+        render json: { error: "Generation failed" }, status: :unprocessable_entity
       end
 
     rescue StandardError => e
-      Rails.logger.error "Leonardo generation error: #{e.message}\n#{e.backtrace.join("\n")}"
-      render json: { success: false, error: "An error occurred while generating the image" },
-             status: :internal_server_error
+      Rails.logger.error "Generation error: #{e.message}\n#{e.backtrace.join("\n")}"
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 
