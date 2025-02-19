@@ -2,7 +2,7 @@ class AiDesignsController < ApplicationController
   def index
   end
 
-  def generate
+  def create
     begin
       # Check if Leonardo API key is configured
       api_key = Rails.application.credentials.dig(:leonardo, :api_key)

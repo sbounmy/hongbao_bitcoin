@@ -69,9 +69,7 @@ Rails.application.routes.draw do
 
   get "instagram/feed", to: "instagram#feed"
 
-  post "/ai_designs/generate", to: "ai_designs#generate"
-
-  resources :ai_generations
+  resources :ai_designs, only: [ :create ]
 
   # Add elements routes
   resources :elements, only: [ :index ] do

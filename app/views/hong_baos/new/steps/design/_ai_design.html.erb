@@ -9,7 +9,7 @@
 
     <%= turbo_stream_from "ai_designs" %>
 
-    <%= form_with(url: ai_designs_generate_path, local: false) do |f| %>
+    <%= form_with(url: ai_designs_path, local: false) do |f| %>
       <!-- Reference Images Upload -->
       <div class="space-y-2">
         <label class="block text-white text-sm">Reference Images (Optional)</label>
