@@ -1,10 +1,6 @@
 ActiveAdmin.register Ai::Element do
   permit_params :element_id, :title, :weight, :status, :leonardo_created_at, :leonardo_updated_at
 
-  action_item :sync_elements, only: :index do
-    link_to "Sync Elements from Leonardo", sync_elements_admin_ai_elements_path, method: :post
-  end
-
   collection_action :sync_elements, method: :post do
     SyncLeonardoElementsJob.perform_later
     redirect_to admin_ai_elements_path, notice: "Element sync started. Please refresh in a few moments."

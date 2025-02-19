@@ -70,11 +70,4 @@ Rails.application.routes.draw do
   get "instagram/feed", to: "instagram#feed"
 
   resources :ai_designs, only: [ :create ]
-
-  # Add elements routes
-  resources :elements, only: [ :index ] do
-    collection do
-      get :get_elements_by_user_id
-    end
-  end
 end
