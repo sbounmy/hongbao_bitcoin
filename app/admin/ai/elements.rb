@@ -6,13 +6,8 @@ ActiveAdmin.register Ai::Element do
   end
 
   collection_action :sync_elements, method: :post do
-    result = ElementsController.new.get_elements_by_user_id
-
-    if result[:success]
-      redirect_to admin_ai_elements_path, notice: "Successfully synced #{result[:count]} elements from Leonardo"
-    else
-      redirect_to admin_ai_elements_path, alert: "Failed to sync elements: #{result[:error]}"
-    end
+    SyncLeonardoElementsJob.perform_later
+    redirect_to admin_ai_elements_path, notice: "Element sync started. Please refresh in a few moments."
   end
 
   index do
