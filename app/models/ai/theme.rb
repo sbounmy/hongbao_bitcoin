@@ -1,8 +1,6 @@
 module Ai
   class Theme < ApplicationRecord
-    self.table_name = "themes"
-
-    has_and_belongs_to_many :elements, class_name: "Ai::Element"
+    has_and_belongs_to_many :elements
 
     validates :title, presence: true
     validates :elements, presence: true

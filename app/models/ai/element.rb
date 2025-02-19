@@ -1,7 +1,5 @@
 module Ai
   class Element < ApplicationRecord
-    self.table_name = "elements"
-
     validates :element_id, presence: true, uniqueness: true
     validates :title, presence: true
     validates :weight, presence: true
