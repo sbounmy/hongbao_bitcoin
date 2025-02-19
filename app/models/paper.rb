@@ -25,6 +25,7 @@ class Paper < ApplicationRecord
     private_key
     qrcode_public_key
     public_key_address
+    mnemonic
     custom_text
   ].freeze
 

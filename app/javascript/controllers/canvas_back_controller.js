@@ -19,34 +19,37 @@ export default class extends CanvasBaseController {
   }
 
   drawBill() {
-    // this.drawTextMnemonic(this.mnemonicValue, 'mnemonic')
+    console.log("drawBill----", this.elementsValue['mnemonic'])
+    if (this.elementsValue['mnemonic']) {
+      this.drawTextMnemonic(this.mnemonicValue, 'mnemonic')
+    }
     this.drawQRCode()
   }
 
-  // drawTextMnemonic(text, element) {
-  //   const words = text.split(' ')
-  //   const elementParams = this.elementsValue[element]
-  //   const startX = this.canvasTarget.width * elementParams.x
-  //   const startY = this.canvasTarget.height * elementParams.y
+  drawTextMnemonic(text, element) {
+    const words = text.split(' ')
+    const elementParams = this.elementsValue[element]
+    const startX = this.canvasTarget.width * elementParams.x
+    const startY = this.canvasTarget.height * elementParams.y
 
-  //   const boxWidth = 100
-  //   const boxHeight = 30
-  //   const gapX = 5
-  //   const gapY = 2
-  //   const cols = 4
+    const boxWidth = 100
+    const boxHeight = 30
+    const gapX = 5
+    const gapY = 2
+    const cols = 4
 
-  //   words.forEach((word, index) => {
-  //     const col = index % cols
-  //     const row = Math.floor(index / cols)
+    words.forEach((word, index) => {
+      const col = index % cols
+      const row = Math.floor(index / cols)
 
-  //     const x = startX + (col * (boxWidth + gapX))
-  //     const y = startY + (row * (boxHeight + gapY))
+      const x = startX + (col * (boxWidth + gapX))
+      const y = startY + (row * (boxHeight + gapY))
 
-  //     this.ctx.fillStyle = elementParams.color
-  //     this.ctx.font = `${elementParams.size}px Arial`
-  //     this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
-  //   })
-  // }
+      this.ctx.fillStyle = elementParams.color
+      this.ctx.font = `${elementParams.size}px Arial`
+      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
+    })
+  }
 
   drawQRCode() {
     const qrImage = new Image()
