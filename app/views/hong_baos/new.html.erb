@@ -39,18 +39,13 @@
                   flex flex-col">
         <%= turbo_frame_tag "qr_scanner" %>
 
-        <%= form_with(model: @hong_bao,
-                      url: new_hong_bao_path,
-                      id: "new-paper",
-                      class: "flex flex-col h-full",
-                      data: {
-                        controller: "hong-bao steps bitcoin",
-                        steps_hidden_class: "hidden",
-                        steps_current_value: @current_step,
-                        hong_bao_current_paper_value: @hong_bao.paper_id,
-                        bitcoin_auto_generate_value: true,
-                        bitcoin_network_value: Current.network
-                      }) do |form| %>
+        <div class="flex flex-col h-full"
+             data-controller="hong-bao steps bitcoin"
+             data-steps-hidden-class="hidden"
+             data-steps-current-value="<%= @current_step %>"
+             data-hong-bao-current-paper-value="<%= @hong_bao.paper_id %>"
+             data-bitcoin-auto-generate-value="true"
+             data-bitcoin-network-value="<%= Current.network %>">
 
           <!-- Sticky Progress Steps -->
           <div class="sticky top-0 rounded-t-3xl z-30 bg-[#F04747] border-b border-[#FFB636]/20">
@@ -60,23 +55,20 @@
             </div>
           </div>
 
-        <%= render "hong_baos/new/steps/design",
-            form: form,
-            papers: @papers,
-            hong_bao: @hong_bao,
-            papers_by_user: @papers_by_user %>
+          <%= render "hong_baos/new/steps/design",
+              papers: @papers,
+              hong_bao: @hong_bao,
+              papers_by_user: @papers_by_user %>
 
-        <%= render "hong_baos/new/steps/print",
-            form: form,
-            hong_bao: @hong_bao,
-            papers: @papers,
-            selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
+          <%= render "hong_baos/new/steps/print",
+              hong_bao: @hong_bao,
+              papers: @papers,
+              selected_paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
 
-        <%= render "hong_baos/new/steps/top_up",
-            form: form,
-            payment_methods: @payment_methods,
-            hong_bao: @hong_bao %>
-        <% end %>
+          <%= render "hong_baos/new/steps/top_up",
+              payment_methods: @payment_methods,
+              hong_bao: @hong_bao %>
+        </div>
       </div>
     </div>
   </div>

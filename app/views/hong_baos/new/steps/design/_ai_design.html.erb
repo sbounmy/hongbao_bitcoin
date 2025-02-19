@@ -1,74 +1,51 @@
 <div data-tabs-target="tab"
      data-tab-id="ai-design"
-     data-controller="ai-design"
      class="hidden">
   <div class="space-y-6">
     <!-- Credits Display -->
     <div class="text-sm text-[#FFB636]">
       AI Design (10 credits)
     </div>
-    <!-- Reference Images Upload -->
-    <div class="space-y-2">
-      <label class="block text-white text-sm">Reference Images (Optional)</label>
-      <div class="border-2 border-dashed border-white/20 rounded-lg p-8 text-center bg-white/10">
-        <div class="flex flex-col items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span class="text-sm text-white">Upload an image</span>
-          <input type="file"
-                 accept="image/*"
-                 class="hidden"
-                 data-ai-design-target="fileInput"
-                 data-action="change->ai-design#handleFileUpload">
-          <button type="button"
-                  data-action="click->ai-design#triggerFileInput"
-                  class="text-sm px-4 py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-colors">
-            Choose Files
-          </button>
+
+    <%= turbo_stream_from "ai_designs" %>
+
+    <%= form_with(url: ai_designs_generate_path, local: false) do |f| %>
+      <!-- Reference Images Upload -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Reference Images (Optional)</label>
+        <%= f.file_field :image,
+                        accept: "image/*",
+                        class: "text-white" %>
+      </div>
+
+      <!-- Custom Text Input -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Custom Text</label>
+        <%= f.text_field :prompt,
+                        class: "w-full bg-white rounded-lg p-3 text-black placeholder-gray-500",
+                        placeholder: "Enter text to appear on the design..." %>
+      </div>
+
+      <!-- Occasion Dropdown -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Occasion</label>
+        <div class="relative">
+          <%= f.select :occasion,
+                      options_from_collection_for_select(Ai::Theme.all, :title, :title),
+                      { prompt: "Select occasion" },
+                      class: "w-full bg-white rounded-lg p-3 text-black appearance-none cursor-pointer" %>
         </div>
       </div>
-      <!-- Preview of uploaded images -->
-      <div data-ai-design-target="imagePreview"
-           class="grid grid-cols-1 gap-2">
-      </div>
-    </div>
 
-    <!-- Custom Text Input -->
-    <div class="space-y-2">
-      <label class="block text-white text-sm">Custom Text</label>
-      <input type="text"
-             class="w-full bg-white rounded-lg p-3 text-black placeholder-gray-500"
-             placeholder="Enter text to appear on the design..."
-             data-ai-design-target="customText">
-    </div>
-
-    <!-- Occasion Dropdown -->
-    <div class="space-y-2">
-      <label class="block text-white text-sm">Occasion</label>
-      <div class="relative">
-        <select class="w-full bg-white rounded-lg p-3 text-black appearance-none cursor-pointer"
-                data-ai-design-target="occasion">
-          <option value="" disabled selected>Select occasion</option>
-          <% Ai::Theme.all.each do |theme| %>
-            <option value="<%= theme.title.downcase %>"><%= theme.title %></option>
-          <% end %>
-        </select>
-      </div>
-    </div>
-
-    <!-- Generate Button -->
-    <button type="button"
-            data-action="ai-design#generate"
-            data-ai-design-target="generateButton"
-            class="w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
-                   font-medium hover:bg-[#FFD699]/90 transition-colors">
-      <span data-ai-design-target="buttonText">Generate Designs (3 credits)</span>
-      <span data-ai-design-target="loadingText" class="hidden">Generating...</span>
-    </button>
+      <!-- Generate Button -->
+      <%= f.submit "Generate Designs (3 credits)",
+                  class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
+                          font-medium hover:bg-[#FFD699]/90 transition-colors",
+                  data: { disable_with: "Generating..." } %>
+    <% end %>
 
     <!-- Generated Designs Display -->
-    <div data-ai-design-target="results" class="mt-4">
+    <div id="ai_designs_results" class="mt-4">
       <%= render "hong_baos/new/steps/design/generated_designs",
                 paper: @ai_generation&.paper,
                 papers_by_user: papers_by_user %>

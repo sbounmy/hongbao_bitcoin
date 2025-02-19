@@ -40,6 +40,13 @@ class Paper < ApplicationRecord
     [ "active", "created_at", "id", "name", "updated_at", "public", "user_id" ]
   end
 
+  after_create_commit -> {
+    broadcast_update_to "ai_designs",
+                       target: "ai_designs_results",
+                       partial: "hong_baos/new/steps/design/generated_designs",
+                       locals: { paper: self, papers_by_user: user.papers }
+  }
+
   private
 
   def set_default_elements
