@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_113757) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_094503) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -53,6 +53,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_113757) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "ai_elements", force: :cascade do |t|
+    t.string "element_id"
+    t.string "title"
+    t.string "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.datetime "leonardo_created_at"
+    t.datetime "leonardo_updated_at"
+    t.index ["element_id"], name: "index_ai_elements_on_element_id", unique: true
+  end
+
+  create_table "ai_elements_themes", id: false, force: :cascade do |t|
+    t.integer "theme_id", null: false
+    t.integer "element_id", null: false
+    t.index ["element_id", "theme_id"], name: "index_ai_elements_themes_on_element_id_and_theme_id"
+    t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
+  end
+
   create_table "ai_generations", force: :cascade do |t|
     t.string "prompt", null: false
     t.string "generation_id", null: false
@@ -65,23 +84,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_113757) do
     t.index ["user_id"], name: "index_ai_generations_on_user_id"
   end
 
-  create_table "elements", force: :cascade do |t|
-    t.string "element_id"
-    t.string "title"
-    t.string "weight"
+  create_table "ai_themes", force: :cascade do |t|
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
-    t.datetime "leonardo_created_at"
-    t.datetime "leonardo_updated_at"
-    t.index ["element_id"], name: "index_elements_on_element_id", unique: true
-  end
-
-  create_table "elements_themes", id: false, force: :cascade do |t|
-    t.integer "theme_id", null: false
-    t.integer "element_id", null: false
-    t.index ["element_id", "theme_id"], name: "index_elements_themes_on_element_id_and_theme_id"
-    t.index ["theme_id", "element_id"], name: "index_elements_themes_on_theme_id_and_element_id"
   end
 
   create_table "papers", force: :cascade do |t|
@@ -114,12 +120,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_113757) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
-  end
-
-  create_table "themes", force: :cascade do |t|
-    t.string "title", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "transaction_fees", force: :cascade do |t|
