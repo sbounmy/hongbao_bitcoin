@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_094503) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -53,6 +53,43 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "ai_elements", force: :cascade do |t|
+    t.string "element_id"
+    t.string "title"
+    t.string "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.datetime "leonardo_created_at"
+    t.datetime "leonardo_updated_at"
+    t.index ["element_id"], name: "index_ai_elements_on_element_id", unique: true
+  end
+
+  create_table "ai_elements_themes", id: false, force: :cascade do |t|
+    t.integer "theme_id", null: false
+    t.integer "element_id", null: false
+    t.index ["element_id", "theme_id"], name: "index_ai_elements_themes_on_element_id_and_theme_id"
+    t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
+  end
+
+  create_table "ai_generations", force: :cascade do |t|
+    t.string "prompt", null: false
+    t.string "generation_id", null: false
+    t.string "status", null: false
+    t.text "image_urls"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["generation_id"], name: "index_ai_generations_on_generation_id", unique: true
+    t.index ["user_id"], name: "index_ai_generations_on_user_id"
+  end
+
+  create_table "ai_themes", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.integer "style", default: 0
@@ -61,6 +98,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"
+    t.integer "user_id"
+    t.boolean "public", default: false
+    t.index ["user_id"], name: "index_papers_on_user_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -102,5 +142,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_152512) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_generations", "users"
+  add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
 end

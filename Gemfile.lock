@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/SalmaTalbi/LeoAndRuby
+  revision: 52b7c2ca65f5cf7e5e69697c099112f79b83d510
+  branch: additional_endpoints
+  specs:
+    leoandruby (0.4.3)
+      rails (>= 6.0)
+
+GIT
   remote: https://github.com/sbounmy/bitcoin-ruby.git
   revision: 4b20d628f7b201610d3e90c28ba081b384e95867
   branch: bip39-mnemonic
@@ -479,6 +487,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal (>= 2.0.0.rc2)
+  leoandruby!
   letter_opener
   letter_opener_web
   propshaft

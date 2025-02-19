@@ -1,0 +1,54 @@
+<div data-tabs-target="tab"
+     data-tab-id="ai-design"
+     class="hidden">
+  <div class="space-y-6">
+    <!-- Credits Display -->
+    <div class="text-sm text-[#FFB636]">
+      AI Design (10 credits)
+    </div>
+
+    <%= turbo_stream_from "ai_designs" %>
+
+    <%= form_with(url: ai_designs_path, local: false) do |f| %>
+      <!-- Reference Images Upload -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Reference Images (Optional)</label>
+        <%= f.file_field :image,
+                        accept: "image/*",
+                        class: "text-white" %>
+      </div>
+
+      <!-- Custom Text Input -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Custom Text</label>
+        <%= f.text_field :prompt,
+                        class: "w-full bg-white rounded-lg p-3 text-black placeholder-gray-500",
+                        placeholder: "Enter text to appear on the design..." %>
+      </div>
+
+      <!-- Occasion Dropdown -->
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Occasion</label>
+        <div class="relative">
+          <%= f.select :occasion,
+                      options_from_collection_for_select(Ai::Theme.all, :title, :title),
+                      { prompt: "Select occasion" },
+                      class: "w-full bg-white rounded-lg p-3 text-black appearance-none cursor-pointer" %>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <%= f.submit "Generate Designs (3 credits)",
+                  class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
+                          font-medium hover:bg-[#FFD699]/90 transition-colors",
+                  data: { disable_with: "Generating..." } %>
+    <% end %>
+
+    <!-- Generated Designs Display -->
+    <div id="ai_designs_results" class="mt-4">
+      <%= render "hong_baos/new/steps/design/generated_designs",
+                paper: @ai_generation&.paper,
+                papers_by_user: papers_by_user %>
+    </div>
+  </div>
+</div>

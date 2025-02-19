@@ -1,5 +1,5 @@
 ActiveAdmin.register Paper do
-  permit_params :name, :year, :style, :active, :position,
+  permit_params :name, :year, :style, :active, :position, :public, :user_id,
                 :image_front, :image_back,
                 elements: Paper::ELEMENTS.map { |e| [ e.to_sym, Paper::ELEMENT_ATTRIBUTES ] }.to_h
 
@@ -9,6 +9,8 @@ ActiveAdmin.register Paper do
 
   filter :name
   filter :active
+  filter :public
+  filter :user
   filter :created_at
 
   index do
@@ -17,6 +19,10 @@ ActiveAdmin.register Paper do
     column :name
     column :style
     column :active
+    column :public
+    column :user do |paper|
+      paper.user.email_address if paper.user
+    end
     column :position
     column :image_front do |paper|
       if paper.image_front.attached?
@@ -36,6 +42,10 @@ ActiveAdmin.register Paper do
       row :name
       row :style
       row :active
+      row :public
+      row :user do |paper|
+        paper.user.email_address if paper.user
+      end
       row :position
       row :image_front do |paper|
         if paper.image_front.attached?
@@ -66,6 +76,8 @@ ActiveAdmin.register Paper do
       f.input :name
       f.input :style
       f.input :active
+      f.input :public
+      f.input :user, collection: User.all.map { |u| [ u.email_address, u.id ] }, required: false
       f.input :position
       f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front)) : nil
       f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back)) : nil

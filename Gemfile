@@ -75,3 +75,5 @@ gem "rqrcode"
 gem "activeadmin", '4.0.0.beta14'
 
 gem "rails_heroicon"
+
+gem 'leoandruby', git: 'https://github.com/SalmaTalbi/LeoAndRuby', branch: 'additional_endpoints'

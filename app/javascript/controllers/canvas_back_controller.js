@@ -19,7 +19,10 @@ export default class extends CanvasBaseController {
   }
 
   drawBill() {
-    this.drawTextMnemonic(this.mnemonicValue, 'mnemonic')
+    console.log("drawBill----", this.elementsValue['mnemonic'])
+    if (this.elementsValue['mnemonic']) {
+      this.drawTextMnemonic(this.mnemonicValue, 'mnemonic')
+    }
     this.drawQRCode()
   }
 

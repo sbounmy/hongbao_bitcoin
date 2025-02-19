@@ -1,7 +1,7 @@
 # Pin npm packages by running ./bin/importmap
 
 pin "application"
-pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
@@ -96,3 +96,6 @@ pin "util-deprecate", to: "https://ga.jspm.io/npm:util-deprecate@1.0.2/browser.j
 pin "stream", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/stream.js"
 
 pin "@stimulus-components/scroll-to", to: "@stimulus-components--scroll-to.js" # @5.0.1
+
+pin "@rails/actioncable", to: "actioncable.esm.js"
+pin_all_from "app/javascript/channels", under: "channels"

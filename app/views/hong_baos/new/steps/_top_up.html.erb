@@ -13,15 +13,17 @@
     </div>
   </div>
 
-  <%# Payment Methods Grid %>
-  <div class="grid grid-cols-2 gap-4">
-    <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
-  </div>
-
-  <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
-    <div class="flex items-center space-x-4 p-8 w-full">
-      <%= render "hong_baos/new/previous_button" %>
-      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+  <%# Payment Methods Grid with Form %>
+  <%= form_with(model: hong_bao, local: false) do |form| %>
+    <div class="grid grid-cols-2 gap-4">
+      <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
     </div>
-  </div>
+
+    <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
+      <div class="flex items-center space-x-4 p-8 w-full">
+        <%= render "hong_baos/new/previous_button" %>
+        <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+      </div>
+    </div>
+  <% end %>
 </div>

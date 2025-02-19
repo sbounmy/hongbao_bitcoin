@@ -1,0 +1,13 @@
+<%= turbo_stream_from("ai_generations") %>
+<div id="ai_generations">
+  <h4>Generated Designs</h4>
+  <div class="grid grid-cols-1 gap-4">
+    <% if papers_by_user.present? %>
+      <% papers_by_user.each do |paper| %>
+        <% cache paper do %>
+          <%= render "hong_baos/new/steps/design/paper", paper: paper %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

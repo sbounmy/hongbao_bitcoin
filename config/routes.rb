@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :webhooks do
+    post "/leonardo", to: "leonardo#webhook"
+  end
   ActiveAdmin.routes(self)
   resource :session
   resources :passwords, param: :token
@@ -10,6 +13,7 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
     root "hong_baos#new"
+    post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do
@@ -28,6 +32,7 @@ Rails.application.routes.draw do
   get "og-image", to: "og_image#show", as: :og_image
 
   # Authentication routes
+  get "login", to: "sessions#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
   get "signup", to: "users#new"
@@ -63,4 +68,6 @@ Rails.application.routes.draw do
   end
 
   get "instagram/feed", to: "instagram#feed"
+
+  resources :ai_designs, only: [ :create ]
 end
