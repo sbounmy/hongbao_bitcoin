@@ -17,7 +17,7 @@ class HongBaosController < ApplicationController
 
   def new
     @hong_bao = HongBao.new(paper_id: params[:paper_id])
-    @papers = Paper.active.where(public: true)
+    @papers = Paper.active.public
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
 
