@@ -34,7 +34,7 @@ class AiDesignsController < ApplicationController
       theme = Ai::Theme.find_by(title: occasion.titleize)
       user_elements_data = theme.elements.map do |element|
         {
-          id: element.element_id.to_i,
+          id: element.leonardo_id.to_i,
           weight: element.weight.to_f
         }
       end
@@ -58,12 +58,6 @@ class AiDesignsController < ApplicationController
         )
 
         respond_to do |format|
-          Turbo::StreamsChannel.broadcast_update_to(
-            "ai_generations",
-            target: "ai_generations",
-            partial: "hong_baos/new/steps/design/generated_designs",
-            locals: { papers_by_user: user.papers }
-          )
           format.turbo_stream {
             render turbo_stream: [
               turbo_stream.update("ai_designs_results",

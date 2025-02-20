@@ -1,5 +1,5 @@
 ActiveAdmin.register Ai::Element do
-  permit_params :element_id, :title, :weight, :status, :leonardo_created_at, :leonardo_updated_at
+  permit_params :leonardo_id, :title, :weight, :status, :leonardo_created_at, :leonardo_updated_at
 
   collection_action :sync_elements, method: :post do
     SyncLeonardoElementsJob.perform_later
@@ -9,7 +9,7 @@ ActiveAdmin.register Ai::Element do
   index do
     selectable_column
     id_column
-    column :element_id
+    column :leonardo_id
     column :title
     column :weight
     column :status
@@ -19,7 +19,7 @@ ActiveAdmin.register Ai::Element do
     actions
   end
 
-  filter :element_id
+  filter :leonardo_id
   filter :title
   filter :weight
   filter :status
@@ -29,7 +29,7 @@ ActiveAdmin.register Ai::Element do
 
   form do |f|
     f.inputs do
-      f.input :element_id
+      f.input :leonardo_id
       f.input :title
       f.input :weight
       f.input :status
@@ -41,7 +41,7 @@ ActiveAdmin.register Ai::Element do
 
   show do
     attributes_table do
-      row :element_id
+      row :leonardo_id
       row :title
       row :weight
       row :status

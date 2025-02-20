@@ -1,5 +1,5 @@
 ActiveAdmin.register Ai::Theme do
-  permit_params :title, element_ids: []
+  permit_params :title, leonardo_ids: []
 
   index do
     selectable_column
@@ -41,7 +41,7 @@ ActiveAdmin.register Ai::Theme do
 
       panel "Elements" do
         table_for ai_theme.elements do
-          column :element_id
+          column :leonardo_id
           column :title
           column :weight
           column :status

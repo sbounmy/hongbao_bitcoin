@@ -40,7 +40,7 @@ class SyncLeonardoElementsJob < ApplicationJob
 
     if response["user_loras"].present?
       elements = response["user_loras"].map do |lora|
-        Ai::Element.find_or_create_by!(element_id: lora["id"]) do |element|
+        Ai::Element.find_or_create_by!(leonardo_id: lora["id"]) do |element|
           element.title = lora["name"]
           element.status = lora["status"]
           element.weight = 1
