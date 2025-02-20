@@ -21,7 +21,7 @@ class AiDesignsController < ApplicationController
         return render json: { success: false, error: "Occasion is required" }, status: :unprocessable_entity
       end
 
-      full_prompt = "Blue"
+      full_prompt = "A #{occasion} bitcoin themed bill"
       Rails.logger.info "Full prompt: #{full_prompt}"
       generation = Ai::Generation.create!(
         prompt: full_prompt,
@@ -42,14 +42,25 @@ class AiDesignsController < ApplicationController
       Rails.logger.info "User elements data: #{user_elements_data}"
 
       # Generate image
-      response = client.generate_image_with_user_elements(
-        model_id: model_id,
-        prompt: full_prompt,
-        width: 512,
-        height: 512,
-        num_images: 1,
-        user_elements: user_elements_data
-      )
+      begin
+        response = client.generate_image_with_user_elements(
+          model_id: model_id,
+          prompt: full_prompt,
+          width: 512,
+          height: 512,
+          presetStyle: "ILLUSTRATION",
+          num_images: 1,
+          promptMagic: false,
+          enhancePrompt: true,
+          user_elements: user_elements_data
+        )
+      rescue SocketError => e
+        Rails.logger.error "Network connection error: #{e.message}"
+        return render json: { error: "Unable to connect to AI service. Please try again later." }, status: :service_unavailable
+      rescue => e
+        Rails.logger.error "Leonardo API error: #{e.message}"
+        return render json: { error: "AI service error. Please try again later." }, status: :service_unavailable
+      end
 
       if response["sdGenerationJob"].present?
         generation.update!(
@@ -59,10 +70,14 @@ class AiDesignsController < ApplicationController
 
         respond_to do |format|
           format.turbo_stream {
+            Rails.logger.debug "Papers for user: #{current_user.papers.inspect}"
             render turbo_stream: [
               turbo_stream.update("ai_designs_results",
                 partial: "hong_baos/new/steps/design/generated_designs",
-                locals: { papers_by_user: current_user.papers }
+                locals: {
+                  papers_by_user: current_user.papers,
+                  hong_bao: @hong_bao || HongBao.new # Use existing hong_bao or create new one
+                }
               )
             ]
           }

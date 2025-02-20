@@ -128,7 +128,7 @@ module Webhooks
         "ai_generations",
         target: "ai_generations",
         partial: "hong_baos/new/steps/design/generated_designs",
-        locals: { papers_by_user: user.papers }
+        locals: { papers_by_user: current_user.papers }
       )
     rescue StandardError => e
       Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"

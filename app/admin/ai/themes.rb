@@ -1,5 +1,5 @@
 ActiveAdmin.register Ai::Theme do
-  permit_params :title, leonardo_ids: []
+  permit_params :title, element_ids: []
 
   index do
     selectable_column
