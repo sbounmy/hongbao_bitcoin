@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_19_094503) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_080937) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_094503) do
   end
 
   create_table "ai_elements", force: :cascade do |t|
-    t.string "element_id"
+    t.string "leonardo_id"
     t.string "title"
     t.string "weight"
     t.datetime "created_at", null: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_094503) do
     t.string "status"
     t.datetime "leonardo_created_at"
     t.datetime "leonardo_updated_at"
-    t.index ["element_id"], name: "index_ai_elements_on_element_id", unique: true
+    t.index ["leonardo_id"], name: "index_ai_elements_on_leonardo_id", unique: true
   end
 
   create_table "ai_elements_themes", id: false, force: :cascade do |t|
