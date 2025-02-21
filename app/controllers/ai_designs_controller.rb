@@ -71,15 +71,7 @@ class AiDesignsController < ApplicationController
         respond_to do |format|
           format.turbo_stream {
             Rails.logger.debug "Papers for user: #{current_user.papers.inspect}"
-            render turbo_stream: [
-              turbo_stream.update("ai_designs_results",
-                partial: "hong_baos/new/steps/design/generated_designs",
-                locals: {
-                  papers_by_user: current_user.papers,
-                  hong_bao: @hong_bao || HongBao.new # Use existing hong_bao or create new one
-                }
-              )
-            ]
+            render turbo_stream: []
           }
         end
       else
