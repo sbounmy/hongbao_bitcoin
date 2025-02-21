@@ -39,7 +39,7 @@ export default class extends Controller {
     this.dispatch("changed", {
       detail: {
         wallet: this.wallet,
-        mnemonic: this.master?.mnemonic,
+        mnemonicText: this.master?.mnemonic,
         ...this.wallet.info
       }
     })
