@@ -1,0 +1,36 @@
+<div class="flex justify-between p-4 text-black">
+  <div class="w-1/2">
+    <h2 class="text-xl font-bold mb-4">ABOUT BITCOIN</h2>
+
+    <p class="mb-4">Bitcoin is digital money that works without banks or intermediaries.</p>
+
+    <p class="mb-4">Always keep your private key safe.<br>
+    Never share it with anyone.</p>
+
+    <%# QR code for video/tutorial %>
+    <div class="w-32 h-32">
+      <%= image_tag "pdf/satoshi-mystery.png", alt: "Tutorial Video QR Code" %>
+    </div>
+  </div>
+
+  <div class="w-1/2">
+    <h2 class="text-xl font-bold mb-4">HOW IT WORKS</h2>
+
+    <p class="mb-4">This banknote contains keys to access your Bitcoin stored on the blockchain.</p>
+
+    <p class="mb-4">Public key (IBAN) is QRcode / address.<br>
+    You can check balance or receive funds</p>
+
+    <p class="mb-4">Private key (Password) is used to move funds.</p>
+
+    <p class="mb-4">For better security, we recommend transferring to a hardware wallet (Passport Foundation, Trezor, or Ledger).</p>
+
+    <%# Verify balance QR code %>
+    <div class="absolute top-4 right-4">
+      <p class="text-sm font-semibold mb-2">Verify balance</p>
+      <div class="w-32 h-32" data-action="bitcoin:changed">
+        <%# qr_code_tag @bitcoin_address, size: "128x128" %>
+      </div>
+    </div>
+  </div>
+</div>
