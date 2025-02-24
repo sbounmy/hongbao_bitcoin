@@ -6,5 +6,6 @@ module Ai
     validates :status, presence: true
 
     attribute :image_urls, :json, default: []
+    has_one_attached :face_to_swap, dependent: :destroy
   end
 end

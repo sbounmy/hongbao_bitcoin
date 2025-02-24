@@ -15,19 +15,21 @@ class AiDesignsController < ApplicationController
 
       # Get parameters from the request
       occasion = params[:occasion]
+      face_to_swap = params[:image]
       model_id = "2067ae52-33fd-4a82-bb92-c2c55e7d2786"
 
       unless occasion.present?
         return render json: { success: false, error: "Occasion is required" }, status: :unprocessable_entity
       end
 
-      full_prompt = "A #{occasion} bitcoin themed bill"
+      full_prompt = "A #{occasion} bitcoin themed bill add text public address and private key"
       Rails.logger.info "Full prompt: #{full_prompt}"
       generation = Ai::Generation.create!(
         prompt: full_prompt,
         status: "pending",
         generation_id: SecureRandom.uuid,
-        user: current_user
+        user: current_user,
+        face_to_swap: face_to_swap
       )
 
       # Get theme elements
@@ -51,7 +53,7 @@ class AiDesignsController < ApplicationController
           presetStyle: "ILLUSTRATION",
           num_images: 1,
           promptMagic: false,
-          enhancePrompt: true,
+          enhancePrompt: false,
           user_elements: user_elements_data
         )
       rescue SocketError => e
