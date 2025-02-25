@@ -7,5 +7,6 @@ module Ai
 
     attribute :image_urls, :json, default: []
     has_one_attached :face_to_swap, dependent: :destroy
+    has_many_attached :generated_images, dependent: :destroy
   end
 end
