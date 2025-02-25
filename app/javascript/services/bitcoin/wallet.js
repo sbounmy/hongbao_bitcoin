@@ -138,11 +138,11 @@ export default class Wallet {
 
   get info() {
     return {
-      address: this.address.toString('hex'),
-      publicKey: this.publicKey,
-      privateKey: this.wif,
-      addressQrcode: async () => await QRCode.toDataURL(this.address.toString('hex')),
-      publicKeyQrcode: async () => await QRCode.toDataURL(this.publicKey.toString('hex')),
+      publicAddressText: this.address,
+      publicKeyText: this.publicKey,
+      privateKeyText: this.wif,
+      publicAddressQrcode: async () => await QRCode.toDataURL(this.address),
+      publicKeyQrcode: async () => await QRCode.toDataURL(this.publicKey),
       privateKeyQrcode: async () => await QRCode.toDataURL(this.wif)
     }
   }

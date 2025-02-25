@@ -1,0 +1,12 @@
+<% item = item.with_indifferent_access %>
+<%= tag.div data: { controller: 'canva-item',
+    canva_target: 'canvaItem',
+    canva_item_x_value: item[:x],
+    canva_item_y_value: item[:y],
+    canva_item_text_value: item[:text],
+    canva_item_name_value: name.camelize(:lower),
+    canva_item_type_value: name.end_with?('_qrcode') ? 'image' : 'text',
+    canva_item_font_size_value: item[:size] / 2,
+    canva_item_font_color_value: item[:color],
+    action: "bitcoin:changed@window->canva-item#redraw" },
+    class: 'hidden canva-item' %>
