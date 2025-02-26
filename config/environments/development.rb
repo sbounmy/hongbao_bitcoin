@@ -67,8 +67,8 @@ Rails.application.configure do
   # Allow ActionCable requests from any origin
   config.action_cable.disable_request_forgery_protection = true
 
-  # Use async adapter for development
-  config.action_cable.url = "ws://#{host}/cable"
+  # Use secure WebSocket for ngrok, regular WebSocket for localhost
+  config.action_cable.url = host.include?("ngrok") ? "wss://#{host}/cable" : "ws://#{host}/cable"
   config.action_cable.allowed_request_origins = [
     base_url,
     "http://127.0.0.1:3002",
