@@ -5,7 +5,7 @@
 
   <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
     <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
-      <%= render "hong_baos/new/front_bill", paper: %>
+      <%= render "hong_baos/new/steps/paper_canva", paper:, elements: paper.front_elements, image: paper.image_front.attached? ? url_for(paper.image_front) : '' %>
       <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
         <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
           <%= paper.name %>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-      <%= render "hong_baos/new/back_bill", paper: %>
+      <%= render "hong_baos/new/steps/paper_canva", paper:, elements: paper.back_elements, image: paper.image_back.attached? ? url_for(paper.image_back) : '' %>
       <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
         <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
           <%= paper.name %>
