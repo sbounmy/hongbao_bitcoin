@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :webhooks do
     post "/leonardo", to: "leonardo#webhook"
+    post "/face_swap", to: "face_swap#webhook"
   end
   ActiveAdmin.routes(self)
   resource :session
@@ -70,6 +71,4 @@ Rails.application.routes.draw do
   get "instagram/feed", to: "instagram#feed"
 
   resources :ai_designs, only: [ :create ]
-
-  post "/api/task_callback", to: "webhooks/face_swap#callback"
 end

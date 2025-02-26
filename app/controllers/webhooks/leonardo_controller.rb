@@ -40,7 +40,6 @@ module Webhooks
           process_face_swap(generation)
         end
 
-        # Process images and create paper if we have images
         if generation.image_urls.present?
           process_images(generation)
         end
@@ -52,9 +51,9 @@ module Webhooks
     private
 
     def process_images(generation)
-      image_url = generation.image_urls.first
-
-      # Create a new Paper record using the user from the generation
+      image_urls = generation.image_urls
+      image_urls.each do |image_url|
+      temp_file = Tempfile.new([ "downloaded_image", ".png" ])
       paper = Paper.new(
         name: "AI Generated #{generation.prompt}",
         style: :modern,
@@ -63,12 +62,69 @@ module Webhooks
         user: generation.user
       )
 
+      top_temp_path, bottom_temp_path = process_image(image_url, temp_file)
+      # Attach the images to the paper record
+      paper.image_front.attach(
+        io: File.open(top_temp_path),
+        filename: "front_#{SecureRandom.hex(8)}.png",
+        content_type: "image/png"
+      )
+
+      paper.image_back.attach(
+        io: File.open(bottom_temp_path),
+        filename: "back_#{SecureRandom.hex(8)}.png",
+        content_type: "image/png"
+      )
+
+      paper.save!
+
+      # Clean up temporary files
+      FileUtils.rm_f(top_temp_path)
+      FileUtils.rm_f(bottom_temp_path)
+      temp_file.close
+      temp_file.unlink
+      end
+      # Update generation with paper reference
+      Turbo::StreamsChannel.broadcast_update_to(
+        "ai_generations",
+        target: "ai_generations",
+        partial: "hong_baos/new/steps/design/generated_designs",
+        locals: { papers_by_user: current_user.papers }
+      )
+    rescue StandardError => e
+      Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"
+    end
+
+    def process_face_swap(generation)
+      face_to_swap = generation.face_to_swap
+      image_url = generation.generated_images.first
+      swap_result = FaceSwapService.swap_faces(face_to_swap, image_url, "https://reliably-decent-oarfish.ngrok-free.app/webhooks/face_swap")
+      Rails.logger.info "Face swap result: #{swap_result}"
+      # if swap_result && swap_result["status"] == "success"
+      #   generation.update!(image_urls: [ swap_result["result_url"] ])
+      # end
+    end
+
+    def verify_webhook_token
+      provided_token = request.headers["Authorization"]
+      expected_token = "Bearer #{Rails.application.credentials.dig(:leonardo, :webhook_token)}"
+
+      Rails.logger.info "Webhook auth - Provided token: #{provided_token}"
+      Rails.logger.info "Webhook auth - Expected token: #{expected_token}"
+
+      unless provided_token && ActiveSupport::SecurityUtils.secure_compare(provided_token, expected_token)
+        Rails.logger.error "Webhook authentication failed"
+        render json: { error: "Unauthorized" }, status: :unauthorized
+      end
+    end
+
+    def process_image(image_url, temp_file)
       # Download and verify the source image using Net::HTTP
       uri = URI.parse(image_url)
       response = Net::HTTP.get_response(uri)
 
       # Create a temporary file to store the downloaded image
-      temp_file = Tempfile.new([ "downloaded_image", ".png" ])
+
       temp_file.binmode
       temp_file.write(response.body)
       temp_file.rewind
@@ -109,60 +165,7 @@ module Webhooks
       FileUtils.cp(top_half.path, top_temp_path)
       FileUtils.cp(bottom_half.path, bottom_temp_path)
 
-      # Attach the images to the paper record
-      paper.image_front.attach(
-        io: File.open(top_temp_path),
-        filename: "front_#{SecureRandom.hex(8)}.png",
-        content_type: "image/png"
-      )
-
-      paper.image_back.attach(
-        io: File.open(bottom_temp_path),
-        filename: "back_#{SecureRandom.hex(8)}.png",
-        content_type: "image/png"
-      )
-
-      paper.save!
-
-      # Clean up temporary files
-      FileUtils.rm_f(top_temp_path)
-      FileUtils.rm_f(bottom_temp_path)
-      temp_file.close
-      temp_file.unlink
-
-      # Update generation with paper reference
-      # generation.update!(paper_id: paper.id)
-      Turbo::StreamsChannel.broadcast_update_to(
-        "ai_generations",
-        target: "ai_generations",
-        partial: "hong_baos/new/steps/design/generated_designs",
-        locals: { papers_by_user: current_user.papers }
-      )
-    rescue StandardError => e
-      Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"
-    end
-
-    def process_face_swap(generation)
-      face_to_swap = generation.face_to_swap
-      image_url = generation.generated_images.first
-      swap_result = FaceSwapService.swap_faces(face_to_swap, image_url, "https://reliably-decent-oarfish.ngrok-free.app/api/task_callback")
-      Rails.logger.info "Face swap result: #{swap_result}"
-      # if swap_result && swap_result["status"] == "success"
-      #   generation.update!(image_urls: [ swap_result["result_url"] ])
-      # end
-    end
-
-    def verify_webhook_token
-      provided_token = request.headers["Authorization"]
-      expected_token = "Bearer #{Rails.application.credentials.dig(:leonardo, :webhook_token)}"
-
-      Rails.logger.info "Webhook auth - Provided token: #{provided_token}"
-      Rails.logger.info "Webhook auth - Expected token: #{expected_token}"
-
-      unless provided_token && ActiveSupport::SecurityUtils.secure_compare(provided_token, expected_token)
-        Rails.logger.error "Webhook authentication failed"
-        render json: { error: "Unauthorized" }, status: :unauthorized
-      end
+      return top_temp_path, bottom_temp_path
     end
   end
 end
