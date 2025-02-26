@@ -63,7 +63,9 @@ ActiveAdmin.register Paper do
         panel element.titleize do
           attributes_table_for paper.elements[element] do
             Paper::ELEMENT_ATTRIBUTES.each do |attribute|
-              row attribute
+              row attribute do
+                paper.elements[element][attribute]
+              end
             end
           end
         end
