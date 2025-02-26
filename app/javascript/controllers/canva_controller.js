@@ -30,7 +30,21 @@ export default class extends Controller {
 
   backgroundImageChanged(event) {
     this.backgroundImageValue = event.detail.url
+    this.clearCanvaItems()
+    this.appendCanvaItems(event.detail.elements)
     this.loadBackgroundImage()
+  }
+
+  clearCanvaItems() {
+    this.canvaItemTargets.forEach(item => {
+      item.remove()
+    })
+  }
+
+  appendCanvaItems(elements) {
+    elements.forEach(element => {
+      this.container.appendChild(element)
+    })
   }
 
   clear() {

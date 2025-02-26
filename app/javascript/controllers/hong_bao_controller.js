@@ -45,17 +45,25 @@ export default class extends Controller {
   }
 
   get currentPaperFront() {
-    return this.currentPaper.querySelector('[data-controller="canva"]').dataset.canvaBackgroundImageValue
+    return this.currentPaper.querySelector('[data-controller="canva"].front').dataset.canvaBackgroundImageValue
+  }
+
+  get currentPaperFrontElements() {
+    return this.currentPaper.querySelectorAll('.front [data-controller="canva-item"]')
+  }
+
+  get currentPaperBackElements() {
+    return this.currentPaper.querySelectorAll('.back [data-controller="canva-item"]')
   }
 
   get currentPaperBack() {
-    return this.currentPaper.querySelector('[data-controller="canva"]').dataset.canvaBackgroundImageValue
+    return this.currentPaper.querySelector('[data-controller="canva"].back').dataset.canvaBackgroundImageValue
   }
 
   dispatchPaperSelect() {
     if (this.currentPaper) {
-      this.dispatch("front", { detail: { url: this.currentPaperFront } })
-      this.dispatch("back", { detail: { url: this.currentPaperBack } })
+      this.dispatch("front", { detail: { url: this.currentPaperFront, elements: this.currentPaperFrontElements } })
+      this.dispatch("back", { detail: { url: this.currentPaperBack, elements: this.currentPaperBackElements } })
 
       this.dispatch("select", {
         detail: {
