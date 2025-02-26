@@ -70,4 +70,6 @@ Rails.application.routes.draw do
   get "instagram/feed", to: "instagram#feed"
 
   resources :ai_designs, only: [ :create ]
+
+  post "/api/task_callback", to: "webhooks/face_swap#callback"
 end

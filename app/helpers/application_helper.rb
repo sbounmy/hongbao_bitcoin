@@ -16,11 +16,32 @@ module ApplicationHelper
     end
   end
 
+  def cuttable_content(options = {}, &block)
+    wrapper_classes = [
+      "relative",           # For scissors positioning
+      "border-2",
+      "border-dashed",
+      "border-gray-400",
+      "p-4",
+      "inline-block",      # To fit content size
+      options[:class]      # Allow additional classes
+    ].compact.join(" ")
+
+    content_tag(:div, class: wrapper_classes, style: options[:style]) do
+      concat(scissors_icon)
+      concat(capture(&block))
+    end
+  end
+
   private
 
   def placeholder_logo
     content_tag :div, class: "w-full h-full bg-white/20 rounded-lg flex items-center justify-center" do
       content_tag :span, "No logo", class: "text-white/60 text-xs"
     end
+  end
+
+  def scissors_icon
+    # ... existing scissors_icon code ...
   end
 end

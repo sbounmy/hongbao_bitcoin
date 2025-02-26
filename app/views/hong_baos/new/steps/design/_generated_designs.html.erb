@@ -5,7 +5,8 @@
     <% if papers_by_user.present? %>
       <% papers_by_user.each do |paper| %>
         <% cache paper do %>
-          <%= render "hong_baos/new/steps/design/paper", paper: paper %>
+          <%= render "hong_baos/new/steps/design/paper",
+                    paper: paper %>
         <% end %>
       <% end %>
     <% end %>

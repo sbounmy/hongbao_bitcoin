@@ -9,7 +9,12 @@
 
     <%= turbo_stream_from "ai_designs" %>
 
-    <%= form_with(url: ai_designs_path, local: false) do |f| %>
+    <%= form_with(url: ai_designs_path,
+                local: false,
+                data: {
+                  controller: "form",
+                  turbo: true
+                }) do |f| %>
       <!-- Reference Images Upload -->
       <div class="space-y-2">
         <label class="block text-white text-sm">Reference Images (Optional)</label>
@@ -41,14 +46,18 @@
       <%= f.submit "Generate Designs (3 credits)",
                   class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
                           font-medium hover:bg-[#FFD699]/90 transition-colors",
-                  data: { disable_with: "Generating..." } %>
+                  data: {
+                    disable_with: "Generating...",
+                    form_target: "submitButton"
+                  } %>
     <% end %>
 
     <!-- Generated Designs Display -->
     <div id="ai_designs_results" class="mt-4">
       <%= render "hong_baos/new/steps/design/generated_designs",
-                paper: @ai_generation&.paper,
                 papers_by_user: papers_by_user %>
     </div>
+
+    <div id="flash"></div>
   </div>
 </div>

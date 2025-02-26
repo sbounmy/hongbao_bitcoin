@@ -41,7 +41,7 @@ ActiveAdmin.register Ai::Theme do
 
       panel "Elements" do
         table_for ai_theme.elements do
-          column :element_id
+          column :leonardo_id
           column :title
           column :weight
           column :status

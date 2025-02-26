@@ -1,52 +1,35 @@
 <div
     class="flex flex-col h-full max-h-full overflow-y-auto"
-     data-controller="paper-pdf"
+     data-controller="pdf"
      data-steps-target="content"
-     data-steps-index="2"
-     data-action="hong-bao:select@window->paper-pdf#updateImages hong-bao:select@window->paper-pdf#showPdfViewer bitcoin:changed@window->paper-pdf#updateAddress"
-     data-paper-pdf-qr-youtube-url-value="<%= image_path('pdf/satoshi-mystery.png') %>"
-     data-paper-pdf-hongbao-qr-value=""
-     data-paper-pdf-front-image-value=""
-     data-paper-pdf-back-image-value=""
-     data-paper-pdf-address-value=""
-     data-paper-pdf-scissors-image-url-value="<%= asset_path('scissors.png') %>">
+     data-steps-index="2">
   <div class="text-white space-y-4">
 
+      <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto">
+        <%= cuttable_content class: "flex flex-col items-center" do %>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                      class_name: "w-[170mm] h-[90mm] rotate-180",
+                      paper:,
+                      actions: "hong-bao:back@window->canva#backgroundImageChanged",
+                      elements: paper.back_elements,
+                      image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+           %>
 
-    <%# Printable Area - This will be converted to PDF %>
-    <div data-paper-pdf-target="printableArea" class="bg-transparent" hidden>
-      <div class="relative">
-        <%# Bill Content %>
-        <div class="grid grid-cols-1 gap-4 border-2 border-dashed border-gray-400 p-2 relative">
-          <%# Scissors Icon %>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-               class="w-5 h-5 absolute -top-3 -left-3 text-gray-400">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7.848 8.25l1.536.887M7.848 8.25a3 3 0 11-5.196-3 3 3 0 015.196 3zm1.536.887a2.165 2.165 0 011.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 11-5.196 3 3 3 0 015.196-3zm1.536-.887a2.165 2.165 0 001.083-1.838c.005-.352.054.695.14-1.025m-1.223 2.863l2.077-1.199m0-3.328a4.323 4.323 0 012.068-1.379l5.325-1.628a4.5 4.5 0 012.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0010.607 12m3.736 0l7.794 4.5-.802.215a4.5 4.5 0 01-2.48-.043l-5.326-1.629a4.324 4.324 0 01-2.068-1.379M14.343 12l-2.882 1.664" />
-          </svg>
+          <%# Fold Line %>
+          <div class="border-t-2 border-dashed border-gray-400"></div>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                      class_name: "w-[170mm] h-[90mm]",
+                      paper:,
+                      actions: "hong-bao:front@window->canva#backgroundImageChanged",
+                      elements: paper.front_elements,
+                      image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+           %>
 
-          <div>
-            <img data-paper-pdf-target="frontImage" class="w-full" src="" alt="Front of bill" />
-          </div>
-          <%# Fold Lines %>
-          <div class="left-0 right-0 border border-dashed border-gray-400"></div>
-          <div>
-            <img data-paper-pdf-target="backImage" class="w-full" src="" alt="Back of bill" />
-          </div>
-        </div>
+        <% end %>
+        <%= render 'hong_baos/pdf/footer', paper: %>
       </div>
-    </div>
 
     <%# PDF Viewer %>
-    <div data-paper-pdf-target="pdfViewerPlaceHolder" class="flex flex-col items-center justify-center gap-2 bg-sky-500/20 border-2 border-dashed border-gray-500 rounded-lg p-2 w-full h-[600px]">
-      <div class="flex flex-col items-center gap-2"
-          data-paper-pdf-target="printButton"
-           data-action="click->paper-pdf#downloadPdf click->paper-pdf#showPdfViewer prevent">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-        </svg>
-        <p><strong>Generate</strong> my paper PDF</p>
-      </div>
-    </div>
     <div class="flex flex-col gap-4">
       <iframe data-paper-pdf-target="pdfViewer" class="hidden" data-action="hong-bao:backToStep1@window->paper-pdf#reset"></iframe>
     </div>
@@ -61,7 +44,7 @@
               class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
                       text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
               data-paper-pdf-target="downloadButton"
-              data-action="click->paper-pdf#downloadPdf">
+              data-action="pdf#download">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
         </svg>
