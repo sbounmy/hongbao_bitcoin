@@ -31,7 +31,8 @@ export default class extends Controller {
         this.ctx.fillStyle = this.fontColorValue
         this.ctx.fillText(this.text || '', x, y)
     } else {
-      this.ctx.drawImage(this.imageUrl, x, y)
+      let imageSize = this.fontSizeValue*this.ctx.canvas.width
+      this.ctx.drawImage(this.imageUrl, x, y,imageSize,imageSize)
     }
   }
 
