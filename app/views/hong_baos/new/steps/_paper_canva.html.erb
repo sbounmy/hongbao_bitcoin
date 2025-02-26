@@ -2,10 +2,10 @@
      <%# data-canva-canva-item-outlet=".canva-item" %>
      data-action="bitcoin:changed@window->canva#clear <%= defined?(actions) ? actions : '' %>"
      class="<%= defined?(class_name) ? class_name : '' %>"
-     data-canva-background-image-value="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>">
+     data-canva-background-image-value="<%= image %>">
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
 
-  <% paper.back_elements.each do |name, item| %>
+  <% elements.each do |name, item| %>
     <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
   <% end %>
 </div>

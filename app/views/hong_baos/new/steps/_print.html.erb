@@ -7,29 +7,29 @@
 
       <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto">
         <%= cuttable_content class: "flex flex-col items-center" do %>
-          <%= render 'hong_baos/new/front_bill', class_name: "w-[170mm] h-[90mm] rotate-180", paper:, actions: "hong-bao:front@window->canva#backgroundImageChanged" %>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                      class_name: "w-[170mm] h-[90mm] rotate-180",
+                      paper:,
+                      actions: "hong-bao:front@window->canva#backgroundImageChanged",
+                      elements: paper.front_elements,
+                      image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+           %>
 
           <%# Fold Line %>
           <div class="my-4 border-t-2 border-dashed border-gray-400"></div>
 
-          <%= render 'hong_baos/new/back_bill', class_name: "w-[170mm] h-[90mm]", paper:, actions: "hong-bao:back@window->canva#backgroundImageChanged" %>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                      class_name: "w-[170mm] h-[90mm]",
+                      paper:,
+                      actions: "hong-bao:back@window->canva#backgroundImageChanged",
+                      elements: paper.back_elements,
+                      image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+           %>
         <% end %>
         <%= render 'hong_baos/pdf/footer', paper: %>
       </div>
 
-
-
     <%# PDF Viewer %>
-    <div data-paper-pdf-target="pdfViewerPlaceHolder" class="flex flex-col items-center justify-center gap-2 bg-sky-500/20 border-2 border-dashed border-gray-500 rounded-lg p-2 w-full h-[600px]">
-      <div class="flex flex-col items-center gap-2"
-          data-paper-pdf-target="printButton"
-           data-action="click->paper-pdf#downloadPdf click->paper-pdf#showPdfViewer prevent">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-        </svg>
-        <p><strong>Generate</strong> my paper PDF</p>
-      </div>
-    </div>
     <div class="flex flex-col gap-4">
       <iframe data-paper-pdf-target="pdfViewer" class="hidden" data-action="hong-bao:backToStep1@window->paper-pdf#reset"></iframe>
     </div>
