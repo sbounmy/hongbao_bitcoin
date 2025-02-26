@@ -24,27 +24,34 @@ export default class extends Controller {
     const y = this.ctx.canvas.height * this.yValue
 
     // Use the correct value properties
-     // Clear the entire canvas first
-
+    // Clear the entire canvas first
     if (this.typeValue === 'text') {
         this.ctx.font = `${this.fontSizeValue}px Arial`
         this.ctx.fillStyle = this.fontColorValue
-        this.ctx.fillText(this.text || '', x, y)
-    } else {
+        this.ctx.fillText(this.textValue || '', x, y)
+    } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue*this.ctx.canvas.width
       this.ctx.drawImage(this.imageUrl, x, y,imageSize,imageSize)
     }
   }
 
+  textValueChanged() {
+    console.log("textValueChanged", this.textValue)
+    this.draw()
+  }
+
+  imageUrlChanged() {
+    this.draw()
+  }
+
   async redraw({ detail }) {
     if (this.typeValue === 'text') {
-      this.text = detail[this.nameValue]
-      this.draw()
+      this.textValue = detail[this.nameValue]
     } else {
       const qrImage = new Image()
       qrImage.src = await detail[this.nameValue]()
-      this.imageUrl = qrImage
       qrImage.onload = () => {
+        this.imageUrl = qrImage
         this.draw()
       }
     }

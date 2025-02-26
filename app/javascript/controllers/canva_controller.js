@@ -22,8 +22,8 @@ export default class extends Controller {
 
     const img = new Image()
     img.src = this.backgroundImageValue
-    img.onload = () => {
-      this.backgroundImage = img
+    img.onload = (event) => {
+      this.backgroundImage = event.target
       this.redraw()
     }
   }
@@ -43,7 +43,7 @@ export default class extends Controller {
 
   appendCanvaItems(elements) {
     elements.forEach(element => {
-      this.container.appendChild(element)
+      this.container.appendChild(element.cloneNode(true))
     })
   }
 
