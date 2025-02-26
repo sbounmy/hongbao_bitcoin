@@ -7,12 +7,12 @@
 
       <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto">
         <%= cuttable_content class: "flex flex-col items-center" do %>
-          <%= render 'hong_baos/new/front_bill', class_name: "w-[170mm] h-[90mm] rotate-180", paper: %>
+          <%= render 'hong_baos/new/front_bill', class_name: "w-[170mm] h-[90mm] rotate-180", paper:, actions: "hong-bao:front@window->canva#backgroundImageChanged" %>
 
           <%# Fold Line %>
           <div class="my-4 border-t-2 border-dashed border-gray-400"></div>
 
-          <%= render 'hong_baos/new/back_bill', class_name: "w-[170mm] h-[90mm]", paper: %>
+          <%= render 'hong_baos/new/back_bill', class_name: "w-[170mm] h-[90mm]", paper:, actions: "hong-bao:back@window->canva#backgroundImageChanged" %>
         <% end %>
         <%= render 'hong_baos/pdf/footer', paper: %>
       </div>

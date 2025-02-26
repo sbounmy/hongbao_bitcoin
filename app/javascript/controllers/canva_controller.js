@@ -28,6 +28,11 @@ export default class extends Controller {
     }
   }
 
+  backgroundImageChanged(event) {
+    this.backgroundImageValue = event.detail.url
+    this.loadBackgroundImage()
+  }
+
   clear() {
     this.ctx.clearRect(0, 0, this.container.width, this.container.height)
     if (this.backgroundImage) {
