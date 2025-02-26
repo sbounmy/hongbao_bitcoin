@@ -7,49 +7,49 @@
       x: 0.12
       y: 0.38
       size: 0.17
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_private_key_label"
       x: 0.15
       y: 0.35
-      size: 14
-      color: "224, 120, 1"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_public_key"
       x: 0.55
       y: 0.24
       size: 0.25
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_public_key_label"
       x: 0.58
       y: 0.22
-      size: 14
-      color: "0, 0, 0"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "mnemonic"
       x: 0.30
       y: 0.28
-      size: 14
-      color: "224, 120, 1"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "public_key_address"
       x: 0.25
       y: 0.14
       size: 18
-      color: "0, 0, 0"
+      color: "#000000"
       opacity: "0"
     - name: "amount"
       x: 0.7
       y: 0.43
       size: 44
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "amount_btc"
       x: 0.7
       y: 0.68
       size: 20
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
 
 - name: "Christmas Bill"
@@ -60,49 +60,49 @@
       x: 0.13
       y: 0.36
       size: 0.17
-      color: "245, 211, 150"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.17
       y: 0.32
-      size: 14
-      color: "0, 0, 0"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.55
       y: 0.3
       size: 0.2
-      color: "245, 211, 150"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.58
       y: 0.26
       size: 18
-      color: "0, 0, 0"
+      color: "#000000"
       opacity: "0.60"
     - name: "mnemonic"
       x: 0.3
       y: 0.22
-      size: 14
-      color: "245, 211, 150"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "public_key_address"
       x: 0.28
       y: 0.14
-      size: 16
-      color: "0, 0, 0"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "amount"
       x: 0.72
       y: 0.57
       size: 42
-      color: "245, 211, 150"
+      color: "#000000"
       opacity: "0.60"
     - name: "amount_btc"
       x: 0.65
       y: 0.8
       size: 22
-      color: "245, 211, 150"
+      color: "#000000"
       opacity: "0.60"
 
 - name: "New Year 2025 Bill"
@@ -113,31 +113,31 @@
       x: 0.11
       y: 0.31
       size: 0.18
-      color: "197, 7, 16"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.14
       y: 0.28
-      size: 14
-      color: "197, 7, 16"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.72
       y: 0.35
       size: 0.17
-      color: "197, 7, 16"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.75
       y: 0.92
       size: 18
-      color: "0, 0, 0"
+      color: "#000000"
       opacity: "0.60"
     - name: "mnemonic"
       x: 0.33
       y: 0.21
-      size: 14
-      color: "197, 7, 16"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "public_key_address"
       x: 0.26
@@ -149,13 +149,13 @@
       x: 0.66
       y: 0.39
       size: 44
-      color: "197, 7, 16"
+      color: "#000000"
       opacity: "0.60"
     - name: "amount_btc"
       x: 0.66
       y: 0.56
       size: 18
-      color: "197, 7, 16"
+      color: "#000000"
       opacity: "0.60"
 
 - name: "Wedding Bill"
@@ -166,49 +166,49 @@
       x: 0.14
       y: 0.34
       size: 0.15
-      color: "239, 238, 231"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_private_key_label"
       x: 0.17
       y: 0.32
       size: 12
-      color: "239, 238, 231"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key"
       x: 0.455
       y: 0.362
       size: 0.19
-      color: "239, 238, 231"
+      color: "#000000"
       opacity: "0.60"
     - name: "qrcode_public_key_label"
       x: 0.49
       y: 0.32
-      size: 14
-      color: "0, 0, 0"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "mnemonic"
       x: 0.34
       y: 0.20
-      size: 14
-      color: "239, 238, 231"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "public_key_address"
       x: 0.32
       y: 0.07
-      size: 14
-      color: "255, 255, 255"
+      size: 12
+      color: "#000000"
       opacity: "0.60"
     - name: "amount"
       x: 0.5
       y: 0.3
       size: 44
-      color: "239, 238, 231"
+      color: "#000000"
       opacity: "0.60"
     - name: "amount_btc"
       x: 0.5
       y: 0.83
       size: 20
-      color: "239, 238, 231"
+      color: "#000000"
       opacity: "0.60"
 
 - name: "Birthday Bill"
@@ -219,47 +219,47 @@
       x: 0.08
       y: 0.36
       size: 0.17
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_private_key_label"
       x: 0.1
       y: 0.32
-      size: 14
-      color: "224, 120, 1"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_public_key"
       x: 0.7
       y: 0.25
       size: 0.25
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "qrcode_public_key_label"
       x: 0.75
       y: 0.2
-      size: 14
-      color: "0, 0, 0"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "mnemonic"
       x: 0.30
       y: 0.25
-      size: 14
-      color: "224, 120, 1"
+      size: 12
+      color: "#000000"
       opacity: "0"
     - name: "public_key_address"
       x: 0.26
       y: 0.97
       size: 18
-      color: "255, 255, 255"
+      color: "#000000"
       opacity: "0"
     - name: "amount"
       x: 0.7
       y: 0.43
       size: 44
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
     - name: "amount_btc"
       x: 0.7
       y: 0.68
       size: 20
-      color: "224, 120, 1"
+      color: "#000000"
       opacity: "0"
