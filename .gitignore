@@ -44,3 +44,10 @@
 # Ignore js stuff
 node_modules
 coveragejs
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/test-examples/

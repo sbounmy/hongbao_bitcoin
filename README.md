@@ -30,6 +30,28 @@ bin/rails db:setup
 bin/rails server
 ```
 
+## Testing
+
+### Install
+```bash
+npx install
+```
+
+### Run tests
+```bash
+# make sure bin/dev is running before
+npx playwright test --ui ## UI MODE
+npx playwright test ## Headless MODE
+```
+
+
+
+### Run in terminal
+```bash
+bin/rails test
+```
+
+
 ## FAQ
 
 
