@@ -49,6 +49,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Playwright on Rails [https://github.com/cypress-io/cypress-on-rails]
+  gem 'cypress-on-rails', '~> 1.0'
 end
 
 group :development do

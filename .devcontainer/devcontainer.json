@@ -14,13 +14,8 @@
     "ghcr.io/devcontainers/features/node:1": {},
   },
 
-  "containerEnv": {
-    "CAPYBARA_SERVER_PORT": "45678",
-    "SELENIUM_HOST": "selenium"
-  },
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3002],
+  "forwardPorts": [3000, 3002, 3003],
 
   // Configure tool-specific properties.
   // "customizations": {},
@@ -34,7 +29,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "ms-playwright.playwright"
       ]
     }
   }

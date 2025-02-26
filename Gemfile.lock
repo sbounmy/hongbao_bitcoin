@@ -136,6 +136,8 @@ GEM
     crass (1.0.6)
     csv (3.3.0)
     date (3.4.1)
+    cypress-on-rails (1.17.0)
+      rack
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -497,6 +499,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   capybara
+  cypress-on-rails (~> 1.0)
   debug
   image_processing (>= 1.2)
   importmap-rails
