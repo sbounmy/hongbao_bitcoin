@@ -48,7 +48,7 @@ class AiDesignsController < ApplicationController
           width: 512,
           height: 512,
           presetStyle: "ILLUSTRATION",
-          num_images: 3,
+          num_images: 1,
           promptMagic: false,
           enhancePrompt: false,
           user_elements: user_elements_data
