@@ -13,8 +13,12 @@ export default class extends Controller {
   }
 
   connect() {
-    this.canvaController = this.element.closest('[data-controller="canva"]')
-      ?.controller
+    this.canvaController = this.application
+      .getControllerForElementAndIdentifier(
+        this.element.closest('[data-controller="canva"]'),
+        'canva'
+      )
+    this.ctx = this.canvaController.ctx
   }
 
   draw() {
@@ -35,18 +39,10 @@ export default class extends Controller {
     }
   }
 
-  textValueChanged() {
-    console.log("textValueChanged", this.textValue)
-    this.draw()
-  }
-
-  imageUrlChanged() {
-    this.draw()
-  }
-
   async redraw({ detail }) {
     if (this.typeValue === 'text') {
       this.textValue = detail[this.nameValue]
+      this.draw()
     } else {
       const qrImage = new Image()
       qrImage.src = await detail[this.nameValue]()

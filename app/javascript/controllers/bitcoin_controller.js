@@ -36,15 +36,19 @@ export default class extends Controller {
   }
 
   dispatchWalletChanged() {
+    console.log("dispatchWalletChanged", this.wallet)
     this.dispatch("changed", {
-      detail: {
-        wallet: this.wallet,
-        mnemonicText: this.master?.mnemonic,
-        ...this.wallet.info
-      }
+      detail: this.detail
     })
   }
 
+  get detail() {
+    return {
+      wallet: this.wallet,
+      mnemonicText: this.master?.mnemonic,
+      ...this.wallet.info
+    }
+  }
   async transfer(address, fee) {
     try {
       const transaction = TransactionFactory.create(
