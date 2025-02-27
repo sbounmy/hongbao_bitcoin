@@ -1,6 +1,6 @@
 <div data-controller="canva"
      <%# data-canva-canva-item-outlet=".canva-item" %>
-     data-action="bitcoin:changed@window->canva#clear <%= defined?(actions) ? actions : '' %>"
+     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
      class="<%= defined?(class_name) ? class_name : '' %>"
      data-canva-background-image-value="<%= image %>">
   <canvas data-canva-target="container" class="w-full h-full"></canvas>

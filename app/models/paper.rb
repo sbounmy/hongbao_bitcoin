@@ -46,7 +46,7 @@ class Paper < ApplicationRecord
   end
 
   def back_elements
-    elements.slice("private_key_qrcode", "private_key_text", "custom_text")
+    elements.slice("private_key_qrcode", "private_key_text", "mnemonic_text", "custom_text")
   end
 
   private

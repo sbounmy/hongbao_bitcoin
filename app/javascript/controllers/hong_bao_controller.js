@@ -45,19 +45,23 @@ export default class extends Controller {
   }
 
   get currentPaperFront() {
-    return this.currentPaper.querySelector('[data-controller="canva"].front').dataset.canvaBackgroundImageValue
+    return this.currentPaper.dataset.frontImageValue
   }
 
   get currentPaperFrontElements() {
-    return this.currentPaper.querySelectorAll('.front [data-controller="canva-item"]')
+    return JSON.parse(this.currentPaper.dataset.frontElementsValue)
   }
 
   get currentPaperBackElements() {
-    return this.currentPaper.querySelectorAll('.back [data-controller="canva-item"]')
+    return JSON.parse(this.currentPaper.dataset.backElementsValue)
   }
 
   get currentPaperBack() {
-    return this.currentPaper.querySelector('[data-controller="canva"].back').dataset.canvaBackgroundImageValue
+    return this.currentPaper.dataset.backImageValue
+  }
+
+  get bitcoinController() {
+    return this.application.getControllerForElementAndIdentifier(this.element, 'bitcoin')
   }
 
   dispatchPaperSelect() {
@@ -80,21 +84,5 @@ export default class extends Controller {
       url.searchParams.set('paper_id', this.currentPaperValue)
     }
     window.history.pushState({}, '', url)
-  }
-
-  cache({ detail: { side, base64url, paperId } }) {
-    const paper = this.paperTargets.find(paper => Number(paper.dataset.paperId) === Number(paperId))
-    if (paper) {
-      if (side === 'back') {
-        paper.dataset.paperCanvaBackUrl = base64url
-      } else if (side === 'front') {
-        paper.dataset.paperCanvaFrontUrl = base64url
-      }
-    }
-    if (paper.dataset.paperCanvaFrontUrl &&
-      paper.dataset.paperCanvaBackUrl &&
-      Number(paperId) === this.currentPaperValue) {
-      this.dispatchPaperSelect(paperId)
-    }
   }
 }
