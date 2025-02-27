@@ -12,8 +12,35 @@ export default class extends Controller {
   }
 
   initializeCanvas() {
-    this.container = this.containerTarget
-    this.ctx = this.container.getContext('2d')
+    // Get the canvas element
+    const canvas = this.containerTarget
+
+    // Get device pixel ratio
+    const dpr = window.devicePixelRatio || 1
+
+    // Get the size from the parent element
+    const rect = canvas.parentElement.getBoundingClientRect()
+
+    // Set the canvas size in pixels (multiplied by device pixel ratio)
+    canvas.width = rect.width * dpr
+    canvas.height = rect.height * dpr
+
+    // Scale back the canvas using CSS
+    canvas.style.width = `${rect.width}px`
+    canvas.style.height = `${rect.height}px`
+
+    // Get the context and scale it
+    this.ctx = canvas.getContext('2d')
+    this.ctx.scale(dpr, dpr)
+
+    // Enable image smoothing
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
+
+    // Initial draw if background image exists
+    if (this.hasBackgroundImageValue) {
+      this.loadBackgroundImage()
+    }
   }
 
   loadBackgroundImage() {
@@ -64,20 +91,20 @@ export default class extends Controller {
       canvaItem.classList.add('canva-item')
       canvaItem.classList.add('generated')
       canvaItem.dataset.canvaTarget = 'canvaItem'
-      this.container.after(canvaItem)
+      this.containerTarget.after(canvaItem)
     })
   }
 
   clear() {
-    this.ctx.clearRect(0, 0, this.container.width, this.container.height)
+    this.ctx.clearRect(0, 0, this.containerTarget.width, this.containerTarget.height)
     if (this.backgroundImage) {
-        this.ctx.drawImage(
-          this.backgroundImage,
-          0,
-          0,
-          this.container.width,
-          this.container.height
-        )
+      this.ctx.drawImage(
+        this.backgroundImage,
+        0,
+        0,
+        this.containerTarget.width,
+        this.containerTarget.height
+      )
     }
   }
 
