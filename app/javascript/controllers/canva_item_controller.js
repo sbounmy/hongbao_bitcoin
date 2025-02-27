@@ -27,12 +27,34 @@ export default class extends Controller {
     const x = this.ctx.canvas.width * this.xValue
     const y = this.ctx.canvas.height * this.yValue
 
-    // Use the correct value properties
-    // Clear the entire canvas first
     if (this.typeValue === 'text') {
         this.ctx.font = `${this.fontSizeValue}px Arial`
         this.ctx.fillStyle = this.fontColorValue
-        this.ctx.fillText(this.textValue || '', x, y)
+
+        const maxWidth = this.ctx.canvas.width * 0.8
+
+        const wrapText = (text, x, y, maxWidth, lineHeight) => {
+            const words = text.split(' ')
+            let line = ''
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' '
+                const metrics = this.ctx.measureText(testLine)
+                const testWidth = metrics.width
+
+                if (testWidth > maxWidth && n > 0) {
+                    this.ctx.fillText(line, x, y)
+                    line = words[n] + ' '
+                    y += lineHeight
+                } else {
+                    line = testLine
+                }
+            }
+            this.ctx.fillText(line, x, y)
+        }
+
+        const lineHeight = this.fontSizeValue * 2
+        wrapText(this.textValue || '', x, y, maxWidth, lineHeight)
     } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue*this.ctx.canvas.width
       this.ctx.drawImage(this.imageUrl, x, y,imageSize,imageSize)
