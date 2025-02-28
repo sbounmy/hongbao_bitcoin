@@ -49,7 +49,6 @@ export default class extends Controller {
     const img = new Image()
     img.src = this.backgroundImageValue
     img.onload = (event) => {
-      console.log("loadBackgroundImage", event.target)
       this.backgroundImage = event.target
       this.dispatch("imageLoaded")
     }
@@ -85,7 +84,7 @@ export default class extends Controller {
       canvaItem.dataset.canvaItemYValue = element.y
       canvaItem.dataset.canvaItemTextValue = element.text
       canvaItem.dataset.canvaItemNameValue = this.camelize(name)
-      canvaItem.dataset.canvaItemTypeValue = name.endsWith('_qrcode') ? 'image' : 'text'
+      canvaItem.dataset.canvaItemTypeValue = name.endsWith('_qrcode') ? 'image' : (name.startsWith('mnemonic') ? 'mnemonic' : 'text')
       canvaItem.dataset.canvaItemFontSizeValue = element.size
       canvaItem.dataset.canvaItemFontColorValue = element.color
       canvaItem.classList.add('canva-item')
