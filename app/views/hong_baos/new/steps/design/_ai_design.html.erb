@@ -56,6 +56,13 @@
     <div id="ai_designs_results" class="mt-4">
       <%= render "hong_baos/new/steps/design/generated_designs",
                 papers_by_user: papers_by_user %>
+
+      <!-- Face Swap Button -->
+      <%= button_to "Try Face Swap",
+                    webhooks_face_swap_process_path,
+                    method: :post,
+                    class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
+                            font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
     </div>
 
     <div id="flash"></div>

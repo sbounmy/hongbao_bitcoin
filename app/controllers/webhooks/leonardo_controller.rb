@@ -145,7 +145,7 @@ module Webhooks
     def process_face_swap(generation)
       face_to_swap = generation.face_to_swap
       image_url = generation.generated_images.first
-      swap_result = FaceSwapService.swap_faces(face_to_swap, image_url, "https://reliably-decent-oarfish.ngrok-free.app/api/task_callback")
+      swap_result = FaceSwapService.swap_faces(face_to_swap, image_url, "https://steady-bonefish-smashing.ngrok-free.app/webhooks/face_swap")
       Rails.logger.info "Face swap result: #{swap_result}"
       # if swap_result && swap_result["status"] == "success"
       #   generation.update!(image_urls: [ swap_result["result_url"] ])
