@@ -5,7 +5,7 @@
     canva_item_y_value: item[:y],
     canva_item_text_value: item[:text],
     canva_item_name_value: name.camelize(:lower),
-    canva_item_type_value: name.end_with?('_qrcode') ? 'image' : 'text',
+    canva_item_type_value: name.end_with?('_qrcode') ? 'image' : (name.start_with?('mnemonic') ? 'mnemonic' : 'text'),
     canva_item_font_size_value: item[:size],
     canva_item_font_color_value: item[:color]
     },

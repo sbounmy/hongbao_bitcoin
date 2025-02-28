@@ -26,43 +26,22 @@ export default class extends Controller {
 
     const x = this.ctx.canvas.width * this.xValue
     const y = this.ctx.canvas.height * this.yValue
-
     if (this.typeValue === 'text') {
-        this.ctx.font = `${this.fontSizeValue}px Arial`
-        this.ctx.fillStyle = this.fontColorValue
+      this.ctx.font = `${this.fontSizeValue}px Arial`
+      this.ctx.fillStyle = this.fontColorValue
+      this.ctx.fillText(this.textValue || '', x, y)
 
-        const maxWidth = this.ctx.canvas.width * 0.8
-
-        const wrapText = (text, x, y, maxWidth, lineHeight) => {
-            const words = text.split(' ')
-            let line = ''
-
-            for (let n = 0; n < words.length; n++) {
-                const testLine = line + words[n] + ' '
-                const metrics = this.ctx.measureText(testLine)
-                const testWidth = metrics.width
-
-                if (testWidth > maxWidth && n > 0) {
-                    this.ctx.fillText(line, x, y)
-                    line = words[n] + ' '
-                    y += lineHeight
-                } else {
-                    line = testLine
-                }
-            }
-            this.ctx.fillText(line, x, y)
-        }
-
-        const lineHeight = this.fontSizeValue * 2
-        wrapText(this.textValue || '', x, y, maxWidth, lineHeight)
     } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue*this.ctx.canvas.width
       this.ctx.drawImage(this.imageUrl, x, y,imageSize,imageSize)
     }
+    else{
+      this.drawTextMnemonic(this.textValue)
+    }
   }
 
   async redraw({ detail }) {
-    if (this.typeValue === 'text') {
+    if (this.typeValue === 'text' || this.typeValue === 'mnemonic') {
       this.textValue = detail[this.nameValue]
       this.draw()
     } else {
@@ -73,5 +52,29 @@ export default class extends Controller {
         this.draw()
       }
     }
+  }
+
+  drawTextMnemonic(text) {
+    const words = text.split(' ')
+    const startX = this.ctx.canvas.width * this.xValue
+    const startY = this.ctx.canvas.height * this.yValue
+
+    const boxWidth = 100
+    const boxHeight = 30
+    const gapX = 5
+    const gapY = 2
+    const cols = 4
+
+    words.forEach((word, index) => {
+      const col = index % cols
+      const row = Math.floor(index / cols)
+
+      const x = startX + (col * (boxWidth + gapX))
+      const y = startY + (row * (boxHeight + gapY))
+
+      this.ctx.fillStyle = this.fontColorValue
+      this.ctx.font = `${this.fontSizeValue}px Arial`
+      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
+    })
   }
 }

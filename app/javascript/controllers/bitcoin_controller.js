@@ -36,7 +36,6 @@ export default class extends Controller {
   }
 
   dispatchWalletChanged() {
-    console.log("dispatchWalletChanged", this.wallet)
     this.dispatch("changed", {
       detail: this.detail
     })
