@@ -10,6 +10,7 @@ class Paper < ApplicationRecord
   validates :image_front, presence: true
   validates :image_back, presence: true
   validates :style, presence: true
+  validates :task_id, presence: false
 
   enum :style, {
     classic: 0,

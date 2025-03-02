@@ -36,10 +36,6 @@ module Webhooks
         end
         Rails.logger.info "Generation updated with images: #{generation.image_urls}"
 
-        if generation.face_to_swap.attached?
-          process_face_swap(generation)
-        end
-
         # Process images and create paper if we have images
         if generation.image_urls.present?
           process_images(generation)
@@ -140,16 +136,6 @@ module Webhooks
       )
     rescue StandardError => e
       Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"
-    end
-
-    def process_face_swap(generation)
-      face_to_swap = generation.face_to_swap
-      image_url = generation.generated_images.first
-      swap_result = FaceSwapService.swap_faces(face_to_swap, image_url, "https://steady-bonefish-smashing.ngrok-free.app/webhooks/face_swap")
-      Rails.logger.info "Face swap result: #{swap_result}"
-      # if swap_result && swap_result["status"] == "success"
-      #   generation.update!(image_urls: [ swap_result["result_url"] ])
-      # end
     end
 
     def verify_webhook_token

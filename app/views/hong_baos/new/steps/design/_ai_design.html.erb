@@ -58,9 +58,18 @@
                 papers_by_user: papers_by_user %>
 
       <!-- Face Swap Button -->
-      <%= button_to "Try Face Swap",
-                    webhooks_face_swap_process_path,
-                    method: :post,
+      <%= form_with(url: webhooks_face_swap_process_path,
+                  method: :post,
+                  local: false,
+                  data: {
+                    turbo: true
+                  }) do |f| %>
+        <%= f.hidden_field :paper_id, value: params[:paper_id], data: { controller: "binding", binding_name_value: "paperId", action: "hong-bao:select@window->binding#value" } %>
+        <%= f.submit "Try Face Swap",
+                    class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
+                            font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
+      <% end %>
+    </div>
                     class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
                             font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
     </div>
