@@ -128,11 +128,12 @@ module Webhooks
 
       # Update generation with paper reference
       # generation.update!(paper_id: paper.id)
+      user = User.find(generation.user_id)
       Turbo::StreamsChannel.broadcast_update_to(
         "ai_generations",
         target: "ai_generations",
         partial: "hong_baos/new/steps/design/generated_designs",
-        locals: { papers_by_user: current_user.papers }
+        locals: { papers_by_user: user.papers }
       )
     rescue StandardError => e
       Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"
