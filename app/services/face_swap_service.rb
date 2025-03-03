@@ -49,11 +49,21 @@ class FaceSwapService
 
   private
 
-  def self.download_tempfile(blob)
-    tempfile = Tempfile.new([ "image", ".jpg" ])  # Change l'extension selon ton format
+  def self.download_tempfile(file)
+    tempfile = Tempfile.new([ "image", ".jpg" ])
     tempfile.binmode
-    tempfile.write(blob.download)  # Télécharger le fichier
+
+    if file.respond_to?(:download)
+      # Handle ActiveStorage blob
+      tempfile.write(file.download)
+    elsif file.respond_to?(:read)
+      # Handle uploaded file
+      tempfile.write(file.read)
+    else
+      raise ArgumentError, "Unsupported file type: #{file.class}"
+    end
+
     tempfile.rewind
-    tempfile  # Retourne le fichier temporaire
+    tempfile
   end
 end

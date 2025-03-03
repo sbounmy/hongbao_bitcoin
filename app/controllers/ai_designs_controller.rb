@@ -15,7 +15,6 @@ class AiDesignsController < ApplicationController
 
       # Get parameters from the request
       occasion = params[:occasion]
-      face_to_swap = params[:image]
       model_id = "2067ae52-33fd-4a82-bb92-c2c55e7d2786"
 
       unless occasion.present?
@@ -28,8 +27,7 @@ class AiDesignsController < ApplicationController
         prompt: full_prompt,
         status: "pending",
         generation_id: SecureRandom.uuid,
-        user: current_user,
-        face_to_swap: face_to_swap
+        user: current_user
       )
 
       # Get theme elements

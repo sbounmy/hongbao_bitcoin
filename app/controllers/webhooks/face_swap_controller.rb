@@ -12,35 +12,20 @@ module Webhooks
       task_id = params[:task_id]
       success = params[:success].to_i == 1
       result_image_url = params[:result_image]
-
-      #       # Get the paper_id from params and ensure it's not blank
-      #       paper_id = params[:paper_id].presence
-
-      #       unless paper_id
-      #         Rails.logger.error "No paper_id provided in params"
-      #         return render json: { error: "Paper ID is required" }, status: :bad_request
-      #       end
-
-      # Rails.logger.info "Paper ID: #{paper_id}"
-      paper = Paper.last
+      paper = Paper.find_by(task_id: task_id)
 
       return render json: { error: "Invalid webhook data" }, status: :bad_request unless task_id && result_image_url
 
-      # generation = Ai::Generation.find_by(task_id: task_id)
-      generation = Ai::Generation.last
-
-      if generation
         if success
           new_paper = Paper.new(
             name: "Face Swapped #{paper.name}",
             style: paper.style,
             active: true,
             public: false,
-            user: paper.user
+            user: paper.user,
+            task_id: task_id
           )
-          # Attach the image_back after creation if the original paper has one
           new_paper.image_back.attach(paper.image_back.blob) if paper.image_back.attached?
-          # Download and verify the source image using Net::HTTP
           uri = URI.parse(result_image_url)
           response = Net::HTTP.get_response(uri)
 
@@ -68,7 +53,6 @@ module Webhooks
           )
 
           new_paper.save!
-          generation.update(result_image: result_image_url, status: "completed")
           Rails.logger.info "Face swap success! Image URL: #{result_image_url}"
 
           # Clean up temporary files
@@ -77,21 +61,16 @@ module Webhooks
           temp_file.unlink
 
         else
-          generation.update(status: "failed")
           Rails.logger.error "Face swap failed for task_id: #{task_id}"
         end
-      else
-        Rails.logger.error "No matching generation found for task_id: #{task_id}"
-        return render json: { error: "Task not found" }, status: :not_found
-      end
 
       render json: { message: "Webhook processed successfully" }, status: :ok
     end
 
     def process_face_swap
-      generation = Ai::Generation.last
-      paper = Paper.last
-      face_to_swap = generation.face_to_swap
+      Rails.logger.info "Processing face swap for Paper ##{params[:paper_id]}"
+      paper = Paper.find(params[:paper_id])
+      face_to_swap = params[:image]
       image_url = paper.image_front
 
       Rails.logger.info "Starting face swap for Paper ##{paper.id}"
@@ -102,11 +81,11 @@ module Webhooks
         "https://steady-bonefish-smashing.ngrok-free.app/webhooks/face_swap"
       )
 
-      if response && response["task_id"]
+      if response && response["data"]["task_id"]
 
-        paper.update(task_id: response["task_id"])
-        Rails.logger.info "Face swap request sent. Task ID: #{response["task_id"]}"
-        render json: { status: "processing", task_id: response["task_id"], message: "Face swap initiated" }
+        paper.update(task_id: response["data"]["task_id"])
+        Rails.logger.info "Face swap request sent. Task ID: #{response["data"]["task_id"]}"
+        render json: { status: "processing", task_id: response["data"]["task_id"], message: "Face swap initiated" }
       else
         Rails.logger.error "Face swap request failed: #{response}"
         render json: { error: "Face swap request failed" }, status: :unprocessable_entity
