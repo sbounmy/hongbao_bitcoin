@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_03_130348) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_04_093322) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -90,6 +90,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_130348) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "face_swap_tasks", force: :cascade do |t|
+    t.string "task_id", null: false
+    t.string "task_status", default: "pending"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_face_swap_tasks_on_task_id", unique: true
+    t.index ["user_id"], name: "index_face_swap_tasks_on_user_id"
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.integer "style", default: 0
@@ -144,6 +154,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_130348) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_generations", "users"
+  add_foreign_key "face_swap_tasks", "users"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
 end

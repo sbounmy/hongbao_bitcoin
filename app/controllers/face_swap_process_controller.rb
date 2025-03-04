@@ -20,6 +20,12 @@ class FaceSwapProcessController < ApplicationController
     if response && response["data"]["task_id"]
       Rails.logger.info "Face swap request sent. Current user: #{current_user.inspect}"
       paper.update(task_id: response["data"]["task_id"])
+      face_swap_task = FaceSwapTask.new(
+        task_id: response["data"]["task_id"],
+        user: current_user,
+        task_status: "processing"
+      )
+      face_swap_task.save!
       Rails.logger.info "Face swap request sent. Task ID: #{response["data"]["task_id"]}"
       render json: { status: "processing", task_id: response["data"]["task_id"], message: "Face swap initiated" }
     else
