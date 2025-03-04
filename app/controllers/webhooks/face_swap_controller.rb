@@ -15,7 +15,7 @@ module Webhooks
       paper = Paper.find_by(task_id: task_id)
 
       return render json: { error: "Invalid webhook data" }, status: :bad_request unless task_id && result_image_url
-
+      Rails.logger.info "Current user: #{current_user.inspect}"
         if success
           new_paper = Paper.new(
             name: "Face Swapped #{paper.name}",
@@ -59,37 +59,17 @@ module Webhooks
           FileUtils.rm_f(result_temp_path)
           temp_file.close
           temp_file.unlink
-
+          Turbo::StreamsChannel.broadcast_update_to(
+            "ai_generations",
+            target: "ai_generations",
+            partial: "hong_baos/new/steps/design/generated_designs",
+            locals: { papers_by_user: user.papers }
+          )
         else
           Rails.logger.error "Face swap failed for task_id: #{task_id}"
         end
 
       render json: { message: "Webhook processed successfully" }, status: :ok
-    end
-
-    def process_face_swap
-      Rails.logger.info "Processing face swap for Paper ##{params[:paper_id]}"
-      paper = Paper.find(params[:paper_id])
-      face_to_swap = params[:image]
-      image_url = paper.image_front
-
-      Rails.logger.info "Starting face swap for Paper ##{paper.id}"
-
-      response = FaceSwapService.swap_faces(
-        image_url,
-        face_to_swap,
-        "https://steady-bonefish-smashing.ngrok-free.app/webhooks/face_swap"
-      )
-
-      if response && response["data"]["task_id"]
-
-        paper.update(task_id: response["data"]["task_id"])
-        Rails.logger.info "Face swap request sent. Task ID: #{response["data"]["task_id"]}"
-        render json: { status: "processing", task_id: response["data"]["task_id"], message: "Face swap initiated" }
-      else
-        Rails.logger.error "Face swap request failed: #{response}"
-        render json: { error: "Face swap request failed" }, status: :unprocessable_entity
-      end
     end
   end
 end
