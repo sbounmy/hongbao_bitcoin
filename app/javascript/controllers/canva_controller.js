@@ -18,19 +18,25 @@ export default class extends Controller {
     // Get device pixel ratio
     const dpr = window.devicePixelRatio || 1
 
-    // Get the size from the parent element
-    const rect = canvas.parentElement.getBoundingClientRect()
+    // Store the original dimensions
+    this.originalWidth = canvas.parentElement.offsetWidth
+    this.originalHeight = canvas.parentElement.offsetHeight
 
     // Set the canvas size in pixels (multiplied by device pixel ratio)
-    canvas.width = rect.width * dpr
-    canvas.height = rect.height * dpr
+    canvas.width = this.originalWidth * dpr
+    canvas.height = this.originalHeight * dpr
 
-    // Scale back the canvas using CSS
-    canvas.style.width = `${rect.width}px`
-    canvas.style.height = `${rect.height}px`
+    // Set the canvas display size through CSS
+    canvas.style.width = `${this.originalWidth}px`
+    canvas.style.height = `${this.originalHeight}px`
 
     // Get the context and scale it
     this.ctx = canvas.getContext('2d')
+
+    // Clear any existing transforms
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+    // Apply the DPR scaling
     this.ctx.scale(dpr, dpr)
 
     // Enable image smoothing
@@ -95,14 +101,15 @@ export default class extends Controller {
   }
 
   clear() {
-    this.ctx.clearRect(0, 0, this.containerTarget.width, this.containerTarget.height)
+    const dpr = window.devicePixelRatio || 1
+    this.ctx.clearRect(0, 0, this.originalWidth, this.originalHeight)
     if (this.backgroundImage) {
       this.ctx.drawImage(
         this.backgroundImage,
         0,
         0,
-        this.containerTarget.width,
-        this.containerTarget.height
+        this.originalWidth,
+        this.originalHeight
       )
     }
   }
