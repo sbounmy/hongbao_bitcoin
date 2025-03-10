@@ -26,28 +26,10 @@ module Webhooks
             task_id: task_id
           )
           new_paper.image_back.attach(paper.image_back.blob) if paper.image_back.attached?
-          uri = URI.parse(result_image_url)
-          response = Net::HTTP.get_response(uri)
 
-          # Create a temporary file to store the downloaded image
-          temp_file = Tempfile.new([ "downloaded_image", ".png" ])
-          temp_file.binmode
-          temp_file.write(response.body)
-          temp_file.rewind
-
-          result_image = ImageProcessing::Vips
-          .source(temp_file)
-          .convert("png")
-          .call
-          temp_dir = Rails.root.join("tmp", "image_processing")
-          FileUtils.mkdir_p(temp_dir)
-
-          result_temp_path = temp_dir.join("result_image.png")
-          FileUtils.cp(result_image.path, result_temp_path)
-
-          # Download and attach the face-swapped image
+          downloaded_result_image = URI.parse(result_image_url).open
           new_paper.image_front.attach(
-            io: File.open(result_temp_path),
+            io: downloaded_result_image,
             filename: "face_swapped_#{paper.id}.png",
             content_type: "image/png"
           )
@@ -55,10 +37,7 @@ module Webhooks
           new_paper.save!
           Rails.logger.info "Face swap success! Image URL: #{result_image_url}"
           face_swap_task.update(status: "completed")
-          # Clean up temporary files
-          FileUtils.rm_f(result_temp_path)
-          temp_file.close
-          temp_file.unlink
+
           Turbo::StreamsChannel.broadcast_update_to(
             "ai_generations_#{face_swap_task.user.id}",
             target: "ai_generations_#{face_swap_task.user.id}",

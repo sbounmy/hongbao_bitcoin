@@ -26,7 +26,6 @@ class AiDesignsController < ApplicationController
       generation = Ai::Generation.create!(
         prompt: full_prompt,
         status: "pending",
-        external_id: SecureRandom.uuid,
         user: current_user
       )
 

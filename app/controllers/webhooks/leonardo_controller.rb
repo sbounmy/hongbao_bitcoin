@@ -32,13 +32,15 @@ module Webhooks
         )
         images.each do |image|
           downloaded_image = URI.parse(image["url"]).open
-          generation.generated_images.attach(io: downloaded_image, filename: "#{SecureRandom.hex(8)}.jpg")
+          generation.images.attach(io: downloaded_image, filename: "#{SecureRandom.hex(8)}.jpg")
         end
         Rails.logger.info "Generation updated with images: #{generation.image_urls}"
 
         # Process images and create paper if we have images
-        if generation.image_urls.present?
-          process_images(generation)
+        if generation.images.present?
+          generation.images.each do |image|
+            process_images(generation, image)
+          end
         end
       end
 
@@ -47,9 +49,7 @@ module Webhooks
 
     private
 
-    def process_images(generation)
-      image_url = generation.image_urls.first
-
+    def process_images(generation, image)
       # Create a new Paper record using the user from the generation
       paper = Paper.new(
         name: "AI Generated #{generation.prompt}",
@@ -59,24 +59,15 @@ module Webhooks
         user: generation.user
       )
 
-      # Download and verify the source image using Net::HTTP
-      uri = URI.parse(image_url)
-      response = Net::HTTP.get_response(uri)
-
-      # Create a temporary file to store the downloaded image
-      temp_file = Tempfile.new([ "downloaded_image", ".png" ])
-      temp_file.binmode
-      temp_file.write(response.body)
-      temp_file.rewind
-
-      Rails.logger.info "Source image downloaded successfully"
-
       # Process and verify the initial resize
-      processed_image = ImageProcessing::Vips
-        .source(temp_file)
-        .resize_to_fill(512, 512)
-        .convert("png")
-        .call
+      processed_image = nil
+      image.blob.open do |tempfile|
+        processed_image = ImageProcessing::Vips
+          .source(tempfile.path)
+          .resize_to_fill(512, 512)
+          .convert("png")
+          .call
+      end
 
       # Process top half
       Rails.logger.info "Processing top half..."
@@ -94,40 +85,21 @@ module Webhooks
         .convert("png")
         .call
 
-      # Save temporary files for verification
-      temp_dir = Rails.root.join("tmp", "image_processing")
-      FileUtils.mkdir_p(temp_dir)
-
-      top_temp_path = temp_dir.join("top_half.png")
-      bottom_temp_path = temp_dir.join("bottom_half.png")
-
-      # Copy the processed files to temp location
-      FileUtils.cp(top_half.path, top_temp_path)
-      FileUtils.cp(bottom_half.path, bottom_temp_path)
-
       # Attach the images to the paper record
       paper.image_front.attach(
-        io: File.open(top_temp_path),
+        io: File.open(top_half.path),
         filename: "front_#{SecureRandom.hex(8)}.png",
         content_type: "image/png"
       )
 
       paper.image_back.attach(
-        io: File.open(bottom_temp_path),
+        io: File.open(bottom_half.path),
         filename: "back_#{SecureRandom.hex(8)}.png",
         content_type: "image/png"
       )
 
       paper.save!
 
-      # Clean up temporary files
-      FileUtils.rm_f(top_temp_path)
-      FileUtils.rm_f(bottom_temp_path)
-      temp_file.close
-      temp_file.unlink
-
-      # Update generation with paper reference
-      # generation.update!(paper_id: paper.id)
       user = User.find(generation.user_id)
       Turbo::StreamsChannel.broadcast_update_to(
         "ai_generations_#{user.id}",

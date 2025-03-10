@@ -61,12 +61,12 @@
                   }) do |f| %>
         <%= f.hidden_field :paper_id, value: params[:paper_id], data: { controller: "binding", binding_name_value: "paperId", action: "hong-bao:select@window->binding#value" } %>
       <div class="space-y-2">
-        <label class="block text-white text-sm">Reference Images (Optional)</label>
+        <label class="block text-white text-sm">Reference Image</label>
         <%= f.file_field :image,
                         accept: "image/*",
                         class: "text-white" %>
       </div>
-        <%= f.submit "Try Face Swap",
+        <%= f.submit "Face Swap",
                     class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
                             font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
       <% end %>
