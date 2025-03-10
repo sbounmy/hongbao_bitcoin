@@ -1,7 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 host = ENV.fetch("NGROK_HOST") { "localhost:3002" }
-base_url = host.include?("ngrok") ? "https://#{host}" : "http://#{host}"
+base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -68,7 +68,7 @@ Rails.application.configure do
   config.action_cable.disable_request_forgery_protection = true
 
   # Use secure WebSocket for ngrok, regular WebSocket for localhost
-  config.action_cable.url = host.include?("ngrok") ? "wss://#{host}/cable" : "ws://#{host}/cable"
+  config.action_cable.url = host.include?("localhost") ? "ws://#{host}/cable" : "wss://#{host}/cable"
   config.action_cable.allowed_request_origins = [
     base_url,
     "http://127.0.0.1:3002",
