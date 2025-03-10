@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_04_093322) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_10_091214) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -72,32 +72,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_04_093322) do
     t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
   end
 
-  create_table "ai_generations", force: :cascade do |t|
-    t.string "prompt", null: false
-    t.string "generation_id", null: false
-    t.string "status", null: false
-    t.text "image_urls"
+  create_table "ai_tasks", force: :cascade do |t|
+    t.string "external_id", null: false
+    t.string "status", default: "pending"
+    t.integer "user_id", null: false
+    t.string "type", null: false
+    t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.index ["generation_id"], name: "index_ai_generations_on_generation_id", unique: true
-    t.index ["user_id"], name: "index_ai_generations_on_user_id"
+    t.index ["type", "external_id"], name: "index_ai_tasks_on_type_and_external_id"
+    t.index ["user_id"], name: "index_ai_tasks_on_user_id"
   end
 
   create_table "ai_themes", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "face_swap_tasks", force: :cascade do |t|
-    t.string "task_id", null: false
-    t.string "task_status", default: "pending"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["task_id"], name: "index_face_swap_tasks_on_task_id", unique: true
-    t.index ["user_id"], name: "index_face_swap_tasks_on_user_id"
   end
 
   create_table "papers", force: :cascade do |t|
@@ -153,8 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_04_093322) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ai_generations", "users"
-  add_foreign_key "face_swap_tasks", "users"
+  add_foreign_key "ai_tasks", "users"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
 end

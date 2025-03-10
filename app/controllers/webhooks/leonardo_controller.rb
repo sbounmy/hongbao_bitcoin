@@ -16,7 +16,7 @@ module Webhooks
       Rails.logger.info "Generation ID: #{generation_id}"
 
       # Find the associated generation request
-      generation = Ai::Generation.find_by(generation_id: generation_id)
+      generation = Ai::Generation.find_by(external_id: generation_id)
       Rails.logger.info "Found generation: #{generation&.id}"
 
       return head :not_found unless generation
@@ -130,10 +130,10 @@ module Webhooks
       # generation.update!(paper_id: paper.id)
       user = User.find(generation.user_id)
       Turbo::StreamsChannel.broadcast_update_to(
-        "ai_generations",
-        target: "ai_generations",
+        "ai_generations_#{user.id}",
+        target: "ai_generations_#{user.id}",
         partial: "hong_baos/new/steps/design/generated_designs",
-        locals: { papers_by_user: user.papers }
+        locals: { papers_by_user: user.papers, user: user }
       )
     rescue StandardError => e
       Rails.logger.error "Image processing error: #{e.message}\n#{e.backtrace.join("\n")}"

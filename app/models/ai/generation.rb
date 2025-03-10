@@ -1,10 +1,5 @@
 module Ai
-  class Generation < ApplicationRecord
-    belongs_to :user
-    validates :prompt, presence: true
-    validates :generation_id, presence: true, uniqueness: true
-    validates :status, presence: true
-
+  class Generation < Task
     attribute :image_urls, :json, default: []
     has_many_attached :generated_images, dependent: :destroy
   end

@@ -20,10 +20,11 @@ class FaceSwapProcessController < ApplicationController
     if response && response["data"]["task_id"]
       Rails.logger.info "Face swap request sent. Current user: #{current_user.inspect}"
       paper.update(task_id: response["data"]["task_id"])
-      face_swap_task = FaceSwapTask.new(
-        task_id: response["data"]["task_id"],
+      face_swap_task = Ai::FaceSwap.new(
+        external_id: response["data"]["task_id"],
         user: current_user,
-        task_status: "processing"
+        status: "processing",
+        prompt: "Swap the face of the person in the image with the face of the person in the image"
       )
       face_swap_task.save!
       Rails.logger.info "Face swap request sent. Task ID: #{response["data"]["task_id"]}"

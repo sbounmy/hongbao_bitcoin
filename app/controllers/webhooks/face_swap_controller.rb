@@ -13,7 +13,7 @@ module Webhooks
       success = params[:success].to_i == 1
       result_image_url = params[:result_image]
       paper = Paper.find_by(task_id: task_id)
-      face_swap_task = FaceSwapTask.find_by(task_id: task_id)
+      face_swap_task = Ai::FaceSwap.find_by(external_id: task_id)
       return render json: { error: "Invalid webhook data" }, status: :bad_request unless task_id && result_image_url
       Rails.logger.info "Current user: #{current_user.inspect}"
         if success
@@ -54,16 +54,16 @@ module Webhooks
 
           new_paper.save!
           Rails.logger.info "Face swap success! Image URL: #{result_image_url}"
-          face_swap_task.update(task_status: "completed")
+          face_swap_task.update(status: "completed")
           # Clean up temporary files
           FileUtils.rm_f(result_temp_path)
           temp_file.close
           temp_file.unlink
           Turbo::StreamsChannel.broadcast_update_to(
-            "ai_generations",
-            target: "ai_generations",
+            "ai_generations_#{face_swap_task.user.id}",
+            target: "ai_generations_#{face_swap_task.user.id}",
             partial: "hong_baos/new/steps/design/generated_designs",
-            locals: { papers_by_user: face_swap_task.user.papers }
+            locals: { papers_by_user: face_swap_task.user.papers, user: face_swap_task.user }
           )
         else
           Rails.logger.error "Face swap failed for task_id: #{task_id}"

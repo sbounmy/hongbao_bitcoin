@@ -1,7 +1,6 @@
-<%= turbo_stream_from("ai_generations") %>
-<div id="ai_generations">
+<%= turbo_stream_from("ai_generations_#{user.id}") %>
+<div id="ai_generations_<%= user.id %>">
   <h4>Generated Designs</h4>
-  <%# <div class="grid grid-cols-1 gap-4"> %>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
     <% if papers_by_user.present? %>
       <% papers_by_user.each do |paper| %>

@@ -26,7 +26,7 @@ class AiDesignsController < ApplicationController
       generation = Ai::Generation.create!(
         prompt: full_prompt,
         status: "pending",
-        generation_id: SecureRandom.uuid,
+        external_id: SecureRandom.uuid,
         user: current_user
       )
 
@@ -64,7 +64,7 @@ class AiDesignsController < ApplicationController
 
       if response["sdGenerationJob"].present?
         generation.update!(
-          generation_id: response["sdGenerationJob"]["generationId"],
+          external_id: response["sdGenerationJob"]["generationId"],
           status: "processing"
         )
 
