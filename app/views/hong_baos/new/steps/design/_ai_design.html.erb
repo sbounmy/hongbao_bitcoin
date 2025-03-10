@@ -50,7 +50,7 @@
     <div id="ai_designs_results" class="mt-4">
       <%= render "hong_baos/new/steps/design/generated_designs",
                 papers_by_user: papers_by_user,
-                user: current_user %>
+                user: current_user if current_user.present? %>
 
       <!-- Face Swap Button -->
       <%= form_with(url: process_face_swap_face_swap_process_index_path,
