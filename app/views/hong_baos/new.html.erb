@@ -60,10 +60,11 @@
               hong_bao: @hong_bao,
               papers_by_user: @papers_by_user %>
 
+
           <%= render "hong_baos/new/steps/print",
               hong_bao: @hong_bao,
               papers: @papers,
-              paper: @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first %>
+              paper: @paper if @paper.present? %>
 
           <%= render "hong_baos/new/steps/top_up",
               payment_methods: @payment_methods,

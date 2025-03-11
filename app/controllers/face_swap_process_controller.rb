@@ -14,7 +14,7 @@ class FaceSwapProcessController < ApplicationController
     response = FaceSwapService.swap_faces(
       image_url,
       face_to_swap,
-      "https://steady-bonefish-smashing.ngrok-free.app/webhooks/face_swap"
+      "https://salma.hongbaob.tc/webhooks/face_swap"
     )
 
     if response && response["data"]["task_id"]
