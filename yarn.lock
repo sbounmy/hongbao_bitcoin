@@ -24,7 +24,7 @@
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.26.3.tgz"
   integrity sha512-nHIxvKPniQXpmQLb0vhY3VaFb3S0YrTAwpOWJZh1wn3oJPjJk9Asva204PsBdmAE8vpzfHudT8DB0scYvy9q0g==
 
-"@babel/core@^7.11.6", "@babel/core@^7.12.3", "@babel/core@^7.23.9":
+"@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.0.0-0 || ^8.0.0-0 <8.0.0", "@babel/core@^7.11.6", "@babel/core@^7.12.0", "@babel/core@^7.12.3", "@babel/core@^7.13.0", "@babel/core@^7.23.9", "@babel/core@^7.4.0 || ^8.0.0-0 <8.0.0", "@babel/core@^7.8.0":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/core/-/core-7.26.0.tgz"
   integrity sha512-i1SLeK+DzNnQ3LL/CswPCa/E5u4lh1k6IAEphON8F+cXt0t9euTshDru0q7/IqMa1PMPz5RnHuHscF8/ZJsStg==
@@ -1142,7 +1142,7 @@
 
 "@playwright/test@^1.50.1":
   version "1.50.1"
-  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.50.1.tgz#027d00ca77ec79688764eb765cfe9a688807bf0b"
+  resolved "https://registry.npmjs.org/@playwright/test/-/test-1.50.1.tgz"
   integrity sha512-Jii3aBg+CEDpgnuDxEp/h7BimHcUTDlpEtce89xEumlJ5ef2hqepZ+PWp1DDpYC/VO9fmWVI1IlEaoI5fK9FXQ==
   dependencies:
     playwright "1.50.1"
@@ -1395,7 +1395,7 @@ braces@^3.0.3:
   dependencies:
     fill-range "^7.1.1"
 
-browserslist@^4.24.0, browserslist@^4.24.2:
+browserslist@^4.24.0, browserslist@^4.24.2, "browserslist@>= 4.21.0":
   version "4.24.3"
   resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.24.3.tgz"
   integrity sha512-1CPmv8iobE2fyRMV97dAcMVegvvWKxmq94hkLiAkUGwKVTyDLw33K+ZxiFrREKmmps4rIw6grcCFCnTMSZ/YiA==
@@ -1661,16 +1661,6 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
-
-fsevents@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
-  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
-
-fsevents@^2.3.2:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"
@@ -2061,7 +2051,7 @@ jest-resolve-dependencies@^29.7.0:
     jest-regex-util "^29.6.3"
     jest-snapshot "^29.7.0"
 
-jest-resolve@^29.7.0:
+jest-resolve@*, jest-resolve@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/jest-resolve/-/jest-resolve-29.7.0.tgz"
   integrity sha512-IOVhZSrg+UvVAshDSDtHyFCCBUl/Q3AAJv8iZ6ZjnZ74xzvwuzLXid9IIIPgTnY62SJjfuupMKZsZQRsCvxEgA==
@@ -2331,6 +2321,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+node-bin-setup@^1.0.0:
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/node-bin-setup/-/node-bin-setup-1.1.3.tgz"
+  integrity sha512-opgw9iSCAzT2+6wJOETCpeRYAQxSopqQ2z+N6BXwIMsQQ7Zj5M8MaafQY8JMlolRR6R1UXg2WmhKp0p9lSOivg==
+
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/node-int64/-/node-int64-0.4.0.tgz"
@@ -2340,6 +2335,13 @@ node-releases@^2.0.19:
   version "2.0.19"
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.19.tgz"
   integrity sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==
+
+node@^22.9.0:
+  version "22.9.0"
+  resolved "https://registry.npmjs.org/node/-/node-22.9.0.tgz"
+  integrity sha512-hdNcsLGOk7+ZHG5HW4HLWuNyIl5vilxpV82Cy4biKwjVkGzeUdMxtZBLiSo5H6QuQweyK+1MBK83M3gvsv+V5w==
+  dependencies:
+    node-bin-setup "^1.0.0"
 
 normalize-path@^3.0.0:
   version "3.0.0"
@@ -2450,9 +2452,9 @@ playwright-core@1.50.1:
   resolved "https://registry.npmjs.org/playwright-core/-/playwright-core-1.50.1.tgz"
   integrity sha512-ra9fsNWayuYumt+NiM069M6OkcRb1FZSK8bgi66AtpFoWkg2+y0bJSNmkFrWhMbEBbVKC/EruAHH3g0zmtwGmQ==
 
-playwright@1.50.1, playwright@^1.50.1:
+playwright@^1.50.1, playwright@1.50.1:
   version "1.50.1"
-  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.50.1.tgz#2f93216511d65404f676395bfb97b41aa052b180"
+  resolved "https://registry.npmjs.org/playwright/-/playwright-1.50.1.tgz"
   integrity sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==
   dependencies:
     playwright-core "1.50.1"
@@ -2570,7 +2572,12 @@ semver@^6.3.0, semver@^6.3.1:
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.5.3, semver@^7.5.4:
+semver@^7.5.3:
+  version "7.6.3"
+  resolved "https://registry.npmjs.org/semver/-/semver-7.6.3.tgz"
+  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
+
+semver@^7.5.4:
   version "7.6.3"
   resolved "https://registry.npmjs.org/semver/-/semver-7.6.3.tgz"
   integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
