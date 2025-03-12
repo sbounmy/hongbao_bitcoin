@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     post "/face_swap/process", to: "face_swap#process_face_swap"
     get "/face_swap/get_generation", to: "face_swap#get_generation"
   end
+
+  resources :face_swap_process, only: [ :index ] do
+    post :process_face_swap, on: :collection
+  end
+
   ActiveAdmin.routes(self)
   resource :session
   resources :passwords, param: :token

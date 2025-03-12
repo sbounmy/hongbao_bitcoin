@@ -30,6 +30,15 @@ bin/rails db:setup
 bin/rails server
 ```
 
+Tunnel to local server
+
+https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+
+```bash
+docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {token}
+
+```
+
 ## Testing
 
 ### Install

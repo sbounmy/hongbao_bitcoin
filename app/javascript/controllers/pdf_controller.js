@@ -9,9 +9,6 @@ export default class extends Controller {
     event.preventDefault()
 
     try {
-      // Show loading state
-      event.currentTarget.disabled = true
-
       // Convert content to canvas
       const canvas = await html2canvas(this.contentTarget, {
         scale: 2, // Higher quality
@@ -54,8 +51,6 @@ export default class extends Controller {
     } catch (error) {
       console.error("PDF generation failed:", error)
       this.dispatch("error", { detail: { error: error.message } })
-    } finally {
-      event.currentTarget.disabled = false
     }
   }
 }

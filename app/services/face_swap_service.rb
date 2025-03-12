@@ -13,47 +13,27 @@ class FaceSwapService
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = "Bearer #{API_KEY}"
 
-    # Télécharger les fichiers Active Storage dans des fichiers temporaires
-    source_image = download_tempfile(source_image_blob)
-    face_image = download_tempfile(face_to_swap_blob)
+    # Get binary data directly
+    source_data = source_image_blob.download
+    face_data = face_to_swap_blob.read
 
-    begin
-      # Construire le formulaire multipart
-      form_data = [
-        [ "source_image", source_image ],
-        [ "face_image", face_image ],
-        [ "webhook", webhook_url ] # Ajout du webhook
-      ]
+    # Build multipart form
+    form_data = [
+      [ "source_image", source_data, { filename: "source.jpg" } ],
+      [ "face_image", face_data, { filename: "face.jpg" } ],
+      [ "webhook", webhook_url ]
+    ]
 
-      # Définir le contenu multipart
-      request.set_form(form_data, "multipart/form-data")
+    # Définir le contenu multipart
+    request.set_form(form_data, "multipart/form-data")
 
-      Rails.logger.info "Envoi de la requête FaceSwap..."
+    Rails.logger.info "Envoi de la requête FaceSwap..."
 
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-        http.request(request)
-      end
-
-      Rails.logger.info "Réponse FaceSwap: #{response.body}"
-      JSON.parse(response.body)
-    rescue StandardError => e
-      { error: e.class.to_s, error_message: e.message }
-    ensure
-      # Fermeture et suppression des fichiers temporaires
-      source_image.close
-      source_image.unlink
-      face_image.close
-      face_image.unlink
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
     end
-  end
 
-  private
-
-  def self.download_tempfile(blob)
-    tempfile = Tempfile.new([ "image", ".jpg" ])  # Change l'extension selon ton format
-    tempfile.binmode
-    tempfile.write(blob.download)  # Télécharger le fichier
-    tempfile.rewind
-    tempfile  # Retourne le fichier temporaire
+    Rails.logger.info "Réponse FaceSwap: #{response.body}"
+    JSON.parse(response.body)
   end
 end

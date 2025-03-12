@@ -15,13 +15,7 @@
                   controller: "form",
                   turbo: true
                 }) do |f| %>
-      <!-- Reference Images Upload -->
-      <div class="space-y-2">
-        <label class="block text-white text-sm">Reference Images (Optional)</label>
-        <%= f.file_field :image,
-                        accept: "image/*",
-                        class: "text-white" %>
-      </div>
+
 
       <!-- Custom Text Input -->
       <div class="space-y-2">
@@ -55,7 +49,27 @@
     <!-- Generated Designs Display -->
     <div id="ai_designs_results" class="mt-4">
       <%= render "hong_baos/new/steps/design/generated_designs",
-                papers_by_user: papers_by_user %>
+                papers_by_user: papers_by_user,
+                user: current_user if current_user.present? %>
+
+      <!-- Face Swap Button -->
+      <%= form_with(url: process_face_swap_face_swap_process_index_path,
+                  method: :post,
+                  local: false,
+                  data: {
+                    turbo: true
+                  }) do |f| %>
+        <%= f.hidden_field :paper_id, value: params[:paper_id], data: { controller: "binding", binding_name_value: "paperId", action: "hong-bao:select@window->binding#value" } %>
+      <div class="space-y-2">
+        <label class="block text-white text-sm">Reference Image</label>
+        <%= f.file_field :image,
+                        accept: "image/*",
+                        class: "text-white" %>
+      </div>
+        <%= f.submit "Face Swap",
+                    class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
+                            font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
+      <% end %>
     </div>
 
     <div id="flash"></div>

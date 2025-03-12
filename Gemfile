@@ -52,6 +52,8 @@ group :development, :test do
 
   # Playwright on Rails [https://github.com/cypress-io/cypress-on-rails]
   gem 'cypress-on-rails', '~> 1.0'
+
+  gem 'dotenv-rails'
 end
 
 group :development do

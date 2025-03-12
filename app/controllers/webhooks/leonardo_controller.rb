@@ -16,7 +16,7 @@ module Webhooks
       Rails.logger.info "Generation ID: #{generation_id}"
 
       # Find the associated generation request
-      generation = Ai::Generation.find_by(generation_id: generation_id)
+      generation = Ai::Generation.find_by(external_id: generation_id)
       Rails.logger.info "Found generation: #{generation&.id}"
 
       return head :not_found unless generation
@@ -32,7 +32,7 @@ module Webhooks
         )
         images.each do |image|
           downloaded_image = URI.parse(image["url"]).open
-          generation.generated_images.attach(io: downloaded_image, filename: "#{SecureRandom.hex(8)}.jpg")
+          generation.images.attach(io: downloaded_image, filename: "#{SecureRandom.hex(8)}.jpg")
         end
         Rails.logger.info "Generation updated with images: #{generation.image_urls}"
 
@@ -125,11 +125,14 @@ module Webhooks
       Rails.logger.info "Source image downloaded successfully"
 
       # Process and verify the initial resize
-      processed_image = ImageProcessing::Vips
-        .source(temp_file)
-        .resize_to_fill(512, 512)
-        .convert("png")
-        .call
+      processed_image = nil
+      image.blob.open do |tempfile|
+        processed_image = ImageProcessing::Vips
+          .source(tempfile.path)
+          .resize_to_fill(512, 512)
+          .convert("png")
+          .call
+      end
 
       # Process top half
       Rails.logger.info "Processing top half..."
@@ -146,6 +149,7 @@ module Webhooks
         .crop(0, 256, 512, 256)
         .convert("png")
         .call
+
 
       # Save temporary files for verification
       temp_dir = Rails.root.join("tmp", "image_processing")

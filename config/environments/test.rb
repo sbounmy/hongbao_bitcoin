@@ -2,6 +2,8 @@
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
+host = ENV.fetch("NGROK_HOST") { "localhost:3003" }
+base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -52,5 +54,5 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
 
-  config.action_controller.asset_host = "http://localhost:3003"
+  config.action_controller.asset_host = base_url
 end
