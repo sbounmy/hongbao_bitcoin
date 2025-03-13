@@ -54,6 +54,8 @@ group :development, :test do
   gem 'cypress-on-rails', '~> 1.0'
 
   gem 'dotenv-rails'
+
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails'
 end
 
 group :development do
