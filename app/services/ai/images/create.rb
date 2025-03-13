@@ -35,10 +35,6 @@ class Ai::Images::Create < ApplicationService
     @client ||= LeoAndRuby::Client.new(credentials(:leonardo, :api_key))
   end
 
-  def api_key
-    Rails.application.credentials.dig(:leonardo, :api_key)
-  end
-
   def full_prompt
     "A #{occasion} bitcoin themed bill add text public address and private key"
   end
