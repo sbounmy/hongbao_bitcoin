@@ -1,6 +1,10 @@
 FactoryBot.define do
   factory :user do
-    email { Faker::Internet.email }
-    password { Faker::Internet.password }
+    sequence(:email_address) { |n| "user#{n}@example.com" }
+    password_digest { BCrypt::Password.create("password") }
+
+    trait :john do
+      email_address { "john@example.com" }
+    end
   end
 end
