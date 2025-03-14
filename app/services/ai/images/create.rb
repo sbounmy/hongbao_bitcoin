@@ -1,18 +1,26 @@
 class Ai::Images::Create < ApplicationService
-  def call(params)
-    create_image(params)
-    generate_image(params)
+  attr_reader :params, :current_user
+
+  def initialize(params:, user:)
+    @params = params
+    @current_user = user
   end
 
-  def create_image(params)
+  def call
+    create_image
+    generate_image
+    success @image
+  end
+
+  def create_image
     @image = Ai::Image.create!(
       prompt: full_prompt,
-      status: "pending",
-      user: current_user
+      user: current_user,
+      metadata: { theme_id: theme.id }
     )
   end
 
-  def generate_image(params)
+  def generate_image
     client.generate_image_with_user_elements(
       model_id: model_id,
       prompt: full_prompt,
@@ -24,10 +32,9 @@ class Ai::Images::Create < ApplicationService
       enhancePrompt: false,
       user_elements: elements
     ).tap do |response|
-      @image.update!(
-        external_id: response["sdGenerationJob"]["generationId"],
-        status: "processing"
-      )
+      @image.update! external_id: response["sdGenerationJob"]["generationId"]
+      @image.process!
+      @image
     end
   end
 
@@ -41,16 +48,20 @@ class Ai::Images::Create < ApplicationService
 
   def model_id
     "2067ae52-33fd-4a82-bb92-c2c55e7d2786"
-  end # Get parameters from the request
+  end
+
+  def occasion
+    params[:occasion]
+  end
 
   def theme
-    @theme ||= Ai::Theme.find_by(title: params[:occasion].titleize)
+    @theme ||= Ai::Theme.find_by!(title: occasion.titleize)
   end
 
   def elements
     theme.elements.map do |element|
       {
-        id: element.leonardo_id.to_i,
+        id: element.leonardo_id.to_s,
         weight: element.weight.to_f
       }
     end

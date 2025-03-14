@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_10_090930) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -74,7 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_090930) do
 
   create_table "ai_tasks", force: :cascade do |t|
     t.string "external_id"
-    t.string "status", default: "pending"
+    t.string "status"
     t.integer "user_id", null: false
     t.string "type", null: false
     t.string "prompt"

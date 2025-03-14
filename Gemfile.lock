@@ -146,6 +146,9 @@ GEM
     chunky_png (1.4.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     csv (3.3.0)
     cypress-on-rails (1.17.0)
@@ -165,6 +168,13 @@ GEM
     et-orbi (1.2.11)
       tzinfo
     eventmachine (1.2.7)
+    factory_bot (6.5.1)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 5.0.0)
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-aarch64-linux-musl)
     ffi (1.17.0-arm-linux-gnu)
@@ -189,6 +199,7 @@ GEM
     has_scope (0.8.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
+    hashdiff (1.1.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -487,11 +498,17 @@ GEM
     unicode-display_width (2.6.0)
     uri (1.0.2)
     useragent (0.16.11)
+    vcr (6.3.1)
+      base64
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webmock (3.25.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.11)
     websocket-driver (0.7.7)
       base64
@@ -528,6 +545,8 @@ DEPENDENCIES
   cypress-on-rails (~> 1.0)
   debug
   dotenv-rails
+  factory_bot_rails
+  faker
   image_processing (>= 1.2)
   importmap-rails
   jbuilder
@@ -552,7 +571,9 @@ DEPENDENCIES
   thruster
   turbo-rails
   tzinfo-data
+  vcr
   web-console
+  webmock
 
 BUNDLED WITH
    2.5.21
