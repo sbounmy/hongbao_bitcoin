@@ -51,7 +51,11 @@ npx install
 
 ### Run tests
 ```bash
-# make sure bin/dev is running before
+
+# RSPEC
+bundle exec rspec
+
+# E2E make sure bin/dev is running before
 npx playwright test --ui ## UI MODE
 npx playwright test ## Headless MODE
 ```

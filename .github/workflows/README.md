@@ -8,7 +8,7 @@ You need to set up the following secrets in your GitHub repository:
 
 ### For CI workflow:
 
-- No additional secrets required as we use SQLite3 for testing.
+- `RAILS_MASTER_KEY`: Required for decrypting Rails credentials in the test environment
 
 ### For CD workflow:
 
@@ -31,6 +31,7 @@ The deployment relies on Kamal and assumes you have already set up your server w
    - Performs security scans (Brakeman for Ruby, importmap audit for JS)
    - Lints code with Rubocop
    - Runs RSpec tests with SQLite3 as the database
+   - Uses proper Rails credentials via RAILS_MASTER_KEY
 
 2. **CD Process**:
    - Only runs on push to main branch

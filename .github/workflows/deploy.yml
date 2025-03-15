@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
+    # Define environment variables for the entire job
+    env:
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+      KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
+
     # Only deploy if tests pass
     needs: [test]
 
@@ -50,9 +56,4 @@ jobs:
           kamal push
 
       - name: Deploy with Kamal
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-          KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
-        run: |
-          kamal deploy
+        run: kamal deploy
