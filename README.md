@@ -1,5 +1,8 @@
 # Bitcoin Hong Bao
 
+[![CI](https://github.com/username/hongbao/actions/workflows/ci.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/ci.yml)
+[![Deploy](https://github.com/username/hongbao/actions/workflows/deploy.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/deploy.yml)
+
 Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包).
 
 🌐 **Live Website**: [https://hongbaob.tc](https://hongbaob.tc)
