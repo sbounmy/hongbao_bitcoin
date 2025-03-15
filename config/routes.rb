@@ -77,5 +77,7 @@ Rails.application.routes.draw do
 
   get "instagram/feed", to: "instagram#feed"
 
-  resources :ai_designs, only: [ :create ]
+  resources :ai_designs, only: [ :create ] do
+    get :complete, on: :collection
+  end
 end

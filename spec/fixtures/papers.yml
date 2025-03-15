@@ -1,0 +1,4 @@
+# RSpec fixtures for papers
+
+one:
+  name: "Chinese New Year 2025"

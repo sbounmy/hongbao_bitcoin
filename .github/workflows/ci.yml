@@ -55,13 +55,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    # Make sure test job name matches what's referenced in the deploy workflow
+    name: test
 
-    # services:
-    #  redis:
-    #    image: redis
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
@@ -75,11 +71,25 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Run tests
+      - name: Prepare test database
         env:
           RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+          DATABASE_URL: sqlite3:db/test.sqlite3
+        run: bin/rails db:test:prepare
+
+      - name: Run RSpec tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: sqlite3:db/test.sqlite3
+        run: |
+          bin/rspec
+
+      - name: Run RSpec system tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: sqlite3:db/test.sqlite3
+        run: |
+          bin/rspec spec/system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
