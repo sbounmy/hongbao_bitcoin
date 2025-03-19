@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :ai do
     resources :images, only: [ :create ] do
-      get :done, on: :collection
+      post :done, on: :collection
     end
   end
 

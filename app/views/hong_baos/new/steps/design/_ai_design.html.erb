@@ -9,7 +9,7 @@
 
     <%= turbo_stream_from "ai_designs" %>
 
-    <%= form_with(url: ai_designs_path,
+    <%= form_with(model: Ai::Image.new, url: ai_images_path,
                 local: false,
                 data: {
                   controller: "form",
