@@ -1,5 +1,6 @@
 require "open-uri"
 require "vips"
+
 class Ai::Images::Done < ApplicationService
   attr_reader :params
   def call(params)
