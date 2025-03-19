@@ -1,19 +1,11 @@
 Rails.application.routes.draw do
-  namespace :webhooks do
-    post "/leonardo", to: "leonardo#webhook"
-    post "/face_swap", to: "face_swap#webhook"
-    post "/face_swap/process", to: "face_swap#process_face_swap"
-    get "/face_swap/get_generation", to: "face_swap#get_generation"
-  end
-
   namespace :ai do
     resources :images, only: [ :create ] do
       post :done, on: :collection
     end
-  end
-
-  resources :face_swap_process, only: [ :index ] do
-    post :process_face_swap, on: :collection
+    resources :face_swap, only: [ :create ] do
+      post :done, on: :collection
+    end
   end
 
   ActiveAdmin.routes(self)

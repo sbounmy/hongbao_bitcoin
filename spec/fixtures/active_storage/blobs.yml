@@ -1,0 +1,2 @@
+satoshi: <%= ActiveStorage::FixtureSet.blob filename: "satoshi.jpg" %>
+dollar: <%= ActiveStorage::FixtureSet.blob filename: "dollar.jpg" %>
