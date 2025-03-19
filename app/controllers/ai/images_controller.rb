@@ -1,5 +1,7 @@
 module Ai
   class ImagesController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: [ :done ]
+    allow_unauthenticated_access only: [ :done ]
     def create
       result = Ai::Images::Create.call(params: image_params, user: current_user)
       if result.success?
@@ -11,7 +13,7 @@ module Ai
 
     # webhook from leonardo
     def done
-      Ai::Images::Done.call(image_params)
+      Ai::Images::Done.call(params.permit!)
     end
 
     private

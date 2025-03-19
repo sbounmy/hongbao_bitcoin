@@ -1,4 +1,5 @@
 require "open-uri"
+require "vips"
 class Ai::Images::Done < ApplicationService
   attr_reader :params
   def call(params)
@@ -6,7 +7,7 @@ class Ai::Images::Done < ApplicationService
 
     update_images
     split_images
-    create_papers
+    # create_papers
   end
 
   private
@@ -21,12 +22,39 @@ class Ai::Images::Done < ApplicationService
   end
 
   def split_images
-    image_urls.each do |url|
-      image = Ai::Image.new(
-        response_image_urls: [ url ],
-        status: "completed"
+    image.images.each do |attached_image|
+      top, bottom = split_image(attached_image.download)
+
+      paper = Paper.new(
+        name: "Generated Paper #{SecureRandom.hex(4)}",
+        style: :modern,
+        active: true,
+        public: false,
+        user: image.user
       )
+
+      paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.png")
+      paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.png")
+
+      paper.save!
     end
+  end
+
+  def split_image(binary_data)
+    # Load image with Vips directly
+    vips_image = Vips::Image.new_from_buffer(binary_data, "")
+    width = vips_image.width
+    height = vips_image.height
+
+    # Extract top and bottom halves
+    top_half = vips_image.crop(0, 0, width, height / 2)
+    bottom_half = vips_image.crop(0, height / 2, width, height / 2)
+
+    # Convert to PNG format and get binary data
+    top_data = top_half.write_to_buffer(".png")
+    bottom_data = bottom_half.write_to_buffer(".png")
+
+    [ StringIO.new(top_data), StringIO.new(bottom_data) ]
   end
 
   def image_urls

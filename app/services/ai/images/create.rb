@@ -14,7 +14,7 @@ class Ai::Images::Create < ApplicationService
     @image = Ai::Image.create!(
       prompt: full_prompt,
       user: user,
-      metadata: { theme_id: theme.id }
+      request_theme_id: theme.id
     )
   end
 
