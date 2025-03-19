@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     get "/face_swap/get_generation", to: "face_swap#get_generation"
   end
 
+  namespace :ai do
+    resources :images, only: [ :create ] do
+      get :done, on: :collection
+    end
+  end
+
   resources :face_swap_process, only: [ :index ] do
     post :process_face_swap, on: :collection
   end
@@ -76,8 +82,4 @@ Rails.application.routes.draw do
   end
 
   get "instagram/feed", to: "instagram#feed"
-
-  resources :ai_designs, only: [ :create ] do
-    get :complete, on: :collection
-  end
 end

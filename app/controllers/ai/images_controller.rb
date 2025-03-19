@@ -9,8 +9,8 @@ class AiImagesController < ApplicationController
   end
 
   # webhook from leonardo
-  def complete
-    Ai::Images::Complete.call(image_params)
+  def done
+    Ai::Images::Done.call(image_params)
   end
 
   private
