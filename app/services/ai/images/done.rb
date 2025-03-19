@@ -6,8 +6,7 @@ class Ai::Images::Done < ApplicationService
     @params = params
 
     update_images
-    split_images
-    # create_papers
+    create_papers
   end
 
   private
@@ -21,7 +20,7 @@ class Ai::Images::Done < ApplicationService
     end
   end
 
-  def split_images
+  def create_papers
     image.images.each do |attached_image|
       top, bottom = split_image(attached_image.download)
 
@@ -33,8 +32,8 @@ class Ai::Images::Done < ApplicationService
         user: image.user
       )
 
-      paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.png")
-      paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.png")
+      paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
+      paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
 
       paper.save!
     end
@@ -51,8 +50,8 @@ class Ai::Images::Done < ApplicationService
     bottom_half = vips_image.crop(0, height / 2, width, height / 2)
 
     # Convert to PNG format and get binary data
-    top_data = top_half.write_to_buffer(".png")
-    bottom_data = bottom_half.write_to_buffer(".png")
+    top_data = top_half.write_to_buffer(".jpg")
+    bottom_data = bottom_half.write_to_buffer(".jpg")
 
     [ StringIO.new(top_data), StringIO.new(bottom_data) ]
   end
