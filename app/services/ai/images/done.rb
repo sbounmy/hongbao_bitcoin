@@ -1,3 +1,4 @@
+require "open-uri"
 class Ai::Images::Done < ApplicationService
   attr_reader :params
   def call(params)
@@ -13,6 +14,19 @@ class Ai::Images::Done < ApplicationService
   def update_images
     image.response_image_urls = image_urls
     image.save!
+    image_urls.each do |url|
+      downloaded_image = URI.parse(url).open
+      image.images.attach(io: downloaded_image, filename: "#{SecureRandom.hex(8)}.jpg")
+    end
+  end
+
+  def split_images
+    image_urls.each do |url|
+      image = Ai::Image.new(
+        response_image_urls: [ url ],
+        status: "completed"
+      )
+    end
   end
 
   def image_urls

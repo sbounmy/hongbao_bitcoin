@@ -22,5 +22,9 @@ RSpec.describe Ai::Images::Done, type: :service do
         subject
       }.to change { ai_images(:christmas_bill).reload.response_image_urls }.to([ "https://cdn.leonardo.ai/users/0bbda45c-c0db-4fad-b816-2d75455d4d75/generations/acf661f4-9459-4d1d-9f1f-3e23e098adb4/AlbedoBase_XL_a_christmas_bill_1_A_Christmas_bitcoin_themed_bi_0.jpg" ])
     end
+
+    it 'attaches the images to the image', :vcr do
+      expect { subject }.to change { ai_images(:christmas_bill).reload.images.count }.by(1)
+    end
   end
 end
