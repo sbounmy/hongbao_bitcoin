@@ -1,6 +1,6 @@
 module Ai
   class Image < Task
-    attribute :image_urls, :json, default: []
-    store :metadata, accessors: [ :theme_id ]
+    store :response, accessors: [ :image_urls ], prefix: true
+    store :request, accessors: [ :theme_id ], prefix: true
   end
 end

@@ -36,13 +36,6 @@ module Webhooks
         end
         Rails.logger.info "Generation updated with images: #{generation.image_urls}"
 
-        if generation.face_to_swap.attached?
-          response = Net::HTTP.post_form(
-            URI("#{request.base_url}/webhooks/face_swap"),
-            { generation_id: generation.id }
-          )
-        end
-
         if generation.image_urls.present?
           process_images(generation)
         end
