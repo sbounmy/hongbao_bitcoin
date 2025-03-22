@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Client::Response do
-  let(:success_response) { instance_double(Net::HTTPSuccess) }
+  let(:success_response) { Net::HTTPSuccess.new(1.0, "200", "OK") }
   let(:error_response) { instance_double(Net::HTTPBadRequest) }
 
   describe "#parse" do
@@ -122,7 +122,7 @@ RSpec.describe Client::Response do
           response = described_class.new(success_response)
           result = response.handle
 
-          expect(result).to eq({})
+          expect(result).to be_a(Client::Object)
         end
       end
     end
