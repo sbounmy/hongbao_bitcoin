@@ -4,7 +4,8 @@ module Client
 
     post "/faceswap",
       as: :swap_faces,
-      content_type: "multipart/form-data"
+      content_type: "multipart/form-data",
+      key: "data"
 
     private
 

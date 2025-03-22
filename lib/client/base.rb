@@ -113,7 +113,7 @@ module Client
         ListObject.new("data" => data_object.map { |item| convert_to_client_object(item, nil) },
                        **metadata)
       when Hash
-        Object.new(data)
+        Object.new(data_object)
       else
         data
       end

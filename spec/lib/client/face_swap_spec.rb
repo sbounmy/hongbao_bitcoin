@@ -11,14 +11,13 @@ RSpec.describe Client::FaceSwap, type: :client do
     context "with successful response", vcr: { cassette_name: "ai/face_swap/swap_faces_success" } do
       it "swaps the faces" do
         response = client.swap_faces(
-          files: {
-            source_image: image,
-            face_image: face
-          },
+          source_image: image,
+          face_image: face,
           webhook: webhook_url
         )
 
         expect(response).to be_a(Client::Object)
+        expect(response.task_id).to eq("c0dfe2d265372d93e0f553a23defa215")
       end
     end
   end
