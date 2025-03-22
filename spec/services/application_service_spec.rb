@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationService do
+  before do
+    # Reset class variable between tests
+    ApplicationService.propagate = nil
+  end
+
   # Test service with successful outcome
   before do
     class TestService < ApplicationService
@@ -25,7 +30,6 @@ RSpec.describe ApplicationService do
       end
     end
   end
-
   describe '.call' do
     context 'when the service succeeds' do
       it 'returns a successful response' do
@@ -51,6 +55,10 @@ RSpec.describe ApplicationService do
     end
 
     context 'when the service fails' do
+      before do
+        FailingService.propagate = false
+      end
+
       it 'returns a failure response' do
         expect(ApplicationService::ErrorService).to receive(:error)
 
@@ -105,13 +113,15 @@ RSpec.describe ApplicationService do
   end
 
   describe '#failure' do
-    let(:service) { TestService.new }
     let(:exception) { StandardError.new("Error message") }
 
     context 'when propagate is false' do
-      let(:service) { TestService.new(false) }
+      before do
+        TestService.propagate = false
+      end
 
       it 'creates a failure response' do
+        service = TestService.new
         expect(ApplicationService::ErrorService).to receive(:error).with(exception, {})
 
         response = service.failure(exception)
@@ -123,6 +133,7 @@ RSpec.describe ApplicationService do
       end
 
       it 'passes options to ErrorService' do
+        service = TestService.new
         options = { context: 'test' }
         expect(ApplicationService::ErrorService).to receive(:error).with(exception, options)
 
@@ -131,9 +142,12 @@ RSpec.describe ApplicationService do
     end
 
     context 'when propagate is true' do
-      let(:service) { TestService.new(true) }
+      before do
+        TestService.propagate = true
+      end
 
       it 'raises the exception' do
+        service = TestService.new
         expect {
           service.failure(exception)
         }.to raise_error(StandardError, "Error message")

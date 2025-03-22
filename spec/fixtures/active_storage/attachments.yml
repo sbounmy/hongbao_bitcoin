@@ -1,0 +1,10 @@
+# fixtures/active_storage/attachments.yml
+dollar_paper:
+  name: image_front
+  record: one (Paper)
+  blob: dollar_paper_blob
+
+satoshi_avatar:
+  name: avatar
+  record: one (Paper)
+  blob: satoshi_avatar_blob

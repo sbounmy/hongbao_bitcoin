@@ -12,19 +12,28 @@ class ApplicationService
     end
   end
 
-  def initialize(propagate = true)
-    @propagate = propagate
+  class << self
+    attr_writer :propagate
+
+    def propagate
+      return @propagate unless @propagate.nil?
+      @propagate = Rails.env.local?
+    end
+  end
+
+  def initialize
+    @propagate = self.class.propagate
   end
 
   def self.call(...)
-    service = new(false)
+    service = new
     service.call(...)
   rescue StandardError => e
     service.failure(e)
   end
 
   def self.call!(...)
-    new(true).call(...)
+    new.call(...)
   end
 
   def success(payload = nil)
@@ -32,7 +41,7 @@ class ApplicationService
   end
 
   def failure(exception, options = {})
-    raise exception if @propagate
+    raise exception if @propagate || Rails.env.development?
 
     ErrorService.error(exception, options)
     Response.new(false, nil, exception)

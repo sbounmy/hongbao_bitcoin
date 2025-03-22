@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_19_111700) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -80,6 +80,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
     t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "request"
+    t.json "response"
     t.index ["type", "external_id"], name: "index_ai_tasks_on_type_and_external_id"
     t.index ["user_id"], name: "index_ai_tasks_on_user_id"
   end

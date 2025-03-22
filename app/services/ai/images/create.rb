@@ -1,12 +1,10 @@
 class Ai::Images::Create < ApplicationService
-  attr_reader :params, :current_user
+  attr_reader :params, :user
 
-  def initialize(params:, user:)
+  def call(params:, user:)
     @params = params
-    @current_user = user
-  end
+    @user = user
 
-  def call
     create_image
     generate_image
     success @image
@@ -15,8 +13,8 @@ class Ai::Images::Create < ApplicationService
   def create_image
     @image = Ai::Image.create!(
       prompt: full_prompt,
-      user: current_user,
-      metadata: { theme_id: theme.id }
+      user: user,
+      request_theme_id: theme.id
     )
   end
 
@@ -61,7 +59,7 @@ class Ai::Images::Create < ApplicationService
   def elements
     theme.elements.map do |element|
       {
-        id: element.leonardo_id.to_s,
+        id: element.leonardo_id.to_i,
         weight: element.weight.to_f
       }
     end

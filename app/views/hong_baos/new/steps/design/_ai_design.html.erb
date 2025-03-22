@@ -9,7 +9,7 @@
 
     <%= turbo_stream_from "ai_designs" %>
 
-    <%= form_with(url: ai_designs_path,
+    <%= form_with(model: Ai::Image.new, url: ai_images_path,
                 local: false,
                 data: {
                   controller: "form",
@@ -53,7 +53,8 @@
                 user: current_user if current_user.present? %>
 
       <!-- Face Swap Button -->
-      <%= form_with(url: process_face_swap_face_swap_process_index_path,
+      <%= form_with(url: ai_face_swaps_path,
+                  model: Ai::FaceSwap.new(paper_id: params[:paper_id]),
                   method: :post,
                   local: false,
                   data: {
