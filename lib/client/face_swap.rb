@@ -1,6 +1,6 @@
 module Client
   class FaceSwap < Base
-    API_BASE_URL = "https://aifaceswap.io/api/aifaceswap/v1".freeze
+    url "https://aifaceswap.io/api/aifaceswap/v1"
 
     post "/faceswap",
       as: :swap_faces,

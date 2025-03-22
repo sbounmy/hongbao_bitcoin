@@ -20,6 +20,16 @@ module Client
     end
 
     class << self
+      attr_reader :base_url
+
+      def url(value)
+        @base_url = value.freeze
+      end
+
+      def url_for(path)
+        "#{base_url}#{path}"
+      end
+
       def get(path, as:, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
         define_request_method(as, :get, path, key: key, content_type: content_type)
       end
@@ -62,7 +72,7 @@ module Client
         end
       end
 
-      "#{self.class::API_BASE_URL}#{final_path}"
+      "#{self.class.base_url}#{final_path}"
     end
 
     def default_api_key

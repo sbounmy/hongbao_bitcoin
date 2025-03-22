@@ -4,8 +4,7 @@ require 'webmock/rspec'
 RSpec.describe Client::Base do
   # Create a dummy class for testing purposes
   class Client::PokemonApi < Client::Base
-    API_BASE_URL = "https://pokeapi.co/api/v2".freeze
-
+    url "https://pokeapi.co/api/v2"
 
     get "/pokemon/:name", as: :get_pokemon
 
@@ -26,8 +25,8 @@ RSpec.describe Client::Base do
 
   describe "dynamic response objects" do
     let(:pokemon_name) { "pikachu" }
-    let(:pokemon_url) { "#{Client::PokemonApi::API_BASE_URL}/pokemon/#{pokemon_name}" }
-    let(:pokemon_list_url) { "#{Client::PokemonApi::API_BASE_URL}/pokemon" }
+    let(:pokemon_url) { "#{Client::PokemonApi.url_for("/pokemon/#{pokemon_name}")}" }
+    let(:pokemon_list_url) { "#{Client::PokemonApi.url_for("/pokemon")}" }
 
     context "single object response" do
       before do
@@ -94,6 +93,12 @@ RSpec.describe Client::Base do
         # Can convert to array
         expect(pokemon_list.to_a.map(&:name)).to eq([ "bulbasaur", "ivysaur" ])
       end
+    end
+  end
+
+  describe ".url_for" do
+    it "returns the correct url for the given path" do
+      expect(Client::PokemonApi.url_for("/pokemon/pikachu")).to eq("https://pokeapi.co/api/v2/pokemon/pikachu")
     end
   end
 end
