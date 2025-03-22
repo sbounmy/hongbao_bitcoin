@@ -42,7 +42,7 @@ module Client
           )
 
           response = request.execute(api_key: api_key)
-          handle_response(response, key)
+          Response.new(response, key: key).handle
         end
       end
     end
@@ -71,52 +71,6 @@ module Client
 
     def api_key_credential_path
       raise NotImplementedError, "Subclasses must define api_key_credential_path"
-    end
-
-    def handle_response(response, key)
-      case response
-      when Net::HTTPSuccess
-        convert_to_client_object(parse_response(response.body), key)
-      else
-        handle_error_response(response)
-      end
-    end
-
-    def parse_response(body)
-      return {} if body.nil? || body.empty?
-
-      begin
-        JSON.parse(body)
-      rescue JSON::ParserError
-        body
-      end
-    end
-
-    def handle_error_response(response)
-      error_message = "#{response.code} #{response.message}"
-
-      begin
-        error_data = JSON.parse(response.body)
-        error_message += ": #{error_data['error'] || error_data['message']}" if error_data["error"] || error_data["message"]
-      rescue JSON::ParserError
-        error_message += ": #{response.body}" unless response.body.nil? || response.body.empty?
-      end
-
-      raise "API Error: #{error_message}"
-    end
-
-    def convert_to_client_object(data, key)
-      data_object = data.fetch(key, data)
-      metadata = data.except(key)
-      case data_object
-      when Array
-        ListObject.new("data" => data_object.map { |item| convert_to_client_object(item, nil) },
-                       **metadata)
-      when Hash
-        Object.new(data_object)
-      else
-        data
-      end
     end
   end
 end
