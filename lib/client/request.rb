@@ -17,10 +17,13 @@ module Client
       @url = url
       @headers = options.delete(:headers) || {}
 
+      # Handle content_type first, before it gets mixed with params
+      @headers["Content-Type"] = options.delete(:content_type)
+
       # Automatically detect if we have file uploads
       @files, @params = extract_files_and_params(options)
 
-      # Set content type based on params
+      # Set default content type based on params if not already set
       @headers["Content-Type"] ||= determine_content_type
     end
 
