@@ -3,10 +3,16 @@ require "uri"
 require "json"
 require_relative "object"
 require_relative "list_object"
+require_relative "request"
 
 module Client
   class Base
     attr_reader :api_key, :options
+
+    CONTENT_TYPES = {
+      JSON: "application/json",
+      MULTIPART: "multipart/form-data"
+    }.freeze
 
     def initialize(api_key: nil, **options)
       @api_key = api_key || default_api_key
@@ -14,42 +20,28 @@ module Client
     end
 
     class << self
-      def get(path, as:, key: nil, **options)
-        define_request_method(as, :get, path, key: key, **options)
+      def get(path, as:, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
+        define_request_method(as, :get, path, key: key, content_type: content_type)
       end
 
-      def post(path, as:, key: nil, **options)
-        define_request_method(as, :post, path, key: key, **options)
+      def post(path, as:, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
+        define_request_method(as, :post, path, key: key, content_type: content_type)
       end
 
       private
 
-      def define_request_method(name, http_method, path, key: nil, **options)
+      def define_request_method(name, http_method, path, key: nil, content_type: nil)
         define_method(name) do |*args, **params|
-          # Extract path parameters from the path
-          path_params = path.scan(/:(\w+)/).flatten
+          url = build_url(path, args, params)
 
-          # Build the final path by replacing parameters
-          final_path = path.dup
-          params_hash = {}
+          request = Request.new(
+            http_method,
+            url,
+            content_type: content_type,
+            **params
+          )
 
-          if path_params.any?
-            # If we have path params, first argument is treated as params object
-            param_values = args.first.is_a?(Hash) ? args.first : { path_params.first => args.first }
-
-            path_params.each do |param|
-              value = param_values[param.to_sym] || param_values[param]
-              final_path.gsub!(":#{param}", value.to_s)
-            end
-          end
-
-          # Add any remaining params to query string
-          params_hash = params if params.any?
-
-          url = "#{self.class::API_BASE_URL}#{final_path}"
-          response = request(http_method, url, params: params_hash)
-
-          # If a specific key is provided, return just that part of the response
+          response = request.execute(api_key: api_key)
           handle_response(response, key)
         end
       end
@@ -57,59 +49,28 @@ module Client
 
     private
 
+    def build_url(path, args, params)
+      final_path = path.dup
+      path_params = path.scan(/:(\w+)/).flatten
+
+      if path_params.any?
+        param_values = args.first.is_a?(Hash) ? args.first : { path_params.first => args.first }
+
+        path_params.each do |param|
+          value = param_values[param.to_sym] || param_values[param]
+          final_path.gsub!(":#{param}", value.to_s)
+        end
+      end
+
+      "#{self.class::API_BASE_URL}#{final_path}"
+    end
+
     def default_api_key
       Rails.application.credentials.dig(*api_key_credential_path)
     end
 
     def api_key_credential_path
       raise NotImplementedError, "Subclasses must define api_key_credential_path"
-    end
-
-    def request(http_method, url, headers: {}, params: {}, form_data: nil)
-      uri = URI(url)
-
-      # Add query params for GET requests
-      if http_method == :get && !params.empty?
-        uri.query = URI.encode_www_form(params)
-      end
-
-      request = build_request(http_method, uri)
-
-      # Add authorization header if api_key is present
-      request["Authorization"] = "Bearer #{api_key}" if api_key
-
-      # Add other headers
-      headers.each { |key, value| request[key] = value }
-
-      # Add form data for POST requests
-      if form_data && [ :post, :put, :patch ].include?(http_method)
-        if form_data.is_a?(Array) # multipart form data
-          request.set_form(form_data, "multipart/form-data")
-        else # regular form data
-          request.set_form_data(form_data)
-        end
-      end
-
-      Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
-        http.request(request)
-      end
-    end
-
-    def build_request(http_method, uri)
-      case http_method
-      when :get
-        Net::HTTP::Get.new(uri)
-      when :post
-        Net::HTTP::Post.new(uri)
-      when :put
-        Net::HTTP::Put.new(uri)
-      when :patch
-        Net::HTTP::Patch.new(uri)
-      when :delete
-        Net::HTTP::Delete.new(uri)
-      else
-        raise ArgumentError, "Unsupported HTTP method: #{http_method}"
-      end
     end
 
     def handle_response(response, key)

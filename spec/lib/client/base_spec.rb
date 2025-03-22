@@ -12,6 +12,8 @@ RSpec.describe Client::Base do
     get "/pokemon", as: :list_pokemon,
                     key: 'results'
 
+    post "/pokemon", as: :create_pokemon
+
     private
 
     def api_key_credential_path
