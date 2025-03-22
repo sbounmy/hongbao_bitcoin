@@ -21,6 +21,7 @@ RSpec.describe Client::Request do
           .to_return(status: 200, body: { users: [] }.to_json)
 
         response = get(url).execute
+
         expect(response).to be_a(Net::HTTPSuccess)
         expect(WebMock).to have_requested(:get, url)
           .with(headers: { "Content-Type" => "application/json" })
@@ -32,6 +33,7 @@ RSpec.describe Client::Request do
           .to_return(status: 200, body: { users: [] }.to_json)
 
         get(url, limit: 10, offset: 20).execute
+
         expect(WebMock).to have_requested(:get, url)
           .with(query: { limit: "10", offset: "20" })
       end
@@ -48,6 +50,7 @@ RSpec.describe Client::Request do
           .to_return(status: 201, body: data.merge(id: 1).to_json)
 
         post(url, **data).execute
+
         expect(WebMock).to have_requested(:post, url)
           .with(
             body: data,
@@ -62,33 +65,44 @@ RSpec.describe Client::Request do
 
         request = post(
           url,
-          content_type: 'multipart/form-data',
-          files: { avatar: file },
+          avatar: file,
           name: "John"
         )
 
+        expect(request.headers["Content-Type"]).to eq(Client::Request::CONTENT_TYPES[:MULTIPART])
+
         stub_request(:post, url)
-          .with(
-            headers: { 'Content-Type' => /multipart\/form-data/ }
-          )
+          .with(headers: { 'Content-Type' => /multipart\/form-data/ })
           .to_return(status: 201, body: { success: true }.to_json)
 
         response = request.execute
-
         expect(response.code).to eq("201")
 
         expect(WebMock).to have_requested(:post, url)
-          .with(
-            headers: { 'Content-Type' => /multipart\/form-data/ },
-          )
+          .with(headers: { 'Content-Type' => /multipart\/form-data/ })
+      end
+
+      it "automatically detects different types of file objects" do
+        url = "#{base_url}/upload"
+
+        # Test with different file-like objects
+        file_types = {
+          active_storage: double("ActiveStorage::Blob", download: "content1"),
+          file: File.new(__FILE__),
+          tempfile: Tempfile.new("test"),
+          stringio: StringIO.new("content2")
+        }
+
+        file_types.each do |type, file|
+          request = post(url, avatar: file)
+          expect(request.headers["Content-Type"]).to eq(Client::Request::CONTENT_TYPES[:MULTIPART])
+        end
       end
     end
 
     context "with authorization" do
       let(:url) { "#{base_url}/secure" }
       it "adds authorization header when api_key is provided" do
-        request = get(url)
-
         stub_request(:get, url)
           .with(headers: { "Authorization" => "Bearer test_key" })
           .to_return(status: 200, body: "{}")
@@ -105,8 +119,6 @@ RSpec.describe Client::Request do
     context "with custom headers" do
       let(:url) { "#{base_url}/users" }
       it "allows adding custom headers" do
-        request = get(url, headers: { "X-Custom" => "value" })
-
         stub_request(:get, url)
           .with(headers: { "X-Custom" => "value" })
           .to_return(status: 200, body: "{}")
