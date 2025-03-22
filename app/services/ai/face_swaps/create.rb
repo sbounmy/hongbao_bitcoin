@@ -8,6 +8,8 @@ module Ai
 
         create_record
         call_api
+
+        success @face_swap
       end
 
       def create_record
@@ -21,7 +23,7 @@ module Ai
         Client::FaceSwap.new.swap_faces(
           source_image: paper.image_front,
           face_image: params[:image],
-          webhook: "https://stephane.hongbaob.tc/ai/face_swap/done"
+          webhook: "https://stephane.hongbaob.tc/ai/face_swaps/done"
         ).tap do |response|
           @face_swap.update!(
             external_id: response.task_id,

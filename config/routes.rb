@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :images, only: [ :create ] do
       post :done, on: :collection
     end
-    resources :face_swap, only: [ :create ] do
+    resources :face_swaps, only: [ :create ] do
       post :done, on: :collection
     end
   end
