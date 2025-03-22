@@ -14,7 +14,7 @@ RSpec.describe Ai::Images::Done, type: :service do
     end
 
     it 'updates the image status to completed' do
-      expect { subject }.to change(ai_images(:christmas_bill), :status).to('completed')
+      expect { subject }.to change { ai_images(:christmas_bill).reload.status }.to('completed')
     end
 
     it 'stores the image urls' do

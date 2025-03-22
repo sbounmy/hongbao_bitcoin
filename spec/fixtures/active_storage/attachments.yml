@@ -1,10 +1,10 @@
 # fixtures/active_storage/attachments.yml
-dollar:
-  name: Dollar Paper Bill
-  record: first (Paper)
-  blob: dollar
+dollar_paper:
+  name: image_front
+  record: one (Paper)
+  blob: dollar_paper_blob
 
-satoshi:
-  name: Satoshi Nakamoto
-  record: first (Paper)
-  blob: satoshi
+satoshi_avatar:
+  name: avatar
+  record: one (Paper)
+  blob: satoshi_avatar_blob

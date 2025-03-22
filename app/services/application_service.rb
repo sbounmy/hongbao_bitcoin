@@ -12,8 +12,17 @@ class ApplicationService
     end
   end
 
+  class << self
+    attr_writer :propagate
+
+    def propagate
+      return @propagate unless @propagate.nil?
+      @propagate = Rails.env.local?
+    end
+  end
+
   def initialize
-    @propagate = Rails.env.local?
+    @propagate = self.class.propagate
   end
 
   def self.call(...)
@@ -24,7 +33,7 @@ class ApplicationService
   end
 
   def self.call!(...)
-    new(true).call(...)
+    new.call(...)
   end
 
   def success(payload = nil)
@@ -32,7 +41,7 @@ class ApplicationService
   end
 
   def failure(exception, options = {})
-    raise exception if @propagate || Rails.env.local? || Rails.env.development?
+    raise exception if @propagate || Rails.env.development?
 
     ErrorService.error(exception, options)
     Response.new(false, nil, exception)

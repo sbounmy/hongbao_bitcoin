@@ -38,6 +38,7 @@ class Ai::Images::Done < ApplicationService
 
       paper.save!
     end
+    image.complete!
   end
 
   def split_image(binary_data)

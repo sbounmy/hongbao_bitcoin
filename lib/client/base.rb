@@ -30,17 +30,17 @@ module Client
         "#{base_url}#{path}"
       end
 
-      def get(path, as:, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
-        define_request_method(as, :get, path, key: key, content_type: content_type)
+      def get(path, as:, key: nil, content_type: nil)
+        define_request_method(as, :get, path, key: key, content_type:)
       end
 
-      def post(path, as:, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
-        define_request_method(as, :post, path, key: key, content_type: content_type)
+      def post(path, as:, key: nil, content_type: nil)
+        define_request_method(as, :post, path, key: key, content_type:)
       end
 
       private
 
-      def define_request_method(name, http_method, path, key: nil, content_type: nil)
+      def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
         define_method(name) do |*args, **params|
           url = build_url(path, args, params)
 

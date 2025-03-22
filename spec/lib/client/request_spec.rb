@@ -69,7 +69,7 @@ RSpec.describe Client::Request do
           name: "John"
         )
 
-        expect(request.headers["Content-Type"]).to eq(Client::Request::CONTENT_TYPES[:MULTIPART])
+        expect(request.headers["Content-Type"]).to eq('multipart/form-data')
 
         stub_request(:post, url)
           .with(headers: { 'Content-Type' => /multipart\/form-data/ })
@@ -80,6 +80,26 @@ RSpec.describe Client::Request do
 
         expect(WebMock).to have_requested(:post, url)
           .with(headers: { 'Content-Type' => /multipart\/form-data/ })
+      end
+
+      it 'can pass content_type' do
+        pending
+        url = "#{base_url}/upload"
+        file = active_storage_attachments(:satoshi_avatar)
+
+        stub_request(:post, url)
+        .with(headers: { 'Content-Type' => /multipart\/form-data/ })
+        .to_return(status: 201, body: { success: true }.to_json)
+
+        post(
+          url,
+          avatar: file.download,
+          name: "John",
+          content_type: "multipart/form-data"
+        ).execute
+
+        expect(WebMock).to have_requested(:post, url)
+        .with(headers: { 'Content-Type' => /multipart\/form-data/ })
       end
 
       it "automatically detects different types of file objects" do

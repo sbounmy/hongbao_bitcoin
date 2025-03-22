@@ -83,14 +83,10 @@ Rails.application.configure do
 
   # Configure asset host and mailer options with cleaner URL handling
   config.action_controller.asset_host = base_url
-  config.action_mailer.default_url_options = { host: }
 
   # Use Letter Opener for emails in development
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
-
-  # Optional: mount the Letter Opener web interface
-  config.action_mailer.default_url_options = { host:  }
 
   # Allow ngrok hosts for development
   config.hosts << ENV["NGROK_HOST"]
