@@ -1,5 +1,5 @@
 module Ai
-  module FaceSwap
+  module FaceSwaps
     class Create < ApplicationService
       attr_reader :params, :user
       def call(params:, user:)
@@ -8,7 +8,6 @@ module Ai
 
         create_record
         call_api
-        update_record
       end
 
       def create_record
@@ -19,13 +18,18 @@ module Ai
       end
 
       def call_api
-        FaceSwap.call(paper.image_front, params[:image])
-      end
-
-      def update_record
-        @face_swap.update!(
-          external_id: response["data"]["task_id"],
-        )
+        Rails.logger.info("Calling API #{paper.image_front.inspect} #{params[:image].inspect}")
+        Client::FaceSwap.new.swap_faces(
+          files: {
+            source_image: paper.image_front,
+            face_image: params[:image]
+          },
+          webhook: "https://stephane.hongbaob.tc/ai/face_swap/done"
+        ).tap do |response|
+          @face_swap.update!(
+            external_id: response.data.task_id,
+          )
+        end
       end
 
       def paper
