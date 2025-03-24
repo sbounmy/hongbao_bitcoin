@@ -88,13 +88,6 @@ jobs:
         run: |
           bin/rspec
 
-      - name: Run RSpec system tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: sqlite3:db/test.sqlite3
-        run: |
-          bin/rspec spec/system
-
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
