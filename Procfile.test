@@ -1,0 +1,1 @@
+test: PIDFILE=tmp/pids/server.test.pid bin/rails server -e test -p 3003
