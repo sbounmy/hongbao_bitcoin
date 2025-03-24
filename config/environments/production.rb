@@ -60,7 +60,7 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {
-    host: "hongbaob.tc", # replace with your domain
+    host: ENV["APP_HOST"], # replace with your domain
     protocol: "https"
   }
 
@@ -93,7 +93,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.action_controller.asset_host = "https://hongbaob.tc"
+  config.action_controller.asset_host = "https://#{ENV["APP_HOST"]}"
 
   config.action_mailer.delivery_method = :smtp
 

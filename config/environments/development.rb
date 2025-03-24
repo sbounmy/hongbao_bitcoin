@@ -1,6 +1,6 @@
 require "active_support/core_ext/integer/time"
 
-host = ENV.fetch("NGROK_HOST") { "localhost:3002" }
+host = ENV.fetch("APP_HOST") { "localhost:3002" }
 base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
 
 Rails.application.configure do
@@ -88,8 +88,9 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
 
-  # Allow ngrok hosts for development
-  config.hosts << ENV["NGROK_HOST"]
+  # Allow hosts for development
+  config.hosts << ENV["APP_HOST"]
 
   config.web_console.whitelisted_ips = "0.0.0.0/0"
+  Rails.application.routes.default_url_options[:host] = base_url
 end

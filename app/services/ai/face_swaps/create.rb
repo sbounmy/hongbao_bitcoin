@@ -24,7 +24,7 @@ module Ai
         Client::FaceSwap.new.swap_faces(
           source_image: paper.image_front,
           face_image: params[:image],
-          webhook: "https://stephane.hongbaob.tc/ai/face_swaps/done"
+          webhook: Rails.application.routes.url_helpers.done_ai_face_swaps_url
         ).tap do |response|
           @face_swap.update!(
             external_id: response.task_id,
