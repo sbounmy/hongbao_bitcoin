@@ -13,6 +13,9 @@ jobs:
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
     steps:
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+
     - uses: actions/checkout@v4
 
     - name: Set up Ruby
