@@ -17,8 +17,10 @@ RSpec.describe Ai::FaceSwaps::Done do
   end
 
   before do
-    # Stub URI.open to avoid actual HTTP requests
-    allow(URI).to receive(:open).with(result_image_url).and_return(
+    # Stub URI.parse(...).open to avoid actual HTTP requests
+    uri_mock = instance_double(URI::HTTPS)
+    allow(URI).to receive(:parse).with(result_image_url).and_return(uri_mock)
+    allow(uri_mock).to receive(:open).and_return(
       fixture_file_upload('spec/fixtures/files/test.png', 'image/png')
     )
   end
@@ -70,7 +72,9 @@ RSpec.describe Ai::FaceSwaps::Done do
 
     context 'when error occurs during image attachment' do
       before do
-        allow(URI).to receive(:open).and_raise(SocketError.new('Failed to open TCP connection'))
+        uri_mock = instance_double(URI::HTTPS)
+        allow(URI).to receive(:parse).with(result_image_url).and_return(uri_mock)
+        allow(uri_mock).to receive(:open).and_raise(SocketError.new('Failed to open TCP connection'))
       end
 
       it 'returns failure response' do
