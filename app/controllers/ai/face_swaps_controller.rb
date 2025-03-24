@@ -1,6 +1,6 @@
 module Ai
   class FaceSwapsController < BaseController
-    skip_before_action :verify_webhook_token, only: [ :create ]
+    skip_before_action :verify_webhook_token, only: [ :done ]
 
     def create
       response = Ai::FaceSwaps::Create.call(params: face_swap_params, user: current_user)
