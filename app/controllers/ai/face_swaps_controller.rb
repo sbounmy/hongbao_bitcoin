@@ -14,7 +14,7 @@ module Ai
 
     # webhook from face_swap
     def done
-      Ai::FaceSwap::Done.call(params.permit!)
+      Ai::FaceSwaps::Done.call(params.permit!)
     end
 
     private

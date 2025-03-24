@@ -1,3 +1,5 @@
+require "open-uri"
+
 module Ai
   module FaceSwaps
     class Done < ApplicationService
@@ -43,7 +45,7 @@ module Ai
 
       def attach_result_image
         image_url = @params[:result_image]
-        downloaded_image = URI.open(image_url)
+        downloaded_image = URI.parse(image_url).open
         @child_paper.image_front.attach(
           io: downloaded_image,
           filename: "face_swap_#{@params[:task_id]}.webp"
