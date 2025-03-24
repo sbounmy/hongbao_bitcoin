@@ -8,6 +8,10 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
     steps:
     - uses: actions/checkout@v4
 
@@ -28,8 +32,6 @@ jobs:
         bundle install
 
     - name: Setup test database
-      env:
-        RAILS_ENV: test
       run: |
         bundle exec rails db:test:prepare
 
