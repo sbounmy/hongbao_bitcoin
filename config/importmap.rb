@@ -9,18 +9,18 @@ pin_all_from "app/javascript/services", under: "services"
 pin_all_from "app/javascript/services/bitcoin", under: "services/bitcoin"
 
 pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
-pin "jspdf", to: "https://ga.jspm.io/npm:jspdf@2.5.2/dist/jspdf.es.min.js" # @2.5.2
+pin "jspdf", to: "https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.es.min.js"
 
 # Add html5-qrcode with ga.jspm.io
 pin "qr-scanner", to: "https://ga.jspm.io/npm:qr-scanner@1.4.2/qr-scanner.min.js"
 pin "qr-scanner-worker", to: "https://ga.jspm.io/npm:qr-scanner@1.4.2/qr-scanner-worker.min.js"
 
 # jsPDF and its dependencies
-pin "@babel/runtime/helpers/typeof", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/typeof.js"
-pin "@babel/runtime/helpers/asyncToGenerator", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/asyncToGenerator.js"
-pin "@babel/runtime/helpers/classCallCheck", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/classCallCheck.js"
-pin "@babel/runtime/helpers/createClass", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/helpers/createClass.js"
-pin "@babel/runtime/regenerator", to: "https://ga.jspm.io/npm:@babel/runtime@7.24.0/regenerator/index.js"
+pin "@babel/runtime/helpers/typeof", to: "@babel--runtime--helpers--typeof.js" # @7.26.10
+pin "@babel/runtime/helpers/asyncToGenerator", to: "@babel--runtime--helpers--asyncToGenerator.js" # @7.26.10
+pin "@babel/runtime/helpers/classCallCheck", to: "https://ga.jspm.io/npm:@babel/runtime@7.26.10/helpers/classCallCheck.js"
+pin "@babel/runtime/helpers/createClass", to: "https://ga.jspm.io/npm:@babel/runtime@7.26.10/helpers/createClass.js"
+pin "@babel/runtime/regenerator", to: "https://ga.jspm.io/npm:@babel/runtime@7.26.10/regenerator/index.js"
 pin "fflate", to: "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm"
 
 # Bitcoin-related dependencies
@@ -99,3 +99,5 @@ pin "@stimulus-components/scroll-to", to: "@stimulus-components--scroll-to.js" #
 
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"
+pin "@babel/runtime/helpers/defineProperty", to: "@babel--runtime--helpers--defineProperty.js" # @7.26.10
+pin "canvg" # @3.0.11
