@@ -3,6 +3,8 @@ class Paper < ApplicationRecord
   has_one_attached :image_front
   has_one_attached :image_back
   has_many :hong_baos, dependent: :nullify
+  has_many :children, class_name: "Paper", foreign_key: :parent_id
+  belongs_to :parent, class_name: "Paper", optional: true
 
   before_save :set_default_elements
 

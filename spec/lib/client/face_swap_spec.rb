@@ -4,7 +4,7 @@ RSpec.describe Client::FaceSwap, type: :client do
   let(:client) { described_class.new }
 
   describe "#swap_faces" do
-    let(:image) { active_storage_attachments(:dollar_paper) }
+    let(:image) { active_storage_attachments(:dollar_paper_front) }
     let(:face) { active_storage_attachments(:satoshi_avatar) }
     let(:webhook_url) { "https://stephane.hongbaob.tc/ai/face_swap/done" }
 

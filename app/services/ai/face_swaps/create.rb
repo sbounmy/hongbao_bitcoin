@@ -15,6 +15,7 @@ module Ai
       def create_record
         @face_swap = Ai::FaceSwap.create!(
           user:,
+          source: paper,
           prompt: "Swap the face of the person in the image with the face of the person in the image"
         ).tap &:process
       end

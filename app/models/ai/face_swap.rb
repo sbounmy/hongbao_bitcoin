@@ -1,7 +1,6 @@
 module Ai
   class FaceSwap < Task
-    # Add any FaceSwap specific validations or methods
-
     store :request, accessors: [ :paper_id, :image ]
+    store :response, accessors: [ :image_url ], prefix: true
   end
 end

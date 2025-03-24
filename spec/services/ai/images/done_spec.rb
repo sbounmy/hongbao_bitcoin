@@ -10,7 +10,7 @@ RSpec.describe Ai::Images::Done, type: :service do
 
   describe '#call', vcr: { cassette_name: "ai/images/done_success" }  do
     before do
-      ai_images(:christmas_bill).update(external_id: "acf661f4-9459-4d1d-9f1f-3e23e098adb4")
+      ai_images(:christmas_bill).update!(external_id: "acf661f4-9459-4d1d-9f1f-3e23e098adb4")
     end
 
     it 'updates the image status to completed' do

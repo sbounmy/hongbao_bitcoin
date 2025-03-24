@@ -2,6 +2,8 @@ module Ai
   class Task < ApplicationRecord
     include AASM
     belongs_to :user
+    belongs_to :source, polymorphic: true, optional: true
+
     validates :status, presence: true
     has_many_attached :images, dependent: :destroy
 
