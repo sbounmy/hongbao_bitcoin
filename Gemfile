@@ -55,6 +55,8 @@ group :development, :test do
 
   gem "dotenv-rails"
 
+  gem "foreman"
+
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
   gem "factory_bot_rails"
 end
