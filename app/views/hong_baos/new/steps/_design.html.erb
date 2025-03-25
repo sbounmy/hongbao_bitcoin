@@ -34,9 +34,7 @@
                class="relative">
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
               <% papers.each do |paper| %>
-                <% cache paper do %>
-                  <%= render "hong_baos/new/steps/design/paper", paper: paper %>
-                <% end %>
+                <%= render Papers::ItemComponent.new(paper:) %>
               <% end %>
             </div>
           </div>
