@@ -47,7 +47,7 @@ cp .env.example .env
 
 # Set up credentials (choose one):
 # Option 1: Request master.key from Stephane
-# Option 2: Create your own:
+# Option 2: Create your own from credentials.yml.example:
 EDITOR="nano --wait" bin/rails credentials:edit
 
 # Seed the database with some data from [seed.yml](db/seeds.rb.rb)
