@@ -132,6 +132,14 @@ We love your input! Check out our [Contributing Guidelines](CONTRIBUTING.md) for
 
 ### How to Contribute
 
+#### Core maintainer
+1. Take an issue
+2. Create a branch from issue
+3. Create the PR
+
+![create-branch-from-issue](/app/assets/images/readme/create-branch-pull-request.jpg)
+
+#### Others
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
