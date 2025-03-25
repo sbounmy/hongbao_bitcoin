@@ -1,4 +1,4 @@
-# Bitcoin Hong Bao
+# Hong₿ao Bitcoin
 
 ###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/sbounmy/hongbao_bitcoin/discussions) · [🤝 Contributing](CONTRIBUTING.md)
 
@@ -8,7 +8,7 @@
 [![Playwright Tests](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Bitcoin Hong Bao is a modern web application that lets you create and print beautiful Bitcoin bills with QR codes, designed specifically for traditional red envelopes (Hong Bao 红包). Perfect for gifting Bitcoin during Chinese New Year or special occasions, our platform combines traditional customs with digital currency.
+Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is specifically designed for traditional red envelopes (红包, hóngbāo). Perfect for introducing friends and family to Bitcoin during Chinese New Year, weddings or any gift-giving occasion.
 
 ![Bitcoin Hong Bao Demo](/app/assets/images/readme/demo.gif)
 
