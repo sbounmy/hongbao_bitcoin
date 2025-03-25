@@ -1,95 +1,143 @@
 # Bitcoin Hong Bao
 
+###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/username/hongbao/discussions) · [🤝 Contributing](CONTRIBUTING.md)
+
+
 [![CI](https://github.com/username/hongbao/actions/workflows/ci.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/ci.yml)
 [![Deploy](https://github.com/username/hongbao/actions/workflows/deploy.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/deploy.yml)
+[![Playwright Tests](https://github.com/username/hongbao/actions/workflows/playwright.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/playwright.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包).
-
-🌐 **Live Website**: [https://hongbaob.tc](https://hongbaob.tc)
-
-## Preview
+Bitcoin Hong Bao is a modern web application that lets you create and print beautiful Bitcoin bills with QR codes, designed specifically for traditional red envelopes (Hong Bao 红包). Perfect for gifting Bitcoin during Chinese New Year or special occasions, our platform combines traditional customs with digital currency.
 
 ![Bitcoin Hong Bao Demo](/app/assets/images/readme/demo.gif)
 
-## Development
+## 🚀 Features
 
+- **AI Design**: Create Bitcoin paper wallets optimized for red envelopes size
+- **Offline mode**: All the keys are generated in the browser using [bitcoinlib-js](https://github.com/bitcoinjs/bitcoinjs-lib)
+- **Top up**: Top-up the paper wallets with € via [Mt pelerin](https://developers.mtpelerin.com/integration-guides/web-integration) or public address via any wallet (Ledger, Trezor, Sparrow etc)
+- **Verify Balance / Transfer funds**: Direcly from the Scan button on the homepage
+## 🛠️ Quick Start
+
+### Prerequisites
+
+- [VS Code](https://code.visualstudio.com/) or [Cursor](https://cursor.sh/) (recommended)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Install
+
+1. Clone and open in VS Code/Cursor:
 ```bash
-# Install dependencies
-bin/bundle install
-
-# Setup credentials
-# The credentials.yml.enc file is encrypted and can't be directly edited
-# Use Rails credentials editor to set up your credentials:
-EDITOR="nano --wait" bin/rails credentials:edit
-
-# When the editor opens, refer to config/credentials.yml.example
-# for the required structure and keys
-# Note: Make sure to keep your `master.key` file secure and never commit it to version control.
-
-# Setup database
-bin/rails db:setup
-
-# Start the server
-bin/rails server
+git clone https://github.com/sbounmy/hongbao.git
+cd hongbao
+code .  # or `cursor .`
 ```
 
-Tunnel to local server
+2. When prompted, click "Reopen in Container" - this will automatically:
+   - Set up all dependencies
+   - Configure the development environment
+   ![Run dev container](/app/assets/images/readme/run-dev-container.jpg)
 
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+3. Setup the app
+```bash
+# Copy environment configuration
+cp .env.example .env
+
+# Set up credentials (choose one):
+# Option 1: Request master.key from Stephane
+# Option 2: Create your own:
+EDITOR="nano --wait" bin/rails credentials:edit
+
+# Seed the database with some data from [seed.yml](db/seeds.rb.rb)
+bin/rails db:seed
+
+# Start the development server
+bin/dev
+```
+3. Visit http://localhost:3001 to see your local instance!
+
+
+## 💻 Development
+
+### Local Development
+
+```bash
+bin/dev  # Start the development server
+```
+
+### Remote Development
+
+When working with webhooks locally we recommend to create a  tunnel to your localhost:
 
 ```bash
 docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {token}
-
 ```
 
-## Testing
+[📚 Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/)
 
-### Install
+## 🧪 Testing
+
+We use RSpec for model,controller, service testing and Playwright for frontend testing.
+
+### RSpec Tests
 ```bash
-npx install
+bin/rspec spec/
 ```
 
-### Run tests
+### Playwright Tests
 ```bash
-# make sure bin/dev is running before
-npx playwright test --ui ## UI MODE
-npx playwright test ## Headless MODE
+npm install              # Install dependencies
+npx playwright test     # Run tests headless
+npx playwright test --ui # Run tests with UI
 ```
 
+## 🔄 Recent Updates
 
+TODO
 
-### Run in terminal
-```bash
-bin/rails test
-```
-
-
-## FAQ
-
+## 💬 FAQ
 
 <details>
 <summary>How do I test emails in development?</summary>
 
-Emails are caught by Letter Opener and displayed in your browser:
-- Automatic Preview: Opens in new tab when email is sent
-- Email Dashboard: Visit http://localhost:3000/letter_opener
+Emails are caught by Letter Opener:
+- Auto-preview in new tab
+- Dashboard at http://localhost:3000/letter_opener
 </details>
 
 <details>
 <summary>How do I add JavaScript dependencies?</summary>
 
-We use ImportMaps with [JSPM](https://jspm.io/):
+Use ImportMaps with [JSPM](https://jspm.io/):
 1. Visit [JSPM Generator](https://generator.jspm.io/)
-2. Search and select your package
-3. Copy the generated import URL
+2. Search and select package
+3. Copy import URL
 4. Add to `config/importmap.rb`
 </details>
 
 <details>
-<summary>Arc/Chrome: PDF iframe blob not displaying with error `No enabled plugin supports this MIME type`</summary>
+<summary>PDF issues in Chrome/Arc?</summary>
 
-- Chrome shows "No enabled plugin supports this MIME type"
-- Only affects localhost environment
-- Workaround: Use Safari for local PDF testing
-- [Issue #39](https://github.com/sbounmy/hongbao_bitcoin/issues/39)
+- Issue: "No enabled plugin supports this MIME type"
+- Only affects localhost
+- Solution: Use Safari for local PDF testing
+- [Track Issue #39](https://github.com/sbounmy/hongbao_bitcoin/issues/39)
 </details>
+
+## 🤝 Contributing
+
+We love your input! Check out our [Contributing Guidelines](CONTRIBUTING.md) for ways to get started.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
