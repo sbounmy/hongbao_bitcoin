@@ -1,4 +1,6 @@
-name: Playwright Tests
+name: Playwright
+run-name: ${{github.event.head_commit.message }} (${{ github.sha }})
+
 on:
   push:
     branches: [ main, master ]
