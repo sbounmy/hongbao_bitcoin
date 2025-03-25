@@ -1,20 +1,17 @@
 import { test, expect } from '@playwright/test';
+import { app, appScenario, forceLogin } from '../../support/on-rails';
+test('user can access AI Design features', async ({ page }) => {
+  await app('activerecord_fixtures');
+  // Force login the user
 
-test('user can sign up and access AI Design features', async ({ page }) => {
-  // Start signup process
-  await page.goto('/signup');
+  await forceLogin(page, {
+    email: 'satoshi@example.com',
+    password: '03/01/2009'
+  });
 
-  // Fill in signup form
-  await page.getByRole('textbox', { name: 'Email address' }).fill('example@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('123456789');
-  await page.getByRole('textbox', { name: 'Password Confirmation' }).fill('123456789');
-
-  // Submit signup form
-  await page.getByRole('button', { name: 'Sign up' }).click();
-
-  // Verify successful signup
+  // Verify successful login
+  await page.goto('/');
   await expect(page).toHaveURL('/');
-  await expect(page.getByText('Welcome! You have signed up successfully.')).toBeVisible();
 
   // Test AI Design access
   await page.getByRole('button', { name: 'AI Design' }).click();

@@ -34,4 +34,23 @@ const appVcrEjectCassette = async () => {
   return response.body;
 }
 
-export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette }
+const forceLogin = async (page, { email, redirect_to = '/' }) => {
+  // Validate inputs
+  if (typeof email !== 'string'  || typeof redirect_to !== 'string') {
+      throw new Error('Invalid input: email and redirect_to must be non-empty strings');
+  }
+
+  const response = await page.request.post('/__e2e__/force_login', {
+      data: { email: email, redirect_to: redirect_to },
+      headers: { 'Content-Type': 'application/json' }
+  });
+
+  // Handle response based on status code
+  if (response.ok()) {
+      await page.goto(redirect_to);
+  } else {
+      // Throw an exception for specific error statuses
+      throw new Error(`Login failed with status: ${response.status()}`);
+  }
+}
+export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin }

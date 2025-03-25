@@ -2,10 +2,13 @@
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
-host = ENV.fetch("APP_HOST") { "localhost:3003" }
-base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+ENV["FIXTURES_PATH"] = "spec/fixtures"
 
 Rails.application.configure do
+  host = ENV.fetch("APP_HOST") { "localhost:3003" }
+  base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+
+  puts "#{Rails.env.inspect} APP_HOST: #{ENV['APP_HOST']}"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.

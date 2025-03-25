@@ -1,9 +1,9 @@
 require "active_support/core_ext/integer/time"
 
-host = ENV.fetch("APP_HOST") { "localhost:3002" }
-base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
-
 Rails.application.configure do
+  host = ENV.fetch("APP_HOST") { "localhost:3002" }
+  base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.

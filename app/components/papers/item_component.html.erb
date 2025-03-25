@@ -1,21 +1,22 @@
 <%# Paper selection card with front/back flip animation %>
-<% cache paper do %>
-  <div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
-       data-paper-id="<%= paper.id %>"
-       data-hong-bao-target="paper"
-       data-action="click->hong-bao#paperSelected"
-       <%= paper_data_attributes %>>
+<div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
+     data-paper-id="<%= paper.id %>"
+     data-hong-bao-target="paper"
+     data-action="click->hong-bao#paperSelected"
+     data-front-elements-value="<%= paper.front_elements.to_json %>"
+     data-back-elements-value="<%= paper.back_elements.to_json %>"
+     data-front-image-value="<%= front_image_url %>"
+     data-back-image-value="<%= back_image_url %>">
 
-    <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
-      <%# Front face %>
-      <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
-        <%= render_face(image_url: front_image_url) %>
-      </div>
+  <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
+    <%# Front face %>
+    <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
+      <%= render_face(image_url: front_image_url) %>
+    </div>
 
-      <%# Back face %>
-      <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-        <%= render_face(image_url: back_image_url) %>
-      </div>
+    <%# Back face %>
+    <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+      <%= render_face(image_url: back_image_url) %>
     </div>
   </div>
-<% end %>
+</div>
