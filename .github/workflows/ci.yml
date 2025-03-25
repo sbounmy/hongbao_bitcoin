@@ -1,5 +1,5 @@
 name: CI
-run-name: ${{github.event.head_commit.message }} (${{ github.sha }})
+run-name: ${{github.event.workflow_run.head_commit.message}} (${{ github.sha }})
 
 on:
   pull_request:
