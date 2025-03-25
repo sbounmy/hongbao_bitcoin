@@ -1,6 +1,6 @@
 # Bitcoin Hong Bao
 
-###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/sbounmy/hongbao/discussions) · [🤝 Contributing](CONTRIBUTING.md)
+###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/sbounmy/hongbao_bitcoin/discussions) · [🤝 Contributing](CONTRIBUTING.md)
 
 
 [![CI](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml)
