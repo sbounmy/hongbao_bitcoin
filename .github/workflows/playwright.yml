@@ -1,5 +1,5 @@
 name: Playwright Tests
-run-name: ${{github.event.workflow_run.head_commit.message}} (${{ github.sha }})
+
 on:
   push:
     branches: [ main, master ]
