@@ -18,6 +18,55 @@ Bitcoin Hong Bao is a modern web application that lets you create and print beau
 - **Offline mode**: All the keys are generated in the browser using [bitcoinlib-js](https://github.com/bitcoinjs/bitcoinjs-lib)
 - **Top up**: Top-up the paper wallets with € via [Mt pelerin](https://developers.mtpelerin.com/integration-guides/web-integration) or public address via any wallet (Ledger, Trezor, Sparrow etc)
 - **Verify Balance / Transfer funds**: Direcly from the Scan button on the homepage
+
+## ⚡ Tech Stack
+
+<table>
+  <tr>
+    <td align="center" width="96">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" width="48" height="48" alt="Ruby" />
+      <br>Ruby 3.2
+    </td>
+    <td align="center" width="96">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rails/rails-original-wordmark.svg" width="48" height="48" alt="Rails" />
+      <br>Rails 8
+    </td>
+    <td align="center" width="96">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="48" height="48" alt="SQLite" />
+      <br>SQLite
+    </td>
+    <td align="center" width="96">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="48" height="48" alt="Tailwind" />
+      <br>Tailwind
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96">
+      <img src="app/assets/images/readme/hotwired.svg" width="48" height="48" alt="Hotwire" />
+      <br>Hotwire
+    </td>
+    <td align="center" width="96">
+      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="48" height="48" alt="Docker" />
+      <br>Docker
+    </td>
+    <td align="center" width="96">
+      <img src="https://playwright.dev/img/playwright-logo.svg" width="48" height="48" alt="Playwright" />
+      <br>Playwright
+    </td>
+    <td align="center" width="96">
+      <img src="https://rspec.info/images/logo.png" width="48" height="48" alt="RSpec" />
+      <br>RSpec
+    </td>
+  </tr>
+</table>
+
+### Key Dependencies
+- 🔒 **[bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib)** - Bitcoin JavaScript library
+- 💳 **[Mt Pelerin](https://www.mtpelerin.com/)** - Fiat to crypto integration
+- 🎨 **[Stable Diffusion](https://stability.ai/)** - AI image generation
+- 🧪 **[Playwright](https://playwright.dev/)** - E2E testing
+- 📦 **[SolidQueue](https://github.com/rails/solid_queue)** - Background jobs
+
 ## 🛠️ Quick Start
 
 ### Prerequisites
