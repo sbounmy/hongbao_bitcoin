@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_065512) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -80,6 +80,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
     t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "request"
+    t.json "response"
+    t.string "source_type"
+    t.integer "source_id"
+    t.index ["source_type", "source_id"], name: "index_ai_tasks_on_source"
     t.index ["type", "external_id"], name: "index_ai_tasks_on_type_and_external_id"
     t.index ["user_id"], name: "index_ai_tasks_on_user_id"
   end
@@ -100,6 +105,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
     t.json "elements"
     t.integer "user_id"
     t.boolean "public", default: false
+    t.integer "parent_id"
+    t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
   end
 
@@ -143,6 +150,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_214251) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_tasks", "users"
+  add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
 end

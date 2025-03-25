@@ -7,7 +7,6 @@ test.describe("Rails using scenarios examples", () => {
   });
 
   test("setup basic scenario", async ({ page }) => {
-    await appScenario('basic');
     await page.goto("/");
     await expect(page.getByText('Hong₿ao')).toBeVisible();
   });

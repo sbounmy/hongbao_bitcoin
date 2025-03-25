@@ -51,12 +51,14 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Playwright on Rails [https://github.com/cypress-io/cypress-on-rails]
-  gem 'cypress-on-rails', '~> 1.0'
+  gem "cypress-on-rails", "~> 1.0"
 
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails'
-  gem 'factory_bot_rails'
+  gem "foreman"
+
+  gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -72,7 +74,7 @@ group :test do
   gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
-  gem 'faker'
+  gem "faker"
 end
 
 gem "tailwindcss-rails"
@@ -83,8 +85,8 @@ gem "aasm"
 
 gem "rqrcode"
 
-gem "activeadmin", '4.0.0.beta14'
+gem "activeadmin", "4.0.0.beta14"
 
 gem "rails_heroicon"
 
-gem 'leoandruby', git: 'https://github.com/SalmaTalbi/LeoAndRuby', branch: 'additional_endpoints'
+gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "additional_endpoints"

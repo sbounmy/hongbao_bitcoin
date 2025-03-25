@@ -2,3 +2,22 @@
 
 one:
   name: "Chinese New Year 2025"
+  style: classic
+  active: true
+  public: true
+  user: one
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.12,
+        "y": 0.38,
+        "size": 0.17,
+        "color": "224, 120, 1"
+      },
+      "public_address_qrcode": {
+        "x": 0.55,
+        "y": 0.24,
+        "size": 0.25,
+        "color": "224, 120, 1"
+      }
+    }

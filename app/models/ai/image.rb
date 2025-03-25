@@ -1,10 +1,6 @@
 module Ai
   class Image < Task
-    attribute :image_urls, :json, default: []
-    store :metadata, accessors: [ :theme_id ]
-
-    def self.model_name
-      @_model_name ||= ActiveModel::Name.new(self, nil, "Ai::Image")
-    end
+    store :response, accessors: [ :image_urls ], prefix: true
+    store :request, accessors: [ :theme_id ], prefix: true
   end
 end

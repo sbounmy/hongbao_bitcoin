@@ -58,6 +58,10 @@ jobs:
     # Make sure test job name matches what's referenced in the deploy workflow
     name: test
 
+    env:
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
@@ -83,13 +87,6 @@ jobs:
           DATABASE_URL: sqlite3:db/test.sqlite3
         run: |
           bin/rspec
-
-      - name: Run RSpec system tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: sqlite3:db/test.sqlite3
-        run: |
-          bin/rspec spec/system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4

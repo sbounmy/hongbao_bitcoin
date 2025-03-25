@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto('https://salma.hongbaob.tc/login');
+  await page.goto('/');
   await page.locator('div').filter({ hasText: 'Sign in to your account Sign' }).first().click();
   await page.getByRole('textbox', { name: 'Email address' }).click();
   await page.getByRole('textbox', { name: 'Email address' }).fill('example@gmail.com');
