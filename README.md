@@ -1,11 +1,11 @@
 # Bitcoin Hong Bao
 
-###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/username/hongbao/discussions) · [🤝 Contributing](CONTRIBUTING.md)
+###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/sbounmy/hongbao/discussions) · [🤝 Contributing](CONTRIBUTING.md)
 
 
-[![CI](https://github.com/username/hongbao/actions/workflows/ci.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/ci.yml)
-[![Deploy](https://github.com/username/hongbao/actions/workflows/deploy.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/deploy.yml)
-[![Playwright Tests](https://github.com/username/hongbao/actions/workflows/playwright.yml/badge.svg)](https://github.com/username/hongbao/actions/workflows/playwright.yml)
+[![CI](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml)
+[![Deploy](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml)
+[![Playwright Tests](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Bitcoin Hong Bao is a modern web application that lets you create and print beautiful Bitcoin bills with QR codes, designed specifically for traditional red envelopes (Hong Bao 红包). Perfect for gifting Bitcoin during Chinese New Year or special occasions, our platform combines traditional customs with digital currency.
