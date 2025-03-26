@@ -75,6 +75,14 @@ Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is 
 
 - [VS Code](https://code.visualstudio.com/) or [Cursor](https://cursor.sh/) (recommended)
 - [mise](https://mise.jdx.dev) - Dev env manager (like docker without the pain)
+- libvips - Image processing library
+  ```bash
+  # macOS
+  brew install vips
+
+  # Debian/Ubuntu
+  sudo apt-get update && sudo apt install libvips-dev
+  ```
 
 ### Install
 
