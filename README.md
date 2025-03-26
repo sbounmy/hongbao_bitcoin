@@ -64,6 +64,8 @@ Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is 
 - 🔒 **[bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib)** - Bitcoin JavaScript library
 - 💳 **[Mt Pelerin](https://www.mtpelerin.com/)** - Fiat to crypto integration
 - 🎨 **[Stable Diffusion](https://stability.ai/)** - AI image generation
+- 🖼️ **[Leonardo AI](https://leonardo.ai/)** - AI image generation and manipulation
+- 🎭 **[Faceswap](https://faceswap.dev/)** - Deep learning face swapping
 - 🧪 **[Playwright](https://playwright.dev/)** - E2E testing
 - 📦 **[SolidQueue](https://github.com/rails/solid_queue)** - Background jobs
 
