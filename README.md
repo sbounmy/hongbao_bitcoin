@@ -72,10 +72,63 @@ Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is 
 ### Prerequisites
 
 - [VS Code](https://code.visualstudio.com/) or [Cursor](https://cursor.sh/) (recommended)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+- Choose your development environment:
+  - **Option 1 (Recommended)**: [mise](https://mise.jdx.dev) - Modern development environment manager
+  - **Option 2**: [Docker Desktop](https://www.docker.com/products/docker-desktop/) with [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Install
+
+#### Option 1: Using mise (Recommended)
+
+1. Install mise:
+```bash
+# macOS with Homebrew
+brew install mise
+
+# Linux/macOS without Homebrew
+curl https://mise.run | sh
+```
+
+2. Activate mise in your shell:
+```bash
+# For bash
+echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+
+# For zsh
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+
+# For fish
+echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
+```
+
+3. Clone and setup the project:
+```bash
+git clone https://github.com/sbounmy/hongbao.git
+cd hongbao
+
+# Install Ruby and Node.js
+mise use
+
+# Install dependencies
+bundle install
+npm install
+
+# Copy environment configuration
+cp .env.example .env
+
+# Set up credentials (choose one):
+# Option 1: Request master.key from Stephane
+# Option 2: Create your own from credentials.yml.example:
+EDITOR="nano --wait" bin/rails credentials:edit
+
+# Setup database
+bin/rails db:setup
+
+# Start the development server
+bin/dev
+```
+
+#### Option 2: Using Docker
 
 1. Clone and open in VS Code/Cursor:
 ```bash
@@ -89,7 +142,7 @@ code .  # or `cursor .`
    - Configure the development environment
    ![Run dev container](/app/assets/images/readme/run-dev-container.jpg)
 
-3. Setup the app
+3. Setup the app:
 ```bash
 # Copy environment configuration
 cp .env.example .env
@@ -99,13 +152,14 @@ cp .env.example .env
 # Option 2: Create your own from credentials.yml.example:
 EDITOR="nano --wait" bin/rails credentials:edit
 
-# Seed the database with some data from [seed.yml](db/seeds.rb.rb)
+# Seed the database
 bin/rails db:seed
 
 # Start the development server
 bin/dev
 ```
-3. Visit http://localhost:3001 to see your local instance!
+
+4. Visit http://localhost:3001 to see your local instance!
 
 
 ## 💻 Development
