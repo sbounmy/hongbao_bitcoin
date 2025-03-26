@@ -25,37 +25,37 @@ Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is 
   <tr>
     <td align="center" width="96">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" width="48" height="48" alt="Ruby" />
-      <br>Ruby 3.2
+      <br><a href="https://www.ruby-lang.org/">Ruby 3.2</a>
     </td>
     <td align="center" width="96">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rails/rails-original-wordmark.svg" width="48" height="48" alt="Rails" />
-      <br>Rails 8
+      <br><a href="https://rubyonrails.org/">Rails 8</a>
     </td>
     <td align="center" width="96">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="48" height="48" alt="SQLite" />
-      <br>SQLite
+      <br><a href="https://www.sqlite.org/">SQLite</a>
     </td>
     <td align="center" width="96">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="48" height="48" alt="Tailwind" />
-      <br>Tailwind
+      <br><a href="https://tailwindcss.com/">Tailwind</a>
     </td>
   </tr>
   <tr>
     <td align="center" width="96">
       <img src="app/assets/images/readme/hotwired.svg" width="48" height="48" alt="Hotwire" />
-      <br>Hotwire
+      <br><a href="https://hotwired.dev/">Hotwire</a>
     </td>
     <td align="center" width="96">
-      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="48" height="48" alt="Docker" />
-      <br>Docker
+      <img src="app/assets/images/readme/mise.jpeg" width="48" height="48" alt="mise" />
+      <br><a href="https://mise.jdx.dev/">mise</a>
     </td>
     <td align="center" width="96">
       <img src="https://playwright.dev/img/playwright-logo.svg" width="48" height="48" alt="Playwright" />
-      <br>Playwright
+      <br><a href="https://playwright.dev/">Playwright</a>
     </td>
     <td align="center" width="96">
       <img src="https://rspec.info/images/logo.png" width="48" height="48" alt="RSpec" />
-      <br>RSpec
+      <br><a href="https://rspec.info/">RSpec</a>
     </td>
   </tr>
 </table>
@@ -72,13 +72,9 @@ Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is 
 ### Prerequisites
 
 - [VS Code](https://code.visualstudio.com/) or [Cursor](https://cursor.sh/) (recommended)
-- Choose your development environment:
-  - **Option 1 (Recommended)**: [mise](https://mise.jdx.dev) - Modern development environment manager
-  - **Option 2**: [Docker Desktop](https://www.docker.com/products/docker-desktop/) with [Docker Compose](https://docs.docker.com/compose/install/)
+- [mise](https://mise.jdx.dev) - Dev env manager (like docker without the pain)
 
 ### Install
-
-#### Option 1: Using mise (Recommended)
 
 1. Install mise:
 ```bash
@@ -94,11 +90,9 @@ curl https://mise.run | sh
 # For bash
 echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 
-# For zsh
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+# Refresh
+source ~/.bashrc
 
-# For fish
-echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
 ```
 
 3. Clone and setup the project:
@@ -106,7 +100,7 @@ echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
 git clone https://github.com/sbounmy/hongbao.git
 cd hongbao
 
-# Install Ruby and Node.js
+# Install Ruby and Node.js from .mise.toml
 mise use
 
 # Install dependencies
@@ -127,20 +121,6 @@ bin/rails db:setup
 # Start the development server
 bin/dev
 ```
-
-#### Option 2: Using Docker
-
-1. Clone and open in VS Code/Cursor:
-```bash
-git clone https://github.com/sbounmy/hongbao.git
-cd hongbao
-code .  # or `cursor .`
-```
-
-2. When prompted, click "Reopen in Container" - this will automatically:
-   - Set up all dependencies
-   - Configure the development environment
-   ![Run dev container](/app/assets/images/readme/run-dev-container.jpg)
 
 3. Setup the app:
 ```bash
@@ -175,7 +155,15 @@ bin/dev  # Start the development server
 When working with webhooks locally we recommend to create a  tunnel to your localhost:
 
 ```bash
-docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {token}
+# MacOS
+docker brew install cloudflared &&
+sudo cloudflared service install {token}
+
+
+# Debian / linux
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb &&
+sudo dpkg -i cloudflared.deb &&
+sudo cloudflared service install {token}
 ```
 
 [📚 Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/)
