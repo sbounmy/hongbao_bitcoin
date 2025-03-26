@@ -11,7 +11,7 @@
 bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
 
 bills.each do |bill_data|
-  paper = Paper.find_or_initialize_by(name: bill_data['name'])
+  paper = Paper.find_or_initialize_by(name: bill_data['name'], public: true)
 
   elements_hash = {}
   bill_data['elements'].each do |element|

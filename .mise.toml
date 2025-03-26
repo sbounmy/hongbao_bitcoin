@@ -1,0 +1,7 @@
+[tools]
+ruby = "3.2"
+node = "lts"
+
+[env]
+DATABASE_URL = "sqlite3:db/development.sqlite3"
+
