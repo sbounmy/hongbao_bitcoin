@@ -1,5 +1,6 @@
 class PlaywrightController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: [ :force_login ]
+  allow_unauthenticated_access only: [ :force_login ]
 
   def force_login
     if params[:email].present?

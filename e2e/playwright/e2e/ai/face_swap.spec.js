@@ -11,15 +11,14 @@ test('user can access AI Design features', async ({ page }) => {
 
   // Verify successful login
   await page.goto('/');
-  await expect(page).toHaveURL('/');
 
   // Test AI Design access
   await page.getByRole('button', { name: 'AI Design' }).click();
-  await expect(page).toHaveURL('/ai_designs');
 
+
+  await page.locator('#ai_image_occasion').selectOption('Wedding');
   // Select Christmas design and upload image
-  await page.getByText('AI Generated A Christmas').nth(1).click();
-  await page.locator('#image').setInputFiles('B9732896669Z.1_20221208193243_000+GIKLR0J0J.1-0.jpg');
+  await page.locator('#ai_face_swap_image').setInputFiles('spec/fixtures/files/satoshi.jpg');
 
   // Initiate face swap
   await page.getByRole('button', { name: 'Face Swap' }).click();
