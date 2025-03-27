@@ -37,7 +37,4 @@ CypressOnRails::SmartFactoryWrapper.configure(
     ]
 )
 
-# require 'vcr'
-# VCR.configure do |config|
-#   config.hook_into :webmock
-# end
+require './spec/support/vcr'
