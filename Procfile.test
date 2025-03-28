@@ -1,1 +1,1 @@
-test: PIDFILE=tmp/pids/server.test.pid bin/rails server -e test -p 3003
+test: PIDFILE=tmp/pids/server.test.pid CYPRESS=1 bin/rails server -e test -p 3003
