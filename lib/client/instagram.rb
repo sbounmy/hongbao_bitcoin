@@ -13,6 +13,8 @@ module Client
       fetch(**PARAMS)
     end
 
+    private
+
     def api_key_credential_path
       ""
     end
