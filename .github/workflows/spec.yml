@@ -1,4 +1,4 @@
-name: CI
+name: Spec
 
 on:
   pull_request:
