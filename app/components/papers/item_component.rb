@@ -2,15 +2,15 @@
 
 module Papers
   class ItemComponent < ApplicationComponent
-    attr_reader :paper
+    attr_reader :item
 
-    def initialize(paper:)
-      @paper = paper
+    def initialize(item:)
+      @item = item
       super
     end
 
     def cache_key
-      @paper
+      item.cache_key
     end
 
     private
@@ -19,7 +19,7 @@ module Papers
       tag.div class: "w-full aspect-[170/90] bg-cover bg-center rounded-lg",
               style: background_style(image_url) do
         tag.div class: "absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent" do
-          tag.div paper.name, class: "absolute bottom-2 left-3 text-white text-lg font-medium"
+          tag.div item.name, class: "absolute bottom-2 left-3 text-white text-lg font-medium"
         end
       end
     end
@@ -29,11 +29,11 @@ module Papers
     end
 
     def front_image_url
-      paper.image_front.attached? ? url_for(paper.image_front) : ""
+      item.image_front.attached? ? url_for(item.image_front) : ""
     end
 
     def back_image_url
-      paper.image_back.attached? ? url_for(paper.image_back) : ""
+      item.image_back.attached? ? url_for(item.image_back) : ""
     end
   end
 end
