@@ -77,7 +77,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'foreman start -f Procfile.test',
+    command: 'bundle exec foreman start -f Procfile.test',
     port: 3003,
     reuseExistingServer: !process.env.CI,
     timeout: 120000, // 2 minutes for slow Rails boot
