@@ -4,7 +4,7 @@
 
 
 [![Spec](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/spec.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/spec.yml)
-[![E2E](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/2e2.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/e2e.yml)
+[![E2E](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/e2e.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/e2e.yml)
 [![Deploy](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
