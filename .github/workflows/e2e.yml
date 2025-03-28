@@ -53,10 +53,6 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
 
-    - name: Stop Rails server
-      if: always()
-      run: |
-        kill $(cat tmp/pids/server.test.pid)
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
