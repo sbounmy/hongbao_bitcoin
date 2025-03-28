@@ -1,5 +1,5 @@
-import { request, expect } from '@playwright/test'
-import config from '../../playwright.config'
+import { test, request, expect } from '@playwright/test'
+import config from '../../../playwright.config'
 
 const contextPromise = request.newContext({ baseURL: config.use ? config.use.baseURL : 'http://localhost:5017' })
 
@@ -22,8 +22,11 @@ const appVcrInsertCassette = async (cassette_name, options) => {
 
   Object.keys(options).forEach(key => options[key] === undefined ? delete options[key] : {});
   const response = await context.post("/__e2e__/vcr/insert", {data: [cassette_name,options]});
-  expect(response.ok()).toBeTruthy();
-  return response.body;
+  if (response.ok()) {
+    return response.body;
+  } else {
+    throw new Error(`VCR insert failed with status: ${response.status()} : ${await response.body()}`);
+  }
 }
 
 const appVcrEjectCassette = async () => {
@@ -53,4 +56,10 @@ const forceLogin = async (page, { email, redirect_to = '/' }) => {
       throw new Error(`Login failed with status: ${response.status()}`);
   }
 }
+
+// This is to ensure that any cassette is ejected after each test
+test.afterEach(async () => {
+  await appVcrEjectCassette();
+});
+
 export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin }

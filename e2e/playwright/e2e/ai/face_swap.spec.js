@@ -3,7 +3,7 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 
 test('user can access AI Design features', async ({ page }) => {
   await app('activerecord_fixtures');
-  appVcrInsertCassette('ai_designs')
+  appVcrInsertCassette('ai_designs', { record: 'new_episodes' })
 
   // Force login the user
   await forceLogin(page, {
@@ -18,7 +18,7 @@ test('user can access AI Design features', async ({ page }) => {
   await page.getByRole('button', { name: 'AI Design' }).click();
 
 
-  await page.locator('#ai_designs_results').getByText('Dollar Bill').first().click();
+  await page.locator('#ai_designs_results').getByText('Dollar Bill').filter({ visible: true }).first().click();
 
   await page.locator('#ai_image_occasion').selectOption('Wedding');
   // Select Christmas design and upload image

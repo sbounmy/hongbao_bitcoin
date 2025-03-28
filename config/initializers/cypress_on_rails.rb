@@ -4,8 +4,8 @@ if defined?(CypressOnRails)
     c.install_folder = File.expand_path("#{__dir__}/../../e2e/playwright")
     # WARNING!! CypressOnRails can execute arbitrary ruby code
     # please use with extra caution if enabling on hosted servers or starting your local server on 0.0.0.0
-    c.use_middleware = !Rails.env.production? && ENV["CYPRESS"].present?
-    c.use_vcr_middleware = !Rails.env.production? && ENV["CYPRESS"].present?
+    c.use_middleware = Rails.env.test? && ENV["CYPRESS"].present?
+    c.use_vcr_middleware = Rails.env.test? && ENV["CYPRESS"].present?
     c.logger = Rails.logger
 
     # If you want to enable a before_request logic, such as authentication, logging, sending metrics, etc.
