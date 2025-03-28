@@ -4,7 +4,7 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 test.describe("Face swap feature", () => {
 
   test('user can swap their face with an image ', async ({ page }) => {
-    appVcrInsertCassette('ai_face_swap', { record: 'new_episodes' })
+    appVcrInsertCassette('ai_face_swap')
     // Force login the user
     await forceLogin(page, {
       email: 'satoshi@example.com',
