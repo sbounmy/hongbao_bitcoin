@@ -62,4 +62,8 @@ test.afterEach(async () => {
   await appVcrEjectCassette();
 });
 
+test.beforeAll(async () => {
+  await app('activerecord_fixtures');
+});
+
 export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin }
