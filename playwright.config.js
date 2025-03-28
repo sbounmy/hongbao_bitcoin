@@ -81,6 +81,8 @@ export default defineConfig({
     port: 3003,
     reuseExistingServer: !process.env.CI,
     timeout: 120000, // 2 minutes for slow Rails boot
+    stdout: 'pipe',
+    stderr: 'pipe'
   },
 });
 

@@ -76,15 +76,9 @@ jobs:
           bundler-cache: true
 
       - name: Prepare test database
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: sqlite3:db/test.sqlite3
         run: bin/rails db:test:prepare
 
       - name: Run RSpec tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: sqlite3:db/test.sqlite3
         run: |
           bin/rspec
 
