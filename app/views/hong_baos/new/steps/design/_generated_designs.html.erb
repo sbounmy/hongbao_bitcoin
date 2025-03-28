@@ -5,8 +5,7 @@
     <% if papers_by_user.present? %>
       <% papers_by_user.each do |paper| %>
         <% cache paper do %>
-          <%= render "hong_baos/new/steps/design/paper",
-                    paper: paper %>
+          <%= render Papers::ItemComponent.new(paper:) %>
         <% end %>
       <% end %>
     <% end %>

@@ -1,5 +1,5 @@
-import { request, expect } from '@playwright/test'
-import config from '../../playwright.config'
+import { test, request, expect } from '@playwright/test'
+import config from '../../../playwright.config'
 
 const contextPromise = request.newContext({ baseURL: config.use ? config.use.baseURL : 'http://localhost:5017' })
 
@@ -22,8 +22,11 @@ const appVcrInsertCassette = async (cassette_name, options) => {
 
   Object.keys(options).forEach(key => options[key] === undefined ? delete options[key] : {});
   const response = await context.post("/__e2e__/vcr/insert", {data: [cassette_name,options]});
-  expect(response.ok()).toBeTruthy();
-  return response.body;
+  if (response.ok()) {
+    return response.body;
+  } else {
+    throw new Error(`VCR insert failed with status: ${response.status()} : ${await response.body()}`);
+  }
 }
 
 const appVcrEjectCassette = async () => {
@@ -34,4 +37,33 @@ const appVcrEjectCassette = async () => {
   return response.body;
 }
 
-export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette }
+const forceLogin = async (page, { email, redirect_to = '/' }) => {
+  // Validate inputs
+  if (typeof email !== 'string'  || typeof redirect_to !== 'string') {
+      throw new Error('Invalid input: email and redirect_to must be non-empty strings');
+  }
+
+  const response = await page.request.post('/__e2e__/force_login', {
+      data: { email: email, redirect_to: redirect_to },
+      headers: { 'Content-Type': 'application/json' }
+  });
+
+  // Handle response based on status code
+  if (response.ok()) {
+      await page.goto(redirect_to);
+  } else {
+      // Throw an exception for specific error statuses
+      throw new Error(`Login failed with status: ${response.status()}`);
+  }
+}
+
+// This is to ensure that any cassette is ejected after each test
+test.afterEach(async () => {
+  await appVcrEjectCassette();
+});
+
+test.beforeAll(async () => {
+  await app('activerecord_fixtures');
+});
+
+export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin }

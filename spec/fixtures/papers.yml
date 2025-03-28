@@ -1,7 +1,7 @@
 # RSpec fixtures for papers
 
 one:
-  name: "Chinese New Year 2025"
+  name: "Dollar Bill"
   style: classic
   active: true
   public: true
@@ -14,10 +14,34 @@ one:
         "size": 0.17,
         "color": "224, 120, 1"
       },
+      "private_key_text": {
+        "x": 0.15,
+        "y": 0.35,
+        "size": 14,
+        "color": "224, 120, 1"
+      },
       "public_address_qrcode": {
         "x": 0.55,
         "y": 0.24,
         "size": 0.25,
         "color": "224, 120, 1"
+      },
+      "public_address_text": {
+        "x": 0.55,
+        "y": 0.24,
+        "size": 18,
+        "color": "0, 0, 0"
+      },
+      "mnemonic_text": {
+        "x": 0.2,
+        "y": 0.2,
+        "size": 16,
+        "color": "0, 0, 0"
+      },
+      "custom_text": {
+        "x": 0.2,
+        "y": 0.2,
+        "size": 16,
+        "color": "0, 0, 0"
       }
     }

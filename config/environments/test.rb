@@ -2,10 +2,13 @@
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
-host = ENV.fetch("APP_HOST") { "localhost:3003" }
-base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+ENV["FIXTURES_PATH"] = "spec/fixtures"
 
 Rails.application.configure do
+  host = ENV.fetch("APP_HOST") { "localhost:3003" }
+  base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+
+  puts "#{Rails.env.inspect} APP_HOST: #{ENV['APP_HOST']}"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.
@@ -31,8 +34,7 @@ Rails.application.configure do
   config.action_controller.allow_forgery_protection = false
 
   # Store uploaded files on the local file system in a temporary directory.
-  config.active_storage.service = :test
-
+  config.active_storage.service = :test_fixtures
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.

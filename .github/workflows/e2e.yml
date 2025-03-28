@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: E2E
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Install system dependencies
-      run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+      run: sudo apt-get update && sudo apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3
 
     - uses: actions/checkout@v4
 
@@ -32,29 +32,27 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm ci
         bundle install
+
+    - name: Precompile assets
+      run: |
+        bundle exec rails assets:precompile
 
     - name: Setup test database
       run: |
         bundle exec rails db:test:prepare
 
-    - name: Start Rails server
+    - name: Install npm dependencies
       run: |
-        bundle exec rails assets:precompile
-        bundle exec foreman start -f Procfile.test &
-        sleep 10 # Give the server some time to start
+        npm install
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: |
+        npx playwright install --with-deps
 
     - name: Run Playwright tests
       run: npx playwright test
 
-    - name: Stop Rails server
-      if: always()
-      run: |
-        kill $(cat tmp/pids/server.test.pid)
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
