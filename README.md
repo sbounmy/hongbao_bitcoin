@@ -188,11 +188,22 @@ bin/rspec spec/
 ```
 
 ### Playwright Tests
+
 ```bash
 npm install              # Install dependencies
 npx playwright test     # Run tests headless
 npx playwright test --ui # Run tests with UI
 ```
+
+If you use VSCode / Cursor you can install [Playwright Test for VSCode](https://marketplace.cursorapi.com/items?itemName=ms-playwright.playwright) extension
+
+Then you can
+- Select the Testing Tab (1)
+- Run test from the testing panel (2)
+- Run test from the source code (3)
+- Automatically run test when changes are detected (4)
+
+![playwright-vscode-cursor-testing](/app/assets/images/readme/playwright-vscode-cursor-extension.jpg)
 
 ## 🔄 Recent Updates
 
