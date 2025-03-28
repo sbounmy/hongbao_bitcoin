@@ -1,5 +1,8 @@
 require "active_support/core_ext/integer/time"
 
+# Load environment variables from .env files, and override any existing variables
+Dotenv::Rails.overwrite = true
+
 Rails.application.configure do
   host = ENV.fetch("APP_HOST") { "localhost:3002" }
   base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
