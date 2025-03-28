@@ -10,6 +10,17 @@ RSpec.describe Client::Instagram do
         expect(result).to be_a(Client::ListObject)
         expect(result.data).to be_an(Array)
         expect(result.data.first).to be_a(Client::Object) if result.data.any?
+        result.data.each do |clientObj|
+          expect(clientObj).to be_a(Client::Object)
+          expect(clientObj).to have_attributes(
+            "id" => be_a(String),
+            "caption" => be_a(String),
+            "media_type" => be_a(String),
+            "media_url" => be_a(String),
+            "permalink" => be_a(String),
+            "timestamp" => be_a(String)
+          )
+        end
       end
     end
     context "when the request is erroneous", vcr: { cassette_name: "instagram/me_media_error" } do
