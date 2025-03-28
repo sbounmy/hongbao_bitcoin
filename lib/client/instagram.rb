@@ -1,6 +1,6 @@
 module Client
   class Instagram < Base
-    PARAMS = { fields: "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp", access_token: Rails.application.credentials.instagram[:token] }
+    PARAMS = { fields: "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp", access_token: Rails.application.credentials.dig(:instagram, :token) }
 
     url "https://graph.instagram.com"
 
