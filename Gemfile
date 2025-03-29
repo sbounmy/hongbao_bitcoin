@@ -92,3 +92,5 @@ gem "rails_heroicon"
 gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "additional_endpoints"
 
 gem "view_component"
+
+gem 'ruby_llm', path: '~/code/ruby_llm'
