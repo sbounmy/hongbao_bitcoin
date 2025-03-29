@@ -25,7 +25,7 @@ class HongBaosController < ApplicationController
     # Only fetch user's papers if they're logged in
     @papers_by_user = current_user ? Paper.where(user: current_user) : Paper.none
     @steps = Step.for_new
-    @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { InstagramService.new.fetch_media }
+    @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { Client::Instagram.new.me_media }
   end
 
   def show
