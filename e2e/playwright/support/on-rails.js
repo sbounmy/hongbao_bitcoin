@@ -53,7 +53,7 @@ const forceLogin = async (page, { email, redirect_to = '/' }) => {
       await page.goto(redirect_to);
   } else {
       // Throw an exception for specific error statuses
-      throw new Error(`Login failed with status: ${response.status()}`);
+      throw new Error(`Login failed with status: ${response.status()} : ${await response.body()}`);
   }
 }
 

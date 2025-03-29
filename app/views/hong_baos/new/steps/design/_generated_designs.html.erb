@@ -3,11 +3,7 @@
   <h4>Generated Designs</h4>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
     <% if papers_by_user.present? %>
-      <% papers_by_user.each do |paper| %>
-        <% cache paper do %>
-          <%= render Papers::ItemComponent.new(paper:) %>
-        <% end %>
-      <% end %>
+      <%= render Papers::ItemComponent.with_collection(papers_by_user) %>
     <% end %>
   </div>
 </div>

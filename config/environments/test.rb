@@ -4,9 +4,6 @@
 # and recreated between test runs. Don't rely on the data there!
 ENV["FIXTURES_PATH"] = "spec/fixtures"
 
-# Load environment variables from .env files, and override any existing variables
-Dotenv::Rails.overwrite = true
-
 Rails.application.configure do
   host = ENV.fetch("APP_HOST") { "localhost:3003" }
   base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
