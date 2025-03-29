@@ -3,9 +3,9 @@
 ###### [🌐 Live Demo](https://hongbaob.tc) · [💬 Discussions](https://github.com/sbounmy/hongbao_bitcoin/discussions) · [🤝 Contributing](CONTRIBUTING.md)
 
 
-[![CI](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/ci.yml)
+[![Spec](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/spec.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/spec.yml)
+[![E2E](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/e2e.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/e2e.yml)
 [![Deploy](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/deploy.yml)
-[![Playwright Tests](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml/badge.svg)](https://github.com/sbounmy/hongbao_bitcoin/actions/workflows/playwright.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Hong₿ao is an open-source browser-based Bitcoin paper wallet generator. It is specifically designed for traditional red envelopes (红包, hóngbāo). Perfect for introducing friends and family to Bitcoin during Chinese New Year, weddings or any gift-giving occasion.
@@ -188,11 +188,22 @@ bin/rspec spec/
 ```
 
 ### Playwright Tests
+
 ```bash
 npm install              # Install dependencies
 npx playwright test     # Run tests headless
 npx playwright test --ui # Run tests with UI
 ```
+
+If you use VSCode / Cursor you can install [Playwright Test for VSCode](https://marketplace.cursorapi.com/items?itemName=ms-playwright.playwright) extension
+
+Then you can
+- Select the Testing Tab (1)
+- Run test from the testing panel (2)
+- Run test from the source code (3)
+- Automatically run test when changes are detected (4)
+
+![playwright-vscode-cursor-testing](/app/assets/images/readme/playwright-vscode-cursor-extension.jpg)
 
 ## 🔄 Recent Updates
 

@@ -1,14 +1,14 @@
-<% password_digest = BCrypt::Password.create("password") %>
+<% password_digest = BCrypt::Password.create("03/01/2009") %>
 
 one:
-  email_address: one@example.com
+  email: satoshi@example.com
   password_digest: <%= password_digest %>
 
 two:
-  email_address: two@example.com
+  email: two@example.com
   password_digest: <%= password_digest %>
 
 # Adding john for AI image generation tests
 john:
-  email_address: john@example.com
+  email: john@example.com
   password_digest: <%= password_digest %>

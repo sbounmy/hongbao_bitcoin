@@ -41,6 +41,7 @@
                   class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
                           font-medium hover:bg-[#FFD699]/90 transition-colors",
                   data: {
+                    turbo_submits_with: "Processing...",
                     disable_with: "Generating...",
                     form_target: "submitButton"
                   } %>
@@ -68,6 +69,9 @@
                         class: "text-white" %>
       </div>
         <%= f.submit "Face Swap",
+                    data: {
+                      turbo_submits_with: "Processing...",
+                    },
                     class: "w-full py-3 px-4 bg-[#FFD699] text-black rounded-lg
                             font-medium hover:bg-[#FFD699]/90 transition-colors mt-4" %>
       <% end %>

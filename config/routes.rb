@@ -48,6 +48,12 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
+  if Rails.env.test?
+    scope path: "/__e2e__", controller: "playwright" do
+      post "force_login"
+    end
+  end
+
   # Basic validation for Bitcoin address format
   # Supports both Mainnet and Testnet addresses:
   # - Legacy (1, m, n)

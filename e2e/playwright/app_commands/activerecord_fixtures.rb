@@ -3,7 +3,13 @@
 fixtures_dir = command_options.try(:[], 'fixtures_dir')
 fixture_files = command_options.try(:[], 'fixtures')
 
+# bin/rails db:test:prepare
+
 if defined?(ActiveRecord)
+  logger.error "Executing db:test:prepare"
+  Rails.application.load_tasks
+  Rake::Task['db:test:prepare'].invoke
+
   require "active_record/fixtures"
 
   fixtures_dir ||= ActiveRecord::Tasks::DatabaseTasks.fixtures_path

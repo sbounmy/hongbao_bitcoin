@@ -1,32 +1,31 @@
 import { test, expect } from '@playwright/test';
+import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../../support/on-rails';
 
-test('user can sign up and access AI Design features', async ({ page }) => {
-  // Start signup process
-  await page.goto('/signup');
+test.describe("Face swap feature", () => {
 
-  // Fill in signup form
-  await page.getByRole('textbox', { name: 'Email address' }).fill('example@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('123456789');
-  await page.getByRole('textbox', { name: 'Password Confirmation' }).fill('123456789');
+  test('user can swap their face with an image ', async ({ page }) => {
+    appVcrInsertCassette('ai_face_swap')
+    // Force login the user
+    await forceLogin(page, {
+      email: 'satoshi@example.com',
+      password: '03/01/2009'
+    });
+    // Verify successful login
+    await page.goto('/');
+    // Test AI Design access
+    await page.getByRole('button', { name: 'AI Design' }).click();
 
-  // Submit signup form
-  await page.getByRole('button', { name: 'Sign up' }).click();
+    await page.locator('#ai_designs_results').getByText('Dollar Bill').filter({ visible: true }).first().click({ force: true });
 
-  // Verify successful signup
-  await expect(page).toHaveURL('/');
-  await expect(page.getByText('Welcome! You have signed up successfully.')).toBeVisible();
+    await page.locator('#ai_image_occasion').selectOption('Wedding');
+    // Select Christmas design and upload image
+    await page.locator('#ai_face_swap_image').setInputFiles('spec/fixtures/files/satoshi.jpg');
 
-  // Test AI Design access
-  await page.getByRole('button', { name: 'AI Design' }).click();
-  await expect(page).toHaveURL('/ai_designs');
+    await expect(page.getByText('Processing...')).toBeHidden();
+    // Initiate face swap
+    await page.getByRole('button', { name: 'Face Swap' }).click();
+    // Verify face swap process started
+    await expect(page.getByText('Processing...')).toBeVisible();
+  });
 
-  // Select Christmas design and upload image
-  await page.getByText('AI Generated A Christmas').nth(1).click();
-  await page.locator('#image').setInputFiles('B9732896669Z.1_20221208193243_000+GIKLR0J0J.1-0.jpg');
-
-  // Initiate face swap
-  await page.getByRole('button', { name: 'Face Swap' }).click();
-
-  // Verify face swap process started
-  await expect(page.getByText('Processing your image')).toBeVisible();
 });

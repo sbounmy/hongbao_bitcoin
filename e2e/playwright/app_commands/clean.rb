@@ -10,6 +10,7 @@ end
 CypressOnRails::SmartFactoryWrapper.reload
 
 if defined?(VCR)
+  Rails.logger.info "VCR.eject_cassette"
   VCR.eject_cassette # make sure we no cassette inserted before the next test starts
   VCR.turn_off!
   WebMock.disable! if defined?(WebMock)

@@ -2,7 +2,9 @@ module.exports = {
   content: [
     './app/views/**/*.erb',
     './app/helpers/**/*.rb',
-    './app/javascript/**/*.js'
+    './app/javascript/**/*.js',
+    './app/components/**/*.erb',
+    './app/components/**/*.rb',
   ],
   theme: {
     extend: {},
@@ -10,4 +12,4 @@ module.exports = {
   plugins: [
     // require("daisyui")
   ],
-} 
+}

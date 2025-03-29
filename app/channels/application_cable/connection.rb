@@ -11,7 +11,7 @@ module ApplicationCable
         if session_id = cookies.signed[:session_id]
           Rails.logger.info "Attempting to connect with session_id: #{session_id}"
           if session = Session.find_by(id: session_id)
-            Rails.logger.info "Found session for user: #{session.user.email_address}"
+            Rails.logger.info "Found session for user: #{session.user.email}"
             session.user
           else
             Rails.logger.info "No session found for session_id: #{session_id}"
