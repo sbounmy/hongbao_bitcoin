@@ -1,0 +1,54 @@
+<div class="relative group/card w-full">
+  <label class="peer block cursor-pointer">
+    <%= form.check_box "style_ids[]",
+        { class: "absolute h-0 w-0 opacity-0" },
+        style.title,
+        nil %>
+
+    <div class="p-3 rounded-xl border-2 transition-all duration-200
+                peer-has-[input:checked]:border-indigo-500 peer-has-[input:checked]:ring-2 peer-has-[input:checked]:ring-indigo-500
+                group-hover/card:border-indigo-300
+                active:scale-95 transform">
+      <div class="flex items-start space-x-4">
+        <!-- Image/Icon Container - Fixed size -->
+        <div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100
+                    group-hover/card:shadow-md transition-shadow">
+          <% if style.preview_image.attached? %>
+            <%= image_tag style.preview_image, class: "w-full h-full object-cover" %>
+          <% else %>
+            <div class="flex items-center justify-center h-full text-3xl">
+              <%= style.icon %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <h3 class="text-base font-medium text-gray-900 group-hover/card:text-indigo-600 truncate transition-colors">
+            <%= style.title %>
+          </h3>
+          <p class="mt-1 text-xs text-gray-500 line-clamp-2">
+            <%= style.text %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </label>
+
+  <div class="absolute right-4 bottom-4 w-4 h-4 rounded-full border-2 transition-all duration-200
+              peer-has-[input:checked]:bg-indigo-500 peer-has-[input:checked]:border-indigo-500
+              group-hover/card:border-indigo-400
+              border-gray-300">
+    <svg class="absolute inset-0 w-3 h-3 m-auto text-white opacity-0 peer-has-[input:checked]:opacity-100 transition-opacity pointer-events-none"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            d="M5 13l4 4L19 7">
+      </path>
+    </svg>
+  </div>
+</div>

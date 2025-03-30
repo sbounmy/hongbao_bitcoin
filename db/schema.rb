@@ -72,6 +72,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_051053) do
     t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
   end
 
+  create_table "ai_messages", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "text", null: false
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "icon"
+    t.index ["type"], name: "index_ai_messages_on_type"
+  end
+
   create_table "ai_tasks", force: :cascade do |t|
     t.string "external_id"
     t.string "status"

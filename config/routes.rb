@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :face_swaps, only: [ :create ] do
       post :done, on: :collection
     end
+    resources :image_gpts, only: [ :create ]
   end
 
   ActiveAdmin.routes(self)
@@ -80,4 +81,6 @@ Rails.application.routes.draw do
   end
 
   get "instagram/feed", to: "instagram#feed"
+
+  get "/v2", to: "pages#index"
 end

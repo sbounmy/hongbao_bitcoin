@@ -8,6 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+# Load bills from YAML
 bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
 
 bills.each do |bill_data|
@@ -46,7 +47,6 @@ bills.each do |bill_data|
   puts "Created paper: #{paper.name}"
 end
 
-
 # Load payment methods from YAML
 payment_methods = YAML.load_file(Rails.root.join('db/seeds/payment_methods.yml'))['payment_methods']
 
@@ -61,3 +61,26 @@ payment_methods.each do |attributes|
 end
 
 puts "Created #{PaymentMethod.count} payment methods"
+
+# Load styles from fixtures
+puts "Loading styles from fixtures..."
+ENV['FIXTURES_PATH'] = 'spec/fixtures'
+Rake::Task["db:fixtures:load"].invoke("FIXTURES=ai/styles")
+
+# Attach preview images for styles if they don't exist
+Ai::Style.find_each do |style|
+  next if style.preview_image.attached?
+
+  # Look for preview images in spec/fixtures/files
+  image_path = Rails.root.join('spec', 'fixtures', 'files', "#{style.title.downcase}.jpg")
+  if File.exist?(image_path)
+    style.preview_image.attach(
+      io: File.open(image_path),
+      filename: "#{style.title.downcase}.jpg",
+      content_type: 'image/jpeg'
+    )
+    puts "Attached preview image for #{style.title}"
+  else
+    puts "Warning: Preview image not found at #{image_path}"
+  end
+end
