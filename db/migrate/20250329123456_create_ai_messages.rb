@@ -1,9 +1,9 @@
-class CreateAiMessages < ActiveRecord::Migration[7.1]
+class CreateAiMessages < ActiveRecord::Migration[8.0]
   def change
     create_table :ai_messages do |t|
-      t.string :name, null: false
+      t.string :title
       t.text :description
-      t.text :text, null: false
+      t.text :text
       t.string :type # For STI
       t.timestamps
     end

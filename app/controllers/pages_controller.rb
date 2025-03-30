@@ -3,6 +3,6 @@ class PagesController < ApplicationController
   def index
     # Will be used to list available styles and papers
     @styles = Ai::Style.all
-    @papers = Paper.all.limit(3)
+    @papers = Paper.all
   end
 end
