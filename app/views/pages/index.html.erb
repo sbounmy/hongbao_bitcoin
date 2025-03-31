@@ -23,9 +23,9 @@
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <%= form_with(model: Ai::ImageGpt.new, class: "grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-3", data: { turbo_frame: "paper_form" }) do |form| %>
+    <%= form_with(model: Ai::ImageGpt.new, class: "grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4", data: { turbo_frame: "paper_form" }) do |form| %>
       <!-- Column 1: Styles -->
-      <div class="relative">
+      <div class="relative md:col-span-1">
         <h2 class="text-lg font-medium text-gray-900 mb-4">Choose Style</h2>
         <div class="grid grid-cols-2 gap-4">
           <% @styles.each do |style| %>
@@ -35,19 +35,42 @@
       </div>
 
       <!-- Column 2: Upload -->
-      <div class="relative">
+      <div class="relative md:col-span-1">
         <h2 class="text-lg font-medium text-gray-900 mb-4">Upload Picture</h2>
         <%= render PictureUploadComponent.new(form: form) %>
       </div>
 
       <!-- Column 3: Preview -->
-      <div class="relative -mt-64 lg:-mt-96 z-10">
+      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="bg-white rounded-xl shadow-xl p-6">
           <h2 class="text-lg font-medium text-gray-900 mb-4">Preview</h2>
           <div class="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
-            <%= render Papers::ItemComponent.with_collection(@papers) %>
+            <% @papers.each do |paper| %>
+              <div class="relative rounded-lg overflow-hidden shadow-lg">
+                <%= image_tag paper.image_front, class: "w-full h-auto" if paper.image_front.attached? %>
+                <div class="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4">
+                  <div class="flex justify-between items-center">
+                    <div class="flex gap-4">
+                      <button type="button" class="flex items-center text-gray-600 hover:text-gray-900">
+                        <%= heroicon "share", class: "h-4 w-4 mr-1" %>
+                        <span class="text-sm">Share</span>
+                      </button>
+
+                      <%= link_to "#", class: "flex items-center text-gray-600 hover:text-gray-900" do %>
+                        <%= heroicon "printer", class: "h-4 w-4 mr-1" %>
+                        <span class="text-sm">Print</span>
+                      <% end %>
+
+                      <button type="button" class="flex items-center text-gray-600 hover:text-gray-900">
+                        <%= heroicon "arrow-down-tray", class: "h-4 w-4 mr-1" %>
+                        <span class="text-sm">Save</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           </div>
-          <%= form.submit "Generate", class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
         </div>
       </div>
     <% end %>
