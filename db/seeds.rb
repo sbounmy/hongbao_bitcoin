@@ -35,7 +35,7 @@ Ai::Style.find_each do |style|
   next if style.preview_image.attached?
 
   # Look for preview images in spec/fixtures/files
-  image_path = Rails.root.join('spec', 'fixtures', 'files', "#{style.title.parameterize(separator: '_')}.jpg")
+  image_path = Rails.root.join('spec', 'fixtures', 'files', 'ai', 'styles', "#{style.title.parameterize(separator: '_')}.jpg")
   if File.exist?(image_path)
     style.preview_image.attach(
       io: File.open(image_path),

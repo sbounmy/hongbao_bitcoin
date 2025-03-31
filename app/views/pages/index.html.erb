@@ -26,7 +26,7 @@
     <%= form_with(model: Ai::ImageGpt.new, class: "grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4", data: { turbo_frame: "paper_form" }) do |form| %>
       <!-- Column 1: Styles -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Choose Style</h2>
+        <h2 class="text-lg font-medium text-gray-900 mb-4">1. Choose Style</h2>
         <div class="grid grid-cols-2 gap-4">
           <% @styles.each do |style| %>
             <%= render Ai::Styles::CheckboxComponent.new(style: style, form: form) %>
@@ -36,14 +36,14 @@
 
       <!-- Column 2: Upload -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Upload Picture</h2>
+        <h2 class="text-lg font-medium text-gray-900 mb-4">2. Upload Picture</h2>
         <%= render PictureUploadComponent.new(form: form) %>
       </div>
 
       <!-- Column 3: Preview -->
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="bg-white rounded-xl shadow-xl p-6">
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Preview</h2>
+          <h2 class="text-lg font-medium text-gray-900 mb-4">3. Preview</h2>
           <div class="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
