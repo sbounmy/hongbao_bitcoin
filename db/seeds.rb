@@ -75,4 +75,6 @@ Paper.find_each do |paper|
       puts "Warning: Back image not found at #{back_image_path}"
     end
   end
+
+  paper.save!
 end
