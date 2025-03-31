@@ -1,54 +1,46 @@
 <div class="relative group/card w-full">
-  <label class="peer block cursor-pointer">
+  <label class="block cursor-pointer">
     <%= form.check_box "style_ids[]",
-        { class: "absolute h-0 w-0 opacity-0" },
+        { class: "peer sr-only" },
         style.title,
         nil %>
 
-    <div class="p-3 rounded-xl border-2 transition-all duration-200
-                peer-has-[input:checked]:border-indigo-500 peer-has-[input:checked]:ring-2 peer-has-[input:checked]:ring-indigo-500
+    <div class="rounded-xl border-2 transition-all duration-200
+                peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-500
                 group-hover/card:border-indigo-300
                 active:scale-95 transform">
-      <div class="flex items-start space-x-4">
-        <!-- Image/Icon Container - Fixed size -->
-        <div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100
-                    group-hover/card:shadow-md transition-shadow">
-          <% if style.preview_image.attached? %>
-            <%= image_tag style.preview_image, class: "w-full h-full object-cover" %>
-          <% else %>
-            <div class="flex items-center justify-center h-full text-3xl">
-              <%= style.icon %>
-            </div>
-          <% end %>
-        </div>
+      <!-- Image Container -->
+      <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+        <% if style.preview_image.attached? %>
+          <%= image_tag style.preview_image, class: "w-full h-full object-cover" %>
+        <% else %>
+          <div class="flex items-center justify-center h-full text-3xl">
+            <%= style.icon %>
+          </div>
+        <% end %>
 
-        <!-- Content -->
-        <div class="flex-1 min-w-0">
-          <h3 class="text-base font-medium text-gray-900 group-hover/card:text-indigo-600 truncate transition-colors">
-            <%= style.title %>
-          </h3>
-          <p class="mt-1 text-xs text-gray-500 line-clamp-2">
-            <%= style.text %>
-          </p>
-        </div>
+        <!-- Checkbox overlay -->
+        <%# <div class="absolute top-2 right-2 w-6 h-6 peer-checked:opacity-100">
+          <div class="absolute inset-0">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                    class="stroke-white peer-checked:fill-indigo-500"
+                    stroke-width="2"/>
+              <path class="opacity-0 peer-checked:opacity-100 transition-opacity"
+                    d="M7.5 12L10.5 15L16.5 9"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div> %>
       </div>
     </div>
-  </label>
 
-  <div class="absolute right-4 bottom-4 w-4 h-4 rounded-full border-2 transition-all duration-200
-              peer-has-[input:checked]:bg-indigo-500 peer-has-[input:checked]:border-indigo-500
-              group-hover/card:border-indigo-400
-              border-gray-300">
-    <svg class="absolute inset-0 w-3 h-3 m-auto text-white opacity-0 peer-has-[input:checked]:opacity-100 transition-opacity pointer-events-none"
-         fill="none"
-         stroke="currentColor"
-         viewBox="0 0 24 24"
-         xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="3"
-            d="M5 13l4 4L19 7">
-      </path>
-    </svg>
-  </div>
+    <!-- Title -->
+    <h3 class="p-3 text-center peer-checked:text-indigo-600 text-sm font-medium text-gray-900 group-hover/card:text-indigo-600 transition-colors">
+      <%= style.title %>
+    </h3>
+  </label>
 </div>
