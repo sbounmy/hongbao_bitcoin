@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
+    resources :papers, only: [ :show ]
     root "hong_baos#new"
     post "/leonardo/generate", to: "leonardo#generate"
   end

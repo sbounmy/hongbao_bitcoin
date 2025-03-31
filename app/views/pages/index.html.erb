@@ -45,31 +45,7 @@
         <div class="bg-white rounded-xl shadow-xl p-6">
           <h2 class="text-lg font-medium text-gray-900 mb-4">Preview</h2>
           <div class="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
-            <% @papers.each do |paper| %>
-              <div class="relative rounded-lg overflow-hidden shadow-lg">
-                <%= image_tag paper.image_front, class: "w-full h-auto" if paper.image_front.attached? %>
-                <div class="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4">
-                  <div class="flex justify-between items-center">
-                    <div class="flex gap-4">
-                      <button type="button" class="flex items-center text-gray-600 hover:text-gray-900">
-                        <%= heroicon "share", class: "h-4 w-4 mr-1" %>
-                        <span class="text-sm">Share</span>
-                      </button>
-
-                      <%= link_to "#", class: "flex items-center text-gray-600 hover:text-gray-900" do %>
-                        <%= heroicon "printer", class: "h-4 w-4 mr-1" %>
-                        <span class="text-sm">Print</span>
-                      <% end %>
-
-                      <button type="button" class="flex items-center text-gray-600 hover:text-gray-900">
-                        <%= heroicon "arrow-down-tray", class: "h-4 w-4 mr-1" %>
-                        <span class="text-sm">Save</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+            <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
         </div>
       </div>

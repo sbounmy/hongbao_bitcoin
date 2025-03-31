@@ -31,6 +31,21 @@ class Step
     ]
   end
 
+  def self.for_show_v2
+    [
+      new(
+        name: "Print",
+        icon: "printer",
+        position: 1
+      ),
+      new(
+        name: "Top up",
+        icon: "credit-card",
+        position: 2
+      )
+    ]
+  end
+
   def self.for_show
     [
       new(
