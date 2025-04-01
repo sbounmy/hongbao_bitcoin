@@ -13,7 +13,24 @@ ENV['FIXTURES_PATH'] = 'spec/fixtures'
 
 # Load papers and styles from fixtures
 puts "Loading papers and styles from fixtures..."
-Rake::Task["db:fixtures:load"].invoke("FIXTURES=papers,ai/styles")
+Rake::Task["db:fixtures:load"].invoke("FIXTURES=papers,ai/styles,ai/themes")
+
+def attach(object, field, name, folders, suffix = nil)
+  unless object.send(name).attached?
+    title = object.send(field)
+    image_path = Rails.root.join('spec', 'fixtures', 'files', *folders, "#{title.parameterize(separator: '_')}#{suffix ? "_#{suffix}" : ""}.jpg")
+    if File.exist?(image_path)
+      object.send(name).attach(
+        io: File.open(image_path),
+        filename: "#{title.parameterize(separator: '_')}_#{suffix}.jpg"
+      )
+      puts "Attached #{name} image for #{title}"
+    else
+      puts "Warning: #{name} image not found at #{image_path}"
+    end
+  end
+end
+
 
 # Load payment methods from YAML
 payment_methods = YAML.load_file(Rails.root.join('db/seeds/payment_methods.yml'))['payment_methods']
@@ -32,49 +49,18 @@ puts "Created #{PaymentMethod.count} payment methods"
 
 # Attach preview images for styles if they don't exist
 Ai::Style.find_each do |style|
-  next if style.preview_image.attached?
-
-  # Look for preview images in spec/fixtures/files
-  image_path = Rails.root.join('spec', 'fixtures', 'files', 'ai', 'styles', "#{style.title.parameterize(separator: '_')}.jpg")
-  if File.exist?(image_path)
-    style.preview_image.attach(
-      io: File.open(image_path),
-      filename: "#{style.title.parameterize(separator: '_')}.jpg",
-      content_type: 'image/jpeg'
-    )
-    puts "Attached preview image for #{style.title}"
-  else
-    puts "Warning: Preview image not found at #{image_path}"
-  end
+  attach(style, :title, :preview_image, [ 'ai', 'styles' ])
 end
 
 # Attach images for papers if they don't exist
 Paper.find_each do |paper|
-  unless paper.image_front.attached?
-    front_image_path = Rails.root.join('spec', 'fixtures', 'files', 'papers', "#{paper.name.parameterize(separator: '_')}_front.jpg")
-    if File.exist?(front_image_path)
-      paper.image_front.attach(
-        io: File.open(front_image_path),
-        filename: "#{paper.name.parameterize(separator: '_')}_front.jpg"
-      )
-      puts "Attached front image for #{paper.name}"
-    else
-      puts "Warning: Front image not found at #{front_image_path}"
-    end
-  end
-
-  unless paper.image_back.attached?
-    back_image_path = Rails.root.join('spec', 'fixtures', 'files', 'papers', "#{paper.name.parameterize(separator: '_')}_back.jpg")
-    if File.exist?(back_image_path)
-      paper.image_back.attach(
-        io: File.open(back_image_path),
-        filename: "#{paper.name.parameterize(separator: '_')}_back.jpg"
-      )
-      puts "Attached back image for #{paper.name}"
-    else
-      puts "Warning: Back image not found at #{back_image_path}"
-    end
-  end
+  attach(paper, :name, :image_front, [ 'papers' ], "front")
+  attach(paper, :name, :image_back, [ 'papers' ], "back")
 
   paper.save!
+end
+
+Ai::Theme.find_each do |theme|
+  attach(theme, :path, :hero_image, [ 'ai', 'themes' ], "hero")
+  theme.save!
 end

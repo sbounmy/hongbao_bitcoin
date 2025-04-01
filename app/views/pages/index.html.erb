@@ -1,21 +1,38 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen" style="background-color: <%= current_theme.settings_background_color %>">
   <!-- Header -->
   <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-semibold text-gray-900">Hongbao</h1>
+      <h1 class="text-xl font-semibold" style="color: <%= current_theme.settings_text_color %>">Hongbao</h1>
+
+      <!-- Theme Selector -->
+      <%= render DropdownComponent.new(
+        items: Ai::Theme.all,
+        current_item: current_theme,
+        path_helper: :v2_path,
+        button_style: {
+          text_color: current_theme.settings_text_color,
+          background_color: current_theme.settings_background_color
+        }) %>
     </div>
   </header>
 
   <!-- Hero -->
-  <div class="bg-white">
-    <div class="max-w-7xl mx-auto py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
-      <div class="">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-          <span>Be your own </span>
-          <span class="text-indigo-600">₿ank</span>
+  <div class="relative">
+    <% if current_theme.hero_image.attached? %>
+      <div class="absolute inset-0 z-0">
+        <%= image_tag current_theme.hero_image, class: "w-full h-full object-cover" %>
+        <div class="absolute inset-0 bg-black/40"></div>
+      </div>
+    <% end %>
+
+    <div class="relative max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-left text-white">
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+          <span >Be your own </span>
+          <span>₿ank</span>
         </h1>
-        <p class="mt-3 mx-auto text-base text-gray-500 sm:text-lg md:mt-4">
-          Print your own custom bank note, top up your balance, and gift it.
+        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4" style="color: <%= current_theme.settings_text_color %>">
+          Print your own Bitcoin bank note, top up your balance, and gift it.
         </p>
       </div>
     </div>
@@ -26,8 +43,8 @@
     <%= form_with(model: Ai::ImageGpt.new, class: "grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4", data: { turbo_frame: "paper_form" }) do |form| %>
       <!-- Column 1: Styles -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">1. Choose Style</h2>
-        <div class="grid grid-cols-2 gap-4">
+        <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">1. Choose Style</h2>
+        <div class="grid grid-cols-2 gap-2">
           <% @styles.each do |style| %>
             <%= render Ai::Styles::CheckboxComponent.new(style: style, form: form) %>
           <% end %>
@@ -36,14 +53,14 @@
 
       <!-- Column 2: Upload -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">2. Upload Picture</h2>
+        <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">2. Upload Picture</h2>
         <%= render PictureUploadComponent.new(form: form) %>
       </div>
 
       <!-- Column 3: Preview -->
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
-        <div class="bg-white rounded-xl shadow-xl p-6">
-          <h2 class="text-lg font-medium text-gray-900 mb-4">3. Preview</h2>
+        <div class="rounded-xl shadow-xl p-6 bg-white">
+          <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">3. Preview</h2>
           <div class="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>

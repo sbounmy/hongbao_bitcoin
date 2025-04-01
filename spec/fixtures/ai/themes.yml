@@ -1,0 +1,27 @@
+_fixture:
+  model_class: Ai::Theme
+
+dollar:
+  id: 1
+  title: "Dollar"
+  path: 'usd'
+
+euro:
+  id: 2
+  title: "Euro"
+  path: 'eur'
+
+monopoly:
+  id: 3
+  title: "Monopoly"
+  path: 'monopoly'
+
+rouble:
+  id: 4
+  title: "Rouble"
+  path: 'rub'
+
+yuan:
+  id: 5
+  title: "Chinese Yuan"
+  path: 'cny'

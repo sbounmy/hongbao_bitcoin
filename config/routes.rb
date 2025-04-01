@@ -83,5 +83,7 @@ Rails.application.routes.draw do
 
   get "instagram/feed", to: "instagram#feed"
 
-  get "/v2", to: "pages#index"
+  scope "/v2/(:theme)", as: :v2 do
+    get "/", to: "pages#index"
+  end
 end
