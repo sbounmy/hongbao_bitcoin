@@ -1530,6 +1530,11 @@ cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+daisyui@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-5.0.9.tgz#d1e549732fcfad258cf8692b56d0f18f2a6a5c96"
+  integrity sha512-RsaehHh45f+0shWgZZaOY09/8eOae2voRsqJCD71j9yrnYgcke0Nj5ys0ZxrW4SPcc4+q96kWyJu0Z8P1zZdoA==
+
 debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
   version "4.4.0"
   resolved "https://registry.npmjs.org/debug/-/debug-4.4.0.tgz"

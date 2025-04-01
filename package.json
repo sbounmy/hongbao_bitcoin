@@ -8,5 +8,8 @@
     "jest": "^29.7.0",
     "playwright": "^1.51.1"
   },
-  "scripts": {}
+  "scripts": {},
+  "dependencies": {
+    "daisyui": "^5.0.9"
+  }
 }

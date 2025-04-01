@@ -1,18 +1,14 @@
-<div class="min-h-screen" style="background-color: <%= current_theme.settings_background_color %>">
+<div class="min-h-screen">
   <!-- Header -->
   <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-semibold" style="color: <%= current_theme.settings_text_color %>">Hongbao</h1>
+      <h1 class="text-xl font-semibold">Hongbao</h1>
 
       <!-- Theme Selector -->
       <%= render DropdownComponent.new(
         items: Ai::Theme.all,
         current_item: current_theme,
-        path_helper: :v2_path,
-        button_style: {
-          text_color: current_theme.settings_text_color,
-          background_color: current_theme.settings_background_color
-        }) %>
+        path_helper: :v2_path) %>
     </div>
   </header>
 
@@ -31,7 +27,7 @@
           <span >Be your own </span>
           <span>₿ank</span>
         </h1>
-        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4" style="color: <%= current_theme.settings_text_color %>">
+        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
           Print your own Bitcoin bank note, top up your balance, and gift it.
         </p>
       </div>
@@ -43,7 +39,7 @@
     <%= form_with(model: Ai::ImageGpt.new, class: "grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4", data: { turbo_frame: "paper_form" }) do |form| %>
       <!-- Column 1: Styles -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">1. Choose Style</h2>
+        <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
         <div class="grid grid-cols-2 gap-2">
           <% @styles.each do |style| %>
             <%= render Ai::Styles::CheckboxComponent.new(style: style, form: form) %>
@@ -53,18 +49,20 @@
 
       <!-- Column 2: Upload -->
       <div class="relative md:col-span-1">
-        <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">2. Upload Picture</h2>
+        <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
         <%= render PictureUploadComponent.new(form: form) %>
       </div>
 
       <!-- Column 3: Preview -->
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="rounded-xl shadow-xl p-6 bg-white">
-          <h2 class="text-lg font-medium mb-4" style="color: <%= current_theme.settings_text_color %>">3. Preview</h2>
-          <div class="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
+          <h2 class="text-lg font-medium mb-4">3. Preview</h2>
+          <div class="space-y-4 max-h-[calc(100vh-24rem)] overflow-y-auto">
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
         </div>
+
+        <button class="btn btn-secondary">Hello daisyUI!</button>
       </div>
     <% end %>
   </div>

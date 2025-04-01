@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "daisyui" {
+  themes: cyberpunk;
+  logs: true;
+};
 
 @layer utilities {
   .animate-fade-in {

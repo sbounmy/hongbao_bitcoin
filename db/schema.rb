@@ -104,7 +104,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_144110) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "path"
-    t.json "settings", default: "{}"
+    t.json "ui", default: "{}"
   end
 
   create_table "papers", force: :cascade do |t|

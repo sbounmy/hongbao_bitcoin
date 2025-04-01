@@ -49,7 +49,7 @@
     <%# <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
   </head>
-  <body>
+  <body data-theme="<%= current_theme.ui_name %>">
     <%# render "shared/header" %>
     <%= yield %>
   </body>
