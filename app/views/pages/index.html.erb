@@ -52,6 +52,7 @@
         <div class="relative">
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
+          <%= form.submit "Generate", class: "btn btn-primary btn-wide" %>
         </div>
       <% end %>
 

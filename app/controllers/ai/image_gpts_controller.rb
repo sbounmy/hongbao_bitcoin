@@ -1,5 +1,5 @@
 module Ai
-  class ImageGptsController < BaseController
+  class ImageGptsController < ApplicationController
     def create
       result = Ai::ImageGpts::Create.call(params: image_params, user: current_user)
       if result.success?

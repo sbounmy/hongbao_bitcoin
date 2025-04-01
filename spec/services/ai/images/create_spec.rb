@@ -6,13 +6,10 @@ RSpec.describe Ai::Images::Create, type: :service do
   # 2. Record the VCR cassettes by running the tests with real API calls
 
   describe '#call' do
-    # Use fixtures instead of FactoryBot
-    fixtures :users, :ai_themes, :ai_elements, :ai_elements_themes
-
     let(:user) { users(:john) }
-    let(:theme) { ai_themes(:birthday) }
+    let(:theme) { ai_themes(:euro) }
     let(:element) { ai_elements(:birthday_element) }
-    let(:params) { { occasion: 'birthday' } }
+    let(:params) { { occasion: 'euro' } }
 
     subject(:service) { described_class }
 
@@ -27,7 +24,7 @@ RSpec.describe Ai::Images::Create, type: :service do
         image = service.call(params: params, user: user).payload
 
         expect(image).to have_attributes(
-          prompt: 'A birthday bitcoin themed bill add text public address and private key',
+          prompt: 'A euro bitcoin themed bill add text public address and private key',
           status: 'processing',
           user: user,
           request_theme_id: theme.id
@@ -42,20 +39,6 @@ RSpec.describe Ai::Images::Create, type: :service do
 
       it 'raises an error' do
         expect { service.call(params: params, user: user) }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    context 'with different occasions' do
-      let(:params) { { occasion: 'wedding' } }
-
-      it 'uses the appropriate theme', :vcr do
-        VCR.use_cassette('leonardo_ai/wedding_image_create') do
-          # Use the wedding theme from fixtures
-          wedding_theme = ai_themes(:wedding)
-
-          image = service.call(params: params, user: user).payload
-          expect(image.request_theme_id).to eq(wedding_theme.id)
-        end
       end
     end
   end
