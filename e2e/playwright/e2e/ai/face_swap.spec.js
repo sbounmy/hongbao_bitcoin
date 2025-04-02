@@ -15,9 +15,9 @@ test.describe("Face swap feature", () => {
     // Test AI Design access
     await page.getByRole('button', { name: 'AI Design' }).click();
 
-    await page.locator('#ai_designs_results').getByText('Dollar Bill').filter({ visible: true }).first().click({ force: true });
+    await page.locator('#ai_designs_results').getByText('Dollar').filter({ visible: true }).first().click({ force: true });
 
-    await page.locator('#ai_image_occasion').selectOption('Wedding');
+    await page.locator('#ai_image_occasion').selectOption('Dollar');
     // Select Christmas design and upload image
     await page.locator('#ai_face_swap_image').setInputFiles('spec/fixtures/files/satoshi.jpg');
 
