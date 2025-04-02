@@ -26,6 +26,7 @@ module Ai
             user:,
             ai_style_id: style.id,
             ai_theme_id: theme.id,
+            public: false,
             name: "#{style.title} #{theme.title}"
           ).tap do |paper|
             paper.image_front.attach(params[:image])
