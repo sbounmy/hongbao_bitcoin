@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_31_144110) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_02_041223) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -109,7 +109,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_144110) do
 
   create_table "papers", force: :cascade do |t|
     t.string "name"
-    t.integer "style", default: 0
+    t.integer "ai_style_id", default: 0
     t.boolean "active", default: true
     t.integer "position"
     t.datetime "created_at", null: false
@@ -118,6 +118,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_144110) do
     t.integer "user_id"
     t.boolean "public", default: false
     t.integer "parent_id"
+    t.integer "ai_theme_id"
+    t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
   end
@@ -162,6 +164,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_144110) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_tasks", "users"
+  add_foreign_key "papers", "ai_themes"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"

@@ -7,13 +7,13 @@ module Ai
         @params = params
         @user = user
 
-        process_images
+        success process_images
       end
 
       private
 
       def process_images
-        styles.each do |style|
+        styles.map do |style|
           # call chatgpt-4o to create images with style
           # RubyLLM.ask(
           #   model: 'gpt-4o',
@@ -22,15 +22,15 @@ module Ai
           #     image: params[:image]
           #   }
           # )
-          Paper.create!(
+          Paper.new(
             user:,
-            ai_style: style,
-            ai_theme: theme,
+            ai_style_id: style.id,
+            ai_theme_id: theme.id,
+            name: "#{style.title} #{theme.title}"
           ).tap do |paper|
-            paper.image_front.attach(
-              io: params[:image],
-              filename: "#{style.title.parameterize(separator: '_')}.jpg"
-            )
+            paper.image_front.attach(params[:image])
+            paper.image_back.attach(params[:image])
+            paper.save!
           end
         end
       end

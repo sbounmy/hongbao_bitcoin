@@ -12,22 +12,24 @@ test.describe("Generate image gpts feature", () => {
     });
     // Verify successful login
     await page.goto('/v2');
-    // Test AI Design access
-    await page.getByRole('button', { name: 'AI Design' }).click();
 
-    // click on ghibli
+    // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
 
 
 
-    // Select Christmas design and upload image
+    // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    const count = await page.locator('.papers-item-component').count();
 
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
-    // Verify face swap process started
-    await expect(page.locator('.papers-item-component').count()).toBe(2);
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing...')).toBeHidden();
+    // this should be done through turbo frame
+    await page.goto('/v2');
+    await expect(page.locator('.papers-item-component')).toHaveCount(count + 2);
   });
 
 });

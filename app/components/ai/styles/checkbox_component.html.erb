@@ -1,9 +1,9 @@
 <div class="relative group/card w-full">
   <label class="block cursor-pointer">
-    <%= form.check_box "style_ids[]",
-        { class: "peer sr-only" },
-        checkbox.title,
-        nil %>
+    <%= check_box_tag 'ai_image_gpt[ai_style_ids][]',
+        checkbox.id,
+        false,
+        class: "peer sr-only" %>
 
     <div class="rounded-xl border-2 transition-all duration-200
                 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-500
@@ -13,10 +13,6 @@
       <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
         <% if checkbox.preview_image.attached? %>
           <%= image_tag checkbox.preview_image, class: "w-full h-full object-cover" %>
-        <% else %>
-          <div class="flex items-center justify-center h-full text-3xl">
-            <%= checkbox.icon %>
-          </div>
         <% end %>
 
         <!-- Checkbox overlay -->
