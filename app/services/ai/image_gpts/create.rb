@@ -40,7 +40,7 @@ module Ai
       end
 
       def styles
-        @styles ||= Ai::Style.where(id: params[:ai_style_ids])
+        @styles ||= Ai::Style.find(params[:ai_style_ids])
       end
     end
   end
