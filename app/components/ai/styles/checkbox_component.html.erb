@@ -2,7 +2,7 @@
   <label class="block cursor-pointer">
     <%= form.check_box "style_ids[]",
         { class: "peer sr-only" },
-        style.title,
+        checkbox.title,
         nil %>
 
     <div class="rounded-xl border-2 transition-all duration-200
@@ -11,11 +11,11 @@
                 active:scale-95 transform">
       <!-- Image Container -->
       <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
-        <% if style.preview_image.attached? %>
-          <%= image_tag style.preview_image, class: "w-full h-full object-cover" %>
+        <% if checkbox.preview_image.attached? %>
+          <%= image_tag checkbox.preview_image, class: "w-full h-full object-cover" %>
         <% else %>
           <div class="flex items-center justify-center h-full text-3xl">
-            <%= style.icon %>
+            <%= checkbox.icon %>
           </div>
         <% end %>
 
@@ -40,7 +40,7 @@
 
     <!-- Title -->
     <h3 class="p-4 text-center peer-checked:text-indigo-600 text-sm font-medium text-gray-900 group-hover/card:text-indigo-600 transition-colors">
-      <%= style.title %>
+      <%= checkbox.title %>
     </h3>
   </label>
 </div>

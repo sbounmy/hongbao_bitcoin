@@ -42,9 +42,7 @@
         <div class="relative">
           <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
           <div class="grid grid-cols-2 gap-2">
-            <% @styles.each do |style| %>
-              <%= render Ai::Styles::CheckboxComponent.new(style: style, form: form) %>
-            <% end %>
+            <%= render Ai::Styles::CheckboxComponent.with_collection(@styles, form:) %>
           </div>
         </div>
 

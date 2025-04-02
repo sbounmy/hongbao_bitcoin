@@ -1,14 +1,14 @@
 module Ai
   module Styles
     class CheckboxComponent < ViewComponent::Base
-      def initialize(style:, form:)
-        @style = style
+      def initialize(checkbox:, form:)
+        @checkbox = checkbox
         @form = form
       end
 
       private
 
-      attr_reader :style, :form
+      attr_reader :checkbox, :form
     end
   end
 end
