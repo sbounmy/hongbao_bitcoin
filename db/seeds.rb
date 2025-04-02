@@ -10,10 +10,11 @@
 
 # Set fixtures path
 ENV['FIXTURES_PATH'] = 'spec/fixtures'
+fixtures = (ENV['FIXTURES'] || 'papers,ai/styles,ai/themes').split(',')
 
 # Load papers and styles from fixtures
-puts "Loading papers and styles from fixtures..."
-Rake::Task["db:fixtures:load"].invoke("FIXTURES=papers,ai/styles,ai/themes")
+puts "Loading #{fixtures.join(', ')} from fixtures..."
+Rake::Task["db:fixtures:load"].invoke(fixtures.join(','))
 
 def attach(object, field, name, folders, suffix = nil)
   unless object.send(name).attached?
@@ -32,6 +33,7 @@ def attach(object, field, name, folders, suffix = nil)
 end
 
 
+
 # Load payment methods from YAML
 payment_methods = YAML.load_file(Rails.root.join('db/seeds/payment_methods.yml'))['payment_methods']
 
@@ -43,14 +45,14 @@ payment_methods.each do |attributes|
   )
   pm.instructions = attributes['instructions'].join("\n")
   pm.save!
-end
+end if fixtures.include?('payment_methods')
 
-puts "Created #{PaymentMethod.count} payment methods"
+
 
 # Attach preview images for styles if they don't exist
 Ai::Style.find_each do |style|
   attach(style, :title, :preview_image, [ 'ai', 'styles' ])
-end
+end if fixtures.include?('ai/styles')
 
 # Attach images for papers if they don't exist
 Paper.find_each do |paper|
@@ -58,9 +60,9 @@ Paper.find_each do |paper|
   attach(paper, :name, :image_back, [ 'papers' ], "back")
 
   paper.save!
-end
+end if fixtures.include?('papers')
 
 Ai::Theme.find_each do |theme|
   attach(theme, :path, :hero_image, [ 'ai', 'themes' ], "hero")
   theme.save!
-end
+end if fixtures.include?('ai/themes')
