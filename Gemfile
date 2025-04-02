@@ -85,7 +85,7 @@ gem "aasm"
 
 gem "rqrcode"
 
-gem "activeadmin", "4.0.0.beta14"
+gem "activeadmin", github: "activeadmin/activeadmin", branch: "tailwind-v4"
 
 gem "rails_heroicon"
 
