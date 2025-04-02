@@ -1,0 +1,163 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"579c99e77fe45a457d4dcc48a121355092a33ef1"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - Ay2M-U9DTizVcEobxhWEBk1
+      X-Fb-Trace-Id:
+      - BY25eOO0QBE
+      X-Fb-Rev:
+      - '1021447922'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - xixqSKWoDGqXJEaBiy9WX4uHKDlRUnYu8qPsj/zlS7/QcJ+oYxAVDY0e7bJbHRaNc7Hll5KY5JRC/KxyCrq8HQ==
+      Date:
+      - Tue, 01 Apr 2025 13:09:05 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=16, rtx=0, c=14, mss=1380, tbw=3254, tp=-1, tpl=-1,
+        uplat=225, ullat=1
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4300'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"17873321001309610","caption":"Getting closer to the
+        final version \ud83e\udde7 \n\n- Each Hongbao will have a random quote from
+        best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect size
+        for paper wallet in hongbaob.tc\n\nComment and like below to receive 1 free
+        pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=mj0hETOHpY8Q7kNvgEe3Xzv&_nc_oc=AdnLVglIBzlJ8VMvCfrF9vltJXvdCoXlpyur5ntguf1oTqXp7BTSHMmhcEBmh_0U5ZHbTRWZYxotRJSMVt0W9LTF&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=bsgrj41GNYBSh1JpoJDU6g&oh=00_AYFYBumlDNIOI7UIiGfcjfFx-kGz9iG0MFzBC4Qf-A0xQw&oe=67F1CC33","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=I7yy5NXFN4AQ7kNvgEOI5Lk&_nc_oc=Adnt50vYxQFmZRpEsaAD67z1tsILY3RII7fd9Mj066ywaz_6o07m-Y4pr9PlzuXmotBnz06A2GpWYl7jwwgHlXWK&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=bsgrj41GNYBSh1JpoJDU6g&oh=00_AYEvEHTltkb_QN6b7Y7ipsxbWR_Tj2agnSqkXPKTOPfZhA&oe=67F1B5E6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=A9fYZSvMkwwQ7kNvgHF2zQJ&_nc_oc=AdnCiRwNQoJcb8k2_-BVSJzyrBKLKQy5pQivNW6ou-48Qy3AxTMIhmIOntlIqy53SJfMqrYv_8i7FVGvb8Gm2BaY&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=bsgrj41GNYBSh1JpoJDU6g&oh=00_AYGRaOisqq3jmnDyVOJZ-Y8JG1-kXZd1zEWlai91llQEaQ&oe=67F1B31F","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=JJgHpwV-OpMQ7kNvgErIfwp&_nc_oc=AdntP4coLz5UVvzWVC6ugtFWksSq33S09Sut_-zVkx6fSalVvLAjQkre4j3LWpJLa0K1D6O00naLal4FQSVNz74X&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=bsgrj41GNYBSh1JpoJDU6g&oh=00_AYHhY0EaiOuVvZ1Mf6HTz8ZZpskyWjoceI9ON-107nx5iw&oe=67F1A356","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=ZG_TGT5xf_IQ7kNvgEq_QR_&_nc_oc=AdkTgdulvnmyhui9EEJDKWihRpnRGeOawQiTyZMyZs6paLM8bjJxzZuW-gKtYCoBUdqNXBuo8sBiKKwO9FTpuoF0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=bsgrj41GNYBSh1JpoJDU6g&oh=00_AYEWY0UiZPv3qeKeLT-MUC0o62FsQUY_FLYCiAuJOLMJtA&oe=67F1C888","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUjZArSTFxUXI2NzRfNVFodnBWOWs2dG5vbDNCclFadFQ4YXpNMjF1VHhBSVZAoU1oxZA0xMaU84TjZA4aUpFOTBPOERhSWpGc3NfbXdGWE5UNUJ6bW5zLTJB","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Tue, 01 Apr 2025 13:09:05 GMT
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"1fb49ce655f9baaa552b9f845e25b5f4eebb64a8"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AVN9vPLyzuas1R3ldwBtldd
+      X-Fb-Trace-Id:
+      - Etj4y+L/lgd
+      X-Fb-Rev:
+      - '1021447922'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - BGcij7e3KYaVbSOZ2cEZjdWqnYCi8TVJEdqNFgHO6y3QHb/XN7qUgdddsb/OgJGEk9UcUoJ8tp2q+6Jmj1KpaQ==
+      Date:
+      - Tue, 01 Apr 2025 13:09:05 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=17, rtx=0, c=14, mss=1380, tbw=3253, tp=-1, tpl=-1,
+        uplat=231, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4300'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"17873321001309610","caption":"Getting closer to the
+        final version \ud83e\udde7 \n\n- Each Hongbao will have a random quote from
+        best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect size
+        for paper wallet in hongbaob.tc\n\nComment and like below to receive 1 free
+        pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=mj0hETOHpY8Q7kNvgEe3Xzv&_nc_oc=AdnLVglIBzlJ8VMvCfrF9vltJXvdCoXlpyur5ntguf1oTqXp7BTSHMmhcEBmh_0U5ZHbTRWZYxotRJSMVt0W9LTF&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=AfPlo2-obDU1v-0bs1kBBA&oh=00_AYElH6zLmD9ahfXb9LvcZt6fz0P5p6mF-4n4sYhOzg_0Jw&oe=67F1CC33","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=I7yy5NXFN4AQ7kNvgEOI5Lk&_nc_oc=Adnt50vYxQFmZRpEsaAD67z1tsILY3RII7fd9Mj066ywaz_6o07m-Y4pr9PlzuXmotBnz06A2GpWYl7jwwgHlXWK&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=AfPlo2-obDU1v-0bs1kBBA&oh=00_AYEzvkGxmI63uIimkcsN34bfeJg0E9unKZTeNBThhXNk2w&oe=67F1B5E6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=A9fYZSvMkwwQ7kNvgHF2zQJ&_nc_oc=AdnCiRwNQoJcb8k2_-BVSJzyrBKLKQy5pQivNW6ou-48Qy3AxTMIhmIOntlIqy53SJfMqrYv_8i7FVGvb8Gm2BaY&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=AfPlo2-obDU1v-0bs1kBBA&oh=00_AYGaqCz9_5fyPpUr_9RNjySF2eIIUEoR4WIpmd5CBQ_6xg&oe=67F1B31F","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=JJgHpwV-OpMQ7kNvgErIfwp&_nc_oc=AdntP4coLz5UVvzWVC6ugtFWksSq33S09Sut_-zVkx6fSalVvLAjQkre4j3LWpJLa0K1D6O00naLal4FQSVNz74X&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=AfPlo2-obDU1v-0bs1kBBA&oh=00_AYFTOMuFdBp1nE741Vx-H8iG6rRFt1bGvXwKqawlHLemAg&oe=67F1A356","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=ZG_TGT5xf_IQ7kNvgEq_QR_&_nc_oc=AdkTgdulvnmyhui9EEJDKWihRpnRGeOawQiTyZMyZs6paLM8bjJxzZuW-gKtYCoBUdqNXBuo8sBiKKwO9FTpuoF0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=AfPlo2-obDU1v-0bs1kBBA&oh=00_AYGfwQzTX8QdVJS6wAxN36OBCnOyK9WcTUCgAVlGwmJN6g&oe=67F1C888","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUjZArSTFxUXI2NzRfNVFodnBWOWs2dG5vbDNCclFadFQ4YXpNMjF1VHhBSVZAoU1oxZA0xMaU84TjZA4aUpFOTBPOERhSWpGc3NfbXdGWE5UNUJ6bW5zLTJB","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Tue, 01 Apr 2025 13:09:05 GMT
+recorded_with: VCR 6.3.1

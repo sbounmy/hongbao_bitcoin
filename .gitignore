@@ -55,3 +55,5 @@ coveragejs
 /blob-report/
 /playwright/.cache/
 /test-examples/
+
+.cursor

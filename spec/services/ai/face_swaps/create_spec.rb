@@ -4,12 +4,12 @@ RSpec.describe Ai::FaceSwaps::Create, type: :service do
   subject { described_class.call(params: face_swap_params, user:) }
 
   let(:user) { users(:john) }
-  let(:face_swap_params) { { paper_id: papers(:one).id, image: papers(:one).image_front } }
+  let(:face_swap_params) { { paper_id: papers(:dollar).id, image: papers(:dollar).image_front } }
 
-  describe '#call', vcr: { cassette_name: "ai/face_swap/create_success" }  do
+  describe '#call', vcr: { cassette_name: "ai/face_swap/create_success" } do
     it 'creates a new face swap record' do
-      expect(papers(:one).image_front.attached?).to be_truthy
-      expect(papers(:one).image_front.download).to be_truthy
+      expect(papers(:dollar).image_front.attached?).to be_truthy
+      expect(papers(:dollar).image_front.download).to be_truthy
 
       expect { subject }.to change(Ai::FaceSwap, :count).by(1)
       expect(Ai::FaceSwap.last).to have_attributes(

@@ -11,14 +11,10 @@ class Paper < ApplicationRecord
   validates :name, presence: true
   validates :image_front, presence: true
   validates :image_back, presence: true
-  validates :style, presence: true
   validates :task_id, presence: false
 
-  enum :style, {
-    classic: 0,
-    modern: 1,
-    lunar: 2
-  }
+  belongs_to :ai_style, class_name: "Ai::Style", optional: true
+  belongs_to :ai_theme, class_name: "Ai::Theme", optional: true
 
   scope :active, -> { where(active: true).order(position: :asc) }
   scope :template, -> { where(public: true) }

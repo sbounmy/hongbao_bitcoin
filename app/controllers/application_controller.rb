@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Authentication
   before_action :set_locale
   before_action :set_network
-  helper_method :authenticated?, :testnet?
+  helper_method :authenticated?, :testnet?, :current_theme
 
   private
 
@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   def default_url_options
     {
       locale: I18n.locale,
-      testnet: testnet?
+      testnet: testnet?,
+      theme: current_theme&.path
     }.compact
   end
 
@@ -24,6 +25,11 @@ class ApplicationController < ActionController::Base
 
   def set_network
     Current.network = testnet? ? :testnet : :mainnet
+  end
+
+
+  def current_theme
+    @current_theme ||= Ai::Theme.find_by(path: params[:theme] || "usd")
   end
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.

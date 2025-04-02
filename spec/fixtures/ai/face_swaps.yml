@@ -2,8 +2,8 @@ one:
   external_id: test_task_id
   status: processing
   type: "Ai::FaceSwap"
-  user: one
-  source: one (Paper)
+  user: satoshi
+  source: dollar (Paper)
   request: >
     {
       paper_id: 1,

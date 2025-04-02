@@ -1,6 +1,6 @@
 <% password_digest = BCrypt::Password.create("03/01/2009") %>
 
-one:
+satoshi:
   email: satoshi@example.com
   password_digest: <%= password_digest %>
 
