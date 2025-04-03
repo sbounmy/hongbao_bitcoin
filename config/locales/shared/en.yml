@@ -28,5 +28,4 @@ en:
           a: "Yep! Your Bitcoin wallet is generated right in your browser — your private key never leaves your device.<br/>Want extra peace of mind? Just switch off your internet after picking your design and you’re good to go.<br/>You won’t be able to use Mt Pelerin to top it up while offline, but you can still send Bitcoin to it from any wallet.<br/>And don’t just take our word for it — the code is <a href='https://github.com/sbounmy/hongbao_bitcoin' class='underline' target='_blank' rel='noopener'>open source</a>, so anyone can inspect it."
         why:
           q: "Can’t I just send Bitcoin to their wallet?"
-          a: a: "If you ask for their wallet address, it’s kind of like saying, 'Hey, I’m giving you Bitcoin!' — and where’s the fun in that? Hong₿ao lets you keep the mystery and make it feel like a real gift."
-"
+          a: "If you ask for their wallet address, it’s kind of like saying, 'Hey, I’m giving you Bitcoin!' — and where’s the fun in that? Hong₿ao lets you keep the mystery and make it feel like a real gift."
