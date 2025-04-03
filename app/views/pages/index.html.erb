@@ -23,7 +23,7 @@
   </header>
 
   <!-- Hero -->
-  <div class="relative">
+  <section id="hero" class="relative">
     <% if current_theme.hero_image.attached? %>
       <div class="absolute inset-0 z-0">
         <%= image_tag current_theme.hero_image, class: "w-full h-full object-cover" %>
@@ -71,10 +71,10 @@
           </div>
         </div>
     </div>
-  </div>
+  </section>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
       <%= form_with(model: Ai::ImageGpt.new, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
         <!-- Column 1: Styles -->
@@ -108,5 +108,15 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
+    <%= render "shared/instagram_feed", posts: @instagram_posts %>>
+  </section>
+
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+    <%= render "shared/faq" %>
+  </section>
 </div>
+
+<%= render "shared/footer" %>
