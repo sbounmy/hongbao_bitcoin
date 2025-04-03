@@ -27,7 +27,6 @@ class Ai::Images::Done < ApplicationService
 
       paper = Paper.new(
         name: "Generated Paper #{SecureRandom.hex(4)}",
-        style: :modern,
         active: true,
         public: false,
         user: image.user

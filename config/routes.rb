@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :face_swaps, only: [ :create ] do
       post :done, on: :collection
     end
+    resources :image_gpts, only: [ :create ]
   end
 
   ActiveAdmin.routes(self)
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
 
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
+    resources :papers, only: [ :show ]
     root "hong_baos#new"
     post "/leonardo/generate", to: "leonardo#generate"
   end
@@ -80,4 +82,8 @@ Rails.application.routes.draw do
   end
 
   get "instagram/feed", to: "instagram#feed"
+
+  scope "/v2/(:theme)", as: :v2 do
+    get "/", to: "pages#index"
+  end
 end

@@ -37,20 +37,23 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <%# Includes all stylesheet files in app/views/stylesheets %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
     <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js" data-turbo-track="reload"></script>
     <script defer data-domain="hongbaob.tc" src="https://plausible.io/js/script.js"></script>
-<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
     <%= action_cable_meta_tag %>
     <%= javascript_importmap_tags %>
     <%# <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
   </head>
-  <body>
+  <body data-theme="<%= current_theme.ui_name %>">
     <%# render "shared/header" %>
     <%= yield %>
   </body>
+
+  <!-- After the body tag so icons are loaded even after the page changes on click -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </html>

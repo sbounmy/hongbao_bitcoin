@@ -8,43 +8,30 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
+# Set fixtures path
+ENV['FIXTURES_PATH'] = 'spec/fixtures'
+fixtures = (ENV['FIXTURES'] || 'papers,ai/styles,ai/themes').split(',')
 
-bills.each do |bill_data|
-  paper = Paper.find_or_initialize_by(name: bill_data['name'], public: true)
+# Load papers and styles from fixtures
+puts "Loading #{fixtures.join(', ')} from fixtures..."
+Rake::Task["db:fixtures:load"].invoke(fixtures.join(','))
 
-  elements_hash = {}
-  bill_data['elements'].each do |element|
-    elements_hash[element['name']] = element.except('name')
+def attach(object, field, name, folders, suffix = nil)
+  unless object.send(name).attached?
+    title = object.send(field)
+    image_path = Rails.root.join('spec', 'fixtures', 'files', *folders, "#{title.parameterize(separator: '_')}#{suffix ? "_#{suffix}" : ""}.jpg")
+    if File.exist?(image_path)
+      object.send(name).attach(
+        io: File.open(image_path),
+        filename: "#{title.parameterize(separator: '_')}_#{suffix}.jpg"
+      )
+      puts "Attached #{name} image for #{title}"
+    else
+      puts "Warning: #{name} image not found at #{image_path}"
+    end
   end
-
-  paper.elements = elements_hash
-
-  front_image_path = Rails.root.join('app', bill_data['image_front_url'])
-  if File.exist?(front_image_path)
-    paper.image_front.attach(
-      io: File.open(front_image_path),
-      filename: File.basename(front_image_path)
-    )
-    puts "Attached front image for #{paper.name}"
-  else
-    puts "Warning: Front image not found at #{front_image_path}"
-  end
-
-  back_image_path = Rails.root.join('app', bill_data['image_back_url'])
-  if File.exist?(back_image_path)
-    paper.image_back.attach(
-      io: File.open(back_image_path),
-      filename: File.basename(back_image_path)
-    )
-    puts "Attached back image for #{paper.name}"
-  else
-    puts "Warning: Back image not found at #{back_image_path}"
-  end
-
-  paper.save!
-  puts "Created paper: #{paper.name}"
 end
+
 
 
 # Load payment methods from YAML
@@ -58,6 +45,24 @@ payment_methods.each do |attributes|
   )
   pm.instructions = attributes['instructions'].join("\n")
   pm.save!
-end
+end if fixtures.include?('payment_methods')
 
-puts "Created #{PaymentMethod.count} payment methods"
+
+
+# Attach preview images for styles if they don't exist
+Ai::Style.find_each do |style|
+  attach(style, :title, :preview_image, [ 'ai', 'styles' ])
+end if fixtures.include?('ai/styles')
+
+# Attach images for papers if they don't exist
+Paper.find_each do |paper|
+  attach(paper, :name, :image_front, [ 'papers' ], "front")
+  attach(paper, :name, :image_back, [ 'papers' ], "back")
+
+  paper.save!
+end if fixtures.include?('papers')
+
+Ai::Theme.find_each do |theme|
+  attach(theme, :path, :hero_image, [ 'ai', 'themes' ], "hero")
+  theme.save!
+end if fixtures.include?('ai/themes')

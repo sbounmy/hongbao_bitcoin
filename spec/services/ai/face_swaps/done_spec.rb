@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'open-uri'
 
 RSpec.describe Ai::FaceSwaps::Done do
-  let(:user) { users(:one) }
-  let(:paper) { papers(:one) }
+  let(:user) { users(:satoshi) }
+  let(:paper) { papers(:dollar) }
   let(:face_swap) { ai_face_swaps(:one) }
   let(:result_image_url) { "https://example.com/face_swap.webp" }
 

@@ -54,5 +54,9 @@ coveragejs
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/test-examples/db/*.sqlite3-shm
+/test-examples/
+
+.cursor
+
+db/*.sqlite3-shm
 db/*.sqlite3-wal

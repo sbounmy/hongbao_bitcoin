@@ -1,0 +1,122 @@
+<div class="min-h-screen">
+  <!-- Header -->
+  <header class="bg-base-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-semibold">Hongbao</h1>
+
+      <div class="flex items-center gap-2">
+        <!-- Theme Selector -->
+        <%= render DropdownComponent.new(
+          items: Ai::Theme.all,
+          current_item: current_theme,
+            path_helper: :v2_path) %>
+        <span class="pt-2">
+          <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
+        </span>
+
+        <%= link_to hong_baos_path, target: "_blank", rel: "noopener",
+            class: "w-8 h-8 flex items-center justify-center rounded-xl bg-primary/20 hover:bg-primary/30 border-2 border-primary/40 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
+          <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero" class="relative">
+    <% if current_theme.hero_image.attached? %>
+      <div class="absolute inset-0 z-0">
+        <%= image_tag current_theme.hero_image, class: "w-full h-full object-cover" %>
+        <div class="absolute inset-0 bg-black/40"></div>
+      </div>
+    <% end %>
+
+    <div class="relative max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-left text-white">
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+          <span >Be your own </span>
+          <span>₿ank</span>
+        </h1>
+        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
+          Print your own Bitcoin bank note, top up your balance, and gift it.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-5 pt-4">
+          <!-- Self Custody -->
+          <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                  <%= heroicon "key", class: "w-5 h-5 text-[#FFB636]" %>
+              </div>
+              <span class="text-white text-lg">Self Custody</span>
+          </div>
+
+          <!-- No KYC -->
+          <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                  <%= heroicon "eye-slash", class: "w-5 h-5 text-[#FFB636]" %>
+              </div>
+              <span class="text-white text-lg">No KYC</span>
+          </div>
+
+          <!-- Open Source -->
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                <svg class="w-5 h-5 text-[#FFB636]" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+            </div>
+            <%= link_to github_url, target: "_blank" do %>
+              <span class="text-white text-lg">Open Source</span>
+            <% end %>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
+      <%= form_with(model: Ai::ImageGpt.new, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
+        <!-- Column 1: Styles -->
+        <div class="relative">
+          <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
+          <div class="grid grid-cols-2 gap-2">
+            <%= render Ai::Styles::CheckboxComponent.with_collection(@styles, form:) %>
+          </div>
+        </div>
+
+        <!-- Column 2: Upload -->
+        <div class="relative">
+          <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
+          <%= render PictureUploadComponent.new(form: form) %>
+          <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
+          <%= form.submit "Generate", class: "btn btn-primary btn-wide", data: { turbo_submits_with: "Processing..." } %>
+        </div>
+      <% end %>
+
+      <!-- Column 3: Preview -->
+      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
+        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
+          <h2 class="text-lg font-medium">3. Preview</h2>
+          <div class="space-y-4 max-h-[calc(100vh-24rem)] overflow-y-auto">
+            <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
+          </div>
+          <div class="flex justify-between">
+            <button class="btn btn-secondary">Share</button>
+            <button class="btn btn-primary btn-wide">Print</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
+    <%= render "shared/instagram_feed", posts: @instagram_posts %>>
+  </section>
+
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+    <%= render "shared/faq" %>
+  </section>
+</div>
+
+<%= render "shared/footer" %>

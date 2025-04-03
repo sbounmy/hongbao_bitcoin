@@ -2,9 +2,9 @@
     class="flex flex-col h-full max-h-full overflow-hidden"
      data-controller="pdf"
      data-steps-target="content"
-     data-steps-index="2">
+     data-steps-index="<%= local_assigns[:index] || 2 %>">
 
-  <div data-hong-bao-target="walletInfo" class="space-y-3">
+  <div data-hong-bao-target="walletInfo" class="space-y-3 p-8">
     <div class="space-y-1">
       <div class="flex items-center justify-between">
         <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
@@ -117,7 +117,7 @@
       </button>
 
       <div class="flex items-center space-x-4 w-full">
-        <%= render "hong_baos/new/previous_button" %>
+        <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
         <%= render "hong_baos/new/next_button",
           html_options: {
             disabled: true,
