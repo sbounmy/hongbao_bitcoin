@@ -20,7 +20,7 @@ module Ai
     end
 
     def ui_name
-      super || "dark"
+      super || "sunset"
     end
 
     private
