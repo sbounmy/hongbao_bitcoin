@@ -8,7 +8,7 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/services", under: "services"
 pin_all_from "app/javascript/services/bitcoin", under: "services/bitcoin"
 
-pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
+pin "html2canvas-pro" # @1.5.8
 pin "jspdf", to: "https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.es.min.js"
 
 # Add html5-qrcode with ga.jspm.io
