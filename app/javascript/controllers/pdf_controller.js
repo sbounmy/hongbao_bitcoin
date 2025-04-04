@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas-pro'
 import { jsPDF } from 'jspdf'
 
 export default class extends Controller {
