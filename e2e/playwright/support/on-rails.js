@@ -66,7 +66,8 @@ test.afterEach(async () => {
   await appVcrEjectCassette();
 });
 
-test.beforeAll(async () => {
+test.beforeEach(async () => {
+  await app('clean');
   await app('activerecord_fixtures');
 });
 
