@@ -77,26 +77,50 @@
   <!-- PDF Preview Section with simple scrolling -->
   <div class="text-white space-y-4 flex-1 overflow-auto max-w-full mx-auto pb-4">
     <!-- This is the actual content that will be rendered to PDF -->
-    <div data-pdf-target='content' class="w-[210mm] bg-white p-8 mx-auto">
-      <%= cuttable_content class: "flex flex-col items-center" do %>
-        <%= render 'hong_baos/new/steps/paper_canva',
-                  class_name: "w-[170mm] h-[90mm] rotate-180",
-                  paper:,
-                  actions: "hong-bao:back@window->canva#backgroundImageChanged",
-                  elements: paper.back_elements,
-                  image: paper.image_back.attached? ? url_for(paper.image_back) : ''
-         %>
+    <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto flex flex-col gap-2 justify-between">
+      <div class="flex items-center">
+        <%= cuttable_content class: "flex flex-col items-center" do %>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                    class_name: "w-[140mm] h-[77mm] rotate-180",
+                    paper:,
+                    actions: "hong-bao:back@window->canva#backgroundImageChanged",
+                    elements: paper.back_elements,
+                    image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+          %>
 
-        <%# Fold Line %>
-        <div class="border-t-2 border-dashed border-gray-400"></div>
-        <%= render 'hong_baos/new/steps/paper_canva',
-                  class_name: "w-[170mm] h-[90mm]",
-                  paper:,
-                  actions: "hong-bao:front@window->canva#backgroundImageChanged",
-                  elements: paper.front_elements,
-                  image: paper.image_front.attached? ? url_for(paper.image_front) : ''
-         %>
-      <% end %>
+          <%# Fold Line %>
+          <div class="border-t-2 border-dashed border-gray-400"></div>
+          <%= render 'hong_baos/new/steps/paper_canva',
+                    class_name: "w-[140mm] h-[77mm]",
+                    paper:,
+                    actions: "hong-bao:front@window->canva#backgroundImageChanged",
+                    elements: paper.front_elements,
+                    image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+          %>
+        <% end %>
+        <div class="relative">
+          <div class="flex justify-start -ml-[180px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
+            <div class="space-y-2">
+              <div class="flex gap-2">
+                <h2 class="text-2xl font-bold">REMINDER</h2>
+                <span class="text-gray-600">(to be kept by the donor)</span>
+              </div>
+
+              <div class="space-y-4">
+                <p>
+                  <span class="font-bold">1.</span> Cut out the Bitcoin paper wallet (left part) and fold it to create your gift.
+                </p>
+                <p>
+                  <span class="font-bold">2.</span> After creating the paper wallet, you can put it in a Hong₿ao (Bitcoin red envelope) and give it to the recipient.
+                </p>
+                <p>
+                  <span class="font-bold">Warning:</span> Never share the private key with anyone. Only the recipient should have access to it.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <%= render 'hong_baos/pdf/footer', paper: %>
     </div>
   </div>
