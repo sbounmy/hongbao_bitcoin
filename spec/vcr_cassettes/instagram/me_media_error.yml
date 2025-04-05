@@ -22,38 +22,8 @@ http_interactions:
       code: 400
       message: Bad Request
     headers:
-      Content-Security-Policy:
-      - 'default-src *.facebook.com *.fbcdn.net *.instagram.com blob:;script-src *.facebook.com
-        *.fbcdn.net *.facebook.net 127.0.0.1:* ''nonce-MUYijEkg'' blob: data: ''self''
-        ''unsafe-eval'';style-src data: blob: ''unsafe-inline'' *.fbcdn.net *.facebook.com
-        *.instagram.com;connect-src *.facebook.com facebook.com *.fbcdn.net *.facebook.net
-        wss://*.facebook.com:* ws://localhost:* blob: *.instagram.com *.cdninstagram.com
-        wss://*.instagram.com:* ''self'';font-src *.facebook.com data: *.fbcdn.net
-        *.instagram.com https://fonts.gstatic.com;img-src *.instagram.com *.facebook.com
-        *.fbcdn.net data: blob: *.cdninstagram.com *.fbsbx.com android-webview-video-poster:
-        *.oculuscdn.com *.giphy.com www.googleadservices.com *.doubleclick.net *.google.com
-        *.google.co.uk https://www.gstatic.com;media-src *.facebook.com *.fbcdn.net
-        *.instagram.com *.cdninstagram.com cdn.fbsbx.com data: blob: https://*.giphy.com;child-src
-        *.facebook.com *.fbcdn.net *.instagram.com data: blob:;frame-src *.instagram.com
-        *.facebook.com *.fbsbx.com fbsbx.com data: www.googleadservices.com *.doubleclick.net
-        *.google.com *.google.co.uk;manifest-src *.facebook.com *.fbcdn.net *.instagram.com
-        data: blob:;object-src *.facebook.com *.fbcdn.net *.instagram.com data: blob:;upgrade-insecure-requests;'
-      Reporting-Endpoints:
-      - coop_report="https://www.facebook.com/browser_reporting/coop/?minimize=0",
-        default="https://www.instagram.com/error/ig_web_error_reports/?device_level=unknown&brsid=7486798648723572505&cpp=C3&cv=1021353419&st=1743156148073"
-      Report-To:
-      - '{"max_age":2592000,"endpoints":[{"url":"https:\/\/www.facebook.com\/browser_reporting\/coop\/?minimize=0"}],"group":"coop_report","include_subdomains":true},
-        {"max_age":259200,"endpoints":[{"url":"https:\/\/www.instagram.com\/error\/ig_web_error_reports\/?device_level=unknown&brsid=7486798648723572505&cpp=C3&cv=1021353419&st=1743156148073"}]}'
-      Cross-Origin-Embedder-Policy:
-      - require-corp
-      Cross-Origin-Opener-Policy:
-      - same-origin-allow-popups
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      X-Xss-Protection:
-      - '0'
+      Error-Mid:
+      - 31b160a10b1aab8706548940e2b07763
       Vary:
       - Origin
       Content-Type:
@@ -71,61 +41,61 @@ http_interactions:
       Expires:
       - Sat, 01 Jan 2000 00:00:00 GMT
       X-Fb-Request-Id:
-      - AWK9u9QnkVhfFmuMJfc4HgQ
+      - AIeHFSQuOxIWpSl06U138WC
       X-Fb-Trace-Id:
-      - CFunX2+JgOC
+      - AuMwaR2BBTe
       X-Fb-Rev:
-      - '1021353419'
+      - '1021616848'
       X-Stack:
       - www
       X-Fb-Debug:
-      - b/NHeVBAvnbsf5h/zKXH1ni+0sCMT2ldWdJEtHvvx5JqHO1HA21h+X/cLfMtGL0PFKIjWr6CPXDHfiQz7Wa1TA==
+      - r47KRbsWcZd6fT8619QfKpHiEd++gp2m5EMJg9HBc7nNOb6yyBX70q9vZl1u6zNHik92314JMsUYDFwfnOuvdg==
       Date:
-      - Fri, 28 Mar 2025 10:02:28 GMT
+      - Sat, 05 Apr 2025 21:13:03 GMT
       Proxy-Status:
-      - http_request_error; e_fb_responsebytes="AcIhKvQIzDiHICafmcxl8p9nXPUwIS81gK8LUmqT9k9MgaF2FJdlgxEMgL4";
-        e_fb_requesttime="AcLo5Gu_Aw0Tsboi145lxZigN8Dvq374fXclop_OjAPwV2PpaVWhtpNBB9ZxP2cEdIf-G9utVw";
-        e_proxy="AcJMDWUK5cLlfaiCcJgzOtF721_6CGGPZU6vxFpzpF00oAKzrqXymKJt5n5h8Q_zDS8vsM2TNUU0V6ew9sFnTg";
-        e_fb_twtaskhandle="AcIrahJEa-i5ktEpV3tW1A8Qp5reUfydPJayuD2-dfkP6GY2GP3RZDfhWqeQdBOIdNkXsydJU_OYXOs68BrWD50JFeOCPFat68AcbE45";
-        e_fb_requestsequencenumber="AcIhYTSn26DnbEz0sVOUncaGfyDzGFv6Ce3v69YHyT46bnlJzTGNY3NWT8c7";
-        e_upip="AcIVtP5uBWH1KCMJSlxyNOUemme_-P9PHzOIW9NHihwvINmB_KoV35uKzzrHLY2EmODrRJCWueOdq53g51N9z99XkoDiqm9biGoNdeY";
-        e_fb_zone="AcJh7uqLDyH4628ZXsy8UnAArLlf9byZ5B5tefdzXMRo6k2M5gcKcOB43rr_N-Fn";
-        e_fb_binaryversion="AcKCJu3DmGBWPTEVN9sVFQFDGF65-ZttNTcfMmMb6LhgBl8wvq3QPzLxb54cHEbrfsi0D4Nnn6pCFZt0ty_n_ykHfUe6JM9pvbc";
-        e_fb_httpversion="AcK-aLgjSiTiW3ghGh2p7IjdOPgJqs2EKe1OdFi9ovmduo1iI4kSJRLsmIWS";
-        e_fb_requesthandler="AcIx-7SWl8bX7ZbNuzOqOvTkckT5i1-AgrO6mPDHfZoKYJaEhrUGCGDtM-X1wLBDxL3r4Ja0QU8MYGc";
-        e_fb_configversion="AcKAIDPkyFMhOdT--wW9Nqh1l5FWmc2BuylxBKPpJcaYd-XqR-pFyUkkPc0txA";
-        e_fb_vipaddr="AcJh3UOMRTa_BW_4xIC26CzYOUQxbnL5o3_mvWf1GFnZXOW8AF5VXwjFWVSnCQIS8eKA6o-_sZodgajdkGkaLqCmsMEn-W1JVmIfw0kf";
-        e_fb_hostheader="AcIixmf9pSTm0izXtwj0qF_HvwNDzk4qkpar2syPWXqfuWCkJwDuLjWjX9VpJR9SFNgSJ909snsIvZfaeQ";
-        e_fb_builduser="AcLNXN_kLoia_zIa5CtVToquNbp8C14qm6eZJmAsC7jD-kZdJL-wWo550ZlN0q-trlY";
-        e_fb_vipport="AcJkNszzTbiFHhihTxa2OyUCd01hhtsPgJZuCSSBRVoFKnwGPSc6Te514GWf";
-        e_clientaddr="AcLsD1EPjrUx-fWkmspS-FhGWk3ZUSPv1gRcvZT_IfaV_aDTuwkcPjS9SBlomZm6JJ99iFLwbp7Iw94fhz2-fPYWwMzFxgRF6GxdY2hNKfxMWWd72A",
-        http_request_error; e_fb_responsebytes="AcLU9YjEzwc46x1we-E5YdiWP-SHojaiwItBw6P2QHBi0tKUnyBmkJekUXE";
-        e_fb_requesttime="AcKneVRaQeCkMRCl4ckKSIZ28zd_Yv4a_JhWWXF_W1DBmRGglVv4kU1cMP8wauafE6K0olODXA";
-        e_proxy="AcIP1R5y1Hefge5HfCl5UyoMpaS5jVb4-yWGxNVMpAz2n5cDOVRHwJ0Q86vso9yXjOu_icqcWaVPIps";
-        e_fb_twtaskhandle="AcJai_6mp_OjjpoXZfOI1wR56aDt5Bnm_79pha2sGUm-2aggCRbki1qO3drC79mpoTaylYuS98qWW3HHDvQqhWFN2VaIpoTQ7MYn";
-        e_fb_requestsequencenumber="AcL6RvMszKdu02JUZMXsDiQBhATS08zXTan8gag69GX91Qh_MBildkCKtQ";
-        e_upip="AcKL70BS968gDqAUlQFbNxkxfNTSWtoP33xh8ldP_nUu04mtCXWbu7MzJtbesMKPfXddhRrNVvA-H8oRnQ-y34kWW6ket7vUkm-uI41k";
-        e_fb_zone="AcJeetysJzM6HOSwn6MxswPUvBrd6YFJBESPMbIYD7xb3qwGAZKupy7vBQPfGA";
-        e_fb_binaryversion="AcJ6Jm4XzPoZDgXB-TERo7QEIUnFGL8vehHVW1S_ahN1nMSK5Rj1wuqzizGyh4s6Hf0z3ceyFkcCzb9_WbFyxqqLiFIpj-qlIZ8";
-        e_fb_httpversion="AcLJJK8yFmTVI6E8iC9E7BuGp344CTFiyW-dIQRLNl7gBPM-b5Q1Q2CLhI24";
-        e_fb_requesthandler="AcLvFpPw47q3p8KdD8KdVepSQkdd85RxuS5lBqtzM8kZrgAdtA4semCMMDvmWfk56uKWXWI7iaUy";
-        e_fb_configversion="AcLdHM8EWeGzApjpKCgUbzilGmBu6TACk0gMKzLjilYC1KNA5Gt2oTsRyabF8g";
-        e_fb_vipaddr="AcLfWV7BZzB08R9cqGgexHI1SboueKXFCbuErXB9miPRa9Mz9yBFI1LTHGfhaBvcA2IDPfPEf9o";
-        e_fb_hostheader="AcLnEEBTagcrKwT-X252y5cAIcS7dQ_Ibfr36a3QuI5cJVaVbhfnYadYeu8pizNKuu82aOCvtdyiD6-bFg";
-        e_fb_builduser="AcLXk8v9yxPP25rgpKenweG1sxKKR33PH1kiGhq0ONOlEgv6sf-cOOB1Xaf0t_gkHVU";
-        e_fb_vipport="AcK4LCMZ5QUNLYhwlCjsH98QR8sh8QCjkcdSjjdCsIGMD_x7YsyY6boyPfzI";
-        e_clientaddr="AcKTTaamHkYnmkNZbTIdrcRI-CWXHDGA8isZvZyncLoTHtGM_4Ij2RTUV0bPCRvjxfsumgpMajIClcUPXA"
+      - http_request_error; e_fb_responsebytes="AcIW6jqIPtDKOGbfFPXmG-Teb8GVN8aJ3N-u7wdkStIkkyNoqGCokiWIGWXe";
+        e_fb_requesttime="AcKq0y14b6omWPT-Ak60O8V9anT3-gp59eOxYPXi3vRnoMZXTZIvpY-a9Jjw2Xa3m4ejnnVisQ";
+        e_proxy="AcK2YwQL_TGvBoS6BJ3TR-NUp1faC5bCbCSRASr-ZZFWmIMaBWSnYI-OnIHxXBi2l7bXxbEW6PnS6M4LjLJH";
+        e_fb_twtaskhandle="AcKfzgYk6EIFpqsq6ou5Ltrn9j8gRG_ONgG-vofqNlHhMb4SJ4bFTSWhJ3PeZRwCpIMAo6RGGNw3mvVFE4pq-nscpPqn1GXj7EKCVnDb";
+        e_fb_requestsequencenumber="AcKqfD7x3NgT1bnl9ZpS7a3myUoKLVAwubSvRMYbeHAeM0HsMNi_-qvQG_xy";
+        e_upip="AcLVihKKdMBd_MMtX8XBTjAqVjdSyanFD8ndjfwi7B8VbmLfTY5quVd14WqnAg7dyoQ8hfoRakCa5aNE88lYjtoI1vHs39YtVRE13uA";
+        e_fb_zone="AcIThmlpw2g4oqSmgFK6WUZ2y7OLilabPHOSCtNxCJ3oGhXiYCMrt3g4pLt77_Gi";
+        e_fb_binaryversion="AcLAUHLfGsXaIerd_dl7Jd0RZfh1_SY8h68cEkx617JNP0ropJO9I-2v-fcTcfdqTQ-WCjp_BMX--t7zms-y6JFQiODJLzPqkpI";
+        e_fb_httpversion="AcL4lrrugjHElKqvnlkOZWONa5Qkd1da6Lgw4WSh2ZfFV-kLCy4hTb1G4QG8";
+        e_fb_requesthandler="AcIjcrgTIFYNzY3FTlJBZTbfipUWMbSRfxwyMnl1dG-Vv_WbdNpdC5VDbDrDLpCti3orPgHpxcqWFxo";
+        e_fb_configversion="AcLNTln-h8kehTDrur92U7Ey_QqJ5ec1fCluMBUIQQEGvsiR5xCV7_EIWTG6TA";
+        e_fb_vipaddr="AcKUv5D62qrdHiV9SyOw0EzjqTs9Go4vdXpBScV6xdrlDDd0X9DUCNYzRHw_MwQDX5SKFHG8Zr5OVPqyEOdveAzcXA5dzFHP8Z9IJb1j";
+        e_fb_hostheader="AcLVx8tmoAIdeqNsU2D_V1uPeUSL9JvfxOYPYQDr5lgAhnaDphdPF8rXSh35ShJHXw1UngvJxwlV46xewQ";
+        e_fb_builduser="AcI9OuFe4PQdTjeBIk4zzBTiPTUG6Pl56HvDQ44-7_ZAi8mRFCBgZx55-JMmmjZ697Y";
+        e_fb_vipport="AcLiNlW27KC3eZAixlBsrBbt6UWPxt7nbUn4bDOxlomWJpZVFqYP4tMLXB7H";
+        e_clientaddr="AcLNz4G2clrISQnTsX83UYvJnq5sH4PgSkWdN1nvL0GIllUwYrvwB5FzTgr2NIi0Ve5IwoGUiI_VN32Abysc2T98yK4789gJiUojgMyt2TcFu_hx4w",
+        http_request_error; e_fb_responsebytes="AcKhh-jXLSPtZJ9BMyeA4pBl8MRPFsk-PutIwe4HYagKK7P6t-_BweR8NHWu";
+        e_fb_requesttime="AcLVpCgOe7tTwY2ExjNjLprn8Wp6FDOQ1ZlZDxEvZj6fEPr-4r7dhgu19i6OnewTlqPN83jSlA";
+        e_proxy="AcLUdeH59nuebTj3PAO8IGJPgNrNHrVZLBWCJlhMM_roPnCf8Ni1-qTpv2qQLvBtlKfuA3fO6qEq3Qw";
+        e_fb_twtaskhandle="AcLYVFBRs1kkZ6dJaL16VqvYS0-sVSPXatAnldJ8nUJZzyD4zTH10-F1x4X_c6WGBiX70D7dOfNa2LZOcUdTpCwQTCv-6qthYeI";
+        e_fb_requestsequencenumber="AcJINfM5Dj15pruUBf6zT7t24n15Klu9ahKBAJmjp-k4pFvXiboosqJauQ";
+        e_upip="AcIn8fymyBM0Celsrc1-HiOJ5iv7cjGrF9pbIURjkwIbKXxbYH-f50fNqQgK81_y_iMXvcvMfTxkCTti9epW4T1-kT5hAE7XXk_2ONKi";
+        e_fb_zone="AcL_1CkIxYb9FBHOGrMuWS-gWJOB8svkJBVfbM8PR1ytO1NbW7nvCW1sKRaLdA";
+        e_fb_binaryversion="AcLME0lK5ETtO9kqQ481oTMWDWOgjuTduMmFmAN2ea495RJYF2lcMQBzoiK1rVP566Ccw_dfYjeoNbhrMPJCueOCfriEZPi3RCU";
+        e_fb_httpversion="AcJxV2fyQQuV_11IkQVuYg0Oap_XZHA9P_DEkBCWexij2KOwve3-8WQWBSeK";
+        e_fb_requesthandler="AcLFqPPeUFxmzugoGTLDqI-aZAbqscJygd5_4cWQGHmDlcrUsYR2kXFyawRj_VPY_IdjRIt4HIor";
+        e_fb_configversion="AcJSpychLlikLjEOyE5VkkbGMwTQHwC5o9gU2CcpzVp-TBLb6YIb2CPhNwu4jA";
+        e_fb_vipaddr="AcLo84MIUYDEw1TyzI2JWk0Y4yyDXkRRI3z5esLHA4P31Oac_sFPg15-ahTxhXoFKzyWR8k";
+        e_fb_hostheader="AcLoJcjv-i7acMDakutXmsC9_r9ZrF1cD6Tmjxgg0Ed6c1Jse3eVJnqIxD4wdHdoIVvQOdljRfUgiXq-iw";
+        e_fb_builduser="AcIKLeGGmeq3cM4sBGy3MU3NeMUKqhiZDAfVGtoT4g_QF-8u9rrI3dHhQ7SuX3N7u_o";
+        e_fb_vipport="AcJmtXkOKCY06Xg7RJgyXukBf_9RA-Nggb5VGoabvZPyR82GKAeQSZceshgG";
+        e_clientaddr="AcK5J7JThOZL9fT19QDfCpJFAmF6K5eN17K6bggiKeETKmY3o0Z1nWXnZeuKWVDf8oKKxhTgA915NSm61Q"
       X-Fb-Connection-Quality:
-      - EXCELLENT; q=0.9, rtt=44, rtx=0, c=14, mss=1348, tbw=3250, tp=-1, tpl=-1,
-        uplat=95, ullat=0
+      - EXCELLENT; q=0.9, rtt=49, rtx=0, c=13, mss=1348, tbw=3250, tp=-1, tpl=-1,
+        uplat=49, ullat=0
       Alt-Svc:
       - h3=":443"; ma=86400
       Connection:
       - keep-alive
       Content-Length:
-      - '45'
+      - '144'
     body:
       encoding: UTF-8
-      string: Sorry, this content isn't available right now
-  recorded_at: Fri, 28 Mar 2025 10:02:28 GMT
+      string: '{"error":{"message":"Invalid OAuth 2.0 Access Token","type":"IGApiException","code":190,"error_data":{},"fbtrace_id":"AIeHFSQuOxIWpSl06U138WC"}}'
+  recorded_at: Sat, 05 Apr 2025 21:13:00 GMT
 recorded_with: VCR 6.3.1

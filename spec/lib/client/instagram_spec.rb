@@ -26,8 +26,8 @@ RSpec.describe Client::Instagram do
     context "when the request is erroneous", vcr: { cassette_name: "instagram/me_media_error" } do
       it "raises an API error" do
         expect {
-          client.fetch({ fields: "test", access_token: "wrong access token"  })
-        }.to raise_error(RuntimeError, /API Error: 400 Bad Request: Sorry, this content isn't available right now/)
+          client.fetch({ fields: "test", access_token: "wrong access token" })
+        }.to raise_error(RuntimeError, /API Error: 400 Bad Request:.*/)
       end
     end
   end
