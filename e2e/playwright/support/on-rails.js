@@ -58,11 +58,16 @@ const forceLogin = async (page, { email, redirect_to = '/' }) => {
 }
 
 // This is to ensure that any cassette is ejected after each test
+test.beforeEach(async () => {
+  await appVcrEjectCassette();
+});
+
 test.afterEach(async () => {
   await appVcrEjectCassette();
 });
 
-test.beforeAll(async () => {
+test.beforeEach(async () => {
+  await app('clean');
   await app('activerecord_fixtures');
 });
 

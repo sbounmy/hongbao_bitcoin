@@ -1,6 +1,7 @@
 # RSpec fixtures for papers
 
 dollar:
+  id: 1
   name: "Dollar"
   active: true
   public: true
@@ -47,6 +48,7 @@ dollar:
 
 
 orange:
+  id: 2
   name: "Orange"
   active: true
   public: true
@@ -91,6 +93,7 @@ orange:
     }
 
 christmas:
+  id: 3
   name: "Christmas"
   active: true
   public: true
@@ -135,6 +138,7 @@ christmas:
     }
 
 new_year:
+  id: 4
   name: "New Year"
   active: true
   public: true
@@ -179,6 +183,7 @@ new_year:
     }
 
 wedding:
+  id: 5
   name: "Wedding"
   active: true
   public: true
@@ -223,6 +228,7 @@ wedding:
     }
 
 birthday:
+  id: 6
   name: "Birthday"
   active: true
   public: true
