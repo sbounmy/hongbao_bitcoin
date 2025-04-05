@@ -3,7 +3,8 @@ one:
   status: processing
   type: "Ai::FaceSwap"
   user: satoshi
-  source: dollar (Paper)
+  source_type: Paper
+  source_id: 1
   request: >
     {
       paper_id: 1,
