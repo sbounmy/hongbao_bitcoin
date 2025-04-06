@@ -1,0 +1,24 @@
+
+  <!-- Header -->
+<div class="text-center mb-8">
+	<h3 class="text-4xl font-bold">Generate unlimited banknotes once image is created</h3>
+	<span class="quote">1 ₿ao = 1 Image</span>
+</div>
+
+<div class="space-y-4">
+
+  <!-- Header -->
+  <div class="grid grid-cols-4 text-center mb-2">
+    <div>Pack (Credits Included)</div>
+    <div>Cost per Image</div>
+    <div>Price</div>
+    <div>Action</div>
+  </div>
+
+  <!-- Plans -->
+  <div class="space-y-2">
+    <% plans.each do |plan| %>
+      <%= plan %>
+    <% end %>
+  </div>
+</div>
