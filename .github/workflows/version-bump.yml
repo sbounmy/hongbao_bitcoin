@@ -1,0 +1,104 @@
+name: Version Bump
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  # First check if tests passed
+  check-tests:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check test status
+        run: |
+          # Get the latest commit SHA
+          SHA="${{ github.event.pull_request.head.sha }}"
+
+          # Check spec workflow status
+          spec_status=$(gh api repos/${{ github.repository }}/commits/$SHA/check-runs --jq '.check_runs[] | select(.name == "test") | .conclusion')
+          if [[ "$spec_status" != "success" ]]; then
+            echo "Spec tests must pass before version bump"
+            exit 1
+          fi
+
+          # Check e2e workflow status
+          e2e_status=$(gh api repos/${{ github.repository }}/commits/$SHA/check-runs --jq '.check_runs[] | select(.name == "test") | .conclusion')
+          if [[ "$e2e_status" != "success" ]]; then
+            echo "E2E tests must pass before version bump"
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Version bump job
+  version-bump:
+    needs: [check-tests]
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Determine version bump type
+        id: bump-type
+        run: |
+          if [[ "${{ contains(github.event.pull_request.labels.*.name, 'breaking-change') }}" == "true" ]]; then
+            # MAJOR version for incompatible API changes
+            echo "type=major" >> $GITHUB_OUTPUT
+            echo "message=BREAKING CHANGE: Incompatible API changes" >> $GITHUB_OUTPUT
+          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'feature') }}" == "true" ]]; then
+            # MINOR version for backwards-compatible features
+            echo "type=minor" >> $GITHUB_OUTPUT
+            echo "message=feat: New backwards-compatible functionality" >> $GITHUB_OUTPUT
+          else
+            # PATCH version for backwards-compatible bug fixes
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "message=fix: Backwards-compatible bug fixes" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version
+        id: version
+        run: |
+          NEW_VERSION=$(npm version ${{ steps.bump-type.outputs.type }} -m "${{ steps.bump-type.outputs.message }} [skip ci]" --no-git-tag-version)
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          git add package.json package-lock.json
+          git commit -m "${{ steps.bump-type.outputs.message }} [skip ci]"
+          git tag -a $NEW_VERSION -m "${{ steps.bump-type.outputs.message }}"
+
+      - name: Push changes
+        run: |
+          git push
+          git push --tags
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ steps.version.outputs.new_version }} \
+            --title "${{ steps.version.outputs.new_version }}" \
+            --notes "${{ steps.bump-type.outputs.message }}" \
+            --generate-notes
+
+  # Reference jobs from spec.yml
+  spec-check:
+    uses: ./.github/workflows/spec.yml
+
+  # Reference jobs from e2e.yml
+  e2e-check:
+    uses: ./.github/workflows/e2e.yml
