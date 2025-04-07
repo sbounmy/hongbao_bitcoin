@@ -5,6 +5,7 @@
       <h1 class="text-xl font-semibold">Hongbao</h1>
 
       <div class="flex items-center gap-2">
+        <%= render Tokens::BadgeComponent.new(user: current_user) if authenticated? %>
         <!-- Theme Selector -->
         <%= render DropdownComponent.new(
           items: Ai::Theme.all,

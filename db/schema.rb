@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_02_041223) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_06_064407) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -143,6 +143,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_02_041223) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "quantity", null: false
+    t.string "description"
+    t.json "metadata", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_tokens_on_created_at"
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+  end
+
   create_table "transaction_fees", force: :cascade do |t|
     t.date "date", null: false
     t.json "priorities", default: "{}", null: false
@@ -158,6 +169,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_02_041223) do
     t.datetime "updated_at", null: false
     t.string "magic_link_token"
     t.datetime "magic_link_expires_at"
+    t.integer "tokens_sum", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -168,4 +180,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_02_041223) do
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tokens", "users"
 end
