@@ -11,6 +11,12 @@ class User < ApplicationRecord
                    format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 8 }, allow_nil: true
 
+  after_create :add_tokens
+
+  def add_tokens
+    tokens.create(quantity: 5, description: "Welcome tokens")
+  end
+
   def generate_magic_link
     update(
       magic_link_token: SecureRandom.urlsafe_base64,
