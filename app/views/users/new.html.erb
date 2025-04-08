@@ -1,47 +1,72 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Create your account
-      </h2>
-    </div>
+<div class="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card-body">
 
-    <%= form_with(url: signup_path, model: @user, class: "mt-8 space-y-6") do |form| %>
-      <% if @user.errors.any? %>
-        <div class="rounded-md bg-red-50 p-4">
-          <ul class="list-disc pl-5 text-sm text-red-700">
-            <% @user.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+      <%= turbo_frame_tag "signup_form" do %>
+
+          <%= form_with(model: @user, url: signup_path, method: :get) do |form| %>
+          <h2 class="card-title justify-center text-2xl font-bold">Sign up</h2>
+            <div class="form-control">
+              <%= form.email_field :email,
+                  required: true,
+                  class: "input input-bordered w-full",
+                  placeholder: "Email address" %>
+            </div>
+
+            <%= form.submit "Continue", class: "btn btn-primary w-full" %>
+          <% end if @user.new_record? && @user.email.blank? %>
+
+          <%= form_with(model: @user, url: signup_path, method: :get) do |form| %>
+            <h2 class="card-title justify-center text-2xl font-bold">Sign up</h2>
+            <div class="form-control gap-2">
+              <%= form.hidden_field :email,
+                  class: "input input-bordered w-full",
+                  placeholder: "Email address" %>
+
+              <%= form.password_field :password,
+                  required: true,
+                  class: "input input-bordered w-full",
+                  placeholder: "Password" %>
+            </div>
+
+            <%= form.submit "Continue", class: "btn btn-primary w-full" %>
+          <% end if @user.new_record? && @user.email.present? %>
+
+
+          <%= form_with(url: login_path) do |form| %>
+            <h2 class="card-title justify-center text-2xl font-bold">Log in</h2>
+            <div class="form-control gap-2">
+              <%= form.hidden_field :email, value: @user.email,
+                  class: "input input-bordered w-full",
+                  placeholder: "Email address" %>
+
+              <%= form.password_field :password,
+                  required: true,
+                  class: "input input-bordered w-full",
+                  placeholder: "Password" %>
+            </div>
+
+            <%= form.submit "Continue", class: "btn btn-primary w-full" %>
+          <% end if !@user.new_record? %>
+
+          <div class="divider">OR</div>
+
+          <button type="button" class="btn btn-outline w-full gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"/>
+            </svg>
+            Sign up with Google
+          </button>
+
+          <div class="text-center space-y-2">
+            <a href="#" class="link link-primary text-sm">Forgot password?</a>
+            <div class="text-sm">
+              Already have an account?
+              <%= link_to "Log in", login_path, class: "link link-primary" %>
+            </div>
+          </div>
+
       <% end %>
-
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div>
-          <%= form.email_field :email,
-              required: true,
-              class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-              placeholder: "Email address" %>
-        </div>
-        <div>
-          <%= form.password_field :password,
-              required: true,
-              class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-              placeholder: "Password" %>
-        </div>
-        <div>
-          <%= form.password_field :password_confirmation,
-              required: true,
-              class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-              placeholder: "Confirm password" %>
-        </div>
-      </div>
-
-      <div>
-        <%= form.submit "Sign up",
-            class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>

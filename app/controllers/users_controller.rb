@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   allow_unauthenticated_access only: [ :new, :create ]
 
   def new
-    @user = User.new
+    @user = User.find_or_initialize_by(email: params.dig(:user, :email))
   end
 
   def create
