@@ -2,13 +2,13 @@
 
 pin "application"
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
-pin "@hotwired/stimulus", to: "stimulus.min.js"
+pin "@hotwired/stimulus", to: "stimulus.min.js" # @3.2.2
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/services", under: "services"
 pin_all_from "app/javascript/services/bitcoin", under: "services/bitcoin"
 
-pin "html2canvas", to: "https://ga.jspm.io/npm:html2canvas@1.4.1/dist/html2canvas.esm.js" # @1.4.1
+pin "html2canvas-pro" # @1.5.8
 pin "jspdf", to: "https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.es.min.js"
 
 # Add html5-qrcode with ga.jspm.io
@@ -95,7 +95,9 @@ pin "#lib/internal/streams/from.js", to: "https://ga.jspm.io/npm:readable-stream
 pin "util-deprecate", to: "https://ga.jspm.io/npm:util-deprecate@1.0.2/browser.js"
 pin "stream", to: "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/stream.js"
 
+pin "stimulus-use" # @0.52.3
 pin "@stimulus-components/scroll-to", to: "@stimulus-components--scroll-to.js" # @5.0.1
+pin "@stimulus-components/dropdown", to: "@stimulus-components--dropdown.js" # @3.0.0
 
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"

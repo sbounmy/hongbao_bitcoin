@@ -30,6 +30,14 @@ jobs:
         node-version: lts/*
         cache: 'npm'
 
+    - name: Install npm dependencies
+      run: |
+        npm install
+
+    - name: Install Playwright Browsers
+      run: |
+        npx playwright install --with-deps
+
     - name: Install dependencies
       run: |
         bundle install
@@ -41,14 +49,6 @@ jobs:
     - name: Setup test database
       run: |
         bundle exec rails db:test:prepare
-
-    - name: Install npm dependencies
-      run: |
-        npm install
-
-    - name: Install Playwright Browsers
-      run: |
-        npx playwright install --with-deps
 
     - name: Run Playwright tests
       run: npx playwright test

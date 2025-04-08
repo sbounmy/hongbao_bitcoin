@@ -1,0 +1,343 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"111e0922d03e1e244e191d9a4b009eb4cc791531"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - A2_U0uAwRpgoRprzzuxtbpb
+      X-Fb-Trace-Id:
+      - FHUKUJbYhvl
+      X-Fb-Rev:
+      - '1021577926'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - T+cpVSca/iWwrDatzZI+bjM43BYOl8k3X1g5/oC/iwH8wO+n0m88uGtqudmdNMWzmozBCq/tBimbAuCBOLNg1g==
+      Date:
+      - Fri, 04 Apr 2025 16:13:05 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=17, rtx=0, c=14, mss=1380, tbw=3252, tp=-1, tpl=-1,
+        uplat=230, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '5884'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"18057196259114433","caption":"The most meaningful gifts
+        are the personal ones, where you can truly feel the love behind them.\nReceiving
+        a personalized banknote loaded with Bitcoin would be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=fNayFNZhuyoQ7kNvwEPa2zl&_nc_oc=AdlRgXo92oayudINsgvGgnF6tX1_8h9P-5OtzYLR1yd2CefCUDw7n8h92iRj1aJXhTlTw7vDy0RMpHjfOlFUlDf7&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYG7jQGddhnISzJp0G6egynHeJ6LfPun2Whin6rhejcHag&oe=67F5D8EE","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"},{"id":"18041367149599973","caption":"With
+        the OpenAi update we''re updating the bills to print\nAnd you can personalize
+        it with your own or loved one photo \n#btc #ghibli","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/487559201_17857314933401591_4138651929924356827_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=3RiYQIcPr_8Q7kNvwHzaRlj&_nc_oc=AdnuvzFTfitoFlMUSalxDavyWxwnMyZvYte-ecxihdewU70GIb5oAM2Chs8e7cqCspzj1lm9y0rM9fHd5rxkQpAt&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYFFazWSc5Uh-ubJ9zRKFkOue9m5C3MHF1fm55FoV5n0eA&oe=67F5EF02","permalink":"https:\/\/www.instagram.com\/p\/DH8uDmAs-fs\/","timestamp":"2025-04-02T15:11:20+0000"},{"id":"17873321001309610","caption":"Getting
+        closer to the final version \ud83e\udde7 \n\n- Each Hongbao will have a random
+        quote from best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect
+        size for paper wallet in hongbaob.tc\n\nComment and like below to receive
+        1 free pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin
+        #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=NmpyG-J5ElkQ7kNvwFHC258&_nc_oc=Adn36-f4KjGfr1W6K7XS-FVwO83EklnE1mfJhXF-ArFx3wrNJOmfwjwWfSqiGr_d_J2nYrbNmAUuAfiRX45kIdyW&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYECL-6x3aAC7n7u8upfS0KSYSv9lbqpdOo91bGmD-Qx3g&oe=67F5C0B3","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-1.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=CRNim3PbPfYQ7kNvwFmM8Dj&_nc_oc=AdmUNO8QYVWIvKFeTlrpEq6H8U-dNV5mT1y-nW-wJXYhvNcpW2wh5m0MM3KPBlgLxU1Fq0xmdQvnZjNfJuDc0UjY&_nc_zt=23&_nc_ht=scontent-cdg4-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYGsJQyjv6UYvHA62R6Es1m3y1Csf0Sd6qkm1rZ2dJl-BA&oe=67F5E2A6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=niLqKK6Wo-0Q7kNvwGo014X&_nc_oc=AdkG7pEmKei28uLo1UsFIPQqbmp8hHv3Q49oViFNfneZqbQfeRlbPflGX4IHCHU27vWxYGjI4yv3f5K6eEe-kMRz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYE7pvVRNyiPpPwe_0Q-QQFvxDg2gNbMUaHkOkJVE4-hyg&oe=67F5DFDF","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=ObvP9BgdwtYQ7kNvwHsvkbD&_nc_oc=AdlUgVY1r_0A7GC0oSlaArlzQPr4qdPezYPv3I042qx-ztReyaj6AnBzk5beTjBss2X4ziGpIWPC-4OppEvlxIYQ&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYHOrLv35L0mqpxIa3kfCAh4p-32YCHGtRIa8jfKAC0U4A&oe=67F5D016","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=WOMWTgg1mykQ7kNvwEyCrOH&_nc_oc=AdnrrlbFIYeOhebsl76A4AsNAbyMd7cNFGGj3bYnvh_k0P2xDLjCWmv_W7fL6q0z1y_EYTi4pILDvpgYdGV_Awfz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=ym7Czgqtcc_62a_SfXJxaA&oh=00_AYG0PhJe2vsn5LqFeDlvjBfsr34he5fXOwnqcRPmPted5w&oe=67F5BD08","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Fri, 04 Apr 2025 16:13:05 GMT
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"95a1953ca4590e717b6babc99ad353d5e0a5ed93"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AvNWKONvME-ypgJXTX3_l-W
+      X-Fb-Trace-Id:
+      - HzTkVQhqPqV
+      X-Fb-Rev:
+      - '1021577926'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - Ivl9X5iyUprQ+3B/ouikQoQD4zI3U+5f9ijS6mi/enegQBWXjjs/K020V5MSyM+vb5EPAxAhEO4tcX+55zzhVg==
+      Date:
+      - Fri, 04 Apr 2025 16:13:06 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=17, rtx=0, c=14, mss=1380, tbw=3252, tp=-1, tpl=-1,
+        uplat=226, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '5884'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"18057196259114433","caption":"The most meaningful gifts
+        are the personal ones, where you can truly feel the love behind them.\nReceiving
+        a personalized banknote loaded with Bitcoin would be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=fNayFNZhuyoQ7kNvwEPa2zl&_nc_oc=AdlRgXo92oayudINsgvGgnF6tX1_8h9P-5OtzYLR1yd2CefCUDw7n8h92iRj1aJXhTlTw7vDy0RMpHjfOlFUlDf7&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYHSFbMR2oNPNW5VN8wyAU7EPqU_z4bX3-bwzdFAExDtEg&oe=67F5D8EE","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"},{"id":"18041367149599973","caption":"With
+        the OpenAi update we''re updating the bills to print\nAnd you can personalize
+        it with your own or loved one photo \n#btc #ghibli","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/487559201_17857314933401591_4138651929924356827_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=3RiYQIcPr_8Q7kNvwHzaRlj&_nc_oc=AdnuvzFTfitoFlMUSalxDavyWxwnMyZvYte-ecxihdewU70GIb5oAM2Chs8e7cqCspzj1lm9y0rM9fHd5rxkQpAt&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYFTHYjV79eQlTsmJ6sLXAlsXnCqkDyl2Gxpn2hFvyxSVA&oe=67F5EF02","permalink":"https:\/\/www.instagram.com\/p\/DH8uDmAs-fs\/","timestamp":"2025-04-02T15:11:20+0000"},{"id":"17873321001309610","caption":"Getting
+        closer to the final version \ud83e\udde7 \n\n- Each Hongbao will have a random
+        quote from best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect
+        size for paper wallet in hongbaob.tc\n\nComment and like below to receive
+        1 free pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin
+        #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=NmpyG-J5ElkQ7kNvwFHC258&_nc_oc=Adn36-f4KjGfr1W6K7XS-FVwO83EklnE1mfJhXF-ArFx3wrNJOmfwjwWfSqiGr_d_J2nYrbNmAUuAfiRX45kIdyW&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYGEVaeZt5uN23gdnmbzBCybgn6AiyLPVBa8I9oICTtH1g&oe=67F5C0B3","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-1.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=CRNim3PbPfYQ7kNvwFmM8Dj&_nc_oc=AdmUNO8QYVWIvKFeTlrpEq6H8U-dNV5mT1y-nW-wJXYhvNcpW2wh5m0MM3KPBlgLxU1Fq0xmdQvnZjNfJuDc0UjY&_nc_zt=23&_nc_ht=scontent-cdg4-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYGeJIhdeVU4miBMQ8rw0UMJZqUU4PPl-fslCm6e-IJbHw&oe=67F5E2A6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=niLqKK6Wo-0Q7kNvwGo014X&_nc_oc=AdkG7pEmKei28uLo1UsFIPQqbmp8hHv3Q49oViFNfneZqbQfeRlbPflGX4IHCHU27vWxYGjI4yv3f5K6eEe-kMRz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYGWWFpd92qUp78Y4fOcDPptGIujDLc38B7Lq0hnj1yIUA&oe=67F5DFDF","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=ObvP9BgdwtYQ7kNvwHsvkbD&_nc_oc=AdlUgVY1r_0A7GC0oSlaArlzQPr4qdPezYPv3I042qx-ztReyaj6AnBzk5beTjBss2X4ziGpIWPC-4OppEvlxIYQ&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYGs0pJq4lh2Zl6cs9u3aEL8Eu4LR5vwnrzGDXldxlgdFQ&oe=67F5D016","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=WOMWTgg1mykQ7kNvwEyCrOH&_nc_oc=AdnrrlbFIYeOhebsl76A4AsNAbyMd7cNFGGj3bYnvh_k0P2xDLjCWmv_W7fL6q0z1y_EYTi4pILDvpgYdGV_Awfz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=0joGiLlXnWt2dEF_NMNyvw&oh=00_AYHyZRQU-dfRjan3KuCG9foZQmcfdZw4xDD25TM3nR52oQ&oe=67F5BD08","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Fri, 04 Apr 2025 16:13:06 GMT
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"b6459a48636f18f9ad57ebb0b1dc6159aa95e8d3"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AIZELcIXnuRQX12KS-vl3It
+      X-Fb-Trace-Id:
+      - CK7+IxzoIQX
+      X-Fb-Rev:
+      - '1021577926'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - Qu+Oejyq9Nr+tcSgVUIzZ+HT9wuUyRqz//WNJlDAqEBvq9l25ojfpUq+v0gN91YNxOLiiM3gJ2dLfVoAIWMYoA==
+      Date:
+      - Fri, 04 Apr 2025 16:13:07 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=18, rtx=0, c=14, mss=1380, tbw=3252, tp=-1, tpl=-1,
+        uplat=189, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '5884'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"18057196259114433","caption":"The most meaningful gifts
+        are the personal ones, where you can truly feel the love behind them.\nReceiving
+        a personalized banknote loaded with Bitcoin would be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=fNayFNZhuyoQ7kNvwEPa2zl&_nc_oc=AdlRgXo92oayudINsgvGgnF6tX1_8h9P-5OtzYLR1yd2CefCUDw7n8h92iRj1aJXhTlTw7vDy0RMpHjfOlFUlDf7&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYHMePMchkQeuDtv47_Axlc2sj5SP3SHZs9LAShmQjHMkg&oe=67F5D8EE","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"},{"id":"18041367149599973","caption":"With
+        the OpenAi update we''re updating the bills to print\nAnd you can personalize
+        it with your own or loved one photo \n#btc #ghibli","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/487559201_17857314933401591_4138651929924356827_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=3RiYQIcPr_8Q7kNvwHzaRlj&_nc_oc=AdnuvzFTfitoFlMUSalxDavyWxwnMyZvYte-ecxihdewU70GIb5oAM2Chs8e7cqCspzj1lm9y0rM9fHd5rxkQpAt&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYFNR-sWJDVaaPPwCO5evCFF4uOE-Kyzdr2dkaeLohzbNg&oe=67F5EF02","permalink":"https:\/\/www.instagram.com\/p\/DH8uDmAs-fs\/","timestamp":"2025-04-02T15:11:20+0000"},{"id":"17873321001309610","caption":"Getting
+        closer to the final version \ud83e\udde7 \n\n- Each Hongbao will have a random
+        quote from best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect
+        size for paper wallet in hongbaob.tc\n\nComment and like below to receive
+        1 free pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin
+        #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=NmpyG-J5ElkQ7kNvwFHC258&_nc_oc=Adn36-f4KjGfr1W6K7XS-FVwO83EklnE1mfJhXF-ArFx3wrNJOmfwjwWfSqiGr_d_J2nYrbNmAUuAfiRX45kIdyW&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYHUrB1DD-GAjt1mu4xwsME7C2qwjReMQzCOtMTePotREQ&oe=67F5C0B3","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-1.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=CRNim3PbPfYQ7kNvwFmM8Dj&_nc_oc=AdmUNO8QYVWIvKFeTlrpEq6H8U-dNV5mT1y-nW-wJXYhvNcpW2wh5m0MM3KPBlgLxU1Fq0xmdQvnZjNfJuDc0UjY&_nc_zt=23&_nc_ht=scontent-cdg4-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYEfYHFDdeNgVGS2jt-D7D_H14n3BN1YNBgnJBFqrxPjvw&oe=67F5E2A6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=niLqKK6Wo-0Q7kNvwGo014X&_nc_oc=AdkG7pEmKei28uLo1UsFIPQqbmp8hHv3Q49oViFNfneZqbQfeRlbPflGX4IHCHU27vWxYGjI4yv3f5K6eEe-kMRz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYHpi7TRqX5UCyHGACfBvCUmIS-2ws42pm062FwadL4WLg&oe=67F5DFDF","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=ObvP9BgdwtYQ7kNvwHsvkbD&_nc_oc=AdlUgVY1r_0A7GC0oSlaArlzQPr4qdPezYPv3I042qx-ztReyaj6AnBzk5beTjBss2X4ziGpIWPC-4OppEvlxIYQ&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYFU3xnjWVE-K8yO_yTi2lbeY7EC4stEwj2GniKB5xY2fw&oe=67F5D016","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=WOMWTgg1mykQ7kNvwEyCrOH&_nc_oc=AdnrrlbFIYeOhebsl76A4AsNAbyMd7cNFGGj3bYnvh_k0P2xDLjCWmv_W7fL6q0z1y_EYTi4pILDvpgYdGV_Awfz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=f-rudgPKaUUfYXJVQhH0tA&oh=00_AYG9FVGPbnInz1Zts01nl5oQ9MFHT5-yDnvFK0f1AEN2ZA&oe=67F5BD08","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Fri, 04 Apr 2025 16:13:07 GMT
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"6137ed8561687cf50983c3691ef84fb55d18bb47"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AtsnQpGlZdzGOtjtXmPyq8e
+      X-Fb-Trace-Id:
+      - BfqsZm9tyTD
+      X-Fb-Rev:
+      - '1021577926'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - yMODWloZl3bnrZ7pK9D3jL5yOMQMTmGCdd0Vh+lVZzil0gNY1BuIYpvbgCVmxv6SmrOs6DXattuTwtC6dx3fLg==
+      Date:
+      - Fri, 04 Apr 2025 16:13:08 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=15, rtx=0, c=14, mss=1380, tbw=3252, tp=-1, tpl=-1,
+        uplat=115, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '5884'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"18057196259114433","caption":"The most meaningful gifts
+        are the personal ones, where you can truly feel the love behind them.\nReceiving
+        a personalized banknote loaded with Bitcoin would be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=fNayFNZhuyoQ7kNvwEPa2zl&_nc_oc=AdlRgXo92oayudINsgvGgnF6tX1_8h9P-5OtzYLR1yd2CefCUDw7n8h92iRj1aJXhTlTw7vDy0RMpHjfOlFUlDf7&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYET-foqn8z071zD-iYZ_RfHOqnQeCfn1g0rKW80VCvSzw&oe=67F5D8EE","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"},{"id":"18041367149599973","caption":"With
+        the OpenAi update we''re updating the bills to print\nAnd you can personalize
+        it with your own or loved one photo \n#btc #ghibli","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/487559201_17857314933401591_4138651929924356827_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=3RiYQIcPr_8Q7kNvwHzaRlj&_nc_oc=AdnuvzFTfitoFlMUSalxDavyWxwnMyZvYte-ecxihdewU70GIb5oAM2Chs8e7cqCspzj1lm9y0rM9fHd5rxkQpAt&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYEKGRM3HPqzQt-NNXaZk7jTaufUzSPUFLsI5QZUQD2iHA&oe=67F5EF02","permalink":"https:\/\/www.instagram.com\/p\/DH8uDmAs-fs\/","timestamp":"2025-04-02T15:11:20+0000"},{"id":"17873321001309610","caption":"Getting
+        closer to the final version \ud83e\udde7 \n\n- Each Hongbao will have a random
+        quote from best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect
+        size for paper wallet in hongbaob.tc\n\nComment and like below to receive
+        1 free pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin
+        #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=NmpyG-J5ElkQ7kNvwFHC258&_nc_oc=Adn36-f4KjGfr1W6K7XS-FVwO83EklnE1mfJhXF-ArFx3wrNJOmfwjwWfSqiGr_d_J2nYrbNmAUuAfiRX45kIdyW&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYGwlfszy-tmUbCB8FMZtEt9iOSx0EuUdfyvxwRNgywEyQ&oe=67F5C0B3","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-1.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=CRNim3PbPfYQ7kNvwFmM8Dj&_nc_oc=AdmUNO8QYVWIvKFeTlrpEq6H8U-dNV5mT1y-nW-wJXYhvNcpW2wh5m0MM3KPBlgLxU1Fq0xmdQvnZjNfJuDc0UjY&_nc_zt=23&_nc_ht=scontent-cdg4-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYHrbbTOBvRnjAOlvWgbiyBtEbou5cGfNvubpNEgeK4HlA&oe=67F5E2A6","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=niLqKK6Wo-0Q7kNvwGo014X&_nc_oc=AdkG7pEmKei28uLo1UsFIPQqbmp8hHv3Q49oViFNfneZqbQfeRlbPflGX4IHCHU27vWxYGjI4yv3f5K6eEe-kMRz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYFYrwZJLgEmyrot97qUnIbbi1AceBExfe3aoCbxSp1BIg&oe=67F5DFDF","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=ObvP9BgdwtYQ7kNvwHsvkbD&_nc_oc=AdlUgVY1r_0A7GC0oSlaArlzQPr4qdPezYPv3I042qx-ztReyaj6AnBzk5beTjBss2X4ziGpIWPC-4OppEvlxIYQ&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYHeidKVi-TwZykZdwdLBUD1jBoT0-1hpGcpEOp_jKUiDA&oe=67F5D016","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=WOMWTgg1mykQ7kNvwEyCrOH&_nc_oc=AdnrrlbFIYeOhebsl76A4AsNAbyMd7cNFGGj3bYnvh_k0P2xDLjCWmv_W7fL6q0z1y_EYTi4pILDvpgYdGV_Awfz&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=saXG4LpopU1GGgbiEZsqOg&oh=00_AYE9sWyMNw_UmxwnjJ8Iv9qokRGBaF9-1KQ72RaKGgy52A&oe=67F5BD08","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Fri, 04 Apr 2025 16:13:08 GMT
+recorded_with: VCR 6.3.1

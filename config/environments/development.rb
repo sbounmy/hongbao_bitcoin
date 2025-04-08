@@ -91,6 +91,6 @@ Rails.application.configure do
   # Allow hosts for development
   config.hosts << ENV["APP_HOST"]
 
-  config.web_console.whitelisted_ips = "0.0.0.0/0"
+  config.web_console.allowed_ips = "0.0.0.0/0"
   Rails.application.routes.default_url_options[:host] = base_url
 end

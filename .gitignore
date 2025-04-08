@@ -36,12 +36,11 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials/*.key
 
 .devcontainer/tmp/*
 /app/assets/builds/*
 !/app/assets/builds/.keep
-
-/config/credentials/test.key
 
 .vscode
 
@@ -55,3 +54,5 @@ coveragejs
 /blob-report/
 /playwright/.cache/
 /test-examples/
+
+.cursor
