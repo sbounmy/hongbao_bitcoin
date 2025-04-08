@@ -1,4 +1,4 @@
-class PictureUploadComponent < ViewComponent::Base
+class PictureUploadComponent < ApplicationComponent
   def initialize(form:)
     @form = form
   end

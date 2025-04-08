@@ -23,7 +23,7 @@
         <% if authenticated? %>
           <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline" %>
         <% else %>
-          <%= link_to "Login", login_path, class: "btn btn-outline" %>
+          <%= link_to "Login", signup_path, class: "btn btn-outline" %>
         <% end %>
       </div>
     </div>
