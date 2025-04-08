@@ -46,3 +46,54 @@ To manually trigger a deployment, go to the Actions tab in your GitHub repositor
 ## Local Testing
 
 To test the CI workflow locally before pushing, you can use [act](https://github.com/nektos/act), a tool for running GitHub Actions locally.
+
+# Version Management
+
+This project follows [Semantic Versioning 2.0.0](https://semver.org/). Version numbers follow the pattern: MAJOR.MINOR.PATCH
+
+## Version Bump Rules
+
+When creating a Pull Request, use one of these labels to indicate the type of change:
+
+### 1. `breaking-change`
+- Use when making incompatible API changes
+- Examples:
+  - Removing or renaming public API methods
+  - Changing method signatures
+  - Breaking changes in behavior
+- Increments MAJOR version (X.y.z)
+
+### 2. `feature`
+- Use when adding backwards-compatible functionality
+- Examples:
+  - New features that don't break existing APIs
+  - Deprecating existing functionality
+  - Adding new optional parameters
+- Increments MINOR version (x.Y.z)
+
+### 3. No Label (Default: Patch)
+- Use for backwards-compatible bug fixes
+- Examples:
+  - Bug fixes that don't change the public API
+  - Internal refactoring that maintains compatibility
+  - Performance improvements
+- Increments PATCH version (x.y.Z)
+
+## Commit Messages
+
+The version bump workflow will automatically generate semantic commit messages:
+- Major: "BREAKING CHANGE: Incompatible API changes"
+- Minor: "feat: New backwards-compatible functionality"
+- Patch: "fix: Backwards-compatible bug fixes"
+
+## Pre-release Versions
+
+For beta or release candidate versions, create a branch from main with the naming convention:
+- Beta: `beta/vX.Y.Z-beta.N`
+- RC: `rc/vX.Y.Z-rc.N`
+
+## Notes
+
+1. Always document API changes in your PR description
+2. Include migration guides for major version bumps
+3. Test thoroughly before merging version-changing PRs
