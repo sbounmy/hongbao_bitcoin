@@ -1,3 +1,9 @@
+<% flash.each do |key, message| %>
+    <div class="alert alert-error">
+        <%= message %>
+    </div>
+<% end %>
+
 <%= render component_for_user %>
 <div class="divider">OR</div>
 

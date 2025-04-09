@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       start_new_session_for user
       render turbo_stream: turbo_stream.action(:redirect, after_authentication_url)
     else
-      redirect_to signup_path, alert: "Try another email address or password."
+      redirect_to signup_path(user: { email: params[:email] }), alert: "Password is incorrect"
     end
   end
 
