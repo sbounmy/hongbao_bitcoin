@@ -58,7 +58,11 @@ group :development, :test do
   gem "foreman"
 
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
+
   gem "factory_bot_rails"
+
+  # Clean the database between e2e tests
+  gem "database_cleaner-active_record"
 end
 
 group :development do
@@ -94,5 +98,3 @@ gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "addi
 gem "view_component"
 
 gem "ruby_llm"
-
-gem "database_cleaner-active_record"
