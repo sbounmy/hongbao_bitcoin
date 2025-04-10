@@ -59,8 +59,8 @@ export default class extends Controller {
     const startX = this.canvaController.originalWidth * this.xValue
     const startY = this.canvaController.originalHeight * this.yValue
 
-    const boxWidth = 100
-    const boxHeight = 30
+    const boxWidth = 60
+    const boxHeight = 15
     const gapX = 5
     const gapY = 2
     const cols = 4
