@@ -153,6 +153,21 @@
       <% end %>
     <% end %>
 
+      <h3 class="text-4xl text-center">
+        How Bitcoin Paper Wallet Works
+      </h3>
+
+      <div class="flex flex-col gap-4">
+        <div class="indicator w-full">
+          <span class="indicator-item indicator-center badge badge-secondary text-2xl">Front</span>
+          <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full object-cover place-items-center" %>
+        </div>
+        <div class="indicator w-full">
+          <span class="indicator-item indicator-center badge badge-secondary text-2xl">Back</span>
+        <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full object-cover place-items-center" %>
+        </div>
+      </div>
+
   </section>
 
   <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
@@ -171,6 +186,12 @@
         { name: "Pro", bao: 50, price: 15 }
       ]) %>
     <% end %>
+  </section>
+
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300 space-y-4">
+    <h3 class="text-4xl text-center">Reviews</h3>
+    <p class="text-center text-2xl mb-4">What Bitcoiners say about Hong₿ao</p>
+    <%= render "shared/reviews" %>
   </section>
 </div>
 
