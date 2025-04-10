@@ -152,22 +152,30 @@
         </div>
       <% end %>
     <% end %>
+  </section>
 
+  <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
       <h3 class="text-4xl text-center">
         How Bitcoin Paper Wallet Works
       </h3>
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-8">
         <div class="indicator w-full">
-          <span class="indicator-item indicator-center badge badge-secondary text-2xl">Front</span>
+          <span class="indicator-item indicator-center p-6 badge badge-secondary text-2xl">Front</span>
           <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full object-cover place-items-center" %>
         </div>
         <div class="indicator w-full">
-          <span class="indicator-item indicator-center badge badge-secondary text-2xl">Back</span>
+          <span class="indicator-item indicator-center p-6 badge badge-secondary text-2xl">Back</span>
         <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full object-cover place-items-center" %>
         </div>
       </div>
 
+      <div class="flex justify-center">
+        <%= link_to hong_bao_path("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x"), class: "btn btn-outline btn-wide", target: "_blank" do %>
+          <%= heroicon "eye", class: "w-5 h-5" %>
+          <span class="text-xl">Example</span>
+        <% end %>
+      </div>
   </section>
 
   <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
