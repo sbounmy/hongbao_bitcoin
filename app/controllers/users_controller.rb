@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   allow_unauthenticated_access only: [ :new, :create ]
 
   def new
-    @user = User.new
+    @user = User.find_or_initialize_by(email: params.dig(:user, :email))
   end
 
   def create
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
     if @user.save
       start_new_session_for(@user)
-      redirect_to root_path, notice: "Welcome! Your account has been created."
+      render turbo_stream: turbo_stream.action(:redirect, root_path)
     else
       render :new, status: :unprocessable_entity
     end

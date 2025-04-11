@@ -28,7 +28,7 @@ class Paper < ApplicationRecord
     custom_text
   ].freeze
 
-  ELEMENT_ATTRIBUTES = %i[x y size color].freeze
+  ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
 
   store :elements, accessors: ELEMENTS, prefix: true
 
@@ -58,37 +58,43 @@ class Paper < ApplicationRecord
         "x" => 0.12,
         "y" => 0.38,
         "size" => 0.17,
-        "color" => "224, 120, 1"
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
       },
       "private_key_text" => {
         "x" => 0.15,
         "y" => 0.35,
         "size" => 14,
-        "color" => "224, 120, 1"
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
       },
       "public_address_qrcode" => {
         "x" => 0.55,
         "y" => 0.24,
         "size" => 0.25,
-        "color" => "224, 120, 1"
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
       },
       "public_address_text" => {
         "x" => 0.55,
         "y" => 0.24,
         "size" => 18,
-        "color" => "0, 0, 0"
+        "color" => "0, 0, 0",
+        "max_text_width" => 100
       },
       "mnemonic_text" => {
         "x" => 0.2,
         "y" => 0.2,
         "size" => 16,
-        "color" => "0, 0, 0"
+        "color" => "0, 0, 0",
+        "max_text_width" => 100
       },
       "custom_text" => {
         "x" => 0.2,
         "y" => 0.2,
         "size" => 16,
-        "color" => "0, 0, 0"
+        "color" => "0, 0, 0",
+        "max_text_width" => 100
       }
     }
   end

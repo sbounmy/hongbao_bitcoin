@@ -1,4 +1,4 @@
-class DropdownComponent < ViewComponent::Base
+class DropdownComponent < ApplicationComponent
   attr_reader :items, :current_item, :path_helper, :button_style
 
   def initialize(items:, current_item:, path_helper: nil, button_style: {})

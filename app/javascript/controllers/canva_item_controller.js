@@ -9,7 +9,8 @@ export default class extends Controller {
     type: { type: String, default: 'text' },
     imageUrl: String,
     fontSize: { type: Number, default: 1 },
-    fontColor: { type: String, default: 'black' }
+    fontColor: { type: String, default: 'black' },
+    maxTextWidth: { type: Number, default: 30 }
   }
 
   connect() {
@@ -27,9 +28,10 @@ export default class extends Controller {
     const x = this.canvaController.originalWidth * this.xValue
     const y = this.canvaController.originalHeight * this.yValue
     if (this.typeValue === 'text') {
+
       this.ctx.font = `${this.fontSizeValue}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.ctx.fillText(this.textValue || '', x, y)
+      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, 15)
 
     } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue * this.canvaController.originalWidth
@@ -59,8 +61,8 @@ export default class extends Controller {
     const startX = this.canvaController.originalWidth * this.xValue
     const startY = this.canvaController.originalHeight * this.yValue
 
-    const boxWidth = 100
-    const boxHeight = 30
+    const boxWidth = 60
+    const boxHeight = 15
     const gapX = 5
     const gapY = 2
     const cols = 4
@@ -77,4 +79,27 @@ export default class extends Controller {
       this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
     })
   }
+
+  wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
+    let line = '';
+
+    for (let i = 0; i < text.length; i++) {
+      const testLine = line + text[i];
+      const testWidth = line.length;
+
+      if (testWidth > maxWidth && line !== '') {
+        ctx.fillText(line, x, y);
+        line = text[i];
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+
+    if (line) {
+      ctx.fillText(line, x, y);
+    }
+  }
+
+
 }
