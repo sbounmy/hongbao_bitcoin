@@ -7,6 +7,7 @@
     canva_item_name_value: name.camelize(:lower),
     canva_item_type_value: name.end_with?('_qrcode') ? 'image' : (name.start_with?('mnemonic') ? 'mnemonic' : 'text'),
     canva_item_font_size_value: item[:size],
-    canva_item_font_color_value: item[:color]
+    canva_item_font_color_value: item[:color],
+    canva_item_max_text_width_value: item[:maxTextWidth]
     },
     class: 'hidden canva-item' %>
