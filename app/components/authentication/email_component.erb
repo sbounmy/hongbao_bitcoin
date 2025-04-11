@@ -1,0 +1,12 @@
+<%= form_with(model: user, url: signup_path, method: :get, data: { turbo_action: "advance" }, class: "space-y-4") do |form| %>
+<h2 class="card-title justify-center text-2xl font-bold">Welcome to Hong₿ao</h2>
+
+<div class="form-control">
+    <%= form.email_field :email,
+        required: true,
+        class: "input input-bordered w-full",
+        placeholder: "Email address" %>
+</div>
+
+<%= form.submit "Continue", class: "btn btn-primary w-full" %>
+<% end %>

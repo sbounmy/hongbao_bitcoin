@@ -19,6 +19,12 @@
             class: "w-8 h-8 flex items-center justify-center rounded-xl bg-primary/20 hover:bg-primary/30 border-2 border-primary/40 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
           <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
         <% end %>
+
+        <% if authenticated? %>
+          <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline" %>
+        <% else %>
+          <%= link_to "Login", signup_path, class: "btn btn-outline" %>
+        <% end %>
       </div>
     </div>
   </header>
