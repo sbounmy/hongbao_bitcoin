@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PricingComponent < ViewComponent::Base
+class PricingComponent < ApplicationComponent
   renders_many :plans, "PlanComponent"
 
   class PlanComponent < ViewComponent::Base

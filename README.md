@@ -110,8 +110,8 @@ source ~/.bashrc
 git clone https://github.com/sbounmy/hongbao.git
 cd hongbao
 
-# Install Ruby and Node.js from .mise.toml
-mise use
+# Install Ruby and Node.js from mise.toml
+mise install
 
 # Install dependencies
 bundle install

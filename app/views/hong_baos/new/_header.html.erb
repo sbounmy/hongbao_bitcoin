@@ -1,10 +1,10 @@
-<div class="flex items-center justify-between">
-  <div class="flex items-center gap-8">
+<div class="flex items-center justify-evenly md:justify-between">
+  <div class="flex items-center gap-4 md:gap-8">
     <%= image_tag "hongbao-bitcoin-logo-520.png",
-        class: "w-20 h-20 rounded-full border-4 border-[#FFB636] shadow-lg transform hover:scale-105 transition-transform duration-300",
+        class: "w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-[#FFB636] shadow-lg transform hover:scale-105 transition-transform duration-300",
         alt: "Bitcoin Hong Bao Logo" %>
     <div class="text-left">
-      <h1 class="text-3xl font-bold text-[#FFB636] mb-1">Hong₿ao<br/>Bitcoin</h1>
+      <h1 class="text-2xl md:text-3xl font-bold text-[#FFB636] mb-1">Hong₿ao<br/>Bitcoin</h1>
       <p class="text-white/90 text-lg">
         <% if testnet? %>
           <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
@@ -13,12 +13,27 @@
         <% end %>
       </p>
     </div>
+
+    <%= link_to github_url,
+        target: "_blank",
+        rel: "noopener",
+        class: "md:hidden w-12 h-12 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
+      <%= github_icon(size: 10) %>
+    <% end %>
+    <%= link_to hong_baos_path,
+        target: "_blank",
+        rel: "noopener",
+        class: "md:hidden w-12 h-12 flex items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
+      <%= heroicon "viewfinder-circle", class: "w-8 h-8 text-amber-600" %>
+    <% end %>
   </div>
+
+
 
   <%= link_to hong_baos_path,
       target: "_blank",
       rel: "noopener",
-      class: "w-16 h-16 flex items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
+      class: "hidden md:flex w-16 h-16 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
     <%= heroicon "viewfinder-circle", class: "w-10 h-10 text-amber-600" %>
   <% end %>
 </div>

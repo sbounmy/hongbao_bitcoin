@@ -1,11 +1,10 @@
 ActiveAdmin.register Paper do
-  permit_params :name, :year, :style, :active, :position, :public, :user_id,
+  permit_params :name, :year, :active, :position, :public, :user_id,
                 :image_front, :image_back,
                 elements: Paper::ELEMENTS.map { |e| [ e.to_sym, Paper::ELEMENT_ATTRIBUTES ] }.to_h
 
   remove_filter :image_front_attachment
   remove_filter :image_back_attachment
-  remove_filter :style
 
   filter :name
   filter :active
@@ -17,7 +16,6 @@ ActiveAdmin.register Paper do
     selectable_column
     id_column
     column :name
-    column :style
     column :active
     column :public
     column :user do |paper|
@@ -40,7 +38,6 @@ ActiveAdmin.register Paper do
   show do
     attributes_table do
       row :name
-      row :style
       row :active
       row :public
       row :user do |paper|
@@ -76,7 +73,6 @@ ActiveAdmin.register Paper do
   form html: { multipart: true } do |f|
     f.inputs do
       f.input :name
-      f.input :style
       f.input :active
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false

@@ -19,6 +19,12 @@
             class: "w-8 h-8 flex items-center justify-center rounded-xl bg-primary/20 hover:bg-primary/30 border-2 border-primary/40 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
           <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
         <% end %>
+
+        <% if authenticated? %>
+          <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline" %>
+        <% else %>
+          <%= link_to "Login", signup_path, class: "btn btn-outline" %>
+        <% end %>
       </div>
     </div>
   </header>
@@ -111,6 +117,73 @@
     </div>
   </section>
 
+  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-200 space-y-12">
+    <h2 class="text-4xl text-center mb-4">Upload a photo and print your own Bitcoin bank note in seconds using AI</h2>
+    <%= render TransformComponent.new do |component| %>
+      <% component.with_before do %>
+        <div class="flex justify-center items-center h-full">
+          <div class="w-1/2">
+            <%= image_tag image_url("sbounmy-b.jpg"), class: "rounded" %>
+          </div>
+        </div>
+      <% end %>
+      <% component.with_after do %>
+        <div class="grid w-1/2">
+          <%= image_tag image_url("themes/ghibli-eur.png"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px]" %>
+          <%= image_tag image_url("themes/ghibli-usd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[120px]" %>
+          <%= image_tag image_url("themes/ghibli-tnd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[48px] mt-[240px]" %>
+        </div>
+      <% end %>
+    <% end %>
+
+
+    <h3 class="text-4xl text-center">
+      Immortalize Your Moments on the Bitcoin Blockchain
+    </h3>
+
+    <%= render TransformComponent.new do |component| %>
+      <% component.with_before do %>
+        <div class="avatar flex justify-center items-center">
+          <div class="w-1/2 rounded">
+            <%= image_tag image_url("friends.jpg") %>
+          </div>
+        </div>
+        <p class="text-center text-sm text-primary">With Marc lou - @Bali, 2020</p>
+      <% end %>
+      <% component.with_after do %>
+        <div class="flex-1">
+          <div class="flex flex-col justify-center items-center">
+            <%= image_tag image_url("friends-paper.jpg"), class: "w-3/4 h-full object-cover" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+
+  <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
+      <h3 class="text-4xl text-center">
+        How Bitcoin Paper Wallet Works
+      </h3>
+
+      <div class="flex flex-col gap-8">
+        <div class="indicator w-full">
+          <span class="indicator-item indicator-center p-6 badge badge-secondary text-2xl">Front</span>
+          <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full object-cover place-items-center" %>
+        </div>
+        <div class="indicator w-full">
+          <span class="indicator-item indicator-center p-6 badge badge-secondary text-2xl">Back</span>
+        <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full object-cover place-items-center" %>
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+        <%= link_to hong_bao_path("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x"), class: "btn btn-outline btn-wide", target: "_blank" do %>
+          <%= heroicon "eye", class: "w-5 h-5" %>
+          <span class="text-xl">Example</span>
+        <% end %>
+      </div>
+  </section>
+
   <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
     <%= render "shared/instagram_feed", posts: @instagram_posts %>>
   </section>
@@ -127,6 +200,12 @@
         { name: "Pro", bao: 50, price: 15 }
       ]) %>
     <% end %>
+  </section>
+
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300 space-y-4">
+    <h3 class="text-4xl text-center">Reviews</h3>
+    <p class="text-center text-2xl mb-4">What Bitcoiners say about Hong₿ao</p>
+    <%= render "shared/reviews" %>
   </section>
 </div>
 
