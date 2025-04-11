@@ -15,7 +15,7 @@ class StripeService
             name: price.product.name,
             tokens: price.transform_quantity.divide_by,
             price: price.unit_amount.to_f / 100,
-            default: price.product.metadata["default"] == "true"
+            default: price.product.default_price == price.id
           }
         end.sort_by { |price| price[:tokens] }
       # end
