@@ -28,6 +28,14 @@ Rails.application.routes.draw do
     post "mt_pelerin", to: "mt_pelerin#create"
   end
 
+
+  resources :checkout, only: [ :create ] do
+    collection do
+      get :success
+      get :cancel
+    end
+  end
+
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
   end
