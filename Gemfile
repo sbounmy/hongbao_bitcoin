@@ -99,4 +99,4 @@ gem "view_component"
 
 gem "ruby_llm"
 
-gem "stripe", "~> 15.0"
+gem "stripe"

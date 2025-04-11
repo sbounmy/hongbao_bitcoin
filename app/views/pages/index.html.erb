@@ -194,11 +194,7 @@
 
   <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
     <%= render(PricingComponent.new) do |component| %>
-      <% component.with_plans([
-        { name: "Starter", bao: 10, price: 5 },
-        { name: "Popular", bao: 30, price: 10, default: true },
-        { name: "Pro", bao: 50, price: 15 }
-      ]) %>
+      <% component.with_plans(StripeService.fetch_prices) %>
     <% end %>
   </section>
 

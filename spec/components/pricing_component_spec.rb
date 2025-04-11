@@ -3,13 +3,17 @@
 require "rails_helper"
 
 RSpec.describe PricingComponent, type: :component do
+  let(:plans) do
+    [
+      { name: "Starter", tokens: 10, price: 5, stripe_price_id: "price_H5ggYwtDq4fbrJ" },
+      { name: "Popular", tokens: 30, price: 10, stripe_price_id: "price_H5ggYwtDq4fbrK", default: true },
+      { name: "Pro", tokens: 50, price: 15, stripe_price_id: "price_H5ggYwtDq4fbrL" }
+    ]
+  end
+
   it "renders the pricing table with all plans" do
     result = render_inline(described_class.new) do |component|
-      component.with_plans([
-        { name: "Starter", bao: 10, price: 5 },
-        { name: "Popular", bao: 30, price: 10, default: true },
-        { name: "Pro", bao: 50, price: 15 }
-      ])
+      component.with_plans(plans)
     end
 
     # Check if all credit amounts are present
@@ -35,17 +39,17 @@ RSpec.describe PricingComponent, type: :component do
       "Action"
     )
 
-    # Check if there are 3 select buttons
-    expect(result.css("button").count).to eq(3)
+    # Check if there are 3 select buttons with Stripe price IDs
+    buttons = result.css("button")
+    expect(buttons.count).to eq(3)
+    expect(buttons[0]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrJ")
+    expect(buttons[1]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrK")
+    expect(buttons[2]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrL")
   end
 
   it "shows Most Popular badge for the default plan" do
     result = render_inline(described_class.new) do |component|
-      component.with_plans([
-        { name: "Starter", bao: 10, price: 5 },
-        { name: "Popular", bao: 30, price: 10, default: true },
-        { name: "Pro", bao: 50, price: 15 }
-      ])
+      component.with_plans(plans)
     end
 
     # Check if Most Popular badge exists and is on the default plan
