@@ -1,4 +1,5 @@
 class CheckoutController < ApplicationController
+  allow_unauthenticated_access
   def create
     # Create a Stripe Checkout Session
     session = Stripe::Checkout::Session.create(
