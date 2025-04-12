@@ -66,3 +66,5 @@ Ai::Theme.find_each do |theme|
   attach(theme, :path, :hero_image, [ 'ai', 'themes' ], "hero")
   theme.save!
 end if fixtures.include?('ai/themes')
+
+TransactionFeesImportJob.new.perform
