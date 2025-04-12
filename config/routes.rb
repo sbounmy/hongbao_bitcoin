@@ -36,6 +36,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tokens, only: [ :create ] do
+    collection do
+      post :paid
+    end
+  end
+
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
   end

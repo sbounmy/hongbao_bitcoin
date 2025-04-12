@@ -238,6 +238,12 @@ Use ImportMaps with [JSPM](https://jspm.io/):
 - [Track Issue #39](https://github.com/sbounmy/hongbao_bitcoin/issues/39)
 </details>
 
+<details>
+<summary>StripeCLI Expired API Key provided<summary>
+
+- open ~/.config/stripe/config.toml https://docs.stripe.com/stripe-cli/keys#where-keys-are-stored
+- replace test_mode_api_key by stripe.secret_key in `rails credentials:show`
+</details>
 ## 🤝 Contributing
 
 We love your input! Check out our [Contributing Guidelines](CONTRIBUTING.md) for ways to get started.
