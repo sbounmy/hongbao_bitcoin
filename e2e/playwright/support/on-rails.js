@@ -62,9 +62,9 @@ const forceLogin = async (page, { email, redirect_to = '/' }) => {
 //   await appVcrEjectCassette();
 // });
 
-test.afterEach(async () => {
-  await appVcrEjectCassette();
-});
+// test.afterEach(async () => {
+//   await appVcrEjectCassette();
+// });
 
 test.beforeEach(async () => {
   console.log('-------------------clean')

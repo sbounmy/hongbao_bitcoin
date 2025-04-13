@@ -19,7 +19,7 @@ module Tokens
     end
 
     def event
-      @event ||= Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
+      @event ||= Stripe::Webhook.construct_event(@payload, @sig_header, endpoint_secret)
     end
 
     def endpoint_secret

@@ -6,6 +6,9 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.configure_rspec_metadata! if ENV["CYPRESS"].nil?
 
+  # Allow same request to be played back multiple times from 1 cassette
+  config.default_cassette_options = { allow_playback_repeats: true }
+
   # Filter out sensitive data
   config.filter_sensitive_data('<LEONARDO_API_KEY>') { Rails.application.credentials.dig(:leonardo, :api_key) }
   config.filter_sensitive_data('<LEONARDO_WEBHOOK_TOKEN>') { Rails.application.credentials.dig(:leonardo, :webhook_token) }
@@ -17,7 +20,7 @@ VCR.configure do |config|
   # Ignore Stripe checkout session requests as we need to checkout on Stripe's side
   config.ignore_request do |request|
     req = URI(request.uri)
-    res = (req.path == '/v1/checkout/sessions' && req.host == 'api.stripe.com')
+    res = (req.path.match(%r{/v1/checkout/sessions}) && req.host == 'api.stripe.com')
     Rails.logger.info "[VCR] Ignoring request: #{req.host} #{req.path}" if res
     res
   end
