@@ -21,7 +21,8 @@ test.describe('Stripe Checkout Flow', () => {
     await page.fill('input[name="cardCvc"]', '123');
     await page.fill('input[name="billingName"]', `Satoshi Nakamoto ${random}`);
     await page.click('button[type="submit"]');
-
+    expect(page.getByText('Processing...')).toBeVisible();
+    expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     expect(page.url()).toBe(page.url('/'));
     await page.goto('/v2');
     expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
