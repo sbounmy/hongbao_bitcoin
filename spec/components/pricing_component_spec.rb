@@ -40,11 +40,11 @@ RSpec.describe PricingComponent, type: :component do
     )
 
     # Check if there are 3 select buttons with Stripe price IDs
-    buttons = result.css("button")
+    buttons = result.css("input[name='price_id']")
     expect(buttons.count).to eq(3)
-    expect(buttons[0]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrJ")
-    expect(buttons[1]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrK")
-    expect(buttons[2]['data-stripe-price-id']).to eq("price_H5ggYwtDq4fbrL")
+    expect(buttons[0]['value']).to eq("price_H5ggYwtDq4fbrJ")
+    expect(buttons[1]['value']).to eq("price_H5ggYwtDq4fbrK")
+    expect(buttons[2]['value']).to eq("price_H5ggYwtDq4fbrL")
   end
 
   it "shows Most Popular badge for the default plan" do
