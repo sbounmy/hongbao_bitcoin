@@ -33,12 +33,7 @@ Rails.application.routes.draw do
     collection do
       get :success
       get :cancel
-    end
-  end
-
-  resources :tokens, only: [ :create ] do
-    collection do
-      post :paid
+      post :webhook
     end
   end
 

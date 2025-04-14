@@ -8,18 +8,26 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    # Handle successful payment
-    @checkout_session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    Rails.logger.info("checkout_session: #{@checkout_session.inspect}")
-    @user = User.find_by(email: @checkout_session.customer_details.email)
-    Rails.logger.info("user: #{@user.inspect}")
-    if !authenticated?
-      @user ||= User.create!(email: @checkout_session.customer_details.email, password: SecureRandom.hex(16), stripe_customer_id: @checkout_session.customer)
-      start_new_session_for(@user)
+    result = Checkout::Success.call(params[:session_id], authenticated: authenticated?)
+
+    if result.success?
+      flash[:notice] = "Payment successful! Your tokens have been credited."
+      start_new_session_for(result.payload)
+    else
+      flash[:alert] = "Payment failed. Please try again."
     end
-    flash[:notice] = "Payment successful! Your tokens have been credited."
     redirect_to v2_path
   end
+
+  def webhook
+    result = Checkout::Webhook.call(payload: request.body.read, sig_header: request.env["HTTP_STRIPE_SIGNATURE"])
+    if result.success?
+      render json: { message: :success }
+    else
+      render json: { error: { message: result.error.message } }, status: :bad_request
+    end
+  end
+
 
   def cancel
     # Handle cancelled payment

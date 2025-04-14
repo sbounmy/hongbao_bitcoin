@@ -1,5 +1,5 @@
-module Tokens
-  class Paid < ApplicationService
+module Checkout
+  class Webhook < ApplicationService
     def call(payload:, sig_header:)
       @payload = payload
       @sig_header = sig_header
