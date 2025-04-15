@@ -2,13 +2,10 @@ import { test, expect } from '@playwright/test';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Authentication Flow', () => {
+
   test.beforeEach(async ({ page }) => {
     await appVcrInsertCassette('authentication', { allow_playback_repeats: true });
     await page.goto('/signup');
-  });
-
-  test.afterEach(async () => {
-    await appVcrEjectCassette();
   });
 
   test('existing user can login', async ({ page }) => {
