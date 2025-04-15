@@ -34,6 +34,7 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
+    await expect(page.url()).toBe(page.url('/v2'));
     await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
   });
@@ -52,8 +53,8 @@ test.describe('Stripe Checkout Flow', () => {
     const random = getRandomInt(9999);
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
+    await expect(page.url()).toBe(page.url('/v2'));
     await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
   });
@@ -86,8 +87,8 @@ test.describe('Stripe Checkout Flow', () => {
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
+    await expect(page.url()).toBe(page.url('/v2'));
     await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
   });
