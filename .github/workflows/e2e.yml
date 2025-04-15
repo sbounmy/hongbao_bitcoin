@@ -44,8 +44,8 @@ jobs:
 
     - name: Install Stripe CLI
       run: |
-        curl -s https://packages.stripe.com/api/security/keypair/stripe-cli-gpg | sudo gpg --dearmor -o /usr/share/keyrings/stripe-cli-archive-keyring.gpg && \
-        echo "deb [signed-by=/usr/share/keyrings/stripe-cli-archive-keyring.gpg] https://packages.stripe.com/stripe-cli/debian/ stable main" | sudo tee /etc/apt/sources.list.d/stripe-cli.list && \
+        curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg && \
+        echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list && \
         sudo apt-get update && \
         sudo apt-get install -y stripe
 
