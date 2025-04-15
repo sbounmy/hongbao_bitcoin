@@ -102,4 +102,6 @@ Rails.application.configure do
 
   # Raise errors if email sending fails (optional, but recommended for debugging)
   config.action_mailer.raise_delivery_errors = true
+
+  Rails.application.routes.default_url_options[:host] = "https://#{ENV["APP_HOST"]}"
 end
