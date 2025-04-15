@@ -12,7 +12,10 @@
     "tailwindcss": "^4.1.3"
   },
   "scripts": {
-    "watch:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify -c tailwind-active_admin.config.mjs --watch",
-    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify -c tailwind-active_admin.config.mjs"
+    "watch:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify --watch",
+    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify"
+  },
+  "dependencies": {
+    "@activeadmin/activeadmin": "^4.0.0-beta15"
   }
 }
