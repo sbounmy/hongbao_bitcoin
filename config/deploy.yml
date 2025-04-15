@@ -41,6 +41,7 @@ env:
     SOLID_QUEUE_IN_PUMA: true
     # For webooks assets etc
     APP_HOST: hongbaob.tc
+    STRIPE_PRODUCT_ID: prod_S8Ro7ejbBPfXa9
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3

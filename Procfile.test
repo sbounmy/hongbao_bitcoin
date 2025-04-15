@@ -1,1 +1,2 @@
-test: PIDFILE=tmp/pids/server.test.pid CYPRESS=1 bundle exec puma -t 1:1 -w 0 -e test -p 3003
+web: PIDFILE=tmp/pids/server.test.pid CYPRESS=1 bundle exec puma -t 1:1 -w 0 -e test -p 3003
+stripe: stripe listen --forward-to localhost:3003/checkout/webhook -c localhost:3003/checkout/webhook

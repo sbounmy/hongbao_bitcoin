@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { forceLogin, appVcrInsertCassette } from '../../support/on-rails';
+import { forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../../support/on-rails';
 
 test.describe("Image generation feature", () => {
 
@@ -23,6 +23,7 @@ test.describe("Image generation feature", () => {
     await page.getByText('Generate Designs (3 credits)').click();
     // Verify face swap process started
     await expect(page.getByText('Processing...')).toBeVisible();
+    await appVcrEjectCassette();
   });
 
 });
