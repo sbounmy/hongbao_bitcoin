@@ -7,6 +7,10 @@ test.describe('Authentication Flow', () => {
     await page.goto('/signup');
   });
 
+  test.afterEach(async () => {
+    await appVcrEjectCassette();
+  });
+
   test('existing user can login', async ({ page }) => {
     await page.getByPlaceholder('Email address').fill('satoshi@example.com');
     await page.getByRole('button', { name: 'Continue' }).click();
