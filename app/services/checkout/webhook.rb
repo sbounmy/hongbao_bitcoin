@@ -33,6 +33,8 @@ module Checkout
         else
           failure user.errors.full_messages.join(", ")
         end
+      else
+        failure "Unknown event type: #{event.type}"
       end
     end
 
