@@ -81,7 +81,7 @@
       <div class="flex items-center">
         <%= cuttable_content class: "flex flex-col items-center" do %>
           <%= render 'hong_baos/new/steps/paper_canva',
-                    class_name: "w-[140mm] h-[77mm] rotate-180",
+                    class_name: "w-[140mm] h-[77mm] transform-[rotate(180deg)]",
                     paper:,
                     actions: "hong-bao:back@window->canva#backgroundImageChanged",
                     elements: paper.back_elements,
