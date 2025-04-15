@@ -30,6 +30,7 @@ test.describe("Generate image gpts feature", () => {
     // this should be done through turbo frame
     await page.goto('/v2');
     await expect(page.locator('.papers-item-component')).toHaveCount(count + 2);
+    await appVcrEjectCassette();
   });
 
 });
