@@ -26,6 +26,7 @@ test.describe("Face swap feature", () => {
     await page.getByRole('button', { name: 'Face Swap' }).click();
     // Verify face swap process started
     await expect(page.getByText('Processing...')).toBeVisible();
+    await appVcrEjectCassette();
   });
 
 });
