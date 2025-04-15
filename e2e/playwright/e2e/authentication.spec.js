@@ -3,6 +3,7 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 
 test.describe('Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
+    await appVcrInsertCassette('authentication', { allow_playback_repeats: true });
     await page.goto('/signup');
   });
 
