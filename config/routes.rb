@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   end
 
 
+  resources :tokens, only: [ :index ]
+
   resources :checkout, only: [ :create ] do
     collection do
       get :success

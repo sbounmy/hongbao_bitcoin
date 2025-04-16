@@ -1,0 +1,6 @@
+  <%= render "shared/v2/header" %>
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+    <%= render(PricingComponent.new) do |component| %>
+      <% component.with_plans(StripeService.fetch_prices) %>
+    <% end %>
+  </section>
