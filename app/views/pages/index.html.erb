@@ -20,8 +20,19 @@
           <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
         <% end %>
 
+
         <% if authenticated? %>
-          <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline" %>
+          <%= render UserDrawerComponent.new do |component| %>
+            <%# This label triggers the drawer identified by drawer_id %>
+            <label for="<%= component.drawer_id %>"
+                    tabindex="0"
+                    class="btn btn-ghost btn-circle avatar cursor-pointer">
+              <div class="w-8 rounded-full border border-[#FFB636]">
+                <img src="<%= gravatar_url(Current.user.email) %>"
+                     alt="User avatar">
+              </div>
+            </label>
+          <% end %>
         <% else %>
           <%= link_to "Login", signup_path, class: "btn btn-outline" %>
         <% end %>
