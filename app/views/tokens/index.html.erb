@@ -1,6 +1,31 @@
+<div class="min-h-screen">
   <%= render "shared/v2/header" %>
-  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+  <section id="pricing" class="bg-base-300 py-12">
     <%= render(PricingComponent.new) do |component| %>
       <% component.with_plans(StripeService.fetch_prices) %>
     <% end %>
   </section>
+
+
+  <%# Section: Account Summary %>
+  <div class="card bg-base-100 shadow-xl my-6">
+    <div class="card-body">
+      <h2 class="card-title">Account Summary</h2>
+      <div class="stats shadow">
+        <div class="stat">
+          <div class="stat-title">Token Balance</div>
+          <%# TODO: Fetch actual balance from controller via @token_balance %>
+          <div class="stat-value"><%= @token_balance || 0 %></div>
+          <div class="stat-desc">Available credits</div>
+        </div>
+      </div>
+      <div class="card-actions justify-end mt-4">
+        <%# TODO: Ensure stripe_portal_path route exists and controller action is implemented %>
+        <%# button_to "Manage Billing", stripe_portal_path, method: :post, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <%# Section: Transaction History %>
+  <%= render Tokens::ListComponent.new(tokens: @tokens) %>
+</div> <%# End of max-w-5xl wrapper %>
