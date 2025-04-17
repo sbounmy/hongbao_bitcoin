@@ -1,31 +1,52 @@
-<div class="min-h-screen">
+<div class="min-h-screen bg-base-200">
   <%= render "shared/v2/header" %>
-  <section id="pricing" class="bg-base-300 py-12">
-    <%= render(PricingComponent.new) do |component| %>
-      <% component.with_plans(StripeService.fetch_prices) %>
-    <% end %>
-  </section>
 
+  <div class="container mx-auto px-4 py-8">
 
-  <%# Section: Account Summary %>
-  <div class="card bg-base-100 shadow-xl my-6">
-    <div class="card-body">
-      <h2 class="card-title">Account Summary</h2>
-      <div class="stats shadow">
-        <div class="stat">
-          <div class="stat-title">Token Balance</div>
-          <%# TODO: Fetch actual balance from controller via @token_balance %>
-          <div class="stat-value"><%= current_user.tokens_sum %></div>
-          <div class="stat-desc">Available credits</div>
+    <%# Section: Pricing Plans %>
+    <section id="pricing" class="mb-12">
+      <div class="card bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+          <%= render(PricingComponent.new) do |component| %>
+            <% component.with_plans(StripeService.fetch_prices) %>
+          <% end %>
         </div>
       </div>
-      <div class="card-actions justify-end mt-4">
-        <%# TODO: Ensure stripe_portal_path route exists and controller action is implemented %>
-        <%= button_to "Manage Card", checkout_path(current_user), method: :patch, class: "btn btn-primary", data: { turbo: false } %>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <%# Section: Transaction History %>
-  <%= render Tokens::ListComponent.new(tokens: @tokens) %>
-</div> <%# End of max-w-5xl wrapper %>
+    <%# Section: Account Management Grid %>
+    <section id="account-management" class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <%# Account Summary Card %>
+      <div class="card bg-base-100 shadow-xl md:col-span-2 border border-base-300">
+        <div class="card-body">
+          <h2 class="card-title">Account Summary</h2>
+          <div class="stats shadow mt-4">
+            <div class="stat">
+              <div class="stat-title">Token Balance</div>
+              <div class="stat-value font-bold"><%= current_user.tokens_sum %> Bao</div>
+              <div class="stat-desc">Available credits (1 Bao = 1 Image)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Manage Billing Card %>
+      <div class="card bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body items-center text-center">
+          <h2 class="card-title">Billing</h2>
+          <p class="text-sm text-base-content text-opacity-60 mb-4">Manage your subscription and payment details via Stripe.</p>
+          <%= button_to "Manage Billing", checkout_path(current_user), method: :patch, class: "btn btn-primary", data: { turbo: false } %>
+        </div>
+      </div>
+
+    </section>
+
+    <%# Section: Transaction History %>
+    <section id="transactions">
+       <h2 class="card-title mb-4">Transaction History</h2>
+      <%= render Tokens::ListComponent.new(tokens: @tokens) %>
+    </section>
+
+  </div>
+</div>
