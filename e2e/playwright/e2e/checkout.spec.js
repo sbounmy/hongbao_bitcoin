@@ -35,8 +35,9 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('logged out user can buy tokens and become logged inas a user', async ({ page }) => {
@@ -55,8 +56,9 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('logged in user can buy tokens', async ({ page }) => {
@@ -89,7 +91,8 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 });

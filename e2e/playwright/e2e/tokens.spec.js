@@ -28,7 +28,7 @@ test.describe('Tokens Page', () => {
     test('allows managing card via Stripe Billing Portal', async ({ page }) => {
       // Scenario 1: Manage Card (Live Interaction)
       await expect(page.getByRole('button', { name: 'Manage Billing' })).toBeVisible();
-      await page.getByRole('button', { name: 'Manage Card' }).click();
+      await page.getByRole('button', { name: 'Manage Billing' }).click();
 
       // Wait for navigation to Stripe's Billing Portal
       // Using waitForURL with a glob pattern is more robust than exact match
