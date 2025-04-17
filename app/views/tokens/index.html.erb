@@ -15,7 +15,7 @@
         <div class="stat">
           <div class="stat-title">Token Balance</div>
           <%# TODO: Fetch actual balance from controller via @token_balance %>
-          <div class="stat-value"><%= @token_balance || 0 %></div>
+          <div class="stat-value"><%= current_user.tokens_sum %></div>
           <div class="stat-desc">Available credits</div>
         </div>
       </div>

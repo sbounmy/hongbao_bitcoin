@@ -8,5 +8,9 @@ module Tokens
     def initialize(token:)
       @token = token
     end
+
+    def token_label
+      token.quantity > 0 ? "Purchase" : "Used"
+    end
   end
 end

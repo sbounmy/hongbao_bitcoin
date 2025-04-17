@@ -4,17 +4,11 @@
 module Tokens
   class ListComponent < ViewComponent::Base
     # Provides the collection to the ItemComponent using `with_collection`
-    renders_many :items, Tokens::ItemComponent
-
-    attr_reader :tokens
+    renders_many :tokens, Tokens::ItemComponent
 
     # @param tokens [Enumerable] The collection of token transaction objects.
     def initialize(tokens:)
-      @tokens = tokens
-
-      # Prepare the items collection for rendering
-      # Passes each token from @tokens to a new Tokens::ItemComponent instance.
-      with_items(tokens)
+      with_tokens(tokens.map { |token| { token: } })
     end
 
     # Helper method to check if there are any tokens to display.

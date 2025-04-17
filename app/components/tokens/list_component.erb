@@ -15,7 +15,9 @@
       </thead>
       <tbody>
         <%# Render the collection of Tokens::ItemComponent instances %>
-        <%= items %>
+        <% tokens.each do |token| %>
+          <%= token %>
+        <% end %>
       </tbody>
     </table>
   </div>
