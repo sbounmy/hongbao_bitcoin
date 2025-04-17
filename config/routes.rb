@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   resources :tokens, only: [ :index ]
 
-  resources :checkout, only: [ :create ] do
+  resources :checkout, only: [ :create, :update ] do
     collection do
       get :success
       get :cancel

@@ -21,7 +21,7 @@
       </div>
       <div class="card-actions justify-end mt-4">
         <%# TODO: Ensure stripe_portal_path route exists and controller action is implemented %>
-        <%# button_to "Manage Billing", stripe_portal_path, method: :post, class: "btn btn-primary" %>
+        <%= button_to "Manage Card", checkout_path(current_user), method: :patch, class: "btn btn-primary", data: { turbo: false } %>
       </div>
     </div>
   </div>

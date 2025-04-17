@@ -1,7 +1,5 @@
 module Checkout
   class Create < ApplicationService
-    include Rails.application.routes.url_helpers
-
     def call(params, current_user: nil)
       @params = params
       @current_user = current_user

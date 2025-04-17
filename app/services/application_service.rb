@@ -1,4 +1,5 @@
 class ApplicationService
+  include Rails.application.routes.url_helpers
   class ErrorService
     def self.error(exception, options = {})
       puts "Error: #{exception.message}"
