@@ -1,7 +1,5 @@
 module Checkout
   class Create < ApplicationService
-    include Rails.application.routes.url_helpers
-
     def call(params, current_user: nil)
       @params = params
       @current_user = current_user
@@ -23,8 +21,11 @@ module Checkout
         cancel_url: cancel_checkout_index_url
       }
       if @current_user
-        p[:customer] = @current_user.stripe_customer_id if @current_user.stripe_customer_id
-        p[:customer_email] = @current_user.email
+        if @current_user.stripe_customer_id
+          p[:customer] = @current_user.stripe_customer_id
+        else
+          p[:customer_email] = @current_user.email
+        end
       end
       p
     end

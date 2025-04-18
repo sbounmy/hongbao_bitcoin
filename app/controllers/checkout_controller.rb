@@ -1,5 +1,7 @@
 class CheckoutController < ApplicationController
   allow_unauthenticated_access
+  skip_before_action :verify_authenticity_token, only: [ :webhook ]
+
   def create
     # Create a Stripe Checkout Session
     result = Checkout::Create.call(params, current_user:)
@@ -11,6 +13,15 @@ class CheckoutController < ApplicationController
     end
   end
 
+  def update
+    result = Checkout::Update.call(current_user:)
+    if result.success?
+      redirect_to result.payload.url, allow_other_host: true
+    else
+      flash[:alert] = "Payment failed. Please try again."
+      redirect_to tokens_path
+    end
+  end
   def success
     result = Checkout::Success.call(params[:session_id], authenticated: authenticated?)
 

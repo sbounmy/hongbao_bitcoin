@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 function getRandomInt(max) {
@@ -35,8 +35,9 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('logged out user can buy tokens and become logged inas a user', async ({ page }) => {
@@ -55,20 +56,20 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('logged in user can buy tokens', async ({ page }) => {
 
+    await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
+
     await forceLogin(page, {
       email: 'satoshi@example.com',
-      password: '03/01/2009'
+      redirect_to: '/v2'
     });
 
-    // Insert VCR cassette for Stripe API calls
-    await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
-    await page.goto('/v2');
     await expect(page.locator('header').getByText("490 ₿ao")).toBeVisible();
     // Find and click the starter plan
     await page.getByRole('button', { name: 'Select' }).first().click();
@@ -89,7 +90,8 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
     await expect(page.url()).toBe(page.url('/v2'));
-    await expect(page.getByText('Logout')).toBeVisible(); // create user if necessary and logs him in
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 });
