@@ -1,0 +1,9 @@
+<%# Template for Tokens::ItemComponent - represents one row in the table %>
+<tr>
+  <%# TODO: Verify these attribute names match the actual Token/Transaction model %>
+  <%# Consider moving formatting to helper methods in the component class %>
+  <td title="<%= @token.created_at.strftime('%Y-%m-%d %H:%M') %>"><%= time_ago_in_words(@token.created_at) %> ago</td>
+  <td><%= token_label %></td>
+  <td><%= @token.quantity %></td>
+  <td><%= @token.description %></td>
+</tr>

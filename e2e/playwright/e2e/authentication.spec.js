@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Authentication Flow', () => {
@@ -15,7 +15,8 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Sign in' }).click();
     await expect(page.getByText('Make every Bitcoin')).toBeVisible();
     await page.goto('/v2'); // TODO: remove this when /v2 becomes /
-    await expect(page.getByText('Logout')).toBeVisible();
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('existing user type wrong password', async ({ page }) => {
@@ -33,7 +34,8 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Sign up with email' }).click();
     await expect(page.getByText('Make every Bitcoin')).toBeVisible();
     await page.goto('/v2'); // TODO: remove this when /v2 becomes /
-    await expect(page.getByText('Logout')).toBeVisible();
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
   test('signup with invalid email', async ({ page }) => {
@@ -51,4 +53,12 @@ test.describe('Authentication Flow', () => {
     await expect(page.getByText('Password is too short')).toBeVisible();
   });
 
+  test('user can logout', async ({ page }) => {
+    await forceLogin(page, {
+      email: 'satoshi@example.com',
+      redirect_to: '/v2'
+    });
+    await page.locator('.drawer').click();
+    await page.getByRole('button', { name: 'Logout' }).click();
+  });
 });

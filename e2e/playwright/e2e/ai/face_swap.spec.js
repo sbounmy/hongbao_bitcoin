@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../support/test-setup';
+
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../../support/on-rails';
 
 test.describe("Face swap feature", () => {
@@ -8,10 +9,7 @@ test.describe("Face swap feature", () => {
     // Force login the user
     await forceLogin(page, {
       email: 'satoshi@example.com',
-      password: '03/01/2009'
     });
-    // Verify successful login
-    await page.goto('/');
     // Test AI Design access
     await page.getByRole('button', { name: 'AI Design' }).click();
 

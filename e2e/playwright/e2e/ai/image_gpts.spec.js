@@ -1,17 +1,15 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../../support/on-rails';
 
 test.describe("Generate image gpts feature", () => {
 
   test('user can generate image gpts from a picture based on style(s)', async ({ page }) => {
-    appVcrInsertCassette('ai_image_gpts')
+    await appVcrInsertCassette('ai_image_gpts')
     // Force login the user
     await forceLogin(page, {
       email: 'satoshi@example.com',
-      password: '03/01/2009'
+      redirect_to: '/v2'
     });
-    // Verify successful login
-    await page.goto('/v2');
 
     // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
@@ -30,7 +28,6 @@ test.describe("Generate image gpts feature", () => {
     // this should be done through turbo frame
     await page.goto('/v2');
     await expect(page.locator('.papers-item-component')).toHaveCount(count + 2);
-    await appVcrEjectCassette();
   });
 
 });
