@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 function getRandomInt(max) {
@@ -63,14 +63,13 @@ test.describe('Stripe Checkout Flow', () => {
 
   test('logged in user can buy tokens', async ({ page }) => {
 
+    await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
+
     await forceLogin(page, {
       email: 'satoshi@example.com',
-      password: '03/01/2009'
+      redirect_to: '/v2'
     });
 
-    // Insert VCR cassette for Stripe API calls
-    await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
-    await page.goto('/v2');
     await expect(page.locator('header').getByText("490 ₿ao")).toBeVisible();
     // Find and click the starter plan
     await page.getByRole('button', { name: 'Select' }).first().click();

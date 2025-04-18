@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Tokens Page', () => {
@@ -6,11 +6,11 @@ test.describe('Tokens Page', () => {
 
   test.describe('when logged in', () => {
     test.beforeEach(async ({ page }) => {
+      await appVcrInsertCassette('tokens', { allow_playback_repeats: true });
       await forceLogin(page, {
         email: 'satoshi@example.com',
-        password: '03/01/2009'
+        redirect_to: '/tokens'
       });
-      await page.goto('/tokens');
     });
 
     test('displays token balance', async ({ page }) => {

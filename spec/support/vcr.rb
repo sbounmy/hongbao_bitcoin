@@ -1,5 +1,6 @@
 require 'vcr'
 
+# Note: If you change this file, make sure you restart your playwright web server to see the changes
 # This is also loaded in e2e/playwright/e2e_helper.rb
 VCR.configure do |config|
   config.cassette_library_dir = ENV["CYPRESS"] ? 'e2e/playwright/e2e/fixtures/vcr_cassettes' : 'spec/vcr_cassettes'
@@ -21,6 +22,7 @@ VCR.configure do |config|
   config.ignore_request do |request|
     req = URI(request.uri)
     res = (req.path.match(%r{/v1/checkout/sessions}) && req.host == 'api.stripe.com')
+    res ||= (req.path.match(%r{/v1/billing_portal/sessions}) && req.host == 'api.stripe.com')
     Rails.logger.info "[VCR] Ignoring request: #{req.host} #{req.path}" if res
     res
   end

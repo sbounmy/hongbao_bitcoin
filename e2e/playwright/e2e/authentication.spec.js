@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Authentication Flow', () => {
@@ -56,9 +56,8 @@ test.describe('Authentication Flow', () => {
   test('user can logout', async ({ page }) => {
     await forceLogin(page, {
       email: 'satoshi@example.com',
-      password: '03/01/2009'
+      redirect_to: '/v2'
     });
-    await page.goto('/v2');
     await page.locator('.drawer').click();
     await page.getByRole('button', { name: 'Logout' }).click();
   });
