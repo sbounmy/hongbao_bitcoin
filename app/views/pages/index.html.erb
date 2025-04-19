@@ -92,30 +92,14 @@
   </section>
 
   <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-200 space-y-12">
-    <h2 class="text-4xl text-center mb-4">Upload a photo and print your own Bitcoin bank note in seconds using AI</h2>
-    <%= render TransformComponent.new do |component| %>
-      <% component.with_before do %>
-        <div class="flex justify-center items-center h-full">
-          <div class="w-1/2">
-            <%= image_tag image_url("sbounmy-b.jpg"), class: "rounded" %>
-          </div>
-        </div>
-      <% end %>
-      <% component.with_after do %>
-        <div class="grid w-1/2">
-          <%= image_tag image_url("themes/ghibli-eur.png"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px]" %>
-          <%= image_tag image_url("themes/ghibli-usd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[120px]" %>
-          <%= image_tag image_url("themes/ghibli-tnd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[48px] mt-[240px]" %>
-        </div>
-      <% end %>
-    <% end %>
-
+    <%= render "shared/v2/features" %>
+    <%# <h2 class="text-4xl text-center mb-4">Upload a photo and print your own Bitcoin bank note in seconds using AI</h2>
 
     <h3 class="text-4xl text-center">
       Immortalize Your Moments on the Bitcoin Blockchain
-    </h3>
+    </h3> %>
 
-    <%= render TransformComponent.new do |component| %>
+    <% render TransformComponent.new do |component| %>
       <% component.with_before do %>
         <div class="avatar flex justify-center items-center">
           <div class="w-1/2 rounded">
@@ -132,6 +116,14 @@
         </div>
       <% end %>
     <% end %>
+  </section>
+
+  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
+    <%= render "shared/v2/why" %>
+  </section>
+
+  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
+    <%= render "shared/v2/about" %>
   </section>
 
   <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
