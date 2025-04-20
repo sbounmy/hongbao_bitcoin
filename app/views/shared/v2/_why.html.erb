@@ -7,6 +7,23 @@
     </p>
   </div>
 
+  <div class="max-w-3xl mx-auto flex flex-col gap-8">
+    <div class="group relative w-full [perspective:1000px]">
+      <div class="absolute top-4 left-[-5rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] group-hover:opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+        <span>Hover me ➙</span>
+      </div>
+
+      <div class="relative transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+        <div class="[-webkit-backface-visibility:hidden] [backface-visibility:hidden] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
+          <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full h-full object-cover" %>
+        </div>
+        <div class="absolute top-0 left-0 w-full h-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
+          <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full h-full object-cover" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="mt-8 sm:mt-12 flex flex-col md:flex-row justify-center items-center md:items-start gap-6 md:gap-8">
     <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm dark:backdrop-blur-md shadow-sm dark:shadow-lg bg-rose-100/75 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 ring-1 ring-rose-200 dark:ring-rose-800">
       <div class="flex justify-between items-start">
