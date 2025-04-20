@@ -19,7 +19,7 @@ test.describe("Generate image gpts feature", () => {
 
     // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    const count = await page.locator('.papers-item-component').count();
+    const count = await page.locator('#main-content .papers-item-component').count();
 
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
@@ -27,7 +27,7 @@ test.describe("Generate image gpts feature", () => {
     await expect(page.getByText('Processing...')).toBeHidden();
     // this should be done through turbo frame
     await page.goto('/v2');
-    await expect(page.locator('.papers-item-component')).toHaveCount(count + 2);
+    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
   });
 
 });
