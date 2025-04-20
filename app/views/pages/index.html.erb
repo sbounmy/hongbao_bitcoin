@@ -118,6 +118,9 @@
     <% end %>
   </section>
 
+  <%# Render the papers carousel before the 'Why' section %>
+  <%= render "shared/v2/papers_marquee", papers: @papers %>
+
   <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
     <%= render "shared/v2/why" %>
   </section>

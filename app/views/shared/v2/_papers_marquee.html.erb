@@ -1,0 +1,95 @@
+<%# app/views/shared/v2/_papers_carousel.html.erb %>
+<%# Expects local variable: papers %>
+<% papers ||= [] %> <%# Default to empty array if not provided %>
+<% if papers.present? %>
+  <style>
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+    @keyframes marquee-right {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-marquee {
+      /* Using a fixed duration for simplicity, adjust as needed */
+      animation: marquee 30s linear infinite;
+    }
+    .animate-marquee-right {
+      animation: marquee-right 30s linear infinite;
+    }
+    .marquee-group:hover .animate-marquee,
+    .marquee-group:hover .animate-marquee-right {
+      animation-play-state: paused;
+    }
+  </style>
+
+  <section id="papers-carousel" class="py-12 bg-base-100">
+    <div class="relative flex flex-col items-center justify-center overflow-hidden">
+      <div class="text-center space-y-4 pb-6 mx-auto">
+        <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400">
+          <span class="inline-block align-top text-balance">Community Creations</span>
+        </h2>
+        <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl dark:text-white">
+            <span class="inline-block align-top text-balance">Bitcoin is the People's money</span>
+        </p>
+      </div>
+      <%# Row 1 - Normal direction %>
+      <div class="marquee-group w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
+        <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 animate-marquee">
+          <% papers.each do |paper| %>
+            <% if paper.image_front.attached? %>
+              <li class="flex-shrink-0">
+                <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
+                  <%= image_tag paper.image_front, class: "object-cover h-full w-full", loading: "lazy", alt: "Paper template #{paper.id}" %>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+        <%# Duplicate the list for seamless looping %>
+        <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 animate-marquee" aria-hidden="true">
+          <% papers.each do |paper| %>
+            <% if paper.image_front.attached? %>
+              <li class="flex-shrink-0">
+                <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
+                  <%= image_tag paper.image_front, class: "object-cover h-full w-full", loading: "lazy", alt: "Paper template #{paper.id}" %>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <%# Row 2 - Reverse direction %>
+      <%# Shuffling papers for the second row to add visual difference %>
+      <% papers_shuffled = papers.shuffle %>
+      <div class="marquee-group w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] mt-8">
+         <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 animate-marquee-right">
+           <% papers_shuffled.each do |paper| %>
+             <% if paper.image_front.attached? %>
+               <li class="flex-shrink-0">
+                 <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
+                   <%= image_tag paper.image_front, class: "object-cover h-full w-full", loading: "lazy", alt: "Paper template #{paper.id}" %>
+                 </div>
+               </li>
+             <% end %>
+           <% end %>
+         </ul>
+         <%# Duplicate the list for seamless looping %>
+         <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 animate-marquee-right" aria-hidden="true">
+           <% papers_shuffled.each do |paper| %>
+             <% if paper.image_front.attached? %>
+               <li class="flex-shrink-0">
+                 <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
+                   <%= image_tag paper.image_front, class: "object-cover h-full w-full", loading: "lazy", alt: "Paper template #{paper.id}" %>
+                 </div>
+               </li>
+             <% end %>
+           <% end %>
+         </ul>
+       </div>
+
+    </div>
+  </section>
+<% end %>
