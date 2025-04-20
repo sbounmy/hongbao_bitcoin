@@ -129,7 +129,7 @@
     <%= render "shared/v2/about" %>
   </section>
 
-  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <%= render "shared/instagram_feed", posts: @instagram_posts %>>
   </section>
 
@@ -144,8 +144,7 @@
   </section>
 
   <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300 space-y-4">
-    <h3 class="text-4xl text-center">Reviews</h3>
-    <p class="text-center text-2xl mb-4">What Bitcoiners say about Hong₿ao</p>
+    <%= section_header(title: 'Reviews', subtitle: 'Loved by kids, lovers and Bitcoiners') %>
     <%= render "shared/reviews" %>
   </section>
 </div>
