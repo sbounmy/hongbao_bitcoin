@@ -54,6 +54,24 @@ module ApplicationHelper
     end
   end
 
+  def theme_css(theme)
+    return "" unless theme
+
+    css = <<~CSS
+      <style>
+        [data-theme="#{theme.ui_name}"] {
+          #{theme.theme_properties.map { |prop|
+            if value = theme.theme_property(prop)
+              "--#{prop}: #{value};"
+            end
+          }.compact.join("\n          ")}
+        }
+      </style>
+    CSS
+
+    css.html_safe
+  end
+
   private
 
   def placeholder_logo

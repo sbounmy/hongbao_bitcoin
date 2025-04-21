@@ -23,6 +23,36 @@ module Ai
       super || "sunset"
     end
 
+    def set_default_theme
+      self.ui_name ||= "sunset"
+    end
+
+    def theme_property(property)
+      ui[property.to_s].presence
+    end
+
+    def theme_properties
+      THEME_PROPERTIES
+    end
+
+    # List of all possible theme properties
+    THEME_PROPERTIES = [
+      "color-base-100", "color-base-200", "color-base-300", "color-base-content",
+      "color-primary", "color-primary-content",
+      "color-secondary", "color-secondary-content",
+      "color-accent", "color-accent-content",
+      "color-neutral", "color-neutral-content",
+      "color-info", "color-info-content",
+      "color-success", "color-success-content",
+      "color-warning", "color-warning-content",
+      "color-error", "color-error-content",
+      "radius-selector", "radius-field", "radius-box",
+      "size-selector", "size-field",
+      "border",
+      "depth",
+      "noise"
+    ]
+
     private
 
     def set_default_path
