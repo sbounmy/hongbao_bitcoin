@@ -13,8 +13,7 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByPlaceholder('Password').fill('03/01/2009');
     await page.getByRole('button', { name: 'Sign in' }).click();
-    await expect(page.getByText('Make every Bitcoin')).toBeVisible();
-    await page.goto('/v2'); // TODO: remove this when /v2 becomes /
+    await expect(page.getByText('Be your own bank')).toBeVisible();
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -32,8 +31,7 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByPlaceholder('Password').fill('new.password');
     await page.getByRole('button', { name: 'Sign up with email' }).click();
-    await expect(page.getByText('Make every Bitcoin')).toBeVisible();
-    await page.goto('/v2'); // TODO: remove this when /v2 becomes /
+    await expect(page.getByText('Be your own bank')).toBeVisible();
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -55,8 +53,7 @@ test.describe('Authentication Flow', () => {
 
   test('user can logout', async ({ page }) => {
     await forceLogin(page, {
-      email: 'satoshi@example.com',
-      redirect_to: '/v2'
+      email: 'satoshi@example.com'
     });
     await page.locator('.drawer').click();
     await page.getByRole('button', { name: 'Logout' }).click();

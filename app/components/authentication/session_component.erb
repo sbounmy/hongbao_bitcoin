@@ -1,5 +1,10 @@
 <%= form_with(url: login_path, class: "space-y-4") do |form| %>
-    <h2 class="card-title justify-center text-2xl font-bold">Log in</h2>
+    <div class="flex justify-center">
+        <%= link_to signup_path, class: "btn btn-ghost flex-none" do %>
+            <%= heroicon('arrow-left', class: "w-6 h-6") %>
+        <% end %>
+        <h2 class="flex-1 card-title justify-center text-2xl font-bold">Log in</h2>
+    </div>
     <div class="form-control gap-2">
         <%= form.hidden_field :email, value: user.email,
             class: "input input-bordered w-full",

@@ -1,5 +1,13 @@
 <section class="space-y-4 p-8">
-  <h2 class="text-2xl font-bold"><%= t('.title') %></h2>
+    <div class="text-center space-y-4 pb-6 mx-auto">
+    <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400">
+      <span class="inline-block align-top text-balance"><%= t('.title') %></span>
+    </h2>
+    <%# <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl dark:text-white">
+      <span class="inline-block align-top text-balance">Turn any picture into cool Bitcoin bank notes</span>
+    </p> %>
+  </div>
+
   <div class="space-y-4">
     <% t('.questions').each do |key, qa| %>
       <div class="border border-white/20 rounded-xl overflow-hidden">

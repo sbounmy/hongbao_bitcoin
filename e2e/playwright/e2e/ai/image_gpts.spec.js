@@ -7,8 +7,7 @@ test.describe("Generate image gpts feature", () => {
     await appVcrInsertCassette('ai_image_gpts')
     // Force login the user
     await forceLogin(page, {
-      email: 'satoshi@example.com',
-      redirect_to: '/v2'
+      email: 'satoshi@example.com'
     });
 
     // Select styles
@@ -19,15 +18,15 @@ test.describe("Generate image gpts feature", () => {
 
     // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    const count = await page.locator('.papers-item-component').count();
+    const count = await page.locator('#main-content .papers-item-component').count();
 
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
     // this should be done through turbo frame
-    await page.goto('/v2');
-    await expect(page.locator('.papers-item-component')).toHaveCount(count + 2);
+    await page.goto('/');
+    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
   });
 
 });

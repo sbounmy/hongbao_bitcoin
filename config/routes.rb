@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
     resources :papers, only: [ :show ]
-    root "hong_baos#new"
+    root "pages#index"
     post "/leonardo/generate", to: "leonardo#generate"
   end
 
@@ -52,8 +52,10 @@ Rails.application.routes.draw do
   # Add og-image route
   get "og-image", to: "og_image#show", as: :og_image
 
+  get "v1", to: "hong_baos#new" # for dev
+
   # Authentication routes
-  get "login", to: "sessions#new"
+  get "login", to: "users#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
   get "signup", to: "users#new"
@@ -94,6 +96,14 @@ Rails.application.routes.draw do
     "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
   end
 
+  direct :linkedin do
+    "https://www.linkedin.com/company/hongbao-bitcoin"
+  end
+
+  direct :x do
+    "https://x.com/hongbaobitcoin"
+  end
+
   # Direct route to generate Gravatar URLs
   # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
   direct :gravatar do |email, options = {}|
@@ -105,7 +115,7 @@ Rails.application.routes.draw do
 
   get "instagram/feed", to: "instagram#feed"
 
-  scope "/v2/(:theme)", as: :v2 do
+  scope "/(:theme)" do
     get "/", to: "pages#index"
   end
 end

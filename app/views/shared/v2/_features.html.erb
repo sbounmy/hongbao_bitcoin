@@ -1,0 +1,92 @@
+<div class="relative mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 px-4 py-16 lg:py-20 max-w-7xl">
+  <%= section_header(title: 'Bitcoin Paper Wallet Generator', subtitle: 'Turn any picture into cool Bitcoin bank notes') %>
+  <div class="flex flex-col items-center">
+    <div class="mt-10 sm:mt-16 grid cols-1 md:grid-cols-5 gap-4 md:auto-rows-[25rem] max-w-7xl mx-auto">
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-3">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Create Cool Bitcoin Paper Wallets with AI</h3>
+          <p class="text-sm text-muted-foreground">Turn any picture into cool Bitcoin bank notes using our AI paper wallet creator.</p>
+        </div>
+        <div class="p-0 flex-1">
+            <%= render TransformComponent.new do |component| %>
+                <% component.with_before do %>
+                    <div class="flex justify-center items-center h-full">
+                    <div class="w-2/3">
+                        <%= image_tag image_url("sbounmy-b.jpg"), class: "rounded" %>
+                    </div>
+                    </div>
+                <% end %>
+                <% component.with_after do %>
+                    <div class="grid w-2/3">
+                    <%= image_tag image_url("themes/ghibli-eur.png"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px]" %>
+                    <%= image_tag image_url("themes/ghibli-usd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[80px]" %>
+                    <%= image_tag image_url("themes/ghibli-tnd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[32px] mt-[140px]" %>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Works with your favorite Bitcoin wallet</h3>
+          <p class="text-sm text-muted-foreground">Keys are generated offline in your browser using <%= link_to "bitcoinjs-lib", "https://github.com/bitcoinjs/bitcoinjs-lib", target: "_blank", rel: "noopener noreferrer", class: "link link-hover" %>.</p>
+        </div>
+        <div class="pt-0 p-6 grid grid-cols-3 gap-4 bg-base-200/20">
+          <% wallets = [
+            {name: "Bitcoin Core", icon: "wallets/bitcoin-core.svg"},
+            {name: "Electrum", icon: "wallets/electrum.svg"},
+            {name: "Sparrow", icon: "wallets/sparrow.png"},
+            {name: "Bitcoin Knots", icon: "wallets/knots.png"},
+            {name: "Trezor", icon: "wallets/trezor.svg"},
+            {name: "Ledger", icon: "wallets/ledger.svg"},
+            {name: "Foundation Passport", icon: "wallets/envoy.jpg"},
+            {name: "Coinbase", icon: "wallets/coinbase.svg"},
+            {name: "Bitstack", icon: "wallets/bitstack.svg"}
+          ] %>
+
+          <% wallets.each do |wallet| %>
+            <div class="flex flex-col items-center">
+							<%= image_tag wallet[:icon], class: "w-16 h-16 mb-2", alt: "#{wallet[:name]} logo" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">No Wallet ? No Problem</h3>
+          <p class="text-sm text-muted-foreground">You can directly use our online wallet to transfer funds to any Bitcoin wallet or exchange platform.</p>
+        </div>
+        <div class="p-0 overflow-hidden">
+          <iframe width="100%" height="280" src="https://www.youtube-nocookie.com/embed/mrxqz198VvM?si=-p9j9RCgCij2ePEy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-3 overflow-hidden">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Printable Paper Wallets</h3>
+          <p class="text-sm text-muted-foreground">Download high-quality paper wallets ready for printing.</p>
+        </div>
+        <div class="p-0 overflow-hidden">
+          <div class="gap-6 rounded-lg px-6 lg:px-8 ring-1 ring-inset ring-gray-200 dark:ring-gray-800">
+            <div class="p-0 overflow-hidden">
+              <%# Embed Sample PDF using iframe %>
+              <iframe
+                src="https://pdfobject.com/pdf/sample.pdf"
+                class="w-full aspect-[8.5/11] rounded-lg border border-gray-300 dark:border-gray-700 bg-white"
+                title="Sample PDF Preview"
+                loading="lazy">
+                Your browser does not support embedded PDFs. You can <a href="<%= hong_bao_path('sample', format: :pdf) rescue '#' %>">download the PDF</a> instead.
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <a class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;>[data-slot=icon]]:-mx-0.5 [&amp;>[data-slot=icon]]:my-0.5 [&amp;>[data-slot=icon]]:size-5 [&amp;>[data-slot=icon]]:shrink-0 [&amp;>[data-slot=icon]]:text-[--btn-icon] [&amp;>[data-slot=icon]]:sm:my-1 [&amp;>[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent bg-[--btn-border] dark:bg-[--btn-bg] before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-[--btn-bg] before:shadow dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay] dark:after:-inset-px dark:after:rounded-lg before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none text-white [--btn-hover-overlay:theme(colors.white/10%)] [--btn-bg:theme(colors.main.600)] [--btn-border:theme(colors.main.700/90%)] [--btn-icon:theme(colors.main.300)] data-[active]:[--btn-icon:theme(colors.main.200)] data-[hover]:[--btn-icon:theme(colors.main.200)]" data-headlessui-state="" href="/create">
+        <span class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+        Start creating
+        <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4", aria_hidden: true %>
+      </a>
+    </div>
+  </div>
+</div>
