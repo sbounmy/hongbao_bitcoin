@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="30" fill="#0CAD21"/>
+  <path d="M26 20L38 32L26 44L20 38L26 32L20 26L26 20Z" fill="white"/>
+  <path d="M38 20L44 26L38 32L44 38L38 44L26 32L38 20Z" fill="white" fill-opacity="0.8"/>
+</svg>
