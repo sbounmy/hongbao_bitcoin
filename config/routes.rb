@@ -94,6 +94,14 @@ Rails.application.routes.draw do
     "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
   end
 
+  direct :linkedin do
+    "https://www.linkedin.com/company/hongbao-bitcoin"
+  end
+
+  direct :x do
+    "https://x.com/hongbaobitcoin"
+  end
+
   # Direct route to generate Gravatar URLs
   # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
   direct :gravatar do |email, options = {}|

@@ -1,0 +1,60 @@
+<footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+  <nav>
+    <h6 class="footer-title">Services</h6>
+    <a class="link link-hover">Branding</a>
+    <a class="link link-hover">Design</a>
+    <a class="link link-hover">Marketing</a>
+    <a class="link link-hover">Advertisement</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Company</h6>
+    <a class="link link-hover">About us</a>
+    <a class="link link-hover">Contact</a>
+    <a class="link link-hover">Jobs</a>
+    <a class="link link-hover">Press kit</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Legal</h6>
+    <a class="link link-hover">Terms of use</a>
+    <a class="link link-hover">Privacy policy</a>
+    <a class="link link-hover">Cookie policy</a>
+  </nav>
+</footer>
+<footer class="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4">
+  <aside class="grid-flow-col items-center">
+		<%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
+    <p>
+      Hong₿ao
+      <br />
+      By HackerHouse
+    </p>
+
+  </aside>
+ <div class="flex justify-between w-full">
+    <%# Built with Ruby on Rails Badge %>
+<div class="flex justify-center items-center py-4 bg-base-200 text-base-content">
+  <a href="https://rubyonrails.org" target="_blank" rel="noopener noreferrer"
+     class="hover:scale-110 flex gap-1.5 rounded-full bg-base-100 dark:bg-neutral-800 px-3 py-1 text-sm text-base-content/80 dark:text-neutral-400 ring-1 ring-base-300 dark:ring-neutral-700 transition-all hover:ring-base-400 dark:hover:ring-neutral-600">
+    Built with
+    <%= image_tag image_url("ruby-on-rails.svg"),
+        class: "h-[16px] w-auto inline-block align-middle",
+        alt: "Ruby on Rails Logo",
+        loading: "lazy" %>
+  </a>
+</div>
+<nav class="md:place-self-center md:justify-self-end">
+    <div class="grid grid-flow-col gap-4">
+			<%= link_to x_url, target: "_blank", rel: "noopener noreferrer" do %>
+					<%= image_tag "x.svg", class: "w-6 h-6" %>
+			<% end %>
+			<%= link_to linkedin_url, target: "_blank", rel: "noopener noreferrer" do %>
+					<%= image_tag "linkedin.svg", class: "w-6 h-6" %>
+			<% end %>
+      <%= link_to github_url, target: "_blank", rel: "noopener noreferrer" do %>
+        <%= github_icon %>
+      <% end %>
+    </div>
+  </nav>
+ </div>
+</footer>
+
