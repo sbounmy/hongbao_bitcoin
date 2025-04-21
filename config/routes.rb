@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   get "og-image", to: "og_image#show", as: :og_image
 
   # Authentication routes
-  get "login", to: "sessions#new"
+  get "login", to: "users#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
   get "signup", to: "users#new"
