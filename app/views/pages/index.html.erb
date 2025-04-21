@@ -91,7 +91,7 @@
     </div>
   </section>
 
-  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-200 space-y-12">
+  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/features" %>
     <%# <h2 class="text-4xl text-center mb-4">Upload a photo and print your own Bitcoin bank note in seconds using AI</h2>
 
@@ -121,11 +121,11 @@
   <%# Render the papers carousel before the 'Why' section %>
   <%= render "shared/v2/papers_marquee", papers: @papers %>
 
-  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
+  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/why" %>
   </section>
 
-  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 bg-base-100">
+  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/about" %>
   </section>
 
@@ -133,22 +133,22 @@
     <%= render "shared/instagram_feed", posts: @instagram_posts %>>
   </section>
 
-  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <%= render "shared/faq" %>
   </section>
 
-  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <%= render(PricingComponent.new) do |component| %>
       <% component.with_plans(StripeService.fetch_prices) %>
     <% end %>
   </section>
 
-  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300 space-y-4">
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
     <%= section_header(title: 'Reviews', subtitle: 'Loved by kids, lovers and Bitcoiners') %>
     <%= render "shared/reviews" %>
   </section>
 
-  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300 space-y-4">
+  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
     <%= render "shared/v2/cta" %>
   </section>
 
