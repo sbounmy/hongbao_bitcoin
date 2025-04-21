@@ -27,10 +27,14 @@ export default class extends Controller {
       const imgWidth = 210 // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width
 
+      // Use JPEG format and specify quality (0.0 to 1.0)
+      // Lower quality means smaller file size but potentially worse image appearance.
+      const imgData = canvas.toDataURL('image/jpeg', 0.7); // Adjust 0.7 as needed
+
       // Add the image to PDF
       pdf.addImage(
-        canvas.toDataURL('image/png'),
-        'PNG',
+        imgData,
+        'JPEG',
         0,
         0,
         imgWidth,
