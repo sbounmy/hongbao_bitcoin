@@ -15,16 +15,16 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4" data-controller="instagram">
     <% posts.each do |post| %>
         <div class="aspect-square relative group overflow-hidden rounded-xl">
-        <%= image_tag post['media_url'],
+        <%= image_tag post.media_url,
             class: "w-full h-full object-cover transition duration-300 group-hover:scale-110" %>
 
-        <a href="<%= post['permalink'] %>"
+        <a href="<%= post.permalink %>"
             target="_blank"
             class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100
                     transition duration-300 flex flex-col items-center justify-center p-4">
-            <% if post['caption'].present? %>
+            <% if post.caption.present? %>
             <p class="text-white text-sm mb-4 line-clamp-3 text-center">
-                <%= post['caption'] %>
+                <%= post.caption %>
             </p>
             <% end %>
 
@@ -34,7 +34,7 @@
             </span>
 
             <time class="text-white/70 text-xs mt-2">
-            <%= Time.parse(post['timestamp']).strftime("%B %d, %Y") %>
+            <%= post.published_at.strftime("%B %d, %Y") %>
             </time>
         </a>
         </div>

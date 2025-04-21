@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_21_143655) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -105,6 +105,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
     t.datetime "updated_at", null: false
     t.string "path"
     t.json "ui", default: "{}"
+  end
+
+  create_table "instagram_posts", force: :cascade do |t|
+    t.string "media_url", null: false
+    t.string "permalink", null: false
+    t.text "caption"
+    t.datetime "published_at", null: false
+    t.string "media_type"
+    t.string "instagram_id"
+    t.integer "position", default: 0
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_instagram_posts_on_active"
+    t.index ["instagram_id"], name: "index_instagram_posts_on_instagram_id", unique: true
+    t.index ["position"], name: "index_instagram_posts_on_position"
+    t.index ["published_at"], name: "index_instagram_posts_on_published_at"
   end
 
   create_table "papers", force: :cascade do |t|
