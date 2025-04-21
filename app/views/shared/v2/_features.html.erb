@@ -28,10 +28,10 @@
       </div>
       <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden">
         <div class="flex flex-col space-y-1.5 p-6">
-          <h3 class="font-semibold leading-none tracking-tight">Works with any Bitcoin wallet</h3>
+          <h3 class="font-semibold leading-none tracking-tight">Works with your favorite Bitcoin wallet</h3>
           <p class="text-sm text-muted-foreground">Keys are generated offline in your browser using <%= link_to "bitcoinjs-lib", "https://github.com/bitcoinjs/bitcoinjs-lib", target: "_blank", rel: "noopener noreferrer", class: "link link-hover" %>.</p>
         </div>
-        <div class="p-6 grid grid-cols-3 gap-4 bg-base-200/20">
+        <div class="pt-0 p-6 grid grid-cols-3 gap-4 bg-base-200/20">
           <% wallets = [
             {name: "Bitcoin Core", icon: "wallets/bitcoin-core.svg"},
             {name: "Electrum", icon: "wallets/electrum.svg"},
