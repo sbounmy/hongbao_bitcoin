@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
     resources :papers, only: [ :show ]
-    root "hong_baos#new"
+    root "pages#index"
     post "/leonardo/generate", to: "leonardo#generate"
   end
 
@@ -51,6 +51,8 @@ Rails.application.routes.draw do
 
   # Add og-image route
   get "og-image", to: "og_image#show", as: :og_image
+
+  get "v1", to: "hong_baos#new" # for dev
 
   # Authentication routes
   get "login", to: "users#new"
@@ -113,7 +115,7 @@ Rails.application.routes.draw do
 
   get "instagram/feed", to: "instagram#feed"
 
-  scope "/v2/(:theme)", as: :v2 do
+  scope "/(:theme)" do
     get "/", to: "pages#index"
   end
 end
