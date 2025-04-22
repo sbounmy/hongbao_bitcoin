@@ -1,0 +1,21 @@
+<%= form_with(model: user, url: signup_path, class: "space-y-4") do |form| %>
+    <div class="flex justify-center">
+        <%= link_to signup_path, class: "btn btn-ghost flex-none" do %>
+            <%= heroicon('arrow-left', class: "w-6 h-6") %>
+        <% end %>
+        <h2 class="flex-1 card-title justify-center text-2xl font-bold">Sign up</h2>
+    </div>
+    <%= render 'shared/error_messages', resource: user %>
+    <div class="form-control gap-2">
+        <%= form.hidden_field :email,
+            class: "input input-bordered w-full",
+            placeholder: "Email address" %>
+
+        <%= form.password_field :password,
+            required: true,
+            class: "input input-bordered w-full",
+            placeholder: "Password" %>
+    </div>
+
+    <%= form.submit "Sign up with email", class: "btn btn-primary w-full" %>
+<% end %>

@@ -4,6 +4,7 @@ satoshi:
   email: satoshi@example.com
   password_digest: <%= password_digest %>
   tokens_sum: 490
+  stripe_customer_id: "cus_O7lxYiqVso4zB5"
 
 two:
   email: two@example.com
@@ -20,3 +21,9 @@ lagarde:
   email: lagarde@example.com
   password_digest: <%= password_digest %>
   tokens_sum: -30
+
+admin:
+  email: admin@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: 0
+  admin: true

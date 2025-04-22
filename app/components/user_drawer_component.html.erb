@@ -1,0 +1,57 @@
+<%# app/components/user_drawer_component.html.erb %>
+<div class="drawer drawer-end" id="user-drawer">
+  <%# The hidden checkbox controlled by the label (avatar) %>
+  <%= check_box_tag drawer_id, nil, false, class: "drawer-toggle" %>
+
+  <%# This renders the content block passed to the component (the avatar label) %>
+  <div class="drawer-content">
+    <%= content %>
+  </div>
+
+  <%# The sidebar itself %>
+  <div class="drawer-side z-50">
+    <%# Overlay to close drawer when clicked %>
+    <%= label_tag drawer_id, '', class: "drawer-overlay", aria: { label: "close sidebar" } %>
+
+    <%# Menu content %>
+    <div class="flex flex-col min-h-full w-60 sm:w-80 bg-base-200 text-base-content">
+      <%# Drawer Header %>
+      <div class="flex items-center justify-between p-4 border-b border-base-300">
+        <div class="flex items-center gap-3">
+          <div class="avatar">
+            <div class="w-8 rounded-full">
+              <img src="<%= gravatar_url(Current.user.email) %>" alt="User avatar" />
+            </div>
+          </div>
+          <div>
+            <div class="font-semibold">
+              <%# Display name or fallback to email %>
+              <%= Current.user.try(:name).presence || Current.user.email %>
+            </div>
+          </div>
+        </div>
+        <%# Close Button %>
+        <%= label_tag drawer_id, class: "btn btn-ghost btn-sm btn-circle", aria: { label: "close sidebar" } do %>
+          <%= heroicon "x-mark", options: { class: "w-6 h-6" } %>
+        <% end %>
+      </div>
+
+      <%# Menu List %>
+      <ul class="menu p-4 flex-grow w-full">
+        <li>
+          <%= link_to tokens_path, class: "flex items-center gap-2" do %>
+            <%= heroicon "credit-card", options: { class: "w-5 h-5" } %>
+            Billing & Credits
+          <% end %>
+        </li>
+        <%# Add mt-auto to push this list item to the bottom %>
+        <li class="mt-auto">
+          <%= button_to logout_path, method: :delete, form_class: "flex", class: "btn btn-outline w-full" do %>
+            <%= heroicon "arrow-left-on-rectangle", options: { class: "w-5 h-5" } %>
+            Logout
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

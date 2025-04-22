@@ -1,27 +1,6 @@
 <div class="min-h-screen">
   <!-- Header -->
-  <header class="bg-base-100 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-semibold">Hongbao</h1>
-
-      <div class="flex items-center gap-2">
-        <%= render Tokens::BadgeComponent.new(user: current_user) if authenticated? %>
-        <!-- Theme Selector -->
-        <%= render DropdownComponent.new(
-          items: Ai::Theme.all,
-          current_item: current_theme,
-            path_helper: :v2_path) %>
-        <span class="pt-2">
-          <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
-        </span>
-
-        <%= link_to hong_baos_path, target: "_blank", rel: "noopener",
-            class: "w-8 h-8 flex items-center justify-center rounded-xl bg-primary/20 hover:bg-primary/30 border-2 border-primary/40 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
-          <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
-        <% end %>
-      </div>
-    </div>
-  </header>
+  <%= render "shared/v2/header" %>
 
   <!-- Hero -->
   <section id="hero" class="relative">
@@ -36,10 +15,11 @@
       <div class="text-left text-white">
         <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
           <span >Be your own </span>
-          <span>₿ank</span>
+          <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %>
+          <span>Bank</span>
         </h1>
         <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
-          Print your own Bitcoin bank note, top up your balance, and gift it.
+          Turn any picture into cool Bitcoin bills in seconds.<br/>Unlimited, unique and creative paper wallets.
         </p>
       </div>
       <div class="flex flex-wrap gap-5 pt-4">
@@ -111,23 +91,61 @@
     </div>
   </section>
 
-  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-content">
-    <%= render "shared/instagram_feed", posts: @instagram_posts %>>
+  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <%= render "shared/v2/features" %>
+
+    <% render TransformComponent.new do |component| %>
+      <% component.with_before do %>
+        <div class="avatar flex justify-center items-center">
+          <div class="w-1/2 rounded">
+            <%= image_tag image_url("friends.jpg") %>
+          </div>
+        </div>
+        <p class="text-center text-sm text-primary">With Marc lou - @Bali, 2020</p>
+      <% end %>
+      <% component.with_after do %>
+        <div class="flex-1">
+          <div class="flex flex-col justify-center items-center">
+            <%= image_tag image_url("friends-paper.jpg"), class: "w-3/4 h-full object-cover" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </section>
 
-  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+  <%# Render the papers carousel before the 'Why' section %>
+  <%= render "shared/v2/papers_marquee", papers: @papers %>
+
+  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <%= render "shared/v2/why" %>
+  </section>
+
+  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <%= render "shared/v2/about" %>
+  </section>
+
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <%= render "shared/instagram_feed", posts: @instagram_posts %>
+  </section>
+
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <%= render "shared/faq" %>
   </section>
 
-  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-300">
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <%= render(PricingComponent.new) do |component| %>
-      <% component.with_plans([
-        { name: "Starter", bao: 10, price: 5 },
-        { name: "Popular", bao: 30, price: 10, default: true },
-        { name: "Pro", bao: 50, price: 15 }
-      ]) %>
+      <% component.with_plans(StripeService.fetch_prices) %>
     <% end %>
   </section>
-</div>
 
-<%= render "shared/footer" %>
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
+    <%= section_header(title: 'Reviews', subtitle: 'Loved by kids, lovers and Bitcoiners') %>
+    <%= render "shared/reviews" %>
+  </section>
+
+  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
+    <%= render "shared/v2/cta" %>
+  </section>
+
+  <%= render "shared/v2/footer" %>
+</div>

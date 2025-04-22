@@ -93,6 +93,7 @@ export default class extends Controller {
       canvaItem.dataset.canvaItemTypeValue = name.endsWith('_qrcode') ? 'image' : (name.startsWith('mnemonic') ? 'mnemonic' : 'text')
       canvaItem.dataset.canvaItemFontSizeValue = element.size
       canvaItem.dataset.canvaItemFontColorValue = element.color
+      canvaItem.dataset.canvaItemMaxTextWidthValue = element.maxTextWidth
       canvaItem.classList.add('canva-item')
       canvaItem.classList.add('generated')
       canvaItem.dataset.canvaTarget = 'canvaItem'

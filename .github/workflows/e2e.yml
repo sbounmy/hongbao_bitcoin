@@ -12,6 +12,7 @@ jobs:
     env:
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
     steps:
     - name: Install system dependencies
@@ -34,6 +35,16 @@ jobs:
       run: |
         npm install
 
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        # Use package-lock.json or yarn.lock to invalidate cache
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
     - name: Install Playwright Browsers
       run: |
         npx playwright install --with-deps
@@ -41,6 +52,13 @@ jobs:
     - name: Install dependencies
       run: |
         bundle install
+
+    - name: Install Stripe CLI
+      run: |
+        curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg && \
+        echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list && \
+        sudo apt-get update && \
+        sudo apt-get install -y stripe
 
     - name: Precompile assets
       run: |

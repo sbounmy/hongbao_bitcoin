@@ -1,0 +1,172 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"13836aca1175202b1bce5f5aa94e2ff6c0ae64ac"'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_volume":0,"cpu_time":0}'
+      Instagram-Api-Version:
+      - v22.0
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AxTH6jagt_HuixY_EtTj4w_
+      X-Fb-Trace-Id:
+      - DNj8i8idREL
+      X-Fb-Rev:
+      - '1021851835'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - zZUB2lgz39r7UtHengdvDWxAgoZMUtXsZpw7xqs3dO8BSX6b4Vb+ZbcupM/+wsyb/Nnf7ZZ4cRiLgFVF+5Y5ZA==
+      Date:
+      - Mon, 14 Apr 2025 09:35:01 GMT
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=19, rtx=0, c=14, mss=1380, tbw=3249, tp=-1, tpl=-1,
+        uplat=242, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '9208'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":"18502083430053444","caption":"\u2705 Upload a photo\n\u2705
+        Pick a cool theme\n\u2705 Choose your style\n\u2705 Create a beautiful Bitcoin
+        note\nAll you need is a printer\u2014and someone you love.","media_type":"CAROUSEL_ALBUM","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/489953570_17858445168401591_2402188859452130957_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=1e1qpwq2kYgQ7kNvwGZX1Aj&_nc_oc=Adk9at79CxfFFwcAfKZPbKxFV1GZHlwpRXnPEyj9SQM1JsJiGwCKK49092Rk2MoDLxMurGyTP7j7p5rmP1G-VpHt&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfG7FyPG7BNNi96IFScm1PGdhBk4KLotnhs0Cs2_4wPPYg&oe=68029EF2","permalink":"https:\/\/www.instagram.com\/p\/DITw9u3szHq\/","timestamp":"2025-04-11T13:59:17+0000"},{"id":"18069529717926699","caption":"Cooking
+        up something special... stay tuned!","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/489909054_17858197644401591_3382110127152731899_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=XN1IgknoTzsQ7kNvwHSihFV&_nc_oc=Adn9GmLqLjNv8uA8lcJm4OcdEnIslnWS_fTd_F0lmAPn4WxLhO5KCKX7UGBLPv4A2EbLt4TNQXhWUQE9RPbyYCI3&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfH5iu3MLPyg0TK2GKCnCMGYD-AJIQTSSen7X2fB_jvNxA&oe=68029DA9","permalink":"https:\/\/www.instagram.com\/p\/DIOtWVYMS-Y\/","timestamp":"2025-04-09T14:51:29+0000"},{"id":"18082290328642364","caption":"\ud83e\udde7Should
+        we launch our figurines? \ud83e\udde7","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/489377364_17858032155401591_6541537974450726331_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=ysE_H_zWBMQQ7kNvwHOMz01&_nc_oc=Adm_FvRC7VgZYbtjPT0YeFtOBu2rZSFDooqaSW0KRqLwV4HPB5rU3CEJYX5zGay9dkDxZxICYyjXt8_-WkJn0mLV&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfHRp8TxMqpBc3l3uMgvc1Ptc9EP4yeiDibycy3FFR4qww&oe=68029FC8","permalink":"https:\/\/www.instagram.com\/p\/DILSMSnsAcD\/","timestamp":"2025-04-08T06:56:27+0000"},{"id":"18070774342882347","caption":"We\u2019ve
+        all had that \u201cIf only I bought Bitcoin back then\u2026\u201d moment.\n\nWhat
+        if we could give our kids and loved ones that same opportunity now?\n\nInstead
+        of handing out cash that loses value over time, why not gift something that
+        could grow with them?\n\n\ud83d\udca1 Introducing Hongbao BTC \u2014 a modern
+        twist on red envelopes, powered by Bitcoin.\n\nAn investment, a gift, and
+        a keepsake\u2014all in one.\n\n#BitcoinGift #HongbaoBTC #CryptoRedEnvelope
+        #FutureProofGifts #BTCForTheNextGen","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/489006677_17857922676401591_7760304670380790553_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=q3j3gu2cvX8Q7kNvwEgbrLY&_nc_oc=AdlW97-d_WmGc-uO1TgVzl6FTtD7QuWDmpKHcGgEmpPSxEwg87vCke5nUJXAe-eXjJlQrMWfSh6cH6jw1VO-sNZH&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfGdpAvgpQBqDmNnV9Xk2OswHff37zdOkREJI_2KCcjMVg&oe=680290BD","permalink":"https:\/\/www.instagram.com\/p\/DIJLlT6MF-T\/","timestamp":"2025-04-07T11:20:14+0000"},{"id":"18057196259114433","caption":"The
+        most meaningful gifts are the personal ones, where you can truly feel the
+        love behind them.\nReceiving a personalized banknote loaded with Bitcoin would
+        be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=zOS-qnSS698Q7kNvwFqQ8gc&_nc_oc=Admju86Qw9u_9XJhFyglVYTfjxZV-C5_nd3uaCahTEbZwFDhoC132R7yKK9b0dWZ5X298MuoI5n85VOaPB1o4Uja&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfGcAuTJcBYV6YF3asMiP9OUchvkLmH73FjYRQggOnFUug&oe=6802976E","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"},{"id":"18041367149599973","caption":"With
+        the OpenAi update we''re updating the bills to print\nAnd you can personalize
+        it with your own or loved one photo \n#btc #ghibli","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/487559201_17857314933401591_4138651929924356827_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=1-7&_nc_sid=18de74&_nc_ohc=kXFAu-1aDx4Q7kNvwHJ57-g&_nc_oc=AdnEWgtukQUzSssQ_L5l_bpXhDxLrvNqrnGbD8zrrgZdrdGTEk2Hc2MoxVh4A166YczRojPm2NYABF9fP0JNrlDJ&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfHHfCWRV86bLfxAXx7om9uYjr30XxcGZoW1yczMLyR9iQ&oe=6802AD82","permalink":"https:\/\/www.instagram.com\/p\/DH8uDmAs-fs\/","timestamp":"2025-04-02T15:11:20+0000"},{"id":"17873321001309610","caption":"Getting
+        closer to the final version \ud83e\udde7 \n\n- Each Hongbao will have a random
+        quote from best Bitcoiners\n- Thick paper quality with gold stamping\n- Perfect
+        size for paper wallet in hongbaob.tc\n\nComment and like below to receive
+        1 free pack \ud83d\udc47\n\nWinner will be picked on may 25th\n\n#bitcoin
+        #bitcoinwallet","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/486669094_17856481122401591_2865479042804778550_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=-UNDQvVZObwQ7kNvwFOFk1L&_nc_oc=Adlcc3msd92AHsx22Iw4Vqa3FdtTa_yHCGnu9A1lrmM21U6WNq4eiVwBiUsAHYgBN55YdMUyhFvvzzxF5V2nACy-&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfEd8hcgmzMMz-07866L58MXW8z1vKe7Ig4h_57qLQB0nQ&oe=6802B773","permalink":"https:\/\/www.instagram.com\/p\/DHtYBafs9Az\/","timestamp":"2025-03-27T16:10:11+0000"},{"id":"18106047271485693","caption":"He
+        saw the private key.\n\nPretty sure I can trust him \ud83d\udc36 #wouafwouaf","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-1.cdninstagram.com\/v\/t51.75761-15\/477983929_17850323988401591_3477052607685616348_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=1-7&_nc_sid=18de74&_nc_ohc=3OmfRFzTkMIQ7kNvwGJUlPf&_nc_oc=AdlsGzSzrm_1BIqZaZ2dgu03kKPr_8uS_NbO0iYF-T0MkWM0Ln3VKJe_6FqsiIZKZzaTxpsrUKZhUgVamDneVkuq&_nc_zt=23&_nc_ht=scontent-cdg4-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfGvsdsHVoeWaqX2WVDbb_TzPZWA5xe5iXVszWvyXxaK5Q&oe=6802A126","permalink":"https:\/\/www.instagram.com\/p\/DGDijzws8SK\/","timestamp":"2025-02-14T13:42:46+0000"},{"id":"18070612687809013","caption":"\u201cIt
+        might make sense just to get some in case it catches on. If enough people
+        think the same way, that becomes a self fulfilling prophecy.\u201d \n\n- Satoshi
+        Nakamoto","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/479077494_17849977851401591_5503599000058571232_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=Qmdfi3yjypMQ7kNvwHmKC1C&_nc_oc=AdmQ-_eaV3DbmW1GAyX5S0Zv4I-KYEJZLMjHTHS0FIYaCEtcN_OS9JuJdnSU0MmoCE50cp_pmTKPdWYff_I5vbiS&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfFVykRlyCIDftv0J2uw7tKYl40pWrRchmdDcFr5tIC9Ew&oe=68029E5F","permalink":"https:\/\/www.instagram.com\/p\/DF-mDbcNQwD\/","timestamp":"2025-02-12T15:37:06+0000"},{"id":"17963091200740167","caption":"We
+        couldn\u2019t print them on time for Chinese New Year because factories were
+        too busy.\nWe will be ready for 2026 :)\n#paperwallet #hongbao","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/478451912_17849906940401591_7906428317815257349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=1-7&_nc_sid=18de74&_nc_ohc=H5quKt_1FhkQ7kNvwEVZYoV&_nc_oc=AdkxDEbnxk7VCL2TG4mT06gDHYvp4fmMZUrsrhqVtSi5vhl2zoluOWegN-tgNmlp8TfRRYy7HIzc1z7SuzWwaZ1W&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfGvzz5fwOt8zQvPL0nIGg8Jj3bOnlH7uVEsxjHbUe4h0Q&oe=68028E96","permalink":"https:\/\/www.instagram.com\/p\/DF94RgwMqY9\/","timestamp":"2025-02-12T08:57:04+0000"},{"id":"18179204668314848","caption":"How
+        was your Chinese New Year ? \ud83d\udc0d\n\n#HODL until I''m 18\n\n#hongbao
+        #bitcoin #bitcoinnews","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-3.cdninstagram.com\/v\/t51.75761-15\/477039974_17849906172401591_4456906689729992351_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=1-7&_nc_sid=18de74&_nc_ohc=FcE_BCIXZA0Q7kNvwFTPNhv&_nc_oc=Adk5EyWT41r6KCri03yCiHCJYHLydk52Odq73gz2luPHeRYCwi2u0nuqzT2ikUvZ142RIqU6RsSI1re3-Hx-oNos&_nc_zt=23&_nc_ht=scontent-cdg4-3.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=s-XasuLid8kgvTYxQ8sc3Q&oh=00_AfF6ZkaiR3HA1nb6JFtPNZDpN7rZH32lr9FDEHVIQitNRw&oe=6802B3C8","permalink":"https:\/\/www.instagram.com\/p\/DF93XsgM0js\/","timestamp":"2025-02-12T08:49:10+0000"}],"paging":{"cursors":{"before":"QVFIUmo1ZAEo4SmtaV0U1alZA3a2tVY3NtWW1uZAmdLZAnR0VERSRnFvYmdYUGI3c0dMYjVBcHNObEVxV2N2ODlucjRPNktCeGozbUhGdnhLbks5WVNSTW1DODBR","after":"QVFIUnRXUjROYjYybDd4cU5Oa2tScWJnVFlTMXJweXZAlb1dsdTd1cGlaeEota1JoYzZARcjNIbF9NanZABMUlpUEtDV1RPRlVHODRuM2o3WW9sVGxVSmpKT1JR"}}}'
+  recorded_at: Mon, 14 Apr 2025 09:35:01 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/prices?active=true&expand%5B%5D=data.product&product=prod_S6qIw59uxz1vEp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/15.0.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      Stripe-Version:
+      - 2025-03-31.basil
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"15.0.0","lang":"ruby","lang_version":"3.2.8 p263 (2025-03-26)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        stephanes-mbp.home 22.6.0 Darwin Kernel Version 22.6.0: Thu Sep  5 20:46:08
+        PDT 2024; root:xnu-8796.141.3.708.1~1/RELEASE_ARM64_T6020 arm64","hostname":"stephanes-mbp.home"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 14 Apr 2025 09:35:02 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3806'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, HEAD, PUT, PATCH, POST, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required,
+        X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Content-Security-Policy:
+      - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
+        img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=2oMCzXMzNibt0hEFtt7xnYdfhdZoGF47YZhn_5WjZRq4ZYpU9LwJIFkbkbqAzT1--6tSi9W_UrzoMhLv
+      Request-Id:
+      - req_wa8AxYEZOb4Xow
+      Stripe-Version:
+      - 2025-03-31.basil
+      Vary:
+      - Origin
+      X-Stripe-Priority-Routing-Enabled:
+      - 'true'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      X-Wc:
+      - ABGHI
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJvYmplY3QiOiAibGlzdCIsCiAgImRhdGEiOiBbCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMaTVJZ2hxY04iLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiAzMCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogMTAwMCwKICAgICAgInVuaXRfYW1vdW50X2RlY2ltYWwiOiAiMTAwMCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMNnBzUVlUNTAiLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiA1MCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogMTUwMCwKICAgICAgInVuaXRfYW1vdW50X2RlY2ltYWwiOiAiMTUwMCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMMDlUb0VrcnIiLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiAxMCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogNTAwLAogICAgICAidW5pdF9hbW91bnRfZGVjaW1hbCI6ICI1MDAiCiAgICB9CiAgXSwKICAiaGFzX21vcmUiOiBmYWxzZSwKICAidXJsIjogIi92MS9wcmljZXMiCn0=
+  recorded_at: Mon, 14 Apr 2025 09:35:02 GMT
+recorded_with: VCR 6.3.1

@@ -7,7 +7,9 @@ dollar:
   path: 'usd'
   ui: |
     {
-      "name": "cyberpunk"
+      "name": "cyberpunk",
+      "color_primary": "red",
+      "depth": "2"
     }
 euro:
   id: 2

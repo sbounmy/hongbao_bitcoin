@@ -1,3 +1,5 @@
+require "digest/md5"
+
 Rails.application.routes.draw do
   namespace :ai do
     resources :images, only: [ :create ] do
@@ -20,12 +22,23 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ]
     resources :papers, only: [ :show ]
-    root "hong_baos#new"
+    root "pages#index"
     post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do
     post "mt_pelerin", to: "mt_pelerin#create"
+  end
+
+
+  resources :tokens, only: [ :index ]
+
+  resources :checkout, only: [ :create, :update ] do
+    collection do
+      get :success
+      get :cancel
+      post :webhook
+    end
   end
 
   resources :magic_links, only: [ :create ] do
@@ -39,8 +52,10 @@ Rails.application.routes.draw do
   # Add og-image route
   get "og-image", to: "og_image#show", as: :og_image
 
+  get "v1", to: "hong_baos#new" # for dev
+
   # Authentication routes
-  get "login", to: "sessions#new"
+  get "login", to: "users#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
   get "signup", to: "users#new"
@@ -81,9 +96,26 @@ Rails.application.routes.draw do
     "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
   end
 
+  direct :linkedin do
+    "https://www.linkedin.com/company/hongbao-bitcoin"
+  end
+
+  direct :x do
+    "https://x.com/hongbaobitcoin"
+  end
+
+  # Direct route to generate Gravatar URLs
+  # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
+  direct :gravatar do |email, options = {}|
+    email ||= ""
+    size = options.fetch(:size, 80) # Default size 80
+    gravatar_id = Digest::MD5.hexdigest(email.downcase)
+    "https://gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=mp" # d=mp ensures a fallback image
+  end
+
   get "instagram/feed", to: "instagram#feed"
 
-  scope "/v2/(:theme)", as: :v2 do
+  scope "/(:theme)" do
     get "/", to: "pages#index"
   end
 end

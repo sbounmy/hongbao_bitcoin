@@ -1,3 +1,11 @@
 [tools]
 node = "22.14.0"
 ruby = "3.2.8"
+
+[tasks.packages]
+run = [ "brew install stripe-cli" ]
+
+[tasks.setup]
+description = "Setup the development environment"
+depends = ["packages"]
+run = "echo 'Complete'"

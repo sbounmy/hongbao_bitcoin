@@ -1,13 +1,11 @@
-import { test, expect } from "@playwright/test";
-import { app, appScenario } from '../../support/on-rails';
+import { test, expect } from '../../support/test-setup';
+import { app, appScenario, appVcrInsertCassette } from '../../support/on-rails';
 
 test.describe("Rails using scenarios examples", () => {
-  test.beforeEach(async ({ page }) => {
-    await app('clean');
-  });
 
   test("setup basic scenario", async ({ page }) => {
+    await appVcrInsertCassette('basic_scenario')
     await page.goto("/");
-    await expect(page.locator('.sticky').getByText('Hong₿ao')).toBeVisible();
+    await expect(page.locator('header').getByText('Hong₿ao')).toBeVisible();
   });
 });
