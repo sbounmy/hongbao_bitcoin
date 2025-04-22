@@ -1,11 +1,13 @@
 import { test, expect } from '../support/test-setup';
-import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Topup', () => {
   test('user can topup', async ({ page }) => {
     await page.goto('/en/papers/2?step=2');
 
+    await expect(page.locator('[data-binding-name-value="publicAddressText"]:visible')).toHaveValue(/^bc1q/);
+
     const address = await page.locator('[data-binding-name-value="publicAddressText"]:visible').inputValue();
+
     console.log(address);
     await page.locator("label", { has: page.locator('#hong_bao_payment_method_id_1') }).click();
 
