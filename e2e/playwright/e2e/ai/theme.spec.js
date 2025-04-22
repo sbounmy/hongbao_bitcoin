@@ -6,8 +6,7 @@ test.describe('Theme', () => {
   test.beforeEach(async ({ page }) => {
     // Create admin user and authenticate
     await forceLogin(page, {
-      email: 'satoshi@example.com',
-      redirect_to: '/v2'
+      email: 'satoshi@example.com'
     });
   });
 
@@ -18,6 +17,9 @@ test.describe('Theme', () => {
       .map(x => parseInt(x, 16))
 
   test('admin can view and edit theme properties', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
+
     // Navigate to admin themes page
     await page.setExtraHTTPHeaders({
       Authorization: 'Basic '+btoa('satoshiisalive:this-is-just-a-test')
@@ -37,7 +39,7 @@ test.describe('Theme', () => {
     // Verify success message
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
 
-    await page.goto('/v2');
+    await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', `rgb(${hexToRgb('#112fa3').join(', ')})`);
   });
 });

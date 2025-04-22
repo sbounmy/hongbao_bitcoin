@@ -21,7 +21,7 @@ test.describe('Stripe Checkout Flow', () => {
   test('visitor can buy tokens and become signed up as a user', async ({ page }) => {
     // Insert VCR cassette for Stripe API calls
     await appVcrInsertCassette('stripe_checkout', { allow_playback_repeats: true });
-    await page.goto('/v2');
+    await page.goto('/');
 
     // Find and click the starter plan
     await page.getByRole('button', { name: 'Select' }).first().click();
@@ -34,7 +34,7 @@ test.describe('Stripe Checkout Flow', () => {
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     // expect(page.url()).toBe(page.url('/'));
     await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/v2'));
+    await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
@@ -43,7 +43,7 @@ test.describe('Stripe Checkout Flow', () => {
   test('logged out user can buy tokens and become logged inas a user', async ({ page }) => {
     // Insert VCR cassette for Stripe API calls
     await appVcrInsertCassette('stripe_checkout_existing_user', { allow_playback_repeats: true });
-    await page.goto('/v2');
+    await page.goto('/');
 
     // Find and click the starter plan
     await page.getByRole('button', { name: 'Select' }).first().click();
@@ -55,7 +55,7 @@ test.describe('Stripe Checkout Flow', () => {
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/v2'));
+    await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
@@ -66,8 +66,7 @@ test.describe('Stripe Checkout Flow', () => {
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
     await forceLogin(page, {
-      email: 'satoshi@example.com',
-      redirect_to: '/v2'
+      email: 'satoshi@example.com'
     });
 
     await expect(page.locator('header').getByText("490 ₿ao")).toBeVisible();
@@ -89,7 +88,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.getByText('Processing...')).toBeVisible();
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/v2'));
+    await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();

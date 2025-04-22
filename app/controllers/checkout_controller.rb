@@ -31,7 +31,7 @@ class CheckoutController < ApplicationController
     else
       flash[:alert] = "Payment failed. Please try again."
     end
-    redirect_to v2_path
+    redirect_to root_path
   end
 
   def webhook

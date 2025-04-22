@@ -1,0 +1,49 @@
+  <div class="text-center space-y-4 pb-6 mx-auto">
+    <%= section_header(title: 'About', subtitle: 'The team behind the code') %>
+    <p class="max-w-[750px] mx-auto text-lg text-muted-foreground sm:text-xl">
+        When we are not crafting code, we are embracing our favorite role: being Bitcoin teachers. Together, we turn every gift into ₿!
+    </p>
+  </div>
+
+  <div class="mt-12 flex flex-col items-center justify-center gap-10 sm:flex-row">
+    <div class="w-64 rotate-[-8deg] transform-gpu overflow-hidden rounded-lg border bg-base-100 z-10 p-2 shadow-lg transition-all duration-300 hover:rotate-0 hover:scale-105 sm:w-72">
+      <div class="relative aspect-[3/4] overflow-hidden rounded-md">
+        <%= image_tag image_url('sbounmy-b.jpg'), class: "h-full w-full object-cover" %>
+      </div>
+      <div class="p-3">
+        <div class="flex justify-between">
+          <h3 class="text-xl font-bold">Stéphane</h3>
+          <div class="flex items-center gap-2">
+          <%= link_to "https://github.com/sbounmy", target: "_blank", rel: "noopener noreferrer" do %>
+            <%= github_icon %>
+            <% end %>
+            <%= link_to "https://www.linkedin.com/in/stephane-be/", target: "_blank", rel: "noopener noreferrer" do %>
+              <%= image_tag "linkedin.svg", class: "h-6 w-6" %>
+            <% end %>
+          </div>
+        </div>
+        <p class="text-sm text-muted-foreground">Chief Bitcoin & Ruby Geek, heading up the dev team</p>
+      </div>
+    </div>
+    <div class="w-64 rotate-[8deg] transform-gpu overflow-hidden rounded-lg border bg-background p-2 shadow-lg transition-all duration-300 hover:rotate-0 hover:scale-105 sm:w-72">
+      <div class="relative aspect-[3/4] overflow-hidden rounded-md">
+        <%= image_tag image_url('salma.jpg'), class: "h-full w-full object-cover" %>
+      </div>
+      <div class="p-3">
+        <div class="flex justify-between">
+          <h3 class="text-xl font-bold">Salma</h3>
+          <div class="flex items-center gap-2">
+            <%= link_to "https://github.com/SalmaTalbi", target: "_blank", rel: "noopener noreferrer" do %>
+              <%= github_icon %>
+            <% end %>
+            <%= link_to "https://www.linkedin.com/in/salmatalbi/", target: "_blank", rel: "noopener noreferrer" do %>
+              <%= image_tag "linkedin.svg", class: "h-6 w-6" %>
+            <% end %>
+          </div>
+        </div>
+        <p class="text-sm text-muted-foreground">Making sure the cool stuff gets built and gets seen</p>
+      </div>
+    </div>
+  </div>
+
+  <%= render(ContributorsComponent.new) %>

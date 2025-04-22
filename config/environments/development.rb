@@ -93,4 +93,12 @@ Rails.application.configure do
 
   config.web_console.allowed_ips = "0.0.0.0/0"
   Rails.application.routes.default_url_options[:host] = base_url
+
+  # Mute ActiveStorage logs
+  config.lograge.enabled = true
+  config.lograge.ignore_actions = %w[
+    ActiveStorage::DiskController#show
+    ActiveStorage::RepresentationsController#show
+  ]
+  ActiveStorage::LogSubscriber.detach_from :active_storage
 end

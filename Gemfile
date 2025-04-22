@@ -101,3 +101,5 @@ gem "view_component"
 gem "ruby_llm"
 
 gem "stripe"
+
+gem "lograge"

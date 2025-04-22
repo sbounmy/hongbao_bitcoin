@@ -3,7 +3,7 @@ require 'vcr'
 # Note: If you change this file, make sure you restart your playwright web server to see the changes
 # This is also loaded in e2e/playwright/e2e_helper.rb
 VCR.configure do |config|
-  config.cassette_library_dir = ENV["CYPRESS"] ? 'e2e/playwright/e2e/fixtures/vcr_cassettes' : 'spec/vcr_cassettes'
+  config.cassette_library_dir = ENV["CYPRESS"] ? 'e2e/playwright/fixtures/vcr_cassettes' : 'spec/vcr_cassettes'
   config.hook_into :webmock
   config.configure_rspec_metadata! if ENV["CYPRESS"].nil?
 
