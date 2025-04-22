@@ -1,0 +1,94 @@
+<section class="min-h-screen relative">
+    <!-- Base gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1A1A1A] via-[#2B2B2B] to-[#F04747]"></div>
+
+    <!-- Glow effect -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(240,71,71,0.4),transparent_70%)]"></div>
+
+    <!-- Vignette effect -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.4))]"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 p-8 pt-32">
+    <div class="mx-auto space-y-32">
+        <!-- Hero Section -->
+        <div class="mt-24 space-y-8">
+        <h1 class="text-6xl font-bold text-white leading-none tracking-tight">
+            Make every
+            <div class="inline-block">
+            <span class="text-[#F7931A]">Bitcoin</span>
+            </div>
+            <br/>
+            <div class="mt-2">
+            the most unique
+            <span class="text-[#F04747] relative">
+                gift
+                <span class="absolute -bottom-2 left-0 w-full h-1 bg-[#F04747]/30 rounded-full"></span>
+            </span>
+            </div>
+        </h1>
+        <p class="text-xl text-white/90 leading-relaxed max-w-xl mt-8">
+            Customize Bitcoin paper wallets with your face and design.<br/>
+            Design your envelope, print it out, and add funds easily.
+        </p>
+        <div class="flex gap-4 pt-4">
+            <%= link_to "Get started", "#new-paper",
+                data: { controller: "scroll-to" },
+                class: "inline-flex items-center px-8 py-4 rounded-full
+                        bg-[#F04747] text-white text-lg font-medium
+                        hover:bg-[#FFB636] transform hover:scale-105
+                        transition duration-300" %>
+
+            <%= link_to youtube_arte_url,
+                class: "inline-flex items-center gap-2 px-8 py-4 rounded-full
+                        bg-white/10 text-white text-lg font-medium
+                        hover:bg-white/20 transform hover:scale-105
+                        transition duration-300 backdrop-blur-sm border border-white/10",
+                target: "_blank" do %>
+            <svg class="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/>
+            </svg>
+            What is Bitcoin?
+            <span class="text-sm text-white/60">(5x10" mini serie)</span>
+            <% end %>
+        </div>
+        <!-- Benefits Icons -->
+        <div class="flex flex-wrap gap-5 pt-4">
+            <!-- Self Custody -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                    <%= heroicon "key", class: "w-5 h-5 text-[#FFB636]" %>
+                </div>
+                <span class="text-white text-lg">Self Custody</span>
+            </div>
+
+            <!-- No KYC -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                    <%= heroicon "eye-slash", class: "w-5 h-5 text-[#FFB636]" %>
+                </div>
+                <span class="text-white text-lg">No KYC</span>
+            </div>
+
+            <!-- Open Source -->
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                <%= github_icon(size: 5, class: "text-[#FFB636]") %>
+              </div>
+              <%= link_to github_url, target: "_blank" do %>
+                <span class="text-white text-lg">Open Source</span>
+              <% end %>
+            </div>
+
+            <!-- AI Custom Design -->
+            <div class="flex items-center gap-3">
+							<div class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+									<%= heroicon "sparkles", class: "w-5 h-5 text-[#FFB636]" %>
+							</div>
+	            <span class="text-white text-lg">Custom Design</span>
+            </div>
+  	      </div>
+        </div>
+    </div>
+    </div>
+</section>

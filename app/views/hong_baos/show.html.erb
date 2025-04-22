@@ -1,195 +1,48 @@
+<%= permission_banner(:camera) %>
+
 <div class="flex flex-col items-center justify-center min-h-screen bg-[#FFE5E5] p-4">
-  <div class="w-full max-w-md bg-[#F04747] rounded-xl shadow-2xl overflow-hidden
+  <div class="w-full max-w-xl bg-[#F04747] rounded-xl shadow-2xl overflow-hidden
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]">
     <div class="p-8">
-      <%# Balance Display %>
-      <div class="text-white">
-        <div class="flex items-center gap-2 mb-2">
-          <h2 class="text-xl text-white/80">
-            <% status = @hong_bao.balance.status %>
-            <% if status[:icon] == :pending %>
-              <div class="inline-flex items-center">
-                <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Pending balance
-              </div>
-            <% else %>
-              <div class="inline-flex items-center">
-                <svg class="h-5 w-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Confirmed balance
-              </div>
-            <% end %>
-          </h2>
-        </div>
-
-        <div class="flex flex-col space-y-1">
-          <%# BTC Amount %>
-          <div class="flex items-baseline">
-            <div class="text-4xl font-mono tracking-wider">
-              <%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %>
-            </div>
-            <div class="text-2xl text-white/80 ml-2">BTC</div>
-          </div>
-
-          <%# Price Information %>
-          <% if price_info = @hong_bao.balance.price_info %>
-            <div class="space-y-1">
-              <%# Current Value %>
-              <div class="text-3xl font-mono text-green-400">
-                $<%= number_with_precision(@hong_bao.balance.usd, precision: 2) %>
-                <span class="text-sm ml-2 <%= price_info[:change_percentage].positive? ? 'text-green-400' : 'text-red-400' %>">
-                  (<%= price_info[:change_percentage].positive? ? '+' : '' %><%= price_info[:change_percentage] %>%)
-                </span>
-              </div>
-
-              <%# Purchase Info %>
-              <div class="text-sm text-white/60">
-                Purchased <%= time_ago_in_words(@hong_bao.balance.confirmed_at) %> ago
-                at $<%= number_with_delimiter(price_info[:purchase_price].round(2)) %>/BTC
-              </div>
-
-              <%# Current Price %>
-              <div class="text-sm text-white/60">
-                Current BTC price: $<%= number_with_delimiter(price_info[:current_price].round(2)) %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="mt-4 text-sm text-white/80">
-          <div class="flex items-center gap-4">
-            <span><%= @hong_bao.balance.confirmations %> confirmations</span>
-            <a href="https://mempool.space/address/<%= @hong_bao.address %>"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="inline-flex items-center hover:text-white transition-colors">
-              <span>View on Mempool.space</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <%# Transfer Button %>
-      <div class="mt-8 space-y-4">
-        <h3 class="text-xl font-bold text-[#FFB636]">Withdraw your funds</h3>
-
-        <div data-controller="payment-method" data-mode="withdrawal">
-          <%= form_with(model: @hong_bao, local: true) do |form| %>
-            <div class="grid grid-cols-2 gap-4">
-              <% @payment_methods.each do |method| %>
-                <label class="cursor-pointer">
-                  <%= form.radio_button :payment_method_id,
-                      method.id,
-                      class: "hidden peer",
+      <% if @hong_bao.balance.utxos.any? %>
+        <%= form_with(model: @hong_bao,
+                      url: transfer_hong_bao_path(@hong_bao.address),
+                      id: "bitcoin",
+                      class: "space-y-6",
                       data: {
-                        payment_method_target: "paymentMethod",
-                        action: "click->payment-method#methodSelected",
-                        method_name: method.name.downcase
-                      } %>
-                  <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
-                              bg-white/10 hover:bg-white/20 transition-colors duration-300">
-                    <div class="w-full flex items-center justify-center h-4 m-auto">
-                      <%= render_payment_logo(method.logo) %>
-                    </div>
-                  </div>
-                </label>
-              <% end %>
-            </div>
+                        controller: "steps bitcoin",
+                        steps_hidden_class: "hidden",
+                        steps_current_value: @current_step,
+                        bitcoin_network_value: Current.network,
+                        bitcoin_utxos_value: @hong_bao.balance.utxos_for_transaction.to_json
+                      }) do |form| %>
 
-            <%= render "hong_baos/shared/wallet_modals",
-                hong_bao: @hong_bao,
-                payment_methods: @payment_methods,
-                mode: :withdrawal %>
+          <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
-            <%# Hidden data for JS %>
-            <div data-payment-method-address="<%= @hong_bao.address %>" class="hidden"></div>
+          <%# Progress Steps %>
+          <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
+          <%# Step 1: Balance %>
+          <div data-steps-target="content" data-steps-index="1">
+            <%= render "hong_baos/show/balance", hong_bao: @hong_bao %>
+          </div>
 
-            <div data-payment-method-target="mtPelerinData"
-                 data-options="<%= {
-                   ctkn: Rails.application.credentials.dig(:mt_pelerin, :token),
-                   locale: I18n.locale,
-                   network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
-                   amount: @hong_bao.balance.btc,
-                   logo: asset_url('hongbao-bitcoin-logo-520.png'),
-                   address: @hong_bao.address,
-                   requestCode: @hong_bao.mt_pelerin_request_code,
-                   requestHash: @hong_bao.mt_pelerin_request_hash,
-                   rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
-                 }.to_json %>">
-            </div>
+          <%# Step 2: Private Key %>
+          <div data-steps-target="content" data-steps-index="2" class="hidden">
+            <%= render "hong_baos/show/private_key", form: form %>
+          </div>
 
-            <div class="mt-8 space-y-4">
-              <div class="relative">
-                <%= form.text_field :to_address,
-                    class: "w-full bg-white/10 text-white border-2 border-transparent
-                            focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
-                            placeholder-white/50 focus:outline-none",
-                    placeholder: "Enter Bitcoin address or scan QR code" %>
+          <%# Step 3: Destination %>
+          <div data-steps-target="content" data-steps-index="3" class="hidden">
+            <%= render "hong_baos/show/destination", form: form %>
+          </div>
 
-                <button type="button"
-                        data-action="click->payment-method#openQrScanner"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
-                               transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-                  </svg>
-                </button>
-              </div>
-
-              <%# Transfer Buttons %>
-              <div data-payment-method-target="transferButtons">
-                <button type="button"
-                        data-action="click->payment-method#showConfirmation"
-                        class="w-full bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
-                               hover:bg-amber-500 focus:outline-none focus:ring-2
-                               focus:ring-amber-500 focus:ring-offset-2 transition-colors">
-                  Transfer Funds
-                </button>
-              </div>
-
-              <%# Confirmation Buttons (hidden by default) %>
-              <div data-payment-method-target="confirmationButtons" class="hidden space-y-4">
-                <div class="text-white text-center mb-4">
-                  Are you sure you want to transfer your funds?
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                  <button type="button"
-                          data-action="click->payment-method#cancelTransfer"
-                          class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
-                                 hover:bg-white/20 focus:outline-none focus:ring-2
-                                 focus:ring-white/20 focus:ring-offset-2 transition-colors">
-                    Cancel
-                  </button>
-                  <%= form.button "Confirm Transfer",
-                      data: { action: "click->payment-method#confirmTransfer" },
-                      class: "w-full bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
-                             hover:bg-amber-500 focus:outline-none focus:ring-2
-                             focus:ring-amber-500 focus:ring-offset-2 transition-colors" %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <%# Error Messages %>
-      <% if @hong_bao.errors.any? %>
-        <div class="mt-4 bg-red-900/20 border border-red-300 rounded-lg p-4">
-          <% @hong_bao.errors.full_messages.each do |message| %>
-            <p class="text-white text-sm"><%= message %></p>
-          <% end %>
-        </div>
+          <%# Step 4: Complete %>
+          <div data-steps-target="content" data-steps-index="4" class="hidden">
+            <%= render "hong_baos/show/complete", hong_bao: @hong_bao %>
+          </div>
+        <% end %>
+      <% else %>
+        <%= render "hong_baos/show/balance", hong_bao: @hong_bao %>
       <% end %>
     </div>
   </div>

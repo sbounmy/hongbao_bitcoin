@@ -13,12 +13,14 @@ export default class extends Controller {
 
   open(event) {
     event.preventDefault()
-    console.log('open');
     this.modalTarget.classList.remove('hidden')
+    this.dispatch('opened')
   }
 
-  close() {
+  close(event) {
+    event.preventDefault()
     this.modalTarget.classList.add('hidden')
+    this.dispatch('closed')
   }
 
   handleKeydown(event) {
@@ -26,4 +28,4 @@ export default class extends Controller {
       this.close()
     }
   }
-} 
+}

@@ -1,0 +1,42 @@
+<!-- Instagram Feed -->
+<section class="p-8">
+
+		<!-- Instagram Feed Title -->
+    <%= section_header(title: 'Recent Instagram Posts', subtitle: 'Follow our journey') %>
+
+		<!-- Instagram Feed -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" data-controller="instagram">
+    <% posts.each do |post| %>
+        <div class="aspect-square relative group overflow-hidden rounded-xl">
+        <%= image_tag post['media_url'],
+            class: "w-full h-full object-cover transition duration-300 group-hover:scale-110" %>
+
+        <a href="<%= post['permalink'] %>"
+            target="_blank"
+            class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100
+                    transition duration-300 flex flex-col items-center justify-center p-4">
+            <% if post['caption'].present? %>
+            <p class="text-white text-sm mb-4 line-clamp-3 text-center">
+                <%= post['caption'] %>
+            </p>
+            <% end %>
+
+            <span class="px-4 py-2 bg-white/20 rounded-full text-white text-sm
+                        backdrop-blur-sm hover:bg-white/30 transition">
+            View on Instagram
+            </span>
+
+            <time class="text-white/70 text-xs mt-2">
+            <%= Time.parse(post['timestamp']).strftime("%B %d, %Y") %>
+            </time>
+        </a>
+        </div>
+    <% end %>
+    </div>
+
+    <div class="text-center mt-8">
+    <%= link_to "Follow us on Instagram", "https://www.instagram.com/hongbaobtc/",
+        class: "btn btn-primary",
+        target: "_blank" %>
+    </div>
+</section>

@@ -1,0 +1,309 @@
+# RSpec fixtures for papers
+
+dollar:
+  id: 1
+  name: "Dollar"
+  active: true
+  public: true
+  user: satoshi
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.12,
+        "y": 0.38,
+        "size": 0.17,
+        "color": "224, 120, 1",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.15,
+        "y": 0.35,
+        "size": 14,
+        "color": "224, 120, 1",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.55,
+        "y": 0.24,
+        "size": 0.25,
+        "color": "224, 120, 1",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.55,
+        "y": 0.24,
+        "size": 18,
+        "color": "0, 0, 0",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.2,
+        "y": 0.2,
+        "size": 16,
+        "color": "0, 0, 0",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.2,
+        "y": 0.2,
+        "size": 16,
+        "color": "0, 0, 0",
+        "max_text_width" : 100
+      }
+    }
+
+
+orange:
+  id: 2
+  name: "Orange"
+  active: true
+  public: true
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.12,
+        "y": 0.38,
+        "size": 0.17,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.15,
+        "y": 0.35,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.55,
+        "y": 0.24,
+        "size": 0.25,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.25,
+        "y": 0.14,
+        "size": 18,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.30,
+        "y": 0.28,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.20,
+        "y": 0.20,
+        "size": 16,
+        "color": "#000000",
+        "max_text_width" : 100
+      }
+    }
+
+christmas:
+  id: 3
+  name: "Christmas"
+  active: true
+  public: true
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.13,
+        "y": 0.36,
+        "size": 0.17,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.17,
+        "y": 0.32,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.55,
+        "y": 0.3,
+        "size": 0.2,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.28,
+        "y": 0.14,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.3,
+        "y": 0.22,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.20,
+        "y": 0.20,
+        "size": 16,
+        "color": "#000000",
+        "max_text_width" : 100
+      }
+    }
+
+new_year:
+  id: 4
+  name: "New Year"
+  active: true
+  public: true
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.11,
+        "y": 0.31,
+        "size": 0.18,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.14,
+        "y": 0.28,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.72,
+        "y": 0.35,
+        "size": 0.17,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.26,
+        "y": 0.15,
+        "size": 18,
+        "color": "254, 215, 175",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.33,
+        "y": 0.21,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.20,
+        "y": 0.20,
+        "size": 16,
+        "color": "#000000",
+        "max_text_width" : 100
+      }
+    }
+
+wedding:
+  id: 5
+  name: "Wedding"
+  active: true
+  public: true
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.14,
+        "y": 0.34,
+        "size": 0.15,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.17,
+        "y": 0.32,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.455,
+        "y": 0.362,
+        "size": 0.19,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.32,
+        "y": 0.07,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.34,
+        "y": 0.20,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.20,
+        "y": 0.20,
+        "size": 16,
+        "color": "#000000",
+        "max_text_width" : 100
+      }
+    }
+
+birthday:
+  id: 6
+  name: "Birthday"
+  active: true
+  public: true
+  elements: |
+    {
+      "private_key_qrcode": {
+        "x": 0.08,
+        "y": 0.36,
+        "size": 0.17,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "private_key_text": {
+        "x": 0.1,
+        "y": 0.32,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_qrcode": {
+        "x": 0.7,
+        "y": 0.25,
+        "size": 0.25,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "public_address_text": {
+        "x": 0.26,
+        "y": 0.97,
+        "size": 18,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "mnemonic_text": {
+        "x": 0.30,
+        "y": 0.25,
+        "size": 12,
+        "color": "#000000",
+        "max_text_width" : 100
+      },
+      "custom_text": {
+        "x": 0.20,
+        "y": 0.20,
+        "size": 16,
+        "color": "#000000",
+        "max_text_width" : 100
+      }
+    }

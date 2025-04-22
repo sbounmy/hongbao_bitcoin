@@ -1,0 +1,25 @@
+<div class="relative" data-controller="dropdown">
+  <button type="button"
+          data-action="dropdown#toggle click@window->dropdown#hide"
+          class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-base-200"
+          style="color: <%= button_text_color %>; background-color: <%= button_background_color %>">
+    <%= item_image(current_item) if current_item %>
+    <%= item_title(current_item) || "Select Item" %>
+    <%= heroicon "chevron-down", class: "w-4 h-4", style: "color: #{button_text_color}" %>
+  </button>
+
+  <div data-dropdown-target="menu"
+       class="hidden z-20 transition transform origin-top-right absolute right-0 z-10 mt-2 w-48 rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 bg-base-100"
+       data-transition-enter-from="opacity-0 scale-95"
+       data-transition-enter-to="opacity-100 scale-100"
+       data-transition-leave-from="opacity-100 scale-100"
+       data-transition-leave-to="opacity-0 scale-95">
+    <% items.each do |item| %>
+      <%= link_to item_path(item),
+                  class: "flex items-center gap-2 px-4 py-2 text-sm hover:bg-base-200 #{item == current_item ? 'bg-base-200' : ''}" do %>
+        <%= item_image(item) %>
+        <%= item_title(item) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

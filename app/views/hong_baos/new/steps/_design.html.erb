@@ -1,74 +1,55 @@
-<div data-hong-bao-target="step">
-  <div class="flex flex-col gap-4 max-w-xl mx-auto">
-    <% papers.each do |paper| %>
-      <div class="group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all"
-           data-paper-id=<%= paper.id %>
-           data-action="click->hong-bao#paperSelected"
-           data-hong-bao-target="paper"
-           data-paper-image-front-url="<%= paper.image_front.attached? ? url_for(paper.image_front) : '' %>"
-           data-paper-image-back-url="<%= paper.image_back.attached? ? url_for(paper.image_back) : '' %>"
-           data-paper-elements="<%= paper.elements.to_json %>"
-           data-paper-canva-front-url=""
-           data-paper-canva-back-url="">
+<div class="flex flex-col h-full max-h-full overflow-y-auto pb-16" data-steps-target="content" data-steps-index="1">
+  <!-- Scrollable Content Area -->
+  <div class="flex-1">
+    <div class="p-8">
+      <div class="flex flex-col">
+        <div class="mb-8">
+        </div>
 
-        <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]"
-             data-hong-bao-target="flipCardInner">
+        <div data-controller="tabs"
+             data-tabs-active-class="bg-[#FFB636] text-[#F04747]"
+             data-tabs-default-tab-value="templates">
 
-          <div class="w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
-            <%= render partial: "hong_baos/new/front_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
-            <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
-              <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
-                <%= paper.name %>
-              </div>
+          <% if current_user %>
+            <div class="flex gap-2 mb-6">
+              <button type="button"
+                      data-tabs-target="btn"
+                      data-tab-id="templates"
+                      data-action="tabs#select"
+                      class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                Templates
+              </button>
+              <button type="button"
+                      data-tabs-target="btn"
+                      data-tab-id="ai-design"
+                      data-action="tabs#select"
+                      class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                AI Design
+              </button>
+            </div>
+          <% end %>
+
+          <div data-tabs-target="tab"
+               data-tab-id="templates"
+               class="relative">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
+              <%= render Papers::ItemComponent.with_collection(papers) %>
             </div>
           </div>
 
-          <div class="absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-            <%= render partial: "hong_baos/new/back_bill", locals: { paper: paper, hong_bao: hong_bao, context: 'design' } %>
-            <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent">
-              <div class="absolute bottom-2 left-3 text-white text-lg font-medium">
-                <%= paper.name %>
-              </div>
-            </div>
-          </div>
+          <%= render "hong_baos/new/steps/design/ai_design", papers_by_user: papers_by_user %>
         </div>
       </div>
-    <% end %>
+    </div>
   </div>
 
-  <div class="flex items-center space-x-4 mt-8">
-    <%= render "hong_baos/new/previous_button", current_step: 1 %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/next_button",
-                current_step: 1,
-                html_options: {
-                  disabled: @hong_bao.paper_id.blank?,
-                  class: "next-button-step-1"
-                } %>
-    </div>
-  </div>
-  <div class="mt-8 pt-8 border-t-2 border-[#FFB636]/30">
-    <div class="text-center space-y-4">
-      <h3 class="text-xl font-bold text-[#FFB636]">Already have a Hong Bao?</h3>
-      <%= link_to hong_baos_path,
-          target: "_blank",
-          rel: "noopener",
-          class: "w-full inline-flex items-center justify-center gap-2 px-6 py-3.5
-                 bg-transparent hover:bg-amber-100/10 text-amber-100
-                 rounded-xl border-2 border-amber-100/50
-                 shadow-lg transform hover:scale-102 transition-all duration-200
-                 text-base font-medium group" do %>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             class="h-5 w-5 group-hover:scale-110 transition-transform duration-200"
-             fill="none"
-             viewBox="0 0 24 24"
-             stroke="currentColor"
-             stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        Scan your Hong Bao here
-      <% end %>
-    </div>
+  <!-- Fixed Footer instead of Sticky -->
+  <div class="fixed bottom-0 left-0 right-0 mt-auto flex-none bg-[#F04747] border-t border-[#FFB636]/20 p-4 rounded-b-3xl">
+    <%= render "hong_baos/new/next_button",
+               html_options: {
+                 disabled: @hong_bao.paper_id.blank?,
+                 data_action: "hong-bao:select@window->disabled#remove bitcoin#dispatchWalletChanged"
+               } %>
   </div>
 </div>
+

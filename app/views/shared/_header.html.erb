@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center h-16">
       <%# Logo %>
       <%= link_to root_path, class: "flex items-center" do %>
-        <%= image_tag "hongbao-bitcoin-logo-520.png", 
+        <%= image_tag "hongbao-bitcoin-logo-520.png",
             class: "h-8 w-8 rounded-full border border-[#FFB636]",
             alt: "Bitcoin Hong Bao Logo" %>
         <span class="ml-2 text-[#FFB636] font-bold text-lg">Hong Bao</span>
@@ -12,40 +12,23 @@
       <%# User Menu %>
       <div class="flex items-center">
         <% if authenticated? %>
-          <div class="relative" data-controller="dropdown">
-            <button type="button" 
-                    class="flex items-center gap-2 text-white hover:text-[#FFB636] transition-colors"
-                    data-action="click->dropdown#toggle">
-              <img src="<%= gravatar_url(Current.user.email_address) %>" 
-                   class="w-8 h-8 rounded-full border border-[#FFB636]"
-                   alt="User avatar">
-              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </button>
-
-            <%# Dropdown Menu %>
-            <div data-dropdown-target="menu"
-                 class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
-              <div class="py-1">
-                <%= button_to logout_path, 
-                    method: :delete,
-                    class: "w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
-                  <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                    Sign out
-                  </div>
-                <% end %>
+          <%# Render the UserDrawerComponent, passing the avatar label as content %>
+          <%= render UserDrawerComponent.new do %>
+            <%# This label triggers the drawer identified by drawer_id %>
+            <label for="<%= UserDrawerComponent.new.drawer_id %>"
+                    tabindex="0"
+                    class="btn btn-ghost btn-circle avatar cursor-pointer">
+              <div class="w-8 rounded-full border border-[#FFB636]">
+                <img src="<%= gravatar_url(Current.user.email) %>"
+                     alt="User avatar">
               </div>
-            </div>
-          </div>
+            </label>
+          <% end %>
         <% else %>
-          <%= link_to "Sign in", login_path, 
+          <%= link_to "Sign in", login_path,
               class: "text-white hover:text-[#FFB636] transition-colors" %>
         <% end %>
       </div>
     </div>
   </div>
-</header> 
+</header>

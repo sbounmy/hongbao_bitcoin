@@ -1,46 +1,12 @@
-<div class="min-h-screen bg-[#FFE5E5] flex flex-col items-center justify-center p-4">
-  <div class="w-full max-w-md bg-[#F04747] p-8
-              border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-              shadow-lg relative">
+<%= render "shared/v2/header" %>
 
-    <%# Logo and Title %>
-    <div class="text-center mb-8">
-      <%= image_tag "hongbao-bitcoin-logo-520.png",
-          class: "w-16 h-16 mx-auto mb-4 rounded-full border-2 border-[#FFB636]",
-          alt: "Bitcoin Hong Bao Logo" %>
-      <h1 class="text-2xl font-bold text-[#FFB636]">Verify your email address</h1>
-    </div>
+<div class="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card-body">
 
-    <%= form_with(model: @user, class: "space-y-6") do |form| %>
-      <% if @user.errors.any? %>
-        <div class="bg-red-500/10 text-red-400 p-4 rounded-lg">
-          <ul class="list-disc list-inside">
-            <% @user.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+      <%= turbo_frame_tag "signup_form" do %>
+          <%= render AuthenticationComponent.new(user: @user) %>
       <% end %>
-
-      <div>
-        <%= form.email_field :email_address,
-            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FFB636] focus:ring focus:ring-[#FFB636] focus:ring-opacity-50",
-            placeholder: "Enter your email address",
-            required: true %>
-      </div>
-
-      <p class="text-sm text-white/80 text-center">
-        Don't worry, we respect your privacy and dislike spam as much as you do!
-      </p>
-
-      <div>
-        <%= form.submit "Send verification email",
-            class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB636]" %>
-      </div>
-    <% end %>
+    </div>
   </div>
-
-  <%= render "shared/faq" %>
-  <%= render "shared/about" %>
-  <%= render "shared/donate" %>
 </div>

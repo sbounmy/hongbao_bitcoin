@@ -1,8 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  paper: one
-  amount: 100
-  public_key: "your_test_public_key"
-  private_key: "your_test_private_key"
-  address: "your_test_bitcoin_address"

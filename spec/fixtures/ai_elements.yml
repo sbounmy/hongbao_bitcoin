@@ -1,0 +1,23 @@
+_fixture:
+  model_class: Ai::Element
+
+birthday_element:
+  id: 1
+  leonardo_id: "element_123"
+  title: "Birthday Bitcoin Element"
+  weight: "0.8"
+  status: "completed"
+
+wedding_element:
+  id: 2
+  leonardo_id: "element_456"
+  title: "Wedding Bitcoin Element"
+  weight: "0.8"
+  status: "completed"
+
+anniversary_element:
+  id: 3
+  leonardo_id: "element_789"
+  title: "Anniversary Bitcoin Element"
+  weight: "0.8"
+  status: "completed"

@@ -1,0 +1,130 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Security-Policy:
+      - 'default-src *.facebook.com *.fbcdn.net *.instagram.com blob:;script-src *.facebook.com
+        *.fbcdn.net *.facebook.net 127.0.0.1:* ''nonce-fkpA9VLo'' blob: data: ''self''
+        ''unsafe-eval'';style-src data: blob: ''unsafe-inline'' *.fbcdn.net *.facebook.com
+        *.instagram.com;connect-src *.facebook.com facebook.com *.fbcdn.net *.facebook.net
+        wss://*.facebook.com:* ws://localhost:* blob: *.instagram.com *.cdninstagram.com
+        wss://*.instagram.com:* ''self'';font-src *.facebook.com data: *.fbcdn.net
+        *.instagram.com https://fonts.gstatic.com;img-src *.instagram.com *.facebook.com
+        *.fbcdn.net data: blob: *.cdninstagram.com *.fbsbx.com android-webview-video-poster:
+        *.oculuscdn.com *.giphy.com www.googleadservices.com *.doubleclick.net *.google.com
+        *.google.co.uk https://www.gstatic.com;media-src *.facebook.com *.fbcdn.net
+        *.instagram.com *.cdninstagram.com cdn.fbsbx.com data: blob: https://*.giphy.com;child-src
+        *.facebook.com *.fbcdn.net *.instagram.com data: blob:;frame-src *.instagram.com
+        *.facebook.com *.fbsbx.com fbsbx.com data: www.googleadservices.com *.doubleclick.net
+        *.google.com *.google.co.uk;manifest-src *.facebook.com *.fbcdn.net *.instagram.com
+        data: blob:;object-src *.facebook.com *.fbcdn.net *.instagram.com data: blob:;upgrade-insecure-requests;'
+      Reporting-Endpoints:
+      - coop_report="https://www.facebook.com/browser_reporting/coop/?minimize=0",
+        default="https://www.instagram.com/error/ig_web_error_reports/?device_level=unknown&brsid=7481793263530994426&cpp=C3&cv=1020917785&st=1741990741373"
+      Report-To:
+      - '{"max_age":2592000,"endpoints":[{"url":"https:\/\/www.facebook.com\/browser_reporting\/coop\/?minimize=0"}],"group":"coop_report","include_subdomains":true},
+        {"max_age":259200,"endpoints":[{"url":"https:\/\/www.instagram.com\/error\/ig_web_error_reports\/?device_level=unknown&brsid=7481793263530994426&cpp=C3&cv=1020917785&st=1741990741373"}]}'
+      Cross-Origin-Embedder-Policy:
+      - require-corp
+      Cross-Origin-Opener-Policy:
+      - same-origin-allow-popups
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Www-Authenticate:
+      - OAuth "Facebook Platform" "invalid_token" "Invalid OAuth access token - Cannot
+        parse access token"
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - A_CThn5YxsDESfiUc1auK7O
+      X-Fb-Trace-Id:
+      - HqhOur6V157
+      X-Fb-Rev:
+      - '1020917785'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - N8DWwLx4S3VagkfnjIiLddcmfJsUtJHN2BNyJdY9zb8m4rbBZ0Ef5r5pgCrxOaC2C4/xl8qpUVXH0J+WclB+7Q==
+      Date:
+      - Fri, 14 Mar 2025 22:19:01 GMT
+      Proxy-Status:
+      - http_request_error; e_fb_responsebytes="AcJKt6FmPJy5RTnDC5cGjlbpbWGN-BZBmKPR8waaGixCyI-pEZtIN521FkE";
+        e_fb_requesttime="AcJte2J8RD2hg-pxOsgkaXSQCPggOLe_o7JtGPopaH4AY0wek-v4Gzdnl0dGJlW_RKGUyvgWuQ";
+        e_proxy="AcLanSBOiJbqPFuil9jiV3tyzm21oOFAxRwkorbAbGvf-NpPxQU-uloLBuRuU16Z6CjRO9fWNaOB6SoFKF7v";
+        e_fb_twtaskhandle="AcK_4d2HtzAE1ngS2dgQ7SdWnPHhTsWm1xo-43NMZy8K5y6FAivNnTWsJt8En-cjauzrLsTl0he0TPv1kIrLBmhghLuUub-1SXsP35Pa";
+        e_fb_requestsequencenumber="AcKxS2K6c3RJz48nA9mJYSoYWVQpvVsZGvl-qG4IoILTW8be89xm1D4vujs";
+        e_upip="AcKMx4kDJnVbjBhxtCyMRff0HDcCGhO7N7xjZ8xA11bl5srj4gUGv7xoWAurinDk2shPzlHKgM6kOA8cLoMT-7kNpba9r9KAZOVXEQ";
+        e_fb_zone="AcJCQqVrB0yS2eN28K_Dtc3cFWDEWV3a9plS8NzLIO3pFKI2i-FWlmOD-Bx1ptjb";
+        e_fb_binaryversion="AcKWfkbf0bENdpIBQE_pmla6fLCzi-_Ov-Zr_wgWLOF9XrhhZDJ3ei24fQ6nzwzw4lV4GG0eXCBhKLRNauYnMt4im-EwXAdNP5M";
+        e_fb_httpversion="AcJm5u5fYNuRg_K03ObIcA-SH_4FrsXpvm-wNSS6L1fcdes3xVK0rRNXWeiS";
+        e_fb_requesthandler="AcJbRs3iv-2tiHng8FtnMnGkk_F0WTCBA96ywTCrasyV8ywVuihSSMdE_24zChe_YCBcjPf1zWHEo2s";
+        e_fb_configversion="AcK8zIA7M7293xyj5WSOmfDSdnKll4KqwHzwD3yhV1CaGPFLB4WjII0-pxXc0A";
+        e_fb_vipaddr="AcJxcB5FSiv81aptLVYQx5KXnJQX-k5-KImmAhuE9H-zdoDA6gT4qQYi6lMGMF4CZaGlgj2Zh3qt2iL-Gu_jIfpyfy7VHsyGtcQDh3Gk";
+        e_fb_hostheader="AcKOJ11_wVBwGdkoRfHoWubY7PpkImZuKEzAgxEv1yHPv-xVoMxgws3YxHq3iXukMCMOw8ULg2xxJPaPJw";
+        e_fb_builduser="AcLRa0pnn2EeOEUajYLKAjq8HVzCUxnwd5_FIZIk-BvVImrEtDXMrHzuK0uWZr8-0tg";
+        e_fb_vipport="AcKl4dFqRRk-oZVl8eNAi_e0Eankgk_6nPxVELwkQxNsSULPJUxqSteAioRR";
+        e_clientaddr="AcJ9gHBlg2AfZtQgE26f1vlZ9vcO-7T2NJQursow3cs_NERjtJ-GQWqDOXNTNwVLY3Xj06pWTkA75EN2iOAprkm5psfU_o_uX8fqbrxGsDiMo3eh6Q",
+        http_request_error; e_fb_responsebytes="AcJguNwiSuW70gWBQYYWQN7VRL9mCfBBgwDLboGs9TuNIb2bEXDDVx4miMg";
+        e_fb_requesttime="AcIouNk0LlY2uyw_DDKKMltm7DHGmO5xAVd_GVYDC017wowBsNFjgpPqQlSVKwtFNgRBz8Y1Mw";
+        e_proxy="AcKwpS162rXo6-45ZORE0cv8E9Tmv0uN7Wi_o_3qEwC-Mto0kcrSZDXf6Jtqj1dHKey9Aoaz-ksKL4Y";
+        e_fb_twtaskhandle="AcJOdqNailX2rMVxPxSKa-LGRWduZAFSGlir-qw_Z_iCuVmD1cogCLyApqDz_wxnbBGgCQiGkmMflPpCUpWDOBOfh3dG0X1CeY7n";
+        e_fb_requestsequencenumber="AcK24M61baYBkM6yjHn5fps_QFs8_Dot5RJqfPyrMLohLLNUIZ-QwWsvsg";
+        e_upip="AcIeMSLFmsFeRPa59wWJ7SGoGLPAuYUMCNnjZQEoockyHMdiYBBG6AXi0TWA895j07jtZzFXu-Sj-VyiXDizqSS_gfYAYVVLk6An9cwF";
+        e_fb_zone="AcJBMloH1rTLNi7e10gWWBO9zrUIFZIE-pgG1shP4gRzWOnpiONnzd1mVA8xAQ";
+        e_fb_binaryversion="AcLouOJFRJdPRrJQE3DOMak5lf231aMPkI17-gwpJx2J-68AYCSim68nZwv4IjTSmSDEAu7PR1cYPYrbPbWq7v2ut4OD9ZkQQfg";
+        e_fb_httpversion="AcJLC6TWmOjhCBLe3FUrLNhcNKGUUKVk9F8A1Ga6Lx-4ameAH6yBT6BNLL_Q";
+        e_fb_requesthandler="AcIz4_HhlXo1NZ7k2R0oI35pziqHf6Ai87ALinMzLmR692qVSiRpd1hotu6faD9HsepoTzN4mfSp";
+        e_fb_configversion="AcJIRSXy2yvMk-AtCfjJ8gFTI24q5dyjJDB868pRF-neCh9IwRwcSXP5W0vDHw";
+        e_fb_vipaddr="AcJzhEdmM_8R9IukKbbTDyfDOZv9nY7oGvQUQ0XBN9hOUHIoG4Q2jDFRO3kNEKoh90cQSuJe_g";
+        e_fb_hostheader="AcIeyeTbSOA5bxkpwmCisU5e7lSU7VbgEszkOMlHTIvumhbYss0atFu-7F4ijrx3WvN_P1U5c20zYG_A3w";
+        e_fb_builduser="AcI3lfBfnh0JheRgoVYw11eCI3vAKaHbvqcb-fmnvfIrKq2ZOWV-N7PDHPGE3RbMfD0";
+        e_fb_vipport="AcIeqaneP0bXpAMGwPmHxivFHKzAo6_2es8JXOhdXXLZAAm0FyCzqQy_KEHz";
+        e_clientaddr="AcKyoGmvBvasXwrD1jyaC8U1xbSyM389lKCWOg6WutVt3XxnUKIzLGVUqO9r6WAjH_24yjiikiHEwjONBT0"
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=13, rtx=0, c=14, mss=1380, tbw=3251, tp=-1, tpl=-1,
+        uplat=27, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '45'
+    body:
+      encoding: UTF-8
+      string: Sorry, this content isn't available right now
+  recorded_at: Fri, 14 Mar 2025 22:19:01 GMT
+recorded_with: VCR 6.3.1

@@ -1,0 +1,24 @@
+<%# Template for Tokens::ListComponent - renders the table shell and items %>
+<% if empty_state? %>
+  <p>No transactions found.</p>
+<% else %>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <%# Optional: Use component.headers.each if defined in component class %>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%# Render the collection of Tokens::ItemComponent instances %>
+        <% tokens.each do |token| %>
+          <%= token %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
