@@ -72,6 +72,12 @@ ActiveAdmin.register Ai::Theme do
     }
 
     f.inputs "Theme Colors" do
+      para do
+        text_node "Refer to the "
+        a "DaisyUI documentation", href: "https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme", target: "_blank", rel: "noopener noreferrer"
+        text_node " for details on theme properties and their effects."
+      end
+
       # Use underscored properties for iteration and hint lookup
       Ai::Theme::UI_PROPERTIES.each do |prop|
         if prop.include?("color")
