@@ -3,9 +3,9 @@
                text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300
                disabled:opacity-30
                <%= local_assigns[:html_options]&.dig(:class) %>"
-        data-action="hong-bao#nextStep"
-        data-hong-bao-target="nextButton"
-        data-step="<%= local_assigns[:current_step] %>"
+        data-controller="disabled"
+        data-form-target="submitButton"
+        data-action="steps#next <%= local_assigns[:html_options]&.dig(:data_action) -%>"
         <%= 'disabled' if local_assigns[:html_options]&.dig(:disabled) %>>
   Next →
 </button>

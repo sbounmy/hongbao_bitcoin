@@ -1,0 +1,20 @@
+
+  <!-- Header -->
+  <%= section_header(title: '1 ₿ao = 1 Image', subtitle: 'Generate unlimited banknotes once image is created') %>
+<div class="space-y-4">
+
+  <!-- Header -->
+  <div class="grid grid-cols-4 text-center mb-2">
+    <div>Pack (Credits Included)</div>
+    <div>Cost per Image</div>
+    <div>Price</div>
+    <div>Action</div>
+  </div>
+
+  <!-- Plans -->
+  <div class="space-y-2">
+    <% plans.each do |plan| %>
+      <%= plan %>
+    <% end %>
+  </div>
+</div>

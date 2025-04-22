@@ -17,7 +17,9 @@ servers:
 # Set ssl: false if using something like Cloudflare to terminate SSL (but keep host!).
 proxy:
   ssl: true
-  host: hongbaob.tc
+  hosts:
+    - hongbaob.tc
+    - www.hongbaob.tc
 
 # Credentials for your image host.
 registry:
@@ -37,6 +39,9 @@ env:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+    # For webooks assets etc
+    APP_HOST: hongbaob.tc
+    STRIPE_PRODUCT_ID: prod_S8Ro7ejbBPfXa9
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -66,7 +71,7 @@ aliases:
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
   - "hongbao_storage:/rails/storage"
-
+  - "hongbao_data:/rails/data"  # Only for database file
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old

@@ -1,60 +1,29 @@
-<div data-controller="payment-method" data-mode="deposit" data-hong-bao-target="step">
+<div class="flex flex-col h-full overflow-y-auto p-4"
+    data-controller="payment-method"
+     data-steps-target="content"
+     data-steps-index="<%= local_assigns[:index] || 3 %>">
+
   <div class="mb-8 text-white space-y-4">
     <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
     <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
 
     <%# Bitcoin Address Display %>
-    <%= render "shared/bitcoin_address", address: hong_bao.address %>
-  </div>
-
-  <%# Payment Methods Grid %>
-  <div class="grid grid-cols-2 gap-4">
-    <% payment_methods.each do |method| %>
-      <label class="cursor-pointer">
-        <%= form.radio_button :payment_method_id,
-            method.id,
-            class: "hidden peer",
-            data: {
-              payment_method_target: "paymentMethod",
-              action: "click->payment-method#methodSelected",
-              method_name: method.name.downcase
-            } %>
-        <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
-                    bg-white/10 hover:bg-white/20 transition-colors duration-300">
-          <div class="w-full flex items-center justify-center h-4 m-auto">
-            <%= render_payment_logo(method.logo) %>
-          </div>
-        </div>
-      </label>
-    <% end %>
-  </div>
-
-  <div class="flex items-center space-x-4 mt-8">
-    <%= render "hong_baos/new/previous_button", current_step: 3 %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+    <div>
+      <%= render "shared/bitcoin_address" %>
     </div>
   </div>
 
-  <%= render "hong_baos/shared/wallet_modals",
-      hong_bao: hong_bao,
-      payment_methods: payment_methods,
-      mode: :deposit %>
+  <%# Payment Methods Grid with Form %>
+  <%= form_with(model: hong_bao, local: false) do |form| %>
+    <div class="grid grid-cols-2 gap-4">
+      <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
+    </div>
 
-  <%# Hidden data for JS %>
-  <div data-payment-method-address="<%= hong_bao.address %>" class="hidden"></div>
-
-  <div data-payment-method-target="mtPelerinData"
-       data-options="<%= {
-         ctkn: Rails.application.credentials.dig(:mt_pelerin, :token),
-         locale: I18n.locale,
-         network: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_testnet',
-         amount: 50,
-         logo: asset_url('hongbao-bitcoin-logo-520.png'),
-         address: hong_bao.address,
-         requestCode: hong_bao.mt_pelerin_request_code,
-         requestHash: hong_bao.mt_pelerin_request_hash,
-         rfr: Rails.application.credentials.dig(:mt_pelerin, :rfr)
-       }.to_json %>">
-  </div>
+    <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
+      <div class="flex items-center space-x-4 p-8 w-full">
+        <%= render "hong_baos/new/previous_button" %>
+        <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+      </div>
+    </div>
+  <% end %>
 </div>
