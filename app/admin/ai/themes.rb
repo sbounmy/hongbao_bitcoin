@@ -1,5 +1,5 @@
 ActiveAdmin.register Ai::Theme do
-  permit_params :title, :ui_name, ui: Ai::Theme::THEME_PROPERTIES, element_ids: []
+  permit_params :title, :ui_name, Ai::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, element_ids: []
 
   index do
     selectable_column
@@ -40,7 +40,7 @@ ActiveAdmin.register Ai::Theme do
     end
 
     f.inputs "Theme Colors" do
-      Ai::Theme::THEME_PROPERTIES.each do |prop|
+      Ai::Theme::UI_PROPERTIES.each do |prop|
         if prop.include?("color")
           # Use color picker for color properties
           f.input "ui_#{prop.gsub('-', '_')}",
@@ -72,7 +72,7 @@ ActiveAdmin.register Ai::Theme do
 
       # Display theme properties
       panel "Theme Properties" do
-        table_for Ai::Theme::THEME_PROPERTIES do
+        table_for Ai::Theme::UI_PROPERTIES do
           column "Property" do |prop|
             prop.humanize
           end
@@ -97,23 +97,6 @@ ActiveAdmin.register Ai::Theme do
           column :status
         end
       end
-    end
-  end
-
-  # Override update to handle setting theme properties
-  controller do
-    def update
-      params[:ai_theme][:ui] ||= {}
-
-      Ai::Theme::THEME_PROPERTIES.each do |prop|
-        param_key = "ui_#{prop.gsub('-', '_')}"
-        if params[:ai_theme][param_key].present?
-          params[:ai_theme][:ui][prop] = params[:ai_theme][param_key]
-        end
-        params[:ai_theme].delete(param_key)
-      end
-
-      super
     end
   end
 end

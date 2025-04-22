@@ -62,7 +62,7 @@ module ApplicationHelper
         [data-theme="#{theme.ui_name}"] {
           #{theme.theme_properties.map { |prop|
             if value = theme.theme_property(prop)
-              "--#{prop}: #{value};"
+              "--#{prop.dasherize}: #{value};"
             end
           }.compact.join("\n          ")}
         }

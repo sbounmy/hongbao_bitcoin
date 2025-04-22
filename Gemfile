@@ -79,6 +79,7 @@ group :test do
   gem "vcr"
   gem "webmock"
   gem "faker"
+  gem "shoulda-matchers"
 end
 
 gem "tailwindcss-rails"
