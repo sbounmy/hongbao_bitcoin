@@ -6,7 +6,7 @@ test.describe('Topup', () => {
 
     await expect(page.locator('[data-binding-name-value="publicAddressText"]:visible')).toHaveValue(/^bc1q/);
 
-    const address = await page.locator('[data-binding-name-value="publicAddressText"]:visible').inputValue();
+    const address = await page.locator('[data-binding-name-value="publicAddressText"]:visible').first().inputValue();
 
     console.log(address);
     await page.locator("label", { has: page.locator('#hong_bao_payment_method_id_1') }).click();
