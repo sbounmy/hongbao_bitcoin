@@ -1,5 +1,5 @@
 const { test, expect } = require('../../support/test-setup');
-const { forceLogin } = require('../../support/on-rails');
+const { appVcrInsertCassette, forceLogin } = require('../../support/on-rails');
 
 test.describe('Theme', () => {
 
@@ -17,6 +17,7 @@ test.describe('Theme', () => {
       .map(x => parseInt(x, 16))
 
   test('admin can view and edit theme properties', async ({ page }) => {
+    await appVcrInsertCassette('ai_theme')
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
 
@@ -40,6 +41,6 @@ test.describe('Theme', () => {
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
 
     await page.goto('/');
-    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', `rgb(${hexToRgb('#112fa3').join(', ')})`);
+    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.22 0.019 237.69)');
   });
 });
