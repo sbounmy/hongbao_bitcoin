@@ -4,7 +4,7 @@ class StripeService
 
   class << self
     def fetch_prices
-        # Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_DURATION) do
+        Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_DURATION) do
         Stripe::Price.list(
           active: true,
           expand: [ "data.product" ],
@@ -18,7 +18,7 @@ class StripeService
             default: price.product.default_price == price.id
           }
         end.sort_by { |price| price[:tokens] }
-      # end
+      end
     end
   end
 end
