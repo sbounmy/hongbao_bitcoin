@@ -2,7 +2,7 @@ class MagicLinksController < ApplicationController
   allow_unauthenticated_access only: %i[create verify]
 
   def create
-    @user = User.find_or_initialize_by(email_address: magic_link_params[:email_address].downcase)
+    @user = User.find_or_initialize_by(email: magic_link_params[:email].downcase)
 
     if @user.save
       @user.generate_magic_link
@@ -11,7 +11,7 @@ class MagicLinksController < ApplicationController
       render turbo_stream: turbo_stream.update(
         "magic_link_form",
         partial: "magic_links/success",
-        locals: { email_address: @user.email_address }
+        locals: { email: @user.email }
       )
     else
       render turbo_stream: turbo_stream.update(
@@ -42,6 +42,6 @@ class MagicLinksController < ApplicationController
   private
 
   def magic_link_params
-    params.permit(:email_address)
+    params.permit(:email)
   end
 end

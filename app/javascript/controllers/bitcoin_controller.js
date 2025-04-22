@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import WalletFactory from "services/bitcoin/wallet_factory"
 import Transaction from "services/bitcoin/transaction"
+import TransactionFactory from "services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
@@ -36,18 +37,20 @@ export default class extends Controller {
 
   dispatchWalletChanged() {
     this.dispatch("changed", {
-      detail: {
-        wallet: this.wallet,
-        mnemonic: this.master?.mnemonic,
-        ...this.wallet.info
-      }
+      detail: this.detail
     })
   }
 
+  get detail() {
+    return {
+      wallet: this.wallet,
+      mnemonicText: this.master?.mnemonic,
+      ...this.wallet.info
+    }
+  }
   async transfer(address, fee) {
     try {
-
-      const transaction = new Transaction(
+      const transaction = TransactionFactory.create(
         this.wallet.privateKey,
         address,
         fee,

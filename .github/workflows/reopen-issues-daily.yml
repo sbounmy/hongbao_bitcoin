@@ -1,0 +1,23 @@
+name: Reopen Multiple Issues Daily
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs daily at 09:00 UTC
+  workflow_dispatch:      # Allows manual runs from the Actions tab
+
+jobs:
+  reopen-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reopen multiple issues
+        env:
+          ISSUES: "128"
+        run: |
+          for ISSUE in $ISSUES; do
+            echo "Reopening issue #$ISSUE"
+            curl -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE \
+              -d '{"state":"open"}'
+          done

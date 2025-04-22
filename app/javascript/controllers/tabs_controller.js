@@ -6,6 +6,9 @@ export default class extends Controller {
   static values = { defaultTab: String }
 
   connect() {
+    if(!this.hasBtnTargets) {
+      return
+    }
     // Hide all tabs initially
     this.tabTargets.forEach(tab => tab.classList.add('hidden'))
 

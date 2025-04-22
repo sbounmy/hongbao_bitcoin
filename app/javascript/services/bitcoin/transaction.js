@@ -2,7 +2,7 @@ import * as bitcoin from 'bitcoinjs-lib'
 import { ECPairFactory } from 'ecpair'
 import * as secp256k1 from 'secp256k1'
 
-export default class Transaction {
+export default class BaseTransaction {
   constructor(privateKey, recipientAddress, feeRate, utxos, network = 'testnet') {
     this.privateKey = privateKey
     this.recipientAddress = recipientAddress
@@ -16,24 +16,6 @@ export default class Transaction {
     // Calculate actual fee based on size and fee rate
     const estimatedSize = this.estimateTransactionSize()
     this.fee = Math.ceil(estimatedSize * this.feeRate)
-  }
-
-  estimateTransactionSize() {
-    const overhead = 10  // nVersion, nLocktime
-    const outputSize = 31  // ~31 vbytes per P2WPKH output
-    const outputCount = 1  // We're creating 1 output (recipient)
-
-    // Calculate input sizes based on type
-    let totalInputSize = 0
-    for (const utxo of this.utxos) {
-      if (this.isSegWit(utxo.script)) {
-        totalInputSize += 68  // ~68 vbytes per P2WPKH input
-      } else {
-        totalInputSize += 148  // ~148 vbytes per P2PKH input
-      }
-    }
-
-    return overhead + totalInputSize + (outputSize * outputCount)
   }
 
   async build() {
@@ -51,36 +33,12 @@ export default class Transaction {
     let totalInput = 0
     for (const utxo of this.utxos) {
       totalInput += parseInt(utxo.value)
-
-      if (this.isSegWit(utxo.script)) {
-        psbt.addInput({
-          hash: utxo.txid,
-          index: utxo.vout,
-          witnessUtxo: {
-            script: Buffer.from(utxo.script, 'hex'),
-            value: parseInt(utxo.value)
-          }
-        })
-      } else {
-        // For non-SegWit, use the full transaction hex
-        psbt.addInput({
-          hash: utxo.txid,
-          index: utxo.vout,
-          nonWitnessUtxo: Buffer.from(utxo.hex, 'hex')
-        })
-      }
+      await this.addInput(psbt, utxo)
     }
 
-    // Calculate output amount (total input - calculated fee)
     const outputAmount = totalInput - this.fee
-    console.log('outputAmount', outputAmount)
-    console.log('fee', this.fee)
-    console.log('feeRate', this.feeRate)
-    console.log('estimatedSize', this.estimateTransactionSize())
-    console.log('totalInput', totalInput)
-
     if (outputAmount <= 0) {
-      throw new Error(`Insufficient funds. Total input: ${totalInput} sats, Required fee: ${this.fee} sats (${this.feeRate} sats/vb * ${this.estimateTransactionSize()} vbytes)`)
+      throw new Error(`Insufficient funds. Total input: ${totalInput} sats, Required fee: ${this.fee} sats`)
     }
 
     // Add output
@@ -89,7 +47,24 @@ export default class Transaction {
       value: outputAmount
     })
 
-    // Create key pair and signer
+    await this.signTransaction(psbt)
+
+    psbt.finalizeAllInputs()
+    this.rawHex = psbt.extractTransaction().toHex()
+    this.txid = psbt.extractTransaction().getId()
+    return this
+  }
+
+  // Abstract methods to be implemented by child classes
+  async addInput(psbt, utxo) {
+    throw new Error('Must be implemented by child class')
+  }
+
+  estimateTransactionSize() {
+    throw new Error('Must be implemented by child class')
+  }
+
+  async signTransaction(psbt) {
     const ECPair = ECPairFactory(secp256k1)
     const keyPair = ECPair.fromPrivateKey(this.privateKey)
     const signer = {
@@ -97,15 +72,9 @@ export default class Transaction {
       sign: async (hash) => Buffer.from(keyPair.sign(hash))
     }
 
-    // Sign all inputs
     for (let i = 0; i < this.utxos.length; i++) {
       await psbt.signInputAsync(i, signer)
     }
-
-    psbt.finalizeAllInputs()
-    this.rawHex = psbt.extractTransaction().toHex()
-    this.txid = psbt.extractTransaction().getId()
-    return this
   }
 
   async broadcast() {
@@ -130,23 +99,5 @@ export default class Transaction {
     } catch (error) {
       throw new Error(`Broadcasting failed: ${error.message}`)
     }
-  }
-
-  isSegWit(scriptPubKey) {
-    const script = Buffer.from(scriptPubKey, "hex")
-
-    if (script.length < 2) return false
-
-    // Check for SegWit version 0 (P2WPKH or P2WSH)
-    if (script[0] === 0x00 && (script[1] === 0x14 || script[1] === 0x20)) {
-      return true
-    }
-
-    // Check for SegWit version 1 (Taproot)
-    if (script[0] === 0x01 && script[1] === 0x20) {
-      return true
-    }
-
-    return false
   }
 }

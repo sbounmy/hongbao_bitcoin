@@ -50,4 +50,39 @@ module HongBaosHelper
       concat(tag.span)
     end
   end
+
+  def number_to_bitcoin(amount, options = {})
+    return "₿0" if amount.nil? || amount.zero?
+
+    # Convert to string with 8 decimal places
+    formatted = "%.8f" % amount
+
+    if formatted.start_with?("0.")
+      # Find the position of first non-zero digit after decimal
+      match_data = formatted.match(/0\.0*[1-9]/)
+      significant_index = match_data ? match_data.end(0) : 0
+
+      # Split the string at the first significant digit
+      significant = formatted[0...significant_index]
+      insignificant = formatted[significant_index..]
+
+      # Remove trailing zeros from insignificant part
+      insignificant = insignificant.sub(/0+$/, "") if options[:strip_insignificant_zeros]
+
+      # Build the HTML with different styles for each part
+      safe_join([
+        content_tag(:span, "₿#{significant}", class: options[:significant_class]),
+        content_tag(:span, insignificant, class: options[:insignificant_class])
+      ])
+    else
+      # Handle amounts >= 1 BTC
+      whole, decimal = formatted.split(".")
+      decimal = decimal.sub(/0+$/, "") if options[:strip_insignificant_zeros]
+
+      safe_join([
+        content_tag(:span, "₿#{whole}", class: options[:significant_class]),
+        decimal.present? ? content_tag(:span, ".#{decimal}", class: options[:insignificant_class]) : ""
+      ])
+    end
+  end
 end

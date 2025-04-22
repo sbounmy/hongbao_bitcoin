@@ -4,7 +4,7 @@ class AuthMailer < ApplicationMailer
     @verify_url = verify_magic_link_url(@user.magic_link_token)
 
     mail(
-      to: @user.email_address,
+      to: @user.email,
       subject: "Your magic link for Hong Bao"
     )
   end

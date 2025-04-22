@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["paper"]
+  static targets = ["paper", "paperBack", "paperFront"]
   static values = {
     currentPaper: { type: Number }
   }
@@ -44,14 +44,35 @@ export default class extends Controller {
     )
   }
 
+  get currentPaperFront() {
+    return this.currentPaper.dataset.frontImageValue
+  }
+
+  get currentPaperFrontElements() {
+    return JSON.parse(this.currentPaper.dataset.frontElementsValue)
+  }
+
+  get currentPaperBackElements() {
+    return JSON.parse(this.currentPaper.dataset.backElementsValue)
+  }
+
+  get currentPaperBack() {
+    return this.currentPaper.dataset.backImageValue
+  }
+
+  get bitcoinController() {
+    return this.application.getControllerForElementAndIdentifier(this.element, 'bitcoin')
+  }
+
   dispatchPaperSelect() {
     if (this.currentPaper) {
+      this.dispatch("front", { detail: { url: this.currentPaperFront, elements: this.currentPaperFrontElements } })
+      this.dispatch("back", { detail: { url: this.currentPaperBack, elements: this.currentPaperBackElements } })
+
       this.dispatch("select", {
         detail: {
           paperId: this.currentPaper.dataset.paperId,
-          imageFrontUrl: this.currentPaper.dataset.paperCanvaFrontUrl,
-          imageBackUrl: this.currentPaper.dataset.paperCanvaBackUrl,
-          elements: JSON.parse(this.currentPaper.dataset.paperElements)
+//          elements: JSON.parse(this.currentPaper.dataset.paperElements)
         }
       })
     }
@@ -63,21 +84,5 @@ export default class extends Controller {
       url.searchParams.set('paper_id', this.currentPaperValue)
     }
     window.history.pushState({}, '', url)
-  }
-
-  cache({ detail: { side, base64url, paperId } }) {
-    const paper = this.paperTargets.find(paper => Number(paper.dataset.paperId) === Number(paperId))
-    if (paper) {
-      if (side === 'back') {
-        paper.dataset.paperCanvaBackUrl = base64url
-      } else if (side === 'front') {
-        paper.dataset.paperCanvaFrontUrl = base64url
-      }
-    }
-    if (paper.dataset.paperCanvaFrontUrl &&
-      paper.dataset.paperCanvaBackUrl &&
-      Number(paperId) === this.currentPaperValue) {
-      this.dispatchPaperSelect(paperId)
-    }
   }
 }

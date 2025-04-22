@@ -5,15 +5,21 @@ export default class extends Controller {
     name: String
   }
 
-  src(event) {
-    this.element.setAttribute('src', event.detail[this.nameValue])
+  async #resolveValue(event) {
+    const value = event.detail[this.nameValue]
+    const resolved = typeof value === 'function' ? value() : value
+    return resolved instanceof Promise ? await resolved : resolved
   }
 
-  value(event) {
-    this.element.value = event.detail[this.nameValue]
+  async src(event) {
+    this.element.setAttribute('src', await this.#resolveValue(event))
   }
 
-  html(event) {
-    this.element.innerHTML = event.detail[this.nameValue]
+  async value(event) {
+    this.element.value = await this.#resolveValue(event)
+  }
+
+  async html(event) {
+    this.element.innerHTML = await this.#resolveValue(event)
   }
 }

@@ -1,11 +1,21 @@
 class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
+  has_many :papers, dependent: :destroy
+  has_many :tokens, dependent: :destroy
+  has_secure_password
 
-  normalizes :email_address, with: ->(e) { e.strip.downcase }
+  normalizes :email, with: ->(e) { e.strip.downcase }
 
-  validates :email_address, presence: true,
+  validates :email, presence: true,
                    uniqueness: { case_sensitive: false },
                    format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, length: { minimum: 8 }, allow_nil: true
+
+  after_create :add_tokens
+
+  def add_tokens
+    tokens.create(quantity: 5, description: "Welcome tokens")
+  end
 
   def generate_magic_link
     update(

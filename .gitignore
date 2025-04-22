@@ -8,7 +8,7 @@
 /.bundle
 
 # Ignore all environment files.
-/.env*
+/.env
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -21,26 +21,38 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
-# Ignore storage (uploaded files in development and any SQLite databases).
+# Ignore storage (uploaded files in development).
 /storage/*
 !/storage/.keep
 /tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# Ignore storage (uploaded sqlite3 databases in development).
+/db/*.sqlite3
+/db/*.sqlite3*
+
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials/*.key
 
 .devcontainer/tmp/*
 /app/assets/builds/*
 !/app/assets/builds/.keep
-
-/config/credentials/test.key
 
 .vscode
 
 # Ignore js stuff
 node_modules
 coveragejs
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/test-examples/
+
+.cursor

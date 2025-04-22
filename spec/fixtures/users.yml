@@ -1,0 +1,23 @@
+<% password_digest = BCrypt::Password.create("03/01/2009") %>
+
+satoshi:
+  email: satoshi@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: 490
+  stripe_customer_id: "cus_O7lxYiqVso4zB5"
+
+two:
+  email: two@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: 0
+
+# Adding john for AI image generation tests
+john:
+  email: john@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: 0
+
+lagarde:
+  email: lagarde@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: -30
