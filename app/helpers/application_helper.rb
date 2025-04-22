@@ -54,6 +54,24 @@ module ApplicationHelper
     end
   end
 
+  def theme_css(theme)
+    return "" unless theme
+
+    css = <<~CSS
+      <style>
+        [data-theme="#{theme.ui_name}"] {
+          #{theme.theme_properties.map { |prop|
+            if value = theme.theme_property(prop)
+              "--#{prop.dasherize}: #{value};"
+            end
+          }.compact.join("\n          ")}
+        }
+      </style>
+    CSS
+
+    css.html_safe
+  end
+
   def section_header(title:, subtitle:)
     content_tag :div, class: "text-center space-y-4 pb-6 mx-auto" do
       content_tag(:h2, title, class: "text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400") +
