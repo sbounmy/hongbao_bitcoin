@@ -27,6 +27,7 @@ module Checkout
           p[:customer_email] = @current_user.email
         end
       end
+      p[:allow_promotion_codes] = @current_user.admin
       p
     end
   end

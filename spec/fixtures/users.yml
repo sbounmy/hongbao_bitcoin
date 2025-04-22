@@ -21,3 +21,9 @@ lagarde:
   email: lagarde@example.com
   password_digest: <%= password_digest %>
   tokens_sum: -30
+
+admin:
+  email: admin@example.com
+  password_digest: <%= password_digest %>
+  tokens_sum: 0
+  admin: true

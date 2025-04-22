@@ -93,4 +93,25 @@ test.describe('Stripe Checkout Flow', () => {
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
+
+  test('admin user can buy tokens with coupon', async ({ page }) => {
+    await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });
+
+    await forceLogin(page, {
+      email: 'admin@example.com'
+    });
+
+    await page.getByRole('button', { name: 'Select' }).first().click();
+
+    // Verify redirect to Stripe Checkout
+    expect(page.url()).toContain('checkout.stripe.com');
+
+    expect(page.getByLabel('Add promotion code')).toBeVisible();
+    await page.getByLabel('Add promotion code').fill('BITCOIN_FOOD');
+    await page.getByText('Apply').click();
+    await page.getByRole('button', { name: 'Complete order' }).click();
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.url()).toBe(page.url('/'));
+    await expect(page.locator('header').getByText("10 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+  });
 });
