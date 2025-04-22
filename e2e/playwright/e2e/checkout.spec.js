@@ -33,9 +33,7 @@ test.describe('Stripe Checkout Flow', () => {
     await checkout(page, `hongbaob+${random}@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     // expect(page.url()).toBe(page.url('/'));
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await expect(page.locator('header .badge')).toContainText('5 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -54,9 +52,8 @@ test.describe('Stripe Checkout Flow', () => {
     const random = getRandomInt(9999);
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+
+    await expect(page.locator('header .badge')).toContainText('500 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -69,7 +66,7 @@ test.describe('Stripe Checkout Flow', () => {
       email: 'satoshi@example.com'
     });
 
-    await expect(page.locator('header').getByText("490 ₿ao")).toBeVisible();
+    await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
     await page.getByRole('button', { name: 'Select' }).first().click();
 
@@ -86,10 +83,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.fill('input[name="billingPostalCode"]', '12345');
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
-    // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
+    await expect(page.locator('header .badge')).toContainText('500 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
