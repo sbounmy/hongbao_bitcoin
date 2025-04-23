@@ -23,9 +23,9 @@ module Oauth
       token = exchange_code_for_token
       user_info = fetch_user_info(token)
       identity = find_or_initialize_identity(user_info["sub"])
-      user = find_or_create_user(identity, user_info["email"])
+      user = find_or_create_user(identity, user_info)
 
-      save_identity_and_user(identity, user)
+      save_identity_and_user(identity, user, user_info)
 
       success(user)
     end
@@ -57,9 +57,10 @@ module Oauth
       Identity.find_or_initialize_by(provider_name: "Google", provider_uid: provider_uid)
     end
 
-    def find_or_create_user(identity, email)
+    def find_or_create_user(identity, user_info)
       return identity.user if identity.persisted? && identity.user
 
+      email = user_info["email"]
       user = User.find_by(email:)
 
       if user.nil?
@@ -79,13 +80,20 @@ module Oauth
       user # Return the user object (might not be persisted yet)
     end
 
-    def save_identity_and_user(identity, user)
+    def save_identity_and_user(identity, user, user_info)
       # Use a transaction to ensure both user (if new) and identity are saved, or neither.
       ActiveRecord::Base.transaction do
         unless user.persisted? # Save the user only if they are new
           user.save!
         end
+        identity.user_id = user.id unless identity.user_id
         identity.save!
+      end
+
+      # After successful save, enqueue avatar attachment job if needed
+      picture_url = user_info["picture"]
+      if picture_url.present? && !user.avatar.attached?
+        AttachAvatarFromUrlJob.perform_later(user.id, picture_url)
       end
     end
 
