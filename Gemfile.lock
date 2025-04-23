@@ -215,6 +215,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashdiff (1.1.2)
+    hashie (5.0.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -238,6 +239,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.8.1)
+    jwt (2.10.1)
+      base64
     kamal (2.5.3)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -294,6 +297,8 @@ GEM
     mini_portile2 (2.8.8)
     minitest (5.25.5)
     msgpack (1.7.5)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     multipart-post (2.4.1)
     net-http (0.6.0)
       uri
@@ -321,6 +326,13 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.7-x86_64-linux-gnu)
       racc (~> 1.4)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
     ostruct (0.6.1)
     parallel (1.26.3)
     parser (3.3.6.0)
@@ -464,6 +476,9 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
     solid_cable (3.0.2)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -519,6 +534,7 @@ GEM
     useragent (0.16.11)
     vcr (6.3.1)
       base64
+    version_gem (1.1.7)
     view_component (3.21.0)
       activesupport (>= 5.2.0, < 8.1)
       concurrent-ruby (~> 1.0)
@@ -570,6 +586,7 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   lograge
+  oauth2
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)

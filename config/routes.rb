@@ -118,4 +118,12 @@ Rails.application.routes.draw do
   scope "/(:theme)" do
     get "/", to: "pages#index"
   end
+
+  # Google OAuth Routes
+  resource :oauth, only: [], controller: "oauth" do
+    collection do
+      get :authorize
+      get :callback
+    end
+  end
 end
