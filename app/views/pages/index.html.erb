@@ -113,11 +113,17 @@
     <% end %>
   </section>
 
-  <%# Render the papers carousel before the 'Why' section %>
   <%= render "shared/v2/papers_marquee", papers: @papers %>
 
   <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/why" %>
+  </section>
+
+  <section id="themes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <%= section_header(title: 'Explore Themes', subtitle: 'Bitcoin is the World\'s currency') %>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <%= render Themes::ListComponent.with_collection(@themes) %>
+    </div>
   </section>
 
   <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">

@@ -6,7 +6,7 @@
         <%= render Tokens::BadgeComponent.new(user: current_user) if authenticated? %>
         <!-- Theme Selector -->
         <%= render DropdownComponent.new(
-            items: Ai::Theme.all,
+            items: @themes,
             current_item: current_theme,
             path_helper: :root_path) %>
         <span class="pt-2">
