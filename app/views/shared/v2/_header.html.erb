@@ -25,10 +25,7 @@
             <label for="<%= component.drawer_id %>"
                     tabindex="0"
                     class="btn btn-ghost btn-circle avatar cursor-pointer">
-                <div class="w-8 rounded-full border border-[#FFB636]">
-                <img src="<%= gravatar_url(Current.user.email) %>"
-                        alt="User avatar">
-                </div>
+                    <%= render AvatarComponent.new(user: Current.user) %>
             </label>
             <% end %>
         <% else %>

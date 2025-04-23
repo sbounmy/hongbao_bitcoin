@@ -12,5 +12,21 @@ class AvatarComponent < ViewComponent::Base
     @user = user
   end
 
-  delegate :name, :avatar_url, :link_url, to: :@user
+  def avatar_url
+    if @user&.avatar&.attached?
+      @user.avatar
+    elsif @user.try(:avatar_url)
+      @user.avatar_url
+    else
+      gravatar_url(@user.email)
+    end
+  end
+
+  def link_url
+    @user.try(:link_url)
+  end
+
+  def name
+    @user.try(:name)
+  end
 end

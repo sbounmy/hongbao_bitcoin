@@ -41,6 +41,6 @@ test.describe('Theme', () => {
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
 
     await page.goto('/');
-    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /oklch\(0\.22 0\.019 237\.69/);
+    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
   });
 });
