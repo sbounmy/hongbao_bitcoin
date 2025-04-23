@@ -28,6 +28,10 @@
     <h6 class="footer-title">Features</h6>
     <%= link_to "How it Works", "#how-it-works", class: "link link-hover", data: { controller: "scroll-to" } %>
     <%= link_to "Why Hongbao?", "#why-hongbao-bitcoin", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to hong_baos_path, class: "link link-hover inline-flex items-center gap-1" do %>
+      <%= heroicon "viewfinder-circle", class: "w-4 h-4 inline-block" %>
+      <span>Scan Bill</span>
+    <% end %>
     <%= link_to "FAQ", "#faq", class: "link link-hover", data: { controller: "scroll-to" } %>
     <%= link_to "Pricing", "#pricing", class: "link link-hover", data: { controller: "scroll-to" } %>
   </nav>

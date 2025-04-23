@@ -13,9 +13,11 @@
             <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
         </span>
 
-        <%= link_to hong_baos_path, target: "_blank", rel: "noopener",
-            class: "w-8 h-8 flex items-center justify-center rounded-xl bg-primary/20 hover:bg-primary/30 border-2 border-primary/40 shadow-lg transform hover:scale-105 transition-all duration-200" do %>
-            <%= heroicon "viewfinder-circle", class: "w-5 h-5 text-primary" %>
+        <%# Replaced icon-only link with a button including text for clarity %>
+        <%= link_to hong_baos_path,
+            class: "btn btn-ghost btn-sm normal-case" do %>
+            <%= heroicon "viewfinder-circle", class: "w-5 h-5 mr-1" %>
+            <span>Scan Bill</span>
         <% end %>
 
 
