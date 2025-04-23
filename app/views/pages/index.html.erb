@@ -71,7 +71,7 @@
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
           <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
-            <%= form.submit "Generate", class: "btn btn-primary w-full", data: { turbo_submits_with: "Processing..." } %>
+            <%= form.submit "Generate", class: "btn btn-primary rounded-selector w-full", data: { turbo_submits_with: "Processing..." } %>
         </div>
       <% end %>
 
@@ -83,8 +83,8 @@
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <div class="flex justify-between">
-            <button class="btn btn-secondary">Share</button>
-            <button class="btn btn-primary btn-wide">Print</button>
+            <button class="btn btn-secondary rounded-selector">Share</button>
+            <button class="btn btn-primary btn-wide rounded-selector">Print</button>
           </div>
         </div>
       </div>
