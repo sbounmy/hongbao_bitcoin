@@ -103,3 +103,5 @@ gem "ruby_llm"
 gem "stripe"
 
 gem "lograge"
+
+gem "oauth2"

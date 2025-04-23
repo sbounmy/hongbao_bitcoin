@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_22_133555) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -107,6 +107,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_133555) do
     t.json "ui", default: "{}"
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "provider_name"
+    t.string "provider_uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.integer "ai_style_id", default: 0
@@ -178,6 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_133555) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_tasks", "users"
+  add_foreign_key "identities", "users"
   add_foreign_key "papers", "ai_themes"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
