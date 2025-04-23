@@ -67,11 +67,10 @@
         </div>
 
         <!-- Column 2: Upload -->
-        <div class="relative">
+        <div class="relative h-full flex flex-col">
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
           <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
-            <%= form.submit "Generate", class: "btn btn-primary w-full", data: { turbo_submits_with: "Processing..." } %>
         </div>
       <% end %>
 
@@ -90,6 +89,9 @@
       </div>
     </div>
   </section>
+
+  <%# Render the extracted occasions partial %>
+  <%= render "shared/v2/occasions" %>
 
   <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/features" %>
