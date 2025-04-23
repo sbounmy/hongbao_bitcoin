@@ -79,7 +79,7 @@
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
           <h2 class="text-lg font-medium">3. Preview</h2>
-          <div class="space-y-4 max-h-[calc(100vh-24rem)] overflow-y-auto">
+          <div class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <div class="flex justify-between">
@@ -113,11 +113,17 @@
     <% end %>
   </section>
 
-  <%# Render the papers carousel before the 'Why' section %>
   <%= render "shared/v2/papers_marquee", papers: @papers %>
 
   <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
     <%= render "shared/v2/why" %>
+  </section>
+
+  <section id="themes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <%= section_header(title: 'Explore Themes', subtitle: 'Bitcoin is the World\'s currency') %>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <%= render Themes::ListComponent.with_collection(@themes) %>
+    </div>
   </section>
 
   <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
