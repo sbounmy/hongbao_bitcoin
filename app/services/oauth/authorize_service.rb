@@ -5,7 +5,7 @@ module Oauth
     # No specific initialization needed for this service
 
     def call
-      google_url = authorize_client.auth_code.authorize_url(
+      google_url = client.auth_code.authorize_url(
         redirect_uri: callback_oauth_url, # URL helpers included from ApplicationService
         scope: "openid email profile",
         access_type: "online"
@@ -19,7 +19,7 @@ module Oauth
 
     private
 
-    def authorize_client
+    def client
       OAuth2::Client.new(
         credentials(:google, :client_id), # credentials helper from ApplicationService
         credentials(:google, :client_secret),

@@ -26,8 +26,8 @@ class OauthController < ApplicationController
       alert_message = if error.is_a?(Oauth::CallbackService::CallbackError) && error.user_message.present?
                         error.user_message
       else
-                        # Fallback for generic errors or if no user_message was set
-                        error&.message || "An unknown error occurred during Google sign-in."
+        # Fallback for generic errors or if no user_message was set
+        error&.message || "An unknown error occurred during Google sign-in."
       end
       redirect_to signup_path, alert: alert_message
     end

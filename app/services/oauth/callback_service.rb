@@ -33,7 +33,7 @@ module Oauth
     private
 
     def exchange_code_for_token
-      token_client.auth_code.get_token(
+      client.auth_code.get_token(
         code,
         redirect_uri: callback_oauth_url # URL helper from ApplicationService
       )
@@ -83,25 +83,13 @@ module Oauth
       # Use a transaction to ensure both user (if new) and identity are saved, or neither.
       ActiveRecord::Base.transaction do
         unless user.persisted? # Save the user only if they are new
-          unless user.save
-            user_message = "Could not create your account: #{user.errors.full_messages.join(', ')}."
-            Rails.logger.error("OAuth User Save Error: #{user_message}")
-            raise CallbackError.new("User save failed", user_message: user_message)
-          end
+          user.save!
         end
-
-        # Now that user is saved (or already existed), save the identity
-        unless identity.save
-          # This might occur if the same Google account tries to link again after initial success
-          # Or if there's a unique constraint violation not caught earlier.
-          user_message = "Could not link your Google account: #{identity.errors.full_messages.join(', ')}."
-          Rails.logger.error("OAuth Identity Save Error: #{user_message}")
-          raise CallbackError.new("Identity save failed", user_message: user_message)
-        end
+        identity.save!
       end
     end
 
-    def token_client
+    def client
       OAuth2::Client.new(
         credentials(:google, :client_id),
         credentials(:google, :client_secret),
