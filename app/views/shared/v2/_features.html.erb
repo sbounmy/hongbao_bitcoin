@@ -17,10 +17,10 @@
                     </div>
                 <% end %>
                 <% component.with_after do %>
-                    <div class="grid w-2/3">
-                    <%= image_tag image_url("themes/ghibli-eur.png"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px]" %>
-                    <%= image_tag image_url("themes/ghibli-usd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[80px]" %>
-                    <%= image_tag image_url("themes/ghibli-tnd.png"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[32px] mt-[140px]" %>
+                    <div class="grid w-2/3 mb-20 mt-10 md:mb-0 mb:mt-0">
+                    <%= image_tag image_url("themes/stephane-rmb.jpg"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px] -mt-[40px]" %>
+                    <%= image_tag image_url("themes/stephane-usd.jpg"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[45px]" %>
+                    <%= image_tag image_url("themes/stephane-eur.jpg"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[32px] mt-[140px]" %>
                     </div>
                 <% end %>
             <% end %>
@@ -67,7 +67,7 @@
         </div>
         <div class="p-0 h-full overflow-hidden">
           <iframe
-                src="/specimen.pdf"
+                src="/specimen.pdf#navpanes=0"
                 class="w-full h-full rounded-b-lg border border-gray-300 dark:border-gray-700 bg-white"
                 title="HongBao Paper Wallet Sample"
                 loading="lazy">
