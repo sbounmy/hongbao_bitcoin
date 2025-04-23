@@ -82,21 +82,35 @@ ActiveAdmin.register Ai::Theme do
       Ai::Theme::UI_PROPERTIES.each do |prop|
         if prop.include?("color")
           # Use color picker for color properties
-          f.input prop.to_sym, # Use symbol key for formtastic
+          input_id = "ai_theme_ui_#{prop}" # Consistent ID for input and JS target
+          button_html = content_tag(
+            :button,
+            "✕",
+            type: "button",
+            onclick: "document.getElementById('#{input_id}').value = ''; return false;",
+            title: "Reset color",
+            style: "margin-left: 8px; vertical-align: middle; cursor: pointer; padding: 1px 5px; line-height: 1;"
+            # Optionally add a class like 'button button-outline button-small'
+          )
+          original_hint = property_hints[prop] || ""
+          combined_hint = "#{original_hint} #{button_html}".html_safe
+
+          f.input "ui_#{prop}", # Use symbol key for formtastic
                   label: prop.humanize,
-                  hint: property_hints[prop],
+                  hint: combined_hint, # Use the combined hint with the button
                   as: :string,
                   input_html: {
                     type: "color",
-                    value: f.object.theme_property(prop.dasherize) || "#ffffff"
+                    value: f.object.theme_property(prop),
+                    id: input_id # Ensure the ID is set for the JS
                   }
         else
           # Regular input for non-color properties
-          f.input prop.to_sym, # Use symbol key for formtastic
+          f.input "ui_#{prop}", # Use symbol key for formtastic
                   label: prop.humanize,
                   hint: property_hints[prop],
                   input_html: {
-                    value: f.object.theme_property(prop.dasherize)
+                    value: f.object.theme_property(prop)
                   }
         end
       end

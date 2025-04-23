@@ -43,6 +43,7 @@ module Ai
     store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
 
     before_validation :set_defaults, on: :create
+    before_save :delete_empty_ui_properties
 
     def self.ransackable_attributes(auth_object = nil)
       [ "created_at", "id", "title", "updated_at" ]
@@ -65,6 +66,12 @@ module Ai
     def set_defaults
       self.ui_name ||= "sunset"
       self.path ||= (title || "").parameterize
+    end
+
+    # We cannot set null / empty for color picker so when its default value we remove it
+    # https://github.com/whatwg/html/issues/9572
+    def delete_empty_ui_properties
+      ui.delete_if { |key, value| value.blank? || value == "#000000" }
     end
   end
 end

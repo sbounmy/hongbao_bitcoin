@@ -27,6 +27,24 @@ RSpec.describe Ai::Theme, type: :model do
       theme_instance.ui_name = nil
       expect(theme_instance).to be_invalid
     end
+
+    it 'delete the css property if default color' do
+      theme_instance = ai_themes(:dollar)
+      theme_instance.update ui_color_base_100: "#ffffff"
+      theme_instance.save!
+      expect {
+        theme_instance.update ui_color_base_100: "#000000"
+      }.to change { theme_instance.ui.has_key?('color_base_100') }.from(true).to(false)
+    end
+
+    it 'delete the css property if nil' do
+      theme_instance = ai_themes(:dollar)
+      theme_instance.update ui_color_base_100: "#ffffff"
+      theme_instance.save!
+      expect {
+        theme_instance.update ui_color_base_100: nil
+      }.to change { theme_instance.ui.has_key?('color_base_100') }.from(true).to(false)
+    end
   end
 
   describe '#set_default_path' do
