@@ -67,7 +67,7 @@
         </div>
 
         <!-- Column 2: Upload -->
-        <div class="relative h-full flex flex-col">
+        <div class="relative h-48 flex flex-col">
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
           <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
