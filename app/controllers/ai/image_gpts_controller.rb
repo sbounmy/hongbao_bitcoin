@@ -1,16 +1,13 @@
 module Ai
   class ImageGptsController < ApplicationController
     def create
-      result = Ai::ImageGpts::Create.call!(params: image_params, user: current_user)
+      result = Ai::ImageGpts::Create.call(params: image_params, user: current_user)
       if result.success?
-        # This should be done through turbo frame
-
-        render json: { success: true, image: result.payload }
+        redirect_to root_path, notice: "Image generation queued!"
       else
-        render json: { success: false, error: result.error.message }, status: :unprocessable_entity
+        redirect_to root_path, alert: result.error.message
       end
     end
-
 
     private
 

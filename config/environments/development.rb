@@ -100,5 +100,6 @@ Rails.application.configure do
     ActiveStorage::DiskController#show
     ActiveStorage::RepresentationsController#show
   ]
+  config.lograge.logger = ActiveSupport::Logger.new "#{Rails.root}/log/lograge_#{Rails.env}.log"
   ActiveStorage::LogSubscriber.detach_from :active_storage
 end

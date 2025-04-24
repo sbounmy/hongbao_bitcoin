@@ -6,7 +6,7 @@ module Ai
 
     validates :status, presence: true
     has_many_attached :images, dependent: :destroy
-
+    has_one_attached :image, dependent: :destroy
     aasm column: :status do
       state :created, initial: true
       state :processing

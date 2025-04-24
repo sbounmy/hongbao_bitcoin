@@ -5,7 +5,7 @@ RSpec.describe Ai::ImageGpts::Create do
 
   let(:user) { users(:john) }
   let(:paper) { papers(:dollar) }
-  let(:service) { described_class.new }
+  let(:service) { described_class }
   let(:sample_image_data) { fixture_file_upload('spec/fixtures/files/satoshi.jpg', 'image/jpeg') }
   let(:params) do
     {
@@ -32,10 +32,10 @@ RSpec.describe Ai::ImageGpts::Create do
     context 'when theme is not found' do
       let(:params) { { ai_theme_id: 'non_existent' } }
 
-      it 'raises an error' do
-        expect {
-          service.call(params: params, user: user)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'returns an invalid result' do
+        result = service.call(params: params, user: user)
+        expect(result.success?).to be_falsey
+        expect(result.error).to be_a(ActiveRecord::RecordNotFound)
       end
     end
 

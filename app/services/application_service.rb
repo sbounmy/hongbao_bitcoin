@@ -30,6 +30,7 @@ class ApplicationService
     service = new
     service.call(...)
   rescue StandardError => e
+    puts "service: #{service.inspect}"
     service.failure(e)
   end
 
