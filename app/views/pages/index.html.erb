@@ -71,7 +71,6 @@
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
           <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
-          <%= form.submit "Generate", class: "btn btn-primary rounded-selector w-full", data: { turbo_submits_with: "Processing..." } %>
         </div>
       <% end %>
 
