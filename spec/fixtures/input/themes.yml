@@ -1,0 +1,32 @@
+_fixture:
+  model_class: Input::Theme
+
+dollar:
+  id: 1
+  name: "Dollar"
+  type: "Input::Theme"
+  slug: "usd"
+
+euro:
+  id: 2
+  name: "Euro"
+  type: "Input::Theme"
+  slug: "eur"
+
+monopoly:
+  id: 3
+  name: "Monopoly"
+  type: "Input::Theme"
+  slug: "monopoly"
+
+rouble:
+  id: 4
+  name: "Rouble"
+  type: "Input::Theme"
+  slug: "rub"
+
+yuan:
+  id: 5
+  name: "Chinese Yuan"
+  type: "Input::Theme"
+  slug: "cny"

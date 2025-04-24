@@ -1,42 +1,29 @@
 <div class="relative group/card w-full">
+
   <label class="block cursor-pointer">
-    <%= check_box_tag 'ai_image_gpt[ai_style_ids][]',
-        checkbox.id,
-        false,
-        class: "peer sr-only" %>
+    <%= form.fields_for :input_items do |item_form| %>
+        <%= item_form.check_box :_destroy, { checked: false, class: "peer sr-only" }, '0', '1' %>
+        <%= item_form.hidden_field :input_id, value: checkbox.id %>
+    <% end %>
+
 
     <div class="rounded-xl border-2 transition-all duration-200
                 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-500
                 group-hover/card:border-indigo-300
+                peer-checked:[&>svg]:block
                 active:scale-95 transform">
       <!-- Image Container -->
       <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
-        <% if checkbox.preview_image.attached? %>
-          <%= image_tag checkbox.preview_image, class: "w-full h-full object-cover" %>
+        <% if checkbox.image.attached? %>
+          <%= image_tag checkbox.image, class: "w-full h-full object-cover" %>
         <% end %>
-
-        <!-- Checkbox overlay -->
-        <%# <div class="absolute top-2 right-2 w-6 h-6 peer-checked:opacity-100">
-          <div class="absolute inset-0">
-            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                    class="stroke-white peer-checked:fill-indigo-500"
-                    stroke-width="2"/>
-              <path class="opacity-0 peer-checked:opacity-100 transition-opacity"
-                    d="M7.5 12L10.5 15L16.5 9"
-                    stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div> %>
       </div>
+      <%= heroicon "check", class: "absolute bg-primary rounded-full p-1 right-0 bottom-0 h-5 hidden" %>
     </div>
 
     <!-- Title -->
     <h3 class="p-4 text-center peer-checked:text-indigo-600 text-sm font-medium text-gray-900 group-hover/card:text-indigo-600 transition-colors">
-      <%= checkbox.title %>
+      <%= checkbox.name %>
     </h3>
   </label>
 </div>

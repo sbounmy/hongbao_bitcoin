@@ -95,7 +95,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = base_url
 
   # Mute ActiveStorage logs
-  config.lograge.enabled = true
+  config.lograge.enabled = false
   config.lograge.ignore_actions = %w[
     ActiveStorage::DiskController#show
     ActiveStorage::RepresentationsController#show
