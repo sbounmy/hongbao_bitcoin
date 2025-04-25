@@ -15,7 +15,7 @@
 
         <%# Replaced icon-only link with a button including text for clarity %>
         <%= link_to hong_baos_path,
-            class: "btn btn-ghost btn-sm normal-case" do %>
+            class: "btn btn-ghost btn-sm normal-case rounded-selector hover:bg-base-200/20 transition-colors" do %>
             <%= heroicon "viewfinder-circle", class: "w-5 h-5 mr-1" %>
             <span>Scan Bill</span>
         <% end %>
@@ -31,7 +31,7 @@
             </label>
             <% end %>
         <% else %>
-            <%= link_to "Login", signup_path, class: "btn btn-outline" %>
+            <%= link_to "Login", signup_path, class: "btn btn-outline rounded-selector hover:bg-base-200/20 transition-colors" %>
         <% end %>
         </div>
     </div>
