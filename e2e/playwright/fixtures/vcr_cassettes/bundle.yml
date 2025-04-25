@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - graph.instagram.com
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Error-Mid:
+      - c68eb0ebc0b13bc80144684b19a06e23
+      Vary:
+      - Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Www-Authenticate:
+      - 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        The session has been invalidated because the user changed their password or
+        Facebook has changed the session for security reasons."'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; preload; includeSubDomains
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - ARo98qq7jo5Uy1rBpf4SmMX
+      X-Fb-Trace-Id:
+      - A70GV7MYabi
+      X-Fb-Rev:
+      - '1022231592'
+      X-Stack:
+      - www
+      X-Fb-Debug:
+      - ZqzsWQh8Z2kbgFSmhQD70ZVkT24UpfWZ+ZmauzZwW4OSr0cHLf25wKwAR6xOJ4TFnUZfv6CRz7q2nEXq/Lqz+w==
+      Date:
+      - Fri, 25 Apr 2025 08:16:31 GMT
+      Proxy-Status:
+      - http_request_error; e_fb_responsebytes="AcMwC06x4kBJf7RGMTXTcUhfg-mknEGou-LQhweRwnkQtHOrgyKT0gvv4NpX";
+        e_fb_requesttime="AcPpAxiIx4P3WQalrz9RllkF4y4TBjNFQytS9kAM7jumWab5jiUsDFN8uMLCgs1yTDzuUXlP3w";
+        e_proxy="AcM4jSnHCR6zKrKyy63_4SrialdmhEcd8Kt_083zVPzRHHD4EJj5E7aegzEe5xTpyTZ-Icx6Pwtyq1_rXdeI";
+        e_fb_twtaskhandle="AcPs-QdR3k-R6klAguB06rpoqzLKuWYKdv-nxbYHpJ5x_TZj3C9LSL2usG5XK9JN-dJFhlF_DfPSSzC8gGgM7H3CmOh_vEM0_LE3nwHx5X4";
+        e_fb_requestsequencenumber="AcOzB79ZSZmTJAaa4_irTbVeKVtfP-pJSlzBwch6nXfKOIpeJ6pv-F-SX04T";
+        e_upip="AcMSrBldytsAJ3SgJHOkc9Gt4_ecI8Ji-odv0LSjfiBdnVczbULO1tGC2Vh2tPE63cf31yIOc50X7wNUFu4cgN0JJ6bPboEmPtdIUHo";
+        e_fb_zone="AcM6OiUWI_sHGwjBdqq0mWG-sjN8g_P9w-OMNL_-ZtFPGnZUe27xg1kBgjvW_Lhi";
+        e_fb_binaryversion="AcM4yR1vZKExxPKi9fg-dtB5oHzmxyxt7VAdF7IqnhHhcWtogu7_oeWuUrr2Ev_rR4cWVsBiV-qKHL5okzytb_KJ-o5gu7tEMZQ";
+        e_fb_httpversion="AcMYBWmFi7rX3_aY-_UhY13QLf_y-RyIFauQFEbo7MkXStllMo5aNdcDM9Ru";
+        e_fb_requesthandler="AcPzWiaal6NQjVXpie8pfu-1ufDOLN3oT0sEpyG5tEN3buQ-VWoMyL0YOPC1gay84-Moygoog3LyQpA";
+        e_fb_configversion="AcPOaosgXj4JDDp5ceEzSyKmMJ_Apz8yLV4im3HyACDbOckVAXSaskQhVlmoWw";
+        e_fb_vipaddr="AcOmc_e5izrJf7oYM4kd8uD5g_ZrIEAHTEbd9QkETpFVSOeTnjCW0tuD7T6LkDrbAaUpZ3j0jREC_Z188yJdscpOUly05Zba3Y2JMrpb";
+        e_fb_hostheader="AcMl8uwEQguiywN-RveriKw-D7Da_RFSpu2EbkECSv2SmNf3Y0vlE6hROL3rZL_Is15JT4zzNmZObIkscA";
+        e_fb_builduser="AcMJJKS75ZTSiUGZvKT68-T6QYPeIqKiOzgJejt0ip-mFRqpWXap1um8IEdj7fMOTTg";
+        e_fb_vipport="AcPiTsidl8FxMkcPGTsG6ZWhlmIwVai9b2RSk0U0Po1HDaWjC4Gf3M3O29XF";
+        e_clientaddr="AcN5CXlxJZbwipJWVkEBIy6pA-yx5YCe9FuVGb0we8oadWbcjM66bjg9Gbe8dCUx7rIUsikWkfKvjtbIJMP31xKdSBmyjWXuZQXIrHD8N19l5qdsCg",
+        http_request_error; e_fb_responsebytes="AcPg-DU3qhUO6gaE0EZB4dVW1_tCRV0z9QatG8NNs20r9hA-cBGAYe-5rBdp";
+        e_fb_requesttime="AcP34J5rjmOCa7r9AbybkaLXCjJdXKOBr6fgkqT1NcUZu1tUM5d7zNwNu2k-OoWaiQLpBf68bg";
+        e_proxy="AcOfMqbc0RHMxnJ0GJs9i-1Wars82Xg8ThHqqEHbK9eX1BhjbSHsBzJ1LJKjLbwgaFZjhpSp-TH48f4";
+        e_fb_twtaskhandle="AcPAdgZIC2R7JBAbNtWfJaSw9by2Wt4quJ6Nu4xnu_y_xyY1OERROcNFo4uI_VGmBXUvZfygcKVxn_WcdfIUgNYuNamPNhCTHvs";
+        e_fb_requestsequencenumber="AcMi9lCzyA8e7nplX3YxsShIvk8DvmPGs9vSSANjoUsYse5h7eLE8bJiEg";
+        e_upip="AcMP0e9Necc-0bVhDpE8TZXtuhQzlaf4PuQM8-M-mzK8j3tGfCw_Sq6uKNnYkuXzLuVFg_iLrorgOLlZ-1_i8dG-BnpqUTVtift7mVkp";
+        e_fb_zone="AcMeCWCa7ZZZu_vitWW6wBN6DLrNiBsF2z6vAtUsSd2zhwLs6eBQ3-8rtaHuwg";
+        e_fb_binaryversion="AcN-OkadyhAydiy7XMZu-gnyJiTWL67Sn8bpDrwRz0vjpoOz8CnodenMFDIfPEwlOGjFlM8KY_UOukpeRtQsTPx2rXmj9pl6hkY";
+        e_fb_httpversion="AcPJkKFjX6sRReMiwp2MAXgF3cNJBPOrQkMbmXKBGn2BJmiwaFT5feBuYf0f";
+        e_fb_requesthandler="AcPpDdM9R8LQb5jsIAUEHUFk4r8a7x9jXgNv1QWVBZkhZefemvxyj2Lc6wcudFyDbzaIuKFmfWAe";
+        e_fb_configversion="AcNUPly1-zA68gIj_4CUXjfumRFpD-2JRyJiN_3uM-fKBQPMt9697UNZlV4HGw";
+        e_fb_vipaddr="AcMijoWdTODSoFguSj__KbyyUMW_pbSRKGei59rZkYXtgHyRvGCt73oSE7u1cvTCCv0NfqXgMyE";
+        e_fb_hostheader="AcPGhRRFJ6CllkraXzHbw8eHuZdSNEKbZKH_FwnbZcfdP_kvd26zYPF8k8f2aZNbukOKalPI3achu20NPg";
+        e_fb_builduser="AcOBb-cM1vRORJdqoQB4cKLJrUoeYGvDag-NjfsnLk2X2IIk13RunmEgjH_SLSnwsM0";
+        e_fb_vipport="AcN0Vv9u9V1rmloS3TiXkQSehuJLz853A9DbbEuKx_KdGVvyCH3VNapQne55";
+        e_clientaddr="AcN1wTct8oxUElVqVDewWQHquO3QCMkEGWVRrAFMkWoe46j31lt6i6FTlxKP792P3xfR_3wBXlq30c35BgE"
+      X-Fb-Connection-Quality:
+      - EXCELLENT; q=0.9, rtt=12, rtx=0, c=14, mss=1238, tbw=3252, tp=-1, tpl=-1,
+        uplat=142, ullat=0
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '259'
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Error validating access token: The session has
+        been invalidated because the user changed their password or Facebook has changed
+        the session for security reasons.","type":"OAuthException","code":190,"fbtrace_id":"ARo98qq7jo5Uy1rBpf4SmMX"}}'
+  recorded_at: Fri, 25 Apr 2025 08:16:31 GMT
+recorded_with: VCR 6.3.1
