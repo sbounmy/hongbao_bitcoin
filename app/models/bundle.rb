@@ -9,4 +9,12 @@ class Bundle < ApplicationRecord
   has_many :inputs, through: :input_items, dependent: :destroy
 
   accepts_nested_attributes_for :input_items, allow_destroy: true
+
+  has_many :styles, -> { where(inputs: { type: "Input::Style" }) }, through: :input_items, source: :input
+  has_many :themes, -> { where(inputs: { type: "Input::Theme" }) }, through: :input_items, source: :input
+  has_many :images, -> { where(inputs: { type: "Input::Image" }) }, through: :input_items, source: :input
+
+  def theme
+    themes.first
+  end
 end

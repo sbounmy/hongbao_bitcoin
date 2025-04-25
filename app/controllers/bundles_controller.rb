@@ -1,6 +1,6 @@
 class BundlesController < ApplicationController
   def create
-    @bundle = current_user.bundles.create!(bundle_params)
+    @bundle = Bundles::Create.call(current_user, bundle_params)
   end
 
   private
