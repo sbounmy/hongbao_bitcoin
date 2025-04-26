@@ -8,4 +8,8 @@ class Chat < ApplicationRecord
   def input_items
     bundle.input_items.where(id: input_item_ids)
   end
+
+  def input_items=(input_items)
+    self.input_item_ids = input_items.map(&:id)
+  end
 end

@@ -5,6 +5,7 @@
 class Bundle < ApplicationRecord
   belongs_to :user
 
+  has_many :chats, dependent: :destroy
   has_many :input_items, dependent: :destroy
   has_many :inputs, through: :input_items, dependent: :destroy
 

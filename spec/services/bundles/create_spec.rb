@@ -5,10 +5,10 @@ RSpec.describe Bundles::Create do
 
   let(:user) { users(:john) }
   let(:paper) { papers(:dollar) }
-  let(:ghibli) { input_styles(:ghibli) }
-  let(:simpson) { input_styles(:simpson) }
-  let(:dollar) { input_themes(:dollar) }
-  let(:user_upload) { input_images(:user) }
+  let(:ghibli) { inputs(:ghibli) }
+  let(:simpson) { inputs(:simpson) }
+  let(:dollar) { inputs(:dollar) }
+  let(:user_upload) { inputs(:user) }
 
   let(:service) { described_class }
   let(:sample_image_data) { fixture_file_upload('spec/fixtures/files/satoshi.jpg', 'image/jpeg') }
@@ -16,20 +16,16 @@ RSpec.describe Bundles::Create do
     {
       input_items_attributes: [
         {
-          input_id: ghibli.id,
-          type: 'InputItem::Style'
+          input_id: ghibli.id
         },
         {
-          input_id: simpson.id,
-          type: 'InputItem::Style'
+          input_id: simpson.id
         },
         {
-          input_id: dollar.id,
-          type: 'InputItem::Theme'
+          input_id: dollar.id
         },
         {
           image: sample_image_data,
-          type: 'InputItem::Image',
           input_id: user_upload.id
         }
       ]
@@ -55,14 +51,15 @@ RSpec.describe Bundles::Create do
           service.call(params:, user:)
         end.to change(Chat, :count).by(2)
 
-        expect(Chat.first).to have_attributes(
+        bundle = Bundle.last
+        expect(bundle.chats.first).to have_attributes(
           user:,
-          bundle: Bundle.last,
+          bundle:,
           input_item_ids: [ dollar.id, ghibli.id, user_upload.id ]
         )
-        expect(Chat.last).to have_attributes(
+        expect(bundle.chats.last).to have_attributes(
           user:,
-          bundle: Bundle.last,
+          bundle:,
           input_item_ids: [ dollar.id, simpson.id, user_upload.id ]
         )
       end
