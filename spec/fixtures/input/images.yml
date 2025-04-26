@@ -1,7 +1,0 @@
-_fixture:
-  model_class: Input::Image
-
-user:
-  name: User upload
-  prompt: ""
-  type: "Input::Image"

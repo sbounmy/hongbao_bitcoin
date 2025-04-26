@@ -1,32 +1,71 @@
-_fixture:
-  model_class: Input::Style
+dollar:
+  id: 1
+  name: "Dollar"
+  type: "Input::Theme"
+  slug: "usd"
+
+euro:
+  id: 2
+  name: "Euro"
+  type: "Input::Theme"
+  slug: "eur"
+
+monopoly:
+  id: 3
+  name: "Monopoly"
+  type: "Input::Theme"
+  slug: "monopoly"
+
+rouble:
+  id: 4
+  name: "Rouble"
+  type: "Input::Theme"
+  slug: "rub"
+
+yuan:
+  id: 5
+  name: "Chinese Yuan"
+  type: "Input::Theme"
+  slug: "cny"
 
 ghibli:
+  id: 6
   name: Ghibli
   prompt: turn me into ghibli style with pastel colors, soft landscapes and a poetic atmosphere picture
   type: "Input::Style"
 
 simpson:
+  id: 7
   name: Simpson
   prompt: turn me into simpson style with yellow skin, big eyes, and cartoon outlines
   type: "Input::Style"
 
 marvel:
+  id: 8
   name: Marvel
   prompt: turn me into marvel comic style with bold colors, dynamic poses, and comic book effects
   type: "Input::Style"
 
 pixar:
+  id: 9
   name: Pixar
   prompt: turn me into pixar style with soft colors, cute characters, and a happy atmosphere
   type: "Input::Style"
 
 lego:
+  id: 10
   name: Lego
   prompt: turn me into lego style with brick textures, toy-like faces, and fun, colorful results
   type: "Input::Style"
 
 cyberpunk:
+  id: 11
   name: Cyberpunk
   prompt: turn me into cyberpunk style with neon colors, bold outlines, and a futuristic atmosphere
   type: "Input::Style"
+
+user:
+  id: 12
+  name: User upload
+  prompt: ""
+  type: "Input::Image"

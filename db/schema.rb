@@ -141,7 +141,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_083143) do
     t.integer "input_id", null: false
     t.integer "bundle_id", null: false
     t.string "prompt"
-    t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bundle_id"], name: "index_input_items_on_bundle_id"

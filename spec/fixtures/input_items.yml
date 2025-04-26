@@ -1,0 +1,11 @@
+dollar:
+  bundle: dollar
+  input_id: 1
+
+ghibli:
+  bundle: dollar
+  input_id: 6
+
+image:
+  bundle: dollar
+  input_id: 12

@@ -4,7 +4,6 @@ class CreateInputItems < ActiveRecord::Migration[8.0]
       t.references :input, null: false, foreign_key: true
       t.references :bundle, null: false, foreign_key: true
       t.string :prompt
-      t.string :type
       t.timestamps
     end
   end

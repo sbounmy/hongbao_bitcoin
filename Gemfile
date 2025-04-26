@@ -98,7 +98,7 @@ gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "addi
 
 gem "view_component"
 
-gem "ruby_llm"
+gem "ruby_llm", path: "../ruby_llm"
 
 gem "stripe"
 
