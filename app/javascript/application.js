@@ -2,6 +2,10 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import { createConsumer } from "@rails/actioncable"
+import { Application } from "@hotwired/stimulus"
+import ScrollTo from '@stimulus-components/scroll-to'
+// Import Flowbite's Turbo build - it should handle initialization
+import "flowbite"
 
 // Initialize Action Cable
 window.App = window.App || {};
@@ -12,3 +16,34 @@ window.App.cable = createConsumer();
 Turbo.StreamActions.redirect = function () {
     Turbo.visit(this.target, { action: "replace" });
   };
+
+const application = Application.start()
+
+// Configure Stimulus development experience
+application.debug = false
+window.Stimulus   = application
+
+application.register('scroll-to', ScrollTo)
+
+// Remove or comment out the manual initFlowbite calls,
+// as the Turbo build should handle this automatically.
+/*
+document.addEventListener('turbo:load', () => {
+  initFlowbite();
+})
+document.addEventListener('turbo:render', () => {
+  initFlowbite();
+})
+document.addEventListener('turbo:frame-render', () => {
+  initFlowbite();
+})
+// Optional: Re-initialize after Stimulus controllers connect if needed
+// document.addEventListener('stimulus-connect', () => {
+//   initFlowbite();
+// })
+
+// Initial load just in case
+initFlowbite();
+*/
+
+export { application }

@@ -78,12 +78,58 @@
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
           <h2 class="text-lg font-medium">3. Preview</h2>
-          <div class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
+
+          <%# Vertical list for medium screens and up %>
+          <div class="hidden md:flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
             <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
-          <div class="flex justify-between">
-            <button class="btn btn-secondary rounded-selector">Share</button>
+
+          <%# Carousel for small screens %>
+          <% if @papers.present? %>
+            <div id="paper-preview-carousel" class="relative w-full md:hidden" data-carousel="slide">
+              <!-- Carousel wrapper -->
+              <div class="relative h-72 overflow-hidden rounded-lg"> <%# Adjust height as needed %>
+                <% @papers.each_with_index do |paper, index| %>
+                  <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <%# Render the paper component inside the carousel item %>
+                    <div class="absolute block w-full h-full top-0 left-0 flex items-center justify-center p-4">
+                      <%= render V2::Papers::ItemComponent.new(item: paper) %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+              <!-- Slider indicators -->
+              <div class="absolute z-30 flex -translate-x-1/2 bottom-2 left-1/2 space-x-3 rtl:space-x-reverse">
+                <% @papers.each_with_index do |paper, index| %>
+                  <button type="button" class="w-3 h-3 rounded-full bg-gray-400 hover:bg-gray-600" aria-current="<%= index == 0 ? 'true' : 'false' %>" aria-label="Slide <%= index + 1 %>" data-carousel-slide-to="<%= index %>"></button>
+                <% end %>
+              </div>
+              <!-- Slider controls -->
+              <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                  <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                  </svg>
+                  <span class="sr-only">Previous</span>
+                </span>
+              </button>
+              <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                  <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                  </svg>
+                  <span class="sr-only">Next</span>
+                </span>
+              </button>
+            </div>
+          <% else %>
+            <%# Optional: Message when there are no papers to show %>
+            <p class="text-center text-base-content/70 md:hidden">No previews available.</p>
+          <% end %>
+
+          <div class="flex flex-wrap justify-center sm:justify-between gap-2">
             <button class="btn btn-primary btn-wide rounded-selector">Print</button>
+            <button class="btn btn-secondary rounded-selector">Share</button>
           </div>
         </div>
       </div>
