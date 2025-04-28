@@ -6,6 +6,7 @@ module Bundles
 
       create_bundle
       create_chats
+      create_papers
     end
 
     private
@@ -16,7 +17,7 @@ module Bundles
 
     def create_chats
       @bundle.styles.each do |style|
-        Chat.create!(user: @user, bundle: @bundle, input_items: [ @bundle.theme, style, @bundle.images.first ])
+        Chat.create!(user: @user, bundle: @bundle, input_items: @bundle.input_items.where(input: [ @bundle.theme, style, @bundle.images.first ]))
       end
     end
 

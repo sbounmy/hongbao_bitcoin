@@ -3,11 +3,14 @@
     <%= heroicon "photo", class: "mx-auto h-12 w-12 text-gray-300" %>
     <div class="mt-4 flex text-sm leading-6 text-gray-600">
       <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-        <%= form.file_field :image,
-            class: "sr-only",
-            id: "file-upload",
+        <%= form.fields_for :input_items do |input_item_fields| %>
+          <%= input_item_fields.file_field :image,
+              class: "sr-only",
+              id: "file-upload",
             accept: "image/*"
           %>
+          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last.id %>
+        <% end %>
         <span>Upload a file</span>
       </label>
       <p class="pl-1">or drag and drop</p>
