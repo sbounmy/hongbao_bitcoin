@@ -1,16 +1,18 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :hero_image, :image, :prompt, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
+  permit_params :name, :hero_image, :image, :prompt, :slug, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
 
   remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug
 
 
   form do |f|
+    f.semantic_errors(*f.object.errors.attribute_names)
     # ONLY FOR INPUT::THEME TO BE MOVED TO admin/input_themes :todo:
     f.inputs "Theme Details" do
       f.input :name
       f.input :prompt
       f.input :image, as: :file
       f.input :hero_image, as: :file
+      f.input :slug
       f.input :ui_name, as: :select, collection: [
         "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
         "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
