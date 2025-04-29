@@ -54,25 +54,31 @@ RSpec.describe Bundles::Create do
         bundle = Bundle.last
         expect(bundle.chats.first).to have_attributes(
           user:,
-          bundle:,
-          input_item_ids: [ dollar.id, ghibli.id, user_upload.id ]
+          bundle:
         )
+        expect(bundle.chats.first.inputs).to include(dollar, ghibli, user_upload)
+
         expect(bundle.chats.last).to have_attributes(
           user:,
-          bundle:,
-          input_item_ids: [ dollar.id, simpson.id, user_upload.id ]
+          bundle:
         )
+        expect(bundle.chats.last.inputs).to include(dollar, simpson, user_upload)
       end
 
-      it 'creates a new paper per chat' do
+      it 'process a new paper per chat' do
         expect do
           service.call(params:, user:)
-        end.to change(Paper, :count).by(2)
+        end.to have_enqueued_job(ProcessPaperJob).twice
+      end
 
-        expect(Paper.last.ai_style_id).to eq(ai_styles(:simpson).id)
-        expect(Paper.last.ai_theme_id).to eq(ai_themes(:euro).id)
-        expect(Paper.last.image_front).to be_attached
-        expect(Paper.last.image_front.content_type).to eq('image/jpeg')
+      it 'creates the first message of chat' do
+        expect do
+          service.call(params:, user:)
+        end.to change(Message, :count).by(2)
+
+        message = Message.last
+        expect(message.content).to eq('turn me into simpson style with yellow skin, big eyes, and cartoon outlines')
+        expect(message.chat).to eq(Bundle.last.chats.last)
       end
     end
 

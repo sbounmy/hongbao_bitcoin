@@ -12,4 +12,8 @@ class Chat < ApplicationRecord
   def input_items=(input_items)
     self.input_item_ids = input_items.map(&:id)
   end
+
+  def inputs
+    input_items.map(&:input)
+  end
 end

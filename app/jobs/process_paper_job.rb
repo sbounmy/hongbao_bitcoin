@@ -5,8 +5,9 @@ require "vips"
 class ProcessPaperJob < ApplicationJob
   queue_as :default
 
-  def perform(chat)
-    @chat = chat
+  def perform(message)
+    @message = message
+    @chat = message.chat
     theme_attachment = nil
     image_attachment = nil
     prepared_theme = nil
@@ -23,7 +24,7 @@ class ProcessPaperJob < ApplicationJob
       puts "Calling RubyLLM.edit for Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
-        prompt,
+        message.content,
         model: "gpt-image-1",
         # Pass both prepared FileParts as required
         # Adjust keys (`image:`, `theme:`) as needed by RubyLLM.edit
@@ -35,7 +36,7 @@ class ProcessPaperJob < ApplicationJob
         name: "Generated Paper #{SecureRandom.hex(4)}",
         active: true,
         public: false,
-        user: chat.user,
+        user: @chat.user,
         # chat: @chat
       )
 
@@ -60,12 +61,6 @@ class ProcessPaperJob < ApplicationJob
   end
 
   private
-
-  def prompt
-    puts "input items: #{@chat.input_items.pluck(:input_id)}"
-    puts "Prompt: #{@chat.input_items.map(&:prompt)}"
-    @chat.input_items.map(&:prompt).compact.join("\n")
-  end
 
   def split_image(binary_data)
     # Load image with Vips directly
