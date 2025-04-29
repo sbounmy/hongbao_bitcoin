@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe '#theme_css' do
-    let(:theme) { ai_themes(:dollar) }
+    let(:theme) { inputs(:dollar) }
 
     it 'returns an empty string when no theme is provided' do
       expect(helper.theme_css(nil)).to eq('')
