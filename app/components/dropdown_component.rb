@@ -16,7 +16,7 @@ class DropdownComponent < ApplicationComponent
   end
 
   def item_title(item)
-    return item.title if item.respond_to?(:title)
+    return item.name if item.respond_to?(:name)
     item.to_s
   end
 

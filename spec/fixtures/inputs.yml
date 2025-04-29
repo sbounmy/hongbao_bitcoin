@@ -3,6 +3,14 @@ dollar:
   name: "Dollar"
   type: "Input::Theme"
   slug: "usd"
+  metadata: |
+          {
+            "ui": {
+              "name": "cyberpunk",
+              "color_primary": "red",
+              "depth": "2"
+            }
+          }
 
 euro:
   id: 2
