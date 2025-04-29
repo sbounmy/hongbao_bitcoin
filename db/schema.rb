@@ -152,7 +152,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_095023) do
     t.string "type"
     t.string "prompt"
     t.string "slug"
-    t.json "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "metadata", default: "{}", null: false

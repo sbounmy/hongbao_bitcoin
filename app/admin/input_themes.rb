@@ -1,5 +1,5 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :image, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
+  permit_params :name, :image, :prompt, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
 
   remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug
 
@@ -8,6 +8,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     # ONLY FOR INPUT::THEME TO BE MOVED TO admin/input_themes :todo:
     f.inputs "Theme Details" do
       f.input :name
+      f.input :prompt
       f.input :image, as: :file
       f.input :hero_image, as: :file
       f.input :ui_name, as: :select, collection: [
@@ -17,7 +18,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade",
         "night", "coffee", "winter", "dim", "nord", "sunset"
       ]
-    end if f.object.respond_to? :ui
+    end
 
     # Define hints based on property descriptions
     property_hints = {
@@ -95,7 +96,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
                   }
         end
       end
-    end if f.object.respond_to? :ui
+    end
   f.actions
   end
 end
