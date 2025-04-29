@@ -21,7 +21,7 @@ class ProcessPaperJob < ApplicationJob
       theme_attachment = theme_input&.image
       image_attachment = image_input&.image
 
-      puts "Calling RubyLLM.edit for Chat #{@chat.id} with prompt, theme, and image."
+      Rails.logger.info "Calling RubyLLM.edit for Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
         message.content,
