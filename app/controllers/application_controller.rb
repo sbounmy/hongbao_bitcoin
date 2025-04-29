@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
   def default_url_options
     {
       locale: I18n.locale,
-      testnet: testnet?,
-      theme: current_theme&.slug
+      testnet: testnet?
     }.compact
   end
 

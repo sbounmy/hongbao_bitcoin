@@ -62,7 +62,7 @@
         <div class="relative">
           <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
           <div class="grid grid-cols-2 gap-2">
-            <%= render Ai::Styles::CheckboxComponent.with_collection(@styles, form:) %>
+            <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
             <%= form.fields_for :input_items do |input_item_fields| %>
               <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
             <% end %>

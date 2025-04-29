@@ -61,7 +61,7 @@ ActiveAdmin.register Input do
       end
 
       # Use underscored properties for iteration and hint lookup
-      Ai::Theme::UI_PROPERTIES.each do |prop|
+      Input::Theme::UI_PROPERTIES.each do |prop|
         if prop.include?("color")
           # Use color picker for color properties
           input_id = "ai_theme_ui_#{prop}" # Consistent ID for input and JS target

@@ -11,7 +11,8 @@ class DropdownComponent < ApplicationComponent
   private
 
   def item_path(item)
-    return send(path_helper, item.path) if path_helper && item.respond_to?(:path)
+    puts "-------------#{item.inspect} #{item.slug} #{send(path_helper)}"
+    return send(path_helper, item.slug) if path_helper && item.respond_to?(:slug)
     "#"
   end
 
