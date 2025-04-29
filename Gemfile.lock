@@ -44,8 +44,10 @@ GIT
       ffi
       scrypt
 
-PATH
-  remote: ../ruby_llm
+GIT
+  remote: https://github.com/sbounmy/ruby_llm.git
+  revision: fd85df5377f9884aa5e0fc3712442c310a33a72e
+  branch: paint-support-with-image
   specs:
     ruby_llm (1.2.0)
       base64
