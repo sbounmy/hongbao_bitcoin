@@ -60,8 +60,8 @@ module ApplicationHelper
     css = <<~CSS
       <style>
         [data-theme="#{theme.ui_name}"] {
-          #{theme.theme_properties.map { |prop|
-            if value = theme.theme_property(prop)
+          #{Input::Theme::UI_PROPERTIES.map { |prop|
+            if value = theme.ui[prop]
               "--#{prop.dasherize}: #{value};"
             end
           }.compact.join("\n          ")}

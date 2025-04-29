@@ -57,12 +57,15 @@
   <!-- Main Content -->
   <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
-      <%= form_with(model: Ai::ImageGpt.new, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
+      <%= form_with(model: @bundle, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
         <!-- Column 1: Styles -->
         <div class="relative">
           <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
           <div class="grid grid-cols-2 gap-2">
-            <%= render Ai::Styles::CheckboxComponent.with_collection(@styles, form:) %>
+            <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
+            <%= form.fields_for :input_items do |input_item_fields| %>
+              <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+            <% end %>
           </div>
         </div>
 
@@ -70,7 +73,6 @@
         <div class="relative h-full flex flex-col">
           <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
           <%= render PictureUploadComponent.new(form: form) %>
-          <%= form.hidden_field :ai_theme_id, value: current_theme.id %>
         </div>
       <% end %>
 

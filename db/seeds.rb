@@ -10,7 +10,7 @@
 
 # Set fixtures path
 ENV['FIXTURES_PATH'] = 'spec/fixtures'
-fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,ai/styles,ai/themes').split(',')
+fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,input/themes,input/styles').split(',')
 
 # Load papers and styles from fixtures
 puts "Loading #{fixtures.join(', ')} from fixtures..."
@@ -38,12 +38,6 @@ PaymentMethod.find_each do |pm|
   attach(pm, :name, :logo, [ 'payment_methods' ], format: 'svg')
 end if fixtures.include?('payment_methods')
 
-
-# Attach preview images for styles if they don't exist
-Ai::Style.find_each do |style|
-  attach(style, :title, :preview_image, [ 'ai', 'styles' ])
-end if fixtures.include?('ai/styles')
-
 # Attach images for papers if they don't exist
 Paper.find_each do |paper|
   attach(paper, :name, :image_front, [ 'papers' ], suffix: "front")
@@ -52,9 +46,14 @@ Paper.find_each do |paper|
   paper.save!
 end if fixtures.include?('papers')
 
-Ai::Theme.find_each do |theme|
-  attach(theme, :path, :hero_image, [ 'ai', 'themes' ], suffix: "hero")
+Input::Theme.find_each do |theme|
+  attach(theme, :name, :image, [ 'inputs', 'themes' ])
   theme.save!
-end if fixtures.include?('ai/themes')
+end if fixtures.include?('input/themes')
+
+Input::Style.find_each do |theme|
+  attach(theme, :name, :image, [ 'inputs', 'styles' ])
+  theme.save!
+end if fixtures.include?('input/styles')
 
 TransactionFeesImportJob.new.perform

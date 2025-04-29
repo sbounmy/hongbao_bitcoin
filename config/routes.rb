@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :image_gpts, only: [ :create ]
   end
 
+  resources :bundles, only: [ :create ]
+
   ActiveAdmin.routes(self)
   resource :session
   resources :passwords, param: :token

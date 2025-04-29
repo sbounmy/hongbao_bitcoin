@@ -44,6 +44,20 @@ GIT
       ffi
       scrypt
 
+GIT
+  remote: https://github.com/sbounmy/ruby_llm.git
+  revision: fd85df5377f9884aa5e0fc3712442c310a33a72e
+  branch: paint-support-with-image
+  specs:
+    ruby_llm (1.2.0)
+      base64
+      event_stream_parser (~> 1)
+      faraday (~> 2)
+      faraday-multipart (~> 1)
+      faraday-net_http (~> 3)
+      faraday-retry (~> 2)
+      zeitwerk (~> 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -193,7 +207,7 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
-    faraday-retry (2.2.1)
+    faraday-retry (2.3.1)
       faraday (~> 2.0)
     ffi (1.17.1)
     ffi (1.17.1-aarch64-linux-gnu)
@@ -456,13 +470,6 @@ GEM
     ruby-vips (2.2.2)
       ffi (~> 1.12)
       logger
-    ruby_llm (1.0.1)
-      base64
-      event_stream_parser (~> 1)
-      faraday (~> 2)
-      faraday-multipart (~> 1)
-      faraday-retry (~> 2)
-      zeitwerk (~> 2)
     rubyzip (2.3.2)
     scrypt (3.0.8)
       ffi-compiler (>= 1.0, < 2.0)
@@ -594,7 +601,7 @@ DEPENDENCIES
   rqrcode
   rspec-rails!
   rubocop-rails-omakase
-  ruby_llm
+  ruby_llm!
   selenium-webdriver
   shoulda-matchers
   solid_cable
