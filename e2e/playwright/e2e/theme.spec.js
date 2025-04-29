@@ -1,5 +1,5 @@
-const { test, expect } = require('../../support/test-setup');
-const { appVcrInsertCassette, forceLogin } = require('../../support/on-rails');
+const { test, expect } = require('../support/test-setup');
+const { appVcrInsertCassette, forceLogin } = require('../support/on-rails');
 
 test.describe('Theme', () => {
 
@@ -17,7 +17,7 @@ test.describe('Theme', () => {
       .map(x => parseInt(x, 16))
 
   test('admin can view and edit theme properties', async ({ page }) => {
-    await appVcrInsertCassette('ai_theme')
+    await appVcrInsertCassette('themes')
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
 
@@ -25,10 +25,10 @@ test.describe('Theme', () => {
     await page.setExtraHTTPHeaders({
       Authorization: 'Basic '+btoa('satoshiisalive:this-is-just-a-test')
  })
-    await page.goto('/admin/ai_themes/1/edit');
+    await page.goto('/admin/themes/1/edit');
     // Verify existing values
-    await expect(page.locator('#ai_theme_title')).toHaveValue('Dollar');
-    await expect(page.locator('#ai_theme_ui_name')).toHaveValue('cyberpunk');
+    await expect(page.locator('#input_theme_name')).toHaveValue('Dollar');
+    await expect(page.locator('#input_theme_ui_name')).toHaveValue('cyberpunk');
 
     // Set new theme values
     await page.getByLabel('UI Name').selectOption('sunset');
