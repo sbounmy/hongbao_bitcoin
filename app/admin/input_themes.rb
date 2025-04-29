@@ -1,5 +1,5 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :image, :prompt, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
+  permit_params :name, :hero_image, :image, :prompt, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
 
   remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug
 
