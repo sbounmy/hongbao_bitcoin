@@ -11,7 +11,7 @@ test.describe('Bundle generation', () => {
   });
 
   test('user can create a bundle', async ({ page }) => {
-    pending 'skip until we find out how to perform jobs'
+    test.skip('until we find out how to perform jobs')
     test.setTimeout(1_200_000); // slow test
     await appVcrInsertCassette('bundle')
 
