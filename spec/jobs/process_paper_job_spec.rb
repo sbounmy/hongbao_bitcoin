@@ -17,5 +17,9 @@ RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper
     expect(message.input_image_tokens).to eq(517)
     expect(message.input_text_tokens).to eq(72)
     expect(message.total_tokens).to eq(1645)
+
+    expect(message.total_cost).to eq(0.04813) # dollar
+    expect(message.input_cost).to eq(0.00589) # dollar
+    expect(message.output_cost).to eq(0.04224) # dollar
   end
 end

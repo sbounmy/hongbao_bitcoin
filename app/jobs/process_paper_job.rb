@@ -54,7 +54,10 @@ class ProcessPaperJob < ApplicationJob
         output_tokens: response.usage["output_tokens"],
         input_image_tokens: response.usage.dig("input_tokens_details", "image_tokens"),
         input_text_tokens: response.usage.dig("input_tokens_details", "text_tokens"),
-        total_tokens: response.usage["total_tokens"]
+        total_tokens: response.usage["total_tokens"],
+        total_cost: response.total_cost,
+        input_cost: response.input_cost,
+        output_cost: response.output_cost,
       )
     rescue => e
       puts "Error during job for Chat #{@chat.id}: #{e.message}"
