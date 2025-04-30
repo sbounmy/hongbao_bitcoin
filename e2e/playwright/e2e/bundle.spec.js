@@ -5,6 +5,7 @@ test.describe('Bundle generation', () => {
 
   test.beforeEach(async ({ page }) => {
     // Create admin user and authenticate
+    await appVcrInsertCassette('bundle')
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
@@ -13,7 +14,6 @@ test.describe('Bundle generation', () => {
   test('user can create a bundle', async ({ page }) => {
     test.skip('until we find out how to perform jobs')
     test.setTimeout(1_200_000); // slow test
-    await appVcrInsertCassette('bundle')
 
      // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
