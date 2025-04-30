@@ -1,0 +1,59 @@
+<%# app/views/admin/themes/import_json.html.erb %>
+
+<% content_for :title, "Import Themes from JSON" %>
+
+<div class="panel">
+  <h3>Import Themes from JSON</h3>
+  <div class="panel_contents">
+    <p>Upload a JSON file containing an array of theme objects. Each object should have a unique 'slug'. Existing themes with the same slug will be updated.</p>
+    <p>Example JSON structure:</p>
+    <pre style="background: #f5f5f5; padding: 10px; border: 1px solid #ccc; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word;">
+[
+  {
+    "slug": "unique-theme-slug-1",
+    "name": "My Custom Theme",
+    "prompt": "A theme description or prompt",
+    "ui_name": "custom_theme_1",
+    "ui": {
+      "color_primary": "#ff0000",
+      "color_secondary": "#00ff00",
+      "radius_box": "1rem"
+      // ... other ui properties ...
+    }
+  },
+  {
+    "slug": "another-theme",
+    "name": "Another Theme",
+    "ui_name": "dark",
+    "ui": {
+      "color_base_100": "#333333"
+      // ...
+    }
+  }
+  // ... more theme objects
+]
+    </pre>
+
+    <%= form_tag process_import_admin_themes_path, multipart: true, class: "formtastic" do %>
+      <fieldset class="inputs">
+        <ol>
+          <li class="file input required" id="theme_import_file_input">
+            <%= label_tag 'theme_import[file]', 'JSON File', class: 'label' %>
+            <%= file_field_tag 'theme_import[file]', accept: 'application/json', required: true %>
+            <p class="inline-hints">Select the JSON file to import.</p>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset class="actions">
+        <ol>
+          <li class="action input_action">
+            <%= submit_tag 'Import Themes', class: 'button' %>
+          </li>
+          <li class="cancel">
+            <%= link_to 'Cancel', admin_themes_path %>
+          </li>
+        </ol>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
