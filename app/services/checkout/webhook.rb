@@ -16,11 +16,15 @@ module Checkout
         session = event.data.object
         # Handle the checkout session here
         # You can access session.customer, session.payment_status, etc.
+
         cs = Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items" ] })
         user = User.find_by(email: session.customer_details.email)
+        success(user) if Token.find_by(external_id: session.payment_intent) # to avoid duplicate tokens when stripe retries for no reason
+
         user.tokens.create!(
           quantity: cs.line_items&.data&.first&.price&.transform_quantity&.divide_by,
-          description: "Tokens purchased from Stripe",
+          description: "Tokens purchased from Stripe #{session.payment_intent}",
+          external_id: session.payment_intent,
           metadata: {
             stripe_checkout_session_id: session.id,
             stripe_checkout_session_url: session.url,
