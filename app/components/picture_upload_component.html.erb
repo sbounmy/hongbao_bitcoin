@@ -9,7 +9,7 @@
               id: "file-upload",
             accept: "image/*"
           %>
-          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last.id %>
+          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last&.id %>
         <% end %>
         <span>Upload a file</span>
       </label>
