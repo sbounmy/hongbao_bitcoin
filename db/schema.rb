@@ -157,6 +157,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_142835) do
     t.json "metadata", default: "{}"
   end
 
+  create_table "instagram_posts", force: :cascade do |t|
+    t.string "media_url", null: false
+    t.string "permalink", null: false
+    t.text "caption"
+    t.datetime "published_at", null: false
+    t.string "media_type"
+    t.string "instagram_id"
+    t.integer "position", default: 0
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_instagram_posts_on_active"
+    t.index ["instagram_id"], name: "index_instagram_posts_on_instagram_id", unique: true
+    t.index ["position"], name: "index_instagram_posts_on_position"
+    t.index ["published_at"], name: "index_instagram_posts_on_published_at"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "chat_id", null: false
     t.string "role"
