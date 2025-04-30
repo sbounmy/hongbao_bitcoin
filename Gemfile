@@ -105,3 +105,5 @@ gem "stripe"
 gem "lograge"
 
 gem "oauth2"
+
+gem "mission_control-jobs"
