@@ -186,4 +186,76 @@ http_interactions:
         love behind them.\nReceiving a personalized banknote loaded with Bitcoin would
         be such a special treat.","media_type":"IMAGE","media_url":"https:\/\/scontent-cdg4-2.cdninstagram.com\/v\/t51.75761-15\/488481396_17857417890401591_4546546035907047387_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=JLoerWBy6vMQ7kNvwFogpbO&_nc_oc=AdnAiXGiuP-LK-8gICTBaRLuFZtoAy204Wmm1lqcGn4wprcINpD7KjcBAvBm2QKjfAk&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=j2EdSunEu2W5maXIOt2VLw&oh=00_AfET5tFjJriUFrhEovy5Huc3WUw67HOPf5WmxzniruiHfQ&oe=680D5BAE","permalink":"https:\/\/www.instagram.com\/p\/DH-7_YOMZRm\/","timestamp":"2025-04-03T11:51:34+0000"}],"paging":{"cursors":{"before":"QVFIUkdxNGRELTNmU0p2UlRHY2dLU3hkRG5EUlVYendxTk1KUWxNR3pUQ3BaNHNIOTg1TWxDeTRwUGhmZAllnTXJqdzc1cHNLWHBhTmNvcjcwVHhUMmZAmVkpR","after":"QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n"},"next":"https:\/\/graph.instagram.com\/v22.0\/17841472047727646\/media?fields=id\u00252Ccaption\u00252Cmedia_type\u00252Cmedia_url\u00252Cpermalink\u00252Cthumbnail_url\u00252Ctimestamp&access_token=<INSTAGRAM_ACCESS_TOKEN>&limit=9&after=QVFIUi1odUtlMS1yZAkVhMDQyeVFRYzZA3WUlpSXJiYWxFVTl0ZATluNzdJMW9BYWRtdGpLaklpWnZAaRzhpT1JMelllSVhOR1FkYUZAfanFHdldIOHctbXE4RW5n"}}'
   recorded_at: Tue, 22 Apr 2025 13:35:28 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/prices?active=true&expand%5B%5D=data.product&product=prod_S6qIw59uxz1vEp
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/15.0.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      Stripe-Version:
+      - 2025-03-31.basil
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"15.0.0","lang":"ruby","lang_version":"3.2.8 p263 (2025-03-26)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        stephanes-mbp.home 22.6.0 Darwin Kernel Version 22.6.0: Thu Sep  5 20:46:08
+        PDT 2024; root:xnu-8796.141.3.708.1~1/RELEASE_ARM64_T6020 arm64","hostname":"stephanes-mbp.home"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 14 Apr 2025 09:35:02 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3806'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, HEAD, PUT, PATCH, POST, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required,
+        X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Content-Security-Policy:
+      - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
+        img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=2oMCzXMzNibt0hEFtt7xnYdfhdZoGF47YZhn_5WjZRq4ZYpU9LwJIFkbkbqAzT1--6tSi9W_UrzoMhLv
+      Request-Id:
+      - req_wa8AxYEZOb4Xow
+      Stripe-Version:
+      - 2025-03-31.basil
+      Vary:
+      - Origin
+      X-Stripe-Priority-Routing-Enabled:
+      - 'true'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      X-Wc:
+      - ABGHI
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJvYmplY3QiOiAibGlzdCIsCiAgImRhdGEiOiBbCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMaTVJZ2hxY04iLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiAzMCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogMTAwMCwKICAgICAgInVuaXRfYW1vdW50X2RlY2ltYWwiOiAiMTAwMCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMNnBzUVlUNTAiLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiA1MCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogMTUwMCwKICAgICAgInVuaXRfYW1vdW50X2RlY2ltYWwiOiAiMTUwMCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJwcmljZV8xUkNjYlFJZURRelFoYlNMMDlUb0VrcnIiLAogICAgICAib2JqZWN0IjogInByaWNlIiwKICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICJiaWxsaW5nX3NjaGVtZSI6ICJwZXJfdW5pdCIsCiAgICAgICJjcmVhdGVkIjogMTc0NDM1ODc4MCwKICAgICAgImN1cnJlbmN5IjogImV1ciIsCiAgICAgICJjdXN0b21fdW5pdF9hbW91bnQiOiBudWxsLAogICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgImxvb2t1cF9rZXkiOiBudWxsLAogICAgICAibWV0YWRhdGEiOiB7fSwKICAgICAgIm5pY2tuYW1lIjogbnVsbCwKICAgICAgInByb2R1Y3QiOiB7CiAgICAgICAgImlkIjogInByb2RfUzZxSXc1OXV4ejF2RXAiLAogICAgICAgICJvYmplY3QiOiAicHJvZHVjdCIsCiAgICAgICAgImFjdGl2ZSI6IHRydWUsCiAgICAgICAgImF0dHJpYnV0ZXMiOiBbXSwKICAgICAgICAiY3JlYXRlZCI6IDE3NDQzNTg3ODAsCiAgICAgICAgImRlZmF1bHRfcHJpY2UiOiAicHJpY2VfMVJDY2JRSWVEUXpRaGJTTGk1SWdocWNOIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiMSDigr9hbyA9IDEgUGhvdG8iLAogICAgICAgICJpbWFnZXMiOiBbXSwKICAgICAgICAibGl2ZW1vZGUiOiBmYWxzZSwKICAgICAgICAibWFya2V0aW5nX2ZlYXR1cmVzIjogW10sCiAgICAgICAgIm1ldGFkYXRhIjoge30sCiAgICAgICAgIm5hbWUiOiAiSG9uZ0JhbyBUb2tlbnMiLAogICAgICAgICJwYWNrYWdlX2RpbWVuc2lvbnMiOiBudWxsLAogICAgICAgICJzaGlwcGFibGUiOiBudWxsLAogICAgICAgICJzdGF0ZW1lbnRfZGVzY3JpcHRvciI6IG51bGwsCiAgICAgICAgInRheF9jb2RlIjogbnVsbCwKICAgICAgICAidHlwZSI6ICJzZXJ2aWNlIiwKICAgICAgICAidW5pdF9sYWJlbCI6IG51bGwsCiAgICAgICAgInVwZGF0ZWQiOiAxNzQ0MzYxMzgyLAogICAgICAgICJ1cmwiOiBudWxsCiAgICAgIH0sCiAgICAgICJyZWN1cnJpbmciOiBudWxsLAogICAgICAidGF4X2JlaGF2aW9yIjogInVuc3BlY2lmaWVkIiwKICAgICAgInRpZXJzX21vZGUiOiBudWxsLAogICAgICAidHJhbnNmb3JtX3F1YW50aXR5IjogewogICAgICAgICJkaXZpZGVfYnkiOiAxMCwKICAgICAgICAicm91bmQiOiAidXAiCiAgICAgIH0sCiAgICAgICJ0eXBlIjogIm9uZV90aW1lIiwKICAgICAgInVuaXRfYW1vdW50IjogNTAwLAogICAgICAidW5pdF9hbW91bnRfZGVjaW1hbCI6ICI1MDAiCiAgICB9CiAgXSwKICAiaGFzX21vcmUiOiBmYWxzZSwKICAidXJsIjogIi92MS9wcmljZXMiCn0=
+  recorded_at: Mon, 14 Apr 2025 09:35:02 GMT
 recorded_with: VCR 6.3.1

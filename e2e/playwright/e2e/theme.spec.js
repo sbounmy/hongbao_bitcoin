@@ -5,6 +5,7 @@ test.describe('Theme', () => {
 
   test.beforeEach(async ({ page }) => {
     // Create admin user and authenticate
+    await appVcrInsertCassette('themes')
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
@@ -17,7 +18,6 @@ test.describe('Theme', () => {
       .map(x => parseInt(x, 16))
 
   test('admin can view and edit theme properties', async ({ page }) => {
-    await appVcrInsertCassette('themes')
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
 
