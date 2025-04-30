@@ -11,12 +11,12 @@ class DropdownComponent < ApplicationComponent
   private
 
   def item_path(item)
-    return send(path_helper, item.path) if path_helper && item.respond_to?(:path)
+    return send(path_helper, item.slug) if path_helper && item.respond_to?(:slug)
     "#"
   end
 
   def item_title(item)
-    return item.title if item.respond_to?(:title)
+    return item.name if item.respond_to?(:name)
     item.to_s
   end
 

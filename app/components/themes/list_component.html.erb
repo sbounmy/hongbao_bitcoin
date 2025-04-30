@@ -1,4 +1,4 @@
-<%= link_to root_path(theme: theme.path), class: "block group/card", data: { turbo_action: "replace" } do %>
+<%= link_to root_path(theme: theme.slug), class: "block group/card", data: { turbo_action: "replace" } do %>
   <div class="rounded-xl border-2 border-transparent transition-all duration-200
               hover:border-primary hover:ring-2 hover:ring-primary/50
               active:scale-95 transform">
@@ -16,6 +16,6 @@
 
   <%# Title %>
   <h3 class="mt-2 text-center text-sm font-medium text-base-content group-hover/card:text-primary transition-colors">
-    <%= theme.title %>
+    <%= theme.name %>
   </h3>
 <% end %>

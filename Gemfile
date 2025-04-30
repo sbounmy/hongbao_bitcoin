@@ -98,10 +98,12 @@ gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "addi
 
 gem "view_component"
 
-gem "ruby_llm"
+gem "ruby_llm", github: "sbounmy/ruby_llm", branch: "paint-support-with-image"
 
 gem "stripe"
 
 gem "lograge"
 
 gem "oauth2"
+
+gem "mission_control-jobs"

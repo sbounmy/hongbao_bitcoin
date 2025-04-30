@@ -2,7 +2,7 @@ class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show index search]
 
   def index
-    @themes = Ai::Theme.all
+    @themes = Theme.all
     # Just render the QR scanner view
   end
 
@@ -32,7 +32,7 @@ class HongBaosController < ApplicationController
   def show
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
-    @themes = Ai::Theme.all
+    @themes = Input::Theme.all
     @current_step = (params[:step] || 1).to_i
     @steps = Step.for_show
   end

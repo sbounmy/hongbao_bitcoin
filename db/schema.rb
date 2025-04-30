@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_30_083428) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -107,6 +107,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
     t.json "ui", default: "{}"
   end
 
+  create_table "bundles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bundles_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.string "model_id"
+    t.integer "user_id"
+    t.integer "bundle_id"
+    t.json "input_item_ids", default: "[]"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bundle_id"], name: "index_chats_on_bundle_id"
+    t.index ["user_id", "bundle_id"], name: "index_chats_on_user_id_and_bundle_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
+  end
+
   create_table "identities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "provider_name"
@@ -116,21 +137,38 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
-  create_table "instagram_posts", force: :cascade do |t|
-    t.string "media_url", null: false
-    t.string "permalink", null: false
-    t.text "caption"
-    t.datetime "published_at", null: false
-    t.string "media_type"
-    t.string "instagram_id"
-    t.integer "position", default: 0
-    t.boolean "active", default: true, null: false
+  create_table "input_items", force: :cascade do |t|
+    t.integer "input_id", null: false
+    t.integer "bundle_id", null: false
+    t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["active"], name: "index_instagram_posts_on_active"
-    t.index ["instagram_id"], name: "index_instagram_posts_on_instagram_id", unique: true
-    t.index ["position"], name: "index_instagram_posts_on_position"
-    t.index ["published_at"], name: "index_instagram_posts_on_published_at"
+    t.index ["bundle_id"], name: "index_input_items_on_bundle_id"
+    t.index ["input_id"], name: "index_input_items_on_input_id"
+  end
+
+  create_table "inputs", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.string "prompt"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "metadata", default: "{}"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "chat_id", null: false
+    t.string "role"
+    t.text "content"
+    t.string "model_id"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "papers", force: :cascade do |t|
@@ -176,7 +214,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
     t.json "metadata", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
     t.index ["created_at"], name: "index_tokens_on_created_at"
+    t.index ["external_id"], name: "index_tokens_on_external_id"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
@@ -204,7 +244,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_075415) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_tasks", "users"
+  add_foreign_key "bundles", "users"
   add_foreign_key "identities", "users"
+  add_foreign_key "input_items", "bundles"
+  add_foreign_key "input_items", "inputs"
+  add_foreign_key "messages", "chats"
   add_foreign_key "papers", "ai_themes"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
