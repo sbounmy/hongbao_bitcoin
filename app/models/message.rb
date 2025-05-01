@@ -4,9 +4,7 @@ class Message < ApplicationRecord
   validates :content, presence: true
 
   store :metadata, accessors: [ :cost, :tokens ]
-
   store :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
-
   store :cost, accessors: [ :input, :output, :total ], suffix: true
 
   def self.ransackable_attributes(auth_object = nil)
