@@ -18,4 +18,8 @@ class Bundle < ApplicationRecord
   def theme
     themes.first
   end
+
+  def image
+    input_items.where(inputs: { type: "Input::Image" }).last&.image
+  end
 end
