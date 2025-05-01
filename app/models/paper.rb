@@ -1,5 +1,6 @@
 class Paper < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :bundle, optional: true
   has_one_attached :image_front
   has_one_attached :image_back
   has_many :hong_baos, dependent: :nullify
@@ -13,8 +14,9 @@ class Paper < ApplicationRecord
   validates :image_back, presence: true
   validates :task_id, presence: false
 
-  belongs_to :ai_style, class_name: "Ai::Style", optional: true
-  belongs_to :ai_theme, class_name: "Ai::Theme", optional: true
+  # belongs_to :ai_style, class_name: "Ai::Style", optional: true
+  # belongs_to :ai_theme, class_name: "Ai::Theme", optional: true
+
 
   scope :active, -> { where(active: true).order(position: :asc) }
   scope :template, -> { where(public: true) }
@@ -31,6 +33,18 @@ class Paper < ApplicationRecord
   ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
 
   store :elements, accessors: ELEMENTS, prefix: true
+
+  def input_items
+    bundle.input_items.where(id: input_item_ids)
+  end
+
+  def input_items=(input_items)
+    self.input_item_ids = input_items.map(&:id)
+  end
+
+  def inputs
+    input_items.map(&:input)
+  end
 
   def self.ransackable_associations(auth_object = nil)
     [ "hong_baos", "user" ]
@@ -51,9 +65,11 @@ class Paper < ApplicationRecord
   private
 
   def set_default_elements
+    # Only set defaults if elements are currently blank
     return if elements.present?
 
-    self.elements = {
+    # Define the original hardcoded defaults as a fallback
+    default_values = {
       "private_key_qrcode" => {
         "x" => 0.12,
         "y" => 0.38,
@@ -88,14 +104,19 @@ class Paper < ApplicationRecord
         "size" => 16,
         "color" => "0, 0, 0",
         "max_text_width" => 100
-      },
-      "custom_text" => {
-        "x" => 0.2,
-        "y" => 0.2,
-        "size" => 16,
-        "color" => "0, 0, 0",
-        "max_text_width" => 100
       }
     }
+
+    # Attempt to get AI elements from the associated theme
+    theme_ai_elements = bundle&.theme&.ai
+
+    # Check if the theme's AI elements are present and are a non-empty Hash
+    if theme_ai_elements.is_a?(Hash) && theme_ai_elements.present?
+      # Use the theme's AI elements if they are valid
+      self.elements = theme_ai_elements
+    else
+      # Otherwise, use the hardcoded default values
+      self.elements = default_values
+    end
   end
 end

@@ -31,11 +31,29 @@ class Input::Theme < Input
   ]
   UI_PROPERTIES = CSS_PROPERTIES.map(&:underscore)
 
+  AI_ELEMENT_TYPES = [
+    "private_key_qrcode",
+    "private_key_text",
+    "public_address_qrcode",
+    "public_address_text",
+    "mnemonic_text"
+  ].freeze
+
+  AI_ELEMENT_PROPERTIES = Set[
+    "x",
+    "y",
+    "size",
+    "color",
+    "max_text_width"
+  ].freeze
+
+  AI_PROPERTIES = AI_ELEMENT_TYPES.index_with { |_type| AI_ELEMENT_PROPERTIES }.freeze
+
   has_one_attached :hero_image
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
-  store :metadata, accessors: [ :ui ]
+  store :metadata, accessors: [ :ui , :ai]
   store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
 
   before_save :delete_empty_ui_properties

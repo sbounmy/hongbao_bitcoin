@@ -1,5 +1,5 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :hero_image, :image, :prompt, :slug, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
+  permit_params :name, :hero_image, :image, :prompt, :slug, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
   remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
@@ -52,13 +52,38 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
 
           # Assign UI properties from the nested 'ui' object
           if theme_data['ui'].is_a?(Hash)
+            # Clear existing UI data before applying new ones? Optional.
+            # theme.ui = {}
             Input::Theme::UI_PROPERTIES.each do |prop|
-              if theme_data['ui'].key?(prop)
-                # Use the prefixed accessor method (e.g., ui_color_primary=)
-                theme.send("ui_#{prop}=", theme_data['ui'][prop])
+              # Check using the original CSS property name as likely key in JSON
+              css_prop = prop.dasherize
+              if theme_data['ui'].key?(css_prop)
+                # Use the underscored accessor method (e.g., ui_color_primary=)
+                theme.send("ui_#{prop}=", theme_data['ui'][css_prop])
+              # Also check for underscored key for flexibility
+              elsif theme_data['ui'].key?(prop)
+                 theme.send("ui_#{prop}=", theme_data['ui'][prop])
               end
             end
           end
+
+          # --- START: Assign AI properties from the nested 'ai' object ---
+          if theme_data['ai'].is_a?(Hash)
+            # Directly assign the hash to the 'ai' store.
+            # Assumes the JSON structure matches the expected keys
+            # (e.g., "private_key_qrcode": {"x": 0.1, "y": 0.2, ...})
+            # The `store :metadata, accessors: [:ai]` handles serialization.
+            # Filter the hash to only include known element types and properties for safety
+            filtered_ai_data = {}
+            theme_data['ai'].each do |element_type, properties|
+              if Input::Theme::AI_ELEMENT_TYPES.include?(element_type) && properties.is_a?(Hash)
+                filtered_properties = properties.slice(*Input::Theme::AI_ELEMENT_PROPERTIES.to_a)
+                filtered_ai_data[element_type] = filtered_properties if filtered_properties.present?
+              end
+            end
+            theme.ai = filtered_ai_data if filtered_ai_data.present?
+          end
+          # --- END: Assign AI properties ---
 
           # Attempt to save the theme
           if theme.save
@@ -108,6 +133,50 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         "night", "coffee", "winter", "dim", "nord", "sunset"
       ]
     end
+
+    # --- START: Add AI Element Inputs ---
+    f.inputs "AI Element Positions & Styles" do
+      para "Define the default position (x, y coordinates as percentages from top-left), size (as a percentage of image width/height), color, and max text width for each paper element."
+
+      # Iterate through each AI element type defined in the model
+      Input::Theme::AI_ELEMENT_TYPES.each do |element_type|
+        f.inputs element_type.titleize, class: 'ai-element-group' do # Group fields visually
+
+          # Iterate through each property defined for AI elements
+          Input::Theme::AI_ELEMENT_PROPERTIES.each do |property|
+            # Construct the correct name attribute for the nested JSON store
+            input_name = "input_theme[ai][#{element_type}][#{property}]"
+            # Retrieve the current value, digging safely into the potentially nil 'ai' hash
+            current_value = f.object.ai&.dig(element_type, property.to_s)
+
+            # Determine input type based on property name
+            input_type = case property.to_s
+                         when 'x', 'y', 'size'
+                           :number
+                         when 'color'
+                           :color # Use HTML5 color picker
+                         else # max_text_width, etc.
+                           :number # Assuming numeric, adjust if text needed
+                         end
+
+            # Set step for float values
+            input_options = {
+              value: current_value,
+              name: input_name
+            }
+            input_options[:step] = 'any' if [:number].include?(input_type) && ['x', 'y', 'size'].include?(property.to_s)
+            input_options[:type] = 'color' if property.to_s == 'color' # Force type for Formtastic string default
+
+            f.input property.to_s, # Use property name for the input's internal tracking within Formtastic
+                    label: property.to_s.titleize,
+                    as: (property.to_s == 'color' ? :string : input_type), # Use string for color to allow HTML5 type attr
+                    required: false, # Adjust if any property is mandatory
+                    input_html: input_options
+          end
+        end
+      end
+    end
+    # --- END: Add AI Element Inputs ---
 
     # Define hints based on property descriptions
     property_hints = {

@@ -6,6 +6,7 @@
   <h3>Import Themes from JSON</h3>
   <div class="panel_contents">
     <p>Upload a JSON file containing an array of theme objects. Each object should have a unique 'slug'. Existing themes with the same slug will be updated.</p>
+    <p>The 'ui' object contains theme styling properties (like colors, radius). The 'ai' object contains default positioning and styling for paper elements.</p>
     <p>Example JSON structure:</p>
     <pre style="background: #f5f5f5; padding: 10px; border: 1px solid #ccc; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word;">
 [
@@ -15,10 +16,27 @@
     "prompt": "A theme description or prompt",
     "ui_name": "custom_theme_1",
     "ui": {
-      "color_primary": "#ff0000",
-      "color_secondary": "#00ff00",
-      "radius_box": "1rem"
-      // ... other ui properties ...
+      "color-primary": "#ff0000",
+      "color-secondary": "#00ff00",
+      "radius-box": "1rem"
+      // ... other ui properties (use dash-case keys) ...
+    },
+    "ai": {
+      "private_key_qrcode": {
+        "x": 0.10,
+        "y": 0.40,
+        "size": 0.15,
+        "color": "#00ff00",
+        "max_text_width": 90
+      },
+      "public_address_text": {
+        "x": 0.50,
+        "y": 0.20,
+        "size": 16,
+        "color": "#ffffff",
+        "max_text_width": 120
+      }
+      // ... other ai element properties (use snake_case keys for element types) ...
     }
   },
   {
@@ -26,7 +44,17 @@
     "name": "Another Theme",
     "ui_name": "dark",
     "ui": {
-      "color_base_100": "#333333"
+      "color-base-100": "#333333"
+      // ...
+    },
+    "ai": {
+       "mnemonic_text": {
+        "x": 0.25,
+        "y": 0.25,
+        "size": 14,
+        "color": "#333333",
+        "max_text_width": 100
+      }
       // ...
     }
   }
