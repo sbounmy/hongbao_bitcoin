@@ -14,7 +14,7 @@ ActiveAdmin.register Message do
     column :chat
     column("Content Preview") { |msg| truncate(msg.content, length: 50) }
     column :tokens
-    column :cost
+    column :costs
     column :created_at
     actions
   end
