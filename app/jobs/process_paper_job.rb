@@ -37,6 +37,7 @@ class ProcessPaperJob < ApplicationJob
         active: true,
         public: false,
         user: @chat.user,
+        bundle: @chat.bundle
         # chat: @chat
       )
 

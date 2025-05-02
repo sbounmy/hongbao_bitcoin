@@ -66,18 +66,21 @@ export default class extends Controller {
     const gapX = 5
     const gapY = 2
     const cols = 4
+    this.ctx.font = `${this.fontSizeValue}px Arial`
+    this.ctx.fillStyle = this.fontColorValue
+    this.wrapTextByWord(this.ctx, this.textValue || '', startX, startY, this.maxTextWidthValue, 15)
+    // words.forEach((word, index) => {
+    //   const col = index % cols
+    //   const row = Math.floor(index / cols)
 
-    words.forEach((word, index) => {
-      const col = index % cols
-      const row = Math.floor(index / cols)
+    //   const x = startX + (col * (boxWidth + gapX))
+    //   const y = startY + (row * (boxHeight + gapY))
 
-      const x = startX + (col * (boxWidth + gapX))
-      const y = startY + (row * (boxHeight + gapY))
-
-      this.ctx.fillStyle = this.fontColorValue
-      this.ctx.font = `${this.fontSizeValue}px Arial`
-      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
-    })
+    //   this.ctx.font = `${this.fontSizeValue}px Arial`
+    //   this.ctx.fillStyle = this.fontColorValue
+    //   this.wrapTextByWord(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, 15)
+    //   // this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
+    // })
   }
 
   wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
@@ -101,5 +104,24 @@ export default class extends Controller {
     }
   }
 
+  wrapTextByWord(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
 
 }
