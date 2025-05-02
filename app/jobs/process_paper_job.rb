@@ -31,6 +31,7 @@ class ProcessPaperJob < ApplicationJob
         with: { image: [ ActiveStorage::Blob.service.path_for(theme_attachment.key), ActiveStorage::Blob.service.path_for(image_attachment.key) ] }
       )
 
+      Rails.logger.info "Response: #{response.usage.inspect}"
       # 6. Process the response
       paper = Paper.new(
         name: "Generated Paper #{SecureRandom.hex(4)}",
@@ -42,22 +43,21 @@ class ProcessPaperJob < ApplicationJob
 
       top, bottom = split_image(response.to_blob)
 
-      puts "Attaching generated image to Paper for Chat #{@chat.id}."
+      Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
       paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
       paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
       paper.save!
-      puts "Successfully saved Paper #{paper.id} for Chat #{@chat.id}."
-      puts "Paper: #{ActiveStorage::Blob.service.path_for(paper.image_front.key).inspect}"
+      Rails.logger.info "Successfully saved Paper #{paper.id} for Chat #{@chat.id}."
 
-      message.update(
+      message.update!(
         input_tokens: response.usage["input_tokens"],
         output_tokens: response.usage["output_tokens"],
         input_image_tokens: response.usage.dig("input_tokens_details", "image_tokens"),
         input_text_tokens: response.usage.dig("input_tokens_details", "text_tokens"),
         total_tokens: response.usage["total_tokens"],
-        total_cost: response.total_cost,
-        input_cost: response.input_cost,
-        output_cost: response.output_cost,
+        total_costs: response.total_cost,
+        input_costs: response.input_cost,
+        output_costs: response.output_cost,
       )
     rescue => e
       puts "Error during job for Chat #{@chat.id}: #{e.message}"
