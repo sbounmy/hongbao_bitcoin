@@ -18,14 +18,14 @@ module Checkout
         } ],
         mode: "payment",
         success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
-        cancel_url: cancel_checkout_index_url,
-        customer_creation: "always"
+        cancel_url: cancel_checkout_index_url
       }
       if @current_user
         if @current_user.stripe_customer_id
           p[:customer] = @current_user.stripe_customer_id
         else
           p[:customer_email] = @current_user.email
+          p[:customer_creation] = "always"
         end
       end
       p[:allow_promotion_codes] = @current_user&.admin
