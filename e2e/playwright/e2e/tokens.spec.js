@@ -29,12 +29,7 @@ test.describe('Tokens Page', () => {
       // Scenario 1: Manage Card (Live Interaction)
       await expect(page.getByRole('button', { name: 'Manage Billing' })).toBeVisible();
       await page.getByRole('button', { name: 'Manage Billing' }).click();
-
-      // Wait for navigation to Stripe's Billing Portal
-      // Using waitForURL with a glob pattern is more robust than exact match
       await page.waitForURL('https://billing.stripe.com/p/session/**');
-
-      // For now, just assert we landed on Stripe's domain
       expect(page.url()).toContain('billing.stripe.com');
 
     });
@@ -59,7 +54,7 @@ test.describe('Tokens Page', () => {
 
         await page.goto('/tokens');
         await expect(page.locator('header').getByText('500 ₿ao')).toBeVisible(); // General check for balance display
-    });
+      });
 
   });
 

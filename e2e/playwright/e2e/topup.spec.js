@@ -4,7 +4,9 @@ test.describe('Topup', () => {
   test('user can topup', async ({ page }) => {
     await page.goto('/en/papers/2?step=2');
 
-    await expect(page.locator('[data-binding-name-value="publicAddressText"]:visible')).toHaveValue(/^bc1q/);
+    const input = '[data-binding-name-value="publicAddressText"]:visible';
+    await expect(page.locator(input)).toHaveCount(1);
+    await expect(page.locator(input)).toHaveValue(/^bc1q/);
 
     const address = await page.locator('[data-binding-name-value="publicAddressText"]:visible').first().inputValue();
 

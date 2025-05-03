@@ -25,6 +25,7 @@ module Checkout
           p[:customer] = @current_user.stripe_customer_id
         else
           p[:customer_email] = @current_user.email
+          p[:customer_creation] = "always"
         end
       end
       p[:allow_promotion_codes] = @current_user&.admin
