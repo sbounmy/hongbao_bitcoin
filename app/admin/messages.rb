@@ -13,8 +13,8 @@ ActiveAdmin.register Message do
     column :user
     column :chat
     column("Content Preview") { |msg| truncate(msg.content, length: 50) }
-    column :tokens
-    column :costs
+    column :total_tokens
+    column :total_costs
     column :created_at
     actions
   end
