@@ -107,5 +107,10 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header').getByText("10 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+
+    await page.goto('/tokens');
+    await page.getByRole('button', { name: 'Manage Billing' }).click();
+    await page.waitForURL('https://billing.stripe.com/p/session/**');
+    await expect(page.locator('body')).toContainText("Invoice history");
   });
 });

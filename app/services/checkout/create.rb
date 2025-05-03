@@ -18,7 +18,8 @@ module Checkout
         } ],
         mode: "payment",
         success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
-        cancel_url: cancel_checkout_index_url
+        cancel_url: cancel_checkout_index_url,
+        customer_creation: "always"
       }
       if @current_user
         if @current_user.stripe_customer_id
