@@ -14,14 +14,11 @@ class Paper < ApplicationRecord
   validates :image_back, presence: true
   validates :task_id, presence: false
 
-  # belongs_to :ai_style, class_name: "Ai::Style", optional: true
-  # belongs_to :ai_theme, class_name: "Ai::Theme", optional: true
-
-
   scope :active, -> { where(active: true).order(position: :asc) }
   scope :template, -> { where(public: true) }
 
   ELEMENTS = %w[
+    app_public_address_qrcode
     private_key_qrcode
     private_key_text
     public_address_qrcode
@@ -55,7 +52,7 @@ class Paper < ApplicationRecord
   end
 
   def front_elements
-    elements.slice("public_address_qrcode", "public_address_text")
+    elements.slice("public_address_qrcode", "app_public_address_qrcode", "public_address_text")
   end
 
   def back_elements
@@ -85,6 +82,13 @@ class Paper < ApplicationRecord
         "max_text_width" => 100
       },
       "public_address_qrcode" => {
+        "x" => 0.55,
+        "y" => 0.24,
+        "size" => 0.25,
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
+      },
+      "app_public_address_qrcode" => {
         "x" => 0.55,
         "y" => 0.24,
         "size" => 0.25,
