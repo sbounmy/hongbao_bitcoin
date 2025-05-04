@@ -10,7 +10,8 @@ export default class extends Controller {
     imageUrl: String,
     fontSize: { type: Number, default: 1 },
     fontColor: { type: String, default: 'black' },
-    maxTextWidth: { type: Number, default: 30 }
+    maxTextWidth: { type: Number, default: 30 },
+    hidden: { type: Boolean, default: false }
   }
 
   connect() {
@@ -23,7 +24,7 @@ export default class extends Controller {
   }
 
   draw() {
-    if (!this.ctx) return
+    if (!this.ctx || this.hiddenValue) return
 
     const x = this.canvaController.originalWidth * this.xValue
     const y = this.canvaController.originalHeight * this.yValue
