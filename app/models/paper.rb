@@ -86,7 +86,8 @@ class Paper < ApplicationRecord
         "y" => 0.24,
         "size" => 0.25,
         "color" => "224, 120, 1",
-        "max_text_width" => 100
+        "max_text_width" => 100,
+        "hidden" => true
       },
       "app_public_address_qrcode" => {
         "x" => 0.55,

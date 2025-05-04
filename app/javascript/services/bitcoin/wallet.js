@@ -141,10 +141,10 @@ export default class Wallet {
       publicAddressText: this.address,
       publicKeyText: this.publicKey,
       privateKeyText: this.wif,
-      publicAddressQrcode: async () => await QRCode.toDataURL(this.address),
-      appPublicAddressQrcode: async () => await QRCode.toDataURL(this.appPublicAddress),
-      publicKeyQrcode: async () => await QRCode.toDataURL(this.publicKey),
-      privateKeyQrcode: async () => await QRCode.toDataURL(this.wif)
+      publicAddressQrcode: async () => await QRCode.toDataURL(this.address, { type: 'image/webp', margin: 1.5 }),
+      appPublicAddressQrcode: async () => await QRCode.toDataURL(this.appPublicAddress, { type: 'image/webp', margin: 1.5 }),
+      publicKeyQrcode: async () => await QRCode.toDataURL(this.publicKey, { type: 'image/webp', margin: 1.5 }),
+      privateKeyQrcode: async () => await QRCode.toDataURL(this.wif, { type: 'image/webp', margin: 1.5 })
     }
   }
 
