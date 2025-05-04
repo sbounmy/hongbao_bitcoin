@@ -149,6 +149,6 @@ export default class Wallet {
   }
 
   get appPublicAddress() {
-    return window.location.origin + "/address/" + this.address
+    return window.location.origin + "/addrs/" + this.address
   }
 }
