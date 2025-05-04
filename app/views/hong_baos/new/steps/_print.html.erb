@@ -73,14 +73,14 @@
       </div>
 
       <fieldset class="fieldset">
-        <legend class="fieldset-legend text-[#FFB636]">Beneficiary's Bitcoin level</legend>
+        <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
         <div class="flex gap-2 text-white">
-          <label for="level_toggle">
+          <label for="mode">
             <span class="">Beginner</span>
           </label>
-          <input type="checkbox" checked="checked" id="level_toggle" class="toggle" />
-          <label for="level_toggle">
-            <span class="">PRO</span>
+          <input type="checkbox" checked="checked" id="mode" class="toggle" data-action="hong-bao#modeChanged" />
+          <label for="mode">
+            <span class="">Maximalist</span>
           </label>
         </div>
         <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
@@ -107,7 +107,7 @@
           <%= render 'hong_baos/new/steps/paper_canva',
                     class_name: "w-[140mm] h-[77mm]",
                     paper:,
-                    actions: "hong-bao:front@window->canva#backgroundImageChanged",
+                    actions: "hong-bao:front@window->canva#backgroundImageChange hong-bao:modeChanged@window->canva#refresh",
                     elements: paper.front_elements,
                     image: paper.image_front.attached? ? url_for(paper.image_front) : ''
           %>

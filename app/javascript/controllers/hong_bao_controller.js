@@ -44,6 +44,14 @@ export default class extends Controller {
     )
   }
 
+  modeChanged(event) {
+    if (event.target.checked) { // Maximalist
+      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
+    } else { // Beginner
+      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
+    }
+  }
+
   get currentPaperFront() {
     return this.currentPaper.dataset.frontImageValue
   }
