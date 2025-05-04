@@ -38,7 +38,7 @@ export default class extends Controller {
       let imageSize = this.fontSizeValue * this.canvaController.originalWidth
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
     }
-    else{
+    else {
       this.drawTextMnemonic(this.textValue)
     }
   }
