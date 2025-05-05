@@ -9,7 +9,7 @@ class UpdateAppPublicAddressQrcodeElementsToPapers < ActiveRecord::Migration[8.0
           "color" => paper.elements.dig("public_address_qrcode", "color") || "224, 120, 1"
         }
         puts "Updating paper #{paper.id} with app_public_address_qrcode = #{paper.elements["app_public_address_qrcode"].inspect}"
-        paper.elements["public_address_qrcode"]["hidden"] = true
+        paper.elements["public_address_qrcode"]["hidden"] = true if paper.elements.dig("public_address_qrcode").present?
         paper.save!
       end
     end if defined?(Paper)
