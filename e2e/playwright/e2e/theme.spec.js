@@ -1,5 +1,5 @@
 const { test, expect } = require('../support/test-setup');
-const { appVcrInsertCassette, forceLogin } = require('../support/on-rails');
+const { appVcrInsertCassette, forceLogin, appFactories } = require('../support/on-rails');
 
 test.describe('Theme', () => {
 
@@ -42,5 +42,21 @@ test.describe('Theme', () => {
 
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
+  });
+
+  test('admin can edit theme elements', async ({ page }) => {
+    await page.goto('/admin/themes/1/edit');
+    await page.getByLabel('Elements').fill('{"x": 0.12, "y": 0.38, "size": 0.17, "color": "224, 120, 1", "max_text_width": 100}');
+    await page.locator('input[type="submit"]').click();
+    await expect(page.getByText('Theme was successfully updated')).toBeVisible();
+
+    // https://github.com/shakacode/cypress-playwright-on-rails?tab=readme-ov-file#example-of-using-factory-bot
+    await appFactories({
+      paper: {
+        name: 'Paper 1',
+        theme: 'dollar'
+      }
+    })
+
   });
 });
