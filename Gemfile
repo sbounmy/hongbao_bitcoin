@@ -94,8 +94,6 @@ gem "activeadmin", github: "activeadmin/activeadmin", branch: "tailwind-v4"
 
 gem "rails_heroicon"
 
-gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "additional_endpoints"
-
 gem "view_component"
 
 gem "ruby_llm", github: "sbounmy/ruby_llm", branch: "paint-support-with-image"

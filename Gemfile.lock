@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/SalmaTalbi/LeoAndRuby
-  revision: 708cde784659927a77d1bad6dd13efb739a52004
-  branch: additional_endpoints
-  specs:
-    leoandruby (0.4.3)
-      rails (>= 6.0)
-
-GIT
   remote: https://github.com/activeadmin/activeadmin.git
   revision: 92413c517deb47633a5a4cd8024fb0d8ccb63594
   branch: tailwind-v4
@@ -606,7 +598,6 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal (>= 2.0.0.rc2)
-  leoandruby!
   letter_opener
   letter_opener_web
   lograge
