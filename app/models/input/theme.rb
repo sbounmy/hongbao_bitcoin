@@ -53,7 +53,7 @@ class Input::Theme < Input
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
-  store :metadata, accessors: [ :ui , :ai]
+  store :metadata, accessors: [ :ui, :ai ]
   store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
 
   before_save :delete_empty_ui_properties
