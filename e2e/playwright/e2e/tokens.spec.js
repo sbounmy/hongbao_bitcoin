@@ -35,8 +35,8 @@ test.describe('Tokens Page', () => {
     });
 
     test('allows purchasing tokens via Stripe Checkout', async ({ page }) => {
-        await page.getByRole('button', { name: 'Select' }).first().click();
-        await page.waitForURL('https://checkout.stripe.com/c/pay/**');
+      await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
+      await page.waitForURL('https://checkout.stripe.com/c/pay/**');
 
         // --- Interaction with Live Stripe Checkout ---
         // !! This part relies on Stripe's Checkout UI structure !!
@@ -53,7 +53,7 @@ test.describe('Tokens Page', () => {
         await page.getByText('Processing...').waitFor({ state: 'hidden' });
 
         await page.goto('/tokens');
-        await expect(page.locator('header').getByText('500 ₿ao')).toBeVisible(); // General check for balance display
+        await expect(page.locator('header')).toContainText('495 ₿ao'); // General check for balance display
       });
 
   });

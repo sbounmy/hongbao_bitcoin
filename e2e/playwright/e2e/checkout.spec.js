@@ -44,7 +44,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.goto('/');
 
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
@@ -68,7 +68,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
