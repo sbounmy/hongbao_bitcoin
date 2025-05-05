@@ -26,9 +26,12 @@ class ProcessPaperJob < ApplicationJob
       response = RubyLLM.edit(
         message.content,
         model: "gpt-image-1",
-        # Pass both prepared FileParts as required
-        # Adjust keys (`image:`, `theme:`) as needed by RubyLLM.edit
-        with: { image: [ ActiveStorage::Blob.service.path_for(theme_attachment.key), ActiveStorage::Blob.service.path_for(image_attachment.key) ] }
+        with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
+        options: {
+          size: "1024x1024",
+          quality: "high",
+          user: message.user_id
+        }
       )
 
       Rails.logger.info "Response: #{response.usage.inspect}"
@@ -89,5 +92,9 @@ class ProcessPaperJob < ApplicationJob
     bottom_data = bottom_half.write_to_buffer(".jpg")
 
     [ StringIO.new(top_data), StringIO.new(bottom_data) ]
+  end
+
+  def path_for(attachment)
+    ActiveStorage::Blob.service.path_for(attachment.key)
   end
 end
