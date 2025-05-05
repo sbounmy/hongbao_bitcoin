@@ -1,7 +1,7 @@
 class UpdateAppPublicAddressQrcodeElementsToPapers < ActiveRecord::Migration[8.0]
   def up
     Paper.all.each do |paper|
-      unless !paper.elements.dig("app_public_address_qrcode", "x").present?
+      if !paper.elements.dig("app_public_address_qrcode", "x").present?
         paper.elements["app_public_address_qrcode"] = {
           "x" => paper.elements.dig("public_address_qrcode", "x") || 0.55,
           "y" => paper.elements.dig("public_address_qrcode", "y") || 0.24,
