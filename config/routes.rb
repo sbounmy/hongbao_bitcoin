@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     post "mt_pelerin", to: "mt_pelerin#create"
   end
 
+  resources :addrs, only: [ :show ], controller: "hong_baos"
 
   resources :tokens, only: [ :index ]
 
