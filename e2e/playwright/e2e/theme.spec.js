@@ -24,7 +24,7 @@ test.describe('Theme', () => {
     // Navigate to admin themes page
     await page.setExtraHTTPHeaders({
       Authorization: 'Basic '+btoa('satoshiisalive:this-is-just-a-test')
- })
+   })
     await page.goto('/admin/themes/1/edit');
     // Verify existing values
     await expect(page.locator('#input_theme_name')).toHaveValue('Dollar');
@@ -45,18 +45,16 @@ test.describe('Theme', () => {
   });
 
   test('admin can edit theme elements', async ({ page }) => {
+    await page.setExtraHTTPHeaders({
+      Authorization: 'Basic ' + btoa('satoshiisalive:this-is-just-a-test')
+    })
     await page.goto('/admin/themes/1/edit');
-    await page.getByLabel('Elements').fill('{"x": 0.12, "y": 0.38, "size": 0.17, "color": "224, 120, 1", "max_text_width": 100}');
+    await page.locator('[name="input_theme[ai][public_address_qrcode][x]"]').fill('0.33');
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
-
-    // https://github.com/shakacode/cypress-playwright-on-rails?tab=readme-ov-file#example-of-using-factory-bot
-    await appFactories({
-      paper: {
-        name: 'Paper 1',
-        theme: 'dollar'
-      }
-    })
-
+    await page.goto('/papers/1')
+    // <div data-controller="canva-item" data-canva-target="canvaItem" data-canva-item-x-value="0.82" data-canva-item-y-value="0.285" data-canva-item-name-value="privateKeyQrcode" data-canva-item-type-value="image" data-canva-item-font-size-value="0.09" data-canva-item-font-color-value="#000000" data-canva-item-max-text-width-value="0" class="hidden canva-item"></div>
+    await expect(page.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
   });
+
 });

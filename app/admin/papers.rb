@@ -71,6 +71,8 @@ ActiveAdmin.register Paper do
   end
 
   form html: { multipart: true } do |f|
+    f.semantic_errors(*f.object.errors.attribute_names)
+
     f.inputs do
       f.input :name
       f.input :active
