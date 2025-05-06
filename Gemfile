@@ -59,7 +59,8 @@ group :development, :test do
 
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
 
-  gem "factory_bot_rails"
+  gem "factory_bot_rails", github: "thoughtbot/factory_bot_rails"
+
 
   # Clean the database between e2e tests
   gem "database_cleaner-active_record"

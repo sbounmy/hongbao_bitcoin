@@ -74,7 +74,8 @@ dollar:
         "color_secondary": "#d83933",
         "color_secondary_content": "#ffffff",
         "color_accent": "#a3edeb",
-        "color_accent_content": "#112f4e"
+        "color_accent_content": "#112f4e",
+        "depth": "2"
       },
       "ai": {
        "private_key_qrcode": {

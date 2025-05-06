@@ -7,12 +7,13 @@ class Paper < ApplicationRecord
   has_many :children, class_name: "Paper", foreign_key: :parent_id
   belongs_to :parent, class_name: "Paper", optional: true
 
-  before_save :set_default_elements
+  before_validation :set_default_elements
 
   validates :name, presence: true
   validates :image_front, presence: true
   validates :image_back, presence: true
   validates :task_id, presence: false
+  validates :elements, presence: true
 
   scope :active, -> { where(active: true).order(position: :asc) }
   scope :template, -> { where(public: true) }
@@ -63,12 +64,6 @@ class Paper < ApplicationRecord
 
   def set_default_elements
     return if elements.present?
-    theme_ai_elements = bundle&.theme&.ai
-
-    if theme_ai_elements.is_a?(Hash) && theme_ai_elements.present?
-      self.elements = theme_ai_elements
-    else
-      self.elements = Input::Theme.default_ai_elements
-    end
+    self.elements = bundle&.theme&.ai || Input::Theme.default_ai_elements
   end
 end

@@ -39,7 +39,7 @@ class Input::Theme < Input
     "mnemonic_text"
   ].freeze
 
-  AI_ELEMENT_PROPERTIES = Set[
+  AI_ELEMENT_PROPERTIES = [
     "x",
     "y",
     "size",
@@ -104,6 +104,11 @@ class Input::Theme < Input
   store :metadata, accessors: [ :ui, :ai ]
   store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
   store :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
+
+  AI_ELEMENT_TYPES.each do |type|
+    store :"ai_#{type}", accessors: AI_ELEMENT_PROPERTIES, prefix: true
+  end
+
 
   before_save :delete_empty_ui_properties
 
