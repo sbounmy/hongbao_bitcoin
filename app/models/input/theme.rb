@@ -49,12 +49,61 @@ class Input::Theme < Input
 
   AI_PROPERTIES = AI_ELEMENT_TYPES.index_with { |_type| AI_ELEMENT_PROPERTIES }.freeze
 
+  def self.default_ai_elements
+    {
+      "private_key_qrcode" => {
+        "x" => 0.12,
+        "y" => 0.38,
+        "size" => 0.17,
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
+      },
+      "private_key_text" => {
+        "x" => 0.15,
+        "y" => 0.35,
+        "size" => 14,
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
+      },
+      "public_address_qrcode" => {
+        "x" => 0.55,
+        "y" => 0.24,
+        "size" => 0.25,
+        "color" => "224, 120, 1",
+        "max_text_width" => 100,
+        "hidden" => true
+      },
+      "app_public_address_qrcode" => {
+        "x" => 0.55,
+        "y" => 0.24,
+        "size" => 0.25,
+        "color" => "224, 120, 1",
+        "max_text_width" => 100
+      },
+      "public_address_text" => {
+        "x" => 0.55,
+        "y" => 0.24,
+        "size" => 18,
+        "color" => "0, 0, 0",
+        "max_text_width" => 100
+      },
+      "mnemonic_text" => {
+        "x" => 0.2,
+        "y" => 0.2,
+        "size" => 16,
+        "color" => "0, 0, 0",
+        "max_text_width" => 100
+      }
+    }
+  end
+
   has_one_attached :hero_image
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
   store :metadata, accessors: [ :ui, :ai ]
   store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
+  store :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
 
   before_save :delete_empty_ui_properties
 

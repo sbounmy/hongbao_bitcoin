@@ -62,66 +62,13 @@ class Paper < ApplicationRecord
   private
 
   def set_default_elements
-    # Only set defaults if elements are currently blank
     return if elements.present?
-
-    # Define the original hardcoded defaults as a fallback
-    default_values = {
-      "private_key_qrcode" => {
-        "x" => 0.12,
-        "y" => 0.38,
-        "size" => 0.17,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100
-      },
-      "private_key_text" => {
-        "x" => 0.15,
-        "y" => 0.35,
-        "size" => 14,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100
-      },
-      "public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100,
-        "hidden" => true
-      },
-      "app_public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100
-      },
-      "public_address_text" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 18,
-        "color" => "0, 0, 0",
-        "max_text_width" => 100
-      },
-      "mnemonic_text" => {
-        "x" => 0.2,
-        "y" => 0.2,
-        "size" => 16,
-        "color" => "0, 0, 0",
-        "max_text_width" => 100
-      }
-    }
-
-    # Attempt to get AI elements from the associated theme
     theme_ai_elements = bundle&.theme&.ai
 
-    # Check if the theme's AI elements are present and are a non-empty Hash
     if theme_ai_elements.is_a?(Hash) && theme_ai_elements.present?
-      # Use the theme's AI elements if they are valid
       self.elements = theme_ai_elements
     else
-      # Otherwise, use the hardcoded default values
-      self.elements = default_values
+      self.elements = Input::Theme.default_ai_elements
     end
   end
 end

@@ -18,4 +18,6 @@ RSpec.describe Paper, type: :model do
       create(:paper, bundle: bundle)
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+
 end

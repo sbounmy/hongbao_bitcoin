@@ -9,6 +9,43 @@ RSpec.describe Input, type: :model do
           name: "cyberpunk",
           color_primary: "red",
           depth: "2"
+        },
+        ai: {
+          private_address_qrcode: {
+            x: 0.12,
+            y: 0.38,
+            size: 0.17,
+            color: "224, 120, 1",
+            max_text_width: 100
+          },
+          private_address_text: {
+            x: 0.12,
+            y: 0.38,
+            size: 0.17,
+            color: "224, 120, 1",
+            max_text_width: 100
+          },
+          public_address_qrcode: {
+            x: 0.12,
+            y: 0.38,
+            size: 0.17,
+            color: "224, 120, 1",
+            max_text_width: 100
+          },
+          public_address_text: {
+            x: 0.12,
+            y: 0.38,
+            size: 0.17,
+            color: "224, 120, 1",
+            max_text_width: 100
+          },
+          mnemonic_text: {
+            x: 0.12,
+            y: 0.38,
+            size: 0.17,
+            color: "224, 120, 1",
+            max_text_width: 100
+          }
         }
       })
   end
@@ -19,6 +56,46 @@ RSpec.describe Input, type: :model do
         name: "cyberpunk",
         color_primary: "red",
         depth: "2"
+      })
+    end
+
+    it 'is accessible as ai' do
+      expect(subject.ai).to include({
+        private_address_qrcode: {
+          x: 0.12,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        },
+        private_address_text: {
+          x: 0.12,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        },
+        public_address_qrcode: {
+          x: 0.12,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        },
+        public_address_text: {
+          x: 0.12,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        },
+        mnemonic_text: {
+          x: 0.12,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        }
       })
     end
 
@@ -34,9 +111,29 @@ RSpec.describe Input, type: :model do
       })
     end
 
+    it 'supports ai properties accessor' do
+      expect {
+        subject.update ai_private_address_qrcode["x"]: 0.13
+      }.to change(subject, :ai_private_address_qrcode["x"]).from(0.12).to(0.13)
+
+      expect(subject.ai).to include({
+        private_address_qrcode: {
+          x: 0.13,
+          y: 0.38,
+          size: 0.17,
+          color: "224, 120, 1",
+          max_text_width: 100
+        }
+      })
+    end
+
     it 'is accessible by ui[...]' do
       expect(subject.ui_name).to eql('cyberpunk')
       expect(subject.ui[:color_primary]).to eql('red')
+    end
+
+    it 'is accessible by ai[...]' do
+      expect(subject.ai_private_address_qrcode["x"]).to eql(0.12)
     end
   end
 end
