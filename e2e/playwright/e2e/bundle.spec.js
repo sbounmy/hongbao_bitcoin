@@ -29,7 +29,7 @@ test.describe('Bundle generation', () => {
     await expect(page.getByText('Processing...')).toBeHidden();
     await app('perform_jobs');
     // this should be done through turbo frame
-    // await page.waitForTimeout(700_000); // jobs takes around chatgpt API 60s
+    await page.waitForTimeout(300);
     await page.goto('/');
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
   });
