@@ -182,7 +182,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_042804) do
     t.boolean "public", default: false
     t.integer "parent_id"
     t.integer "ai_theme_id"
+    t.integer "bundle_id"
+    t.json "input_item_ids", default: "[]"
     t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
+    t.index ["bundle_id"], name: "index_papers_on_bundle_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
   end
@@ -249,6 +252,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_042804) do
   add_foreign_key "input_items", "inputs"
   add_foreign_key "messages", "chats"
   add_foreign_key "papers", "ai_themes"
+  add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"

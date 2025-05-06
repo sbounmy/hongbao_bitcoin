@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/SalmaTalbi/LeoAndRuby
-  revision: 708cde784659927a77d1bad6dd13efb739a52004
-  branch: additional_endpoints
-  specs:
-    leoandruby (0.4.3)
-      rails (>= 6.0)
-
-GIT
   remote: https://github.com/activeadmin/activeadmin.git
   revision: 92413c517deb47633a5a4cd8024fb0d8ccb63594
   branch: tailwind-v4
@@ -57,6 +49,14 @@ GIT
       faraday-net_http (~> 3)
       faraday-retry (~> 2)
       zeitwerk (~> 2)
+
+GIT
+  remote: https://github.com/thoughtbot/factory_bot_rails.git
+  revision: 83109a5ff2a0601df21547a56797635616e0d8eb
+  specs:
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -194,9 +194,6 @@ GEM
     eventmachine (1.2.7)
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
-    factory_bot_rails (6.4.4)
-      factory_bot (~> 6.5)
-      railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     faraday (2.13.1)
@@ -599,14 +596,13 @@ DEPENDENCIES
   database_cleaner-active_record
   debug
   dotenv-rails
-  factory_bot_rails
+  factory_bot_rails!
   faker
   foreman
   image_processing (>= 1.2)
   importmap-rails
   jbuilder
   kamal (>= 2.0.0.rc2)
-  leoandruby!
   letter_opener
   letter_opener_web
   lograge

@@ -32,7 +32,7 @@ export default class extends Controller {
 
       this.ctx.font = `${this.fontSizeValue}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, 15)
+      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, this.fontSizeValue + 1)
 
     } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue * this.canvaController.originalWidth
@@ -58,27 +58,12 @@ export default class extends Controller {
   }
 
   drawTextMnemonic(text) {
-    const words = text.split(' ')
     const startX = this.canvaController.originalWidth * this.xValue
     const startY = this.canvaController.originalHeight * this.yValue
 
-    const boxWidth = 60
-    const boxHeight = 15
-    const gapX = 5
-    const gapY = 2
-    const cols = 4
-
-    words.forEach((word, index) => {
-      const col = index % cols
-      const row = Math.floor(index / cols)
-
-      const x = startX + (col * (boxWidth + gapX))
-      const y = startY + (row * (boxHeight + gapY))
-
-      this.ctx.fillStyle = this.fontColorValue
-      this.ctx.font = `${this.fontSizeValue}px Arial`
-      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
-    })
+    this.ctx.font = `${this.fontSizeValue}px Arial`
+    this.ctx.fillStyle = this.fontColorValue
+    this.wrapTextByWord(this.ctx, this.textValue || '', startX, startY, this.maxTextWidthValue, this.fontSizeValue + 1)
   }
 
   wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
@@ -102,5 +87,24 @@ export default class extends Controller {
     }
   }
 
+  wrapTextByWord(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
 
 }

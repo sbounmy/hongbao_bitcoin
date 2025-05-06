@@ -5,6 +5,10 @@ require "vips"
 class ProcessPaperJob < ApplicationJob
   queue_as :default
 
+  def quality
+    ENV.fetch("GPT_IMAGE_QUALITY", "high")
+  end
+
   def perform(message)
     @message = message
     @chat = message.chat
@@ -21,7 +25,7 @@ class ProcessPaperJob < ApplicationJob
       theme_attachment = theme_input&.image
       image_attachment = image_input&.image
 
-      Rails.logger.info "Calling RubyLLM.edit for Chat #{@chat.id} with prompt, theme, and image."
+      Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
         message.content,
@@ -29,7 +33,7 @@ class ProcessPaperJob < ApplicationJob
         with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
         options: {
           size: "1024x1024",
-          quality: "high",
+          quality:,
           user: message.user_id
         }
       )
@@ -41,6 +45,7 @@ class ProcessPaperJob < ApplicationJob
         active: true,
         public: false,
         user: @chat.user,
+        bundle: @chat.bundle
         # chat: @chat
       )
 
