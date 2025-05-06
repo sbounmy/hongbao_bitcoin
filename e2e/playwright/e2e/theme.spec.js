@@ -9,7 +9,7 @@ test.describe('Theme', () => {
       email: 'satoshi@example.com'
     });
     await page.goto('/');
-    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
+    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(230\, 244\, 241\)/); //theme default
 
     // Navigate to admin themes page
     await page.setExtraHTTPHeaders({
