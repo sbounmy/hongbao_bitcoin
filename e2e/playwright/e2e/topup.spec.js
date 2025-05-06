@@ -2,7 +2,7 @@ import { test, expect } from '../support/test-setup';
 
 test.describe('Topup', () => {
   test('user can topup', async ({ page }) => {
-    await page.goto('/en/papers/2?step=2');
+    await page.goto('/en/papers/1?step=2');
 
     const input = '[data-binding-name-value="publicAddressText"]:visible';
     await expect(page.locator(input)).toHaveCount(1);
