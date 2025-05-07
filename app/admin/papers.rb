@@ -79,8 +79,8 @@ ActiveAdmin.register Paper do
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false
       f.input :position
-      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front)) : nil
-      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back)) : nil
+      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500, height: 500) : nil
+      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500, height: 500) : nil
 
       # JSONB elements handling
       Paper::ELEMENTS.each do |element|
