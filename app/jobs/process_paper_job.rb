@@ -9,9 +9,10 @@ class ProcessPaperJob < ApplicationJob
     ENV.fetch("GPT_IMAGE_QUALITY", "high")
   end
 
-  def perform(message)
-    @message = message
-    @chat = message.chat
+  def perform(paper)
+    @paper = paper
+    @message = paper.message
+    @chat = @message.chat
     theme_attachment = nil
     image_attachment = nil
     prepared_theme = nil
@@ -28,27 +29,17 @@ class ProcessPaperJob < ApplicationJob
       Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
-        message.content,
+        @message.content,
         model: "gpt-image-1",
         with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
         options: {
           size: "1024x1024",
           quality:,
-          user: message.user_id
+          user: @message.user_id
         }
       )
 
       Rails.logger.info "Response: #{response.usage.inspect}"
-      # 6. Process the response
-      paper = Paper.new(
-        name: "Generated Paper #{SecureRandom.hex(4)}",
-        active: true,
-        public: false,
-        user: @chat.user,
-        bundle: @chat.bundle
-        # chat: @chat
-      )
-
       top, bottom = split_image(response.to_blob)
 
       Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
@@ -57,7 +48,7 @@ class ProcessPaperJob < ApplicationJob
       paper.save!
       Rails.logger.info "Successfully saved Paper #{paper.id} for Chat #{@chat.id}."
 
-      message.update!(
+      @message.update!(
         input_tokens: response.usage["input_tokens"],
         output_tokens: response.usage["output_tokens"],
         input_image_tokens: response.usage.dig("input_tokens_details", "image_tokens"),

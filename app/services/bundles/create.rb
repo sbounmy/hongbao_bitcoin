@@ -6,7 +6,6 @@ module Bundles
 
       create_bundle
       create_chats
-      create_papers
     end
 
     private
@@ -18,16 +17,19 @@ module Bundles
     def create_chats
       @bundle.styles.each do |style|
         chat = Chat.create!(user: @user, bundle: @bundle, input_items: @bundle.input_items.where(input: [ @bundle.theme, style, @bundle.images.first ]))
-        chat.messages.create!(
+        message = chat.messages.create!(
           user: @user,
           content: chat.input_items.map(&:prompt).compact_blank.join("\n"))
-      end
-    end
-
-    def create_papers
-      @bundle.chats.each do |chat|
-        ProcessPaperJob.perform_later(chat.messages.first)
-      end
+        paper = Paper.create!(
+          name: "Generated Paper #{SecureRandom.hex(4)}",
+          active: true,
+          public: false,
+          user: chat.user,
+          bundle: chat.bundle,
+          message: message
+        )
+        ProcessPaperJob.perform_later(paper)
+        end
     end
   end
 end

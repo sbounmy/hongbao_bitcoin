@@ -1,6 +1,7 @@
 class Paper < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true
+  belongs_to :message, optional: true
   has_one_attached :image_front
   has_one_attached :image_back
   has_many :hong_baos, dependent: :nullify
@@ -8,11 +9,10 @@ class Paper < ApplicationRecord
   belongs_to :parent, class_name: "Paper", optional: true
 
   before_validation :set_default_elements
+  after_create_commit :broadcast_prepend
+  after_update_commit :broadcast_replace
 
   validates :name, presence: true
-  validates :image_front, presence: true
-  validates :image_back, presence: true
-  validates :task_id, presence: false
   validates :elements, presence: true
 
   scope :active, -> { where(active: true).order(position: :asc) }
@@ -61,6 +61,14 @@ class Paper < ApplicationRecord
   end
 
   private
+
+  def broadcast_prepend
+    broadcast_prepend_to :papers, html: ApplicationController.render(V2::Papers::ItemComponent.new(item: self))
+  end
+
+  def broadcast_replace
+    broadcast_replace_to self, html: ApplicationController.render(V2::Papers::ItemComponent.new(item: self))
+  end
 
   def set_default_elements
     return if elements.present?

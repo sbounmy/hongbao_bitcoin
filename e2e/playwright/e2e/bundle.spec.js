@@ -5,7 +5,7 @@ test.describe('Bundle generation', () => {
 
   test.beforeEach(async ({ page }) => {
     // Create admin user and authenticate
-    await appVcrInsertCassette('bundle', { serialize_with: 'compressed' })
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
@@ -27,10 +27,10 @@ test.describe('Bundle generation', () => {
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
-    await app('perform_jobs');
     // this should be done through turbo frame
-    await page.waitForTimeout(300);
-    await page.goto('/');
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
+    await app('perform_jobs');
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
+    await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
   });
 });
