@@ -9,9 +9,9 @@ class ProcessPaperJob < ApplicationJob
     ENV.fetch("GPT_IMAGE_QUALITY", "high")
   end
 
-  def perform(paper)
-    @paper = paper
-    @message = paper.message
+  def perform(message)
+    @message = message
+    @paper = message.paper
     @chat = @message.chat
     theme_attachment = nil
     image_attachment = nil
@@ -43,10 +43,10 @@ class ProcessPaperJob < ApplicationJob
       top, bottom = split_image(response.to_blob)
 
       Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
-      paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
-      paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
-      paper.save!
-      Rails.logger.info "Successfully saved Paper #{paper.id} for Chat #{@chat.id}."
+      @paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
+      @paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
+      @paper.save!
+      Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
 
       @message.update!(
         input_tokens: response.usage["input_tokens"],

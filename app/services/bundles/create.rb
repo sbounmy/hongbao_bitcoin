@@ -28,7 +28,7 @@ module Bundles
           bundle: chat.bundle,
           message: message
         )
-        ProcessPaperJob.perform_later(paper)
+        ProcessPaperJob.perform_later(message)
         end
     end
   end

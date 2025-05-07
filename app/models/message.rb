@@ -1,6 +1,7 @@
 class Message < ApplicationRecord
   belongs_to :chat
   belongs_to :user
+  has_one :paper, dependent: :destroy
   validates :content, presence: true
 
   store :metadata, accessors: [ :costs, :tokens ]

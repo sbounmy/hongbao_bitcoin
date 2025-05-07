@@ -62,12 +62,9 @@ test.describe('Theme', () => {
     await expect(page.getByText('Processing...')).toBeHidden();
     await app('perform_jobs');
 
-    await page.waitForTimeout(300); // jobs takes around chatgpt API 60s
-
-    await page.goto('/')
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2)
     const printPromise = page.waitForEvent('popup'); // https://playwright.dev/docs/pages#handling-popups
-    await page.locator('#main-content .papers-item-component').last().click()
+    await page.locator('#main-content .papers-item-component').first().click()
     const print = await printPromise;
     await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
   });
