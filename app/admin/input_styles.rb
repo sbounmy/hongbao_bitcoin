@@ -10,7 +10,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
     column :prompt
     column :image do |style|
       if style.image.attached?
-        image_tag style.image, style: "width: 100px; height: 100px;"
+        image_tag style.image, style: "width: 100px;"
       end
     end
     actions
@@ -22,7 +22,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
       row :prompt
       row :image do |style|
         if style.image.attached?
-          image_tag style.image, style: "width: 100px; height: 100px;"
+          image_tag style.image, style: "width: 500px;"
         end
       end
     end
@@ -31,7 +31,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
     f.inputs do
       f.input :name
       f.input :prompt
-      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500, height: 500) : nil
+      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
     end
     f.actions
   end

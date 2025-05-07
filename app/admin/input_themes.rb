@@ -125,12 +125,12 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     column :prompt
     column :hero_image do |theme|
       if theme.hero_image.attached?
-        image_tag theme.hero_image, style: "width: 100px; height: 100px;"
+        image_tag theme.hero_image, style: "width: 100px;"
       end
     end
     column :image do |theme|
       if theme.image.attached?
-        image_tag theme.image, style: "width: 100px; height: 100px;"
+        image_tag theme.image, style: "width: 100px;"
       end
     end
     actions
@@ -144,12 +144,12 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       row :prompt
       row :hero_image do |theme|
         if theme.hero_image.attached?
-          image_tag theme.hero_image, style: "width: 100px; height: 100px;"
+          image_tag theme.hero_image, style: "width: 500px;"
         end
       end
       row :image do |theme|
         if theme.image.attached?
-          image_tag theme.image, style: "width: 100px; height: 100px;"
+          image_tag theme.image, style: "width: 500px;"
         end
       end
 
@@ -162,8 +162,8 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     f.inputs "Theme Details" do
       f.input :name
       f.input :prompt
-      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500, height: 500) : nil
-      f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500, height: 500) : nil
+      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
+      f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
       f.input :slug
       f.input :ui_name, as: :select, collection: [
         "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",

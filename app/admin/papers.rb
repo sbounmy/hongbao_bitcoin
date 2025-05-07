@@ -24,12 +24,12 @@ ActiveAdmin.register Paper do
     column :position
     column :image_front do |paper|
       if paper.image_front.attached?
-        image_tag url_for(paper.image_front)
+        image_tag url_for(paper.image_front), width: 100
       end
     end
     column :image_back do |paper|
       if paper.image_back.attached?
-        image_tag url_for(paper.image_back)
+        image_tag url_for(paper.image_back), width: 100
       end
     end
     actions
@@ -46,12 +46,12 @@ ActiveAdmin.register Paper do
       row :position
       row :image_front do |paper|
         if paper.image_front.attached?
-          image_tag url_for(paper.image_front)
+          image_tag url_for(paper.image_front), width: 500
         end
       end
       row :image_back do |paper|
         if paper.image_back.attached?
-          image_tag url_for(paper.image_back)
+          image_tag url_for(paper.image_back), width: 500
         end
       end
 
@@ -79,8 +79,8 @@ ActiveAdmin.register Paper do
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false
       f.input :position
-      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500, height: 500) : nil
-      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500, height: 500) : nil
+      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
+      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
 
       # JSONB elements handling
       Paper::ELEMENTS.each do |element|
