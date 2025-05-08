@@ -40,13 +40,9 @@ class ProcessPaperJob < ApplicationJob
       )
 
       Rails.logger.info "Response: #{response.usage.inspect}"
-      top, bottom = split_image(response.to_blob)
 
-      Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
-      @paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
-      @paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
+      @paper.image_full.attach(io: StringIO.new(response.to_blob), filename: "full_#{SecureRandom.hex(4)}.jpg")
       @paper.save!
-      Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
 
       @message.update!(
         input_tokens: response.usage["input_tokens"],
@@ -58,6 +54,15 @@ class ProcessPaperJob < ApplicationJob
         input_costs: response.input_cost,
         output_costs: response.output_cost,
       )
+
+      top, bottom = split_image(response.to_blob)
+
+      Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
+      @paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
+      @paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
+      @paper.save!
+      Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
+
     rescue => e
       puts "Error during job for Chat #{@chat.id}: #{e.message}"
       puts e.backtrace.join("\n")
