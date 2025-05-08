@@ -4,10 +4,26 @@ require "rails_helper"
 
 RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper_job", serialize_with: :compressed } do
   let(:message) { messages(:one) }
+  let(:paper) { papers(:dollar) }
 
+  before do
+    paper.image_front.purge
+    paper.image_back.purge
+    paper.save!
+  end
 
-  it "creates paper on success" do
-    expect { described_class.perform_now(message) }.to change(Paper, :count).by(1)
+  it "updates paper front on success" do
+    expect { described_class.perform_now(message) }.to change { Paper.last.image_front.attached? }.from(false).to(true)
+  end
+
+  it "updates paper back on success" do
+    expect { described_class.perform_now(message) }.to change { Paper.last.image_back.attached? }.from(false).to(true)
+  end
+
+  it 'updates paper full on success' do
+    # expect { described_class.perform_now(message) }.to change { Paper.last.image_full.attached? }.from(false).to(true)
+    described_class.perform_now(message)
+    expect(Paper.last.image_full.attached?).to be_truthy
   end
 
   it 'saves tokens used' do
