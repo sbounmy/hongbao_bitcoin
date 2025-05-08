@@ -6,6 +6,7 @@ module Bundles
 
       create_bundle
       create_chats
+      create_tokens
     end
 
     private
@@ -20,7 +21,7 @@ module Bundles
         message = chat.messages.create!(
           user: @user,
           content: chat.input_items.map(&:prompt).compact_blank.join("\n"))
-        paper = Paper.create!(
+        Paper.create!(
           name: "Generated Paper #{SecureRandom.hex(4)}",
           active: true,
           public: false,
@@ -29,7 +30,11 @@ module Bundles
           message: message
         )
         ProcessPaperJob.perform_later(message)
-        end
+      end
+    end
+
+    def create_tokens
+      @user.tokens.create(quantity: -@bundle.styles.count, description: "Bundle #{@bundle.id} tokens #{@bundle.styles.map(&:name).join(', ')}")
     end
   end
 end
