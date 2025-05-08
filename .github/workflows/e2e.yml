@@ -60,10 +60,6 @@ jobs:
         sudo apt-get update && \
         sudo apt-get install -y stripe
 
-    - name: Precompile assets
-      run: |
-        bundle exec rails assets:precompile
-
     - name: Setup test database
       run: |
         bundle exec rails db:test:prepare
