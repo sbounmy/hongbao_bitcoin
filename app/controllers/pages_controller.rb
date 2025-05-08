@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   def index
     # Will be used to list available styles and papers
     @styles = Input::Style.all
-    @papers = Paper.all
+    @papers = Paper.all.order(created_at: :desc)
     @themes = Input::Theme.all
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
