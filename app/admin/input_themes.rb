@@ -152,7 +152,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           image_tag theme.image, style: "width: 500px;"
         end
       end
-
     end
   end
 

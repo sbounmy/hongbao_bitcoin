@@ -40,7 +40,7 @@ ActiveAdmin.register Paper do
     actions defaults: true do |paper_instance|
       item "Duplicate", duplicate_admin_paper_path(paper_instance),
            method: :post,
-           data: { confirm: 'Are you sure you want to duplicate this paper and its images?' }
+           data: { confirm: "Are you sure you want to duplicate this paper and its images?" }
     end
   end
 
@@ -85,9 +85,9 @@ ActiveAdmin.register Paper do
   end
 
   action_item :duplicate, only: :show do
-    link_to 'Duplicate Paper', duplicate_admin_paper_path(resource),
+    link_to "Duplicate Paper", duplicate_admin_paper_path(resource),
             method: :post,
-            data: { confirm: 'Are you sure you want to duplicate this paper and its images?' }
+            data: { confirm: "Are you sure you want to duplicate this paper and its images?" }
   end
 
   form html: { multipart: true } do |f|
