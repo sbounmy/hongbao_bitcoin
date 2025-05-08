@@ -11,6 +11,7 @@ class Bundle < ApplicationRecord
 
   accepts_nested_attributes_for :input_items, allow_destroy: true
 
+  validate :user_has_enough_tokens, on: :create
   has_many :styles, -> { where(inputs: { type: "Input::Style" }) }, through: :input_items, source: :input
   has_many :themes, -> { where(inputs: { type: "Input::Theme" }) }, through: :input_items, source: :input
   has_many :images, -> { where(inputs: { type: "Input::Image" }) }, through: :input_items, source: :input
@@ -21,5 +22,13 @@ class Bundle < ApplicationRecord
 
   def image
     input_items.where(inputs: { type: "Input::Image" }).last&.image
+  end
+
+  private
+
+  def user_has_enough_tokens
+    if user&.tokens_sum < styles.count
+      errors.add(:base, "Not enough tokens")
+    end
   end
 end
