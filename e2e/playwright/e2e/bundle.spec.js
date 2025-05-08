@@ -27,7 +27,7 @@ test.describe('Bundle generation', () => {
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
-    await app('perform_jobs'); // turbo broadcast are performed in the background
+
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
     await app('perform_jobs');
     await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
