@@ -19,11 +19,14 @@ ActiveAdmin.register Paper do
     id_column
     column :name
     column :active
-    column :public
     column :user do |paper|
       paper.user.email if paper.user
     end
-    column :position
+    column :image_full do |paper|
+      if paper.image_full.attached?
+        image_tag url_for(paper.image_full), width: 100
+      end
+    end
     column :image_front do |paper|
       if paper.image_front.attached?
         image_tag url_for(paper.image_front), width: 100
@@ -50,6 +53,11 @@ ActiveAdmin.register Paper do
         paper.user.email if paper.user
       end
       row :position
+      row :image_full do |paper|
+        if paper.image_full.attached?
+          image_tag url_for(paper.image_full), width: 500
+        end
+      end
       row :image_front do |paper|
         if paper.image_front.attached?
           image_tag url_for(paper.image_front), width: 500
@@ -91,6 +99,7 @@ ActiveAdmin.register Paper do
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false
       f.input :position
+      f.input :image_full, as: :file, hint: f.object.image_full.attached? ? image_tag(url_for(f.object.image_full), width: 500) : nil
       f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
       f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
 
