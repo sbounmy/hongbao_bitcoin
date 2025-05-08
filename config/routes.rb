@@ -1,15 +1,9 @@
 require "digest/md5"
 
 Rails.application.routes.draw do
-  namespace :ai do
-    resources :images, only: [ :create ] do
-      post :done, on: :collection
-    end
-    resources :face_swaps, only: [ :create ] do
-      post :done, on: :collection
-    end
-    resources :image_gpts, only: [ :create ]
-  end
+  mount MissionControl::Jobs::Engine, at: "/jobs"
+
+  resources :bundles, only: [ :create ]
 
   ActiveAdmin.routes(self)
   resource :session
@@ -30,6 +24,7 @@ Rails.application.routes.draw do
     post "mt_pelerin", to: "mt_pelerin#create"
   end
 
+  resources :addrs, only: [ :show ], controller: "hong_baos"
 
   resources :tokens, only: [ :index ]
 

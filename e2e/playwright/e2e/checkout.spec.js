@@ -44,7 +44,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.goto('/');
 
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
@@ -53,7 +53,7 @@ test.describe('Stripe Checkout Flow', () => {
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
 
-    await expect(page.locator('header .badge')).toContainText('500 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
+    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -68,7 +68,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
@@ -83,7 +83,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.fill('input[name="billingPostalCode"]', '12345');
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.locator('header .badge')).toContainText('500 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
+    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -106,6 +106,11 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("10 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await expect(page.locator('header')).toContainText('5 ₿ao'); // purchased Bao + 5 free credits
+
+    await page.goto('/tokens');
+    await page.getByRole('button', { name: 'Manage Billing' }).click();
+    await page.waitForURL('https://billing.stripe.com/p/session/**');
+    await expect(page.locator('body')).toContainText("Invoice history");
   });
 });

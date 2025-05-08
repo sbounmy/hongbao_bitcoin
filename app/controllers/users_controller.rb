@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.find_or_initialize_by(email: params.dig(:user, :email))
-    @themes = Ai::Theme.all
+    @themes = Input::Theme.all
   end
 
   def create
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       start_new_session_for(@user)
       render turbo_stream: turbo_stream.action(:redirect, root_path)
     else
-      @themes = Ai::Theme.all
+      @themes = Input::Theme.all
       render :new, status: :unprocessable_entity
     end
   end

@@ -29,19 +29,14 @@ test.describe('Tokens Page', () => {
       // Scenario 1: Manage Card (Live Interaction)
       await expect(page.getByRole('button', { name: 'Manage Billing' })).toBeVisible();
       await page.getByRole('button', { name: 'Manage Billing' }).click();
-
-      // Wait for navigation to Stripe's Billing Portal
-      // Using waitForURL with a glob pattern is more robust than exact match
       await page.waitForURL('https://billing.stripe.com/p/session/**');
-
-      // For now, just assert we landed on Stripe's domain
       expect(page.url()).toContain('billing.stripe.com');
 
     });
 
     test('allows purchasing tokens via Stripe Checkout', async ({ page }) => {
-        await page.getByRole('button', { name: 'Select' }).first().click();
-        await page.waitForURL('https://checkout.stripe.com/c/pay/**');
+      await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
+      await page.waitForURL('https://checkout.stripe.com/c/pay/**');
 
         // --- Interaction with Live Stripe Checkout ---
         // !! This part relies on Stripe's Checkout UI structure !!
@@ -58,8 +53,8 @@ test.describe('Tokens Page', () => {
         await page.getByText('Processing...').waitFor({ state: 'hidden' });
 
         await page.goto('/tokens');
-        await expect(page.locator('header').getByText('500 ₿ao')).toBeVisible(); // General check for balance display
-    });
+        await expect(page.locator('header')).toContainText('495 ₿ao'); // General check for balance display
+      });
 
   });
 

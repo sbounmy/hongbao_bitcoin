@@ -59,7 +59,8 @@ group :development, :test do
 
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
 
-  gem "factory_bot_rails"
+  gem "factory_bot_rails", github: "thoughtbot/factory_bot_rails"
+
 
   # Clean the database between e2e tests
   gem "database_cleaner-active_record"
@@ -94,14 +95,14 @@ gem "activeadmin", github: "activeadmin/activeadmin", branch: "tailwind-v4"
 
 gem "rails_heroicon"
 
-gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "additional_endpoints"
-
 gem "view_component"
 
-gem "ruby_llm"
+gem "ruby_llm", github: "sbounmy/ruby_llm", branch: "paint-support-with-image"
 
 gem "stripe"
 
 gem "lograge"
 
 gem "oauth2"
+
+gem "mission_control-jobs"
