@@ -81,7 +81,7 @@
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
           <h2 class="text-lg font-medium">3. Preview</h2>
-          <div id="papers" class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
+          <div id="papers" class="flex flex-col gap-2 sm:max-h-[calc(100vh-24rem)] {{ h-screen }} overflow-y-auto">
               <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <%= turbo_stream_from :papers %>

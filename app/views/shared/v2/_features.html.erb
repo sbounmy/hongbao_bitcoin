@@ -77,11 +77,12 @@
       </div>
     </div>
     <div class="mt-12 text-center">
-      <a class="btn btn-primary rounded-selector" href="/create">
-        <span class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
-        Start creating
-        <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4", aria_hidden: true %>
-      </a>
+          <%= link_to "#hero",
+              class: "btn btn-primary group rounded-selector",
+              data: { controller: "scroll-to" } do %>
+            <span>Start creating</span>
+            <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" %>
+          <% end %>
     </div>
   </div>
 </div>
