@@ -2,7 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    name: String
+    name: String,
+    attribute: String
   }
 
   async #resolveValue(event) {
@@ -21,5 +22,9 @@ export default class extends Controller {
 
   async html(event) {
     this.element.innerHTML = await this.#resolveValue(event)
+  }
+
+  async attribute(event) {
+    this.element.dataset[this.attributeValue] = await this.#resolveValue(event)
   }
 }

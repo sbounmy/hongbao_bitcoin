@@ -43,8 +43,7 @@ export default class extends Controller {
         'FAST'
       )
 
-      // Generate filename using timestamp
-      const filename = `document_${new Date().toISOString().slice(0,10)}.pdf`
+      const filename = `${this.element.dataset.pdfFilenameValue}.pdf`;
 
       // Save the PDF
       pdf.save(filename)

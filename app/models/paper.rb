@@ -44,13 +44,13 @@ class Paper < ApplicationRecord
     input_items.map(&:input)
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    [ "hong_baos", "user" ]
-  end
+  # def self.ransackable_associations(auth_object = nil)
+  #   [ "hong_baos", "user" ]
+  # end
 
-  def self.ransackable_attributes(auth_object = nil)
-    [ "active", "created_at", "id", "name", "updated_at", "public", "user_id" ]
-  end
+  # def self.ransackable_attributes(auth_object = nil)
+  #   [ "active", "created_at", "id", "name", "updated_at", "public", "user_id" ]
+  # end
 
   def front_elements
     elements.slice("public_address_qrcode", "app_public_address_qrcode", "public_address_text")
