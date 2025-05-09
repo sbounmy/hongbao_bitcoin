@@ -16,4 +16,12 @@ if defined?(VCR)
   WebMock.disable! if defined?(WebMock)
 end
 
+# Stub instagram to avoid polluting cassettes
+InstagramService.class_eval do
+  def fetch_media(*_args, **_kwargs, &_block)
+    [] # Return an empty array as intended
+  end
+end
+
+
 Rails.logger.info "APPCLEANED" # used by log_fail.rb

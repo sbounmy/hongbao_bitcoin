@@ -15,8 +15,9 @@
       <div class="text-left text-white">
         <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
           <span >Bitcoin
-          <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %>.</span>
-          <span>The best gift</span><br/><span>for your family & friends</span>
+          <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %></span>
+          <br/>
+          <span>A gift they'll never forget</span>
         </h1>
         <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
           Turn any picture into cool Bitcoin bills in seconds.<br/>Unlimited, unique and creative paper wallets.
@@ -80,9 +81,10 @@
       <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
           <h2 class="text-lg font-medium">3. Preview</h2>
-          <div class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
-            <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
+          <div id="papers" class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
+              <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
+          <%= turbo_stream_from :papers %>
           <div class="flex justify-between">
             <button class="btn btn-secondary rounded-selector">Share</button>
             <button class="btn btn-primary btn-wide rounded-selector">Print</button>

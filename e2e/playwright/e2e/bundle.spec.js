@@ -5,15 +5,14 @@ test.describe('Bundle generation', () => {
 
   test.beforeEach(async ({ page }) => {
     // Create admin user and authenticate
-    await appVcrInsertCassette('bundle')
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
   });
 
   test('user can create a bundle', async ({ page }) => {
-    test.skip('until we find out how to perform jobs')
-    test.setTimeout(1_200_000); // slow test
+    await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
 
      // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
@@ -27,10 +26,12 @@ test.describe('Bundle generation', () => {
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
-    await app('perform_jobs');
-    // this should be done through turbo frame
-    await page.waitForTimeout(700_000); // jobs takes around chatgpt API 60s
-    await page.goto('/');
+
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(count + 2);
+    await app('perform_jobs');
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
+    await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
+    await page.goto('/'); // need turbo broadcast to be performed
+    await expect(page.locator('header')).toContainText('488 ₿ao'); // General check for balance display
   });
 });

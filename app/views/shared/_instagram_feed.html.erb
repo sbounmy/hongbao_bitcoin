@@ -8,7 +8,6 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4" data-controller="instagram">
     <% posts.each do |post| %>
         <div class="aspect-square relative group overflow-hidden rounded-xl">
-        <%# Check if the media type is VIDEO %>
         <% if post['media_type'] == 'VIDEO' %>
             <%= video_tag post['media_url'],
                 controls: false,

@@ -5,9 +5,14 @@ require "vips"
 class ProcessPaperJob < ApplicationJob
   queue_as :default
 
+  def quality
+    ENV.fetch("GPT_IMAGE_QUALITY", "high")
+  end
+
   def perform(message)
     @message = message
-    @chat = message.chat
+    @paper = message.paper
+    @chat = @message.chat
     theme_attachment = nil
     image_attachment = nil
     prepared_theme = nil
@@ -21,33 +26,43 @@ class ProcessPaperJob < ApplicationJob
       theme_attachment = theme_input&.image
       image_attachment = image_input&.image
 
-      Rails.logger.info "Calling RubyLLM.edit for Chat #{@chat.id} with prompt, theme, and image."
+      Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
-        message.content,
+        @message.content,
         model: "gpt-image-1",
-        # Pass both prepared FileParts as required
-        # Adjust keys (`image:`, `theme:`) as needed by RubyLLM.edit
-        with: { image: [ ActiveStorage::Blob.service.path_for(theme_attachment.key), ActiveStorage::Blob.service.path_for(image_attachment.key) ] }
+        with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
+        options: {
+          size: "1024x1024",
+          quality:,
+          user: @message.user_id
+        }
       )
 
-      # 6. Process the response
-      paper = Paper.new(
-        name: "Generated Paper #{SecureRandom.hex(4)}",
-        active: true,
-        public: false,
-        user: @chat.user,
-        # chat: @chat
+      Rails.logger.info "Response: #{response.usage.inspect}"
+
+      @paper.image_full.attach(io: StringIO.new(response.to_blob), filename: "full_#{SecureRandom.hex(4)}.jpg")
+      @paper.save!
+
+      @message.update!(
+        input_tokens: response.usage["input_tokens"],
+        output_tokens: response.usage["output_tokens"],
+        input_image_tokens: response.usage.dig("input_tokens_details", "image_tokens"),
+        input_text_tokens: response.usage.dig("input_tokens_details", "text_tokens"),
+        total_tokens: response.usage["total_tokens"],
+        total_costs: response.total_cost,
+        input_costs: response.input_cost,
+        output_costs: response.output_cost,
       )
 
       top, bottom = split_image(response.to_blob)
 
-      puts "Attaching generated image to Paper for Chat #{@chat.id}."
-      paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
-      paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
-      paper.save!
-      puts "Successfully saved Paper #{paper.id} for Chat #{@chat.id}."
-      puts "Paper: #{ActiveStorage::Blob.service.path_for(paper.image_front.key).inspect}"
+      Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
+      @paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
+      @paper.image_back.attach(io: bottom, filename: "back_#{SecureRandom.hex(4)}.jpg")
+      @paper.save!
+      Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
+
     rescue => e
       puts "Error during job for Chat #{@chat.id}: #{e.message}"
       puts e.backtrace.join("\n")
@@ -77,5 +92,9 @@ class ProcessPaperJob < ApplicationJob
     bottom_data = bottom_half.write_to_buffer(".jpg")
 
     [ StringIO.new(top_data), StringIO.new(bottom_data) ]
+  end
+
+  def path_for(attachment)
+    ActiveStorage::Blob.service.path_for(attachment.key)
   end
 end

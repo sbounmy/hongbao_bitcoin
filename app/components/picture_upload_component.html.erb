@@ -9,7 +9,7 @@
             class: "text-center",
             data: { preview_target: "input", action: "change->preview#preview"}
           %>
-          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last.id %>
+          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last&.id %>
         <% end %>
         <div class="image-container">
           <% if form.object.image&.attached? %>

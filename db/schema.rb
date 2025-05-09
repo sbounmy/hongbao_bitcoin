@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_30_083428) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_083849) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -162,11 +162,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_083428) do
     t.string "role"
     t.text "content"
     t.string "model_id"
-    t.integer "input_tokens"
-    t.integer "output_tokens"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "metadata", default: "{}"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
@@ -183,7 +182,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_083428) do
     t.boolean "public", default: false
     t.integer "parent_id"
     t.integer "ai_theme_id"
+    t.integer "bundle_id"
+    t.json "input_item_ids", default: "[]"
+    t.integer "message_id"
     t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
+    t.index ["bundle_id"], name: "index_papers_on_bundle_id"
+    t.index ["message_id"], name: "index_papers_on_message_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
   end
@@ -250,6 +254,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_083428) do
   add_foreign_key "input_items", "inputs"
   add_foreign_key "messages", "chats"
   add_foreign_key "papers", "ai_themes"
+  add_foreign_key "papers", "bundles"
+  add_foreign_key "papers", "messages"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"

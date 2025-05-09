@@ -115,13 +115,41 @@ export default class extends Controller {
     }
   }
 
+  hide(names) {
+    names = [names].flat()
+    this.canvaItemTargets.forEach(item => {
+      if (names.includes(item.dataset.canvaItemNameValue)) {
+        item.dataset.canvaItemHiddenValue = true
+      }
+    })
+  }
+
+  show(names) {
+    names = [names].flat()
+    this.canvaItemTargets.forEach(item => {
+      if (names.includes(item.dataset.canvaItemNameValue)) {
+        item.dataset.canvaItemHiddenValue = false
+      }
+    })
+  }
+
+  // Redraw the canvas without any changing data (usually ui mode changed)
+  refresh(event) {
+    this.hide(event.detail.hide)
+    this.show(event.detail.show)
+    this.clear()
+    this.canvaItemTargets.forEach(item => {
+      const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
+      controller.draw()
+    })
+  }
+
+  // Redraw the canvas with changing data from wallet generation
   redraw(event) {
     this.clear()
-    // Notify all canvaItem outlets to redraw
-    // console.log("init redraw", this.canvaItemTargets)
     this.canvaItemTargets.forEach(item => {
-        const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
+      const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
         controller.redraw(event)
-      })
+    })
   }
 }

@@ -29,7 +29,7 @@ pin "@noble/hashes/crypto", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/cryp
 pin "@noble/hashes/ripemd160", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/ripemd160.js"
 pin "@noble/hashes/sha1", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/sha1.js"
 pin "@noble/hashes/sha256", to: "https://ga.jspm.io/npm:@noble/hashes@1.6.1/sha256.js"
-pin "base-x", to: "https://ga.jspm.io/npm:base-x@4.0.0/src/index.js"
+pin "base-x" # @5.0.1
 pin "bech32", to: "https://ga.jspm.io/npm:bech32@2.0.0/dist/index.js"
 pin "bip174", to: "https://ga.jspm.io/npm:bip174@2.1.1/src/lib/psbt.js"
 pin "bip174/src/lib/converter/varint", to: "https://ga.jspm.io/npm:bip174@2.1.1/src/lib/converter/varint.js"

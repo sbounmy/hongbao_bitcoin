@@ -1,30 +1,20 @@
 const { test, expect } = require('../support/test-setup');
-const { appVcrInsertCassette, forceLogin } = require('../support/on-rails');
+const { appVcrInsertCassette, forceLogin, appFactories, app} = require('../support/on-rails');
 
 test.describe('Theme', () => {
 
-  test.beforeEach(async ({ page }) => {
-    // Create admin user and authenticate
+  test('admin can view and edit theme properties', async ({ page }) => {
     await appVcrInsertCassette('themes')
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
-  });
-
-  const hexToRgb = hex =>
-    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-               ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-      .substring(1).match(/.{2}/g)
-      .map(x => parseInt(x, 16))
-
-  test('admin can view and edit theme properties', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', 'oklch(0.9451 0.179 104.32)'); //theme default
+    await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(230\, 244\, 241\)/); //theme default
 
     // Navigate to admin themes page
     await page.setExtraHTTPHeaders({
       Authorization: 'Basic '+btoa('satoshiisalive:this-is-just-a-test')
- })
+   })
     await page.goto('/admin/themes/1/edit');
     // Verify existing values
     await expect(page.locator('#input_theme_name')).toHaveValue('Dollar');
@@ -43,4 +33,40 @@ test.describe('Theme', () => {
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
   });
+
+  test('admin can edit theme elements', async ({ page }) => {
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed' })
+    await forceLogin(page, {
+      email: 'satoshi@example.com'
+    });
+
+    await page.setExtraHTTPHeaders({
+      Authorization: 'Basic ' + btoa('satoshiisalive:this-is-just-a-test')
+    })
+    await page.goto('/admin/themes/1/edit');
+    await page.locator('[name="input_theme[ai][public_address_qrcode][x]"]').fill('0.33');
+    await page.locator('input[type="submit"]').click();
+    await expect(page.getByText('Theme was successfully updated')).toBeVisible();
+
+    await page.goto('/')
+    // Select styles
+    await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
+
+    // Upload image
+    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    const count = await page.locator('#main-content .papers-item-component').count();
+
+    await expect(page.getByText('Processing...')).toBeHidden();
+    await page.getByRole('button', { name: 'Generate' }).click();
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing...')).toBeHidden();
+    await app('perform_jobs');
+
+    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2)
+    const printPromise = page.waitForEvent('popup'); // https://playwright.dev/docs/pages#handling-popups
+    await page.locator('#main-content .papers-item-component').first().click()
+    const print = await printPromise;
+    await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
+  });
+
 });
