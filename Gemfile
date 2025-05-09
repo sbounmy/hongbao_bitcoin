@@ -105,4 +105,8 @@ gem "lograge"
 
 gem "oauth2"
 
+# Dashboard for Active Job monitoring
 gem "mission_control-jobs"
+
+# Performances & exceptions monitoring [https://github.com/rails/rorvswild]
+gem "rorvswild"
