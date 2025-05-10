@@ -63,9 +63,12 @@
 
                   <div class="flex flex-col">
                     <%# Address display %>
-                    <span class="text-white/80 font-medium">
-                      <%= tx.type == 'deposit' ? 'From' : 'To' %>: <%= tx.pretty_address %>
-                    </span>
+                    <div class="text-white/80 font-medium flex gap-2">
+                      <%= tx.type == 'deposit' ? 'From' : 'To' %>: <%= link_to hong_bao_path(tx.address), target: "_blank", rel: "noopener noreferrer", class: "link link-hover flex items-center gap-1"  do %>
+                      <span><%= tx.pretty_address %></span>
+                      <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
+                      <% end %>
+                    </div>
                     <%# Date and transaction ID %>
                     <div class="flex items-center gap-2 text-xs text-white/60">
                       <% if tx.timestamp %>
