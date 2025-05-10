@@ -1,15 +1,15 @@
 <header class="bg-base-100 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center">
         <h1 class="text-xl font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
         <%= render Tokens::BadgeComponent.new(user: current_user) if authenticated? %>
         <!-- Theme Selector -->
         <%= render DropdownComponent.new(
             items: @themes,
             current_item: current_theme,
             path_helper: :root_path) %>
-        <span class="pt-2">
+        <span class="pt-2 hidden sm:inline-block">
             <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
         </span>
 

@@ -1,4 +1,4 @@
-<div class="relative mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 px-4 py-16 lg:py-20 max-w-7xl">
+<div class="relative mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 px-4 sm:py-16 py-6 lg:py-20 max-w-7xl">
   <%= section_header(title: 'Bitcoin Paper Wallet Generator', subtitle: 'Turn any picture into cool Bitcoin bills') %>
   <div class="flex flex-col items-center">
     <div class="mt-10 sm:mt-16 grid cols-1 md:grid-cols-5 gap-4 md:auto-rows-[25rem] max-w-7xl mx-auto">
@@ -77,11 +77,12 @@
       </div>
     </div>
     <div class="mt-12 text-center">
-      <a class="btn btn-primary rounded-selector" href="/create">
-        <span class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
-        Start creating
-        <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4", aria_hidden: true %>
-      </a>
+          <%= link_to "#hero",
+              class: "btn btn-primary group rounded-selector",
+              data: { controller: "scroll-to" } do %>
+            <span>Start creating</span>
+            <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" %>
+          <% end %>
     </div>
   </div>
 </div>
