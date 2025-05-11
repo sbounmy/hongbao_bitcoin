@@ -1,5 +1,6 @@
 import BitcoinKeyController from "controllers/bitcoin_key_controller"
 import Master from "services/bitcoin/master"
+import WalletFactory from "services/bitcoin/wallet_factory"
 import 'bip39'
 
 export default class extends BitcoinKeyController {
@@ -84,8 +85,8 @@ export default class extends BitcoinKeyController {
 
     // Create master wallet and verify address
     try {
-      const master = new Master({ mnemonic: this.phrase })
-      const node = master.deriveForAddress(this.addressValue)
+      const master = WalletFactory.createFromAddress(this.addressValue, { mnemonic: this.phrase })
+      const node = master.derive('0')
 
       if (node.address !== this.addressValue) {
         return {
