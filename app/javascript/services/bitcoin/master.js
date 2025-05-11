@@ -65,13 +65,6 @@ export default class Master extends Wallet {
     super.initializeFromWallet(this.wallet)
   }
 
-  deriveForAddress(address) {
-    const scheme = address.startsWith('1') ? Master.PATHS.LEGACY : Master.PATHS.SEGWIT
-    const wallet = this.derive(scheme.path)
-    wallet.payment = scheme.payment
-    return wallet
-  }
-
   derive(path = '0') {
     if (!this.wallet) throw new Error('HD node not initialized')
     const fullPath = `${this.derivationPrefix}${path}`

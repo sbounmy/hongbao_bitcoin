@@ -112,6 +112,6 @@
   </div>
 
   <div class="flex justify-end">
-    <%= render "hong_baos/new/next_button" %>
+    <%= render "hong_baos/new/next_button", html_options: { disabled: @hong_bao.balance.btc.zero? } %>
   </div>
 </div>
