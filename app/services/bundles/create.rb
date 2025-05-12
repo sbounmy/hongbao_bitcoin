@@ -3,7 +3,7 @@ module Bundles
     def call(user:, params:)
       @user = user
       @params = params
-
+      @quality = @params.delete(:quality) || ENV.fetch("GPT_IMAGE_QUALITY", "high")
       create_bundle
       create_chats
       create_tokens
@@ -29,7 +29,7 @@ module Bundles
           bundle: chat.bundle,
           message: message
         )
-        ProcessPaperJob.perform_later(message)
+        ProcessPaperJob.perform_later(message.id, quality: @quality)
       end
     end
 

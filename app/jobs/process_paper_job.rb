@@ -5,13 +5,9 @@ require "vips"
 class ProcessPaperJob < ApplicationJob
   queue_as :default
 
-  def quality
-    ENV.fetch("GPT_IMAGE_QUALITY", "high")
-  end
-
-  def perform(message)
-    @message = message
-    @paper = message.paper
+  def perform(message_id, quality: "high")
+    @message = Message.find(message_id)
+    @paper = @message.paper
     @chat = @message.chat
     theme_attachment = nil
     image_attachment = nil
