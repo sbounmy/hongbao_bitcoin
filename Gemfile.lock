@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/sbounmy/ruby_llm.git
-  revision: e765cade7309410ee90ce45f586e093fad0e36ce
+  revision: 087a14951bf4809015b6fd5f903722185e336e65
   branch: paint-support-with-image
   specs:
     ruby_llm (1.2.0)
