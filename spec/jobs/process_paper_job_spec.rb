@@ -13,21 +13,21 @@ RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper
   end
 
   it "updates paper front on success" do
-    expect { described_class.perform_now(message) }.to change { Paper.last.image_front.attached? }.from(false).to(true)
+    expect { described_class.perform_now(message.id) }.to change { Paper.last.image_front.attached? }.from(false).to(true)
   end
 
   it "updates paper back on success" do
-    expect { described_class.perform_now(message) }.to change { Paper.last.image_back.attached? }.from(false).to(true)
+    expect { described_class.perform_now(message.id) }.to change { Paper.last.image_back.attached? }.from(false).to(true)
   end
 
   it 'updates paper full on success' do
     # expect { described_class.perform_now(message) }.to change { Paper.last.image_full.attached? }.from(false).to(true)
-    described_class.perform_now(message)
+    described_class.perform_now(message.id)
     expect(Paper.last.image_full.attached?).to be_truthy
   end
 
   it 'saves tokens used' do
-    described_class.perform_now(message)
+    described_class.perform_now(message.id)
     message.reload
     expect(message.input_tokens).to eq(589)
     expect(message.output_tokens).to eq(1056)
