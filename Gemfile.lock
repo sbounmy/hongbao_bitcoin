@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: https://github.com/sbounmy/ruby_llm.git
-  revision: e765cade7309410ee90ce45f586e093fad0e36ce
+  revision: 1a33ce6ce108c367a70f2ff4003d0328cde35704
   branch: paint-support-with-image
   specs:
     ruby_llm (1.2.0)
@@ -249,7 +249,7 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    json (2.11.3)
+    json (2.12.0)
     jwt (2.10.1)
       base64
     kamal (2.5.3)
@@ -437,6 +437,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.4.1)
+    rorvswild (1.9.1)
     rqrcode (3.1.0)
       chunky_png (~> 1.0)
       rqrcode_core (~> 2.0)
@@ -612,6 +613,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)
   rails_heroicon
+  rorvswild
   rqrcode
   rspec-rails!
   rubocop-rails-omakase

@@ -2,7 +2,7 @@ class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show index search]
 
   def index
-    @themes = Theme.all
+    @themes = Input::Theme.with_attached_hero_image
     # Just render the QR scanner view
   end
 

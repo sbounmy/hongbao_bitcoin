@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   def default_url_options
     {
       locale: I18n.locale,
-      testnet: testnet?
+      testnet: testnet?,
+      quality: params[:quality]
     }.compact
   end
 

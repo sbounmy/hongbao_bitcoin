@@ -5,7 +5,6 @@ class Paper < ApplicationRecord
   has_one_attached :image_front
   has_one_attached :image_back
   has_one_attached :image_full
-  has_many :hong_baos, dependent: :nullify
   has_many :children, class_name: "Paper", foreign_key: :parent_id
   belongs_to :parent, class_name: "Paper", optional: true
 
@@ -43,14 +42,6 @@ class Paper < ApplicationRecord
 
   def inputs
     input_items.map(&:input)
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    [ "hong_baos", "user" ]
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    [ "active", "created_at", "id", "name", "updated_at", "public", "user_id" ]
   end
 
   def front_elements
