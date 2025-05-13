@@ -23,7 +23,7 @@ module Bundles
           content: chat.input_items.map(&:prompt).compact_blank.join("\n")
         )
 
-        Paper.create!(
+        paper = Paper.create!(
           name: "Generated Paper #{SecureRandom.hex(4)}",
           active: true,
           public: false,
