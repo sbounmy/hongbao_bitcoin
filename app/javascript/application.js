@@ -4,6 +4,8 @@ import "controllers"
 import { createConsumer } from "@rails/actioncable"
 import { Application } from "@hotwired/stimulus"
 import ScrollTo from '@stimulus-components/scroll-to'
+import RevealController from '@stimulus-components/reveal'
+
 // Import Flowbite's Turbo build - it should handle initialization
 import "flowbite"
 
@@ -24,7 +26,7 @@ application.debug = false
 window.Stimulus   = application
 
 application.register('scroll-to', ScrollTo)
-
+application.register('reveal', RevealController)
 // Remove or comment out the manual initFlowbite calls,
 // as the Turbo build should handle this automatically.
 /*

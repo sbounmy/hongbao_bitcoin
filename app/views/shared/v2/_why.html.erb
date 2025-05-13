@@ -7,7 +7,26 @@
     </p>
   </div>
 
-  <div class="max-w-3xl mx-auto flex flex-col gap-8">
+<div data-controller="reveal">
+  <button data-action="reveal#toggle" type="button" class="btn">Toggle me!</button>
+
+  <p data-reveal-target="item" class="mt-4">Hey 👋</p>
+</div>
+
+    <div data-controller="reveal" class="relative w-full aspect-[170/90]">
+      <div data-reveal-target="item"
+           class="[-webkit-backface-visibility:hidden] [backface-visibility:hidden] w-full h-full rounded-lg overflow-hidden shadow-lg">
+      <button data-action="reveal#show" type="button" class="btn">Show me!</button>
+        <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full h-full object-cover" %>
+      </div>
+
+      <div data-reveal-target="item"
+           class="hidden absolute top-0 left-0 w-full h-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] rounded-lg overflow-hidden shadow-lg">
+        <button data-action="reveal#hide" type="button" class="btn">Hide me!</button>
+        <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full h-full object-cover" %>
+      </div>
+    </div>
+
     <div id="card-flipper"
          class="group relative w-full [perspective:1000px]"
          data-controller="card-flipper"
