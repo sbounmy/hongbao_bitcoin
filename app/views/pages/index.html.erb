@@ -54,14 +54,7 @@
         </div>
     </div>
   </section>
-<div>
-<div data-controller="reveal" data-reveal-hidden-class="d-none">
-  <button data-action="reveal#toggle" type="button" class="btn">Toggle me!</button>
 
-  <p data-reveal-target="item" class="d-none mt-4">Hey 👋</p>
-  <p data-reveal-target="item" class="d-none mt-4">You can have multiple items</p>
-</div>
-</div>
   <!-- Main Content -->
   <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
@@ -85,7 +78,7 @@
       <% end %>
 
       <!-- Column 3: Preview -->
-      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2 {{ h-screen }} ">
+      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2 h-screen overflow-y-auto">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
           <h2 class="text-lg font-medium">3. Preview</h2>
           <div id="papers" class="flex flex-col gap-2 sm:max-h-[calc(100vh-24rem)] overflow-y-auto" data-controller="hong-bao">
