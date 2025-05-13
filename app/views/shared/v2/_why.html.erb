@@ -7,10 +7,11 @@
     </p>
   </div>
 
-    <div class="group relative w-full aspect-[170/90] [perspective:1000px]"
-         data-controller="card-flipper"
-         data-action="click->card-flipper#toggle">
-
+    <div class="group relative w-full [perspective:1000px] cursor-pointer"
+         data-controller="reveal"
+         data-reveal-target="item"
+         data-action="click->reveal#toggle"
+         data-reveal-hidden-class="is-flipped">
       <div class="absolute group-[.is-flipped]:opacity-0 md:group-hover:opacity-0 sm:top-4 sm:left-[-5rem] top-1 left-[-1rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] pointer-events-none whitespace-nowrap transition-opacity duration-300">
         <span class="md:hidden">Click me ➙</span>
         <span class="hidden md:inline-block">Hover me ➙</span>
@@ -27,6 +28,7 @@
         </div>
       </div>
     </div>
+  </div>
 
   <div class="mt-8 sm:mt-12 flex flex-col md:flex-row justify-center items-center md:items-start gap-6 md:gap-8">
     <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm bg-rose-100/75 text-rose-700 ring-1 ring-rose-200">
