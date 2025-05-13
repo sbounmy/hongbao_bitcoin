@@ -8,9 +8,6 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/services", under: "services"
 pin_all_from "app/javascript/services/bitcoin", under: "services/bitcoin"
 
-# Pin the Flowbite Turbo build using jsDelivr CDN
-pin "flowbite", to: "https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"
-
 pin "html2canvas-pro" # @1.5.8
 pin "jspdf", to: "https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.es.min.js"
 
