@@ -7,6 +7,12 @@ import Reveal from '@stimulus-components/reveal'
 
 eagerLoadControllersFrom("controllers", application)
 
+// To breakout of turbo frames from server e.g successful login frame we redirect to /
+// https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149
+Turbo.StreamActions.redirect = function () {
+    Turbo.visit(this.target, { action: "replace" });
+  };
+
 application.register('scroll-to', ScrollTo)
 application.register('dropdown', Dropdown)
 application.register('reveal', Reveal)
