@@ -34,4 +34,12 @@ test.describe('PDF Generation', () => {
     await nextButton.click();
     await expect(page.getByText('Choose your preferred way to send bitcoin to this address')).toBeVisible();
   });
+
+  test('user can input custom keys', async ({ page }) => {
+    await page.getByRole('button', { name: 'Custom Keys' }).click();
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: 'Next' }).click();
+  });
 });

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import WalletFactory from "services/bitcoin/wallet_factory"
+import CustomWallet from "services/bitcoin/custom_wallet"
 import Transaction from "services/bitcoin/transaction"
 import TransactionFactory from "services/bitcoin/transaction_factory"
 
@@ -44,7 +45,7 @@ export default class extends Controller {
   get detail() {
     return {
       wallet: this.wallet,
-      mnemonicText: this.master?.mnemonic,
+      mnemonicText: this.master?.mnemonic || '',
       ...this.wallet.info
     }
   }
@@ -86,5 +87,43 @@ export default class extends Controller {
 
   verify(message, signature, address) {
     return this.wallet.verify(message, signature, address)
+  }
+
+  publicAddressChanged(event) {
+    console.log("publicAddressChanged")
+    console.log(event.target.value)
+    if (this.master instanceof CustomWallet) {
+      this.master.publicAddress = event.target.value
+    } else {
+      this.master = new CustomWallet({ network: this.networkValue, publicAddress: event.target.value })
+    }
+    this.wallet = this.master.derive('0')
+    console.log(this.detail)
+    console.log(this.master)
+    this.dispatchWalletChanged()
+  }
+
+  privateKeyChanged(event) {
+    console.log("privateKeyChanged")
+    console.log(event.target.value)
+    if (this.master instanceof CustomWallet) {
+      this.master.privateKey = event.target.value
+    } else {
+      this.master = new CustomWallet({ network: this.networkValue, privateKey: event.target.value })
+    }
+    this.wallet = this.master.derive('0')
+    this.dispatchWalletChanged()
+  }
+
+  mnemonicChanged(event) {
+    console.log("mnemonicChanged")
+    console.log(event.target.value)
+    if (this.master instanceof CustomWallet) {
+      this.master.mnemonic = event.target.value
+    } else {
+      this.master = new CustomWallet({ network: this.networkValue, mnemonic: event.target.value })
+    }
+    this.wallet = this.master.derive('0')
+    this.dispatchWalletChanged()
   }
 }

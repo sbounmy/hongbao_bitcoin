@@ -32,6 +32,8 @@ export default class Master extends Wallet {
       this.initializeFromMnemonic(options.mnemonic)
     } else if (options.seed) {
       this.initializeFromSeed(options.seed)
+    } else if (options.publicAddress) {
+      this.initializeFromPublicAddress(options.publicAddress)
     } else if (!options.wallet && !options.privateKey) {
       this.generate()
     }
@@ -62,6 +64,15 @@ export default class Master extends Wallet {
     }
     this.seed = seed
     this.wallet = this.bip32.fromSeed(this.seed, this.network)
+    super.initializeFromWallet(this.wallet)
+  }
+
+  initializeFromPublicAddress(publicAddress) {
+    if (typeof publicAddress === 'string') {
+      publicAddress = Buffer.from(publicAddress, 'hex')
+    }
+    console.log("initializeFromPublicAddress", publicAddress)
+    this.wallet = this.bip32.fromPublicKey(publicAddress, this.network)
     super.initializeFromWallet(this.wallet)
   }
 
