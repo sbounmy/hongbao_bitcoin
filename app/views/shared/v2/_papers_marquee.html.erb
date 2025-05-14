@@ -13,10 +13,10 @@
     }
     .animate-marquee {
       /* Using a fixed duration for simplicity, adjust as needed */
-      animation: marquee 30s linear infinite;
+      animation: marquee 120s linear infinite;
     }
     .animate-marquee-right {
-      animation: marquee-right 30s linear infinite;
+      animation: marquee-right 120s linear infinite;
     }
     .marquee-group:hover .animate-marquee,
     .marquee-group:hover .animate-marquee-right {
@@ -24,7 +24,7 @@
     }
   </style>
 
-  <section id="papers-carousel" class="py-12 bg-base-100">
+  <section id="papers-carousel" class="sm:py-12 py-6 bg-base-100">
     <div class="relative flex flex-col items-center justify-center overflow-hidden">
       <%= section_header(title: 'Community Creations', subtitle: 'Bitcoin is the People\'s money') %>
       <%# Row 1 - Normal direction %>

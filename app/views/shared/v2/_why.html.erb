@@ -7,13 +7,19 @@
     </p>
   </div>
 
-  <div class="max-w-3xl mx-auto flex flex-col gap-8">
-    <div class="group relative w-full [perspective:1000px]">
-      <div class="absolute top-4 left-[-5rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] group-hover:opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
-        <span>Hover me ➙</span>
+    <div class="group relative w-full [perspective:1000px] cursor-pointer"
+         data-controller="reveal"
+         data-reveal-target="item"
+         data-action="click->reveal#toggle"
+         data-reveal-hidden-class="is-flipped">
+      <div class="absolute group-[.is-flipped]:opacity-0 md:group-hover:opacity-0 sm:top-4 sm:left-[-5rem] top-1 left-[-1rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] pointer-events-none whitespace-nowrap transition-opacity duration-300">
+        <span class="md:hidden">Click me ➙</span>
+        <span class="hidden md:inline-block">Hover me ➙</span>
       </div>
 
-      <div class="relative transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+      <div class="relative transition-transform duration-500 [transform-style:preserve-3d]
+                  group-[.is-flipped]:[transform:rotateY(180deg)]
+                  md:group-hover:[transform:rotateY(180deg)]">
         <div class="[-webkit-backface-visibility:hidden] [backface-visibility:hidden] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
           <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full h-full object-cover" %>
         </div>
@@ -101,7 +107,7 @@
     <div class="text-base leading-relaxed space-y-2 max-w-md mx-auto text-center">
       <p>
         <span class="bg-base-200 px-1.5 py-0.5 rounded">
-            “Instead of keychains or candies, we gave our wedding guests something with that last forever: Bitcoin, wrapped in a custom note with our faces. 127 wallets handed out.<br/>One day, they’ll wish they’d kept it safe.”
+            "Instead of keychains or candies, we gave our wedding guests something with that last forever: Bitcoin, wrapped in a custom note with our faces. 127 wallets handed out.<br/>One day, they'll wish they'd kept it safe."
         </span>
       </p>
     </div>

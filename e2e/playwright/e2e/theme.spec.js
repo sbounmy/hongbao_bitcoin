@@ -1,5 +1,5 @@
 const { test, expect } = require('../support/test-setup');
-const { appVcrInsertCassette, forceLogin, appFactories, app} = require('../support/on-rails');
+const { appVcrInsertCassette, forceLogin, appFactories, app, turboCableConnected } = require('../support/on-rails');
 
 test.describe('Theme', () => {
 
@@ -35,7 +35,7 @@ test.describe('Theme', () => {
   });
 
   test('admin can edit theme elements', async ({ page }) => {
-    await appVcrInsertCassette('bundle', { serialize_with: 'compressed' })
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
       email: 'satoshi@example.com'
     });
@@ -54,15 +54,17 @@ test.describe('Theme', () => {
 
     // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    const count = await page.locator('#main-content .papers-item-component').count();
+
+    await turboCableConnected(page);
 
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
-    await app('perform_jobs');
 
     await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2)
+    await app('perform_jobs');
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4); // 2 papers, 2 faces
     const printPromise = page.waitForEvent('popup'); // https://playwright.dev/docs/pages#handling-popups
     await page.locator('#main-content .papers-item-component').first().click()
     const print = await printPromise;

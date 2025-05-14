@@ -11,7 +11,7 @@
       </div>
     <% end %>
 
-    <div class="relative max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <div class="relative max-w-7xl mx-auto sm:py-16 py-6 px-4 sm:py-24 sm:px-6 lg:px-8">
       <div class="text-left text-white">
         <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
           <span >Bitcoin
@@ -56,13 +56,13 @@
   </section>
 
   <!-- Main Content -->
-  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
       <%= form_with(model: @bundle, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
         <!-- Column 1: Styles -->
         <div class="relative">
           <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
             <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
             <%= form.fields_for :input_items do |input_item_fields| %>
               <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
@@ -78,16 +78,16 @@
       <% end %>
 
       <!-- Column 3: Preview -->
-      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2">
-        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4">
+      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2 h-screen overflow-y-auto">
+        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
           <h2 class="text-lg font-medium">3. Preview</h2>
-          <div id="papers" class="flex flex-col gap-2 max-h-[calc(100vh-24rem)] overflow-y-auto">
+          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
               <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <%= turbo_stream_from :papers %>
-          <div class="flex justify-between">
-            <button class="btn btn-secondary rounded-selector">Share</button>
+          <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">
             <button class="btn btn-primary btn-wide rounded-selector">Print</button>
+            <button class="btn btn-secondary rounded-selector">Share</button>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@
   <%# Render the extracted occasions partial %>
   <%= render "shared/v2/occasions" %>
 
-  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
     <%= render "shared/v2/features" %>
 
     <% render TransformComponent.new do |component| %>
@@ -121,41 +121,41 @@
 
   <%= render "shared/v2/papers_marquee", papers: @papers %>
 
-  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
     <%= render "shared/v2/why" %>
   </section>
 
-  <section id="themes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+  <section id="themes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-8">
     <%= section_header(title: 'Explore Themes', subtitle: 'Bitcoin is the World\'s currency') %>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
       <%= render Themes::ListComponent.with_collection(@themes) %>
     </div>
   </section>
 
-  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
     <%= render "shared/v2/about" %>
   </section>
 
-  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
     <%= render "shared/instagram_feed", posts: @instagram_posts %>
   </section>
 
-  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
     <%= render "shared/faq" %>
   </section>
 
-  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
     <%= render(PricingComponent.new) do |component| %>
       <% component.with_plans(StripeService.fetch_prices) %>
     <% end %>
   </section>
 
-  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-4">
     <%= section_header(title: 'Reviews', subtitle: 'Loved by kids, lovers and Bitcoiners') %>
     <%= render "shared/reviews" %>
   </section>
 
-  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-4">
+  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-4">
     <%= render "shared/v2/cta" %>
   </section>
 

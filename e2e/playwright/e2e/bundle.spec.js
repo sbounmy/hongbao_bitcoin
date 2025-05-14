@@ -1,5 +1,5 @@
 const { test, expect } = require('../support/test-setup');
-const { appVcrInsertCassette, forceLogin , app } = require('../support/on-rails');
+const { appVcrInsertCassette, forceLogin, turboCableConnected, app } = require('../support/on-rails');
 
 test.describe('Bundle generation', () => {
 
@@ -12,6 +12,7 @@ test.describe('Bundle generation', () => {
   });
 
   test('user can create a bundle', async ({ page }) => {
+    await turboCableConnected(page);
     await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
 
      // Select styles
@@ -37,6 +38,8 @@ test.describe('Bundle generation', () => {
 
   test('can overwrite quality in url', async ({ page }) => {
     await page.goto('/?quality=low');
+    await turboCableConnected(page);
+    await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
      // Select styles
      await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
      await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });

@@ -13,6 +13,7 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByPlaceholder('Password').fill('03/01/2009');
     await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page.locator('.drawer')).toBeVisible();
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });

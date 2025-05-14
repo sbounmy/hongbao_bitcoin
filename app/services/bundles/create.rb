@@ -20,8 +20,10 @@ module Bundles
         chat = Chat.create!(user: @user, bundle: @bundle, input_items: @bundle.input_items.where(input: [ @bundle.theme, style, @bundle.images.first ]))
         message = chat.messages.create!(
           user: @user,
-          content: chat.input_items.map(&:prompt).compact_blank.join("\n"))
-        Paper.create!(
+          content: chat.input_items.map(&:prompt).compact_blank.join("\n")
+        )
+
+        paper = Paper.create!(
           name: "Generated Paper #{SecureRandom.hex(4)}",
           active: true,
           public: false,
@@ -30,6 +32,8 @@ module Bundles
           message: message
         )
         ProcessPaperJob.perform_later(message.id, quality: @quality)
+
+        Rails.logger.info("Message created #{message.id} for paper #{paper.id}")
       end
     end
 

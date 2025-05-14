@@ -1,4 +1,4 @@
-import { request } from '@playwright/test'
+import { expect, request } from '@playwright/test'
 import config from '../../../playwright.config'
 
 const contextPromise = request.newContext({ baseURL: config.use ? config.use.baseURL : 'http://localhost:5017' })
@@ -66,4 +66,10 @@ const forceLogin = async (page, { email, redirect_to = '/' }) => {
   }
 }
 
-export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin }
+const turboCableConnected = async (page) => {
+  for (const stream of await page.locator('turbo-cable-stream-source').all()) {
+    await expect(stream).toHaveAttribute('connected');
+  }
+}
+
+export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected }
