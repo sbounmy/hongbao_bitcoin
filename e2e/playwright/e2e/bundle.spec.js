@@ -37,6 +37,7 @@ test.describe('Bundle generation', () => {
 
   test('can overwrite quality in url', async ({ page }) => {
     await page.goto('/?quality=low');
+    await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
      // Select styles
      await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
      await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
