@@ -1,6 +1,14 @@
 import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
+const expectGeneratedKeys = async (page) => {
+  await expect(page.getByLabel('Public Address')).toHaveValue(/^bc1/)
+  await expect(page.getByLabel('Private Key')).toHaveValue(/^L|K/)
+  const mnemonic = await page.getByLabel('Recovery Phrase (24 words)').inputValue()
+  const mnemonicWords = mnemonic.split(' ')
+  expect(mnemonicWords).toHaveLength(24)
+}
+
 test.describe('PDF Generation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/papers/1');
@@ -36,10 +44,31 @@ test.describe('PDF Generation', () => {
   });
 
   test('user can input custom keys', async ({ page }) => {
-    await page.getByRole('button', { name: 'Custom Keys' }).click();
-    await page.getByRole('button', { name: 'Next' }).click();
-    await page.getByRole('button', { name: 'Next' }).click();
-    await page.getByRole('button', { name: 'Next' }).click();
-    await page.getByRole('button', { name: 'Next' }).click();
-  });
+    await expectGeneratedKeys(page)
+
+    // fill public address
+    await page.getByLabel('Public Address').fill('my-own-public-address')
+    await expect(page.getByLabel('Public Address')).toHaveValue('my-own-public-address')
+    await expect(page.getByLabel('Private Key')).toHaveValue('')
+    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')
+
+
+    // fill private key
+    await page.getByLabel('Private Key').fill('my-own-private-key')
+    await expect(page.getByLabel('Private Key')).toHaveValue('my-own-private-key')
+    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')
+
+    // fill recovery phrase
+    await page.getByLabel('Recovery Phrase (24 words)').fill('my own mnemonic is here but you can change it')
+    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('my own mnemonic is here but you can change it')
+
+    // check if pdf is generated with correct values
+    await expect(page.locator('[data-canva-item-name-value="publicAddressText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
+    await expect(page.locator('[data-canva-item-name-value="privateKeyText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
+    await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
+
+    // generate new keys
+    await page.locator('[data-action="bitcoin#generate"]').click()
+    await expectGeneratedKeys(page)
+});
 });

@@ -11,7 +11,7 @@
   <div data-hong-bao-target="walletInfo" class="space-y-3 p-8">
     <div class="space-y-1">
       <div class="flex items-center justify-between">
-        <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
+        <%= label_tag :mnemonic_text, 'Recovery Phrase (24 words)', class: "text-[#FFB636]" %>
         <button type="button"
                 data-action="bitcoin#generate"
                 class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
@@ -40,7 +40,7 @@
     </div>
 
       <div class="space-y-1">
-        <span class="text-[#FFB636]">Private Key</span>
+        <%= label_tag :private_key_text, 'Private Key', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
           <%= text_field_tag :private_key_text,
                               "",
@@ -61,7 +61,7 @@
       </div>
 
       <div class="space-y-1">
-        <span class="text-[#FFB636]">Public Address</span>
+        <%= label_tag :public_address_text, 'Public Address', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
           <%= text_field_tag :public_address_text,
                               "",
