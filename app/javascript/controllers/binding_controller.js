@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   async src(event) {
-    this.element.setAttribute('src', await this.#resolveValue(event))
+    this.element.setAttribute('src', await this.#resolveValue(event) || '')
   }
 
   async value(event) {

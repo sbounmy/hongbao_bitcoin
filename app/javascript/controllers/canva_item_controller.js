@@ -48,8 +48,10 @@ export default class extends Controller {
       this.textValue = detail[this.nameValue]
       this.draw()
     } else {
+      const src = await detail[this.nameValue]()
+      if (!src) return
       const qrImage = new Image()
-      qrImage.src = await detail[this.nameValue]()
+      qrImage.src = src
       qrImage.onload = () => {
         this.imageUrl = qrImage
         this.draw()

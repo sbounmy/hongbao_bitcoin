@@ -52,7 +52,6 @@ test.describe('PDF Generation', () => {
     await expect(page.getByLabel('Private Key')).toHaveValue('')
     await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')
 
-
     // fill private key
     await page.getByLabel('Private Key').fill('my-own-private-key')
     await expect(page.getByLabel('Private Key')).toHaveValue('my-own-private-key')
