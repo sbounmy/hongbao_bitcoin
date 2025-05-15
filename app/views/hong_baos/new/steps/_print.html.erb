@@ -1,5 +1,5 @@
 <div
-    class="flex flex-col h-full max-h-full overflow-hidden"
+    class="flex flex-col md:flex-row h-full max-h-full overflow-hidden"
      data-controller="pdf binding"
      data-pdf-filename-value=""
      data-binding-attribute-value="pdfFilenameValue"
@@ -11,7 +11,7 @@
   <div data-hong-bao-target="walletInfo" class="space-y-3 p-8">
     <div class="space-y-1">
       <div class="flex items-center justify-between">
-        <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
+        <%= label_tag :mnemonic_text, 'Recovery Phrase (24 words)', class: "text-[#FFB636]" %>
         <button type="button"
                 data-action="bitcoin#generate"
                 class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
@@ -21,13 +21,15 @@
         </button>
       </div>
       <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Recovery phrase copied!">
-        <textarea readonly
-                  rows="3"
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="mnemonicText"
-                  data-action="bitcoin:changed@window->binding#value"></textarea>
+        <%= text_area_tag :mnemonic_text,
+                          "",
+                          class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none",
+                          data: {
+                            clipboard_target: "source",
+                            controller: "binding textarea-autogrow",
+                            binding_name_value: "mnemonicText",
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow"
+                          } %>
         <button data-action="clipboard#copy"
                 class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -37,17 +39,18 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
       <div class="space-y-1">
-        <span class="text-[#FFB636]">Private Key</span>
+        <%= label_tag :private_key_text, 'Private Key', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
-          <input type="text"
-                  readonly
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="privateKeyText"
-                  data-action="bitcoin:changed@window->binding#value">
+          <%= text_field_tag :private_key_text,
+                              "",
+                              class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
+                              data: {
+                                clipboard_target: "source",
+                                controller: "binding",
+                                binding_name_value: "privateKeyText",
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged"
+                              } %>
           <button data-action="clipboard#copy"
                   class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -58,15 +61,17 @@
       </div>
 
       <div class="space-y-1">
-        <span class="text-[#FFB636]">Bitcoin Address</span>
+        <%= label_tag :public_address_text, 'Public Address', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
-          <input type="text"
-                  readonly
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="publicAddressText"
-                  data-action="bitcoin:changed@window->binding#value">
+          <%= text_field_tag :public_address_text,
+                              "",
+                              class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
+                              data: {
+                                clipboard_target: "source",
+                                controller: "binding",
+                                binding_name_value: "publicAddressText",
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged"
+                              } %>
           <button data-action="clipboard#copy"
                   class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -89,11 +94,35 @@
         </div>
         <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
       </fieldset>
+
+    <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
+      <div class="flex flex-col items-center gap-4 w-full">
+        <!-- Download PDF Button -->
+          <button type="button"
+                class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
+                        text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
+                data-paper-pdf-target="downloadButton"
+                data-action="pdf#download">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+          Download PDF
+        </button>
+
+        <div class="flex items-center space-x-4 w-full">
+          <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
+          <%= render "hong_baos/new/next_button",
+            html_options: {
+              disabled: true,
+              data_action: "pdf:downloaded@window->disabled#remove"
+            } %>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="text-white space-y-4 flex-1 overflow-auto max-w-full mx-auto pb-4">
+  <div class="text-white md:w-2/3 space-y-4 overflow-auto pb-4">
     <!-- This is the actual content that will be rendered to PDF -->
     <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto flex flex-col gap-2 justify-between">
       <div class="flex items-center">
@@ -140,32 +169,6 @@
         </div>
       </div>
       <%= render 'hong_baos/pdf/footer', paper: %>
-    </div>
-  </div>
-
-  <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
-
-    <div class="flex flex-col items-center gap-4 p-8 w-full">
-      <!-- Download PDF Button -->
-        <button type="button"
-              class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
-                      text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
-              data-paper-pdf-target="downloadButton"
-              data-action="pdf#download">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-        </svg>
-        Download PDF
-      </button>
-
-      <div class="flex items-center space-x-4 w-full">
-        <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
-        <%= render "hong_baos/new/next_button",
-          html_options: {
-            disabled: true,
-            data_action: "pdf:downloaded@window->disabled#remove"
-          } %>
-      </div>
     </div>
   </div>
 

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import WalletFactory from "services/bitcoin/wallet_factory"
+import CustomWallet from "services/bitcoin/custom_wallet"
 import Transaction from "services/bitcoin/transaction"
 import TransactionFactory from "services/bitcoin/transaction_factory"
 
@@ -44,7 +45,7 @@ export default class extends Controller {
   get detail() {
     return {
       wallet: this.wallet,
-      mnemonicText: this.master?.mnemonic,
+      mnemonicText: this.master?.mnemonic || '',
       ...this.wallet.info
     }
   }
@@ -86,5 +87,31 @@ export default class extends Controller {
 
   verify(message, signature, address) {
     return this.wallet.verify(message, signature, address)
+  }
+
+  publicAddressChanged(event) {
+    this.#walletPropertyChange('publicAddress', event.target.value);
+  }
+
+  privateKeyChanged(event) {
+    this.#walletPropertyChange('privateKey', event.target.value);
+  }
+
+  mnemonicChanged(event) {
+    this.#walletPropertyChange('mnemonic', event.target.value);
+  }
+
+  // Private methods
+  #walletPropertyChange(propertyName, value) {
+    const walletOptions = { network: this.networkValue };
+    walletOptions[propertyName] = value;
+
+    if (this.master instanceof CustomWallet) {
+      this.master[propertyName] = value;
+    } else {
+      this.master = new CustomWallet(walletOptions);
+    }
+    this.wallet = this.master.derive('0');
+    this.dispatchWalletChanged();
   }
 }
