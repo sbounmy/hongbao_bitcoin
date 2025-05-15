@@ -174,6 +174,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
       f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
       f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
+      f.input :slug
       f.input :ui_name, as: :select, collection: [
         "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
         "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
