@@ -24,7 +24,7 @@ module Bundles
         )
 
         paper = Paper.create!(
-          name: "Generated Paper #{SecureRandom.hex(4)}",
+          name: "#{style.name} #{@bundle.theme.name} ₿ill",
           active: true,
           public: false,
           user: chat.user,
