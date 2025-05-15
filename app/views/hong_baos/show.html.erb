@@ -8,13 +8,14 @@
         <%= form_with(model: @hong_bao,
                       url: transfer_hong_bao_path(@hong_bao.address),
                       id: "bitcoin",
-                      class: "space-y-6",
+                      class: "space-y-6 group",
                       data: {
                         controller: "steps bitcoin",
                         steps_hidden_class: "hidden",
                         steps_current_value: @current_step,
                         bitcoin_network_value: Current.network,
-                        bitcoin_utxos_value: @hong_bao.balance.utxos_for_transaction.to_json
+                        bitcoin_utxos_value: @hong_bao.balance.utxos_for_transaction.to_json,
+                        bitcoin_custom_wallet_value: false
                       }) do |form| %>
 
           <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>

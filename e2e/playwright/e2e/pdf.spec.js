@@ -46,11 +46,14 @@ test.describe('PDF Generation', () => {
   test('user can input custom keys', async ({ page }) => {
     await expectGeneratedKeys(page)
 
+    await expect(page.getByRole('alert', { name: 'Use custom keys at your own risk.' })).toBeHidden()
     // fill public address
     await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
     await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
     await page.getByRole('button', { name: 'Accept' }).click()
-    await page.getByLabel('Public Address').fill('my-own-public-address')
+    await page.getByLabel('Public Address').fill('my-own-public-addres')
+    await page.getByLabel('Public Address').pressSequentially('s')
+    await expect(page.getByRole('alert')).toContainText('Use custom keys at your own risk.')
     await expect(page.getByLabel('Public Address')).toHaveValue('my-own-public-address')
     await expect(page.getByLabel('Private Key')).toHaveValue('')
     await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')

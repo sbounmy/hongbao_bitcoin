@@ -8,7 +8,9 @@
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
-  <div data-hong-bao-target="walletInfo" class="space-y-3 p-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+
+  <div data-hong-bao-target="walletInfo" class="space-y-3 px-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+    <%= render AlertComponent.new(icon: 'information-circle', message: 'Use custom keys at your own risk.', class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
     <div class="space-y-1">
       <div class="flex items-center justify-between">
         <%= label_tag :mnemonic_text, 'Recovery Phrase (24 words)', class: "text-[#FFB636]" %>
@@ -38,7 +40,6 @@
         </button>
       </div>
     </div>
-
       <div class="space-y-1">
         <%= label_tag :private_key_text, 'Private Key', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
