@@ -6,5 +6,6 @@ class PapersController < ApplicationController
     @payment_methods = PaymentMethod.all
     @steps = Step.for_new
     @current_step = (params[:step] || 1).to_i
+    @themes = Input::Theme.with_attached_hero_image
   end
 end
