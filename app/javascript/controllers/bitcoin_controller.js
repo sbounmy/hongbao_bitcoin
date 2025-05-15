@@ -21,7 +21,7 @@ export default class extends Controller {
   generate() {
     this.master = WalletFactory.createDefault({ network: this.networkValue })
     this.wallet = this.master.derive('0')
-    this.dispatchWalletChanged()
+    this.#dispatchWalletChanged()
   }
 
   new(privateKey, mnemonic) {
@@ -33,13 +33,7 @@ export default class extends Controller {
 
     console.log(options)
     this.wallet = WalletFactory.createDefault(options)
-    this.dispatchWalletChanged()
-  }
-
-  dispatchWalletChanged() {
-    this.dispatch("changed", {
-      detail: this.detail
-    })
+    this.#dispatchWalletChanged()
   }
 
   get detail() {
@@ -90,40 +84,34 @@ export default class extends Controller {
   }
 
   publicAddressChanged(event) {
-    console.log("publicAddressChanged")
-    console.log(event.target.value)
-    if (this.master instanceof CustomWallet) {
-      this.master.publicAddress = event.target.value
-    } else {
-      this.master = new CustomWallet({ network: this.networkValue, publicAddress: event.target.value })
-    }
-    this.wallet = this.master.derive('0')
-    console.log(this.detail)
-    console.log(this.master)
-    this.dispatchWalletChanged()
+    this.#walletPropertyChange('publicAddress', event.target.value);
   }
 
   privateKeyChanged(event) {
-    console.log("privateKeyChanged")
-    console.log(event.target.value)
-    if (this.master instanceof CustomWallet) {
-      this.master.privateKey = event.target.value
-    } else {
-      this.master = new CustomWallet({ network: this.networkValue, privateKey: event.target.value })
-    }
-    this.wallet = this.master.derive('0')
-    this.dispatchWalletChanged()
+    this.#walletPropertyChange('privateKey', event.target.value);
   }
 
   mnemonicChanged(event) {
-    console.log("mnemonicChanged")
-    console.log(event.target.value)
+    this.#walletPropertyChange('mnemonic', event.target.value);
+  }
+
+  // Private methods
+  #walletPropertyChange(propertyName, value) {
+    const walletOptions = { network: this.networkValue };
+    walletOptions[propertyName] = value;
+
     if (this.master instanceof CustomWallet) {
-      this.master.mnemonic = event.target.value
+      this.master[propertyName] = value;
     } else {
-      this.master = new CustomWallet({ network: this.networkValue, mnemonic: event.target.value })
+      this.master = new CustomWallet(walletOptions);
     }
-    this.wallet = this.master.derive('0')
-    this.dispatchWalletChanged()
+    this.wallet = this.master.derive('0');
+    this.#dispatchWalletChanged();
+  }
+
+  #dispatchWalletChanged() {
+    this.dispatch("changed", {
+      detail: this.detail
+    })
   }
 }
