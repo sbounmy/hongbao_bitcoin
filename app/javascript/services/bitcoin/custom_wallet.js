@@ -3,6 +3,10 @@ import * as bitcoin from 'bitcoinjs-lib'
 
 export default class CustomWallet extends Master {
 
+  get mtPelerin() {
+    return false
+  }
+
   initializeFromPublicAddress(publicAddress) {
     this.publicAddress = publicAddress
   }
