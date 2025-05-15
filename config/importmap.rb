@@ -106,3 +106,4 @@ pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"
 pin "@babel/runtime/helpers/defineProperty", to: "@babel--runtime--helpers--defineProperty.js" # @7.26.10
 pin "canvg" # @3.0.11
+pin "@stimulus-components/clipboard", to: "@stimulus-components--clipboard.js" # @5.0.0
