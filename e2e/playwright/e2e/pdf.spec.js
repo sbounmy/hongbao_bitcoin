@@ -47,6 +47,9 @@ test.describe('PDF Generation', () => {
     await expectGeneratedKeys(page)
 
     // fill public address
+    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
+    await page.getByRole('button', { name: 'Accept' }).click()
     await page.getByLabel('Public Address').fill('my-own-public-address')
     await expect(page.getByLabel('Public Address')).toHaveValue('my-own-public-address')
     await expect(page.getByLabel('Private Key')).toHaveValue('')
@@ -67,7 +70,12 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
 
     // generate new keys
-    await page.locator('[data-action="bitcoin#generate"]').click()
+    await page.locator('[data-action="bitcoin#generate dialog-key#reset"]').click()
     await expectGeneratedKeys(page)
-});
+
+    // re-ask for confirmation
+    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
+    await page.getByRole('button', { name: 'Cancel' }).click()
+  });
 });
