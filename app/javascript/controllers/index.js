@@ -2,11 +2,11 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 import ScrollTo from '@stimulus-components/scroll-to'
+import Dialog from '@stimulus-components/dialog'
 import Dropdown from '@stimulus-components/dropdown'
 import Reveal from '@stimulus-components/reveal'
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 import { createConsumer } from "@rails/actioncable"
-
 eagerLoadControllersFrom("controllers", application)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
@@ -20,7 +20,8 @@ Turbo.StreamActions.redirect = function () {
 window.App = window.App || {};
 window.App.cable = createConsumer();
 
-application.register('scroll-to', ScrollTo)
+application.register('dialog', Dialog)
 application.register('dropdown', Dropdown)
 application.register('reveal', Reveal)
+application.register('scroll-to', ScrollTo)
 application.register('textarea-autogrow', TextareaAutogrow)

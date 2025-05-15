@@ -8,12 +8,12 @@
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
-  <div data-hong-bao-target="walletInfo" class="space-y-3 p-8">
+  <div data-hong-bao-target="walletInfo" class="space-y-3 p-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
     <div class="space-y-1">
       <div class="flex items-center justify-between">
         <%= label_tag :mnemonic_text, 'Recovery Phrase (24 words)', class: "text-[#FFB636]" %>
         <button type="button"
-                data-action="bitcoin#generate"
+                data-action="bitcoin#generate dialog-key#reset"
                 class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -28,7 +28,7 @@
                             clipboard_target: "source",
                             controller: "binding textarea-autogrow",
                             binding_name_value: "mnemonicText",
-                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow"
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
                           } %>
         <button data-action="clipboard#copy"
                 class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
@@ -49,7 +49,7 @@
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "privateKeyText",
-                                action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged"
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
                               } %>
           <button data-action="clipboard#copy"
                   class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
@@ -61,6 +61,18 @@
       </div>
 
       <div class="space-y-1">
+      <dialog class="modal" data-dialog-key-target="dialog">
+        <div class="modal-box">
+          <p>Using your own key will clear the other keys.</p>
+          <p>Are you sure?</p>
+
+          <div class="modal-action">
+            <button type="button" class="btn btn-ghost" data-action="dialog-key#close" autofocus>Cancel</button>
+            <button type="button" class="btn btn-primary" data-action="dialog-key#accept" autofocus>Accept</button>
+          </div>
+        </div>
+      </dialog>
+
         <%= label_tag :public_address_text, 'Public Address', class: "text-[#FFB636]" %>
         <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
           <%= text_field_tag :public_address_text,
@@ -70,7 +82,7 @@
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "publicAddressText",
-                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged"
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
                               } %>
           <button data-action="clipboard#copy"
                   class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
