@@ -21,7 +21,7 @@ export default class extends Controller {
   generate() {
     this.master = WalletFactory.createDefault({ network: this.networkValue })
     this.wallet = this.master.derive('0')
-    this.#dispatchWalletChanged()
+    this.dispatchWalletChanged()
   }
 
   new(privateKey, mnemonic) {
@@ -33,7 +33,13 @@ export default class extends Controller {
 
     console.log(options)
     this.wallet = WalletFactory.createDefault(options)
-    this.#dispatchWalletChanged()
+    this.dispatchWalletChanged()
+  }
+
+  dispatchWalletChanged() {
+    this.dispatch("changed", {
+      detail: this.detail
+    })
   }
 
   get detail() {
@@ -106,12 +112,6 @@ export default class extends Controller {
       this.master = new CustomWallet(walletOptions);
     }
     this.wallet = this.master.derive('0');
-    this.#dispatchWalletChanged();
-  }
-
-  #dispatchWalletChanged() {
-    this.dispatch("changed", {
-      detail: this.detail
-    })
+    this.dispatchWalletChanged();
   }
 }
