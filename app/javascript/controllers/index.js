@@ -4,6 +4,7 @@ import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 import ScrollTo from '@stimulus-components/scroll-to'
 import Dropdown from '@stimulus-components/dropdown'
 import Reveal from '@stimulus-components/reveal'
+import TextareaAutogrow from 'stimulus-textarea-autogrow'
 import { createConsumer } from "@rails/actioncable"
 
 eagerLoadControllersFrom("controllers", application)
@@ -22,3 +23,4 @@ window.App.cable = createConsumer();
 application.register('scroll-to', ScrollTo)
 application.register('dropdown', Dropdown)
 application.register('reveal', Reveal)
+application.register('textarea-autogrow', TextareaAutogrow)

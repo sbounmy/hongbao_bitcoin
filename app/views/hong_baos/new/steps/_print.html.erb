@@ -26,9 +26,9 @@
                           class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none",
                           data: {
                             clipboard_target: "source",
-                            controller: "binding",
+                            controller: "binding textarea-autogrow",
                             binding_name_value: "mnemonicText",
-                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged"
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow"
                           } %>
         <button data-action="clipboard#copy"
                 class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
