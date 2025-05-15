@@ -1,7 +1,7 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :hero_image, :image, :prompt, :slug, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
-  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
@@ -133,6 +133,11 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         image_tag theme.image, style: "width: 100px;"
       end
     end
+    column :back_image do |theme|
+      if theme.back_image.attached?
+        image_tag theme.back_image, style: "width: 100px;"
+      end
+    end
     actions
   end
 
@@ -152,6 +157,11 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           image_tag theme.image, style: "width: 500px;"
         end
       end
+      row :back_image do |theme|
+        if theme.back_image.attached?
+          image_tag theme.back_image, style: "width: 500px;"
+        end
+      end
     end
   end
 
@@ -163,6 +173,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :prompt
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
       f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
+      f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
       f.input :slug
       f.input :ui_name, as: :select, collection: [
         "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",

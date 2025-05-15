@@ -39,4 +39,9 @@ RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper
     expect(message.input_costs).to eq(0.00589) # dollar
     expect(message.output_costs).to eq(0.04224) # dollar
   end
+
+  it 'uses theme back image if available' do
+    described_class.perform_now(message.id)
+    expect(Paper.last.image_back.blob).to eq(active_storage_blobs(:dollar_theme_back_blob))
+  end
 end
