@@ -55,11 +55,11 @@ class Paper < ApplicationRecord
   private
 
   def broadcast_prepend
-    broadcast_prepend_to :papers, renderable: V2::Papers::ItemComponent.new(item: self)
+    broadcast_prepend_to :papers, renderable: Papers::ItemComponent.new(item: self)
   end
 
   def broadcast_replace
-    broadcast_replace_to self, renderable: V2::Papers::ItemComponent.new(item: self)
+    broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self)
   end
 
   def set_default_elements
