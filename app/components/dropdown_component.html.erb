@@ -4,7 +4,7 @@
           class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-base-200"
           style="color: <%= button_text_color %>; background-color: <%= button_background_color %>">
     <%= item_image(current_item) if current_item %>
-    <%= item_title(current_item) || "Select Item" %>
+    <%= item_title(current_item) if title? %>
     <%= heroicon "chevron-down", class: "w-4 h-4", style: "color: #{button_text_color}" %>
   </button>
 

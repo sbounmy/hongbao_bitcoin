@@ -1,13 +1,17 @@
 class DropdownComponent < ApplicationComponent
   attr_reader :items, :current_item, :path_helper, :button_style
 
-  def initialize(items:, current_item:, path_helper: nil, button_style: {})
+  def initialize(items:, current_item:, **options)
     @items = items
     @current_item = current_item
-    @path_helper = path_helper
-    @button_style = button_style
+    @path_helper = options[:path_helper]
+    @button_style = options[:button_style] || {}
+    @title = options[:title]
   end
 
+  def title?
+    @title
+  end
   private
 
   def item_path(item)
@@ -26,10 +30,10 @@ class DropdownComponent < ApplicationComponent
   end
 
   def button_text_color
-    button_style[:text_color] || "currentColor"
+    button_style.fetch(:text_color, "currentColor")
   end
 
   def button_background_color
-    button_style[:background_color] || "transparent"
+    button_style.fetch(:background_color, "transparent")
   end
 end
