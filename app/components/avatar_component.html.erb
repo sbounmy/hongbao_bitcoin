@@ -1,12 +1,16 @@
 <%# Component to display a single contributor avatar %>
 <div class="flex flex-col items-center gap-2 text-center">
-  <% if link_url&.present? %>
-    <%= link_to link_url, target: "_blank", rel: "noopener noreferrer", class: "group" do %>
-      <%= image_tag avatar_url, alt: name, class: "h-16 w-16 rounded-full object-cover ring-1 ring-gray-300 group-hover:opacity-80 transition-opacity" %>
-      <span class="mt-2 block text-sm font-medium text-gray-800 group-hover:text-main-600"><%= name %></span>
+  <div class="avatar indicator w-full">
+    <%= badge %>
+    <% if link_url&.present? %>
+      <%= link_to link_url, target: "_blank", rel: "noopener noreferrer", class: "group" do %>
+        <%= image_tag avatar_url, alt: name, class: "h-full w-full rounded-full object-cover ring-1 ring-gray-300 group-hover:opacity-80 transition-opacity" %>
+      <% end %>
+    <% else %>
+      <%= image_tag avatar_url, alt: name, class: "w-full rounded-full object-cover ring-1 ring-gray-300" %>
     <% end %>
-  <% else %>
-    <%= image_tag avatar_url, alt: name, class: "h-16 w-16 rounded-full object-cover ring-1 ring-gray-300" %>
-    <span class="mt-2 block text-sm font-medium text-gray-800"><%= name %></span>
+  </div>
+  <% if name.present? %>
+    <span class="mt-2 block text-sm font-medium text-gray-800 group-hover:text-main-600"><%= name %></span>
   <% end %>
 </div>
