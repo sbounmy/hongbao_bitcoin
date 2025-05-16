@@ -103,6 +103,14 @@ export default class extends Controller {
     this.#walletPropertyChange('mnemonic', event.target.value);
   }
 
+  modeChanged(event) {
+    if (event.target.checked) { // Maximalist
+      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
+    } else { // Beginner
+      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
+    }
+  }
+
   // Private methods
   #walletPropertyChange(propertyName, value) {
     const walletOptions = { network: this.networkValue };

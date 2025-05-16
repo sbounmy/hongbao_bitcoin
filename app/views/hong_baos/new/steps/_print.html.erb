@@ -9,7 +9,7 @@
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
 
-  <div data-hong-bao-target="walletInfo" class="space-y-3 px-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+  <div class="space-y-3 px-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
     <%= render AlertComponent.new(icon: 'information-circle', message: 'Use custom keys at your own risk.', class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
     <div class="space-y-1">
       <div class="flex items-center justify-between">
@@ -103,7 +103,7 @@
           <label for="mode">
             <span class="">Beginner</span>
           </label>
-          <input type="checkbox" id="mode" class="toggle" data-action="hong-bao#modeChanged" />
+          <input type="checkbox" id="mode" class="toggle" data-action="bitcoin#modeChanged" />
           <label for="mode">
             <span class="">Maximalist</span>
           </label>
@@ -146,7 +146,6 @@
           <%= render 'hong_baos/new/steps/paper_canva',
                     class_name: "w-[140mm] h-[77mm] transform-[rotate(180deg)]",
                     paper:,
-                    actions: "hong-bao:back@window->canva#backgroundImageChanged",
                     elements: paper.back_elements,
                     image: paper.image_back.attached? ? url_for(paper.image_back) : ''
           %>
@@ -156,8 +155,8 @@
           <%= render 'hong_baos/new/steps/paper_canva',
                     class_name: "w-[140mm] h-[77mm]",
                     paper:,
-                    actions: "hong-bao:front@window->canva#backgroundImageChange hong-bao:modeChanged@window->canva#refresh",
                     elements: paper.front_elements,
+                    actions: "bitcoin:modeChanged@window->canva#refresh",
                     image: paper.image_front.attached? ? url_for(paper.image_front) : ''
           %>
         <% end %>

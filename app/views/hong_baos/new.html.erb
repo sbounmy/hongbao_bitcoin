@@ -40,10 +40,9 @@
         <%= turbo_frame_tag "qr_scanner" %>
 
         <div class="flex flex-col h-full"
-             data-controller="hong-bao steps bitcoin"
+             data-controller="steps bitcoin"
              data-steps-hidden-class="hidden"
              data-steps-current-value="<%= @current_step %>"
-             data-hong-bao-current-paper-value="<%= @hong_bao.paper_id %>"
              data-bitcoin-auto-generate-value="true"
              data-bitcoin-network-value="<%= Current.network %>">
 
