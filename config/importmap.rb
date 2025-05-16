@@ -99,9 +99,11 @@ pin "stimulus-use" # @0.52.3
 pin "@stimulus-components/scroll-to", to: "@stimulus-components--scroll-to.js" # @5.0.1
 pin "@stimulus-components/dropdown", to: "@stimulus-components--dropdown.js" # @3.0.0
 pin "@stimulus-components/reveal", to: "@stimulus-components--reveal.js" # @5.0.0
+pin "@stimulus-components/dialog", to: "@stimulus-components--dialog.js" # @1.0.1
 pin "stimulus-textarea-autogrow" # @4.1.0
 
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"
 pin "@babel/runtime/helpers/defineProperty", to: "@babel--runtime--helpers--defineProperty.js" # @7.26.10
 pin "canvg" # @3.0.11
+pin "@stimulus-components/clipboard", to: "@stimulus-components--clipboard.js" # @5.0.0

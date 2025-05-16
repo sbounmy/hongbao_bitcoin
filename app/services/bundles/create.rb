@@ -24,7 +24,7 @@ module Bundles
         )
 
         paper = Paper.create!(
-          name: "#{style.name} #{@bundle.theme.name} ₿ill",
+          name: "#{style.name} #{@bundle.theme.name}",
           active: true,
           public: false,
           user: chat.user,

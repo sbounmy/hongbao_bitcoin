@@ -33,7 +33,7 @@
           <% papers.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
               <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -43,7 +43,7 @@
           <% papers.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
               <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -58,7 +58,7 @@
            <% papers_shuffled.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
               <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -68,7 +68,7 @@
            <% papers_shuffled.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
               <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>

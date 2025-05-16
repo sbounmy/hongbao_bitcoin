@@ -6,8 +6,9 @@ import TransactionFactory from "services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
-    network: { type: String, default: 'mainnet' },
     autoGenerate: { type: Boolean, default: false },
+    customWallet: { type: Boolean, default: false },
+    network: { type: String, default: 'mainnet' },
     utxos: { type: String, default: '' }
   }
 
@@ -21,6 +22,7 @@ export default class extends Controller {
   generate() {
     this.master = WalletFactory.createDefault({ network: this.networkValue })
     this.wallet = this.master.derive('0')
+    this.customWalletValue = false
     this.dispatchWalletChanged()
   }
 
@@ -101,6 +103,14 @@ export default class extends Controller {
     this.#walletPropertyChange('mnemonic', event.target.value);
   }
 
+  modeChanged(event) {
+    if (event.target.checked) { // Maximalist
+      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
+    } else { // Beginner
+      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
+    }
+  }
+
   // Private methods
   #walletPropertyChange(propertyName, value) {
     const walletOptions = { network: this.networkValue };
@@ -108,6 +118,7 @@ export default class extends Controller {
 
     if (this.master instanceof CustomWallet) {
       this.master[propertyName] = value;
+      this.customWalletValue = true;
     } else {
       this.master = new CustomWallet(walletOptions);
     }

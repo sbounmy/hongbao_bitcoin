@@ -82,7 +82,7 @@
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
           <h2 class="text-lg font-medium">3. Preview</h2>
           <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
-              <%= render V2::Papers::ItemComponent.with_collection(@papers) %>
+              <%= render Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <%= turbo_stream_from :papers %>
           <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">

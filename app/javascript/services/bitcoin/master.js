@@ -43,6 +43,10 @@ export default class Master extends Wallet {
     return new Master()
   }
 
+  get mtPelerin() {
+    return true
+  }
+
   generate() {
     this.mnemonic = window.bip39.generateMnemonic(256)
     this.initializeFromMnemonic(this.mnemonic)
