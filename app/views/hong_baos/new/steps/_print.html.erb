@@ -22,8 +22,9 @@
           </svg>
         </button>
       </div>
-      <div class="relative" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
-        <%= text_area_tag :mnemonic_text,
+      <%= render ClipboardComponent.new do |clipboard| %>
+        <%= clipboard.with_input do %>
+          <%= text_area_tag :mnemonic_text,
                           "",
                           class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none",
                           data: {
@@ -32,19 +33,14 @@
                             binding_name_value: "mnemonicText",
                             action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
                           } %>
-        <button data-clipboard-target="button"
-                data-action="clipboard#copy"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-          </svg>
-        </button>
-      </div>
+        <% end %>
+      <% end %>
     </div>
       <div class="space-y-1">
         <%= label_tag :private_key_text, 'Private Key', class: "text-[#FFB636]" %>
-        <div class="relative" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
-          <%= text_field_tag :private_key_text,
+        <%= render ClipboardComponent.new do |clipboard| %>
+          <%= clipboard.with_input do %>
+            <%= text_field_tag :private_key_text,
                               "",
                               class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
                               data: {
@@ -53,14 +49,8 @@
                                 binding_name_value: "privateKeyText",
                                 action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
                               } %>
-          <button data-clipboard-target="button"
-                  data-action="clipboard#copy"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-            </svg>
-          </button>
-        </div>
+          <% end %>
+        <% end %>
       </div>
 
       <div class="space-y-1">
@@ -77,8 +67,9 @@
       </dialog>
 
         <%= label_tag :public_address_text, 'Public Address', class: "text-[#FFB636]" %>
-        <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Copied!">
-          <%= text_field_tag :public_address_text,
+        <%= render ClipboardComponent.new do |clipboard| %>
+          <%= clipboard.with_input do %>
+            <%= text_field_tag :public_address_text,
                               "",
                               class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
                               data: {
@@ -87,14 +78,8 @@
                                 binding_name_value: "publicAddressText",
                                 action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
                               } %>
-          <button data-clipboard-target="button"
-                  data-action="clipboard#copy"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-            </svg>
-          </button>
-        </div>
+          <% end %>
+        <% end %>
       </div>
 
       <fieldset class="fieldset">
