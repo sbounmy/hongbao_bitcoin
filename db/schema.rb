@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_083849) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_16_080641) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -174,7 +174,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_083849) do
     t.string "name"
     t.integer "ai_style_id", default: 0
     t.boolean "active", default: true
-    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"

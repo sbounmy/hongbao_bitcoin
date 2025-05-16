@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   def index
     # Will be used to list available styles and papers
     @styles = Input::Style.with_attached_image
-    @papers = Paper.order(created_at: :desc).with_attached_image_front.with_attached_image_back
+    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
     @themes = Input::Theme.with_attached_hero_image
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
