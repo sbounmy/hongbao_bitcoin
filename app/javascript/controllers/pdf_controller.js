@@ -29,7 +29,7 @@ export default class extends Controller {
 
       // Use JPEG format and specify quality (0.0 to 1.0)
       // Lower quality means smaller file size but potentially worse image appearance.
-      const imgData = canvas.toDataURL('image/jpeg', 0.3); // Adjust 0.7 as needed
+      const imgData = canvas.toDataURL('image/jpeg', 0.7); // Adjust 0.7 as needed
 
       // Add the image to PDF
       pdf.addImage(
