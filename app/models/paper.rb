@@ -15,8 +15,9 @@ class Paper < ApplicationRecord
   validates :name, presence: true
   validates :elements, presence: true
 
-  scope :active, -> { where(active: true).order(position: :asc) }
+  scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
+  scope :recent, -> { order(created_at: :desc) }
 
   ELEMENTS = %w[
     app_public_address_qrcode
