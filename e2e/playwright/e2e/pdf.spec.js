@@ -81,4 +81,54 @@ test.describe('PDF Generation', () => {
     await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
     await page.getByRole('button', { name: 'Cancel' }).click()
   });
+
+  test('user top up notice for custom keys', async ({ page }) => {
+    await expectGeneratedKeys(page)
+
+    // fill public address
+    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
+    await page.getByRole('button', { name: 'Accept' }).click()
+    await page.getByLabel('Public Address').fill('my-own-public-addres')
+    await page.getByLabel('Public Address').pressSequentially('s')
+    await expect(page.getByRole('alert')).toContainText('Use custom keys at your own risk.')
+
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click download button (adjust selector as needed)
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+
+    // Wait for download to start
+    const download = await downloadPromise;
+
+    // Verify download started
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+
+    const nextButton = page.getByRole('button', { name: 'Next' });
+    await expect(nextButton).toBeEnabled();
+    await nextButton.click();
+
+    await expect(page.getByText('Card / Bank Transfer top up might not be available for custom keys.')).toBeVisible();
+  });
+
+  test('user top up no notice for generated keys', async ({ page }) => {
+    await expectGeneratedKeys(page)
+
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click download button (adjust selector as needed)
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+
+    // Wait for download to start
+    const download = await downloadPromise;
+
+    // Verify download started
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+
+    const nextButton = page.getByRole('button', { name: 'Next' });
+    await expect(nextButton).toBeEnabled();
+    await nextButton.click();
+
+    await expect(page.getByText('Card / Bank Transfer top up might not be available for custom keys.')).toBeHidden();
+  });
 });
