@@ -99,6 +99,10 @@ Rails.application.routes.draw do
     "https://x.com/hongbaobitcoin"
   end
 
+  direct :etsy do
+    "https://etsy.com/shop/HongBaoBitcoin"
+  end
+
   # Direct route to generate Gravatar URLs
   # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
   direct :gravatar do |email, options = {}|
