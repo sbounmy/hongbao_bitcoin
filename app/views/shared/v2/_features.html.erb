@@ -28,28 +28,23 @@
       </div>
       <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden">
         <div class="flex flex-col space-y-1.5 p-6">
-          <h3 class="font-semibold leading-none tracking-tight">Works with your favorite Bitcoin wallet</h3>
-          <p class="text-sm text-muted-foreground">Keys are generated offline in your browser using <%= link_to "bitcoinjs-lib", "https://github.com/bitcoinjs/bitcoinjs-lib", target: "_blank", rel: "noopener noreferrer", class: "link link-hover" %>.</p>
+          <h3 class="font-semibold leading-none tracking-tight">Not your keys, not your coins</h3>
+          <p class="text-sm text-muted-foreground">Keys are generated offline in your browser using <%= link_to "bitcoinjs-lib", "https://github.com/bitcoinjs/bitcoinjs-lib", target: "_blank", rel: "noopener noreferrer", class: "link link-hover font-bold" %> or import your own.</p>
         </div>
-        <div class="pt-0 p-6 grid grid-cols-3 gap-4">
-          <% wallets = [
-            {name: "Bitcoin Core", icon: "wallets/bitcoin-core.svg"},
-            {name: "Electrum", icon: "wallets/electrum.svg"},
-            {name: "Sparrow", icon: "wallets/sparrow.png"},
-            {name: "Bitcoin Knots", icon: "wallets/knots.png"},
-            {name: "Trezor", icon: "wallets/trezor.svg"},
-            {name: "Ledger", icon: "wallets/ledger.svg"},
-            {name: "Foundation Passport", icon: "wallets/envoy.jpg"},
-            {name: "Coinbase", icon: "wallets/coinbase.svg"},
-            {name: "Bitstack", icon: "wallets/bitstack.svg"}
-          ] %>
+        <div class="p-0 h-full overflow-hidden">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/a_uQjuD21Tw?si=gpiu1nESHrc6sq0H"
+            title="YouTube video player: How to import your own Bitcoin keys"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
 
-          <% wallets.each do |wallet| %>
-            <div class="flex flex-col items-center">
-							<%= image_tag wallet[:icon], class: "w-16 h-16 mb-2", alt: "#{wallet[:name]} logo" %>
-            </div>
-          <% end %>
-        </div>
       </div>
       <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden gap-2">
         <div class="flex flex-col space-y-1.5 p-6">
