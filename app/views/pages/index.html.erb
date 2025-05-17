@@ -80,39 +80,6 @@
 
   <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
     <%= render "shared/v2/features" %>
-
-    <% render TransformComponent.new do |component| %>
-      <% component.with_before do %>
-        <div class="avatar flex justify-center items-center">
-          <div class="w-1/2 rounded">
-            <%= image_tag image_url("friends.jpg") %>
-          </div>
-        </div>
-        <p class="text-center text-sm text-primary">With Marc lou - @Bali, 2020</p>
-      <% end %>
-      <% component.with_after do %>
-        <div class="flex-1">
-          <div class="flex flex-col justify-center items-center">
-            <%= image_tag image_url("friends-paper.jpg"), class: "w-3/4 h-full object-cover" %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </section>
-
-  <section id="diff" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
-    <%= render DiffComponent.new do |diff| %>
-      <% diff.with_before do %>
-        <div class="flex flex-col justify-center items-center p-8">
-          <%= image_tag image_url("bill_usd.jpg") %>
-        </div>
-      <% end %>
-      <% diff.with_after do %>
-        <div class="flex flex-col justify-center items-center p-8">
-          <%= image_tag image_url("bill_hongbao.jpg") %>
-        </div>
-      <% end %>
-    <% end %>
   </section>
 
   <section id='wallets'>
