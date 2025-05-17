@@ -1,30 +1,11 @@
 <div class="relative mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 px-4 sm:py-16 py-6 lg:py-20 max-w-7xl">
   <%= section_header(title: 'Bitcoin Paper Wallet Generator', subtitle: 'Turn any picture into cool Bitcoin bills') %>
 
-          <%= render DiffComponent.new do |diff| %>
-          <% diff.with_before do %>
-            <div class="flex flex-col justify-center items-center p-8">
-              <%= image_tag image_url("bill_usd.jpg") %>
-              <div class="absolute bottom-14 left-14 badge badge-error badge-xl rounded-full font-bold">
-                <%= heroicon "no-symbol", variant: :solid, class: "w-5 h-5" %>
-                HONG₿AO
-              </div>
-            </div>
-         <% end %>
-          <% diff.with_after do %>
-            <div class="flex flex-col justify-center items-center p-8">
-              <%= image_tag image_url("bill_hongbao.jpg") %>
-              <div class="absolute bottom-14 right-14 badge badge-success badge-xl rounded-full font-bold">
-                <%= heroicon "check-circle", variant: :outline, class: "w-5 h-5" %>
-                HONG₿AO
-              </div>
-            </div>
-          <% end %>
-        <% end %>
+  <%= render "shared/diffs" %>
 
-        <div class="flex flex-col items-center">
-          <%= link_to "Open QRCODE", addr_path("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x"), target: "_blank", class: "btn btn-primary"%>
-        </div>
+  <div class="flex flex-col items-center">
+    <%= link_to "Open QRCODE", addr_path("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x"), target: "_blank", class: "btn btn-primary"%>
+  </div>
 
   <div class="flex flex-col items-center">
     <div class="mt-10 sm:mt-16 grid cols-1 md:grid-cols-5 gap-4 md:auto-rows-[25rem] max-w-7xl mx-auto">
