@@ -31,6 +31,11 @@ class HongBaosController < ApplicationController
 
   def show
     @hong_bao = HongBao.from_scan(params[:id])
+    @themes = Input::Theme.all
+  end
+
+  def form
+    @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
     @themes = Input::Theme.all
     @current_step = (params[:step] || 1).to_i
