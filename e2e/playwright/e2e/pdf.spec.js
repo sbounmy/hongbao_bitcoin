@@ -138,6 +138,6 @@ test.describe('PDF Generation', () => {
     await page.goto('/satoshi');
     await expect(page.locator('iframe')).toBeVisible();
     const iframe = page.locator("section iframe").contentFrame();
-    await expect(iframe.locator('img[alt="Affichage de la miniature de la vidéo Le Mystère Satoshi.mp4"]').first()).toBeVisible();
+    await expect(iframe.locator('img[alt*="Le Mystère Satoshi.mp4"]').first()).toBeVisible();
   });
 });
