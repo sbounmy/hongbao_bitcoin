@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Authentication
   before_action :set_locale
   before_action :set_network
-  helper_method :authenticated?, :testnet?, :current_theme
+  helper_method :authenticated?, :testnet?, :current_theme, :current_spotify_path
 
   private
 
@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
 
   def current_theme
     @current_theme ||= Input::Theme.find_by(slug: params[:theme] || "usd")
+  end
+
+  def current_spotify_path
+    current_theme&.spotify_path || "track/40KNlAhOsMqCmfnbRtQrbx"
   end
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
