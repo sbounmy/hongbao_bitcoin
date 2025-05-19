@@ -1,5 +1,5 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show index search]
+  allow_unauthenticated_access only: %i[new show form index search]
 
   def index
     @themes = Input::Theme.with_attached_hero_image
@@ -30,6 +30,11 @@ class HongBaosController < ApplicationController
   end
 
   def show
+    @hong_bao = HongBao.from_scan(params[:id])
+    @themes = Input::Theme.all
+  end
+
+  def form
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
     @themes = Input::Theme.all

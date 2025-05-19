@@ -2,12 +2,14 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 import Clipboard from '@stimulus-components/clipboard'
+import ContentLoader from '@stimulus-components/content-loader'
 import Dialog from '@stimulus-components/dialog'
 import Dropdown from '@stimulus-components/dropdown'
 import Reveal from '@stimulus-components/reveal'
 import ScrollTo from '@stimulus-components/scroll-to'
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 import { createConsumer } from "@rails/actioncable"
+
 eagerLoadControllersFrom("controllers", application)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
@@ -27,3 +29,4 @@ application.register('dropdown', Dropdown)
 application.register('reveal', Reveal)
 application.register('scroll-to', ScrollTo)
 application.register('textarea-autogrow', TextareaAutogrow)
+application.register('content-loader', ContentLoader)

@@ -1,5 +1,5 @@
 const { test, expect } = require('../support/test-setup');
-const { appVcrInsertCassette, forceLogin , app } = require('../support/on-rails');
+const { appVcrInsertCassette, forceLogin , appVcrEjectCassette } = require('../support/on-rails');
 
 async function fillMnemonic(page, mnemonic) {
     const words = mnemonic.split(' '); // cant use forEach because of the async await
@@ -23,6 +23,7 @@ test.describe('Balance', () => {
   });
 
   test('user can check balance and transfer tokens', async ({ page }) => {
+    await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
@@ -38,6 +39,7 @@ test.describe('Balance', () => {
   });
 
   test('user cant check transfer with invalid mnemonic checksum', async ({ page }) => {
+    await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
@@ -52,6 +54,7 @@ test.describe('Balance', () => {
   });
 
   test('user cant check transfer with invalid mnemonic for given address', async ({ page }) => {
+    await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
@@ -64,6 +67,8 @@ test.describe('Balance', () => {
     await expect(page.getByRole('button', { name: "Continue" })).toBeDisabled();
     await expect(page.getByText('This mnemonic does not correspond to the address tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')).toBeVisible();
     // cPYpAjGY3GK1jTfGSVBoe6kS1hvRAY87vDbj2ZSbpgJA2inGHwfY
+    await appVcrEjectCassette();
+    await appVcrInsertCassette('balance_0', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p?testnet=true');
     await expect(page.locator('body')).toContainText('₿0', { timeout: 10_000 });
     await expect(page.getByRole('button', { name: "Next →" })).toBeDisabled();
