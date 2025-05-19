@@ -1,5 +1,5 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show index search]
+  allow_unauthenticated_access only: %i[new show form index search]
 
   def index
     @themes = Input::Theme.with_attached_hero_image
