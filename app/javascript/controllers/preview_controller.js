@@ -18,8 +18,10 @@ export default class extends Controller {
 
     if (file) {
       reader.readAsDataURL(file);
+      this.dispatch("selected", { detail: { file } });
     } else {
       preview.src = "";
+      this.dispatch("none", { detail: {} });
     }
   }
 }

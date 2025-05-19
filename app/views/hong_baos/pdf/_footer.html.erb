@@ -17,7 +17,7 @@
       <%# QR code for video/tutorial %>
       <div class="flex flex-col items-center">
         <div class="w-32 h-32">
-          <%= image_tag qr_code(satoshi_url), alt: "Tutorial Video QR Code" %>
+          <%= image_tag(qr_code(satoshi_url), image: image_url("pdf/youtube-logo.png"), alt: "Tutorial Video QR Code") %>
         </div>
         <p class="mt-1 font-mono text-xs">Discover bitcoin</p>
       </div>
