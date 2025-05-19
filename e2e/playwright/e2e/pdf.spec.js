@@ -25,6 +25,8 @@ test.describe('PDF Generation', () => {
   });
 
   test('should handle PDF download', async ({ page, context }) => {
+    await expectGeneratedKeys(page)
+
     // Start waiting for download before clicking
     const downloadPromise = page.waitForEvent('download');
 

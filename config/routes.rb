@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|zh-CN/ do
-    resources :hong_baos, only: [ :new, :show, :index ]
+    resources :hong_baos, only: [ :new, :show, :index ] do
+      get :form, on: :member
+    end
     resources :papers, only: [ :show ]
     root "pages#index"
     post "/leonardo/generate", to: "leonardo#generate"
