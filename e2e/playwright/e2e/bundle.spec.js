@@ -16,7 +16,6 @@ test.describe('Bundle generation', () => {
     await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
 
      // Select styles
-    await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
 
     // Upload image
@@ -41,7 +40,6 @@ test.describe('Bundle generation', () => {
     await turboCableConnected(page);
     await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
      // Select styles
-     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
      await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
 
      // Upload image

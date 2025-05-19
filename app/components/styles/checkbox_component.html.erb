@@ -2,27 +2,26 @@
 
   <label class="block cursor-pointer">
     <%= form.fields_for :input_items do |item_form| %>
-        <%= item_form.check_box :_destroy, { checked: false, class: "peer sr-only" }, '0', '1' %>
+        <%= item_form.check_box :_destroy, { checked: item_form.options[:child_index] == 0, class: "peer sr-only" }, '0', '1' %>
         <%= item_form.hidden_field :input_id, value: checkbox.id %>
     <% end %>
 
 
-    <div class="rounded-xl border-2 transition-all duration-200
-                peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-500
-                group-hover/card:border-indigo-300
-                peer-checked:[&>svg]:block
-                active:scale-95 transform">
+    <div class="rounded-xl border-2
+                peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary
+                group-hover/card:border-primary
+                peer-checked:[&>svg]:block">
       <!-- Image Container -->
       <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
         <% if checkbox.image.attached? %>
           <%= image_tag checkbox.image, class: "w-full h-full object-cover" %>
         <% end %>
       </div>
-      <%= heroicon "check", class: "absolute bg-primary rounded-full p-1 right-0 bottom-0 h-5 hidden" %>
+      <%= heroicon "check", class: "absolute bg-primary rounded-full p-1 right-2 bottom-15 h-5 hidden" %>
     </div>
 
     <!-- Title -->
-    <h3 class="p-4 text-center peer-checked:text-indigo-600 text-sm font-medium text-gray-900 group-hover/card:text-indigo-600 transition-colors">
+    <h3 class="p-4 text-center peer-checked:text-primary text-sm font-medium text-gray-900 group-hover/card:text-primary transition-colors">
       <%= checkbox.name %>
     </h3>
   </label>

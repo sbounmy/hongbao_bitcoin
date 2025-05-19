@@ -51,6 +51,8 @@ Rails.application.routes.draw do
 
   get "v1", to: "hong_baos#new" # for dev
 
+  get "/satoshi", to: "pages#satoshi"
+
   # Authentication routes
   get "login", to: "users#new"
   post "login", to: "sessions#create"
@@ -89,8 +91,8 @@ Rails.application.routes.draw do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
 
-  direct :youtube_arte do
-    "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
+  direct :satoshi_video do
+    "https://drive.google.com/file/d/1SkxgeFFKGZfsk4ro7GwGhPJz8pJio7QP/preview"
   end
 
   direct :linkedin do
