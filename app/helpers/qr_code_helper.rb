@@ -1,7 +1,5 @@
 module QrCodeHelper
-  def hongbao_qr_code(address, size: 150)
-      # Generate QR code for hongbaob.tc/:address
-      url = hong_bao_url(address)
+  def qr_code(url, size: 150)
       qr = RQRCode::QRCode.new(url)
 
       # Generate QR code with logo
