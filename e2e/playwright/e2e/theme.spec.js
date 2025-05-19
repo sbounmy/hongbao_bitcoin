@@ -51,6 +51,7 @@ test.describe('Theme', () => {
     await page.goto('/')
     // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
+    await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
 
     // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
