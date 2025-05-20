@@ -28,6 +28,7 @@ export default class Master extends Wallet {
     super(options)
     this.bip32 = BIP32Factory(secp256k1)
 
+    console.log("constructor", options)
     if (options.mnemonic) {
       this.initializeFromMnemonic(options.mnemonic)
     } else if (options.seed) {

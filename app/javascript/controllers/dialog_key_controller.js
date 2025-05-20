@@ -14,11 +14,14 @@ export default class extends Dialog {
 
     if (!this.acceptedValue) {
       super.open()
+      this.source = event.target
+      this.pressedKey = event.key
     }
   }
 
   accept(event) {
     this.acceptedValue = true
+    this.dispatch("accepted", { detail: { key: this.pressedKey, source: this.source } })
     super.close()
   }
 

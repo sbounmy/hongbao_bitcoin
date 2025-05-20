@@ -10,48 +10,62 @@
 
 
   <div class="space-y-3 px-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
-    <%= render AlertComponent.new(icon: 'information-circle', message: 'Use custom keys at your own risk.', class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
-    <div class="space-y-1">
-      <div class="flex items-center justify-between">
-        <%= label_tag :mnemonic_text, 'Recovery Phrase (24 words)', class: "text-[#FFB636]" %>
-        <button type="button"
-                data-action="bitcoin#generate dialog-key#reset"
-                class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-          </svg>
-        </button>
-      </div>
-      <%= render ClipboardComponent.new do |clipboard| %>
-        <%= clipboard.with_input do %>
-          <%= text_area_tag :mnemonic_text,
+    <%= render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
+    <%= render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+
+    <%= render TextareaComponent.new(:mnemonic_text, label: 'Recovery Phrase (24 words)', clipboard: true) do |fieldset| %>
+      <%= fieldset.with_icon do %>
+        <%= heroicon "qr-code", class: "w-5 h-5" %>
+      <% end %>
+      <%= fieldset.with_badge do %>
+        <div class="flex flex-row gap-2 items-center">
+          <%= button_tag '#',
+                  data: {
+                    action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
+                  },
+                  id: "bitcoin-generate",
+                  class: "text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors" do %>
+            <%= heroicon "arrow-path", class: "w-5 h-5" %>
+          <% end %>
+          <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+        </div>
+      <% end %>
+      <%= fieldset.with_input do %>
+        <%= text_area_tag :mnemonic_text,
                           "",
-                          class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none",
+                          class: "text-area w-full text-white font-mono text-sm py-2 px-10 rounded border border-white/10 resize-none",
                           data: {
                             clipboard_target: "source",
                             controller: "binding textarea-autogrow",
                             binding_name_value: "mnemonicText",
                             action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
                           } %>
-        <% end %>
+        <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
       <% end %>
-    </div>
-      <div class="space-y-1">
-        <%= label_tag :private_key_text, 'Private Key', class: "text-[#FFB636]" %>
-        <%= render ClipboardComponent.new do |clipboard| %>
-          <%= clipboard.with_input do %>
+    <% end %>
+
+      <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
+        <%= fieldset.with_icon do %>
+          <%= heroicon "key", class: "w-5 h-5" %>
+        <% end %>
+        <%= fieldset.with_badge do %>
+          <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+        <% end %>
+        <%= fieldset.with_input do %>
             <%= text_field_tag :private_key_text,
                               "",
-                              class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
+                              class: "bg-transparent",
                               data: {
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "privateKeyText",
                                 action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
                               } %>
-          <% end %>
         <% end %>
-      </div>
+        <%= fieldset.with_note do %>
+          <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
+        <% end %>
+      <% end %>
 
       <div class="space-y-1">
       <dialog class="modal" data-dialog-key-target="dialog">
@@ -66,21 +80,24 @@
         </div>
       </dialog>
 
-        <%= label_tag :public_address_text, 'Public Address', class: "text-[#FFB636]" %>
-        <%= render ClipboardComponent.new do |clipboard| %>
-          <%= clipboard.with_input do %>
+      <%= render FieldsetComponent.new(:public_address_text, label: 'Public Address', clipboard: true) do |fieldset| %>
+        <%= fieldset.with_icon do %>
+          <%= heroicon "qr-code", class: "w-5 h-5" %>
+        <% end %>
+        <%= fieldset.with_input do %>
             <%= text_field_tag :public_address_text,
                               "",
-                              class: "w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10",
+                              class: "",
                               data: {
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "publicAddressText",
                                 action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
                               } %>
-          <% end %>
+
         <% end %>
-      </div>
+      <% end %>
+    </div>
 
       <fieldset class="fieldset">
         <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
