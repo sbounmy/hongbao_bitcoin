@@ -110,3 +110,6 @@ gem "mission_control-jobs"
 
 # Performances & exceptions monitoring [https://github.com/rails/rorvswild]
 gem "rorvswild"
+
+# `Save Page As` doesn't export javascript files so we need to bundle them https://github.com/rails/importmap-rails/issues/289
+gem "jsbundling-rails"

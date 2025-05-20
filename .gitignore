@@ -56,3 +56,4 @@ coveragejs
 /test-examples/
 
 .cursor
+/node_modules

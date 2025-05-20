@@ -2,3 +2,5 @@ web: bin/rails server -p 3002
 css: bin/rails tailwindcss:watch
 active_admin: npm run watch:css
 stripe: stripe listen --forward-to localhost:3002/checkout/webhook -c localhost:3002/checkout/webhook
+js: yarn build --watch
+js-offline: yarn build:offline --watch

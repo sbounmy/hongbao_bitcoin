@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import * as bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from '../../../vendor/javascript/bitcoinjs-lib.js'
 
 export default class extends Controller {
   static targets = ["input", "errorMessage"]

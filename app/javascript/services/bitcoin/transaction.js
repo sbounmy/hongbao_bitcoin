@@ -1,4 +1,4 @@
-import * as bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 import { ECPairFactory } from 'ecpair'
 import * as secp256k1 from 'secp256k1'
 

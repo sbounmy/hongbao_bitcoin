@@ -1,17 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
-import * as bitcoin from 'bitcoinjs-lib'
+import {bitcoin, initEccLib } from '../../../vendor/javascript/bitcoinjs-lib.js'
 import { ECPairFactory } from 'ecpair'
-import { initEccLib } from 'bitcoinjs-lib'
-import * as secp256k1 from 'secp256k1'
+import secp256k1 from '@bitcoinerlab/secp256k1'
 import { Buffer } from 'buffer'
 
 // Initialize the Bitcoin library with secp256k1
 initEccLib(secp256k1)
-
-// Make Buffer available globally if needed
-if (typeof window !== 'undefined' && !window.Buffer) {
-    window.Buffer = Buffer
-  }
 
   // Create ECPair factory with secp256k1
 const ECPair = ECPairFactory(secp256k1)

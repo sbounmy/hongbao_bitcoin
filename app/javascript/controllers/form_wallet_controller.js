@@ -1,4 +1,4 @@
-import FormController from "controllers/form_controller"
+import FormController from "./form_controller"
 
 export default class extends FormController {
   static targets = ["destination", "fee", "submitButton", "privateKey"]
