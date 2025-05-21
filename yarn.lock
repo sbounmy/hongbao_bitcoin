@@ -1537,9 +1537,9 @@
   dependencies:
     stimulus-use "^0.52.2"
 
-"@stimulus-components/reveal@5.0.0":
+"@stimulus-components/reveal@^5.0.0":
   version "5.0.0"
-  resolved "https://registry.npmjs.org/@stimulus-components/reveal/-/reveal-5.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/reveal/-/reveal-5.0.0.tgz#87a17b91f8a556e3f3975740ebb3e760aea6fafc"
   integrity sha512-0ShvvDiG4qNLyFUTDrjGiR9MWR6D9EiAJRUSKxTPHA5Cc2Ci/A4Qj7cHDCoK2ZGHhpESfK0LsR9xtySCN6FTQw==
 
 "@stimulus-components/scroll-to@5.0.1":
@@ -4692,9 +4692,9 @@ stackblur-canvas@^2.0.0:
   resolved "https://registry.npmjs.org/stackblur-canvas/-/stackblur-canvas-2.7.0.tgz"
   integrity sha512-yf7OENo23AGJhBriGx0QivY5JP6Y1HbrrDI6WLt6C5auYZXlQrheoY8hD4ibekFKz1HOfE48Ww8kMWMnJD/zcQ==
 
-stimulus-textarea-autogrow@4.1.0:
+stimulus-textarea-autogrow@^4.1.0:
   version "4.1.0"
-  resolved "https://registry.npmjs.org/stimulus-textarea-autogrow/-/stimulus-textarea-autogrow-4.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/stimulus-textarea-autogrow/-/stimulus-textarea-autogrow-4.1.0.tgz#faa2f7952062c4508b1566478dc203af7f24f632"
   integrity sha512-hYz+xN3VZiO+eLl+zok4yvhH+mW5WkvOJEExyVP3J97dWQzc/qPDFdAM1EDJvfUIuRzJVq/WJynqqQwiied5iw==
 
 stimulus-use@0.52.3, stimulus-use@^0.52.2:

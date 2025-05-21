@@ -3,8 +3,8 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
-import * as bitcoin from '../../../vendor/javascript/bitcoinjs-lib.js';
 
+// Application controllers
 import BindingController from "./binding_controller"
 application.register("binding", BindingController)
 
@@ -88,3 +88,37 @@ application.register("tabs", TabsController)
 
 import WordController from "./word_controller"
 application.register("word", WordController)
+
+
+// To breakout of turbo frames from server e.g successful login frame we redirect to /
+// https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149
+Turbo.StreamActions.redirect = function () {
+    Turbo.visit(this.target, { action: "replace" });
+};
+
+import { createConsumer } from "@rails/actioncable"
+// Initialize Action Cable
+window.App = window.App || {};
+window.App.cable = createConsumer();
+
+// Stimulus components
+import Clipboard from '@stimulus-components/clipboard'
+application.register('clipboard', Clipboard)
+
+import ContentLoader from '@stimulus-components/content-loader'
+application.register('content-loader', ContentLoader)
+
+import Dialog from '@stimulus-components/dialog'
+application.register('dialog', Dialog)
+
+import Dropdown from '@stimulus-components/dropdown'
+application.register('dropdown', Dropdown)
+
+import Reveal from '@stimulus-components/reveal'
+application.register('reveal', Reveal)
+
+import ScrollTo from '@stimulus-components/scroll-to'
+application.register('scroll-to', ScrollTo)
+
+import TextareaAutogrow from 'stimulus-textarea-autogrow'
+application.register('textarea-autogrow', TextareaAutogrow)
