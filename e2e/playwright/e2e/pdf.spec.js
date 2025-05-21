@@ -2,9 +2,9 @@ import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 const expectGeneratedKeys = async (page) => {
-  await expect(page.getByLabel('Public Address')).toHaveValue(/^bc1/)
-  await expect(page.getByLabel('Private Key')).toHaveValue(/^L|K/)
-  const mnemonic = await page.getByLabel('Recovery Phrase (24 words)').inputValue()
+  await expect(page.locator('#public_address_text')).toHaveValue(/^bc1/)
+  await expect(page.locator('#private_key_text')).toHaveValue(/^L|K/)
+  const mnemonic = await page.locator('#mnemonic_text').inputValue()
   const mnemonicWords = mnemonic.split(' ')
   expect(mnemonicWords).toHaveLength(24)
 }
@@ -50,24 +50,24 @@ test.describe('PDF Generation', () => {
 
     await expect(page.getByRole('alert', { name: 'Use custom keys at your own risk.' })).toBeHidden()
     // fill public address
-    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
     await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
     await page.getByRole('button', { name: 'Accept' }).click()
-    await page.getByLabel('Public Address').fill('my-own-public-addres')
-    await page.getByLabel('Public Address').pressSequentially('s')
-    await expect(page.getByRole('alert')).toContainText('Use custom keys at your own risk.')
-    await expect(page.getByLabel('Public Address')).toHaveValue('my-own-public-address')
-    await expect(page.getByLabel('Private Key')).toHaveValue('')
-    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')
+    await page.locator('#public_address_text').fill('my-own-public-addres')
+    await page.locator('#public_address_text').pressSequentially('s')
+    await expect(page.locator('body')).toContainText("You're using custom keys.")
+    await expect(page.locator('#public_address_text')).toHaveValue('my-own-public-address')
+    await expect(page.locator('#private_key_text')).toHaveValue('')
+    await expect(page.locator('#mnemonic_text')).toHaveValue('')
 
     // fill private key
-    await page.getByLabel('Private Key').fill('my-own-private-key')
-    await expect(page.getByLabel('Private Key')).toHaveValue('my-own-private-key')
-    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('')
+    await page.locator('#private_key_text').fill('my-own-private-key')
+    await expect(page.locator('#private_key_text')).toHaveValue('my-own-private-key')
+    await expect(page.locator('#mnemonic_text')).toHaveValue('')
 
     // fill recovery phrase
-    await page.getByLabel('Recovery Phrase (24 words)').fill('my own mnemonic is here but you can change it')
-    await expect(page.getByLabel('Recovery Phrase (24 words)')).toHaveValue('my own mnemonic is here but you can change it')
+    await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
+    await expect(page.locator('#mnemonic_text')).toHaveValue('my own mnemonic is here but you can change it')
 
     // check if pdf is generated with correct values
     await expect(page.locator('[data-canva-item-name-value="publicAddressText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
@@ -75,11 +75,11 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
 
     // generate new keys
-    await page.locator('[data-action="bitcoin#generate dialog-key#reset"]').click()
+    await page.locator('#bitcoin-generate').click()
     await expectGeneratedKeys(page)
 
     // re-ask for confirmation
-    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
     await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
     await page.getByRole('button', { name: 'Cancel' }).click()
   });
@@ -88,12 +88,12 @@ test.describe('PDF Generation', () => {
     await expectGeneratedKeys(page)
 
     // fill public address
-    await page.getByLabel('Public Address').pressSequentially('my-own-public-address')
+    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
     await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
     await page.getByRole('button', { name: 'Accept' }).click()
-    await page.getByLabel('Public Address').fill('my-own-public-addres')
-    await page.getByLabel('Public Address').pressSequentially('s')
-    await expect(page.getByRole('alert')).toContainText('Use custom keys at your own risk.')
+    await page.locator('#public_address_text').fill('my-own-public-addres')
+    await page.locator('#public_address_text').pressSequentially('s')
+    await expect(page.locator('body')).toContainText("You're using custom keys.")
 
     const downloadPromise = page.waitForEvent('download');
 

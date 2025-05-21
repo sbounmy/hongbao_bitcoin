@@ -41,7 +41,7 @@ jobs:
       with:
         path: ~/.cache/ms-playwright
         # Use package-lock.json or yarn.lock to invalidate cache
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
 

@@ -22,7 +22,7 @@ test.describe('Balance', () => {
     await expect(page.locator('body')).toContainText('QR Code');
   });
 
-  test('user can check balance and transfer tokens', async ({ page }) => {
+  test('user can check balance and transfer tokens with 24 words mnemonic', async ({ page }) => {
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
@@ -74,4 +74,20 @@ test.describe('Balance', () => {
     await expect(page.getByRole('button', { name: "Next →" })).toBeDisabled();
   });
 
+  test('user can check balance and transfer tokens with private key', async ({ page }) => {
+    await appVcrInsertCassette('balance', { allow_playback_repeats: true })
+    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
+    await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
+    await expect(page).toHaveURL(/step=1/);
+    await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
+    await page.getByRole('button', { name: "Next →" }).click();
+    await page.locator('#hong_bao_private_key').fill('someprivatekey');
+    await expect(page.getByText('Invalid private key format')).toBeVisible();
+    await expect(page.getByRole('button', { name: "Continue" })).toBeDisabled();
+    await page.locator('#hong_bao_private_key').fill('cMevyXEL8C1ddb7v8hQQZgpcPPNYejS1eR4tqUAV4u4MNf4KLPnK');
+    await expect(page.getByText('Invalid private key format')).toBeHidden();
+    await expect(page.getByRole('button', { name: "Continue" })).toBeEnabled();
+    await page.getByRole('button', { name: "Continue" }).click();
+    await expect(page.getByText('Enter Destination')).toBeVisible();
+  });
 });

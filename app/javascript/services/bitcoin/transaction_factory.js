@@ -1,5 +1,5 @@
-import SegWitTransaction from 'services/bitcoin/segwit_transaction'
-import LegacyTransaction from 'services/bitcoin/legacy_transaction'
+import SegWitTransaction from './segwit_transaction'
+import LegacyTransaction from './legacy_transaction'
 
 export default class TransactionFactory {
   static create(privateKey, recipientAddress, feeRate, utxos, network = 'testnet') {

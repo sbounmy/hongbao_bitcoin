@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import WalletFactory from "services/bitcoin/wallet_factory"
-import CustomWallet from "services/bitcoin/custom_wallet"
-import Transaction from "services/bitcoin/transaction"
-import TransactionFactory from "services/bitcoin/transaction_factory"
+import WalletFactory from "../services/bitcoin/wallet_factory"
+import CustomWallet from "../services/bitcoin/custom_wallet"
+import Transaction from "../services/bitcoin/transaction"
+import TransactionFactory from "../services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
@@ -33,7 +33,6 @@ export default class extends Controller {
       network: this.networkValue
     }
 
-    console.log(options)
     this.wallet = WalletFactory.createDefault(options)
     this.dispatchWalletChanged()
   }
@@ -111,6 +110,14 @@ export default class extends Controller {
     }
   }
 
+  customWalletChanged(event) {
+    // dirty hack to get the property name from the data-binding-name-value
+    // mnemonicText -> mnemonic
+    // privateKeyText -> privateKey
+    // publicAddressText -> publicAddress
+    const propertyName = event.detail.source.dataset.bindingNameValue.replace('Text', '')
+    this.#walletPropertyChange(propertyName, event.detail.key);
+  }
   // Private methods
   #walletPropertyChange(propertyName, value) {
     const walletOptions = { network: this.networkValue };
@@ -118,10 +125,10 @@ export default class extends Controller {
 
     if (this.master instanceof CustomWallet) {
       this.master[propertyName] = value;
-      this.customWalletValue = true;
     } else {
       this.master = new CustomWallet(walletOptions);
     }
+    this.customWalletValue = true;
     this.wallet = this.master.derive('0');
     this.dispatchWalletChanged();
   }

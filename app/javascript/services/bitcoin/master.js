@@ -1,9 +1,9 @@
-import Wallet from 'services/bitcoin/wallet'
+import Wallet from './wallet'
 import { BIP32Factory } from 'bip32'
-import * as secp256k1 from 'secp256k1'
-import 'bip39'
-import bitcoin from 'bitcoinjs-lib'
-
+import secp256k1 from '@bitcoinerlab/secp256k1'
+import * as bip39 from '../../../../vendor/javascript/bip39.js'
+// import bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 export default class Master extends Wallet {
   static COIN_TYPE = {
     MAINNET: "0'",
@@ -28,6 +28,7 @@ export default class Master extends Wallet {
     super(options)
     this.bip32 = BIP32Factory(secp256k1)
 
+    console.log("constructor", options)
     if (options.mnemonic) {
       this.initializeFromMnemonic(options.mnemonic)
     } else if (options.seed) {
@@ -48,16 +49,16 @@ export default class Master extends Wallet {
   }
 
   generate() {
-    this.mnemonic = window.bip39.generateMnemonic(256)
+    this.mnemonic = bip39.generateMnemonic(256)
     this.initializeFromMnemonic(this.mnemonic)
   }
 
   initializeFromMnemonic(mnemonic) {
-    if (!window.bip39.validateMnemonic(mnemonic)) {
+    if (!bip39.validateMnemonic(mnemonic)) {
       throw new Error('Invalid mnemonic')
     }
     this.mnemonic = mnemonic
-    this.seed = window.bip39.mnemonicToSeedSync(mnemonic)
+    this.seed = bip39.mnemonicToSeedSync(mnemonic)
     this.wallet = this.bip32.fromSeed(this.seed, this.network)
     super.initializeFromWallet(this.wallet)
   }

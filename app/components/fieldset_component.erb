@@ -1,0 +1,15 @@
+<%= field_set_tag '', attributes do %>
+  <legend class="fieldset-legend w-full flex flex-row justify-between text-white"><span><%= label %></span><%= badge %></legend>
+  <%= label_tag name, label, class: label_class, name: label do %>
+    <%= icon %>
+    <%= input %>
+    <% if options[:clipboard] %>
+      <button data-clipboard-target="button"
+              data-action="clipboard#copy"
+              class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+              <%= heroicon "clipboard", class: "w-4 h-4" %>
+      </button>
+    <% end %>
+  <% end %>
+  <%= note %>
+<% end %>

@@ -1,5 +1,5 @@
-import Master from 'services/bitcoin/master'
-import * as bitcoin from 'bitcoinjs-lib'
+import Master from './/master'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 
 export default class CustomWallet extends Master {
 

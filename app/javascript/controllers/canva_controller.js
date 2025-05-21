@@ -1,10 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["container", "canvaItem"]
-  static values = {
-    backgroundImage: String
-  }
+  static targets = ["container", "canvaItem", "backgroundImage"]
 
   connect() {
     this.initializeCanvas()
@@ -44,16 +41,16 @@ export default class extends Controller {
     this.ctx.imageSmoothingQuality = 'high'
 
     // Initial draw if background image exists
-    if (this.hasBackgroundImageValue) {
+    if (this.hasBackgroundImageTarget) {
       this.loadBackgroundImage()
     }
   }
 
   loadBackgroundImage() {
-    if (!this.backgroundImageValue) return
+    if (!this.backgroundImageTarget) return
 
     const img = new Image()
-    img.src = this.backgroundImageValue
+    img.src = this.backgroundImageTarget.src
     img.onload = (event) => {
       this.backgroundImage = event.target
       this.dispatch("imageLoaded")
@@ -61,7 +58,7 @@ export default class extends Controller {
   }
 
   backgroundImageChanged(event) {
-    this.backgroundImageValue = event.detail.url
+    this.backgroundImageTarget.src = event.detail.url
     this.clearCanvaItems()
     this.createCanvaItems(event.detail.elements)
     this.loadBackgroundImage()

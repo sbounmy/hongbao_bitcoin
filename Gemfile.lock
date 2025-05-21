@@ -249,6 +249,8 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.3.1)
+      railties (>= 6.0.0)
     json (2.12.0)
     jwt (2.10.1)
       base64
@@ -601,8 +603,8 @@ DEPENDENCIES
   faker
   foreman
   image_processing (>= 1.2)
-  importmap-rails
   jbuilder
+  jsbundling-rails
   kamal (>= 2.0.0.rc2)
   letter_opener
   letter_opener_web
@@ -636,4 +638,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.5.21
+   2.6.9

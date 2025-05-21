@@ -1,5 +1,5 @@
-import BitcoinKeyController from "controllers/bitcoin_key_controller"
-import * as bitcoin from 'bitcoinjs-lib'
+import BitcoinKeyController from "./bitcoin_key_controller"
+import bitcoin from '../../../vendor/javascript/bitcoinjs-lib.js'
 
 export default class extends BitcoinKeyController {
   static values = {
