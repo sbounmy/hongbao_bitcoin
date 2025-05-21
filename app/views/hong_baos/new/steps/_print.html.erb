@@ -9,7 +9,7 @@
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
 
-  <div class="space-y-3 px-8" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+  <div class="space-y-3 px-8 lg:w-1/3" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
     <%= render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
     <%= render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
 
@@ -140,7 +140,7 @@
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="text-white md:w-2/3 space-y-4 overflow-auto pb-4">
+  <div class="text-white space-y-4 overflow-auto pb-4">
     <!-- This is the actual content that will be rendered to PDF -->
     <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto flex flex-col gap-2 justify-between">
       <div class="flex items-center">

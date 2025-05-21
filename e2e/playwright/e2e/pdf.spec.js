@@ -55,7 +55,7 @@ test.describe('PDF Generation', () => {
     await page.getByRole('button', { name: 'Accept' }).click()
     await page.locator('#public_address_text').fill('my-own-public-addres')
     await page.locator('#public_address_text').pressSequentially('s')
-    await expect(page.getByRole('alert')).toContainText("You're using custom keys.")
+    await expect(page.locator('body')).toContainText("You're using custom keys.")
     await expect(page.locator('#public_address_text')).toHaveValue('my-own-public-address')
     await expect(page.locator('#private_key_text')).toHaveValue('')
     await expect(page.locator('#mnemonic_text')).toHaveValue('')
@@ -93,7 +93,7 @@ test.describe('PDF Generation', () => {
     await page.getByRole('button', { name: 'Accept' }).click()
     await page.locator('#public_address_text').fill('my-own-public-addres')
     await page.locator('#public_address_text').pressSequentially('s')
-    await expect(page.getByRole('alert')).toContainText("You're using custom keys.")
+    await expect(page.locator('body')).toContainText("You're using custom keys.")
 
     const downloadPromise = page.waitForEvent('download');
 
