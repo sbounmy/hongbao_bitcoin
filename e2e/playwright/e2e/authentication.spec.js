@@ -33,6 +33,7 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('Password').fill('new.password');
     await page.getByRole('button', { name: 'Sign up with email' }).click();
     await expect(page.locator('.drawer')).toBeVisible();
+    await page.waitForTimeout(1_000); // Wait for drawer to load fix flakyness
     await page.locator('.drawer').click();
     await expect(page.getByText('new.user@example.com')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
