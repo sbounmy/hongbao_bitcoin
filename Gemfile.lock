@@ -603,7 +603,6 @@ DEPENDENCIES
   faker
   foreman
   image_processing (>= 1.2)
-  importmap-rails
   jbuilder
   jsbundling-rails
   kamal (>= 2.0.0.rc2)
