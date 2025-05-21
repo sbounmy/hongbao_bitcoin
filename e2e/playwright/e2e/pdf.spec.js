@@ -1,5 +1,10 @@
 import { test, expect } from '../support/test-setup';
 import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
+import fs from 'fs/promises';
+import path from 'path';
+import os from 'os';
+import { pathToFileURL } from 'url';
+import scrape from 'website-scraper';
 
 const expectGeneratedKeys = async (page) => {
   await expect(page.locator('#public_address_text')).toHaveValue(/^bc1/)
@@ -141,13 +146,110 @@ test.describe('PDF Generation', () => {
     await expect(iframe.locator('img[alt*="Le Mystère Satoshi.mp4"]').first()).toBeVisible();
   });
 
-  test('user can go offline with save page as', async ({ page }) => {
-    const session = await page.context().newCDPSession(page)
+  test('user can go offline with save page as and interact with it', async ({ page, context }) => {
+    const pageUrl = page.url();
+    context.setOffline(true);
+    let baseTempDir;
+    try {
+      // 1. Create a base temporary directory
+      baseTempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'playwright-scrapebase-'));
+      const scraperTargetDirectory = path.join(baseTempDir, 'scraped-site');
 
-    const doc = await session.send('Page.captureSnapshot', { format: 'mhtml' })
-    console.log(doc)
-    const mhtml = Buffer.from(doc.data, 'base64').toString('utf-8')
-    const mhtmlBlob = new Blob([mhtml], { type: 'multipart/related' })
-    const formData = new FormData()
+      // 2. Scrape the page content with assets
+      let scrapeResult;
+      try {
+        scrapeResult = await scrape({
+          urls: [pageUrl],
+          directory: scraperTargetDirectory,
+        });
+      } catch (error) {
+        console.error(`Failed to scrape page ${pageUrl}:`, error);
+        // Attempt cleanup even on scrape failure, then re-throw to fail the test
+        if (baseTempDir) {
+          try {
+            await fs.rm(baseTempDir, { recursive: true, force: true });
+          } catch (cleanupError) {
+            console.error('Error during cleanup after scrape failure:', cleanupError);
+          }
+        }
+        throw error;
+      }
+
+      if (!scrapeResult || scrapeResult.length === 0 || !scrapeResult[0].filename) {
+        throw new Error('Website-scraper did not return the expected result or filename.');
+      }
+
+      // 3. Determine the path to the main saved HTML file
+      const mainHtmlFile = scrapeResult[0].filename;
+      const localHtmlPath = path.join(scraperTargetDirectory, mainHtmlFile);
+      const fileUrl = pathToFileURL(localHtmlPath).href;
+
+      // 4. Open the local HTML file in a new page
+      const offlinePage = await context.newPage();
+      try {
+        await offlinePage.goto(fileUrl, { waitUntil: 'domcontentloaded' });
+      } catch (error) {
+        console.error(`Failed to load local HTML file ${fileUrl}:`, error);
+        // Attempt cleanup even on goto failure, then re-throw
+        if (baseTempDir) {
+          try {
+            await fs.rm(baseTempDir, { recursive: true, force: true });
+          } catch (cleanupError) {
+            console.error('Error during cleanup after goto failure:', cleanupError);
+          }
+        }
+        throw error;
+      }
+
+      // 5. Now you can interact with the 'offlinePage'.
+      // Example: Verify some content that should be present.
+      await expect(offlinePage.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
+      var addresses = [];
+      for (let i = 0; i < 10; i++) {
+        addresses.push(await offlinePage.locator('#public_address_text').inputValue());
+        await offlinePage.locator("#bitcoin-generate").click();
+      }
+
+      const uniq = [...new Set(addresses)];
+      // check all addresses are different
+      expect(uniq).toHaveLength(10);
+
+      await offlinePage.waitForTimeout(10_000);
+      await expect(offlinePage.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
+      const downloadPromise = offlinePage.waitForEvent('download');
+
+      // Click download button (adjust selector as needed)
+      await offlinePage.getByRole('button', { name: 'Download PDF' }).click();
+
+      // Wait for download to start
+      const download = await downloadPromise;
+
+      // Verify download started
+      expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+      const nextButton = offlinePage.getByRole('button', { name: 'Next' });
+      await expect(nextButton).toBeEnabled();
+      await nextButton.click();
+
+      // top up page
+      await expect(offlinePage.getByText('Choose your preferred way to send bitcoin to this address')).toBeVisible();
+
+      // Add your specific interactions or assertions for the "offline mode" here.
+      // e.g., check if images are loaded, scripts run as expected from local files, etc.
+
+      // 6. Close the new page
+      context.setOffline(false);
+
+      await offlinePage.close();
+
+    } finally {
+      // 7. Clean up: remove the temporary directory and its contents
+      if (baseTempDir) {
+        try {
+          await fs.rm(baseTempDir, { recursive: true, force: true });
+        } catch (e) {
+          console.error(`Failed to remove temporary directory ${baseTempDir}:`, e);
+        }
+      }
+    }
   });
 });
