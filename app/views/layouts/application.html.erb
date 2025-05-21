@@ -44,10 +44,9 @@
 
     <%= theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
-    <%# javascript_importmap_tags %>
     <%= csp_meta_tag %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-    <%# javascript_include_tag "application-offline", "data-turbo-track": "reload" %>
+    <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
   </head>
   <body data-theme="<%= current_theme.ui_name %>">
     <%# render "shared/header" %>
