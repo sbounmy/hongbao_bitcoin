@@ -13,8 +13,11 @@ export default class extends Controller {
       const canvas = await html2canvas(this.contentTarget, {
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
-        logging: false
+        logging: true // Enabled logging
       })
+
+      // Log canvas dimensions
+      console.log('html2canvas generated canvas width:', canvas.width, 'height:', canvas.height);
 
       // Create PDF with A4 dimensions
       const pdf = new jsPDF({

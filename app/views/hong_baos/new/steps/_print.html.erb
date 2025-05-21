@@ -149,7 +149,7 @@
                     class_name: "w-[140mm] h-[77mm] transform-[rotate(180deg)]",
                     paper:,
                     elements: paper.back_elements,
-                    image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+                    image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
           %>
 
           <%# Fold Line %>
@@ -159,7 +159,7 @@
                     paper:,
                     elements: paper.front_elements,
                     actions: "bitcoin:modeChanged@window->canva#refresh",
-                    image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+                    image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
           %>
         <% end %>
         <div class="relative">

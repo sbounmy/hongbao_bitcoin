@@ -116,6 +116,27 @@ Rails.application.routes.draw do
     "https://gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=mp" # d=mp ensures a fallback image
   end
 
+  direct :base64 do |attachment|
+    # Converts an Active Storage attachment to a Base64 data URL.
+    # Returns an empty string if the attachment is not present, not attached,
+    # or is not an image.
+    # Check if attachment is provided, attached, and its blob is present
+    return "" unless attachment.respond_to?(:attached?) && attachment.attached? && attachment.blob.present?
+
+    blob = attachment.blob
+
+    # Ensure it's an image type before proceeding
+    return "" unless blob.content_type.start_with?("image/")
+
+    # Download the file content from storage
+    file_content = blob.download
+    # Encode the content to Base64
+    base64_encoded_content = Base64.strict_encode64(file_content)
+
+    # Construct the data URL
+    "data:#{blob.content_type};base64,#{base64_encoded_content}"
+  end
+
   get "instagram/feed", to: "instagram#feed"
 
   scope "/(:theme)" do

@@ -140,4 +140,14 @@ test.describe('PDF Generation', () => {
     const iframe = page.locator("section iframe").contentFrame();
     await expect(iframe.locator('img[alt*="Le Mystère Satoshi.mp4"]').first()).toBeVisible();
   });
+
+  test('user can go offline with save page as', async ({ page }) => {
+    const session = await page.context().newCDPSession(page)
+
+    const doc = await session.send('Page.captureSnapshot', { format: 'mhtml' })
+    console.log(doc)
+    const mhtml = Buffer.from(doc.data, 'base64').toString('utf-8')
+    const mhtmlBlob = new Blob([mhtml], { type: 'multipart/related' })
+    const formData = new FormData()
+  });
 });
