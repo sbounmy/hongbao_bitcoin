@@ -49,7 +49,7 @@ RUN bundle install && \
     bundle exec bootsnap precompile --gemfile
 
 # Install npm dependencies
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 RUN npm ci
 
 # Copy application code
