@@ -13,10 +13,9 @@
     "tailwindcss": "^4.1.3"
   },
   "scripts": {
-    "watch:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify --watch",
     "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify",
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js --watch",
-    "build:offline": "esbuild app/javascript/application.js --bundle --outfile=app/assets/builds/application-offline.js --format=iife --inject:./app/javascript/esbuild-shims.js --alias:stream=stream-browserify --alias:process=process"
+    "build:esm": "esbuild app/javascript/*.* --bundle --sourcemap --minify --format=iife --outdir=app/assets/builds --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
+    "build": "yarn build:esm"
   },
   "dependencies": {
     "@activeadmin/activeadmin": "^4.0.0-beta15",
