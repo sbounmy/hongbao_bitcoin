@@ -50,7 +50,7 @@ RUN bundle install && \
 
 # Install npm dependencies
 COPY package.json yarn.lock ./
-RUN npm ci
+RUN yarn install
 
 # Copy application code
 COPY . .
