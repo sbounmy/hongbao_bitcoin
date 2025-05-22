@@ -8,9 +8,10 @@
       <%= turbo_frame_tag "qr_scanner" %>
     <div role="alert" class="alert rounded-t-xl alert-horizontal bg-purple/20 border-none border-b">
       <%= heroicon "arrow-down-tray", class: "stroke-info w-6 h-6 shrink-0" %>
-      <div>
+      <div class='space-y-1'>
         <h3 class="flex flex-row gap-2 items-center font-bold">OFFLINE MODE<span class='badge badge-neutral badge-xs'>NEW</span></h3>
-        <div class="text-xs">In your browser, select File &gt; Save Page As..., and save this page as a file. Double-click that file to open it in a browser on any offline computer.</div>
+        <div class="text-sm">In your browser, <span class="font-medium">select <kbd class="kbd kbd-sm">File </kbd> &gt; <kbd class='kbd kbd-sm'>Save Page As</kbd> &gt; <kbd class='kbd kbd-sm'>Format: <b>Webpage, Complete</b></kbd> &gt; <kbd class='kbd kbd-sm'>Save</kbd></span></div>
+        <div class="text-sm">Double-click that <kbd class="kbd kbd-sm">.html</kbd> file to open it in a browser on any offline computer.</div>
       </div>
       <%# <button class="btn btn-sm">See</button> %>
     </div>
