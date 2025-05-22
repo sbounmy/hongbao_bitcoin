@@ -14,17 +14,16 @@
 
     <%# Open Graph / Facebook %>
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= root_url %>">
     <meta property="og:title" content="<%= t('.meta.title') %>">
     <meta property="og:description" content="<%= t('.meta.description') %>">
-    <meta property="og:image" content="<%= image_url('og-image.jpg') %>">
+    <meta property="og:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
+
 
     <%# Twitter %>
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="<%= root_url %>">
     <meta property="twitter:title" content="<%= t('.meta.title') %>">
     <meta property="twitter:description" content="<%= t('.meta.description') %>">
-    <meta property="twitter:image" content="<%= image_url('og-image.jpg') %>">
+    <meta property="twitter:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
 
     <%= yield :head %>
 
