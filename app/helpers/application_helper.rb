@@ -56,6 +56,34 @@ module ApplicationHelper
     end
   end
 
+  def base64_url(attachment)
+    if attachment.is_a?(String)
+      require "open-uri"
+      image = URI.open(attachment)
+      b = Base64.encode64(image.read).gsub("\n", "")
+      return "data:#{image.content_type};base64,#{b}"
+    end
+
+    # Converts an Active Storage attachment to a Base64 data URL.
+    # Returns an empty string if the attachment is not present, not attached,
+    # or is not an image.
+    # Check if attachment is provided, attached, and its blob is present
+    return "" unless attachment.respond_to?(:attached?) && attachment.attached? && attachment.blob.present?
+
+    blob = attachment.blob
+
+    # Ensure it's an image type before proceeding
+    return "" unless blob.content_type.start_with?("image/")
+
+    # Download the file content from storage
+    file_content = blob.download
+    # Encode the content to Base64
+    base64_encoded_content = Base64.strict_encode64(file_content)
+
+    # Construct the data URL
+    "data:#{blob.content_type};base64,#{base64_encoded_content}"
+  end
+
   def theme_css(theme)
     return "" unless theme
 
@@ -80,6 +108,7 @@ module ApplicationHelper
       content_tag(:p, subtitle, class: "mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl")
     end
   end
+
 
   private
 
