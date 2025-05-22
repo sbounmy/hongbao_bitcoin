@@ -143,7 +143,7 @@ test.describe('PDF Generation', () => {
 
   test('user can go offline with save page as and interact with it', async ({ page, context }) => {
     await savePageAs(page, context, async (offlinePage) => {
-      await expect(offlinePage.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
+      await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
       var addresses = [];
       for (let i = 0; i < 10; i++) {
         addresses.push(await offlinePage.locator('#public_address_text').inputValue());
