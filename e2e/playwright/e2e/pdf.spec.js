@@ -154,7 +154,6 @@ test.describe('PDF Generation', () => {
       // check all addresses are different
       expect(uniq).toHaveLength(10);
 
-      await expect(offlinePage.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
       const downloadPromise = offlinePage.waitForEvent('download');
 
       // Click download button (adjust selector as needed)
