@@ -1,4 +1,4 @@
-import Transaction from 'services/bitcoin/transaction'
+import Transaction from './transaction'
 
 export default class LegacyTransaction extends Transaction {
   async addInput(psbt, utxo) {

@@ -1,0 +1,44 @@
+<!-- Right Column - Fixed Form -->
+<div class="w-full h-screen relative">
+  <%= render "shared/v2/header" %>
+  <div class="h-full flex items-center justify-center p-8 bg-[#F04747]">
+    <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
+                rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
+                flex flex-col">
+      <%= turbo_frame_tag "qr_scanner" %>
+    <div role="alert" class="alert rounded-t-xl alert-horizontal bg-purple/20 border-none border-b">
+      <%= heroicon "arrow-down-tray", class: "stroke-info w-6 h-6 shrink-0" %>
+      <div>
+        <h3 class="flex flex-row gap-2 items-center font-bold">OFFLINE MODE<span class='badge badge-neutral badge-xs'>NEW</span></h3>
+        <div class="text-xs">In your browser, select File &gt; Save Page As..., and save this page as a file. Double-click that file to open it in a browser on any offline computer.</div>
+      </div>
+      <%# <button class="btn btn-sm">See</button> %>
+    </div>
+      <div class="flex flex-col h-full group"
+           data-controller="steps bitcoin"
+           data-steps-hidden-class="hidden"
+           data-steps-current-value="<%= @current_step %>"
+           data-bitcoin-auto-generate-value="true"
+           data-bitcoin-network-value="<%= Current.network %>"
+           data-bitcoin-custom-wallet-value="false">
+
+        <!-- Sticky Progress Steps -->
+        <div class="sticky top-0 rounded-t-3xl z-30 bg-[#F04747] border-b border-[#FFB636]/20">
+          <div class="p-8">
+            <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
+            <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
+          </div>
+        </div>
+
+        <%= render "hong_baos/new/steps/print",
+            index: 1,
+            paper: @paper %>
+
+        <%= render "hong_baos/new/steps/top_up",
+            index: 2,
+            hong_bao: @hong_bao,
+            payment_methods: @payment_methods %>
+      </div>
+    </div>
+  </div>
+</div>

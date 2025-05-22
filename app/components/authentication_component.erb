@@ -1,0 +1,16 @@
+<% flash.each do |key, message| %>
+    <div class="alert alert-error">
+        <%= message %>
+    </div>
+<% end %>
+
+<%= render component_for_user %>
+<div class="divider">OR</div>
+
+<div class="flex flex-col gap-2">
+    <%= render Authentication::GoogleComponent.new %>
+
+    <div class="text-center space-y-2">
+        <a href="#" class="link link-primary text-sm">Forgot password?</a>
+    </div>
+</div>

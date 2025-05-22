@@ -1,29 +1,25 @@
-<div class="w-full max-w-xl bg-[#F04747] p-8
-            border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-            rounded-2xl shadow-2xl relative">
-  <div class="space-y-6">
-    <h2 class="text-[#FFB636] text-xl font-bold"><%= t('..title') %></h2>
+<section class="space-y-6 p-8 bg-[#1A1A1A]">
+  <h2 class="text-[#FFB636] text-2xl font-bold"><%= t('..title') %></h2>
 
-    <div class="flex gap-6 items-start">
-      <%= image_tag "sbounmy-laser-eyes.jpeg",
-          class: "w-24 h-24 rounded-full border-2 border-[#FFB636] object-cover shrink-0",
-          alt: "Stephane Bounmy" %>
+  <div class="flex gap-6 items-start">
+    <%= image_tag "sbounmy-laser-eyes.jpeg",
+        class: "w-24 h-24 rounded-full border-2 border-[#FFB636]/50 object-cover shrink-0",
+        alt: "Stephane Bounmy" %>
 
-      <div class="text-white space-y-4 flex-1">
-        <p class="font-medium text-[#FFB636] text-xl">Stephane Bounmy</p>
-        <p class="text-lg leading-relaxed"><%= t('.bio') %></p>
-        <div class="flex gap-4">
-          <%= link_to "Linkedin", "https://linkedin.com/in/stephanebounmy",
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
-          <%= link_to "Twitter", "https://twitter.com/sbounmy",
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
-          <%= link_to "GitHub", "https://github.com/sbounmy",
-              class: "text-[#FFB636] hover:text-white transition-colors",
-              target: "_blank" %>
-        </div>
+    <div class="text-white/90 space-y-4 flex-1">
+      <p class="font-medium text-[#FFB636] text-xl">Stephane</p>
+      <p class="text-lg leading-relaxed"><%= t('.bio') %></p>
+      <div class="flex gap-4">
+        <%= link_to "Linkedin", "https://linkedin.com/in/stephanebounmy",
+            class: "text-[#FFB636]/80 hover:text-white transition-colors",
+            target: "_blank" %>
+        <%= link_to "Twitter", "https://twitter.com/sbounmy",
+            class: "text-[#FFB636]/80 hover:text-white transition-colors",
+            target: "_blank" %>
+        <%= link_to "GitHub", "https://github.com/sbounmy",
+            class: "text-[#FFB636]/80 hover:text-white transition-colors",
+            target: "_blank" %>
       </div>
     </div>
   </div>
-</div>
+</section>

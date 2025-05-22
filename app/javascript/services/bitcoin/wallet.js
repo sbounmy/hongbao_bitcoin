@@ -1,13 +1,12 @@
-import * as bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 import { ECPairFactory } from 'ecpair'
-import { initEccLib } from 'bitcoinjs-lib'
-import * as secp256k1 from 'secp256k1'
+import secp256k1 from '@bitcoinerlab/secp256k1'
 import { Buffer } from 'buffer'
 import QRCode from 'qrcode'
 import { BIP32Factory } from 'bip32'
 
 // Initialize secp256k1 before importing bitcoinjs-message
-initEccLib(secp256k1)
+bitcoin.initEccLib(secp256k1)
 import bitcoinMessage from 'bitcoinjs-message'
 
 // DIRTYFIX Override the sign function with access to the internal functions
@@ -79,9 +78,6 @@ export default class Wallet {
   }
 
   initializeDependencies() {
-    if (typeof window !== 'undefined' && !window.Buffer) {
-      window.Buffer = Buffer
-    }
     this.ECPair = ECPairFactory(secp256k1)
     this.bip32 = BIP32Factory(secp256k1)
   }
@@ -138,12 +134,22 @@ export default class Wallet {
 
   get info() {
     return {
-      address: this.address.toString('hex'),
-      publicKey: this.publicKey,
-      privateKey: this.wif,
-      addressQrcode: async () => await QRCode.toDataURL(this.address.toString('hex')),
-      publicKeyQrcode: async () => await QRCode.toDataURL(this.publicKey.toString('hex')),
-      privateKeyQrcode: async () => await QRCode.toDataURL(this.wif)
+      publicAddressText: this.address,
+      publicKeyText: this.publicKey,
+      privateKeyText: this.wif,
+      publicAddressQrcode: async () => await this.#qrcode(this.address),
+      appPublicAddressQrcode: async () => await this.#qrcode(this.appPublicAddress),
+      publicKeyQrcode: async () => await this.#qrcode(this.publicKey),
+      privateKeyQrcode: async () => await this.#qrcode(this.wif)
     }
+  }
+
+  get appPublicAddress() {
+    return window.location.origin + "/addrs/" + this.address
+  }
+
+  #qrcode(data) {
+    if (!data) return null
+    return QRCode.toDataURL(data, { type: 'image/webp', margin: 1.5 })
   }
 }

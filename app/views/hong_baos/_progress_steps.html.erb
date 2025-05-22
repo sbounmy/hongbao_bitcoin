@@ -1,16 +1,15 @@
-<div class="flex justify-between mb-12 relative">
-  <% steps.each_with_index do |step, index| %>
+<div class="flex justify-between relative">
+  <% steps.each do |step| %>
     <div class="flex flex-col items-center relative z-10 group/step" data-steps-target="indicator">
       <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold
                   transition-all duration-300 transform hover:scale-110 group-open/step:bg-[#FFB636] group-open/step:text-[#F04747] group-open/step:shadow-lg bg-white/20 text-white"
            >
-        <%= index + 1 %>
+        <%= heroicon(step.icon, class: "w-5 h-5") %>
       </div>
-      <span class="text-sm mt-2 font-medium text-white/90"><%= step %></span>
+      <span class="text-sm mt-2 font-medium text-white/90"><%= step.fullname %></span>
     </div>
-    <% if index < steps.size - 1 %>
-      <div class="flex-1 h-1 mt-6 rounded-full group/donegroup-done/step:bg-[#FFB636] bg-white/20"
-           data-hong-bao-target="stepConnector"></div>
+    <% if step != steps.last %>
+      <div class="flex-1 h-1 mt-6 rounded-full group/donegroup-done/step:bg-[#FFB636] bg-white/20"></div>
     <% end %>
   <% end %>
 </div>

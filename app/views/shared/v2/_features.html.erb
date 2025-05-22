@@ -1,0 +1,90 @@
+<div class="relative mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 px-4 sm:py-16 py-6 lg:py-20 max-w-7xl">
+  <%= section_header(title: 'Bitcoin Paper Wallet Generator', subtitle: 'Turn any picture into cool Bitcoin bills') %>
+
+  <%= render "shared/diffs" %>
+
+  <div class="flex flex-col items-center">
+    <%= link_to "Open QRCODE", addr_path("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x"), target: "_blank", class: "btn btn-primary"%>
+  </div>
+
+  <div class="flex flex-col items-center">
+    <div class="mt-10 sm:mt-16 grid cols-1 md:grid-cols-5 gap-4 md:auto-rows-[25rem] max-w-7xl mx-auto">
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-3">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Create Cool Bitcoin Paper Wallets with AI</h3>
+          <p class="text-sm text-muted-foreground">Turn any picture into cool Bitcoin bills using our AI paper wallet creator.</p>
+        </div>
+        <div class="p-0 flex-1">
+            <%= render TransformComponent.new do |component| %>
+                <% component.with_before do %>
+                    <div class="flex justify-center items-center h-full">
+                    <div class="w-2/3">
+                        <%= image_tag image_url("sbounmy-b.jpg"), class: "rounded" %>
+                    </div>
+                    </div>
+                <% end %>
+                <% component.with_after do %>
+                    <div class="grid w-2/3 mb-20 mt-10 md:mb-0 mb:mt-0">
+                    <%= image_tag image_url("themes/stephane-rmb.jpg"), class: "w-full object-cover col-start-1 row-start-1 -rotate-6 -ml-[17px] -mt-[40px]" %>
+                    <%= image_tag image_url("themes/stephane-usd.jpg"), class: "w-full object-cover col-start-1 row-start-1 rotate-[5deg] z-[2] mt-[45px]" %>
+                    <%= image_tag image_url("themes/stephane-eur.jpg"), class: "w-full object-cover col-start-1 row-start-1 rotate-[13deg] z-[3] -ml-[32px] mt-[140px]" %>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Not your keys, not your coins</h3>
+          <p class="text-sm text-muted-foreground">Keys are generated offline in your browser using <%= link_to "bitcoinjs-lib", "https://github.com/bitcoinjs/bitcoinjs-lib", target: "_blank", rel: "noopener noreferrer", class: "link link-hover font-bold" %> or import your own.</p>
+        </div>
+        <div class="p-0 h-full overflow-hidden">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/a_uQjuD21Tw?si=gpiu1nESHrc6sq0H"
+            title="YouTube video player: How to import your own Bitcoin keys"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-2 overflow-hidden gap-2">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">No Wallet ? No Problem</h3>
+          <p class="text-sm text-muted-foreground">Use our built-in wallet to send Bitcoin anywhere.</p>
+        </div>
+        <div class="overflow-hidden h-full">
+          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/i_tLbmYumVQ?si=okhJyV8ofnhFoz4C&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="rounded-xl border bg-card text-card-foreground shadow flex flex-col justify-between md:col-span-3 overflow-hidden gap-2">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="font-semibold leading-none tracking-tight">Printable Paper Wallets</h3>
+          <p class="text-sm text-muted-foreground">Download high-quality paper wallets ready for printing.</p>
+        </div>
+        <div class="p-0 h-full overflow-hidden">
+          <iframe
+                src="/specimen.pdf#navpanes=0"
+                class="w-full h-full rounded-b-lg border border-gray-300 dark:border-gray-700 bg-white"
+                title="HongBao Paper Wallet Sample"
+                loading="lazy">
+                Your browser does not support embedded PDFs. You can <a href="<%= hong_bao_path('sample', format: :pdf) rescue '#' %>">download the PDF</a> instead.
+          </iframe>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <%= link_to "#hero",
+          class: "btn btn-primary group rounded-selector",
+          data: { controller: "scroll-to" } do %>
+        <span>Start creating</span>
+        <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="flex flex-col items-center gap-4 bg-base-200 py-8">
+  <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600">
+    <span class="inline-block align-top text-balance">Works with your favorite Bitcoin wallet</span>
+  </h2>
+    <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl">
+      <%# <span class="inline-block align-top text-balance">Works with your favorite Bitcoin wallet</span> %>
+    </p>
+
+  <div class="pt-0 p-6 flex flex-wrap gap-4  justify-between">
+    <% wallets = [
+      {name: "Bitcoin Core", icon: "wallets/bitcoin-core.svg"},
+      {name: "Electrum", icon: "wallets/electrum.svg"},
+      {name: "Sparrow", icon: "wallets/sparrow.png"},
+      {name: "Bitcoin Knots", icon: "wallets/knots.png"},
+      {name: "Trezor", icon: "wallets/trezor.svg"},
+      {name: "Ledger", icon: "wallets/ledger.svg"},
+      {name: "Foundation Passport", icon: "wallets/envoy.jpg"},
+      {name: "Coinbase", icon: "wallets/coinbase.svg"},
+      {name: "Bitstack", icon: "wallets/bitstack.svg"}
+    ] %>
+
+    <% wallets.each do |wallet| %>
+      <%= image_tag wallet[:icon], class: "w-16 h-16 mb-2", alt: "#{wallet[:name]} logo" %>
+    <% end %>
+  </div>
+</div>

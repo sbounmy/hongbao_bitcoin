@@ -1,0 +1,54 @@
+<div class="border-t-2 border-dashed border-gray-400"></div>
+<%# Banner %>
+<div class="w-full bg-gray-100 text-center py-2 mb-2 border-2 border-gray-200">
+  <h2 class="text-xl font-bold text-gray-800">SLIP INSIDE THE HONG₿AO ENVELOPE</h2>
+</div>
+
+<div class="flex justify-between p-4 text-black">
+  <div class="w-1/2">
+    <h2 class="text-xl font-bold mb-2">ABOUT BITCOIN</h2>
+
+    <p class="mb-4">Bitcoin is digital money that works without banks or intermediaries.</p>
+
+    <p class="mb-4">Always keep your private key safe.<br>
+    Never share it with anyone.</p>
+
+    <div class="flex gap-4">
+      <%# QR code for video/tutorial %>
+      <div class="flex flex-col items-center">
+        <div class="w-32 h-32">
+          <%# image_tag(qr_code(satoshi_url), image: image_url("pdf/youtube-logo.png"), alt: "Tutorial Video QR Code") %>
+        </div>
+        <p class="mt-1 font-mono text-xs">Discover bitcoin</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="relative w-32 h-32">
+          <img data-controller="binding"
+                data-binding-name-value="publicAddressQrcode"
+                data-action="bitcoin:changed@window->binding#src"
+                alt="Bitcoin Payment QR Code"
+                class="w-full h-full">
+          <!-- Hong Bao logo overlay -->
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <%# image_tag "hongbao-bitcoin-logo-520.png", alt: "Hong Bao", class: "w-10 h-10 rounded-full bg-white p-1" %>
+          </div>
+        </div>
+        <p class="mt-1 font-mono text-xs">Verify balance</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-1/2">
+    <h2 class="text-xl font-bold mb-2">HOW IT WORKS</h2>
+
+    <p class="mb-4">This banknote contains keys to access your Bitcoin stored on the blockchain.</p>
+
+    <p class="mb-4">Public key (IBAN) is QRcode / address.<br>
+    You can check balance or receive funds</p>
+
+    <p class="mb-4">Private key (Password) is used to move funds.</p>
+
+    <p class="mb-4">For better security, we recommend transferring to a hardware wallet (Passport Foundation, Trezor, or Ledger).</p>
+  </div>
+</div>

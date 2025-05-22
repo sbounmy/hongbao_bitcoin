@@ -1,0 +1,17 @@
+buy_500:
+  user: satoshi
+  quantity: 500
+  description: Genesis block
+  metadata: {}
+
+use_10:
+  user: satoshi
+  quantity: -10
+  description: Pizza day
+  metadata: {}
+
+use_60:
+  user: lagarde
+  quantity: -60
+  description: Rate hike
+  metadata: {}

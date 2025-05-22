@@ -1,0 +1,11 @@
+<%# Renders the contributors section including heading and grid %>
+<div class="mt-20 sm:mt-28">
+  <h3 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight font-general mb-10 sm:mb-16">
+    Contributors
+  </h3>
+
+  <%# The AvatarComponent already handles the `with_collection` logic %>
+  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
+    <%= render AvatarComponent.with_collection(contributors) %>
+  </div>
+</div>

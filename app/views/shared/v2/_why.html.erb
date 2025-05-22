@@ -1,0 +1,121 @@
+  <div class="text-center space-y-4 pb-6 mx-auto">
+    <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600">
+      <span class="inline-block align-top text-balance">Why Hong₿ao ?</span>
+    </h2>
+    <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl">
+      <span class="inline-block align-top text-balance">Bitcoin feel like real money and fun to learn</span>
+    </p>
+  </div>
+
+    <div class="group relative w-full [perspective:1000px] cursor-pointer"
+         data-controller="reveal"
+         data-reveal-target="item"
+         data-action="click->reveal#toggle"
+         data-reveal-hidden-class="is-flipped">
+      <div class="absolute group-[.is-flipped]:opacity-0 md:group-hover:opacity-0 sm:top-4 sm:left-[-5rem] top-1 left-[-1rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] pointer-events-none whitespace-nowrap transition-opacity duration-300">
+        <span class="md:hidden">Click me ➙</span>
+        <span class="hidden md:inline-block">Hover me ➙</span>
+      </div>
+
+      <div class="relative transition-transform duration-500 [transform-style:preserve-3d]
+                  group-[.is-flipped]:[transform:rotateY(180deg)]
+                  md:group-hover:[transform:rotateY(180deg)]">
+        <div class="[-webkit-backface-visibility:hidden] [backface-visibility:hidden] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
+          <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full h-full object-cover" %>
+        </div>
+        <div class="absolute top-0 left-0 w-full h-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
+          <%= image_tag image_url("naruto-paper-back.jpg"), class: "w-full h-full object-cover" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 sm:mt-12 flex flex-col md:flex-row justify-center items-center md:items-start gap-6 md:gap-8">
+    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm bg-rose-100/75 text-rose-700 ring-1 ring-rose-200">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-lg mb-4">Traditional Paper Wallets</h3>
+        <span class="text-xl transform hover:scale-110 transition-transform opacity-90">🥱</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1.5">
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Cannot customize designs</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Need to install a wallet to use</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Difficult to understand Bitcoin</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>No personalized content</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Same designs get boring quickly</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Not a gift</span>
+        </li>
+      </ul>
+    </div>
+    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm bg-emerald-100/70 text-emerald-700 ring-1 ring-emerald-200">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-lg mb-4">Hong₿ao Bitcoin</h3>
+        <span class="text-xl transform hover:scale-110 transition-transform opacity-90">🤩</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1.5">
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Always unique designs</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Easy: balance, transfer.. Directly on hongbao</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>PDF include paper wallet and instructions</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Generate in any theme</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>New and exciting every time</span>
+        </li>
+        <li class="flex gap-2 items-center">
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Gift as many as you want</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="space-y-4 md:space-y-6 max-w-md mx-auto mt-16 md:mt-20">
+    <div class="flex justify-center gap-1">
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+    </div>
+    <div class="text-base leading-relaxed space-y-2 max-w-md mx-auto text-center">
+      <p>
+        <span class="bg-base-200 px-1.5 py-0.5 rounded">
+            "Instead of keychains or candies, we gave our wedding guests something with that last forever: Bitcoin, wrapped in a custom note with our faces. 127 wallets handed out.<br/>One day, they'll wish they'd kept it safe."
+        </span>
+      </p>
+    </div>
+    <div class="text-center space-y-2">
+      <%= image_tag image_url("wedding.jpg"), class: "w-24 h-24 object-cover rounded-full inline-block" %>
+      <div class="flex flex-col">
+        <p class="font-semibold">Laurent & Sophie</p>
+        <p class="text-gray-600 text-sm">Just married</p>
+      </div>
+    </div>
+  </div>

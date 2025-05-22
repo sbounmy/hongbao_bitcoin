@@ -1,0 +1,84 @@
+<%# app/views/shared/v2/_footer.html.erb %>
+<%# Main Footer Content %>
+<footer class="footer md:footer-horizontal p-10 bg-base-200 text-base-content">
+  <%# Column 1: Logo and Site Name %>
+  <aside class="flex flex-col gap-2">
+    <%= link_to root_path, class: "flex items-center gap-2" do %>
+      <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8", alt: "Hongbao Logo" %>
+      <span class="text-lg font-semibold">Hong₿ao</span>
+    <% end %>
+    <p class="mt-2 text-sm">Bitcoin Paper Wallet Generator<br>Gift Bitcoin. Teach Bitcoin.</p>
+
+		<div class="grid grid-flow-col gap-4">
+			<%= link_to x_url, target: "_blank", rel: "noopener noreferrer" do %>
+					<%= image_tag "x.svg", class: "w-5 h-5" %>
+			<% end %>
+			<%= link_to linkedin_url, target: "_blank", rel: "noopener noreferrer" do %>
+					<%= image_tag "linkedin.svg", class: "w-5 h-5" %>
+			<% end %>
+      <%= link_to github_url, target: "_blank", rel: "noopener noreferrer" do %>
+        <%= github_icon size: 5 %>
+      <% end %>
+      <%= link_to etsy_url, target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag "etsy.png", class: "w-5 h-5" %>
+      <% end %>
+    </div>
+
+  </aside>
+
+  <%# Column 2: Features / Links %>
+  <nav>
+    <h6 class="footer-title">Features</h6>
+    <%= link_to "How it Works", "#how-it-works", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to "Why Hongbao?", "#why-hongbao-bitcoin", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to hong_baos_path, class: "link link-hover inline-flex items-center gap-1" do %>
+      <%= heroicon "viewfinder-circle", class: "w-4 h-4 inline-block" %>
+      <span>Scan Bill</span>
+    <% end %>
+    <%= link_to "FAQ", "#faq", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to "Pricing", "#pricing", class: "link link-hover", data: { controller: "scroll-to" } %>
+  </nav>
+
+  <%# Column 3: Community / Resources %>
+  <nav>
+    <h6 class="footer-title">Community</h6>
+    <%= link_to "GitHub", github_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+    <%= link_to "Instagram", "#instagram", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%# Add other social links if needed %>
+    <%# link_to "Twitter / X", x_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+    <%# link_to "LinkedIn", linkedin_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+  </nav>
+
+  <%# Column 4: Legal %>
+  <nav>
+    <h6 class="footer-title">Legal</h6>
+    <%= link_to "Privacy Policy", "", class: "link link-hover" %>
+    <%= link_to "Terms of Service", "", class: "link link-hover" %>
+  </nav>
+</footer>
+
+
+<%# Bottom Centered Footer %>
+<footer class="footer footer-center px-10 py-4 bg-base-100 text-base-content border-t border-base-300 flex flex-wrap items-center justify-between">
+  <aside class="items-center grid-flow-col">
+    <a href="https://rubyonrails.org" target="_blank" rel="noopener noreferrer"
+       class="flex items-center gap-1.5 rounded-full bg-base-100 hover:scale-110">
+      Built with
+      <%= image_tag image_url("ruby-on-rails.svg"),
+          class: "h-[16px] w-auto inline-block align-middle",
+          alt: "Ruby on Rails Logo",
+          loading: "lazy" %>
+    </a>
+    <p>© <%= Time.now.year %> Hongbao - By HackerHouse</p>
+  </aside>
+    <%# Commit Info %>
+  <div class="text-xs flex-none">
+    <%= link_to "#{github_url}/commit/#{GitInfo.commit_hash}",
+        class: "hover:text-base-content/80 transition-colors",
+        target: "_blank",
+        rel: "noopener" do %>
+      <%= GitInfo.commit_hash %> - <%= time_ago_in_words(Time.parse(GitInfo.commit_time)) %> ago
+    <% end %>
+  </div>
+
+</footer>

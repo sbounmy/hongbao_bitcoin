@@ -1,0 +1,21 @@
+<%= link_to root_path(theme: theme.slug), class: "block group/card", data: { turbo_action: "replace" } do %>
+  <div class="rounded-xl border-2 border-transparent transition-all duration-200
+              hover:border-primary hover:ring-2 hover:ring-primary/50
+              active:scale-95 transform">
+
+    <div class="relative aspect-video rounded-lg overflow-hidden bg-base-200">
+      <% if theme.hero_image.attached? %>
+        <%= image_tag theme.hero_image, class: "w-full h-full object-cover" %>
+      <% else %>
+        <div class="flex items-center justify-center h-full">
+          <span class="text-base-content/50">No Preview</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Title %>
+  <h3 class="mt-2 text-center text-sm font-medium text-base-content group-hover/card:text-primary transition-colors">
+    <%= theme.name %>
+  </h3>
+<% end %>

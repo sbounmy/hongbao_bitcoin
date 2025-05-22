@@ -1,27 +1,35 @@
-<div class="w-full max-w-xl bg-[#F04747] p-8
-            border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-            rounded-2xl shadow-2xl relative">
-  <%# FAQ Section %>
-  <div class="space-y-4">
-    <h2 class="text-[#FFB636] text-xl font-bold"><%= t('.title') %></h2>
-    <div class="space-y-4">
-      <% t('.questions').each do |key, qa| %>
-        <div class="border border-white/20 rounded-lg overflow-hidden">
-          <details class="group">
-            <summary class="flex justify-between items-center p-4 cursor-pointer text-[#FFB636] font-medium hover:bg-white/10 transition-colors">
-              <%= qa[:q] %>
-              <span class="transition-transform duration-200 group-open:-rotate-180">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-              </span>
-            </summary>
-            <div class="p-4 text-white bg-white/10 border-t border-white/20">
-              <%= qa[:a] %>
-            </div>
-          </details>
-        </div>
-      <% end %>
-    </div>
+<section class="space-y-4 p-8">
+  <div class="text-center space-y-4 pb-6 mx-auto">
+    <%= section_header(title: t('.title')) %>
   </div>
-</div>
+
+  <div class="space-y-4">
+    <% t('.questions').each do |key, qa| %>
+      <div class="border border-white/20 bg-base-300 rounded-xl overflow-hidden">
+        <details class="group">
+          <summary class="flex justify-between items-center p-4 cursor-pointer text-primary-content font-medium hover:bg-primary/10 transition-colors">
+            <%= qa[:q] %>
+            <span class="transition-transform duration-200 group-open:-rotate-180">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </span>
+          </summary>
+          <div class="p-4 text-primary/90 bg-secondary/5">
+            <%= qa[:a].html_safe %>
+          </div>
+        </details>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-8 text-center">
+    <a href="https://github.com/sbounmy/hongbao_bitcoin/discussions"
+       class="btn btn-outline gap-2 normal-case"
+       target="_blank"
+       rel="noopener">
+      <%= github_icon %>
+      Discuss with us
+    </a>
+  </div>
+</section>

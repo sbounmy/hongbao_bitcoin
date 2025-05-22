@@ -1,0 +1,66 @@
+<%# Occasions Section: Compact Row Layout - Heroicons %>
+<section id="occasions" class="w-full bg-base-200 py-6 sm:py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 sm:gap-x-8">
+
+      <div class="flex items-center gap-2 group">
+        <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %>
+        <p class="text-lg font-semibold leading-6 text-main-600 dark:text-main-400">
+          as a gift:
+        </p>
+      </div>
+
+      <%# Item: Weddings %>
+      <div class="flex items-center gap-2 group">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+          <%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
+        </div>
+        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+          Weddings
+        </h3>
+      </div>
+
+      <%# Item: Birthdays %>
+      <div class="flex items-center gap-2 group">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+          <%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
+        </div>
+        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+          Birthdays
+        </h3>
+      </div>
+
+      <%# Item: Chinese New Year %>
+      <div class="flex items-center gap-2 group">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+          <%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+        </div>
+        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+          Chinese New Year
+        </h3>
+      </div>
+
+      <%# Item: 1st time Bitcoiners %>
+      <div class="flex items-center gap-2 group">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+          <%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
+        </div>
+        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+          1st time Bitcoiners
+        </h3>
+      </div>
+
+      <%# Item: Christmas %>
+      <div class="flex items-center gap-2 group">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+          <%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+        </div>
+        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+          Christmas
+        </h3>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+  <%# Using card for border and background %>
+  <div class="card bg-base-300 shadow-lg overflow-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-3">
+
+      <%# Left Column: Call to action %>
+      <div class="md:col-span-2 p-8 md:p-14 flex flex-col justify-center">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-base-content">
+          Amaze your family & friends with custom Bitcoin bills
+        </h2>
+        <p class="mt-4 text-lg md:text-xl text-base-content/80">
+          Bring your gifting ideas to life with the AI Bitcoin Paper Wallet Generator.
+        </p>
+        <div class="mt-8">
+          <%= link_to "#hero",
+              class: "btn btn-primary group rounded-selector",
+              data: { controller: "scroll-to" } do %>
+            <span>Start creating</span>
+            <%= heroicon "arrow-right", variant: :solid, class: "w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" %>
+          <% end %>
+
+          <%= link_to etsy_url, target: "_blank", class: "btn btn-secondary" do %>
+            <%= image_tag "etsy.png", class: "w-5 h-5" %>
+            <span>Buy HongBao on Etsy</span>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Right Column: Testimonial %>
+      <div class="md:col-span-1 p-8 md:p-14 border-t md:border-t-0 md:border-l border-base-200 flex flex-col justify-center">
+        <blockquote class="italic text-base text-neutral-700">
+          "Such a creative way to gift Bitcoin. They're so excited when they see their faces embedded in their paper wallet. They love it!"
+        </blockquote>
+        <div class="flex flex-col text-sm items-start mt-4 gap-1">
+          <p class="font-semibold text-neutral-800">Ryan</p>
+          <p class="text-neutral-500">Dad of 2 daughters</p>
+        </div>
+      </div>
+
+    </div>
+  </div>

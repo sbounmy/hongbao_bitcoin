@@ -1,5 +1,7 @@
-<div data-controller="payment-method"
-     data-steps-target="content">
+<div class="flex flex-col h-full overflow-y-auto p-4"
+     data-steps-target="content"
+     data-steps-index="<%= local_assigns[:index] || 3 %>">
+
   <div class="mb-8 text-white space-y-4">
     <h3 class="text-xl font-bold text-[#FFB636]">Top up your Hong Bao</h3>
     <p class="text-white/90">Choose your preferred way to send bitcoin to this address:</p>
@@ -10,18 +12,22 @@
     </div>
   </div>
 
-  <%# Payment Methods Grid %>
-  <div class="grid grid-cols-2 gap-4">
-    <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
-  </div>
-
-  <div class="flex items-center space-x-4 mt-8">
-    <%= render "hong_baos/new/previous_button" %>
-    <div class="flex-1">
-      <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+  <%# Payment Methods Grid with Form %>
+  <%= form_with(model: hong_bao, local: false) do |form| %>
+    <%= render AlertComponent.new(
+      icon: 'information-circle',
+      message: 'Card / Bank Transfer top up might not be available for custom keys.',
+      class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'
+    ) %>
+    <div class="grid grid-cols-2 gap-4">
+      <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
     </div>
-  </div>
 
-  <%# Hidden data for JS %>
-  <div data-payment-method-target="addressData" class="hidden"></div>
+    <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
+      <div class="flex items-center space-x-4 p-8 w-full">
+        <%= render "hong_baos/new/previous_button" %>
+        <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
+      </div>
+    </div>
+  <% end %>
 </div>

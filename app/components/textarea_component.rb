@@ -1,0 +1,2 @@
+class TextareaComponent < FieldsetComponent
+end

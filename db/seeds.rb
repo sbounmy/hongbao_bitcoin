@@ -8,56 +8,53 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-bills = YAML.load_file(Rails.root.join('db/seeds/bills.yml'))
+# Set fixtures path
+ENV['FIXTURES_PATH'] = 'spec/fixtures'
+fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,input/themes,input/styles').split(',')
 
-bills.each do |bill_data|
-  paper = Paper.find_or_initialize_by(name: bill_data['name'])
+# Load papers and styles from fixtures
+puts "Loading #{fixtures.join(', ')} from fixtures..."
+Rake::Task["db:fixtures:load"].invoke(fixtures.join(','))
 
-  elements_hash = {}
-  bill_data['elements'].each do |element|
-    elements_hash[element['name']] = element.except('name')
+def attach(object, field, name, folders, options = {})
+  unless object.send(name).attached?
+    title = object.send(field)
+    suffix = options[:suffix]
+    format = options[:format] || 'jpg'
+    image_path = Rails.root.join('spec', 'fixtures', 'files', *folders, "#{title.parameterize(separator: '_')}#{suffix ? "_#{suffix}" : ""}.#{format}")
+    if File.exist?(image_path)
+      object.send(name).attach(
+        io: File.open(image_path),
+        filename: "#{title.parameterize(separator: '_')}_#{suffix ? "_#{suffix}" : ""}.#{format}"
+      )
+      puts "Attached #{name} image for #{title}"
+    else
+      puts "Warning: #{name} image not found at #{image_path}"
+    end
   end
+end
 
-  paper.elements = elements_hash
+PaymentMethod.find_each do |pm|
+  attach(pm, :name, :logo, [ 'payment_methods' ], format: 'svg')
+end if fixtures.include?('payment_methods')
 
-  front_image_path = Rails.root.join('app', bill_data['image_front_url'])
-  if File.exist?(front_image_path)
-    paper.image_front.attach(
-      io: File.open(front_image_path),
-      filename: File.basename(front_image_path)
-    )
-    puts "Attached front image for #{paper.name}"
-  else
-    puts "Warning: Front image not found at #{front_image_path}"
-  end
-
-  back_image_path = Rails.root.join('app', bill_data['image_back_url'])
-  if File.exist?(back_image_path)
-    paper.image_back.attach(
-      io: File.open(back_image_path),
-      filename: File.basename(back_image_path)
-    )
-    puts "Attached back image for #{paper.name}"
-  else
-    puts "Warning: Back image not found at #{back_image_path}"
-  end
+# Attach images for papers if they don't exist
+Paper.find_each do |paper|
+  attach(paper, :name, :image_front, [ 'papers' ], suffix: "front")
+  attach(paper, :name, :image_back, [ 'papers' ], suffix: "back")
 
   paper.save!
-  puts "Created paper: #{paper.name}"
-end
+end if fixtures.include?('papers')
+
+Input::Theme.find_each do |theme|
+  attach(theme, :name, :hero_image, [ 'inputs', 'themes' ])
+  theme.save!
+end if fixtures.include?('input/themes')
 
 
-# Load payment methods from YAML
-payment_methods = YAML.load_file(Rails.root.join('db/seeds/payment_methods.yml'))['payment_methods']
+Input::Style.find_each do |theme|
+  attach(theme, :name, :image, [ 'inputs', 'styles' ])
+  theme.save!
+end if fixtures.include?('input/styles')
 
-payment_methods.each do |attributes|
-  pm = PaymentMethod.find_or_initialize_by(name: attributes['name'])
-  pm.logo.attach(
-    io: File.open(Rails.root.join("app/assets/images/payment-methods/#{attributes['logo']}")),
-    filename: attributes['logo']
-  )
-  pm.instructions = attributes['instructions'].join("\n")
-  pm.save!
-end
-
-puts "Created #{PaymentMethod.count} payment methods"
+TransactionFeesImportJob.new.perform

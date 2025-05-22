@@ -1,0 +1,132 @@
+<div class="min-h-screen">
+  <!-- Header -->
+  <%= render "shared/v2/header" %>
+
+  <!-- Hero -->
+  <section id="hero" class="relative">
+    <% if current_theme.hero_image.attached? %>
+      <div class="absolute inset-0 z-0">
+        <%= image_tag current_theme.hero_image, class: "w-full h-full object-cover" %>
+        <div class="absolute inset-0 bg-black/40"></div>
+      </div>
+    <% end %>
+
+    <div class="relative max-w-7xl mx-auto sm:py-16 py-6 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-left text-white">
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+          <span >Bitcoin
+          <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %></span>
+          <br/>
+          <span>A gift they'll never forget</span>
+        </h1>
+        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
+          Turn any picture into cool Bitcoin bills in seconds.<br/>Unlimited, unique and creative paper wallets.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-5 pt-4">
+        <%= link_to etsy_url, target: "_blank", class: "btn btn-primary" do %>
+          <%= image_tag "etsy.png", class: "w-5 h-5" %>
+          <span>Buy envelope on Etsy</span>
+        <% end %>
+        <%= link_to github_url, target: "_blank", class: "btn btn-secondary" do %>
+          <%= github_icon %>
+          <span>Verify on GitHub</span>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
+      <%= form_with(model: @bundle, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
+        <!-- Column 1: Styles -->
+        <div class="relative">
+          <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
+          <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
+            <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
+            <%= form.fields_for :input_items do |input_item_fields| %>
+              <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Column 2: Upload -->
+        <div class="relative h-full flex flex-col">
+          <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
+          <%= render PictureUploadComponent.new(form: form) %>
+        </div>
+      <% end %>
+
+      <!-- Column 3: Preview -->
+      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2 h-screen overflow-y-auto">
+        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
+          <h2 class="text-lg font-medium">3. Preview</h2>
+          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
+              <%= render Papers::ItemComponent.with_collection(@papers) %>
+          </div>
+          <%= turbo_stream_from :papers %>
+          <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">
+            <button class="btn btn-primary btn-wide rounded-selector">Print</button>
+            <button class="btn btn-secondary rounded-selector">Share</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Render the extracted occasions partial %>
+  <%= render "shared/v2/occasions" %>
+
+  <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
+    <%= render "shared/v2/features" %>
+  </section>
+
+  <section id='wallets'>
+    <%= render "shared/wallets" %>
+  </section>
+
+  <section id="why-hongbao-bitcoin" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
+    <%= render "shared/v2/why" %>
+  </section>
+
+  <section id="themes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-8">
+    <%= section_header(title: 'Explore Themes', subtitle: 'Bitcoin is the World\'s currency') %>
+    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+      <%= render Themes::ListComponent.with_collection(@themes) %>
+    </div>
+  </section>
+
+  <section id="about-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-12">
+    <%= render "shared/v2/about" %>
+  </section>
+
+  <section id="instagram" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
+    <%= render "shared/instagram_feed", posts: @instagram_posts %>
+  </section>
+
+  <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
+    <%= render "shared/faq" %>
+  </section>
+
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
+    <%= render(PricingComponent.new) do |component| %>
+      <% component.with_plans(StripeService.fetch_prices) %>
+    <% end %>
+  </section>
+
+  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-4">
+    <%= section_header(title: 'Reviews', subtitle: 'Loved by kids, lovers and Bitcoiners') %>
+    <%= render "shared/reviews" %>
+  </section>
+
+  <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6 space-y-4">
+    <%= render "shared/v2/cta" %>
+  </section>
+
+  <div class="fixed bottom-4 left-4 shadow-xl z-50 h-[80px] overflow-hidden">
+    <%= render SpotifyPlayerComponent.new(path: current_spotify_path) %>
+\  </div>
+
+  <%= render "shared/v2/footer" %>
+</div>

@@ -4,8 +4,10 @@ export default class extends Controller {
   static targets = ["iframe"]
 
   update(event) {
+    if (!event.detail.wallet.mtPelerin) return
+
     const wallet = event.detail.wallet
-    const { address } = wallet.info
+    const address = event.detail.publicAddressText
     const code = Math.floor(1000 + Math.random() * 9000).toString()
     const hash = wallet.sign(`MtPelerin-${code}`)
 
