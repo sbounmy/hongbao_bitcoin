@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Authentication
   before_action :set_locale
   before_action :set_network
-  helper_method :authenticated?, :testnet?, :current_theme
+  helper_method :authenticated?, :testnet?, :current_theme, :current_spotify_path
 
   private
 
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     {
       locale: I18n.locale,
       testnet: testnet?,
-      theme: current_theme&.path
+      quality: params[:quality]
     }.compact
   end
 
@@ -29,7 +29,11 @@ class ApplicationController < ActionController::Base
 
 
   def current_theme
-    @current_theme ||= Ai::Theme.find_by(path: params[:theme] || "usd")
+    @current_theme ||= Input::Theme.find_by(slug: params[:theme] || "usd")
+  end
+
+  def current_spotify_path
+    current_theme&.spotify_path.presence || "track/40KNlAhOsMqCmfnbRtQrbx"
   end
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.

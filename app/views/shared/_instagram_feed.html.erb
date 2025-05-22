@@ -8,8 +8,18 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4" data-controller="instagram">
     <% posts.each do |post| %>
         <div class="aspect-square relative group overflow-hidden rounded-xl">
-        <%= image_tag post['media_url'],
-            class: "w-full h-full object-cover transition duration-300 group-hover:scale-110" %>
+         <%# Check if the media type is VIDEO %>
+        <% if post['media_type'] == 'VIDEO' %>
+            <%= video_tag post['media_url'],
+                controls: false,
+                autoplay: true,
+                loop: true,
+                muted: true,
+                class: "w-full h-full object-cover transition duration-300 group-hover:scale-110" %>
+        <% else %>
+            <%= image_tag post['media_url'],
+                class: "w-full h-full object-cover transition duration-300 group-hover:scale-110" %>
+        <% end %>
 
         <a href="<%= post['permalink'] %>"
             target="_blank"
@@ -35,8 +45,8 @@
     </div>
 
     <div class="text-center mt-8">
-    <%= link_to "Follow us on Instagram", "https://www.instagram.com/hongbaobtc/",
-        class: "btn btn-primary",
+    <%= link_to "See More", "https://www.instagram.com/hongbaobtc/",
+        class: "btn btn-primary rounded-selector",
         target: "_blank" %>
     </div>
 </section>

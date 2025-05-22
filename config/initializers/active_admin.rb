@@ -272,6 +272,15 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add label: "Others", priority: 99 do |pages|
+        pages.add label: "Jobs", url: "/jobs", html_options: { target: "_blank" }
+        pages.add label: "Instagram", url: "https://www.instagram.com/hongbaobitcoin", html_options: { target: "_blank" }
+        pages.add label: "Github", url: "https://github.com/sbounmy/hongbao", html_options: { target: "_blank" }
+      end
+    end
+  end
 end
 
 Rails.configuration.to_prepare do

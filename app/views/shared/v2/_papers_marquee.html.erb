@@ -13,10 +13,10 @@
     }
     .animate-marquee {
       /* Using a fixed duration for simplicity, adjust as needed */
-      animation: marquee 30s linear infinite;
+      animation: marquee 120s linear infinite;
     }
     .animate-marquee-right {
-      animation: marquee-right 30s linear infinite;
+      animation: marquee-right 120s linear infinite;
     }
     .marquee-group:hover .animate-marquee,
     .marquee-group:hover .animate-marquee-right {
@@ -24,7 +24,7 @@
     }
   </style>
 
-  <section id="papers-carousel" class="py-12 bg-base-100">
+  <section id="papers-carousel" class="sm:py-12 py-6 bg-base-100">
     <div class="relative flex flex-col items-center justify-center overflow-hidden">
       <%= section_header(title: 'Community Creations', subtitle: 'Bitcoin is the People\'s money') %>
       <%# Row 1 - Normal direction %>
@@ -32,8 +32,8 @@
         <ul class="flex items-center justify-center md:justify-start animate-marquee">
           <% papers.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
-              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -42,8 +42,8 @@
         <ul class="flex items-center justify-center md:justify-start animate-marquee" aria-hidden="true">
           <% papers.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
-              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -57,8 +57,8 @@
          <ul class="flex items-center justify-center md:justify-start animate-marquee-right">
            <% papers_shuffled.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
-              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>
@@ -67,8 +67,8 @@
          <ul class="flex items-center justify-center md:justify-start animate-marquee-right" aria-hidden="true">
            <% papers_shuffled.each do |paper| %>
             <li class="flex-shrink-0 mx-4">
-              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-300">
-                <%= render V2::Papers::ItemComponent.new(item: paper) %>
+              <div class="rounded-xl shadow-lg overflow-hidden h-32 w-64 bg-base-200">
+                <%= render Papers::ItemComponent.new(item: paper) %>
               </div>
             </li>
           <% end %>

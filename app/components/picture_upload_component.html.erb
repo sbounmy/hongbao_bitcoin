@@ -1,19 +1,27 @@
-<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-  <div class="text-center">
-    <%= heroicon "photo", class: "mx-auto h-12 w-12 text-gray-300" %>
-    <div class="mt-4 flex text-sm leading-6 text-gray-600">
-      <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-        <%= form.file_field :image,
-            class: "sr-only",
-            id: "file-upload",
-            accept: "image/*"
+<div class="mt-2 flex flex-col justify-between rounded-lg border border-dashed border-gray-900/25 px-6 py-10 flex-1">
+    <div class="mt-4 flex text-sm leading-6 text-gray-600 w-full h-full">
+      <label data-controller="preview" for="file-upload" class="relative cursor-pointer rounded-md w-full h-full text-center">
+        <%= heroicon "photo", class: "mx-auto h-12 w-12 text-gray-300" %>
+        <%= form.fields_for :input_items do |input_item_fields| %>
+          <%= input_item_fields.file_field :image,
+              id: "file-upload",
+            accept: "image/*",
+            class: "text-center",
+            data: { preview_target: "input", action: "change->preview#preview"}
           %>
-        <span>Upload a file</span>
+          <%= input_item_fields.hidden_field :input_id, value: Input::Image.last&.id %>
+        <% end %>
+        <div class="image-container">
+          <% if form.object.image&.attached? %>
+            <%= image_tag form.object.image, data: { preview_target: "preview" }, class: "image" %>
+          <% else %>
+            <%= image_tag "", data: { preview_target: "preview" }, class: "image" %>
+          <% end %>
+        </div>
+        <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
       </label>
-      <p class="pl-1">or drag and drop</p>
-    </div>
-    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
   </div>
+  <%= form.submit "Generate", class: "btn btn-primary w-full rounded-selector", disabled: true, data: { controller: "disabled", action: "preview:none@window->disabled#add preview:selected@window->disabled#remove", turbo_submits_with: "Processing...", disabled_target: "element" } %>
 </div>
 
 <div class="mt-4 hidden" data-dropzone-target="preview">

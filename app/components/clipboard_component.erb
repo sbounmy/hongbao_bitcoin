@@ -1,0 +1,8 @@
+<div class="relative" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+<%= input %>
+<button data-clipboard-target="button"
+        data-action="clipboard#copy"
+        class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
+        <%= heroicon "clipboard", class: "w-4 h-4" %>
+</button>
+</div>

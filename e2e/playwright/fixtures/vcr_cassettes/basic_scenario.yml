@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp
+    uri: https://graph.instagram.com/me/media?access_token=<INSTAGRAM_ACCESS_TOKEN>&fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=9
     body:
       encoding: US-ASCII
       string: ''

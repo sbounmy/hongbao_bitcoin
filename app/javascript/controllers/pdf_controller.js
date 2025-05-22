@@ -13,8 +13,11 @@ export default class extends Controller {
       const canvas = await html2canvas(this.contentTarget, {
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
-        logging: false
+        logging: true // Enabled logging
       })
+
+      // Log canvas dimensions
+      console.log('html2canvas generated canvas width:', canvas.width, 'height:', canvas.height);
 
       // Create PDF with A4 dimensions
       const pdf = new jsPDF({
@@ -29,7 +32,7 @@ export default class extends Controller {
 
       // Use JPEG format and specify quality (0.0 to 1.0)
       // Lower quality means smaller file size but potentially worse image appearance.
-      const imgData = canvas.toDataURL('image/jpeg', 0.3); // Adjust 0.7 as needed
+      const imgData = canvas.toDataURL('image/jpeg', 0.7); // Adjust 0.7 as needed
 
       // Add the image to PDF
       pdf.addImage(
@@ -43,8 +46,7 @@ export default class extends Controller {
         'FAST'
       )
 
-      // Generate filename using timestamp
-      const filename = `document_${new Date().toISOString().slice(0,10)}.pdf`
+      const filename = `${this.element.dataset.pdfFilenameValue}.pdf`;
 
       // Save the PDF
       pdf.save(filename)

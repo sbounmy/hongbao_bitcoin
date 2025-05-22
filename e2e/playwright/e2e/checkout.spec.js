@@ -33,9 +33,7 @@ test.describe('Stripe Checkout Flow', () => {
     await checkout(page, `hongbaob+${random}@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     // expect(page.url()).toBe(page.url('/'));
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("5 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+    await expect(page.locator('header .badge')).toContainText('5 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -46,7 +44,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.goto('/');
 
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
@@ -54,9 +52,8 @@ test.describe('Stripe Checkout Flow', () => {
     const random = getRandomInt(9999);
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits
+
+    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
@@ -69,9 +66,9 @@ test.describe('Stripe Checkout Flow', () => {
       email: 'satoshi@example.com'
     });
 
-    await expect(page.locator('header').getByText("490 ₿ao")).toBeVisible();
+    await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
@@ -86,11 +83,35 @@ test.describe('Stripe Checkout Flow', () => {
     await page.fill('input[name="billingPostalCode"]', '12345');
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
-    // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-    await page.waitForTimeout(5_000);
-    await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header').getByText("500 ₿ao")).toBeVisible(); // purchased Bao + 5 free credits  });
+    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+  });
+
+  test('admin user can buy tokens with coupon', async ({ page }) => {
+    test.skip('applying coupon renders server error on stripe even with a new coupon');
+    await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });
+
+    await forceLogin(page, {
+      email: 'admin@example.com'
+    });
+
+    await page.getByRole('button', { name: 'Select' }).first().click();
+
+    // Verify redirect to Stripe Checkout
+    expect(page.url()).toContain('checkout.stripe.com');
+
+    expect(page.getByLabel('Add promotion code')).toBeVisible();
+    await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
+    await page.getByText('Apply').click();
+    await page.getByRole('button', { name: 'Complete order' }).click();
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.url()).toBe(page.url('/'));
+    await expect(page.locator('header')).toContainText('5 ₿ao'); // purchased Bao + 5 free credits
+
+    await page.goto('/tokens');
+    await page.getByRole('button', { name: 'Manage Billing' }).click();
+    await page.waitForURL('https://billing.stripe.com/p/session/**');
+    await expect(page.locator('body')).toContainText("Invoice history");
   });
 });

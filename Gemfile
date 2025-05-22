@@ -8,8 +8,6 @@ gem "propshaft"
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
@@ -59,7 +57,8 @@ group :development, :test do
 
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails"
 
-  gem "factory_bot_rails"
+  gem "factory_bot_rails", github: "thoughtbot/factory_bot_rails"
+
 
   # Clean the database between e2e tests
   gem "database_cleaner-active_record"
@@ -79,6 +78,7 @@ group :test do
   gem "vcr"
   gem "webmock"
   gem "faker"
+  gem "shoulda-matchers"
 end
 
 gem "tailwindcss-rails"
@@ -93,12 +93,21 @@ gem "activeadmin", github: "activeadmin/activeadmin", branch: "tailwind-v4"
 
 gem "rails_heroicon"
 
-gem "leoandruby", git: "https://github.com/SalmaTalbi/LeoAndRuby", branch: "additional_endpoints"
-
 gem "view_component"
 
-gem "ruby_llm"
+gem "ruby_llm", github: "sbounmy/ruby_llm", branch: "paint-support-with-image"
 
 gem "stripe"
 
 gem "lograge"
+
+gem "oauth2"
+
+# Dashboard for Active Job monitoring
+gem "mission_control-jobs"
+
+# Performances & exceptions monitoring [https://github.com/rails/rorvswild]
+gem "rorvswild"
+
+# `Save Page As` doesn't export javascript files so we need to bundle them https://github.com/rails/importmap-rails/issues/289
+gem "jsbundling-rails"

@@ -1,6 +1,6 @@
-import * as bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 import { ECPairFactory } from 'ecpair'
-import * as secp256k1 from 'secp256k1'
+import * as secp256k1 from '@bitcoinerlab/secp256k1'
 
 export default class BaseTransaction {
   constructor(privateKey, recipientAddress, feeRate, utxos, network = 'testnet') {

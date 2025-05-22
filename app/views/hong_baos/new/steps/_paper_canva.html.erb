@@ -1,8 +1,8 @@
 <div data-controller="canva"
      <%# data-canva-canva-item-outlet=".canva-item" %>
      data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
-     class="<%= defined?(class_name) ? class_name : '' %>"
-     data-canva-background-image-value="<%= image %>">
+     class="<%= defined?(class_name) ? class_name : '' %>">
+  <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
 
   <% elements.each do |name, item| %>

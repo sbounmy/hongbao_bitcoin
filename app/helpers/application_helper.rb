@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def render_payment_logo(logo)
     return placeholder_logo unless logo.attached?
@@ -54,10 +56,28 @@ module ApplicationHelper
     end
   end
 
-  def section_header(title:, subtitle:)
+  def theme_css(theme)
+    return "" unless theme
+
+    css = <<~CSS
+      <style>
+        [data-theme="#{theme.ui_name}"] {
+          #{Input::Theme::UI_PROPERTIES.map { |prop|
+            if value = theme.ui[prop]
+              "--#{prop.dasherize}: #{value};"
+            end
+          }.compact.join("\n          ")}
+        }
+      </style>
+    CSS
+
+    css.html_safe
+  end
+
+  def section_header(title:, subtitle: nil)
     content_tag :div, class: "text-center space-y-4 pb-6 mx-auto" do
-      content_tag(:h2, title, class: "text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400") +
-      content_tag(:p, subtitle, class: "mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl dark:text-white")
+      content_tag(:h2, title, class: "text-center text-lg sm:text-xl font-semibold text-main-600") +
+      content_tag(:p, subtitle, class: "mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl")
     end
   end
 

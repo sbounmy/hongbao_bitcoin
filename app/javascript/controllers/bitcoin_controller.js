@@ -1,12 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
-import WalletFactory from "services/bitcoin/wallet_factory"
-import Transaction from "services/bitcoin/transaction"
-import TransactionFactory from "services/bitcoin/transaction_factory"
+import WalletFactory from "../services/bitcoin/wallet_factory"
+import CustomWallet from "../services/bitcoin/custom_wallet"
+import Transaction from "../services/bitcoin/transaction"
+import TransactionFactory from "../services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
-    network: { type: String, default: 'mainnet' },
     autoGenerate: { type: Boolean, default: false },
+    customWallet: { type: Boolean, default: false },
+    network: { type: String, default: 'mainnet' },
     utxos: { type: String, default: '' }
   }
 
@@ -20,6 +22,7 @@ export default class extends Controller {
   generate() {
     this.master = WalletFactory.createDefault({ network: this.networkValue })
     this.wallet = this.master.derive('0')
+    this.customWalletValue = false
     this.dispatchWalletChanged()
   }
 
@@ -30,7 +33,6 @@ export default class extends Controller {
       network: this.networkValue
     }
 
-    console.log(options)
     this.wallet = WalletFactory.createDefault(options)
     this.dispatchWalletChanged()
   }
@@ -44,7 +46,7 @@ export default class extends Controller {
   get detail() {
     return {
       wallet: this.wallet,
-      mnemonicText: this.master?.mnemonic,
+      mnemonicText: this.master?.mnemonic || '',
       ...this.wallet.info
     }
   }
@@ -86,5 +88,48 @@ export default class extends Controller {
 
   verify(message, signature, address) {
     return this.wallet.verify(message, signature, address)
+  }
+
+  publicAddressChanged(event) {
+    this.#walletPropertyChange('publicAddress', event.target.value);
+  }
+
+  privateKeyChanged(event) {
+    this.#walletPropertyChange('privateKey', event.target.value);
+  }
+
+  mnemonicChanged(event) {
+    this.#walletPropertyChange('mnemonic', event.target.value);
+  }
+
+  modeChanged(event) {
+    if (event.target.checked) { // Maximalist
+      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
+    } else { // Beginner
+      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
+    }
+  }
+
+  customWalletChanged(event) {
+    // dirty hack to get the property name from the data-binding-name-value
+    // mnemonicText -> mnemonic
+    // privateKeyText -> privateKey
+    // publicAddressText -> publicAddress
+    const propertyName = event.detail.source.dataset.bindingNameValue.replace('Text', '')
+    this.#walletPropertyChange(propertyName, event.detail.key);
+  }
+  // Private methods
+  #walletPropertyChange(propertyName, value) {
+    const walletOptions = { network: this.networkValue };
+    walletOptions[propertyName] = value;
+
+    if (this.master instanceof CustomWallet) {
+      this.master[propertyName] = value;
+    } else {
+      this.master = new CustomWallet(walletOptions);
+    }
+    this.customWalletValue = true;
+    this.wallet = this.master.derive('0');
+    this.dispatchWalletChanged();
   }
 }

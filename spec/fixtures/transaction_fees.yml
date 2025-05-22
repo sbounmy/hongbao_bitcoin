@@ -1,0 +1,3 @@
+today:
+  date: 2025-05-10
+  priorities: { "fast": 6, "half_hour": 5, "hour": 4, "eco": 2, "minimum": 1 }

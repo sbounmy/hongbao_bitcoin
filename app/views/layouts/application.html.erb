@@ -39,13 +39,14 @@
     <%# Includes all stylesheet files in app/views/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
-    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js" data-turbo-track="reload"></script>
     <script defer data-domain="hongbaob.tc" src="https://plausible.io/js/script.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
+    <%= theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
-    <%= javascript_importmap_tags %>
     <%= csp_meta_tag %>
+    <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
   </head>
   <body data-theme="<%= current_theme.ui_name %>">
     <%# render "shared/header" %>

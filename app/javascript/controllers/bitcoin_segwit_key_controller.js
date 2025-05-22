@@ -1,5 +1,5 @@
-import BitcoinWifController from "controllers/bitcoin_wif_controller"
-import * as bitcoin from 'bitcoinjs-lib'
+import BitcoinWifController from "./bitcoin_wif_controller"
+import * as bitcoin from '../../../vendor/javascript/bitcoinjs-lib.js'
 
 export default class extends BitcoinWifController {
   deriveAddress(keyPair) {

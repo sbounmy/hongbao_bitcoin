@@ -1,0 +1,434 @@
+tunisian_dinar:
+  id: 13
+  name: Tunisian Dinar
+  type: "Input::Theme"
+  slug: "tnd"
+  created_at: "2025-05-01T14:02:26.940Z"
+  updated_at: "2025-05-01T14:02:27.327Z"
+  metadata: |
+    {
+      "ui": {
+        "name": "bumblebee"
+      },
+      "ai": {
+       "private_key_qrcode": {
+        "x": "0.1",
+        "y": "0.37",
+        "size": "0.09",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "0.09",
+        "y": "0.57",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "0.82",
+        "y": "0.34",
+        "size": "0.09",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "0.81",
+        "y": "0.55",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "0.05",
+        "y": "0.8",
+        "size": "13",
+        "color": "#000000",
+        "max_text_width": "400"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
+      }
+    }
+dollar:
+  id: 1
+  name: "Dollar"
+  type: "Input::Theme"
+  slug: "usd"
+  metadata: |
+    {
+      "ui": {
+        "name": "cyberpunk",
+        "color_base_100": "#e6f4f1",
+        "color_primary": "#006e8f",
+        "radius_selector": "1rem",
+        "color_base_200": "#ccecf2",
+        "color_base_300": "#00a8cc",
+        "color_base_content": "#112f4e",
+        "color_primary_content": "#ffffff",
+        "color_secondary": "#d83933",
+        "color_secondary_content": "#ffffff",
+        "color_accent": "#a3edeb",
+        "color_accent_content": "#112f4e",
+        "depth": "2"
+      },
+      "ai": {
+       "private_key_qrcode": {
+        "x": "0.82",
+        "y": "0.285",
+        "size": "0.09",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "0.815",
+        "y": "0.5",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "10"
+      },
+      "public_address_qrcode": {
+        "x": "0.82",
+        "y": "0.5",
+        "size": "0.09",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "0.81",
+        "y": "0.7",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "0.17",
+        "y": "0.77",
+        "size": "12",
+        "color": "#000000",
+        "max_text_width": "360"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
+      }
+    }
+euro:
+  id: 2
+  name: "Euro"
+  type: "Input::Theme"
+  slug: "eur"
+  metadata: |
+    {
+      "ui": {
+        "name": "aqua"
+      },
+      "ai": {
+        "private_key_qrcode": {
+          "x": "0.787",
+          "y": "0.18",
+          "size": "0.12",
+          "color": "#000000",
+          "max_text_width": ""
+        },
+        "private_key_text": {
+          "x": "0.785",
+          "y": "0.44",
+          "size": "8",
+          "color": "#000000",
+          "max_text_width": "12"
+        },
+        "public_address_qrcode": {
+          "x": "0.07",
+          "y": "0.3",
+          "size": "0.1",
+          "color": "",
+          "max_text_width": ""
+        },
+        "public_address_text": {
+          "x": "0.07",
+          "y": "0.55",
+          "size": "8",
+          "color": "#000000",
+          "max_text_width": "12"
+        },
+        "mnemonic_text": {
+          "x": "0.07",
+          "y": "0.88",
+          "size": "12",
+          "color": "#000000",
+          "max_text_width": "400"
+        },
+        "custom_text": {
+          "x": "",
+          "y": "",
+          "size": "",
+          "color": "",
+          "max_text_width": ""
+        }
+      }
+    }
+monoboly:
+  id: 3
+  name: "Monoboly"
+  type: "Input::Theme"
+  slug: "monopoly"
+  metadata: |
+    {
+      "ui": {
+        "name": "lofi"
+      },
+      "ai": {
+        "private_key_qrcode": {
+          "x": "0.79",
+          "y": "0.52",
+          "size": "0.09",
+          "color": "#000000",
+          "max_text_width": ""
+        },
+        "private_key_text": {
+          "x": "0.78",
+          "y": "0.7",
+          "size": "8",
+          "color": "#000000",
+          "max_text_width": "12"
+        },
+        "public_address_qrcode": {
+          "x": "0.15",
+          "y": "0.23",
+          "size": "0.09",
+          "color": "",
+          "max_text_width": ""
+        },
+        "public_address_text": {
+          "x": "0.14",
+          "y": "0.44",
+          "size": "8",
+          "color": "#000000",
+          "max_text_width": "12"
+        },
+        "mnemonic_text": {
+          "x": "0.1",
+          "y": "0.64",
+          "size": "9",
+          "color": "#000000",
+          "max_text_width": "120"
+        },
+        "custom_text": {
+          "x": "",
+          "y": "",
+          "size": "",
+          "color": "",
+          "max_text_width": ""
+        }
+      }
+    }
+rouble:
+  id: 4
+  name: "Rouble"
+  type: "Input::Theme"
+  slug: "rub"
+  metadata: |
+    {
+      "ui": {
+        "name": "emerald"
+      },
+      "ai": {
+       "private_key_qrcode": {
+        "x": "0.07",
+        "y": "0.287",
+        "size": "0.09",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "0.069",
+        "y": "0.5",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "0.87",
+        "y": "0.55",
+        "size": "0.09",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "0.86",
+        "y": "0.75",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "0.05",
+        "y": "0.67",
+        "size": "12",
+        "color": "#000000",
+        "max_text_width": "280"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
+      }
+    }
+chinese_yuan:
+  id: 5
+  name: "Chinese Yuan"
+  type: "Input::Theme"
+  slug: "cny"
+  metadata: |
+    {
+      "ui": {
+        "name": "valentine"
+      },
+      "ai": {
+       "private_key_qrcode": {
+        "x": "0.81",
+        "y": "0.4",
+        "size": "0.1",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "0.81",
+        "y": "0.62",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "0.082",
+        "y": "0.455",
+        "size": "0.1",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "0.082",
+        "y": "0.66",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "0.2",
+        "y": "0.77",
+        "size": "12",
+        "color": "#000000",
+        "max_text_width": "280"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
+      }
+    }
+indonesian_rupiah:
+  id: 14
+  name: "Rupiah"
+  type: "Input::Theme"
+  slug: "rup"
+  metadata: |
+    {
+      "ui": {
+        "name": "winter"
+      },
+      "ai": {
+       "private_key_qrcode": {
+        "x": "0.8",
+        "y": "0.285",
+        "size": "0.09",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "0.785",
+        "y": "0.5",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "0.07",
+        "y": "0.25",
+        "size": "0.09",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "0.07",
+        "y": "0.45",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "0.05",
+        "y": "0.67",
+        "size": "12",
+        "color": "#000000",
+        "max_text_width": "280"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
+      }
+    }
+ghibli:
+  id: 6
+  name: Ghibli
+  prompt: turn me into ghibli style with pastel colors, soft landscapes and a poetic atmosphere picture
+  type: "Input::Style"
+simpson:
+  id: 7
+  name: Simpson
+  prompt: turn me into simpson style with yellow skin, big eyes, and cartoon outlines
+  type: "Input::Style"
+marvel:
+  id: 8
+  name: Marvel
+  prompt: turn me into marvel comic style with bold colors, dynamic poses, and comic book effects
+  type: "Input::Style"
+pixar:
+  id: 9
+  name: Pixar
+  prompt: turn me into pixar style with soft colors, cute characters, and a happy atmosphere
+  type: "Input::Style"
+lego:
+  id: 10
+  name: Lego
+  prompt: turn me into lego style with brick textures, toy-like faces, and fun, colorful results
+  type: "Input::Style"
+cyberpunk:
+  id: 11
+  name: Cyberpunk
+  prompt: turn me into cyberpunk style with neon colors, bold outlines, and a futuristic atmosphere
+  type: "Input::Style"
+user:
+  id: 12
+  name: User upload
+  prompt: ""
+  type: "Input::Image"

@@ -1,4 +1,4 @@
-<div class="relative <%= default ? 'bg-yellow-300/50' : '' %> rounded-lg">
+<div class="relative <%= default ? 'bg-base-300' : '' %> rounded-lg">
   <% if default %>
     <div class="absolute -top-6 left-0">
       <span class="badge badge-primary">Most Popular</span>
@@ -12,7 +12,7 @@
     <div>
       <%= form_tag checkout_index_path, method: :post, data: { turbo: false } do %>
         <%= hidden_field_tag :price_id, stripe_price_id %>
-        <button type="submit" class="btn btn-sm <%= default ? 'bg-pink-500 hover:bg-pink-600 border-none text-white' : 'btn-outline border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white' %>">
+        <button type="submit" class="btn btn-sm <%= default ? 'bg-accent hover:bg-accent/80 border-none' : 'btn-outline border-base-200 text-base-content hover:bg-base-500 hover:text-white' %>">
           Select
         </button>
       <% end %>
