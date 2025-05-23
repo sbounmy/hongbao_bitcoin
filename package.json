@@ -3,6 +3,7 @@
     "@babel/preset-env": "^7.26.0",
     "@playwright/test": "1.51.1",
     "@tailwindcss/cli": "^4.1.4",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.13.4",
     "babel-jest": "^29.7.0",
     "daisyui": "^5.0.11",
