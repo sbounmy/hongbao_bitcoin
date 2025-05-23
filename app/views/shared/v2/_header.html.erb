@@ -3,7 +3,7 @@
         <div class="flex items-center gap-2">
             <h1 class="text-xl font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
             <%= render DropdownComponent.new(
-                items: @themes,
+                items: themes,
                 current_item: current_theme,
                 path_helper: :root_path,
                 title: false) %>
