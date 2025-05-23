@@ -2,9 +2,13 @@ class ApplicationController < ActionController::Base
   include Authentication
   before_action :set_locale
   before_action :set_network
-  helper_method :authenticated?, :testnet?, :current_theme, :current_spotify_path
+  helper_method :authenticated?, :testnet?, :current_theme, :current_spotify_path, :themes
 
   private
+
+  def themes
+    @themes ||= Input::Theme.with_attached_hero_image
+  end
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

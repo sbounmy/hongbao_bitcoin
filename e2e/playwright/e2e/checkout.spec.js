@@ -27,18 +27,19 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Select' }).first().click();
 
     // Verify redirect to Stripe Checkout
-    expect(page.url()).toContain('checkout.stripe.com');
+    await expect(page.url()).toContain('checkout.stripe.com');
 
     const random = getRandomInt(9999);
     await checkout(page, `hongbaob+${random}@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
     // expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header .badge')).toContainText('5 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
+    await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 
-  test('logged out user can buy tokens and become logged inas a user', async ({ page }) => {
+  test('logged out user can buy tokens and become logged in as a user', async ({ page }) => {
     // Insert VCR cassette for Stripe API calls
     await appVcrInsertCassette('stripe_checkout_existing_user', { allow_playback_repeats: true });
     await page.goto('/');
@@ -47,9 +48,8 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
-    expect(page.url()).toContain('checkout.stripe.com');
+    await expect(page.url()).toContain('checkout.stripe.com');
 
-    const random = getRandomInt(9999);
     await checkout(page, `satoshi@example.com`);
     // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
 
@@ -71,7 +71,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
-    expect(page.url()).toContain('checkout.stripe.com');
+    await expect(page.url()).toContain('checkout.stripe.com');
 
     const random = getRandomInt(9999);
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
@@ -99,9 +99,9 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Select' }).first().click();
 
     // Verify redirect to Stripe Checkout
-    expect(page.url()).toContain('checkout.stripe.com');
+    await expect(page.url()).toContain('checkout.stripe.com');
 
-    expect(page.getByLabel('Add promotion code')).toBeVisible();
+    await expect(page.getByLabel('Add promotion code')).toBeVisible();
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
     await page.getByText('Apply').click();
     await page.getByRole('button', { name: 'Complete order' }).click();
