@@ -69,7 +69,7 @@
     <p class='text-7xl font-semibold'>No fees.</p>
     <p class='text-7xl font-semibold'>No limits.</p>
   </div>
-  <div class='card shadow-xl rounded-4xl p-12'>
+  <div class='card shadow-xl rounded-4xl p-12 h-full'>
     <p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
   </div>
 
@@ -208,14 +208,66 @@
     <%= card.with_front(class: 'bg-orange-400') do %>
       <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
       <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
-      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your keys.</p>
-      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your coins.</p>
-      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your memories.</p>
+      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
+      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
+      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
     <% end %>
 
     <%= card.with_back(class: 'bg-yellow-400') do %>
       <p>Blabla back</p>
     <% end %>
   <% end %>
+
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+    <%= card.with_front(class: 'bg-white') do %>
+      <div class='flex gap-4'>
+        <img src="https://placehold.co/150x200" alt="HongBao" class="w-full h-full object-cover">
+        <div class='flex flex-col gap-4'>
+          <p class='text-4xl lg:text-6xl xl:text-10xl font-semibold text-black'>Pay for what you use</p>
+          <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-black'>1 Bill = 1 ₿ao. Using an existing design is free.</h4>
+        </div>
+      </div>
+    <% end %>
+
+    <%= card.with_back(class: 'bg-yellow-400') do %>
+      <p>Blabla back</p>
+    <% end %>
+  <% end %>
+
+  <%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front(class: 'bg-green-400') do %>
+      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>Tools to learn Bitcoin</p>
+      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>The right way</p>
+      <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
+    <% end %>
+
+    <%= card.with_back(class: 'bg-yellow-400') do %>
+      <p>Blabla back</p>
+    <% end %>
+  <% end %>
+
+  <%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front(class: 'bg-white') do %>
+      <div class='flex flex-col gap-20'>
+        <img src="https://placehold.co/80x30" alt="HongBao" class="w-full h-full object-cover">
+      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified Company for FIAT to Bitcoin</p>
+      </div>
+    <% end %>
+
+    <%= card.with_back(class: 'bg-yellow-400') do %>
+      <p>Blabla back</p>
+    <% end %>
+  <% end %>
+
+  <div class='hero min-h-screen col-span-full'>
+    <div class="hero-content text-center">
+      <div class="max-w-7xl space-y-6">
+        <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
+        <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
+        <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
+        <%= button_tag "Gift now", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
 
 </section>
