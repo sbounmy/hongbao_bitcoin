@@ -45,12 +45,13 @@
   </div>
 </div>
 
-<section class="flex flex-col items-center justify-center bg-white p-20 text-black">
-  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center">With Hong₿ao, we completely reinvented the Paper Wallet.<br/>Your private and public keys lives on your Bill, beautifully laid out and easy to understand. We eliminated KYC and built tools to help your recipient learn self-custody, and you can create one in minutes.<span class='text-xs'>3</span><br/>Built-in features like offline mode, custom keys import, and open-source code help to keep your gifted Bitcoin safe for generations. It's everything a gift should be.</p>
+<section class="flex flex-col items-center justify-center bg-white p-8 text-black">
+  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the Paper Wallet.<br/>Your private and public keys lives on your Bill, beautifully laid out and easy to understand. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<span class='text-xs'>3</span><br/>Built-in features like offline mode, custom keys import, and open-source code help to keep your gifted Bitcoin safe for generations. It's everything a gift should be.</p>
 </section>
 
-<section class="flex flex-col items-center justify-center bg-white p-20 text-black">
-  <div class='card shadow-sm rounded-4xl p-12'>
+<section class="grid grid-cols-1 gap-2 md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
+
+  <div class='card col-span-full shadow-xl rounded-4xl p-12'>
     <div class="flex items-center gap-8 justify-center">
       <img src="https://placehold.co/300x500" alt="HongBao" class="w-full h-full object-cover">
       <div class='flex flex-col gap-4 items-center justify-center'>
@@ -63,16 +64,16 @@
     </div>
   </div>
 
-  <div class='flex items-center gap-8 justify-center mt-12'>
-    <div class='card shadow-sm rounded-4xl p-12'>
-      <p class='text-2xl lg:text-8xl font-semibold'>No KYC. No fees. No limits.</p>
-    </div>
-    <div class='card shadow-sm rounded-4xl p-12'>
-      <p class='text-2xl lg:text-6xl font-semibold'>The first gift that people will never throw away.</p>
-    </div>
+  <div class='card shadow-xl rounded-4xl p-12'>
+    <p class='text-7xl font-semibold'>No <br/>KYC.</p>
+    <p class='text-7xl font-semibold'>No fees.</p>
+    <p class='text-7xl font-semibold'>No limits.</p>
+  </div>
+  <div class='card shadow-xl rounded-4xl p-12'>
+    <p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
   </div>
 
-  <div class='card shadow-sm space-y-8 rounded-4xl p-12'>
+  <div class='card col-span-full shadow-xl space-y-8 rounded-4xl p-12'>
     <p class='text-2xl lg:text-6xl font-semibold'>Perfect for any occasion.</p>
     <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
             <%# Item: Weddings %>
@@ -128,23 +129,21 @@
   </div>
 
 
-  <div class='flex items-center gap-8 justify-center mt-12'>
-    <div class='card shadow-sm space-y-8 rounded-4xl p-12'>
-      <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
-      <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-        <%= render Themes::ListComponent.with_collection(themes) %>
-      </div>
-    </div>
-
-    <div class='card shadow-sm space-y-8 rounded-4xl p-12'>
-      <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
-      <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-        <%= render Themes::ListComponent.with_collection(themes) %>
-      </div>
+  <div class='card shadow-xl space-y-8 rounded-4xl p-12'>
+    <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
+    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+      <%= render Themes::ListComponent.with_collection(themes) %>
     </div>
   </div>
 
-  <%= render CardComponent.new do |card| %>
+  <div class='card shadow-xl space-y-8 rounded-4xl p-12'>
+    <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
+    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+      <%= render Themes::ListComponent.with_collection(themes) %>
+    </div>
+  </div>
+
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front do %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Turn gifts into lifetime savings.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
@@ -169,7 +168,7 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new do |card| %>
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front do %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Amaze Friends & Family.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
@@ -191,6 +190,31 @@
       <p class="text-[10px] text-base-content/60 mt-auto pt-2 border-t border-base-content/10">
         Content adapted from <a href="https://www.apple.com/apple-card/" target="_blank" rel="noopener noreferrer" class="link link-hover">apple.com/apple-card/</a>.
       </p>
+    <% end %>
+  <% end %>
+
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+    <%= card.with_front(class: 'bg-white') do %>
+      <img src="https://placehold.co/300x150" alt="HongBao" class="w-full h-full object-cover">
+      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
+      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
+    <% end %>
+
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
+
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+    <%= card.with_front(class: 'bg-orange-400') do %>
+      <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
+      <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
+      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your keys.</p>
+      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your coins.</p>
+      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold text-white'>Your memories.</p>
+    <% end %>
+
+    <%= card.with_back(class: 'bg-yellow-400') do %>
+      <p>Blabla back</p>
     <% end %>
   <% end %>
 
