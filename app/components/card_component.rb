@@ -8,6 +8,10 @@ class CardComponent < ApplicationComponent
     @options = options
   end
 
+  def action
+    @options.fetch(:clickable, true) ? "click->reveal#toggle" : nil
+  end
+
   class CardBodyComponent < ApplicationComponent
     attr_reader :options
 
