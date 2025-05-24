@@ -25,104 +25,135 @@
 </div>
 
 <section class="flex flex-col items-center justify-center bg-white px-8 py-24 text-black/80">
-  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the Paper Wallet.<br/>Your private and public keys lives on your Bill, beautifully laid out and easy to understand. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<span class='text-xs'>3</span><br/>Built-in features like offline mode, custom keys import, and open-source code help to keep your gifted Bitcoin safe for generations. It's everything a gift should be.</p>
+  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the paper wallet.<br/>Your private and public keys lives on your Bill, beautifully laid out and easy to understand. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<span class='text-xs'>3</span><br/>Built-in features like offline mode, custom keys import, and open-source code help to keep your gifted Bitcoin safe for generations. It's everything a gift should be.</p>
 </section>
 
 <section class="grid grid-cols-1 gap-2 md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
 
-  <div class='col-span-full shadow-uplift rounded-4xl p-12 overflow-hidden'>
-    <div class="flex flex-col md:flex-row gap-4">
-      <%= image_tag image_url("index/hongbao.jpg"), class: "w-full md:w-1/3 rounded md:-mb-20" %>
-      <div class='flex grow flex-col gap-4'>
-        <div class='text-5xl font-semibold'>
-          <p>Designed by AI.</p>
-          <p>Backed by Bitcoin.</p>
-        </div>
-        <div class='w-full'>
-          <%= render 'shared/diffs' %>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class='card shadow-uplift rounded-4xl p-12'>
-    <p class='text-7xl font-semibold'>No <br/>KYC.</p>
-    <p class='text-7xl font-semibold'>No fees.</p>
-    <p class='text-7xl font-semibold'>No limits.</p>
-  </div>
-  <div class='card shadow-uplift rounded-4xl p-12 h-full'>
-    <p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
-  </div>
+  <%= render CardComponent.new(class: 'col-span-full overflow-hidden') do |card| %>
+    <%= card.with_front do %>
+			<div class="flex flex-col md:flex-row gap-4 w-full">
+				<%= image_tag image_url("index/hongbao.jpg"), class: "w-full md:w-1/3 rounded md:-mb-20" %>
+				<div class='flex grow flex-col gap-4'>
+					<div class='text-5xl font-semibold'>
+						<p>Designed by AI.</p>
+						<p>Backed by Bitcoin.</p>
+					</div>
+					<div class='w-full'>
+						<%= render 'shared/diffs' %>
+					</div>
+				</div>
+			</div>
+    <% end %>
 
-  <div class='card col-span-full shadow-uplift space-y-8 rounded-4xl p-12'>
-    <p class='text-2xl lg:text-6xl font-semibold'>Perfect for any occasion.</p>
-    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-            <%# Item: Weddings %>
-      <div class="flex items-center gap-2 group">
-        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-          <%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
-        </div>
-        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-          Weddings
-        </h3>
-      </div>
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
 
-      <%# Item: Birthdays %>
-      <div class="flex items-center gap-2 group">
-        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-          <%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
-        </div>
-        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-          Birthdays
-        </h3>
-      </div>
+  <%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front do %>
+			<p class='text-7xl font-semibold'>No <br/>KYC.</p>
+			<p class='text-7xl font-semibold'>No fees.</p>
+			<p class='text-7xl font-semibold'>No limits.</p>
+    <% end %>
 
-      <%# Item: Chinese New Year %>
-      <div class="flex items-center gap-2 group">
-        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-          <%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
-        </div>
-        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-          Chinese New Year
-        </h3>
-      </div>
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
 
-      <%# Item: 1st time Bitcoiners %>
-      <div class="flex items-center gap-2 group">
-        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-          <%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
-        </div>
-        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-          1st time Bitcoiners
-        </h3>
-      </div>
+ <%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front do %>
+    	<p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
+    <% end %>
 
-      <%# Item: Christmas %>
-      <div class="flex items-center gap-2 group">
-        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-          <%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
-        </div>
-        <h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-          Christmas
-        </h3>
-      </div>
-    </div>
-  </div>
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
 
+	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
+    <%= card.with_front do %>
+			<p class='text-2xl lg:text-6xl font-semibold'>Perfect for any occasion.</p>
+			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+							<%# Item: Weddings %>
+				<div class="flex items-center gap-2 group">
+					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+						<%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
+					</div>
+					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+						Weddings
+					</h3>
+				</div>
 
-  <div class='card shadow-uplift space-y-8 rounded-4xl p-12'>
-    <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
-    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-      <%= render Themes::ListComponent.with_collection(themes) %>
-    </div>
-  </div>
+				<%# Item: Birthdays %>
+				<div class="flex items-center gap-2 group">
+					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+						<%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
+					</div>
+					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+						Birthdays
+					</h3>
+				</div>
 
-  <div class='card shadow-uplift space-y-8 rounded-4xl p-12'>
-    <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
-    <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-      <%= render Themes::ListComponent.with_collection(themes) %>
-    </div>
-  </div>
+				<%# Item: Chinese New Year %>
+				<div class="flex items-center gap-2 group">
+					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+						<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+					</div>
+					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+						Chinese New Year
+					</h3>
+				</div>
+
+				<%# Item: 1st time Bitcoiners %>
+				<div class="flex items-center gap-2 group">
+					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+						<%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
+					</div>
+					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+						1st time Bitcoiners
+					</h3>
+				</div>
+
+				<%# Item: Christmas %>
+				<div class="flex items-center gap-2 group">
+					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+						<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+					</div>
+					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
+						Christmas
+					</h3>
+				</div>
+			</div>
+    <% end %>
+
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
+
+	<%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front do %>
+    	<p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
+			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+				<%= render Themes::ListComponent.with_collection(themes) %>
+			</div>
+    <% end %>
+
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
+
+	<%= render CardComponent.new(class: 'h-full') do |card| %>
+    <%= card.with_front do %>
+			<p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
+			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+				<%= render Themes::ListComponent.with_collection(themes) %>
+			</div>
+    <% end %>
+
+    <%= card.with_back do %>
+    <% end %>
+  <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front do %>
