@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   get "v1", to: "hong_baos#new" # for dev
 
   get "/satoshi", to: "pages#satoshi"
+  get "/about", to: "pages#about"
+  get "/v3", to: "pages#v3"
 
   # Authentication routes
   get "login", to: "users#new"

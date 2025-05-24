@@ -13,4 +13,7 @@ class PagesController < ApplicationController
   def satoshi
     @themes = Input::Theme.with_attached_hero_image
   end
+
+  def v3
+  end
 end
