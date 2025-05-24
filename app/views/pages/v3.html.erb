@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden px-4 pt-20 sm:pt-28 md:pt-32 pb-8 bg-gradient-to-br from-pink-400 via-purple-500 to-yellow-400">
+<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden px-4 pt-20 sm:pt-28 md:pt-32 pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.pink.500)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.green.500)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.purple.500)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.white)_35%,transparent_88%)]">
   <!-- Main text content -->
   <div class="relative z-10 mb-10">
     <div class="mb-3 md:mb-4">
@@ -141,7 +141,7 @@
     </div>
   </div>
 
-  <%= render CardComponent.new(title: "Turn gifts into lifetime savings.", description: "With Bitcoin, value grows — and memories last.") do |card| %>
+  <%= render CardComponent.new do |card| %>
     <%= card.with_front do %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Turn gifts into lifetime savings.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
@@ -166,7 +166,7 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new() do |card| %>
+  <%= render CardComponent.new do |card| %>
     <%= card.with_front do %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Amaze Friends & Family.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
