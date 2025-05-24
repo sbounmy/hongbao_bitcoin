@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden px-4 pt-20 sm:pt-28 md:pt-32 pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.pink.500/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.green.500/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.purple.500/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.white/75)_35%,transparent_88%)]">
+<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden px-4 pt-20 sm:pt-28 md:pt-32 pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
   <!-- Main text content -->
   <div class="relative z-10 mb-10">
     <div class="mb-3 md:mb-4">
@@ -30,11 +30,11 @@
 
 <section class="grid grid-cols-1 gap-2 md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
 
-  <div class='col-span-full shadow-xl rounded-4xl p-12 overflow-hidden'>
+  <div class='col-span-full shadow-uplift rounded-4xl p-12 overflow-hidden'>
     <div class="flex flex-col md:flex-row gap-4">
-      <%= image_tag image_url("index/hongbao.jpg"), class: "w-full md:w-1/3 rounded shadow-xl/30 md:-mb-20" %>
+      <%= image_tag image_url("index/hongbao.jpg"), class: "w-full md:w-1/3 rounded md:-mb-20" %>
       <div class='flex grow flex-col gap-4'>
-        <div class='text-4xl font-semibold'>
+        <div class='text-5xl font-semibold'>
           <p>Designed by AI.</p>
           <p>Backed by Bitcoin.</p>
         </div>
@@ -45,16 +45,16 @@
     </div>
   </div>
 
-  <div class='card shadow-xl rounded-4xl p-12'>
+  <div class='card shadow-uplift rounded-4xl p-12'>
     <p class='text-7xl font-semibold'>No <br/>KYC.</p>
     <p class='text-7xl font-semibold'>No fees.</p>
     <p class='text-7xl font-semibold'>No limits.</p>
   </div>
-  <div class='card shadow-xl rounded-4xl p-12 h-full'>
+  <div class='card shadow-uplift rounded-4xl p-12 h-full'>
     <p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
   </div>
 
-  <div class='card col-span-full shadow-xl space-y-8 rounded-4xl p-12'>
+  <div class='card col-span-full shadow-uplift space-y-8 rounded-4xl p-12'>
     <p class='text-2xl lg:text-6xl font-semibold'>Perfect for any occasion.</p>
     <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
             <%# Item: Weddings %>
@@ -110,14 +110,14 @@
   </div>
 
 
-  <div class='card shadow-xl space-y-8 rounded-4xl p-12'>
+  <div class='card shadow-uplift space-y-8 rounded-4xl p-12'>
     <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
     <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
       <%= render Themes::ListComponent.with_collection(themes) %>
     </div>
   </div>
 
-  <div class='card shadow-xl space-y-8 rounded-4xl p-12'>
+  <div class='card shadow-uplift space-y-8 rounded-4xl p-12'>
     <p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
     <div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
       <%= render Themes::ListComponent.with_collection(themes) %>
