@@ -157,8 +157,9 @@
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front do %>
-      <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Turn gifts into lifetime savings.</p>
+      <p class='text-7xl lg:text-14xl xl:text-16xl font-semibold'>Turn gifts <br/>into lifetime<br/> savings.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
+			<%= image_tag image_url("index/cash-graph.jpg") %>
     <% end %>
 
     <%= card.with_back do %>
