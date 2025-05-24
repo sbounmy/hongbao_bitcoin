@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show ]
     root "pages#index"
-    post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do

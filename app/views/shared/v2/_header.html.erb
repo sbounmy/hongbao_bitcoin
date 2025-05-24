@@ -1,9 +1,9 @@
-<header class="bg-base-100 shadow-sm">
+<header class="bg-base-100 shadow-sm w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-2">
             <h1 class="text-xl font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
             <%= render DropdownComponent.new(
-                items: @themes,
+                items: themes,
                 current_item: current_theme,
                 path_helper: :root_path,
                 title: false) %>
