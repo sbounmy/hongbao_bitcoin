@@ -84,7 +84,7 @@
 
 	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
     <%= card.with_front(class: 'bg-black/80 text-white') do %>
-			<div class='flex gap-8'>
+			<div class='flex flex-col md:flex-row gap-8'>
 				<p class='text-8xl font-semibold'>There is<br/> no second best</p>
 				<div class="flex flex-col lg:flex-row gap-6">
 								<%# Item: Weddings %>
@@ -222,7 +222,7 @@
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
 		<%# Container with masonry layout %>
-			<div class="max-w-7xl mx-auto lg:columns-2 space-y-4">
+			<div class="max-w-7xl mx-auto columns-1 lg:columns-2 space-y-4">
 				<%# Copy paste reviews here from https://publish.twitter.com/ DO NOT COPY/PASTE THE SCRIPT TAGS %>
 					<blockquote class="twitter-tweet" data-conversation="none" data-theme="light">
 						<p lang="en" dir="ltr">This is fun. And somehow, it has value. <a href="https://twitter.com/hashtag/Bitcoin?src=hash&amp;ref_src=twsrc%5Etfw">#Bitcoin</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1910327335842181282?ref_src=twsrc%5Etfw">April 10, 2025</a>
