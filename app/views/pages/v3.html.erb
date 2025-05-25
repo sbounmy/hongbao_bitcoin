@@ -8,7 +8,7 @@
       </span>
     </div>
 
-    <h1 class="text-6xl lg:text-8xl font-semibold text-black leading-tight mb-8 md:mb-10">
+    <h1 class="text-5xl lg:text-8xl font-semibold text-black leading-tight mb-8 md:mb-10">
       The freedom of Bitcoin.<br/>
       In an envelope.
     </h1>
@@ -19,7 +19,7 @@
   </div>
 
   <!-- Bitcoin Red Envelope Mockup -->
-  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 sm:w-80 md:w-96 z-0 mb-[-96px] sm:mb-[-105px] md:mb-[-188px]">
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 sm:w-80 md:w-96 z-0 mb-[-120px] md:mb-[-188px]">
     <%= image_tag image_url("index/hongbao.jpg"), class: "rounded shadow-xl/30" %>
   </div>
 </div>
@@ -72,57 +72,59 @@
   <% end %>
 
 	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front do %>
-			<p class='text-2xl lg:text-6xl font-semibold'>Perfect for any occasion.</p>
-			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-							<%# Item: Weddings %>
-				<div class="flex items-center gap-2 group">
-					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-						<%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
+    <%= card.with_front(class: 'bg-black/80 text-white') do %>
+			<div class='flex gap-8'>
+				<p class='text-8xl font-semibold'>There is<br/> no second best</p>
+				<div class="grid grid-cols-3 gap-6">
+								<%# Item: Weddings %>
+					<div class="flex items-center gap-2 group">
+						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+							<%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
+						</div>
+						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
+							Weddings
+						</h3>
 					</div>
-					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-						Weddings
-					</h3>
-				</div>
 
-				<%# Item: Birthdays %>
-				<div class="flex items-center gap-2 group">
-					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-						<%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
+					<%# Item: Birthdays %>
+					<div class="flex items-center gap-2 group">
+						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+							<%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
+						</div>
+						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
+							Birthdays
+						</h3>
 					</div>
-					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-						Birthdays
-					</h3>
-				</div>
 
-				<%# Item: Chinese New Year %>
-				<div class="flex items-center gap-2 group">
-					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-						<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+					<%# Item: Chinese New Year %>
+					<div class="flex items-center gap-2 group">
+						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+							<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+						</div>
+						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
+							Chinese New Year
+						</h3>
 					</div>
-					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-						Chinese New Year
-					</h3>
-				</div>
 
-				<%# Item: 1st time Bitcoiners %>
-				<div class="flex items-center gap-2 group">
-					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-						<%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
+					<%# Item: 1st time Bitcoiners %>
+					<div class="flex items-center gap-2 group">
+						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+							<%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
+						</div>
+						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
+							Business clients
+						</h3>
 					</div>
-					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-						1st time Bitcoiners
-					</h3>
-				</div>
 
-				<%# Item: Christmas %>
-				<div class="flex items-center gap-2 group">
-					<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-						<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+					<%# Item: Christmas %>
+					<div class="flex items-center gap-2 group">
+						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
+							<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
+						</div>
+						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
+							Christmas
+						</h3>
 					</div>
-					<h3 class="text-sm font-medium text-base-content group-hover:text-primary transition-colors">
-						Christmas
-					</h3>
 				</div>
 			</div>
     <% end %>
@@ -208,7 +210,19 @@
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
-      <img src="https://placehold.co/300x150" alt="HongBao" class="w-full h-full object-cover">
+		<%# Container with masonry layout %>
+			<div class="max-w-7xl mx-auto lg:columns-2 space-y-4">
+				<%# Copy paste reviews here from https://publish.twitter.com/ DO NOT COPY/PASTE THE SCRIPT TAGS %>
+					<blockquote class="twitter-tweet" data-conversation="none" data-theme="light">
+						<p lang="en" dir="ltr">This is fun. And somehow, it has value. <a href="https://twitter.com/hashtag/Bitcoin?src=hash&amp;ref_src=twsrc%5Etfw">#Bitcoin</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1910327335842181282?ref_src=twsrc%5Etfw">April 10, 2025</a>
+					</blockquote>
+					<blockquote class="twitter-tweet">
+						<p lang="en" dir="ltr">Forget flowers. He gave me some BTC 😍📷 <a href="https://t.co/KSQlCWW1vM">https://t.co/KSQlCWW1vM</a> <a href="https://t.co/ApT6DJPDl5">pic.twitter.com/ApT6DJPDl5</a></p>&mdash; Salma Talbi (@himesalma) <a href="https://twitter.com/himesalma/status/1914971769582047470?ref_src=twsrc%5Etfw">April 23, 2025</a>
+					</blockquote>
+			</div>
+
+			<%# Twitter Widget Script %>
+			<%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
       <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
       <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
     <% end %>
@@ -220,10 +234,10 @@
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
     <%= card.with_front(class: 'bg-orange-400') do %>
       <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
-      <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
-      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
-      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
-      <p class='text-8xl lg:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
+      <h4 class='text-xl md:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
+      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
+      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
+      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
     <% end %>
 
     <%= card.with_back(class: 'bg-yellow-400') do %>
@@ -231,10 +245,12 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+  <%= render CardComponent.new(clickable: false, class: 'col-span-full') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
       <div class='flex gap-4'>
-        <img src="https://placehold.co/150x200" alt="HongBao" class="w-full h-full object-cover">
+        <%= render(PricingComponent.new(title: false)) do |component| %>
+      		<% component.with_plans(StripeService.fetch_prices) %>
+    		<% end %>
         <div class='flex flex-col gap-4'>
           <p class='text-4xl lg:text-6xl xl:text-10xl font-semibold text-black'>Pay for what you use</p>
           <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-black'>1 Bill = 1 ₿ao. Using an existing design is free.</h4>
@@ -262,8 +278,8 @@
   <%= render CardComponent.new(class: 'h-full') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
       <div class='flex flex-col gap-20'>
-        <img src="https://placehold.co/80x30" alt="HongBao" class="w-full h-full object-cover">
-      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified Company for FIAT to Bitcoin</p>
+        <%= image_tag image_url("index/mtpelerin.svg"), class: "" %>
+      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified <br/>Company<br/> Bitcoin Exchange</p>
       </div>
     <% end %>
 
