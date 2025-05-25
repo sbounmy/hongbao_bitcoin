@@ -16,5 +16,6 @@ class PagesController < ApplicationController
   end
 
   def v3
+    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
   end
 end

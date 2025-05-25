@@ -145,11 +145,9 @@
   <% end %>
 
 	<%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front do %>
-    	<p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is People's money.</p>
-			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-				<%= render Themes::ListComponent.with_collection(themes) %>
-			</div>
+    <%= card.with_front(class: 'bg-gradient-to-br from-sky-400 to-emerald-400 text-white') do %>
+    	<p class='text-2xl lg:text-6xl font-semibold'>Be your<br/>own ₿ank.</p>
+ 			<%= render "shared/v2/papers_marquee", papers: @papers %>
     <% end %>
 
     <%= card.with_back do %>
@@ -158,9 +156,11 @@
 
 	<%= render CardComponent.new(class: 'h-full') do |card| %>
     <%= card.with_front do %>
-			<p class='text-2xl lg:text-6xl font-semibold'>Bitcoin is the World's currency.</p>
-			<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-				<%= render Themes::ListComponent.with_collection(themes) %>
+			<div class="flex flex-col gap-4 h-full justify-between">
+				<p class='text-2xl lg:text-6xl font-semibold bg-gradient-to-r from-blue-500 via-cyan-500 to-green-500 bg-clip-text text-transparent'>No matter<br/>where you're from.</p>
+				<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
+					<%= render Themes::ListComponent.with_collection(themes) %>
+				</div>
 			</div>
     <% end %>
 
