@@ -219,7 +219,7 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+  <%= render CardComponent.new(class: 'col-span-full overflow-auto') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
 		<%# Container with masonry layout %>
 			<div class="max-w-7xl mx-auto columns-1 lg:columns-2 space-y-4">
