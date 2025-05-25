@@ -258,7 +258,7 @@
 
   <%= render CardComponent.new(clickable: false, class: 'col-span-full') do |card| %>
     <%= card.with_front(class: 'bg-white') do %>
-      <div class='flex gap-4'>
+      <div class='flex flex-col md:flex-row gap-4'>
         <%= render(PricingComponent.new(title: false)) do |component| %>
       		<% component.with_plans(StripeService.fetch_prices) %>
     		<% end %>
