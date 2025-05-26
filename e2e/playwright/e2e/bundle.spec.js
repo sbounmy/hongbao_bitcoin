@@ -7,7 +7,8 @@ test.describe('Bundle generation', () => {
     // Create admin user and authenticate
     await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
-      email: 'satoshi@example.com'
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard'
     });
   });
 
@@ -36,7 +37,7 @@ test.describe('Bundle generation', () => {
   });
 
   test('can overwrite quality in url', async ({ page }) => {
-    await page.goto('/?quality=low');
+    await page.goto('/dashboard?quality=low');
     await turboCableConnected(page);
     await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
      // Select styles

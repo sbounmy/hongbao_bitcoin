@@ -48,7 +48,7 @@ test.describe('Theme', () => {
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
 
-    await page.goto('/')
+    await page.goto('/dashboard')
     // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
