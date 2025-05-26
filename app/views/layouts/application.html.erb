@@ -47,7 +47,7 @@
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
   </head>
-  <body data-theme="<%= current_theme.ui_name %>">
+  <body data-theme="<%= current_theme.ui_name %>" class="<%= content_for?(:body_class) ? yield(:body_class) : '' %>">
     <%# render "shared/header" %>
     <%= yield %>
   </body>
