@@ -46,6 +46,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
+    await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
