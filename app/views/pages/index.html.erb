@@ -1,9 +1,9 @@
 <% content_for :body_class, "bg-white" %>
 
-<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
+<div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
   <%= render "shared/v2/header" %>
   <!-- Main text content -->
-  <div class="relative px-4 pt-20 sm:pt-22 md:pt-24 z-10 mb-10">
+  <div class="relative px-4 pt-12 sm:pt-22 md:pt-24 z-10 mb-10">
     <div class="mb-3 md:mb-4">
       <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-black">
       <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-7.5 w-7.5 align-middle -mt-1" %>
@@ -20,7 +20,7 @@
   </div>
 
   <!-- Bitcoin Red Envelope Mockup -->
-  <div data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle" class="group absolute bottom-0 left-1/2 -translate-x-1/2 w-72 sm:w-80 md:w-96 z-0 mb-[-120px] md:mb-[-188px]">
+  <div data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle" class="group absolute bottom-0 left-1/2 -translate-x-1/2 w-60 md:w-86 lg:w-96 z-0 mb-[-100px] md:mb-[-188px]">
 		<div class="w-full h-full cursor-pointer relative transition-transform duration-700 ease-in-out group-[.is-flipped]:[transform:rotateY(180deg)] group-[.is-flipped]:z-40 [transform-style:preserve-3d] min-h-[280px]">
       <!-- Front Face -->
 			<div class="w-full h-full flex flex-col justify-center items-start space-y-4 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
