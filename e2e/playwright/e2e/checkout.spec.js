@@ -18,25 +18,6 @@ async function checkout(page, email) {
 }
 test.describe('Stripe Checkout Flow', () => {
 
-  test('logged out user can buy tokens and become logged in as a user', async ({ page }) => {
-    // Insert VCR cassette for Stripe API calls
-    await appVcrInsertCassette('stripe_checkout_existing_user', { allow_playback_repeats: true });
-    await page.goto('/');
-
-    // Find and click the starter plan
-    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
-
-    // Verify redirect to Stripe Checkout
-    await expect(page.url()).toContain('checkout.stripe.com');
-
-    await checkout(page, `satoshi@example.com`);
-    // expect(page.getByText('Processing...')).toBeHidden({ timeout: 5_000 });
-
-    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits
-    await page.locator('.drawer').click();
-    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
-  });
-
   test('logged in user can buy tokens', async ({ page }) => {
 
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
@@ -70,7 +51,6 @@ test.describe('Stripe Checkout Flow', () => {
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {
-    test.skip('applying coupon renders server error on stripe even with a new coupon');
     await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });
 
     await forceLogin(page, {

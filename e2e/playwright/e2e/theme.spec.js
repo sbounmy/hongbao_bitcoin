@@ -72,4 +72,8 @@ test.describe('Theme', () => {
     await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
   });
 
+  test.afterEach(async ({ page }) => {
+    // Clear any extra HTTP headers set during the test otherwise its pass down to stripe and checkout session fails !!!
+    await page.setExtraHTTPHeaders({});
+  });
 });
