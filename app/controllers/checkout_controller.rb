@@ -39,6 +39,7 @@ class CheckoutController < ApplicationController
     if result.success?
       render json: { message: :success }
     else
+      Rails.logger.error("Stripe webhook error: #{result.error.message}")
       render json: { error: { message: result.error.message } }, status: :bad_request
     end
   end
