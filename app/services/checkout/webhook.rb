@@ -38,7 +38,8 @@ module Checkout
           failure user.errors.full_messages.join(", ")
         end
       else
-        failure "Unknown event type: #{event.type}"
+        Rails.logger.error("Unknown event type: #{event.type}")
+        success
       end
     end
 

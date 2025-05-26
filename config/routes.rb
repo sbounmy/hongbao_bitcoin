@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show ]
     root "pages#index"
-    post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do
@@ -52,6 +51,7 @@ Rails.application.routes.draw do
   get "v1", to: "hong_baos#new" # for dev
 
   get "/satoshi", to: "pages#satoshi"
+  get "/about", to: "pages#about"
 
   # Authentication routes
   get "login", to: "users#new"
