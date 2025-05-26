@@ -278,13 +278,20 @@
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
     <%= card.with_front(class: 'bg-green-400') do %>
-      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>Tools to learn Bitcoin</p>
-      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>The right way</p>
-      <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
+      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>Built by Bitcoiners<br/>for Bitcoiners</p>
+      <%= image_tag image_url("index/team.jpg"), class: "w-full shadow-uplift rounded" %>
     <% end %>
 
-    <%= card.with_back(class: 'bg-yellow-400') do %>
-      <p>Blabla back</p>
+    <%= card.with_back(class: '') do %>
+      <div class='flex flex-row gap-4'>
+        <div class='avatar'>
+          <%= image_tag image_url('sbounmy-b.jpg'), class: "avatar" %>
+        </div>
+        <div class='avatar'>
+          <%= image_tag image_url('salma.jpg'), class: "avatar" %>
+        </div>
+      </div>
+      <%= render(ContributorsComponent.new) %>
     <% end %>
   <% end %>
 
