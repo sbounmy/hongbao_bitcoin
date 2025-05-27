@@ -1,5 +1,5 @@
 class PapersController < ApplicationController
-  allow_unauthenticated_access only: :show
+  allow_unauthenticated_access only: [ :show, :index ]
 
   def index
     # Will be used to list available styles and papers

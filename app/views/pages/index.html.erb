@@ -16,7 +16,10 @@
       In an envelope.
     </h1>
 
-    <%= link_to "Gift now", dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" %>
+    <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
+      <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+      <span class="inline-block">Gift now</span>
+    <% end %>
   </div>
 
   <!-- Bitcoin Red Envelope Mockup -->
