@@ -86,6 +86,22 @@ module ApplicationHelper
   "data:#{blob.content_type};base64,#{base64_encoded_content}"
   end
 
+  # Push data attributes up the layout
+  # https://justin.searls.co/posts/abusing-rails-content_for-to-push-data-attributes-up-the-dom/#my-hacked-up-solution
+  STUPID_SEPARATOR = "|::|::|"
+  def attributes_for(name, json)
+    content_for name, json.to_json.html_safe + STUPID_SEPARATOR
+  end
+
+  def attributes_from(yielded_content)
+    yielded_content.split(STUPID_SEPARATOR).reduce({}) { |memo, json|
+      memo.merge(JSON.parse(json)) { |key, val_1, val_2|
+        token_list(val_1, val_2)
+      }
+    }
+  end
+
+
   def theme_css(theme)
     return "" unless theme
 
