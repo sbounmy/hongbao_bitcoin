@@ -52,6 +52,8 @@ Rails.application.routes.draw do
 
   get "/satoshi", to: "pages#satoshi"
   get "/about", to: "pages#about"
+  get "/v2", to: "pages#v2"
+  get "/dashboard", to: "papers#index"
 
   # Authentication routes
   get "login", to: "users#new"

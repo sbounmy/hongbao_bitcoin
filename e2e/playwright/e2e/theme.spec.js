@@ -48,7 +48,7 @@ test.describe('Theme', () => {
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
 
-    await page.goto('/')
+    await page.goto('/dashboard')
     // Select styles
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
@@ -72,4 +72,8 @@ test.describe('Theme', () => {
     await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
   });
 
+  test.afterEach(async ({ page }) => {
+    // Clear any extra HTTP headers set during the test otherwise its pass down to stripe and checkout session fails !!!
+    await page.setExtraHTTPHeaders({});
+  });
 });
