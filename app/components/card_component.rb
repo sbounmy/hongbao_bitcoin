@@ -9,7 +9,7 @@ class CardComponent < ApplicationComponent
   end
 
   def action
-    @options.fetch(:clickable, true) ? "click->reveal#toggle" : nil
+    back? && @options.fetch(:clickable, true) ? "click->reveal#toggle" : nil
   end
 
   class CardBodyComponent < ApplicationComponent

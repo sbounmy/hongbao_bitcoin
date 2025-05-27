@@ -260,22 +260,16 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new(clickable: false, class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'bg-white') do %>
-      <div class='flex flex-col md:flex-row gap-4'>
-        <%= render(PricingComponent.new(title: false)) do |component| %>
-      	  <% component.with_plans(StripeService.fetch_prices) %>
-    		<% end %>
-        <div class='flex flex-col gap-4'>
-          <p class='text-4xl lg:text-6xl xl:text-10xl font-semibold text-black'>Pay for what you use</p>
-          <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-black'>1 Bill = 1 ₿ao. Using an existing design is free.</h4>
-        </div>
-      </div>
-    <% end %>
+  <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
+    <%= card.with_front(class: '') do %>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-center text-gray-900">
+        Explore Our Packs
+      </h2>
 
-    <%= card.with_back(class: 'bg-yellow-400') do %>
-      <p>Blabla back</p>
-    <% end %>
+      <%= render V3::PricingComponent.new(title: false) do |component| %>
+        <% component.with_plans(StripeService.fetch_products) %>
+      <% end %>
+   <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
