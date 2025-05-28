@@ -1,32 +1,18 @@
-  <div class="overflow-hidden flex flex-col h-full transition-shadow duration-300">
+<!-- app/components/v3/plan_option_component.erb -->
+<%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
+  <%= hidden_field_tag :price_id, stripe_price_id %>
+  <button type="submit" class="w-full text-left p-4 border rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out relative <%= default ? 'border-blue-500 ring-2 ring-blue-500' : 'border-gray-300' %>">
     <% if default %>
-      <div class="absolute top-3 right-3 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-10">
-        Most Popular
+      <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+        Plus Populaire
       </div>
     <% end %>
-    <div class="p-6 flex flex-col flex-grow">
-      <div class="aspect-w-16 aspect-h-9">
-        <%= image_tag "index/red_front.jpg", class: "w-full h-full object-contain p-4" %>
+    <div class="flex justify-between items-center">
+      <div>
+        <span class="block font-semibold text-gray-800"><%= name %></span>
+        <span class="block text-sm text-gray-600"><%= tokens %> ₿ao credits</span>
       </div>
-      <h3 class="text-xl font-semibold text-gray-900 mb-1"><%= name %></h3>
-      <p class="text-sm text-gray-500 mb-3"><%= tokens %> ₿ao credits</p>
-      <p class="text-2xl font-bold text-orange-600 mb-4"><%= number_to_currency(price, unit: "€", format: "%n%u", strip_insignificant_zeros: true) %></p>
-      <p class="text-sm text-gray-700 mb-6 flex-grow"><%= description %></p>
-      <div class="mt-auto space-y-3">
-        <%= form_tag checkout_index_path, method: :post, data: { turbo: false } do %>
-          <%= hidden_field_tag :price_id, stripe_price_id %>
-          <button type="submit" class="btn btn-sm <%= default ? 'bg-accent hover:bg-accent/80 border-none' : 'btn-outline border-base-200 text-base-content hover:bg-base-500 hover:text-white' %>">
-            Select
-          </button>
-        <% end %>
-      </div>
+      <span class="font-semibold text-gray-800"><%= formatted_price %></span>
     </div>
-    <div class="px-6 py-4 border-t border-gray-200">
-      <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Includes:</h4>
-      <ul class="text-sm text-gray-600 space-y-1">
-        <li>✅ Free shipping included</li>
-        <li>✅ Custom bill generator</li>
-        <li>✅ 10 credits (1 credit = 1 bill)</li>
-      </ul>
-    </div>
-  </div>
+  </button>
+<% end %>
