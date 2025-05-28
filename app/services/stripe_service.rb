@@ -16,7 +16,8 @@ class StripeService
           tokens: product.metadata.tokens.to_i,
           envelopes: product.metadata.envelopes.to_i,
           description: product.description,
-          price: product.default_price.unit_amount.to_f / 100
+          price: product.default_price.unit_amount.to_f / 100,
+          slug: product.metadata.slug
         }
       end
     end
