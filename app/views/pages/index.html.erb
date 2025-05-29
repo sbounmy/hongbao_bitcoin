@@ -310,7 +310,10 @@
         <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
         <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
         <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
-        <%= button_tag "Gift now", class: "btn btn-primary" %>
+        <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
+          <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Gift now</span>
+        <% end %>
       </div>
     </div>
   </div>
