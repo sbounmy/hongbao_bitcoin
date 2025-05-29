@@ -23,14 +23,15 @@ test.describe('Stripe Checkout Flow', () => {
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
     await forceLogin(page, {
-      email: 'satoshi@example.com',
-      redirect_to: '/dashboard'
+      email: 'satoshi@example.com'
     });
 
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
     await page.goto('/tokens');
-    await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
+    await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
+    await page.getByRole('button', { name: 'Buy now' }).click();
+
 
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
@@ -45,7 +46,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.fill('input[name="billingPostalCode"]', '12345');
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.locator('header .badge')).toContainText('495 ₿ao', { timeout: 10_000 }); // purchased Bao + 5 free credits  });
+    await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 10_000 }); // 12 free credits with Mini
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
@@ -58,7 +59,8 @@ test.describe('Stripe Checkout Flow', () => {
       email: 'admin@example.com'
     });
 
-    await page.getByRole('button', { name: 'Select' }).first().click();
+    await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
+    await page.getByRole('button', { name: 'Buy now' }).click();
 
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
@@ -69,11 +71,44 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header')).toContainText('5 ₿ao'); // purchased Bao + 5 free credits
+    await expect(page.locator('header')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
     await page.goto('/tokens');
     await page.getByRole('button', { name: 'Manage Billing' }).click();
     await page.waitForURL('https://billing.stripe.com/p/session/**');
     await expect(page.locator('body')).toContainText("Invoice history");
+  });
+
+  test('logged in user can buy envelopes', async ({ page }) => {
+
+    await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
+
+    await forceLogin(page, {
+      email: 'satoshi@example.com'
+    });
+
+    await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
+    // Find and click the starter plan
+    await page.locator('label').filter({ hasText: /Family Pack/ }).click();
+    await page.getByRole('button', { name: 'Buy now' }).click();
+    // await page.getByRole('button', { name: 'Select' }).click();
+
+    // Verify redirect to Stripe Checkout
+    expect(page.url()).toContain('checkout.stripe.com');
+
+    const random = getRandomInt(9999);
+    await expect(page.getByText('satoshi@example.com')).toBeVisible();
+    await page.fill('input[name="cardNumber"]', '4242424242424242');
+    await page.fill('input[name="cardExpiry"]', '12/2034');
+    await page.fill('input[name="cardCvc"]', '123');
+    await page.fill('input[name="billingName"]', `Satoshi Nakamoto ${random}`);
+    await page.selectOption('select[name="billingCountry"]', 'United States');
+    await page.fill('input[name="billingPostalCode"]', '12345');
+    await page.click('button[type="submit"]');
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
+    await page.waitForTimeout(1_000);
+    await page.locator('.drawer').click();
+    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
   });
 });
