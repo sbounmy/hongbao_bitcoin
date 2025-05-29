@@ -1,21 +1,6 @@
 import { test, expect } from '../support/test-setup';
-import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
+import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette, fillCheckout } from '../support/on-rails';
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-async function checkout(page, email) {
-  await page.fill('input[name="email"]', email);
-  await page.fill('input[name="cardNumber"]', '4242424242424242');
-  await page.fill('input[name="cardExpiry"]', '12/2034');
-  await page.fill('input[name="cardCvc"]', '123');
-  await page.fill('input[name="billingName"]', email.split('@')[0]);
-  await page.selectOption('select[name="billingCountry"]', 'United States');
-  await page.fill('input[name="billingPostalCode"]', '12345');
-  await page.click('button[type="submit"]');
-  await expect(page.getByText('Processing...')).toBeVisible();
-}
 test.describe('Stripe Checkout Flow', () => {
 
   test('logged in user can buy tokens', async ({ page }) => {
@@ -36,14 +21,8 @@ test.describe('Stripe Checkout Flow', () => {
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
 
-    const random = getRandomInt(9999);
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
-    await page.fill('input[name="cardNumber"]', '4242424242424242');
-    await page.fill('input[name="cardExpiry"]', '12/2034');
-    await page.fill('input[name="cardCvc"]', '123');
-    await page.fill('input[name="billingName"]', `Satoshi Nakamoto ${random}`);
-    await page.selectOption('select[name="billingCountry"]', 'United States');
-    await page.fill('input[name="billingPostalCode"]', '12345');
+    await fillCheckout(page);
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 10_000 }); // 12 free credits with Mini
@@ -68,6 +47,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.getByLabel('Add promotion code')).toBeVisible();
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
     await page.getByText('Apply').click();
+    await fillCheckout(page);
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
@@ -96,14 +76,8 @@ test.describe('Stripe Checkout Flow', () => {
     // Verify redirect to Stripe Checkout
     expect(page.url()).toContain('checkout.stripe.com');
 
-    const random = getRandomInt(9999);
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
-    await page.fill('input[name="cardNumber"]', '4242424242424242');
-    await page.fill('input[name="cardExpiry"]', '12/2034');
-    await page.fill('input[name="cardCvc"]', '123');
-    await page.fill('input[name="billingName"]', `Satoshi Nakamoto ${random}`);
-    await page.selectOption('select[name="billingCountry"]', 'United States');
-    await page.fill('input[name="billingPostalCode"]', '12345');
+    await fillCheckout(page);
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
