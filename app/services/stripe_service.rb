@@ -1,10 +1,9 @@
 class StripeService
-  CACHE_KEY = "stripe_prices"
   CACHE_DURATION = 2.hours
 
   class << self
     def fetch_products
-      Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_DURATION) do
+      Rails.cache.fetch("stripe_products", expires_in: CACHE_DURATION) do
         Stripe::Product.list(
         active: true,
         expand: [ "data.default_price" ],
