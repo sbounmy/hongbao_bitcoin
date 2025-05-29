@@ -36,6 +36,14 @@ class V3::PricingComponent < ApplicationComponent
       helpers.number_to_currency(price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
     end
 
+    def formatted_description
+      "#{packs} packs (#{envelopes} envelopes) + #{tokens} credits"
+    end
+
+    def packs
+      envelopes / 6
+    end
+
     attr_reader :name, :tokens, :description, :price, :default, :stripe_product_id, :stripe_price_id, :envelopes, :slug
   end
 end

@@ -36,7 +36,7 @@
       <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
 <!-- app/components/v3/plan_option_component.erb -->
     <%= turbo_frame_tag "plan_options" do %>
-      <%= form_tag helpers.root_path, method: :get, class: "block" do %>
+      <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
 
         <div class="mb-8">
           <h2 class="text-xl font-semibold text-gray-800 mb-4">How many would you like?</h2>
@@ -78,7 +78,7 @@
       <div>
         <h3 class="text-sm font-semibold text-gray-700 mb-2">Faites-vous aider pour l'achat.</h3>
         <p class="text-sm text-gray-600">
-          <a href="#" class="text-blue-600 hover:underline">Chattez dès maintenant</a> ou appelez le <a href="tel:0800046046" class="text-blue-600 hover:underline">0800 046 046</a>.
+          <%= link_to "Chattez dès maintenant", "https://github.com/sbounmy/hongbao_bitcoin/discussions", class: "text-blue-600 hover:underline" %> ou emailez le <a href="mailto:team@hongbaob.tc" class="text-blue-600 hover:underline">team@hongbaob.tc</a>.
         </p>
       </div>
     </div>
