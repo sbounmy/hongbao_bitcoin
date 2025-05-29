@@ -19,7 +19,7 @@ class StripeService
           price: product.default_price.unit_amount.to_f / 100,
           slug: product.metadata.slug
         }
-        end
+        end.sort_by { |product| product[:price] }
       end
     end
 
