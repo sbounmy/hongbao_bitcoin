@@ -32,7 +32,7 @@ test.describe('Bundle generation', () => {
     await app('perform_jobs');
     await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
     await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
-    await page.goto('/'); // need turbo broadcast to be performed
+    await page.goto('/dashboard'); // need turbo broadcast to be performed
     await expect(page.locator('header')).toContainText('488 ₿ao'); // General check for balance display
   });
 
@@ -56,7 +56,7 @@ test.describe('Bundle generation', () => {
      await app('perform_jobs');
      await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
      await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
-     await page.goto('/'); // need turbo broadcast to be performed
+     await page.goto('/dashboard'); // need turbo broadcast to be performed
      await expect(page.locator('header')).toContainText('488 ₿ao'); // General check for balance display
    });
 });

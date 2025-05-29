@@ -6,7 +6,8 @@ test.describe('Theme', () => {
   test('admin can view and edit theme properties', async ({ page }) => {
     await appVcrInsertCassette('themes')
     await forceLogin(page, {
-      email: 'satoshi@example.com'
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard'
     });
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(230\, 244\, 241\)/); //theme default
@@ -37,7 +38,8 @@ test.describe('Theme', () => {
   test('admin can edit theme elements', async ({ page }) => {
     await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
-      email: 'satoshi@example.com'
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard'
     });
 
     await page.setExtraHTTPHeaders({
