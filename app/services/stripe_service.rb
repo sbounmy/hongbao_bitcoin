@@ -4,7 +4,8 @@ class StripeService
 
   class << self
     def fetch_products
-      Stripe::Product.list(
+      Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_DURATION) do
+        Stripe::Product.list(
         active: true,
         expand: [ "data.default_price" ],
         ids: ENV.fetch("STRIPE_PRODUCT_IDS").split(",")
@@ -19,6 +20,7 @@ class StripeService
           price: product.default_price.unit_amount.to_f / 100,
           slug: product.metadata.slug
         }
+        end
       end
     end
 
