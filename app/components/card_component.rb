@@ -1,6 +1,8 @@
 class CardComponent < ApplicationComponent
-  renders_one :back, "CardBackComponent"
-  renders_one :front, "CardFrontComponent"
+  renders_one :back, ->(options = {}) { CardBackComponent.new(options) }
+  renders_one :front, ->(options = {}) do
+    CardFrontComponent.new(options)
+  end
 
   attr_reader :options
 
@@ -9,7 +11,11 @@ class CardComponent < ApplicationComponent
   end
 
   def action
-    back? && @options.fetch(:clickable, true) ? "click->reveal#toggle" : nil
+    clickable? ? "click->reveal#toggle" : nil
+  end
+
+  def clickable?
+    back? && @options.fetch(:clickable, true)
   end
 
   class CardBodyComponent < ApplicationComponent
