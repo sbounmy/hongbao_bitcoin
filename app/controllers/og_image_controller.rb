@@ -11,7 +11,8 @@ class OgImageController < ApplicationController
     # Set response headers for better caching
     response.headers["Cache-Control"] = "public, max-age=31536000"
     response.headers["Content-Type"] = "text/html; charset=utf-8"
-
-    render "og_image/show"
+    @width, @height = params[:size].split("x")
+    @width = @width.to_i || 1200
+    @height = @height.to_i || 630
   end
 end

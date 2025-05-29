@@ -46,7 +46,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Add og-image route
-  get "og-image", to: "og_image#show", as: :og_image
+  get "og-image/:size", to: "og_image#show", as: :og_image
 
   get "v1", to: "hong_baos#new" # for dev
 

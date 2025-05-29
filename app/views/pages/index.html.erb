@@ -61,35 +61,26 @@
 				</div>
 			</div>
     <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'text-white bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]') do %>
+    <%= card.with_front(class: '!cursor-default text-white bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]') do %>
 			<p class='text-7xl font-semibold'>No <br/>KYC.</p>
 			<p class='text-7xl font-semibold'>No fees.</p>
 			<p class='text-7xl font-semibold'>No limits.</p>
     <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
   <% end %>
 
  <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front do %>
+    <%= card.with_front(class: '!cursor-default') do %>
     	<p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
-    <% end %>
-
-    <%= card.with_back do %>
     <% end %>
   <% end %>
 
 	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front(class: 'bg-black/80 text-white') do %>
+    <%= card.with_front(class: '!cursor-default bg-black/80 text-white') do %>
 			<div class='flex flex-col md:flex-row gap-8'>
-				<p class='text-8xl font-semibold'>There is<br/> no second best</p>
+				<p class='text-6xl md:text-8xl font-semibold'>There is<br/> no second best</p>
 				<div class="flex flex-col lg:flex-row gap-6">
 								<%# Item: Weddings %>
 					<div class="flex items-center gap-2 group">
@@ -143,9 +134,6 @@
 				</div>
 			</div>
     <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
   <% end %>
 
 	<%= render CardComponent.new(class: 'h-full') do |card| %>
@@ -173,58 +161,22 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front do %>
+    <%= card.with_front(class: '!cursor-default') do %>
       <p class='text-7xl lg:text-14xl xl:text-16xl font-semibold'>Turn gifts <br/>into lifetime<br/> savings.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
 			<%= image_tag image_url("index/cash-graph.jpg") %>
     <% end %>
-
-    <%= card.with_back do %>
-      <h3 class="text-xl sm:text-2xl font-semibold mb-3 text-base-content">2% Daily Cash</h3>
-      <div class="text-xs sm:text-sm text-base-content/80 space-y-2 mb-3 flex-grow">
-        <p>The best way to use Apple Card is with Apple Pay — the secure payment technology built into iPhone, Apple Watch, iPad, and Mac and accepted at 85 percent of merchants in the United States. Apple Pay is a safer way to pay that helps you avoid touching buttons or exchanging cash.</p>
-        <p>And with every purchase you make using your Apple Card with Apple Pay, you get 2% Daily Cash back. No points to calculate. No limits or deadlines. Just real cash you can spend, send, or save and grow over time.</p>
-      </div>
-      <div class="text-center my-2">
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle">Just look for </span>
-        <span class="inline-flex items-center justify-center w-7 h-7 bg-black text-white rounded-md text-[10px] font-bold mx-1 align-middle">Pay</span>
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle"> or </span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mx-1 text-base-content/70 align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.667 15.333L7.5 12.5M15.333 15.333L16.5 12.5M12 4.5C7.029 4.5 3 8.052 3 12.5S7.029 20.5 12 20.5c4.971 0 9-3.552 9-8S16.971 4.5 12 4.5zm0 0V2.5m0 2c-2.485 0-4.5 2.239-4.5 5s2.015 5 4.5 5 4.5-2.239 4.5-5-2.015-5-4.5-5z" /></svg>
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle"> when you check out.</span>
-      </div>
-      <p class="text-[10px] text-base-content/60 mt-auto pt-2 border-t border-base-content/10">
-        Content adapted from <a href="https://www.apple.com/apple-card/" target="_blank" rel="noopener noreferrer" class="link link-hover">apple.com/apple-card/</a>.
-      </p>
-    <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front do %>
+    <%= card.with_front(class: '!cursor-default') do %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Amaze Friends & Family.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
-    <% end %>
-
-    <%= card.with_back do %>
-      <h3 class="text-xl sm:text-2xl font-semibold mb-3 text-base-content">2% Daily Cash</h3>
-      <div class="text-xs sm:text-sm text-base-content/80 space-y-2 mb-3 flex-grow">
-        <p>The best way to use Apple Card is with Apple Pay — the secure payment technology built into iPhone, Apple Watch, iPad, and Mac and accepted at 85 percent of merchants in the United States. Apple Pay is a safer way to pay that helps you avoid touching buttons or exchanging cash.</p>
-        <p>And with every purchase you make using your Apple Card with Apple Pay, you get 2% Daily Cash back. No points to calculate. No limits or deadlines. Just real cash you can spend, send, or save and grow over time.</p>
-      </div>
-      <div class="text-center my-2">
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle">Just look for </span>
-        <span class="inline-flex items-center justify-center w-7 h-7 bg-black text-white rounded-md text-[10px] font-bold mx-1 align-middle">Pay</span>
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle"> or </span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mx-1 text-base-content/70 align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.667 15.333L7.5 12.5M15.333 15.333L16.5 12.5M12 4.5C7.029 4.5 3 8.052 3 12.5S7.029 20.5 12 20.5c4.971 0 9-3.552 9-8S16.971 4.5 12 4.5zm0 0V2.5m0 2c-2.485 0-4.5 2.239-4.5 5s2.015 5 4.5 5 4.5-2.239 4.5-5-2.015-5-4.5-5z" /></svg>
-        <span class="text-xs sm:text-sm text-base-content/70 align-middle"> when you check out.</span>
-      </div>
-      <p class="text-[10px] text-base-content/60 mt-auto pt-2 border-t border-base-content/10">
-        Content adapted from <a href="https://www.apple.com/apple-card/" target="_blank" rel="noopener noreferrer" class="link link-hover">apple.com/apple-card/</a>.
-      </p>
     <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full overflow-auto') do |card| %>
-    <%= card.with_front(class: 'bg-white') do %>
+    <%= card.with_front(class: '!cursor-default bg-white') do %>
 		<%# Container with masonry layout %>
 			<div class="max-w-7xl mx-auto columns-1 lg:columns-2 space-y-4">
 				<%# Copy paste reviews here from https://publish.twitter.com/ DO NOT COPY/PASTE THE SCRIPT TAGS %>
@@ -241,41 +193,24 @@
       <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
       <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
     <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'bg-orange-400') do %>
+    <%= card.with_front(class: '!cursor-default bg-orange-400') do %>
       <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
       <h4 class='text-xl md:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
     <% end %>
-
-    <%= card.with_back(class: 'bg-yellow-400') do %>
-      <p>Blabla back</p>
-    <% end %>
   <% end %>
 
-  <%= render CardComponent.new(clickable: false, class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'bg-white') do %>
-      <div class='flex flex-col md:flex-row gap-4'>
-        <%= render(PricingComponent.new(title: false)) do |component| %>
-      	  <% component.with_plans(StripeService.fetch_prices) %>
-    		<% end %>
-        <div class='flex flex-col gap-4'>
-          <p class='text-4xl lg:text-6xl xl:text-10xl font-semibold text-black'>Pay for what you use</p>
-          <h4 class='text-xl lg:text-2xl xl:text-3xl font-semibold text-black'>1 Bill = 1 ₿ao. Using an existing design is free.</h4>
-        </div>
-      </div>
-    <% end %>
-
-    <%= card.with_back(class: 'bg-yellow-400') do %>
-      <p>Blabla back</p>
-    <% end %>
+  <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
+    <%= card.with_front(class: '!cursor-default') do %>
+      <%= render V3::PricingComponent.new(title: false) do |component| %>
+        <% component.with_plans(StripeService.fetch_products) %>
+      <% end %>
+   <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
@@ -298,15 +233,11 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'bg-white') do %>
+    <%= card.with_front(class: '!cursor-default bg-white') do %>
       <div class='flex flex-col gap-20'>
         <%= image_tag image_url("index/mtpelerin.svg"), class: "" %>
       <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified <br/>Company<br/> Bitcoin Exchange</p>
       </div>
-    <% end %>
-
-    <%= card.with_back(class: 'bg-yellow-400') do %>
-      <p>Blabla back</p>
     <% end %>
   <% end %>
 
@@ -316,7 +247,10 @@
         <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
         <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
         <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
-        <%= button_tag "Gift now", class: "btn btn-primary" %>
+        <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
+          <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Gift now</span>
+        <% end %>
       </div>
     </div>
   </div>
