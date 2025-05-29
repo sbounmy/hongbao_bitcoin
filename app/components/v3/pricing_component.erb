@@ -1,82 +1,83 @@
 <!-- app/components/v3/pricing_component.erb -->
-<div class="">
-  <div class="md:flex md:gap-12">
-    <!-- Left Column: Product Display & Benefits -->
-    <div class="mb-8 md:mb-0">
-      <div class="sticky top-8">
-        <div class="aspect-w-16 aspect-h-9 mb-6">
-          <%= image_tag "index/red_front.jpg", class: "w-full h-96 md:h-full object-contain p-4", alt: "HongBao Product Image" %>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">What's included:</h3>
-        <ul class="space-y-2 text-sm text-gray-600">
-          <li class="flex items-start">
-            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-            <span>Mix Orange envelopes packs for Family / Maximalist</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-            <span>Free delivery or pick up in Paris 🇫🇷</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-            <span>Custom bill generator with included credits</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Right Column: Configuration & Purchase -->
-    <div class="">
-      <p class="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-1">FREE Credits included</p>
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Buy HongBao</h1>
-      <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
-<!-- app/components/v3/plan_option_component.erb -->
-    <%= turbo_frame_tag "plan_options" do %>
-      <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
-
-        <div class="mb-8">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">How many would you like?</h2>
-          <div class="space-y-3">
-            <% plans.each do |plan| %>
-              <%= plan %>
+<%= turbo_frame_tag "plan_options" do %>
+  <div class="">
+    <div class="md:flex md:gap-12">
+      <!-- Left Column: Product Display & Benefits -->
+      <div class="mb-8 md:mb-0">
+        <div class="sticky top-8">
+          <div class="aspect-w-16 aspect-h-9 mb-6">
+            <% image_urls.each do |image_url| %>
+              <%= image_tag image_url, class: "w-full h-96 md:h-full object-contain p-4", alt: "HongBao Product Image" %>
             <% end %>
           </div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-3">What's included:</h3>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li class="flex items-start">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Mix Orange envelopes packs for Family / Maximalist</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Free delivery or pick up in Paris 🇫🇷</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Custom bill generator with included credits</span>
+            </li>
+          </ul>
         </div>
+      </div>
 
-      <%# <div class="mb-8">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">Souhaitez-vous le personnaliser ?</h2>
-        <p class="text-sm text-gray-500 mb-4">Ajoutez une touche personnelle. Ce service est gratuit.</p>
-        <div class="space-y-3">
-          <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
-            <div class="flex justify-between items-center">
-              <span class="font-medium text-gray-700">Ajouter une gravure</span>
-              <span class="text-sm text-gray-500">Gratuit</span>
+      <!-- Right Column: Configuration & Purchase -->
+      <div class="">
+        <p class="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-1">FREE Credits included</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Buy HongBao</h1>
+        <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
+  <!-- app/components/v3/plan_option_component.erb -->
+          <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
+
+            <div class="mb-8">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">How many would you like?</h2>
+              <div class="space-y-3">
+                <% plans.each do |plan| %>
+                  <%= plan %>
+                <% end %>
+              </div>
             </div>
-            <p class="text-xs text-gray-500 mt-1">Faites graver des emoji, des initiales et des chiffres. Votre HongBao sera à vous, rien qu'à vous.</p>
-          </button>
-          <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
-            <span class="font-medium text-gray-700">Ignorer la gravure</span>
-          </button>
-        </div>
-      </div> %>
+                  <%# <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 mb-1">Souhaitez-vous le personnaliser ?</h2>
+          <p class="text-sm text-gray-500 mb-4">Ajoutez une touche personnelle. Ce service est gratuit.</p>
+          <div class="space-y-3">
+            <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
+              <div class="flex justify-between items-center">
+                <span class="font-medium text-gray-700">Ajouter une gravure</span>
+                <span class="text-sm text-gray-500">Gratuit</span>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Faites graver des emoji, des initiales et des chiffres. Votre HongBao sera à vous, rien qu'à vous.</p>
+            </button>
+            <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
+              <span class="font-medium text-gray-700">Ignorer la gravure</span>
+            </button>
+          </div>
+        </div> %>
 
-    <% end %>
+          <% end %>
           <%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
-        <%= hidden_field_tag :price_id, stripe_price_id %>
-        <button type="submit" class="w-full text-center p-4 border rounded-lg bg-blue-500 text-white transition-colors duration-150 ease-in-out relative">
-          Buy now
-        </button>
-      <% end if stripe_price_id.present? %>
+            <%= hidden_field_tag :price_id, stripe_price_id %>
+            <button type="submit" class="w-full text-center p-4 border rounded-lg bg-blue-500 text-white transition-colors duration-150 ease-in-out relative">
+              Buy now
+            </button>
+          <% end if stripe_price_id.present? %>
 
-    <% end %>
-      <hr class="my-8">
+        <hr class="my-8">
 
-      <div>
-        <h3 class="text-sm font-semibold text-gray-700 mb-2">Get help with your purchase.</h3>
-        <p class="text-sm text-gray-600">
-          <%= link_to "Chat now", "https://github.com/sbounmy/hongbao_bitcoin/discussions", class: "text-blue-600 hover:underline" %> or email us at <a href="mailto:team@hongbaob.tc" class="text-blue-600 hover:underline">team@hongbaob.tc</a>.
-        </p>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-700 mb-2">Get help with your purchase.</h3>
+          <p class="text-sm text-gray-600">
+            <%= link_to "Chat now", "https://github.com/sbounmy/hongbao_bitcoin/discussions", class: "text-blue-600 hover:underline" %> or email us at <a href="mailto:team@hongbaob.tc" class="text-blue-600 hover:underline">team@hongbaob.tc</a>.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

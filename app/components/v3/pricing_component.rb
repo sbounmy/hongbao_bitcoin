@@ -14,6 +14,18 @@ class V3::PricingComponent < ApplicationComponent
     plans.find { |plan| plan.slug == params[:pack] }&.stripe_price_id
   end
 
+  def pack
+    params[:pack] || "mini"
+  end
+
+  def image_urls
+    # each img in app/assets/images/plans/:slug/*.png
+    Dir.glob("app/assets/images/plans/#{pack}/*").map do |image|
+    # image should be plans/:slug/:name
+    image_url "plans/#{pack}/#{image.split("/").last}"
+    end
+  end
+
   class V3::PlanComponent < ViewComponent::Base
     def initialize(name:, tokens:, description:, price:, stripe_product_id:, stripe_price_id:, envelopes:, default: false, slug:)
       @name = name
