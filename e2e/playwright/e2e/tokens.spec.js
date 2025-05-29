@@ -20,7 +20,7 @@ test.describe('Tokens Page', () => {
     test('displays token transaction history section', async ({ page }) => {
       await expect(page.locator('div.overflow-x-auto').first()).toBeVisible();
       await expect(page.getByText('-10')).toBeVisible();
-      await expect(page.getByText('Purchase')).toBeVisible();
+      await expect(page.getByText('Purchase').last()).toBeVisible();
       await expect(page.getByText('500')).toBeVisible();
       await expect(page.getByText('Genesis block')).toBeVisible();
     });
@@ -35,7 +35,9 @@ test.describe('Tokens Page', () => {
     });
 
     test('allows purchasing tokens via Stripe Checkout', async ({ page }) => {
-      await page.getByText(/^5 ₿ao$/).locator('..').getByRole('button', { name: 'Select' }).click();
+      await page.locator('label').filter({ hasText: /Family Pack/ }).click();
+      await page.getByRole('button', { name: 'Buy now' }).click();
+
       await page.waitForURL('https://checkout.stripe.com/c/pay/**');
 
         // --- Interaction with Live Stripe Checkout ---
@@ -53,7 +55,7 @@ test.describe('Tokens Page', () => {
         await page.getByText('Processing...').waitFor({ state: 'hidden' });
 
         await page.goto('/tokens');
-        await expect(page.locator('header')).toContainText('495 ₿ao'); // General check for balance display
+        await expect(page.locator('header')).toContainText('514 ₿ao'); // General check for balance display
       });
 
   });
