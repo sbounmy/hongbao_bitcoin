@@ -262,10 +262,6 @@
 
   <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
     <%= card.with_front(class: '') do %>
-      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-center text-gray-900">
-        Explore Our Packs
-      </h2>
-
       <%= render V3::PricingComponent.new(title: false) do |component| %>
         <% component.with_plans(StripeService.fetch_products) %>
       <% end %>
