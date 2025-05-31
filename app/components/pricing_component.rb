@@ -3,6 +3,12 @@
 class PricingComponent < ApplicationComponent
   renders_many :plans, "PlanComponent"
 
+  attr_reader :title
+
+  def initialize(title: true)
+    @title = title
+  end
+
   class PlanComponent < ViewComponent::Base
     def initialize(name:, tokens:, price:, stripe_price_id:, default: false)
       @name = name

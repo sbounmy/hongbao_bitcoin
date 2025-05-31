@@ -7,7 +7,8 @@ test.describe('Bundle generation', () => {
     // Create admin user and authenticate
     await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
     await forceLogin(page, {
-      email: 'satoshi@example.com'
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard'
     });
   });
 
@@ -31,12 +32,12 @@ test.describe('Bundle generation', () => {
     await app('perform_jobs');
     await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
     await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
-    await page.goto('/'); // need turbo broadcast to be performed
+    await page.goto('/dashboard'); // need turbo broadcast to be performed
     await expect(page.locator('header')).toContainText('488 ₿ao'); // General check for balance display
   });
 
   test('can overwrite quality in url', async ({ page }) => {
-    await page.goto('/?quality=low');
+    await page.goto('/dashboard?quality=low');
     await turboCableConnected(page);
     await expect(page.locator('header')).toContainText('490 ₿ao'); // General check for balance display
      // Select styles
@@ -55,7 +56,7 @@ test.describe('Bundle generation', () => {
      await app('perform_jobs');
      await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
      await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
-     await page.goto('/'); // need turbo broadcast to be performed
+     await page.goto('/dashboard'); // need turbo broadcast to be performed
      await expect(page.locator('header')).toContainText('488 ₿ao'); // General check for balance display
    });
 });
