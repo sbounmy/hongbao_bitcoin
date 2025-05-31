@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get "/about", to: "pages#about"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/wedding", to: "pages#wedding"
 
   # Authentication routes
   get "login", to: "users#new"
