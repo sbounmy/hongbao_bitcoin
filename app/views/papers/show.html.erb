@@ -1,20 +1,23 @@
 <!-- Right Column - Fixed Form -->
-<div class="w-full h-screen relative">
+<%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
+<%= content_for :title, @paper.name if @paper.name.present? %>
+<div class="w-full md:h-screen relative flex flex-col">
   <%= render "shared/v2/header" %>
-  <div class="h-full flex items-center justify-center p-8 bg-[#F04747]">
+  <div class="flex-1 min-h-0 flex items-center justify-center p-8 bg-[#F04747] overflow-hidden">
     <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
                 rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
                 flex flex-col">
       <%= turbo_frame_tag "qr_scanner" %>
     <div role="alert" class="alert rounded-t-xl alert-horizontal bg-purple/20 border-none border-b">
       <%= heroicon "arrow-down-tray", class: "stroke-info w-6 h-6 shrink-0" %>
-      <div>
+      <div class='space-y-1'>
         <h3 class="flex flex-row gap-2 items-center font-bold">OFFLINE MODE<span class='badge badge-neutral badge-xs'>NEW</span></h3>
-        <div class="text-xs">In your browser, select File &gt; Save Page As..., and save this page as a file. Double-click that file to open it in a browser on any offline computer.</div>
+        <div class="text-sm">In your browser, <span class="font-medium">select <kbd class="kbd kbd-sm">File </kbd> &gt; <kbd class='kbd kbd-sm'>Save Page As</kbd> &gt; <kbd class='kbd kbd-sm'>Format: <b>Webpage, Complete</b></kbd> &gt; <kbd class='kbd kbd-sm'>Save</kbd></span></div>
+        <div class="text-sm">Double-click that <kbd class="kbd kbd-sm">.html</kbd> file to open it in a browser on any offline computer.</div>
       </div>
       <%# <button class="btn btn-sm">See</button> %>
     </div>
-      <div class="flex flex-col h-full group"
+      <div class="flex flex-col h-full group overflow-hidden"
            data-controller="steps bitcoin"
            data-steps-hidden-class="hidden"
            data-steps-current-value="<%= @current_step %>"

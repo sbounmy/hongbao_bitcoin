@@ -117,6 +117,9 @@ application.register('dropdown', Dropdown)
 import Reveal from '@stimulus-components/reveal'
 application.register('reveal', Reveal)
 
+import ScrollReveal from '@stimulus-components/scroll-reveal'
+application.register('scroll-reveal', ScrollReveal)
+
 import ScrollTo from '@stimulus-components/scroll-to'
 application.register('scroll-to', ScrollTo)
 

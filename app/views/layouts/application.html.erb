@@ -8,23 +8,22 @@
 
     <%# Primary Meta Tags %>
     <title><%= t('.meta.title') %></title>
-    <meta name="title" content="<%= t('.meta.title') %>">
-    <meta name="description" content="<%= t('.meta.description') %>">
-    <meta name="keywords" content="<%= t('.meta.keywords') %>">
+    <meta name="title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
+    <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : t('.meta.keywords') %>">
 
     <%# Open Graph / Facebook %>
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= root_url %>">
-    <meta property="og:title" content="<%= t('.meta.title') %>">
-    <meta property="og:description" content="<%= t('.meta.description') %>">
-    <meta property="og:image" content="<%= image_url('og-image.jpg') %>">
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
+    <meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
+    <meta property="og:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
+
 
     <%# Twitter %>
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="<%= root_url %>">
-    <meta property="twitter:title" content="<%= t('.meta.title') %>">
+    <meta property="twitter:title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
     <meta property="twitter:description" content="<%= t('.meta.description') %>">
-    <meta property="twitter:image" content="<%= image_url('og-image.jpg') %>">
+    <meta property="twitter:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
 
     <%= yield :head %>
 
@@ -37,7 +36,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <%# Includes all stylesheet files in app/views/stylesheets %>
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "tailwind", "data-turbo-track": "reload" %>
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
     <script defer data-domain="hongbaob.tc" src="https://plausible.io/js/script.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
@@ -48,10 +47,10 @@
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
   </head>
-  <body data-theme="<%= current_theme.ui_name %>">
-    <%# render "shared/header" %>
+
+  <%= tag.body(data: { theme: current_theme.ui_name }, **attributes_from(yield(:body_attributes))) do %>
     <%= yield %>
-  </body>
+  <% end %>
 
   <!-- After the body tag so icons are loaded even after the page changes on click -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

@@ -1,5 +1,4 @@
-<div
-    class="flex flex-col md:flex-row h-full max-h-full overflow-hidden"
+<div class="flex flex-col md:flex-row h-full max-h-full overflow-hidden"
      data-controller="pdf binding"
      data-pdf-filename-value=""
      data-binding-attribute-value="pdfFilenameValue"
@@ -44,30 +43,30 @@
       <% end %>
     <% end %>
 
-      <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
-        <%= fieldset.with_icon do %>
-          <%= heroicon "key", class: "w-5 h-5" %>
-        <% end %>
-        <%= fieldset.with_badge do %>
-          <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
-        <% end %>
-        <%= fieldset.with_input do %>
-            <%= text_field_tag :private_key_text,
-                              "",
-                              class: "bg-transparent",
-                              data: {
-                                clipboard_target: "source",
-                                controller: "binding",
-                                binding_name_value: "privateKeyText",
-                                action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
-                              } %>
-        <% end %>
-        <%= fieldset.with_note do %>
-          <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
-        <% end %>
+    <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
+      <%= fieldset.with_icon do %>
+        <%= heroicon "key", class: "w-5 h-5" %>
       <% end %>
+      <%= fieldset.with_badge do %>
+        <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+      <% end %>
+      <%= fieldset.with_input do %>
+          <%= text_field_tag :private_key_text,
+                            "",
+                            class: "bg-transparent",
+                            data: {
+                              clipboard_target: "source",
+                              controller: "binding",
+                              binding_name_value: "privateKeyText",
+                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
+                            } %>
+      <% end %>
+      <%= fieldset.with_note do %>
+        <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
+      <% end %>
+    <% end %>
 
-      <div class="space-y-1">
+    <div class="space-y-1">
       <dialog class="modal" data-dialog-key-target="dialog">
         <div class="modal-box">
           <p>Using your own key will clear the other keys.</p>
@@ -79,7 +78,6 @@
           </div>
         </div>
       </dialog>
-
       <%= render FieldsetComponent.new(:public_address_text, label: 'Public Address', clipboard: true) do |fieldset| %>
         <%= fieldset.with_icon do %>
           <%= heroicon "qr-code", class: "w-5 h-5" %>
@@ -99,24 +97,24 @@
       <% end %>
     </div>
 
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
-        <div class="flex gap-2 text-white">
-          <label for="mode">
-            <span class="">Beginner</span>
-          </label>
-          <input type="checkbox" id="mode" class="toggle" data-action="bitcoin#modeChanged" />
-          <label for="mode">
-            <span class="">Maximalist</span>
-          </label>
-        </div>
-        <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
-      </fieldset>
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
+      <div class="flex gap-2 text-white">
+        <label for="mode">
+          <span class="">Beginner</span>
+        </label>
+        <input type="checkbox" id="mode" class="toggle" data-action="bitcoin#modeChanged" />
+        <label for="mode">
+          <span class="">Maximalist</span>
+        </label>
+      </div>
+      <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
+    </fieldset>
 
     <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
       <div class="flex flex-col items-center gap-4 w-full">
         <!-- Download PDF Button -->
-          <button type="button"
+        <button type="button"
                 class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
                         text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
                 data-paper-pdf-target="downloadButton"
@@ -149,17 +147,18 @@
                     class_name: "w-[140mm] h-[77mm] transform-[rotate(180deg)]",
                     paper:,
                     elements: paper.back_elements,
-                    image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+                    image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
           %>
 
           <%# Fold Line %>
-          <div class="border-t-2 border-dashed border-gray-400"></div>
+          <div class="border-t-2 border-dashed border-gray-400">
+          </div>
           <%= render 'hong_baos/new/steps/paper_canva',
                     class_name: "w-[140mm] h-[77mm]",
                     paper:,
                     elements: paper.front_elements,
                     actions: "bitcoin:modeChanged@window->canva#refresh",
-                    image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+                    image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
           %>
         <% end %>
         <div class="relative">
@@ -188,5 +187,4 @@
       <%= render 'hong_baos/pdf/footer', paper: %>
     </div>
   </div>
-
 </div>

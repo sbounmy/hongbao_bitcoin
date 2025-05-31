@@ -8,9 +8,6 @@ module Checkout
         @user.update!(stripe_customer_id: @checkout_session.customer) if @user.stripe_customer_id.nil?
       end
       Rails.logger.info("user: #{@user.inspect}")
-      if !authenticated
-        @user ||= User.create!(email: @checkout_session.customer_details.email, password: SecureRandom.hex(16), stripe_customer_id: @checkout_session.customer)
-      end
       success @user
     end
   end

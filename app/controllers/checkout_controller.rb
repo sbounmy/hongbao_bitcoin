@@ -23,11 +23,10 @@ class CheckoutController < ApplicationController
     end
   end
   def success
-    result = Checkout::Success.call(params[:session_id], authenticated: authenticated?)
+    result = Checkout::Success.call(params[:session_id])
 
     if result.success?
       flash[:notice] = "Payment successful! Your tokens have been credited."
-      start_new_session_for(result.payload)
     else
       flash[:alert] = "Payment failed. Please try again."
     end
@@ -39,6 +38,7 @@ class CheckoutController < ApplicationController
     if result.success?
       render json: { message: :success }
     else
+      Rails.logger.error("Stripe webhook error: #{result.error.message}")
       render json: { error: { message: result.error.message } }, status: :bad_request
     end
   end

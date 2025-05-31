@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show ]
     root "pages#index"
-    post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do
@@ -47,11 +46,14 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Add og-image route
-  get "og-image", to: "og_image#show", as: :og_image
+  get "og-image/:size", to: "og_image#show", as: :og_image
 
   get "v1", to: "hong_baos#new" # for dev
 
   get "/satoshi", to: "pages#satoshi"
+  get "/about", to: "pages#about"
+  get "/v2", to: "pages#v2"
+  get "/dashboard", to: "papers#index"
 
   # Authentication routes
   get "login", to: "users#new"

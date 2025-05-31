@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def render_payment_logo(logo)
     return placeholder_logo unless logo.attached?
@@ -37,6 +39,15 @@ module ApplicationHelper
     end
   end
 
+  def youtube_icon(options = {})
+    size = options.fetch(:size, 6)
+    css_classes = [ "w-#{size}", "h-#{size}" ]
+    css_classes << options[:class] if options[:class]
+
+    content_tag :svg, class: css_classes.join(" "), width: 24, height: 24, viewBox: "0 0 461.001 461.001" do
+      content_tag :path, nil, fill: "#F61C0D", d: "M365.257,67.393H95.744C42.866,67.393,0,110.259,0,163.137v134.728c0,52.878,42.866,95.744,95.744,95.744h269.513c52.878,0,95.744-42.866,95.744-95.744V163.137C461.001,110.259,418.135,67.393,365.257,67.393z M300.506,237.056l-126.06,60.123c-3.359,1.602-7.239-0.847-7.239-4.568V168.607c0-3.774,3.982-6.22,7.348-4.514l126.06,63.881C304.363,229.873,304.298,235.248,300.506,237.056z"
+    end
+  end
 
   def github_corner(options = {})
     css_classes = [ "absolute top-0 right-0 border-0 text-white" ]
@@ -53,6 +64,43 @@ module ApplicationHelper
        ])
     end
   end
+
+  def base64_url(attachment)
+    # Converts an Active Storage attachment to a Base64 data URL.
+    # Returns an empty string if the attachment is not present, not attached,
+    # or is not an image.
+    # Check if attachment is provided, attached, and its blob is present
+    return "" unless attachment.respond_to?(:attached?) && attachment.attached? && attachment.blob.present?
+
+    blob = attachment.blob
+
+    # Ensure it's an image type before proceeding
+    return "" unless blob.content_type.start_with?("image/")
+
+    # Download the file content from storage
+    file_content = blob.download
+    # Encode the content to Base64
+    base64_encoded_content = Base64.strict_encode64(file_content)
+
+  # Construct the data URL
+  "data:#{blob.content_type};base64,#{base64_encoded_content}"
+  end
+
+  # Push data attributes up the layout
+  # https://justin.searls.co/posts/abusing-rails-content_for-to-push-data-attributes-up-the-dom/#my-hacked-up-solution
+  STUPID_SEPARATOR = "|::|::|"
+  def attributes_for(name, json)
+    content_for name, json.to_json.html_safe + STUPID_SEPARATOR
+  end
+
+  def attributes_from(yielded_content)
+    yielded_content.split(STUPID_SEPARATOR).reduce({}) { |memo, json|
+      memo.merge(JSON.parse(json)) { |key, val_1, val_2|
+        token_list(val_1, val_2)
+      }
+    }
+  end
+
 
   def theme_css(theme)
     return "" unless theme
@@ -78,6 +126,7 @@ module ApplicationHelper
       content_tag(:p, subtitle, class: "mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl")
     end
   end
+
 
   private
 

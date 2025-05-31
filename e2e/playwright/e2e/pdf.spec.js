@@ -1,5 +1,5 @@
 import { test, expect } from '../support/test-setup';
-import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
+import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette, savePageAs } from '../support/on-rails';
 
 const expectGeneratedKeys = async (page) => {
   await expect(page.locator('#public_address_text')).toHaveValue(/^bc1/)
@@ -139,5 +139,37 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('iframe')).toBeVisible();
     const iframe = page.locator("section iframe").contentFrame();
     await expect(iframe.locator('img[alt*="Le Mystère Satoshi.mp4"]').first()).toBeVisible();
+  });
+
+  test('user can go offline with save page as and interact with it', async ({ page, context }) => {
+    await savePageAs(page, context, async (offlinePage) => {
+      await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
+      var addresses = [];
+      for (let i = 0; i < 10; i++) {
+        addresses.push(await offlinePage.locator('#public_address_text').inputValue());
+        await offlinePage.locator("#bitcoin-generate").click();
+      }
+
+      const uniq = [...new Set(addresses)];
+      // check all addresses are different
+      expect(uniq).toHaveLength(10);
+
+      const downloadPromise = offlinePage.waitForEvent('download');
+
+      // Click download button (adjust selector as needed)
+      await offlinePage.getByRole('button', { name: 'Download PDF' }).click();
+
+      // Wait for download to start
+      const download = await downloadPromise;
+
+      // Verify download started
+      expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+      const nextButton = offlinePage.getByRole('button', { name: 'Next' });
+      await expect(nextButton).toBeEnabled();
+      await nextButton.click();
+
+      // top up page
+      await expect(offlinePage.getByText('Choose your preferred way to send bitcoin to this address')).toBeVisible();
+    });
   });
 });
