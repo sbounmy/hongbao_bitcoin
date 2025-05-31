@@ -439,7 +439,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.4.1)
-    rorvswild (1.9.1)
+    rorvswild (1.9.2)
     rqrcode (3.1.0)
       chunky_png (~> 1.0)
       rqrcode_core (~> 2.0)
