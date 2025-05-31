@@ -147,4 +147,26 @@ const savePageAs = async (page, context, callback) => {
     }
   }
 }
-export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs }
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+const fillCheckout = async (page) => {
+  const random = getRandomInt(9999);
+  await page.fill('input[name="shippingName"]', `Satoshi Nakamoto ${random}`);
+  await page.getByText("Enter address manually").click();
+  await page.fill('input[name="shippingAddressLine1"]', '123 Main St');
+  await page.fill('input[name="shippingPostalCode"]', '94107');
+  await page.fill('input[name="shippingLocality"]', 'San Francisco');
+  await page.selectOption('select[name="shippingCountry"]', 'US');
+  await page.selectOption('select[name="shippingAdministrativeArea"]', 'CA');
+
+  if (await page.locator('input[name="cardNumber"]').isVisible()) {
+    await page.fill('input[name="cardNumber"]', '4242424242424242'); // Stripe test card
+    await page.fill('input[name="cardExpiry"]', '12/2034'); // Future date
+    await page.fill('input[name="cardCvc"]', '123');
+  }
+};
+
+export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout }

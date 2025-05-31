@@ -1,0 +1,11 @@
+/* Stimulus components Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 1.5s cubic-bezier(0.5, 0, 0, 1);
+  transition-property: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}

@@ -4,3 +4,15 @@
   themes: all;
   darkTheme: "light";
 }
+
+
+/* Define your custom shadow value as a CSS Custom Property */
+:root { /* Or a more specific CSS scope if preferred */
+  --shadow-uplift-value: 4px 12px 40px 6px rgba(0, 0, 0, 0.09);
+}
+
+@layer utilities {
+  .shadow-uplift {
+    box-shadow: var(--shadow-uplift-value);
+  }
+}

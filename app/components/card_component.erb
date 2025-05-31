@@ -1,0 +1,20 @@
+<div class='group reveal shadow-uplift rounded-4xl relative w-full <%= options[:class] %>'
+       data-controller="reveal"
+       data-reveal-target="item"
+       data-reveal-hidden-class="is-flipped"
+       data-scroll-reveal-target="item"
+       data-action="<%= action %>">
+    <%# <!-- Overlay: Appears when card is flipped -->
+    <div class="fixed inset-0 h-screen w-screen bg-black/60 backdrop-blur-sm z-30 opacity-0 group-[.is-flipped]:opacity-100 transition-opacity duration-300 pointer-events-none group-[.is-flipped]:pointer-events-auto"
+         data-action="click->reveal#toggle">
+    </div> %>
+
+    <!-- Flipper: contains front and back faces -->
+    <div class="w-full h-full relative transition-transform duration-700 ease-in-out group-[.is-flipped]:[transform:rotateY(180deg)] group-[.is-flipped]:z-40 [transform-style:preserve-3d] min-h-[280px]">
+      <!-- Front Face -->
+      <%= front %>
+
+      <!-- Back Face (Modal Content) -->
+      <%= back %>
+    </div>
+  </div>

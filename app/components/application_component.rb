@@ -5,4 +5,5 @@ class ApplicationComponent < ViewComponent::Base
   include Turbo::StreamsHelper
   include ApplicationHelper
   include ActionView::Helpers::TagHelper
+  include Turbo::FramesHelper
 end

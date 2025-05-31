@@ -1,4 +1,4 @@
-<%= render DiffComponent.new do |diff| %>
+<%= render DiffComponent.new(class: local_assigns[:class]) do |diff| %>
 	<% diff.with_before do %>
 			<div class="flex flex-col justify-center items-center">
 					<%= image_tag image_url("bill_usd.jpg") %>

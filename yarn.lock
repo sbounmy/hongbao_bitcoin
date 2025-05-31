@@ -1547,6 +1547,11 @@
   resolved "https://registry.yarnpkg.com/@stimulus-components/reveal/-/reveal-5.0.0.tgz#87a17b91f8a556e3f3975740ebb3e760aea6fafc"
   integrity sha512-0ShvvDiG4qNLyFUTDrjGiR9MWR6D9EiAJRUSKxTPHA5Cc2Ci/A4Qj7cHDCoK2ZGHhpESfK0LsR9xtySCN6FTQw==
 
+"@stimulus-components/scroll-reveal@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/scroll-reveal/-/scroll-reveal-4.0.0.tgz#879d3ba5a09e144e562b30238460d7e37c9398bf"
+  integrity sha512-FapkBEHILdN49abPYVrs4OD+ngK8v3VbfzNBP21G80kqXxzDeXPV74TPsOT3udrkWRTiLoyr5kUd566geYPk1g==
+
 "@stimulus-components/scroll-to@5.0.1":
   version "5.0.1"
   resolved "https://registry.npmjs.org/@stimulus-components/scroll-to/-/scroll-to-5.0.1.tgz"

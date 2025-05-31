@@ -55,8 +55,8 @@ en:
   layouts:
     application:
       meta:
-        title: "Bitcoin Hong Bao - Print Bitcoin Bills for Red Envelopes"
-        description: "Create and print beautiful Bitcoin bills with QR codes to pack inside traditional red envelopes (Hong Bao 红包). Perfect for Chinese New Year, combining the beauty of physical red packets with the innovation of Bitcoin."
+        title: "The easiest way to gift Bitcoin - HongBao"
+        description: "Create secure, KYC-free paper wallets in minutes wrapped in red envelopes."
         keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
   wallet_instructions:
     bitstack:
