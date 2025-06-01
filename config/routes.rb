@@ -123,6 +123,7 @@ Rails.application.routes.draw do
 
   scope "/(:theme)" do
     get "/", to: "pages#index"
+    get "/dashboard/:subtheme", to: "papers#index"
   end
 
   # Google OAuth Routes

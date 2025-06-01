@@ -74,6 +74,16 @@ test.describe('Theme', () => {
     await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
   });
 
+  test('user can view per theme', async ({ page }) => {
+    await appVcrInsertCassette('themes')
+    await forceLogin(page, {
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard/wedding'
+    });
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
+    await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveText('Wedding');
+  });
+
   test.afterEach(async ({ page }) => {
     // Clear any extra HTTP headers set during the test otherwise its pass down to stripe and checkout session fails !!!
     await page.setExtraHTTPHeaders({});
