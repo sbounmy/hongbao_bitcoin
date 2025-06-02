@@ -1,6 +1,6 @@
 ActiveAdmin.register Paper do
   permit_params :name, :year, :active, :public, :user_id,
-                :image_front, :image_back,
+                :image_front, :image_back, :image_full,
                 { elements: Paper::ELEMENTS.map { |e| [ e.to_sym, Paper::ELEMENT_ATTRIBUTES ] }.to_h },
                 :bundle_id, :parent_id, :task_id,
                 *Paper::ELEMENTS.map { |el| { "elements_#{el}".to_sym => Paper::ELEMENT_ATTRIBUTES } }
@@ -131,6 +131,10 @@ ActiveAdmin.register Paper do
 
     if original_paper.image_back.attached?
       new_paper.image_back.attach(original_paper.image_back.blob)
+    end
+
+    if original_paper.image_full.attached?
+      new_paper.image_full.attach(original_paper.image_full.blob)
     end
 
     if new_paper.save
