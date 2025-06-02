@@ -11,7 +11,26 @@ dollar_paper_back:
   record_id: 1
   blob: dollar_paper_back_blob
 
+dollar_theme_back:
+  name: back_image
+  record_type: Input
+  record_id: 1
+  blob: dollar_theme_back_blob
+
+
 satoshi_avatar:
   name: avatar
   record: satoshi (User)
   blob: satoshi_avatar_blob
+
+satoshi_image:
+  name: image
+  record_type: InputItem
+  record_id: 3
+  blob: satoshi_avatar_blob
+
+dollar_theme_image:
+  name: image
+  record_type: Input
+  record_id: 1
+  blob: dollar_theme_image_blob

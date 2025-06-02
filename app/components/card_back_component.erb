@@ -1,0 +1,7 @@
+	<div class="absolute inset-0 w-full h-full bg-base-100 p-6 sm:p-8 rounded-4xl flex flex-col [transform:rotateY(180deg)] overflow-y-auto [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
+	<%= button_tag "x", aria_label: 'Close', class: "btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-20", data: { action: "click->reveal#hide" } %>
+
+	<div class="flex-grow flex flex-col">
+		<%= content %>
+	</div>
+</div>

@@ -1,101 +1,164 @@
-<div
-    class="flex flex-col h-full max-h-full overflow-hidden"
-     data-controller="pdf"
+<div class="flex flex-col md:flex-row h-full max-h-full overflow-hidden"
+     data-controller="pdf binding"
+     data-pdf-filename-value=""
+     data-binding-attribute-value="pdfFilenameValue"
+     data-binding-name-value="publicAddressText"
+     data-action="bitcoin:changed@window->binding#attribute"
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
-  <div data-hong-bao-target="walletInfo" class="space-y-3 p-8">
+
+  <div class="space-y-3 px-8 lg:w-1/3" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+    <%= render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
+    <%= render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+
+    <%= render TextareaComponent.new(:mnemonic_text, label: 'Recovery Phrase (24 words)', clipboard: true) do |fieldset| %>
+      <%= fieldset.with_icon do %>
+        <%= heroicon "qr-code", class: "w-5 h-5" %>
+      <% end %>
+      <%= fieldset.with_badge do %>
+        <div class="flex flex-row gap-2 items-center">
+          <%= button_tag '#',
+                  data: {
+                    action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
+                  },
+                  id: "bitcoin-generate",
+                  class: "text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors" do %>
+            <%= heroicon "arrow-path", class: "w-5 h-5" %>
+          <% end %>
+          <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+        </div>
+      <% end %>
+      <%= fieldset.with_input do %>
+        <%= text_area_tag :mnemonic_text,
+                          "",
+                          class: "text-area w-full text-white font-mono text-sm py-2 px-10 rounded border border-white/10 resize-none",
+                          data: {
+                            clipboard_target: "source",
+                            controller: "binding textarea-autogrow",
+                            binding_name_value: "mnemonicText",
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
+                          } %>
+        <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
+      <% end %>
+    <% end %>
+
+    <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
+      <%= fieldset.with_icon do %>
+        <%= heroicon "key", class: "w-5 h-5" %>
+      <% end %>
+      <%= fieldset.with_badge do %>
+        <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+      <% end %>
+      <%= fieldset.with_input do %>
+          <%= text_field_tag :private_key_text,
+                            "",
+                            class: "bg-transparent",
+                            data: {
+                              clipboard_target: "source",
+                              controller: "binding",
+                              binding_name_value: "privateKeyText",
+                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
+                            } %>
+      <% end %>
+      <%= fieldset.with_note do %>
+        <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
+      <% end %>
+    <% end %>
+
     <div class="space-y-1">
-      <div class="flex items-center justify-between">
-        <span class="text-[#FFB636]">Recovery Phrase (24 words)</span>
-        <button type="button"
-                data-action="bitcoin#generate"
-                class="text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-          </svg>
-        </button>
-      </div>
-      <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Recovery phrase copied!">
-        <textarea readonly
-                  rows="3"
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10 resize-none"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="mnemonicText"
-                  data-action="bitcoin:changed@window->binding#value"></textarea>
-        <button data-action="clipboard#copy"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-          </svg>
-        </button>
-      </div>
+      <dialog class="modal" data-dialog-key-target="dialog">
+        <div class="modal-box">
+          <p>Using your own key will clear the other keys.</p>
+          <p>Are you sure?</p>
+
+          <div class="modal-action">
+            <button type="button" class="btn btn-ghost" data-action="dialog-key#close" autofocus>Cancel</button>
+            <button type="button" class="btn btn-primary" data-action="dialog-key#accept" autofocus>Accept</button>
+          </div>
+        </div>
+      </dialog>
+      <%= render FieldsetComponent.new(:public_address_text, label: 'Public Address', clipboard: true) do |fieldset| %>
+        <%= fieldset.with_icon do %>
+          <%= heroicon "qr-code", class: "w-5 h-5" %>
+        <% end %>
+        <%= fieldset.with_input do %>
+            <%= text_field_tag :public_address_text,
+                              "",
+                              class: "",
+                              data: {
+                                clipboard_target: "source",
+                                controller: "binding",
+                                binding_name_value: "publicAddressText",
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
+                              } %>
+
+        <% end %>
+      <% end %>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <div class="space-y-1">
-        <span class="text-[#FFB636]">Private Key</span>
-        <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Private key copied!">
-          <input type="text"
-                  readonly
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="privateKeyText"
-                  data-action="bitcoin:changed@window->binding#value">
-          <button data-action="clipboard#copy"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-            </svg>
-          </button>
-        </div>
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
+      <div class="flex gap-2 text-white">
+        <label for="mode">
+          <span class="">Beginner</span>
+        </label>
+        <input type="checkbox" id="mode" class="toggle" data-action="bitcoin#modeChanged" />
+        <label for="mode">
+          <span class="">Maximalist</span>
+        </label>
       </div>
+      <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
+    </fieldset>
 
-      <div class="space-y-1">
-        <span class="text-[#FFB636]">Bitcoin Address</span>
-        <div class="relative" data-controller="clipboard" data-clipboard-success-message-value="Bitcoin address copied!">
-          <input type="text"
-                  readonly
-                  class="w-full bg-transparent text-white font-mono text-sm py-2 px-3 pr-12 rounded border border-white/10"
-                  data-clipboard-target="source"
-                  data-controller="binding"
-                  data-binding-name-value="publicAddressText"
-                  data-action="bitcoin:changed@window->binding#value">
-          <button data-action="clipboard#copy"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-            </svg>
-          </button>
+    <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
+      <div class="flex flex-col items-center gap-4 w-full">
+        <!-- Download PDF Button -->
+        <button type="button"
+                class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
+                        text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
+                data-paper-pdf-target="downloadButton"
+                data-action="pdf#download">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+          Download PDF
+        </button>
+
+        <div class="flex items-center space-x-4 w-full">
+          <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
+          <%= render "hong_baos/new/next_button",
+            html_options: {
+              disabled: true,
+              data_action: "pdf:downloaded@window->disabled#remove"
+            } %>
         </div>
       </div>
     </div>
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="text-white space-y-4 flex-1 overflow-auto max-w-full mx-auto pb-4">
+  <div class="text-white space-y-4 overflow-auto pb-4">
     <!-- This is the actual content that will be rendered to PDF -->
     <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto flex flex-col gap-2 justify-between">
       <div class="flex items-center">
         <%= cuttable_content class: "flex flex-col items-center" do %>
           <%= render 'hong_baos/new/steps/paper_canva',
-                    class_name: "w-[140mm] h-[77mm] transform-[rotate(180deg)]",
+                    class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
                     paper:,
-                    actions: "hong-bao:back@window->canva#backgroundImageChanged",
                     elements: paper.back_elements,
-                    image: paper.image_back.attached? ? url_for(paper.image_back) : ''
+                    image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
           %>
 
           <%# Fold Line %>
-          <div class="border-t-2 border-dashed border-gray-400"></div>
+          <div class="border-t-2 border-dashed border-gray-400">
+          </div>
           <%= render 'hong_baos/new/steps/paper_canva',
-                    class_name: "w-[140mm] h-[77mm]",
+                    class_name: "w-[140mm] h-[70mm]",
                     paper:,
-                    actions: "hong-bao:front@window->canva#backgroundImageChanged",
                     elements: paper.front_elements,
-                    image: paper.image_front.attached? ? url_for(paper.image_front) : ''
+                    actions: "bitcoin:modeChanged@window->canva#refresh",
+                    image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
           %>
         <% end %>
         <div class="relative">
@@ -124,31 +187,4 @@
       <%= render 'hong_baos/pdf/footer', paper: %>
     </div>
   </div>
-
-  <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
-
-    <div class="flex flex-col items-center gap-4 p-8 w-full">
-      <!-- Download PDF Button -->
-        <button type="button"
-              class="w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
-                      text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
-              data-paper-pdf-target="downloadButton"
-              data-action="pdf#download">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-        </svg>
-        Download PDF
-      </button>
-
-      <div class="flex items-center space-x-4 w-full">
-        <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
-        <%= render "hong_baos/new/next_button",
-          html_options: {
-            disabled: true,
-            data_action: "pdf:downloaded@window->disabled#remove"
-          } %>
-      </div>
-    </div>
-  </div>
-
 </div>

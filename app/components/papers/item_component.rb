@@ -2,10 +2,11 @@
 
 module Papers
   class ItemComponent < ApplicationComponent
-    attr_reader :item
+    attr_reader :item, :broadcast
 
-    def initialize(item:)
+    def initialize(item:, broadcast: true)
       @item = item
+      @broadcast = broadcast
       super
     end
 

@@ -1,5 +1,5 @@
-import BitcoinKeyController from "controllers/bitcoin_key_controller"
-import * as secp256k1 from 'secp256k1'
+import BitcoinKeyController from "./bitcoin_key_controller"
+import * as secp256k1 from '@bitcoinerlab/secp256k1'
 import { ECPairFactory } from 'ecpair'
 import { BIP32Factory } from 'bip32'
 

@@ -1,5 +1,5 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show index search]
+  allow_unauthenticated_access only: %i[new show form index search]
 
   def index
     # Just render the QR scanner view
@@ -29,6 +29,10 @@ class HongBaosController < ApplicationController
   end
 
   def show
+    @hong_bao = HongBao.from_scan(params[:id])
+  end
+
+  def form
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i

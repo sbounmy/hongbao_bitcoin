@@ -1,5 +1,5 @@
-import LegacyWallet from 'services/bitcoin/legacy_wallet'
-import SegWitWallet from 'services/bitcoin/segwit_wallet'
+import LegacyWallet from './legacy_wallet'
+import SegWitWallet from './segwit_wallet'
 // Factory to create appropriate wallet type
 export default class WalletFactory {
   static createFromAddress(address, options = {}) {

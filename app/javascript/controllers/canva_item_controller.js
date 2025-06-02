@@ -10,7 +10,8 @@ export default class extends Controller {
     imageUrl: String,
     fontSize: { type: Number, default: 1 },
     fontColor: { type: String, default: 'black' },
-    maxTextWidth: { type: Number, default: 30 }
+    maxTextWidth: { type: Number, default: 30 },
+    hidden: { type: Boolean, default: false }
   }
 
   connect() {
@@ -23,7 +24,7 @@ export default class extends Controller {
   }
 
   draw() {
-    if (!this.ctx) return
+    if (!this.ctx || this.hiddenValue) return
 
     const x = this.canvaController.originalWidth * this.xValue
     const y = this.canvaController.originalHeight * this.yValue
@@ -31,13 +32,13 @@ export default class extends Controller {
 
       this.ctx.font = `${this.fontSizeValue}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, 15)
+      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, this.fontSizeValue + 1)
 
     } else if (this.typeValue === 'image') {
       let imageSize = this.fontSizeValue * this.canvaController.originalWidth
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
     }
-    else{
+    else {
       this.drawTextMnemonic(this.textValue)
     }
   }
@@ -47,8 +48,10 @@ export default class extends Controller {
       this.textValue = detail[this.nameValue]
       this.draw()
     } else {
+      const src = await detail[this.nameValue]()
+      if (!src) return
       const qrImage = new Image()
-      qrImage.src = await detail[this.nameValue]()
+      qrImage.src = src
       qrImage.onload = () => {
         this.imageUrl = qrImage
         this.draw()
@@ -57,27 +60,12 @@ export default class extends Controller {
   }
 
   drawTextMnemonic(text) {
-    const words = text.split(' ')
     const startX = this.canvaController.originalWidth * this.xValue
     const startY = this.canvaController.originalHeight * this.yValue
 
-    const boxWidth = 60
-    const boxHeight = 15
-    const gapX = 5
-    const gapY = 2
-    const cols = 4
-
-    words.forEach((word, index) => {
-      const col = index % cols
-      const row = Math.floor(index / cols)
-
-      const x = startX + (col * (boxWidth + gapX))
-      const y = startY + (row * (boxHeight + gapY))
-
-      this.ctx.fillStyle = this.fontColorValue
-      this.ctx.font = `${this.fontSizeValue}px Arial`
-      this.ctx.fillText(`${index + 1}. ${word}`, x + 10, y + (boxHeight/2) + 4)
-    })
+    this.ctx.font = `${this.fontSizeValue}px Arial`
+    this.ctx.fillStyle = this.fontColorValue
+    this.wrapTextByWord(this.ctx, this.textValue || '', startX, startY, this.maxTextWidthValue, this.fontSizeValue + 1)
   }
 
   wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
@@ -101,5 +89,24 @@ export default class extends Controller {
     }
   }
 
+  wrapTextByWord(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
 
 }

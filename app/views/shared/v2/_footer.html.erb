@@ -19,6 +19,9 @@
       <%= link_to github_url, target: "_blank", rel: "noopener noreferrer" do %>
         <%= github_icon size: 5 %>
       <% end %>
+      <%= link_to etsy_url, target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag "etsy.png", class: "w-5 h-5" %>
+      <% end %>
     </div>
 
   </aside>
@@ -26,8 +29,13 @@
   <%# Column 2: Features / Links %>
   <nav>
     <h6 class="footer-title">Features</h6>
+    <%= link_to "About us", about_path, class: "link link-hover" %>
     <%= link_to "How it Works", "#how-it-works", class: "link link-hover", data: { controller: "scroll-to" } %>
     <%= link_to "Why Hongbao?", "#why-hongbao-bitcoin", class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to hong_baos_path, class: "link link-hover inline-flex items-center gap-1" do %>
+      <%= heroicon "viewfinder-circle", class: "w-4 h-4 inline-block" %>
+      <span>Scan Bill</span>
+    <% end %>
     <%= link_to "FAQ", "#faq", class: "link link-hover", data: { controller: "scroll-to" } %>
     <%= link_to "Pricing", "#pricing", class: "link link-hover", data: { controller: "scroll-to" } %>
   </nav>
@@ -52,10 +60,10 @@
 
 
 <%# Bottom Centered Footer %>
-<footer class="footer footer-center px-10 py-4 bg-base-200 text-base-content border-t border-base-300 flex items-center justify-between">
+<footer class="footer footer-center px-10 py-4 bg-base-100 text-base-content border-t border-base-300 flex flex-wrap items-center justify-between">
   <aside class="items-center grid-flow-col">
     <a href="https://rubyonrails.org" target="_blank" rel="noopener noreferrer"
-       class="flex items-center gap-1.5 rounded-full bg-base-100 hover:scale-110  dark:bg-neutral-800 px-3 py-1 text-sm text-base-content/80 dark:text-neutral-400 ring-1 ring-base-300 dark:ring-neutral-700 transition-all hover:ring-base-400 dark:hover:ring-neutral-600">
+       class="flex items-center gap-1.5 rounded-full bg-base-100 hover:scale-110">
       Built with
       <%= image_tag image_url("ruby-on-rails.svg"),
           class: "h-[16px] w-auto inline-block align-middle",
@@ -67,7 +75,7 @@
     <%# Commit Info %>
   <div class="text-xs flex-none">
     <%= link_to "#{github_url}/commit/#{GitInfo.commit_hash}",
-        class: "hover:text-[#FFB636] transition-colors",
+        class: "hover:text-base-content/80 transition-colors",
         target: "_blank",
         rel: "noopener" do %>
       <%= GitInfo.commit_hash %> - <%= time_ago_in_words(Time.parse(GitInfo.commit_time)) %> ago

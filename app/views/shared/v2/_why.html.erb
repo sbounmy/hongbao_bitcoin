@@ -1,19 +1,25 @@
   <div class="text-center space-y-4 pb-6 mx-auto">
-    <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400">
+    <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600">
       <span class="inline-block align-top text-balance">Why Hong₿ao ?</span>
     </h2>
-    <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl dark:text-white">
+    <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl">
       <span class="inline-block align-top text-balance">Bitcoin feel like real money and fun to learn</span>
     </p>
   </div>
 
-  <div class="max-w-3xl mx-auto flex flex-col gap-8">
-    <div class="group relative w-full [perspective:1000px]">
-      <div class="absolute top-4 left-[-5rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] group-hover:opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
-        <span>Hover me ➙</span>
+    <div class="group relative w-full [perspective:1000px] cursor-pointer"
+         data-controller="reveal"
+         data-reveal-target="item"
+         data-action="click->reveal#toggle"
+         data-reveal-hidden-class="is-flipped">
+      <div class="absolute group-[.is-flipped]:opacity-0 md:group-hover:opacity-0 sm:top-4 sm:left-[-5rem] top-1 left-[-1rem] z-10 p-1.5 bg-base-100/70 rounded text-xl text-base-content/80 font-mono rotate-[-15deg] pointer-events-none whitespace-nowrap transition-opacity duration-300">
+        <span class="md:hidden">Click me ➙</span>
+        <span class="hidden md:inline-block">Hover me ➙</span>
       </div>
 
-      <div class="relative transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+      <div class="relative transition-transform duration-500 [transform-style:preserve-3d]
+                  group-[.is-flipped]:[transform:rotateY(180deg)]
+                  md:group-hover:[transform:rotateY(180deg)]">
         <div class="[-webkit-backface-visibility:hidden] [backface-visibility:hidden] aspect-[170/90] rounded-lg overflow-hidden shadow-lg">
           <%= image_tag image_url("naruto-paper-front.jpg"), class: "w-full h-full object-cover" %>
         </div>
@@ -25,67 +31,67 @@
   </div>
 
   <div class="mt-8 sm:mt-12 flex flex-col md:flex-row justify-center items-center md:items-start gap-6 md:gap-8">
-    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm dark:backdrop-blur-md shadow-sm dark:shadow-lg bg-rose-100/75 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 ring-1 ring-rose-200 dark:ring-rose-800">
+    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm bg-rose-100/75 text-rose-700 ring-1 ring-rose-200">
       <div class="flex justify-between items-start">
-        <h3 class="font-bold text-lg mb-4 dark:text-gray-100">Traditional Paper Wallets</h3>
+        <h3 class="font-bold text-lg mb-4">Traditional Paper Wallets</h3>
         <span class="text-xl transform hover:scale-110 transition-transform opacity-90">🥱</span>
       </div>
       <ul class="list-disc list-inside space-y-1.5">
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Cannot customize designs</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Cannot customize designs</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Need to install a wallet to use</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Need to install a wallet to use</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Difficult to understand Bitcoin</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Difficult to understand Bitcoin</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">No personalized content</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>No personalized content</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Same designs get boring quickly</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Same designs get boring quickly</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Not a gift</span>
+          <%= heroicon "x-mark", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Not a gift</span>
         </li>
       </ul>
     </div>
-    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm dark:backdrop-blur-md shadow-sm dark:shadow-lg bg-emerald-100/70 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800">
+    <div class="flex justify-between flex-col relative p-6 md:p-8 rounded-lg w-full max-w-md backdrop-blur-sm bg-emerald-100/70 text-emerald-700 ring-1 ring-emerald-200">
       <div class="flex justify-between items-start">
-        <h3 class="font-bold text-lg mb-4 dark:text-gray-100">Hong₿ao Bitcoin</h3>
+        <h3 class="font-bold text-lg mb-4">Hong₿ao Bitcoin</h3>
         <span class="text-xl transform hover:scale-110 transition-transform opacity-90">🤩</span>
       </div>
       <ul class="list-disc list-inside space-y-1.5">
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Always unique designs</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Always unique designs</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Easy: balance, transfer.. Directly on hongbao</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Easy: balance, transfer.. Directly on hongbao</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">PDF include paper wallet and instructions</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>PDF include paper wallet and instructions</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Generate in any theme</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Generate in any theme</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">New and exciting every time</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>New and exciting every time</span>
         </li>
         <li class="flex gap-2 items-center">
-          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75 dark:opacity-90", aria_hidden: true %>
-          <span class="dark:text-gray-200">Gift as many as you want</span>
+          <%= heroicon "check", variant: :mini, class: "w-4 h-4 shrink-0 opacity-75", aria_hidden: true %>
+          <span>Gift as many as you want</span>
         </li>
       </ul>
     </div>
@@ -93,23 +99,23 @@
 
   <div class="space-y-4 md:space-y-6 max-w-md mx-auto mt-16 md:mt-20">
     <div class="flex justify-center gap-1">
-      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500 dark:text-yellow-400" %>
-      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500 dark:text-yellow-400" %>
-      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500 dark:text-yellow-400" %>
-      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500 dark:text-yellow-400" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
+      <%= heroicon "star", variant: :solid, class: "w-5 h-5 text-yellow-500" %>
     </div>
     <div class="text-base leading-relaxed space-y-2 max-w-md mx-auto text-center">
       <p>
-        <span class="bg-yellow-100/80 dark:bg-yellow-950/30 dark:text-yellow-200/90 px-1.5 py-0.5 rounded">
-            “Instead of keychains or candies, we gave our wedding guests something with that last forever: Bitcoin, wrapped in a custom note with our faces. 127 wallets handed out.<br/>One day, they’ll wish they’d kept it safe.”
+        <span class="bg-base-200 px-1.5 py-0.5 rounded">
+            "Instead of keychains or candies, we gave our wedding guests something with that last forever: Bitcoin, wrapped in a custom note with our faces. 127 wallets handed out.<br/>One day, they'll wish they'd kept it safe."
         </span>
       </p>
     </div>
     <div class="text-center space-y-2">
       <%= image_tag image_url("wedding.jpg"), class: "w-24 h-24 object-cover rounded-full inline-block" %>
       <div class="flex flex-col">
-        <p class="font-semibold dark:text-gray-200">Laurent & Sophie</p>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">Just married</p>
+        <p class="font-semibold">Laurent & Sophie</p>
+        <p class="text-gray-600 text-sm">Just married</p>
       </div>
     </div>
   </div>

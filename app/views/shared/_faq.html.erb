@@ -1,18 +1,13 @@
 <section class="space-y-4 p-8">
-    <div class="text-center space-y-4 pb-6 mx-auto">
-    <h2 class="text-center text-lg sm:text-xl font-semibold text-main-600 dark:text-main-400">
-      <span class="inline-block align-top text-balance"><%= t('.title') %></span>
-    </h2>
-    <%# <p class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight font-general sm:text-5xl dark:text-white">
-      <span class="inline-block align-top text-balance">Turn any picture into cool Bitcoin bank notes</span>
-    </p> %>
+  <div class="text-center space-y-4 pb-6 mx-auto">
+    <%= section_header(title: t('.title')) %>
   </div>
 
   <div class="space-y-4">
     <% t('.questions').each do |key, qa| %>
-      <div class="border border-white/20 rounded-xl overflow-hidden">
+      <div class="border border-white/20 bg-base-300 rounded-xl overflow-hidden">
         <details class="group">
-          <summary class="flex justify-between items-center p-4 cursor-pointer text-primary font-medium hover:bg-primary/10 transition-colors">
+          <summary class="flex justify-between items-center p-4 cursor-pointer text-primary-content font-medium hover:bg-primary/10 transition-colors">
             <%= qa[:q] %>
             <span class="transition-transform duration-200 group-open:-rotate-180">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">

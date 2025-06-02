@@ -14,26 +14,6 @@ class Step
   def self.for_new
     [
       new(
-        name: "Design",
-        icon: "photo",
-        position: 1
-      ),
-      new(
-        name: "Print",
-        icon: "printer",
-        position: 2
-      ),
-      new(
-        name: "Top up",
-        icon: "credit-card",
-        position: 3
-      )
-    ]
-  end
-
-  def self.for_show_v2
-    [
-      new(
         name: "Print",
         icon: "printer",
         position: 1

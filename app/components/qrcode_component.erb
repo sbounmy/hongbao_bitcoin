@@ -1,0 +1,7 @@
+<div class="<%= options[:class] %> relative">
+  <%= image_tag(qr_code, alt: "Tutorial Video QR Code", class: "w-full h-full") %>
+  <%# Overlay the YouTube logo %>
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <%= options[:icon] %>
+  </div>
+</div>

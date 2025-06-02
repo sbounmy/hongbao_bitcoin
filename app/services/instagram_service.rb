@@ -12,7 +12,8 @@ class InstagramService
     uri = URI("#{INSTAGRAM_API_URL}/me/media")
     params = {
       fields: "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp",
-      access_token: @access_token
+      access_token: @access_token,
+      limit: 9
     }
     uri.query = URI.encode_www_form(params)
 

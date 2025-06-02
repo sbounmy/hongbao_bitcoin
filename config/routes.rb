@@ -1,15 +1,9 @@
 require "digest/md5"
 
 Rails.application.routes.draw do
-  namespace :ai do
-    resources :images, only: [ :create ] do
-      post :done, on: :collection
-    end
-    resources :face_swaps, only: [ :create ] do
-      post :done, on: :collection
-    end
-    resources :image_gpts, only: [ :create ]
-  end
+  mount MissionControl::Jobs::Engine, at: "/jobs"
+
+  resources :bundles, only: [ :create ]
 
   ActiveAdmin.routes(self)
   resource :session
@@ -20,16 +14,18 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|zh-CN/ do
-    resources :hong_baos, only: [ :new, :show, :index ]
+    resources :hong_baos, only: [ :new, :show, :index ] do
+      get :form, on: :member
+    end
     resources :papers, only: [ :show ]
     root "pages#index"
-    post "/leonardo/generate", to: "leonardo#generate"
   end
 
   namespace :webhooks do
     post "mt_pelerin", to: "mt_pelerin#create"
   end
 
+  resources :addrs, only: [ :show ], controller: "hong_baos"
 
   resources :tokens, only: [ :index ]
 
@@ -50,9 +46,14 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Add og-image route
-  get "og-image", to: "og_image#show", as: :og_image
+  get "og-image/:size", to: "og_image#show", as: :og_image
 
   get "v1", to: "hong_baos#new" # for dev
+
+  get "/satoshi", to: "pages#satoshi"
+  get "/about", to: "pages#about"
+  get "/v2", to: "pages#v2"
+  get "/dashboard", to: "papers#index"
 
   # Authentication routes
   get "login", to: "users#new"
@@ -92,8 +93,8 @@ Rails.application.routes.draw do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
 
-  direct :youtube_arte do
-    "https://youtu.be/qkNhjVJZ4N0?si=ENgRvjLTgiYw6aCL"
+  direct :satoshi_video do
+    "https://drive.google.com/file/d/1SkxgeFFKGZfsk4ro7GwGhPJz8pJio7QP/preview"
   end
 
   direct :linkedin do
@@ -102,6 +103,10 @@ Rails.application.routes.draw do
 
   direct :x do
     "https://x.com/hongbaobitcoin"
+  end
+
+  direct :etsy do
+    "https://etsy.com/shop/HongBaoBitcoin"
   end
 
   # Direct route to generate Gravatar URLs
@@ -117,5 +122,13 @@ Rails.application.routes.draw do
 
   scope "/(:theme)" do
     get "/", to: "pages#index"
+  end
+
+  # Google OAuth Routes
+  resource :oauth, only: [], controller: "oauth" do
+    collection do
+      get :authorize
+      get :callback
+    end
   end
 end

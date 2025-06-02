@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_16_080641) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -107,11 +107,73 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
     t.json "ui", default: "{}"
   end
 
+  create_table "bundles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bundles_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.string "model_id"
+    t.integer "user_id"
+    t.integer "bundle_id"
+    t.json "input_item_ids", default: "[]"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bundle_id"], name: "index_chats_on_bundle_id"
+    t.index ["user_id", "bundle_id"], name: "index_chats_on_user_id_and_bundle_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
+  end
+
+  create_table "identities", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "provider_name"
+    t.string "provider_uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "input_items", force: :cascade do |t|
+    t.integer "input_id", null: false
+    t.integer "bundle_id", null: false
+    t.string "prompt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bundle_id"], name: "index_input_items_on_bundle_id"
+    t.index ["input_id"], name: "index_input_items_on_input_id"
+  end
+
+  create_table "inputs", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.string "prompt"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "metadata", default: "{}"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "chat_id", null: false
+    t.string "role"
+    t.text "content"
+    t.string "model_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "metadata", default: "{}"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.integer "ai_style_id", default: 0
     t.boolean "active", default: true
-    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"
@@ -119,7 +181,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
     t.boolean "public", default: false
     t.integer "parent_id"
     t.integer "ai_theme_id"
+    t.integer "bundle_id"
+    t.json "input_item_ids", default: "[]"
+    t.integer "message_id"
     t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
+    t.index ["bundle_id"], name: "index_papers_on_bundle_id"
+    t.index ["message_id"], name: "index_papers_on_message_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
   end
@@ -150,7 +217,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
     t.json "metadata", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
     t.index ["created_at"], name: "index_tokens_on_created_at"
+    t.index ["external_id"], name: "index_tokens_on_external_id"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
@@ -171,13 +240,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_093529) do
     t.datetime "magic_link_expires_at"
     t.integer "tokens_sum", default: 0, null: false
     t.string "stripe_customer_id"
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_tasks", "users"
+  add_foreign_key "bundles", "users"
+  add_foreign_key "identities", "users"
+  add_foreign_key "input_items", "bundles"
+  add_foreign_key "input_items", "inputs"
+  add_foreign_key "messages", "chats"
   add_foreign_key "papers", "ai_themes"
+  add_foreign_key "papers", "bundles"
+  add_foreign_key "papers", "messages"
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
