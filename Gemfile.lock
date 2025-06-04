@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails
-  revision: 45fa1fb429215ed79119c069fda558c4f765457f
+  revision: c858849352be22ea39473780ced45919bd2e9fd1
   specs:
     rspec-rails (8.1.0.pre)
       actionpack (>= 7.2)
@@ -180,7 +180,7 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    diff-lcs (1.6.1)
+    diff-lcs (1.6.2)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
@@ -448,13 +448,13 @@ GEM
     rqrcode_core (2.0.0)
     rspec-core (3.13.3)
       rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.3)
+    rspec-expectations (3.13.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.2)
+    rspec-mocks (3.13.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.2)
+    rspec-support (3.13.3)
     rubocop (1.75.4)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
