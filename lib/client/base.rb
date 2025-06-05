@@ -16,14 +16,30 @@ module Client
 
     def initialize(api_key: nil, **options)
       @api_key = api_key || default_api_key
+      @dev = options.fetch(:dev, true)
       @options = options
     end
 
+    def base_url
+      @dev ? self.class.base_url_dev : self.class.base_url
+    end
+
     class << self
-      attr_reader :base_url
 
       def url(value)
-        @base_url = value.freeze
+        @url = value.freeze
+      end
+
+      def url_dev(value)
+        @url_dev = value.freeze
+      end
+
+      def base_url
+        @url
+      end
+
+      def base_url_dev
+        @url_dev
       end
 
       def url_for(path)
@@ -72,7 +88,7 @@ module Client
         end
       end
 
-      "#{self.class.base_url}#{final_path}"
+      "#{self.base_url}#{final_path}"
     end
 
     def default_api_key
