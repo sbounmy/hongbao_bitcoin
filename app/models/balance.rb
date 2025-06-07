@@ -10,12 +10,25 @@ class Balance
 
   SATOSHIS_PER_BTC = 100_000_000
 
-  delegate :transactions, to: :@mempool_client
-  delegate :utxos, to: :@mempool_client
+  # delegate :transactions, to: :@mempool_client
+  # delegate :utxos, to: :@mempool_client
 
   def initialize(attributes = {})
     super
     @mempool_client = MempoolClient.new(address)
+    @blockstream_client = Client::BlockstreamApi.new(dev: false)
+  end
+
+  def current_height
+    @current_height ||= @blockstream_client.get_tip_height
+  end
+
+  def transactions
+    @transactions ||= @blockstream_client.get_address_transactions(address).map { |tx| Transaction.from_blockstream_data(tx, address, current_height) }
+  end
+
+  def utxos
+    @utxos ||= @blockstream_client.get_address_utxos(address)
   end
 
   def btc
@@ -49,13 +62,13 @@ class Balance
 
   # Returns UTXOs that can be used for creating a transaction
   def utxos_for_transaction
-    utxos.map do |utxo|
+    utxos.map.with_index do |utxo, index|
       {
-        hex: utxo.hex,
+        hex: index == utxos.count - 1 ? @blockstream_client.get_transaction_hex(utxo.txid) : nil,
         txid: utxo.txid,
         vout: utxo.vout,
         value: utxo.value,
-        script: utxo.script
+        script: index == utxos.count - 1 ? transactions.last.script : nil
       }
     end
   end
