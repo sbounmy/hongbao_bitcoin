@@ -82,6 +82,8 @@ module Client
 
       def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
         define_method(name) do |*args, **params|
+
+          Rails.logger.info("[#{self.class.name}] #{http_method} #{path} #{args}")
           url = build_url(path, args, params)
 
           request = Request.new(

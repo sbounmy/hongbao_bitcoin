@@ -8,7 +8,6 @@ module Client
     end
 
     def handle
-      Rails.logger.info("Response: #{raw.inspect}")
       case raw
       when Net::HTTPSuccess
         convert_to_client_object(parse, key)

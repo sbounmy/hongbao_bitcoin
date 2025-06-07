@@ -1,7 +1,7 @@
 class Transaction
   include ActiveModel::Model
 
-  attr_accessor :id, :timestamp, :amount, :type, :block_height, :address, :confirmations
+  attr_accessor :id, :timestamp, :amount, :type, :block_height, :address, :confirmations, :script
 
   SATOSHIS_PER_BTC = 100_000_000
 
@@ -15,10 +15,21 @@ class Transaction
       timestamp: data["status"]["block_time"] ? Time.at(data["status"]["block_time"]) : nil,
       amount: amount,
       address: data["vout"][0]["scriptpubkey_address"],
-      type: amount.positive? ? "deposit" : "withdrawal",
       confirmations: confirmations,
       block_height: data["status"]["block_height"]
     )
+  end
+
+  def self.from_blockstream_data(data, address, current_height)
+    new(
+      id: data.txid,
+      timestamp: data.status.block_time ? Time.at(data.status.block_time) : nil,
+      amount: calculate_amount_from_blockstream_data(data, address),
+      address: address,
+      confirmations: data.status.block_height ? current_height - data.status.block_height + 1 : 0,
+      block_height: data.status.block_height,
+      script: data.vout.last.scriptpubkey
+      )
   end
 
   def date
@@ -45,7 +56,19 @@ class Transaction
     (btc * Spot.new(date: timestamp).to(:eur))
   end
 
+  def deposit?
+    amount.positive?
+  end
+
+  def withdrawal?
+    amount.negative?
+  end
+
   private
+
+  def self.calculate_amount_from_blockstream_data(data, address)
+    data.vout.sum { |out| out.scriptpubkey_address == address ? out.value : 0 }
+  end
 
   def self.calculate_amount(data, address)
     outputs = data["vout"].sum { |out| out["scriptpubkey_address"] == address ? out["value"] : 0 }

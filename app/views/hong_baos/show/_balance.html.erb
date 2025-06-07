@@ -54,7 +54,7 @@
                 <div class="flex items-center gap-4">
                   <%# Transaction icon %>
                   <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                    <% if tx.type == 'deposit' %>
+                    <% if tx.deposit? %>
                       <%= heroicon "arrow-down", variant: "solid", class: "h-5 w-5 text-green-400" %>
                     <% else %>
                       <%= heroicon "arrow-up", variant: "solid", class: "h-5 w-5 text-white" %>
@@ -64,7 +64,7 @@
                   <div class="flex flex-col">
                     <%# Address display %>
                     <div class="text-white/80 font-medium flex gap-2">
-                      <%= tx.type == 'deposit' ? 'From' : 'To' %>: <%= link_to hong_bao_path(tx.address), target: "_blank", rel: "noopener noreferrer", class: "link link-hover flex items-center gap-1"  do %>
+                      <%= tx.deposit? ? 'From' : 'To' %>: <%= link_to hong_bao_path(tx.address), target: "_blank", rel: "noopener noreferrer", class: "link link-hover flex items-center gap-1"  do %>
                       <span><%= tx.pretty_address %></span>
                       <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
                       <% end %>
@@ -92,8 +92,8 @@
 
                 <%# Right side with amount %>
                 <div class="flex flex-col items-end">
-                  <span class="<%= tx.type == 'deposit' ? 'text-green-400' : 'text-white' %> font-mono text-lg">
-                    <%= tx.type == 'deposit' ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
+                  <span class="<%= tx.deposit? ? 'text-green-400' : 'text-white' %> font-mono text-lg">
+                    <%= tx.deposit? ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
                   </span>
                   <span class="text-sm text-white/60 ml-2">
                     (<%= number_to_currency(tx.usd.abs, precision: 2) %>)
