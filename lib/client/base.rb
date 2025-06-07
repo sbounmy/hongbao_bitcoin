@@ -36,12 +36,11 @@ module Client
         response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
           http.request(request)
         end
-        JSON.parse(response.body)['access_token']
+        JSON.parse(response.body)["access_token"]
       end
     end
 
     class << self
-
       def url(value)
         @url = value.freeze
       end
@@ -82,7 +81,6 @@ module Client
 
       def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
         define_method(name) do |*args, **params|
-
           Rails.logger.info("[#{self.class.name}] #{http_method} #{path} #{args}")
           url = build_url(path, args, params)
 

@@ -29,7 +29,7 @@ module Client
     private
 
     def api_key_credential_path
-      [:blockstream, :api_key]
+      [ :blockstream, :api_key ]
     end
   end
 end
