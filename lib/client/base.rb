@@ -15,13 +15,29 @@ module Client
     }.freeze
 
     def initialize(api_key: nil, **options)
-      @api_key = api_key || default_api_key
-      @dev = options.fetch(:dev, true)
+      if self.class.token_config.present?
+        @api_key = get_access_token
+      else
+        @api_key = api_key || default_api_key
+      end
+      @dev = self.class.base_url_dev.present? ? options.fetch(:dev, true) : false
       @options = options
     end
 
     def base_url
       @dev ? self.class.base_url_dev : self.class.base_url
+    end
+
+    def get_access_token
+      @access_token ||= begin
+        uri = URI(self.class.token_config[:url])
+        request = Net::HTTP::Post.new(uri)
+        request.set_form_data(self.class.token_config[:body])
+        response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
+          http.request(request)
+        end
+        JSON.parse(response.body)['access_token']
+      end
     end
 
     class << self
@@ -52,6 +68,14 @@ module Client
 
       def post(path, as:, key: nil, content_type: nil)
         define_request_method(as, :post, path, key: key, content_type:)
+      end
+
+      def token(url:, body:)
+        @token = { url:, body: }
+      end
+
+      def token_config
+        @token
       end
 
       private

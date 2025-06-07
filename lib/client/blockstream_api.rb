@@ -5,6 +5,14 @@ module Client
     url "https://blockstream.info/api"
     url_dev "https://blockstream.info/testnet/api"
 
+    token url: "https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token",
+    body: {
+      client_id: Rails.application.credentials.dig(:blockstream, :client_id),
+      client_secret: Rails.application.credentials.dig(:blockstream, :client_secret),
+      grant_type: "client_credentials",
+      scope: "openid"
+    }
+
     # Address endpoints - core functionality for Balance model
     get "/address/:address", as: :get_address
     get "/address/:address/txs", as: :get_address_transactions
