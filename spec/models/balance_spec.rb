@@ -8,7 +8,7 @@ describe Balance do
       expect(balance.transactions).to be_an(Array)
       transaction = balance.transactions.last
       expect(transaction.id).to eq("8aaa32840db9a9c5ace5283e50cf12d7394f7a2d44efeb97f202f95d453b2aff")
-      expect(transaction.timestamp.to_s).to eq("2025-01-26 09:49:19 +0100")
+      expect(transaction.timestamp.utc.to_s).to eq("2025-01-26 08:49:19 UTC")
       expect(transaction.amount).to eq(4919)
       expect(transaction.address).to eq("bc1qemdhm8gy4uj4cuzryhujwxj2jt5arqz4rj9a6x")
       expect(transaction.deposit?).to be_truthy
