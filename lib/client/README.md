@@ -1,16 +1,16 @@
 # Blockstream API Client 🚀
 
-A Ruby client for interacting with the Blockstream Esplora API, providing easy access to Bitcoin blockchain data needed for the Balance model.
+A Ruby client for interacting with the Blockstream Esplora API, providing easy access to Bitcoin blockchain data for the Balance model.
 
 ## Setup 📋
 
 **Initialize the client**:
 ```ruby
 # For Bitcoin mainnet
-client = Client::BlockstreamApi.new(testnet: false)
+client = Client::BlockstreamApi.new(dev: false)
 
 # For Bitcoin testnet
-client = Client::BlockstreamApi.new(testnet: true)
+client = Client::BlockstreamApi.new(dev: true)
 ```
 
 The client automatically uses the correct endpoints:
@@ -22,7 +22,7 @@ The client automatically uses the correct endpoints:
 ### Address Information
 ```ruby
 # Initialize client for mainnet
-client = Client::BlockstreamApi.new(testnet: false)
+client = Client::BlockstreamApi.new(dev: false)
 
 # Get address details
 address_info = client.get_address("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
@@ -39,6 +39,7 @@ end
 utxos = client.get_address_utxos("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
 utxos.each do |utxo|
   puts "UTXO: #{utxo.value} satoshis in #{utxo.txid}:#{utxo.vout}"
+  # Note: UTXOs from Blockstream API do NOT include scriptPubKey
 end
 ```
 
@@ -51,6 +52,11 @@ transaction = client.get_transaction(txid)
 puts "Confirmed: #{transaction.status.confirmed}"
 puts "Inputs: #{transaction.vin.length}"
 puts "Outputs: #{transaction.vout.length}"
+puts "Output scripts: #{transaction.vout.map(&:scriptpubkey)}"
+
+# Get transaction hex for spending UTXOs
+hex = client.get_transaction_hex(txid)
+puts "Transaction hex: #{hex}"
 
 # Get just transaction status
 status = client.get_transaction_status(txid)
@@ -70,14 +76,35 @@ puts "Current block height: #{tip_height}"
 ### Address Endpoints (Core Balance Functionality)
 - `get_address(address)` - Address information and stats
 - `get_address_transactions(address)` - List of address transactions
-- `get_address_utxos(address)` - Unspent transaction outputs
+- `get_address_utxos(address)` - Unspent transaction outputs ⚠️ **No script field**
 
 ### Transaction Endpoints (Transaction Details)
-- `get_transaction(txid)` - Full transaction details
+- `get_transaction(txid)` - Full transaction details with scriptPubKeys
 - `get_transaction_status(txid)` - Transaction confirmation status
+- `get_transaction_hex(txid)` - Raw transaction hex for spending UTXOs
 
 ### Block Endpoints (Confirmations Calculation)
 - `get_tip_height` - Latest block height
+
+## ⚠️ Known Limitations
+
+### UTXO Script Limitation
+**Important**: Blockstream's UTXO endpoint does NOT include the `scriptPubKey` field that's required for transaction creation. This is different from Mempool.space API which includes scripts.
+
+**Workaround**: The Balance model handles this by:
+1. Getting transaction details to extract scripts from outputs
+2. Using a hybrid approach with MempoolClient for UTXOs when scripts are needed
+
+```ruby
+# This WON'T work - no script field
+utxos = client.get_address_utxos(address)
+puts utxos.first.script  # NoMethodError!
+
+# This WILL work - get script from transaction
+utxos = client.get_address_utxos(address)
+tx = client.get_transaction(utxos.first.txid)
+script = tx.vout[utxos.first.vout].scriptpubkey
+```
 
 ## Response Objects 🎯
 
@@ -88,6 +115,7 @@ Responses are automatically converted to dynamic Ruby objects:
 transaction = client.get_transaction(txid)
 puts transaction.vin.first.txid  # Input transaction ID
 puts transaction.vout.first.value  # Output value in satoshis
+puts transaction.vout.first.scriptpubkey  # Script for this output
 
 # Array responses become ListObjects with enumerable methods
 txs = client.get_address_transactions(address)
@@ -101,25 +129,42 @@ puts transaction.status.block_height  # Block height if confirmed
 
 ## Integration with Balance Model 🔗
 
-This client is designed to work seamlessly with the Balance model to replace the current MempoolClient:
+Current integration in the Balance model:
 
 ```ruby
 # In balance.rb
 def initialize(attributes = {})
   super
-  testnet = address.start_with?("tb1") || address.start_with?("2") || address.start_with?("n") || address.start_with?("m")
-  @blockstream_client = Client::BlockstreamApi.new(testnet: testnet)
+  @mempool_client = MempoolClient.new(address)
+  @blockstream_client = Client::BlockstreamApi.new(dev: false)
 end
 
-def utxos
-  current_height = @blockstream_client.get_tip_height.to_i
-  utxo_data = @blockstream_client.get_address_utxos(address)
-  # Process UTXOs...
-end
-
+# Use blockstream for transactions (faster, more reliable)
 def transactions
-  tx_data = @blockstream_client.get_address_transactions(address)
-  # Process transactions...
+  @transactions ||= @blockstream_client.get_address_transactions(address)
+    .map { |tx| Transaction.from_blockstream_data(tx, address, current_height) }
+end
+
+# Use blockstream for UTXOs
+def utxos
+  @utxos ||= @blockstream_client.get_address_utxos(address)
+end
+
+# Handle script requirement for transaction creation
+def utxos_for_transaction
+  utxos.map.with_index do |utxo, index|
+    {
+      hex: index == utxos.count - 1 ? @blockstream_client.get_transaction_hex(utxo.txid) : nil,
+      txid: utxo.txid,
+      vout: utxo.vout,
+      value: utxo.value,
+      script: index == utxos.count - 1 ? transactions.last.script : nil
+    }
+  end
+end
+
+def current_height
+  @current_height ||= @blockstream_client.get_tip_height
 end
 ```
 
@@ -141,11 +186,24 @@ bundle exec rspec spec/lib/client/blockstream_api_spec.rb
 ```
 
 The client includes test coverage for:
-- Testnet/mainnet initialization
+- Dev/production initialization
 - Address information and stats
 - Transaction lists and details
-- UTXOs retrieval
+- UTXOs retrieval (without scripts)
 - Block height for confirmations
+- Transaction hex for spending
+
+## Comparison with Mempool.space API 📊
+
+| Feature | Blockstream | Mempool.space |
+|---------|-------------|---------------|
+| UTXO endpoint | ✅ Fast | ✅ Fast |
+| UTXO scripts | ❌ Not included | ✅ Included |
+| Transaction details | ✅ Complete | ✅ Complete |
+| Rate limits | ✅ Generous | ⚠️ More restrictive |
+| Reliability | ✅ Very stable | ✅ Stable |
+
+**Recommendation**: Use Blockstream for most operations, fall back to Mempool for UTXO scripts when needed.
 
 ---
 
