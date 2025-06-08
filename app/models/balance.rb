@@ -10,12 +10,8 @@ class Balance
 
   SATOSHIS_PER_BTC = 100_000_000
 
-  # delegate :transactions, to: :@mempool_client
-  # delegate :utxos, to: :@mempool_client
-
   def initialize(attributes = {})
     super
-    @mempool_client = MempoolClient.new(address)
     @blockstream_client = Client::BlockstreamApi.new(dev: false)
   end
 
