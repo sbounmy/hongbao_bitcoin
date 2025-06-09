@@ -61,11 +61,11 @@ class Balance
   def utxos_for_transaction
     utxos.map.with_index do |utxo, index|
       {
-        # hex: index == utxos.count - 1 ? @blockstream_client.get_transaction_hex(utxo.txid) : nil,
+        # hex: @blockstream_client.get_transaction_hex(utxo.txid),
         txid: utxo.txid,
         vout: utxo.vout,
         value: utxo.value,
-        # script: index == utxos.count - 1 ? transactions.last.script : nil
+        # script: @blockstream_client.get_transaction(utxo.txid).vout.find { |v| v.scriptpubkey_address == address }.scriptpubkey
       }
     end
   end
