@@ -13,6 +13,7 @@ class ProcessPaperJob < ApplicationJob
     image_attachment = nil
     prepared_theme = nil
     prepared_image = nil
+    mask_file = nil
 
     begin
       input_items = @chat.input_items.includes(input: { image_attachment: :blob }) # Eager load
@@ -22,12 +23,15 @@ class ProcessPaperJob < ApplicationJob
       theme_attachment = theme_input&.image
       image_attachment = image_input&.image
 
+      mask_file = get_mask_file(theme_input)
+
       Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
         @message.content,
         model: "gpt-image-1",
-        with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
+        with: { image: [ path_for(theme_attachment), path_for(image_attachment) ],
+                mask: mask_file },
         options: {
           size: "1024x1024",
           quality:,
@@ -92,5 +96,15 @@ class ProcessPaperJob < ApplicationJob
 
   def path_for(attachment)
     ActiveStorage::Blob.service.path_for(attachment.key)
+  end
+
+  def get_mask_file(theme_input)
+    if theme_input&.mask_image&.attached?
+      Rails.logger.info "Using theme-specific mask: #{theme_input.name}"
+      File.open(path_for(theme_input.mask_image), "rb")
+    else
+      Rails.logger.warn "No mask found for theme #{theme_input&.name}, using default"
+      File.open(Rails.root.join("spec", "fixtures", "files", "mask_alpha.png"), "rb")
+    end
   end
 end
