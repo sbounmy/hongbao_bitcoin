@@ -4,7 +4,7 @@
   <div class="flex flex-col gap-4"
        data-controller="bitcoin-address form-wallet"
        data-form-wallet-bitcoin-outlet="#bitcoin"
-       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
+       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success transfer:success->steps#next"
        data-bitcoin-address-network-value="<%= Current.network %>">
     <div>
       <%= form.text_field :to_address,

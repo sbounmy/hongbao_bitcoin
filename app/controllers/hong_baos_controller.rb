@@ -35,6 +35,7 @@ class HongBaosController < ApplicationController
   end
 
   def form
+    Current.network = params[:id].start_with?("tb") ? :testnet : :bitcoin
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
