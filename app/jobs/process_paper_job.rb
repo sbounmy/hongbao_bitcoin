@@ -104,7 +104,7 @@ class ProcessPaperJob < ApplicationJob
       File.open(path_for(theme_input.mask_image), "rb")
     else
       Rails.logger.warn "No mask found for theme #{theme_input&.name}, using default"
-      File.open(Rails.root.join("spec", "fixtures", "files", "mask_alpha.png"), "rb")
+      File.open(Rails.root.join("spec", "fixtures", "files", "default_alpha.png"), "rb")
     end
   end
 end
