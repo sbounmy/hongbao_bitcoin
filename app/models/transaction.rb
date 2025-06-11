@@ -23,11 +23,11 @@ class Transaction
   def self.from_blockstream_data(data, address, current_height)
     new(
       id: data.txid,
-      timestamp: data.status.block_time ? Time.at(data.status.block_time) : nil,
+      timestamp: data.status.confirmed ? Time.at(data.status.block_time) : nil,
       amount: calculate_amount_from_blockstream_data(data, address),
       address: address,
-      confirmations: data.status.block_height ? current_height - data.status.block_height + 1 : 0,
-      block_height: data.status.block_height,
+      confirmations: data.status.confirmed ? current_height - data.status.block_height + 1 : 0,
+      block_height: data.status.try(:block_height),
       script: data.vout.last.scriptpubkey
       )
   end
@@ -67,7 +67,9 @@ class Transaction
   private
 
   def self.calculate_amount_from_blockstream_data(data, address)
-    data.vout.sum { |out| out.scriptpubkey_address == address ? out.value : 0 }
+    outputs = data.vout.sum { |vout| vout.scriptpubkey_address == address ? vout.value : 0 }
+    inputs = data.vin.sum { |vin| vin.prevout.scriptpubkey_address == address ? vin.prevout.value : 0 }
+    outputs - inputs
   end
 
   def self.calculate_amount(data, address)
