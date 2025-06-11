@@ -9,8 +9,8 @@ export default class extends Controller {
     autoGenerate: { type: Boolean, default: false },
     customWallet: { type: Boolean, default: false },
     network: { type: String, default: 'mainnet' },
-    utxos: { type: String, default: '' }
   }
+  static targets = ["utxos"]
 
   connect() {
     // BitcoinWallet.setNetwork(this.networkValue)
@@ -78,7 +78,7 @@ export default class extends Controller {
   }
 
   get utxos() {
-    return JSON.parse(this.utxosValue)
+    return JSON.parse(this.utxosTarget.textContent)
   }
 
   // Public API methods that other controllers can use

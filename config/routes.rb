@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|zh-CN/ do
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
+      get :utxos, on: :member
     end
     resources :papers, only: [ :show ]
     root "pages#index"

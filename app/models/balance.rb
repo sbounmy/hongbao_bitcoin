@@ -58,15 +58,13 @@ class Balance
 
   # Returns UTXOs that can be used for creating a transaction
   # script and hex are needed for transaction creation, not balance, we should do a separate method for that
-  def utxos_for_transaction
+  def utxos_for_transaction(full = false)
     utxos.map.with_index do |utxo, index|
       {
-        # hex: @blockstream_client.get_transaction_hex(utxo.txid),
         txid: utxo.txid,
         vout: utxo.vout,
-        value: utxo.value,
-        # script: @blockstream_client.get_transaction(utxo.txid).vout.find { |v| v.scriptpubkey_address == address }.scriptpubkey
-      }
+        value: utxo.value
+      }.merge(full ? { hex: @blockstream_client.get_transaction_hex(utxo.txid), script: @blockstream_client.get_transaction(utxo.txid).vout.find { |v| v.scriptpubkey_address == address }.scriptpubkey } : {})
     end
   end
 end
