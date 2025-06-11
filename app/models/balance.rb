@@ -20,7 +20,9 @@ class Balance
   end
 
   def transactions
-    @transactions ||= @blockstream_client.get_address_transactions(address).map { |tx| Transaction.from_blockstream_data(tx, address, current_height) }
+    Rails.cache.fetch("balance_transactions_#{address}", expires_in: 12.minutes) do
+      @blockstream_client.get_address_transactions(address).map { |tx| Transaction.from_blockstream_data(tx, address, current_height) }
+    end
   end
 
   def utxos
