@@ -99,6 +99,8 @@ class Input::Theme < Input
 
   has_one_attached :hero_image
   has_one_attached :back_image
+  has_one_attached :mask_image
+
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
