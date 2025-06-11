@@ -29,7 +29,7 @@ class HongBao
   end
 
   def scanned_key=(key)
-    Bitcoin.network = Current.network_gem
+    Bitcoin.network = key.start_with?("tb") ? :testnet : :bitcoin
     if Bitcoin.valid_address?(key)
       self.address = key
     else

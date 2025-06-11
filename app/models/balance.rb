@@ -12,7 +12,7 @@ class Balance
 
   def initialize(attributes = {})
     super
-    @blockstream_client = Client::BlockstreamApi.new(dev: false)
+    @blockstream_client = Client::BlockstreamApi.new(dev: address.start_with?("tb"))
   end
 
   def current_height
