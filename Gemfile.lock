@@ -597,6 +597,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   capybara
+  chunky_png (~> 1.4)
   cypress-on-rails (~> 1.0)
   database_cleaner-active_record
   debug
