@@ -39,7 +39,7 @@ class ProcessPaperJob < ApplicationJob
       Rails.logger.info "Response: #{response.usage.inspect}"
 
       full_image = response.to_blob
-      top = ImageGapCorrectorService.correct_gaps full_image
+      top = Papers::GapCorrector.call full_image
 
 
       @paper.image_full.attach(io: StringIO.new(full_image), filename: "full_#{SecureRandom.hex(4)}.jpg")
