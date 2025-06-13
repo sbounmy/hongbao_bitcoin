@@ -52,6 +52,6 @@ class HongBaosController < ApplicationController
   private
 
   def set_network
-    Current.network = params[:id].start_with?("tb") ? :testnet : :bitcoin
+    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
   end
 end
