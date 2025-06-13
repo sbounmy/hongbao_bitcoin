@@ -80,14 +80,17 @@ class ImageGapCorrectorService
   end
 
   def find_red_line
-    # Scan from top to 2/3 of image height, but start from row 10 to avoid edge cases
-    min_scan_y = 10
+    # Scan from top to 2/3 of image height, but start from row 100 to avoid edge cases
+    min_scan_y = 100
     max_scan_y = (@height * 2.0 / 3).to_i
 
     (min_scan_y...max_scan_y).each do |y|
+      # Skip if we can't check the next row
+      next if y + 1 >= max_scan_y
+
       red_pixels_positions = []
 
-      # Check ENTIRE width of the image for red pixels
+      # Check ENTIRE width of the image for red pixels in current row
       (0...@width).each do |x|
         pixel = @image[x, y]
         red_pixels_positions << x if is_red?(pixel)
@@ -95,15 +98,18 @@ class ImageGapCorrectorService
 
       # Check if red pixels span the ENTIRE width
       if !red_pixels_positions.empty?
-        # Find gaps in the red line
+        # Find ALL gaps in the red line
         gaps = []
         total_red_pixels = red_pixels_positions.length
 
-        # Check for gaps larger than 5 pixels
+        # Check for ANY significant gaps
         (1...red_pixels_positions.length).each do |i|
           gap_size = red_pixels_positions[i] - red_pixels_positions[i-1] - 1
-          gaps << gap_size if gap_size > 5
+          gaps << gap_size if gap_size > 0
         end
+
+        # Find the maximum gap size
+        max_gap = gaps.max || 0
 
         # Check coverage from start and end
         starts_near_beginning = red_pixels_positions.first <= 10
@@ -113,17 +119,40 @@ class ImageGapCorrectorService
         coverage_percentage = (total_red_pixels.to_f / @width) * 100
 
 
-        # Criteria for FULL-WIDTH red line:
-        # 1. Must cover at least 85% of the image width
-        # 2. Must start within first 10 pixels
-        # 3. Must end within last 10 pixels
-        # 4. No more than 3 large gaps (allows for some imperfection)
-        if coverage_percentage >= 85 &&
+        # STRICT criteria for CONTINUOUS full-width red line:
+        # 1. Must cover at least 90% of the image width
+        # 2. Must start within first 5 pixels
+        # 3. Must end within last 5 pixels
+        # 4. Maximum gap allowed is only 3 pixels (very small imperfections only)
+        # 5. No more than 10 total gaps of any size
+        if coverage_percentage >= 90 &&
           starts_near_beginning &&
           ends_near_end &&
-          gaps.length <= 3
+          max_gap <= 3 &&
+          gaps.length <= 10
 
-          return y
+
+          # NEW: Check if the next row also has a similar red line
+          next_row_red_pixels = []
+          (0...@width).each do |x|
+            pixel = @image[x, y + 1]
+            next_row_red_pixels << x if is_red?(pixel)
+          end
+
+          if !next_row_red_pixels.empty?
+            # Calculate next row coverage
+            next_row_coverage = (next_row_red_pixels.length.to_f / @width) * 100
+            next_row_starts_near_beginning = next_row_red_pixels.first <= 10
+            next_row_ends_near_end = next_row_red_pixels.last >= @width - 10
+
+            # Check if next row also meets the red line criteria
+            if next_row_coverage >= 90 &&
+              next_row_starts_near_beginning &&
+              next_row_ends_near_end
+              return y
+            end
+          end
+
         end
       end
     end
