@@ -81,14 +81,4 @@ class ProcessPaperJob < ApplicationJob
   def path_for(attachment)
     ActiveStorage::Blob.service.path_for(attachment.key)
   end
-
-  def get_mask_file(theme_input)
-    if theme_input&.mask_image&.attached?
-      Rails.logger.info "Using theme-specific mask: #{theme_input.name}"
-      File.open(path_for(theme_input.mask_image), "rb")
-    else
-      Rails.logger.warn "No mask found for theme #{theme_input&.name}, using default"
-      File.open(Rails.root.join("spec", "fixtures", "files", "default_alpha.png"), "rb")
-    end
-  end
 end
