@@ -63,7 +63,7 @@
       <% end %>
     </div>
 
-    <%= render ContentLoaderComponent.new(url: utxos_hong_bao_path(@hong_bao.address), lazy_loading: true) %>
+    <%= render ContentLoaderComponent.new(url: utxos_hong_bao_path(@hong_bao.address, testnet: Current.testnet?), lazy_loading: true) %>
 
     <div class="flex items-center mt-4 gap-4">
 

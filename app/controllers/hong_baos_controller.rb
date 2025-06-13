@@ -1,6 +1,6 @@
 class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos]
-
+  before_action :set_network, only: %i[show form utxos]
   layout false, only: %i[form utxos]
 
   def index
@@ -35,7 +35,6 @@ class HongBaosController < ApplicationController
   end
 
   def form
-    Current.network = params[:id].start_with?("tb") ? :testnet : :bitcoin
     @hong_bao = HongBao.from_scan(params[:id])
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
@@ -48,5 +47,11 @@ class HongBaosController < ApplicationController
   def utxos
     @hong_bao = HongBao.from_scan(params[:id])
     @utxos = @hong_bao.balance.utxos_for_transaction(true)
+  end
+
+  private
+
+  def set_network
+    Current.network = params[:id].start_with?("tb") ? :testnet : :bitcoin
   end
 end
