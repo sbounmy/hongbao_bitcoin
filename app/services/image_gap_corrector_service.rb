@@ -80,48 +80,52 @@ class ImageGapCorrectorService
   end
 
   def find_red_line
-    right_region_start = (@width * 0.7).to_i
-    min_scan_y = 300
+    # Scan from top to 2/3 of image height, but start from row 10 to avoid edge cases
+    min_scan_y = 10
     max_scan_y = (@height * 2.0 / 3).to_i
 
-    consecutive_red_rows = 0
-    best_line_y = nil
-    max_red_count = 0
-
     (min_scan_y...max_scan_y).each do |y|
-      red_count = 0
-      total_pixels = @width - right_region_start
+      red_pixels_positions = []
 
-      (right_region_start...@width).each do |x|
+      # Check ENTIRE width of the image for red pixels
+      (0...@width).each do |x|
         pixel = @image[x, y]
-        red_count += 1 if is_red?(pixel)
+        red_pixels_positions << x if is_red?(pixel)
       end
 
-      red_density = red_count.to_f / total_pixels
+      # Check if red pixels span the ENTIRE width
+      if !red_pixels_positions.empty?
+        # Find gaps in the red line
+        gaps = []
+        total_red_pixels = red_pixels_positions.length
 
-      if red_count > 30 && red_density > 0.1
-        consecutive_red_rows += 1
-
-        if red_count > max_red_count
-          max_red_count = red_count
-          best_line_y = y
+        # Check for gaps larger than 5 pixels
+        (1...red_pixels_positions.length).each do |i|
+          gap_size = red_pixels_positions[i] - red_pixels_positions[i-1] - 1
+          gaps << gap_size if gap_size > 5
         end
 
-        if red_density > 0.3
+        # Check coverage from start and end
+        starts_near_beginning = red_pixels_positions.first <= 10
+        ends_near_end = red_pixels_positions.last >= @width - 10
+
+        # Calculate coverage percentage
+        coverage_percentage = (total_red_pixels.to_f / @width) * 100
+
+
+        # Criteria for FULL-WIDTH red line:
+        # 1. Must cover at least 85% of the image width
+        # 2. Must start within first 10 pixels
+        # 3. Must end within last 10 pixels
+        # 4. No more than 3 large gaps (allows for some imperfection)
+        if coverage_percentage >= 85 &&
+          starts_near_beginning &&
+          ends_near_end &&
+          gaps.length <= 3
+
           return y
         end
-      else
-        if consecutive_red_rows >= 3 && best_line_y
-          return best_line_y
-        end
-        consecutive_red_rows = 0
-        best_line_y = nil
-        max_red_count = 0
       end
-    end
-
-    if consecutive_red_rows >= 3 && best_line_y
-      return best_line_y
     end
 
     nil
