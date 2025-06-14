@@ -1,8 +1,8 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :back_image, :hero_image, :mask_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
-  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :back_image_attachment, :back_image_blob, :mask_image_attachment, :mask_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
@@ -140,11 +140,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         image_tag theme.back_image, style: "width: 100px;"
       end
     end
-    column :mask_image do |theme|
-    if theme.mask_image.attached?
-      image_tag theme.mask_image, style: "width: 100px;"
-    end
-  end
     actions
   end
 
@@ -169,11 +164,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           image_tag theme.back_image, style: "width: 500px;"
         end
       end
-      row :mask_image do |theme|
-      if theme.mask_image.attached?
-        image_tag theme.mask_image, style: "width: 500px;"
-      end
-    end
     end
   end
 
@@ -186,8 +176,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
       f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
       f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
-      f.input :mask_image, as: :file, hint: f.object.mask_image.attached? ? image_tag(url_for(f.object.mask_image), width: 500) : "PNG image where white areas = keep original, alpha areas = replace with user image"
-
       f.input :slug
       f.input :spotify_path, as: :string, hint: "track/40KNlAhOsMqCmfnbRtQrbx from embed url"
       f.input :ui_name, as: :select, collection: [
