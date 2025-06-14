@@ -96,6 +96,7 @@ test.describe('Balance', () => {
 
   test('user can check balance and transfer tokens with mnemonic', async ({ page }) => {
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
+    // await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.0002');
     await expect(page).toHaveURL(/step=1/);
@@ -105,15 +106,17 @@ test.describe('Balance', () => {
     await fillMnemonic(page, "tilt cinnamon stick voice other pulse print rain broken man frost library chunk element leader side acquire copy code east abandon then dose smooth");
     await page.getByRole('button', { name: "Continue" }).click();
     await expect(page.getByText('Enter Destination')).toBeVisible();
+    await page.waitForTimeout(2_000); // wait utxos to be loaded
     await page.locator('#hong_bao_to_address').fill('tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
     await page.locator('label').filter({ hasText: 'Slow' }).click();
     await page.getByRole('button', { name: "Transfer" }).click();
-    await page.waitForTimeout(100_000);
-    await expect(page.getByText('Transfer successful')).toBeVisible();
+    await expect(page.getByText('Your transaction has been submitted to the network.')).toBeVisible();
   });
 
+  //
   test('user can check balance and transfer tokens with mnemonic 2', async ({ page }) => {
-    await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true })
+    test.skip('only to transfer back BTC to tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')
+    await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
     await expect(page).toHaveURL(/step=1/);
     await page.getByRole('button', { name: "Next →" }).click();
@@ -126,8 +129,7 @@ test.describe('Balance', () => {
     await page.locator('#hong_bao_to_address').fill('tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await page.locator('label').filter({ hasText: 'Slow' }).click();
     await page.getByRole('button', { name: "Transfer" }).click();
-    await page.waitForTimeout(100_000);
-    await expect(page.getByText('Transfer successful')).toBeVisible();
+    await expect(page.getByText('Your transaction has been submitted to the network.')).toBeVisible();
   });
 
 

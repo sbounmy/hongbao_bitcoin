@@ -4,7 +4,7 @@
   <div class="flex flex-col gap-4"
        data-controller="bitcoin-address form-wallet"
        data-form-wallet-bitcoin-outlet="#bitcoin"
-       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success transfer:success->steps#next"
+       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
        data-bitcoin-address-network-value="<%= Current.network %>">
     <div>
       <%= form.text_field :to_address,
@@ -28,7 +28,6 @@
       </button>
 
       <%= error_message_target(controller: "form-wallet") %>
-
     </div>
     <div class="grid grid-cols-3 gap-4">
       <% TransactionFee.current.priority_options.each do |option| %>
@@ -82,5 +81,5 @@
         } %>
       </div>
     </div>
-
+  </div>
 </div>

@@ -5,6 +5,7 @@
                 class: "space-y-6 group",
                 data: {
                   controller: "steps bitcoin",
+                  action: "bitcoin:transferSuccess->steps#next",
                   steps_hidden_class: "hidden",
                   steps_current_value: @current_step,
                   bitcoin_network_value: Current.network,
