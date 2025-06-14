@@ -22,6 +22,8 @@ VCR.configure do |config|
   config.filter_sensitive_data("<GOOGLE_CLIENT_ID>") { Rails.application.credentials.dig(:google, :client_id) }
   config.filter_sensitive_data("<GOOGLE_CLIENT_SECRET>") { Rails.application.credentials.dig(:google, :client_secret) }
   config.filter_sensitive_data("<OPENAI_API_KEY>") { Rails.application.credentials.dig(:openai, :api_key) }
+  config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_ID>") { Rails.application.credentials.dig(:blockstream, :client_id) }
+  config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_SECRET>") { Rails.application.credentials.dig(:blockstream, :client_secret) }
 
   # Ignore Stripe checkout session requests as we need to checkout on Stripe's side
   config.ignore_request do |request|

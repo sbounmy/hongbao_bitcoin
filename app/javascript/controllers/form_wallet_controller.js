@@ -17,9 +17,8 @@ export default class extends FormController {
     return this.feeTargets.find(target => target.checked)
   }
 
-  import(event) {
-    console.log("import", event)
-    this.bitcoinOutlet.new(this.privateKeyTarget.value, this.bitcoinMnemonicOutlet.phrase)
+  import() {
+    this.bitcoinOutlet.new(this.privateKeyTarget.value)
   }
 
   transfer(event) {
@@ -27,5 +26,9 @@ export default class extends FormController {
     console.log("selectedFee", this.selectedFee.value)
     console.log("destination", this.destinationTarget.value)
     this.bitcoinOutlet.transfer(this.destinationTarget.value, this.selectedFee.value)
+  }
+
+  successMnemonic(event) {
+    this.privateKeyTarget.value = event.detail.privateKey
   }
 }

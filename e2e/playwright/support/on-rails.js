@@ -167,6 +167,10 @@ const fillCheckout = async (page) => {
     await page.fill('input[name="cardExpiry"]', '12/2034'); // Future date
     await page.fill('input[name="cardCvc"]', '123');
   }
+
+  if (await page.locator('#enableStripePass').isChecked()) {
+    await page.locator('#enableStripePass').uncheck();
+  }
 };
 
 export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout }

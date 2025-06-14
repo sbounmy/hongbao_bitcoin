@@ -1,0 +1,120 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token
+    body:
+      encoding: US-ASCII
+      string: client_id=<BLOCKSTREAM_CLIENT_ID>&client_secret=<BLOCKSTREAM_CLIENT_SECRET>&grant_type=client_credentials&scope=openid
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - login.blockstream.com
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 07 Jun 2025 06:28:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2533'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KC_AUTH_STATE=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure; HttpOnly
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDkyNzgwMTYsImlhdCI6MTc0OTI3NzcxNiwianRpIjoiMjFlOWE2ZmItZTVjMi00YTUzLWI1OTAtZGVmNDg3YmU4Y2MxIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Lfn9CD44Z-0wCRC2285hBJjL8Er9cSrEIYCJsFghGK7XW1H8s3cT2ARPCKrPgScP7V-SlfGGXEl4afEGG4VTWs27z5Mk01MA7Ao8SLw9AoBkFEq7Ftvr1BcHd_0fS1HnOpbEfClr686PF4ThhFpWlswRVFJvGl8rDY8XavVM5MfQ8UT0vBQ8-_0gKIiMQCJBK8Zm6wpgvKFGKC8q2jvD93Vu0NKEyja71ElghQl5zugClV45g-keaPO6aR1nqmwAvRNyBi4xjejUtfq4A0M8Q2vNKDYwasf__c4j9w_oXdCMN1jDqLju5wMWXFEeP9cs-ytGgbOvdaoMieYx6-NHvg","expires_in":300,"refresh_expires_in":0,"token_type":"Bearer","id_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDkyNzgwMTYsImlhdCI6MTc0OTI3NzcxNiwiYXV0aF90aW1lIjowLCJqdGkiOiI2YjBhZTBiMi03YTkyLTQ5YWItYTYzMC0wOWZhOGZjMGIyODUiLCJpc3MiOiJodHRwczovL2xvZ2luLmJsb2Nrc3RyZWFtLmNvbS9yZWFsbXMvYmxvY2tzdHJlYW0tcHVibGljIiwiYXVkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIiwic3ViIjoiMzkxNGMwMmMtY2IwZi00NDcxLTk2NjItMDkxZGY1NTFlMzBiIiwidHlwIjoiSUQiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhdF9oYXNoIjoicVFRT2RpUEdqcjRNVS1ENXR3V2VGdyIsImFjciI6IjEiLCJjbGllbnRIb3N0IjoiODYuMjA0LjIzNC4xMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEFkZHJlc3MiOiI4Ni4yMDQuMjM0LjExMCIsImNsaWVudF9pZCI6ImNhYjU3YmQ4LWU1MGYtNGIyYy1hYzgzLTM5ZWEzNzkxNDg3ZiJ9.X29L1-YkLuRPTx8Khih549miJVlE_e_PJMB2gwrrfs-vg4TuhDnCLGotidoPdyw4aP3moRUZ4sAf3vYOzIgbpHrgxfQ_MHBBGabgBk_eZ3SJHRqjumNnsdSl7QlNFqZYxIQm0r2I2MgvPc4Gdg2ohN2MrLHjE39ZIAPN3N48RQQzBHJf1k2-iQuETlhIEqZFaipgykkFDEBKpksaUzorXVEdFFkQO3BSkDW0kTGvMevZ9Umhk8KYzMWRUZZ-r0CWlGhuhIJz4DyuMDz3b18MgtE15FpSXCAkgpOULm9EZ34Tumq9w7IJf-BmOPtoblhpGJfHftrUJ9-cl7wGsmuOQw","not-before-policy":0,"scope":"openid
+        email"}'
+  recorded_at: Sat, 07 Jun 2025 06:28:36 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/api/blocks?limit=10&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDkyNzgwMTYsImlhdCI6MTc0OTI3NzcxNiwianRpIjoiMjFlOWE2ZmItZTVjMi00YTUzLWI1OTAtZGVmNDg3YmU4Y2MxIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Lfn9CD44Z-0wCRC2285hBJjL8Er9cSrEIYCJsFghGK7XW1H8s3cT2ARPCKrPgScP7V-SlfGGXEl4afEGG4VTWs27z5Mk01MA7Ao8SLw9AoBkFEq7Ftvr1BcHd_0fS1HnOpbEfClr686PF4ThhFpWlswRVFJvGl8rDY8XavVM5MfQ8UT0vBQ8-_0gKIiMQCJBK8Zm6wpgvKFGKC8q2jvD93Vu0NKEyja71ElghQl5zugClV45g-keaPO6aR1nqmwAvRNyBi4xjejUtfq4A0M8Q2vNKDYwasf__c4j9w_oXdCMN1jDqLju5wMWXFEeP9cs-ytGgbOvdaoMieYx6-NHvg
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 07 Jun 2025 06:28:36 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - EXPIRED
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"id":"00000000000000000000a50c0a4f12bf15cf3f411575ccc55a3bf2021379e22a","height":900135,"version":852713472,"timestamp":1749277553,"tx_count":1319,"size":1361144,"weight":2878358,"merkle_root":"269436a50d62ab2721c94122cd16cb0d43509f5cfe1e0ef0b9746b97247d9340","previousblockhash":"00000000000000000000cc4823d76bb67f14a801ab337d34aaa7c54b0568b3d1","mediantime":1749274678,"nonce":122331310,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000000cc4823d76bb67f14a801ab337d34aaa7c54b0568b3d1","height":900134,"version":678862848,"timestamp":1749277066,"tx_count":2686,"size":1341804,"weight":3526359,"merkle_root":"8484ec733198da9b2120bdc3eddc1eca4a4718d297f12f679fa07c487e576d53","previousblockhash":"00000000000000000000956e286ae9d1ed04f855c2e59cc30c7abdd5eec4692b","mediantime":1749274389,"nonce":1349787493,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000000956e286ae9d1ed04f855c2e59cc30c7abdd5eec4692b","height":900133,"version":603979776,"timestamp":1749276231,"tx_count":2875,"size":1795700,"weight":3896969,"merkle_root":"0d7b499dff503ce7479df1d364c035747ccd139dfa2f52716bdbedbf08c28682","previousblockhash":"000000000000000000000c4284f645f8e51975863a3bb7e5430534197a95b831","mediantime":1749274301,"nonce":1270301962,"bits":386021236,"difficulty":126982285146989.3},{"id":"000000000000000000000c4284f645f8e51975863a3bb7e5430534197a95b831","height":900132,"version":852099072,"timestamp":1749275720,"tx_count":2239,"size":1293229,"weight":2655898,"merkle_root":"f2a231f105bf916247a8a41849f9b54840d0154f199e0f7f3c990862a8e14b97","previousblockhash":"00000000000000000001c18e51f93074e1b70a13b29ae456ee4e12294e7e451f","mediantime":1749272674,"nonce":3630912536,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000001c18e51f93074e1b70a13b29ae456ee4e12294e7e451f","height":900131,"version":658300928,"timestamp":1749275585,"tx_count":3124,"size":1344323,"weight":3993899,"merkle_root":"ea2e046d9f9a3b98866a824a10afb0b7281919e8660b0b886bafc3c339992599","previousblockhash":"0000000000000000000088aa2451db5be9d56ff4e6305acdc2226c88a4bb13e6","mediantime":1749272056,"nonce":2813371652,"bits":386021236,"difficulty":126982285146989.3},{"id":"0000000000000000000088aa2451db5be9d56ff4e6305acdc2226c88a4bb13e6","height":900130,"version":537788416,"timestamp":1749274678,"tx_count":2675,"size":1298306,"weight":3119990,"merkle_root":"6e24428d096296e8613f079045ca839343b6985deb285c6fa9391d696b4889dd","previousblockhash":"00000000000000000000a1129f7e708411a077a418fb0669ea10b6fd6f386633","mediantime":1749270703,"nonce":9244455,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000000a1129f7e708411a077a418fb0669ea10b6fd6f386633","height":900129,"version":538230784,"timestamp":1749274389,"tx_count":3605,"size":1577117,"weight":3994073,"merkle_root":"6a0cedcb15b149baab44cea3d0f758c7543f2d80c66305fc9bda6e8074fc10e0","previousblockhash":"00000000000000000000b751602ad7b590f095b2949dc835f6cdb9d5266bdaaa","mediantime":1749270007,"nonce":87256083,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000000b751602ad7b590f095b2949dc835f6cdb9d5266bdaaa","height":900128,"version":614473728,"timestamp":1749274301,"tx_count":2400,"size":1462615,"weight":3992890,"merkle_root":"991c428b77e02ec2aa2eaed3f185def3d032f11c8c163320106c8fecd8aa6201","previousblockhash":"00000000000000000000d4ef3f27adbf91679fd18ca8674fc10fb9a64436c59d","mediantime":1749268999,"nonce":691890322,"bits":386021236,"difficulty":126982285146989.3},{"id":"00000000000000000000d4ef3f27adbf91679fd18ca8674fc10fb9a64436c59d","height":900127,"version":538124288,"timestamp":1749272674,"tx_count":3636,"size":1604567,"weight":3993749,"merkle_root":"ddaa908e6cd75fff74ab363950648a724f7792c7919c84914999def7d5b38b90","previousblockhash":"0000000000000000000148b149d9fa807fda77cb3917496f5cb1226b46216d0c","mediantime":1749268443,"nonce":166037632,"bits":386021236,"difficulty":126982285146989.3},{"id":"0000000000000000000148b149d9fa807fda77cb3917496f5cb1226b46216d0c","height":900126,"version":596983808,"timestamp":1749272056,"tx_count":2152,"size":1410122,"weight":3993848,"merkle_root":"b51d3b905ad47c00d7a10f5315f8d85731f18733f622bbb58ecbae5b51a9dff3","previousblockhash":"00000000000000000000df0c7727e30a7e56069b8ef26cfa4325f877df42c397","mediantime":1749268110,"nonce":3102584301,"bits":386021236,"difficulty":126982285146989.3}]'
+  recorded_at: Sat, 07 Jun 2025 06:28:36 GMT
+recorded_with: VCR 6.3.1

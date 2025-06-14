@@ -9,8 +9,8 @@ export default class extends Controller {
     autoGenerate: { type: Boolean, default: false },
     customWallet: { type: Boolean, default: false },
     network: { type: String, default: 'mainnet' },
-    utxos: { type: String, default: '' }
   }
+  static targets = ["utxos"]
 
   connect() {
     // BitcoinWallet.setNetwork(this.networkValue)
@@ -59,12 +59,11 @@ export default class extends Controller {
         this.utxos,
         this.networkValue
       )
-
       await transaction.build()
-      console.log(transaction)
       const result = await transaction.broadcast()
 
-      this.dispatch("transfer:success", {
+      console.log("transferSuccess", result)
+      this.dispatch("transferSuccess", {
         detail: {
           txid: result.txid,
           hex: result.hex,
@@ -72,13 +71,14 @@ export default class extends Controller {
         }
       })
     } catch (error) {
+      alert(error.message)
       console.error("Error transferring transaction", error)
-      this.dispatch("transfer:error", { detail: error.message })
+      this.dispatch("transferError", { detail: error.message })
     }
   }
 
   get utxos() {
-    return JSON.parse(this.utxosValue)
+    return JSON.parse(this.utxosTarget.textContent)
   }
 
   // Public API methods that other controllers can use

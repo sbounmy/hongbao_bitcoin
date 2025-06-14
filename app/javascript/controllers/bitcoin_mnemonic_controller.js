@@ -50,7 +50,8 @@ export default class extends BitcoinKeyController {
     this.updateErrorMessage(validationResult.error)
 
     if (validationResult.isValid) {
-      this.dispatch('valid')
+      console.log("WIF:", validationResult.node.wif)
+      this.dispatch('valid', { detail: { mnemonic: this.phrase, privateKey: validationResult.node.wif } })
     } else {
       this.dispatch('invalid')
     }
@@ -94,6 +95,7 @@ export default class extends BitcoinKeyController {
           error: `This mnemonic does not correspond to the address ${this.addressValue}. Please use private key to verify if your bill was created before 2025.`
         }
       }
+      return { isValid: true, master: master, node: node, error: null }
     } catch (error) {
       console.error('Error validating address:', error)
       return {
@@ -102,16 +104,6 @@ export default class extends BitcoinKeyController {
       }
     }
 
-    return { isValid: true, error: null }
-  }
-
-  get derivedAddress() {
-    // For legacy addresses (starting with 1)
-    if (this.addressValue.startsWith("1")) {
-      return this.deriveAddress(this.phrase, "m/44'/0'/0'/0/0")
-    }
-    // For native segwit addresses (starting with bc1)
-    return this.deriveAddress(this.phrase, "m/84'/0'/0'/0/0")
   }
 
   // Method called by word outlets to validate individual words
