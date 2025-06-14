@@ -50,8 +50,8 @@ export default class extends BitcoinKeyController {
     this.updateErrorMessage(validationResult.error)
 
     if (validationResult.isValid) {
-      console.log("WIF:", validationResult.node.wif())
-      this.dispatch('valid', { detail: { mnemonic: this.phrase, privateKey: validationResult.node.wif() } })
+      console.log("WIF:", validationResult.node.wif)
+      this.dispatch('valid', { detail: { mnemonic: this.phrase, privateKey: validationResult.node.wif } })
     } else {
       this.dispatch('invalid')
     }
