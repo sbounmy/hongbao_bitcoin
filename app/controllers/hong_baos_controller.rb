@@ -1,5 +1,7 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show form index search]
+  allow_unauthenticated_access only: %i[new show form index search utxos]
+  before_action :set_network, only: %i[show form utxos]
+  layout false, only: %i[form utxos]
 
   def index
     # Just render the QR scanner view
@@ -40,5 +42,16 @@ class HongBaosController < ApplicationController
   end
 
   def transfer
+  end
+
+  def utxos
+    @hong_bao = HongBao.from_scan(params[:id])
+    @utxos = @hong_bao.balance.utxos_for_transaction(true)
+  end
+
+  private
+
+  def set_network
+    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
   end
 end

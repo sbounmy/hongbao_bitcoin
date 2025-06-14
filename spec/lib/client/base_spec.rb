@@ -101,4 +101,26 @@ RSpec.describe Client::Base do
       expect(Client::PokemonApi.url_for("/pokemon/pikachu")).to eq("https://pokeapi.co/api/v2/pokemon/pikachu")
     end
   end
+
+  describe 'access token' do
+    class Client::BlockstreamApiTest < Client::Base
+      url "https://blockstream.info/api"
+      url_dev "https://blockstream.info/api"
+      token url: "https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token",
+          body: {
+            client_id: Rails.application.credentials.dig(:blockstream, :client_id),
+            client_secret: Rails.application.credentials.dig(:blockstream, :client_secret),
+            grant_type: "client_credentials",
+            scope: "openid"
+          }
+      get "/blocks", as: :get_blocks
+    end
+
+    let(:client) { Client::BlockstreamApiTest.new }
+
+    it 'returns the correct access token', vcr: { cassette_name: "blockstream_api/get_access_token" } do
+      expect(client.api_key).to match(/ey*./)
+      expect(client.get_blocks(limit: 10, offset: 0).count).to eq(10)
+    end
+  end
 end

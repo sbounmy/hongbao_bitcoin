@@ -15,15 +15,46 @@ module Client
     }.freeze
 
     def initialize(api_key: nil, **options)
-      @api_key = api_key || default_api_key
+      if self.class.token_config.present?
+        @api_key = get_access_token
+      else
+        @api_key = api_key || default_api_key
+      end
+      @dev = self.class.base_url_dev.present? ? options.fetch(:dev, true) : false
       @options = options
     end
 
-    class << self
-      attr_reader :base_url
+    def base_url
+      @dev ? self.class.base_url_dev : self.class.base_url
+    end
 
+    def get_access_token
+      @access_token ||= begin
+        uri = URI(self.class.token_config[:url])
+        request = Net::HTTP::Post.new(uri)
+        request.set_form_data(self.class.token_config[:body])
+        response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
+          http.request(request)
+        end
+        JSON.parse(response.body)["access_token"]
+      end
+    end
+
+    class << self
       def url(value)
-        @base_url = value.freeze
+        @url = value.freeze
+      end
+
+      def url_dev(value)
+        @url_dev = value.freeze
+      end
+
+      def base_url
+        @url
+      end
+
+      def base_url_dev
+        @url_dev
       end
 
       def url_for(path)
@@ -38,10 +69,19 @@ module Client
         define_request_method(as, :post, path, key: key, content_type:)
       end
 
+      def token(url:, body:)
+        @token = { url:, body: }
+      end
+
+      def token_config
+        @token
+      end
+
       private
 
       def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
         define_method(name) do |*args, **params|
+          Rails.logger.info("[#{self.class.name}] #{http_method} #{path} #{args}")
           url = build_url(path, args, params)
 
           request = Request.new(
@@ -72,7 +112,7 @@ module Client
         end
       end
 
-      "#{self.class.base_url}#{final_path}"
+      "#{self.base_url}#{final_path}"
     end
 
     def default_api_key

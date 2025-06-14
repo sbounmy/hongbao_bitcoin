@@ -1,0 +1,1495 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/9b6cfb89d376f20ab8192b7fd89fddcb387d51d63f41a15851bccd1e9f4c7d70/hex
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4NzgxODIsImlhdCI6MTc0OTg3Nzg4MiwianRpIjoiOTc0YzNhMjUtNmY5Mi00MTdkLWI5NTEtMzljMmEwNTA4MzhmIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Gg-kUqv0U9CHty7Pj8WSv6qV-blJ7Jp5Bv-HYCIz1oKnBLZeJyEdmeWo5CKYMapnF-APqVGDPpabbYVo_GvEJS-buCw3JwohK_CtdLyiOIHNtUHHQQWXRi5zjmMX1H482904Ql5KcoC-ILiuVzTI1LB7XaI2PKATev7aQt9a8xVGt8xjGszSyGsb9FwessxLpNMLZRPKIuq_iwIYAQsC-5BrNwobBxKBczzfHKM-QA6115gCnT5mTEKg8VOJE_76rnwTQU7vSvBOyw_zVVhsZ53B5oF8lCVGRWCUqp3aT5guR1wJY5eir0m4kKl8NGAzAj1X7K-LyorJbaufQ-ZL3Q
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 05:11:22 GMT
+      Content-Type:
+      - text/plain
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=157784630
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: 02000000000102b24a8cc341f99bfbb4dbaee87aec4d5fc18774afeabcbd65793f95a1da45f3200000000000ffffffff73931049aafe685b9aac699f52efe17a959c815dc9cc04c8a7a15ca3b162adad0000000000ffffffff01626f000000000000160014c210ee7a074585a84e0dd0a043273563d6f3920002473044022064a3fb54744f8a951c120a60b4947c6a663bd738058e0edbb09225a03f6df31e02202d43c0bc98c53102f7a92d437c1c950d2a9a893e111eb47cdcab0c03106e1151012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b9290247304402201e979edd04d6951a7b930e5fcf41686a791a65de0148ae3187c07f4548adb4c60220439da0aa9e4621bd0d9ec12779a2fbc8308ccd0461ae5aad4f36d2b761f59c0d012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b92900000000
+  recorded_at: Sat, 14 Jun 2025 05:11:22 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/9b6cfb89d376f20ab8192b7fd89fddcb387d51d63f41a15851bccd1e9f4c7d70
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4NzgxODIsImlhdCI6MTc0OTg3Nzg4MiwianRpIjoiOTc0YzNhMjUtNmY5Mi00MTdkLWI5NTEtMzljMmEwNTA4MzhmIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Gg-kUqv0U9CHty7Pj8WSv6qV-blJ7Jp5Bv-HYCIz1oKnBLZeJyEdmeWo5CKYMapnF-APqVGDPpabbYVo_GvEJS-buCw3JwohK_CtdLyiOIHNtUHHQQWXRi5zjmMX1H482904Ql5KcoC-ILiuVzTI1LB7XaI2PKATev7aQt9a8xVGt8xjGszSyGsb9FwessxLpNMLZRPKIuq_iwIYAQsC-5BrNwobBxKBczzfHKM-QA6115gCnT5mTEKg8VOJE_76rnwTQU7vSvBOyw_zVVhsZ53B5oF8lCVGRWCUqp3aT5guR1wJY5eir0m4kKl8NGAzAj1X7K-LyorJbaufQ-ZL3Q
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 05:11:22 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=157784630
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"9b6cfb89d376f20ab8192b7fd89fddcb387d51d63f41a15851bccd1e9f4c7d70","version":2,"locktime":0,"vin":[{"txid":"20f345daa1953f7965bdbceaaf7487c15f4dec7ae8aedbb4fb9bf941c38c4ab2","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":10000},"scriptsig":"","scriptsig_asm":"","witness":["3044022064a3fb54744f8a951c120a60b4947c6a663bd738058e0edbb09225a03f6df31e02202d43c0bc98c53102f7a92d437c1c950d2a9a893e111eb47cdcab0c03106e115101","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295},{"txid":"adad62b1a35ca1a7c804ccc95d819c957ae1ef529f69ac9a5b68feaa49109373","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":18709},"scriptsig":"","scriptsig_asm":"","witness":["304402201e979edd04d6951a7b930e5fcf41686a791a65de0148ae3187c07f4548adb4c60220439da0aa9e4621bd0d9ec12779a2fbc8308ccd0461ae5aad4f36d2b761f59c0d01","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28514}],"size":339,"weight":708,"fee":195,"status":{"confirmed":true,"block_height":4506550,"block_hash":"000000000a1801073b3257c7b53302dc6d172e7b2ddf28ca250f14f6d91e4a97","block_time":1749797952}}'
+  recorded_at: Sat, 14 Jun 2025 05:11:22 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/1407ad7ed7d4399c33dbd34fe5dddd432abdbfcf10443f17cae5d57c076ee8c2/hex
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODEzODYsImlhdCI6MTc0OTg4MTA4NiwianRpIjoiZTk0NDY4ZWMtZTUzMC00YzkzLWFkZTEtYzk2NGMwZjcwZjBkIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.VJ-iHU97dJlbm_VXCshpk-8dy4Fr3myHU2qFvj54Duc7Qq1q1dx7JLrUR_pl7voe-ljRYHznfsNh14R11VsLIVfFq-erkhZVxgpr24Cxuw1AalH_Jlq8jXdSrNkz13OMdkP6ofLYEFmogoq28KzSVYeIp-669CdjE8uZ94Kg4Mca4CYIz6BuzddzY1u2EWEQhw14JBLheLpflccT4vj9I1sozdBYXa0abtuKZCQ355jWblSj6VFev2uyJ7_HerOeVzwp_IK7LCiv_dKAQs5-NCRbVgmEoUn6SAZ_6__cKPeyQQa5qDhzEXgGezZiI8i11y8LaYB0h6Uwv6tuJY-2TQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:04:46 GMT
+      Content-Type:
+      - text/plain
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: 02000000000101c82bd14dab8549d5fc10ef7261b84c3ab7151808541c30437902b3653394542c0000000000ffffffff01726e000000000000160014c210ee7a074585a84e0dd0a043273563d6f3920002483045022100d41094376ae5bc35b0ed1507ef23497244d7a9ae3d771b8e800eb7ccc3f695f4022064b5a2410e10453b93214276846d282367222b22ff822ba2d82d31a8c06fbc41012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b92900000000
+  recorded_at: Sat, 14 Jun 2025 06:04:46 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/1407ad7ed7d4399c33dbd34fe5dddd432abdbfcf10443f17cae5d57c076ee8c2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODEzODYsImlhdCI6MTc0OTg4MTA4NiwianRpIjoiZTk0NDY4ZWMtZTUzMC00YzkzLWFkZTEtYzk2NGMwZjcwZjBkIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.VJ-iHU97dJlbm_VXCshpk-8dy4Fr3myHU2qFvj54Duc7Qq1q1dx7JLrUR_pl7voe-ljRYHznfsNh14R11VsLIVfFq-erkhZVxgpr24Cxuw1AalH_Jlq8jXdSrNkz13OMdkP6ofLYEFmogoq28KzSVYeIp-669CdjE8uZ94Kg4Mca4CYIz6BuzddzY1u2EWEQhw14JBLheLpflccT4vj9I1sozdBYXa0abtuKZCQ355jWblSj6VFev2uyJ7_HerOeVzwp_IK7LCiv_dKAQs5-NCRbVgmEoUn6SAZ_6__cKPeyQQa5qDhzEXgGezZiI8i11y8LaYB0h6Uwv6tuJY-2TQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:04:47 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"1407ad7ed7d4399c33dbd34fe5dddd432abdbfcf10443f17cae5d57c076ee8c2","version":2,"locktime":0,"vin":[{"txid":"2c54943365b3027943301c54081815b73a4cb86172ef10fcd54985ab4dd12bc8","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28394},"scriptsig":"","scriptsig_asm":"","witness":["3045022100d41094376ae5bc35b0ed1507ef23497244d7a9ae3d771b8e800eb7ccc3f695f4022064b5a2410e10453b93214276846d282367222b22ff822ba2d82d31a8c06fbc4101","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28274}],"size":192,"weight":438,"fee":120,"status":{"confirmed":true,"block_height":4506872,"block_hash":"000000000518eb332a3711958367c265adb4e5852a6225207cf4035dfaabb8e1","block_time":1749888132}}'
+  recorded_at: Sat, 14 Jun 2025 06:04:47 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/3b76dddac7009c470d207d2f9861bac65d8904ae5418a61c61153dbeacb614e1/hex
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODE1MTQsImlhdCI6MTc0OTg4MTIxNCwianRpIjoiMGYwNWI5ZWItNGRkNC00MDFmLWIwYmMtMDY1ZjEyN2E5MTkwIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Q6hRsJTnCPNhojgEJJ-D8dpoMbfDLMQzbG_sTOZ1qUScatIJ_0GIG7aqErJXA03LQj9ZIVJZ2AQvPgnwTkkwICtpTynbizad0EmF76aInRYg1Dk1RgMvRqbrp1Drg1Vq_EL042UMYicoCPtAACCCtIJNVQpnGOxPWhs_1tlfBZpJbzztDowvSQS-0pUIUv0VbGLkkaaaRMNYtxiMWxRUwxS_E0mpfCNH_kbgmmokGL_RMPJiNhGoZM0DSqccSqcdMYoGy9G2A6IVIbqc4Dcs-Ys69MxNuMmItRmtNQRaL__T1z6voMUmTD8VHPjrTA6Uld7O0ZPxP4cFwbyzDgL5ig
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:06:54 GMT
+      Content-Type:
+      - text/plain
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '020000000001018f30e5db890505ce8b302543c32ecf42b03fa38c22f02da2b9079545dfbd72df0000000000ffffffff01826d000000000000160014c210ee7a074585a84e0dd0a043273563d6f3920002473044022006a9ff7ec26c2ce73950575a18bb75fb255b42dc9e5dff20f8fa30c213be019c022052ea902d126b070d54c4765a4a5c54444d9064fb0516c524aaee1d22ab6f2563012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b92900000000'
+  recorded_at: Sat, 14 Jun 2025 06:06:54 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/3b76dddac7009c470d207d2f9861bac65d8904ae5418a61c61153dbeacb614e1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODE1MTQsImlhdCI6MTc0OTg4MTIxNCwianRpIjoiMGYwNWI5ZWItNGRkNC00MDFmLWIwYmMtMDY1ZjEyN2E5MTkwIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Q6hRsJTnCPNhojgEJJ-D8dpoMbfDLMQzbG_sTOZ1qUScatIJ_0GIG7aqErJXA03LQj9ZIVJZ2AQvPgnwTkkwICtpTynbizad0EmF76aInRYg1Dk1RgMvRqbrp1Drg1Vq_EL042UMYicoCPtAACCCtIJNVQpnGOxPWhs_1tlfBZpJbzztDowvSQS-0pUIUv0VbGLkkaaaRMNYtxiMWxRUwxS_E0mpfCNH_kbgmmokGL_RMPJiNhGoZM0DSqccSqcdMYoGy9G2A6IVIbqc4Dcs-Ys69MxNuMmItRmtNQRaL__T1z6voMUmTD8VHPjrTA6Uld7O0ZPxP4cFwbyzDgL5ig
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:06:55 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"3b76dddac7009c470d207d2f9861bac65d8904ae5418a61c61153dbeacb614e1","version":2,"locktime":0,"vin":[{"txid":"df72bddf459507b9a22df0228ca33fb042cf2ec34325308bce050589dbe5308f","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28154},"scriptsig":"","scriptsig_asm":"","witness":["3044022006a9ff7ec26c2ce73950575a18bb75fb255b42dc9e5dff20f8fa30c213be019c022052ea902d126b070d54c4765a4a5c54444d9064fb0516c524aaee1d22ab6f256301","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28034}],"size":191,"weight":437,"fee":120,"status":{"confirmed":false}}'
+  recorded_at: Sat, 14 Jun 2025 06:06:55 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/e94bc6ad1e9c63c6e90ba746789292e0dd757e2d8a25147a76239b7f64d4c4af/hex
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODE3MTMsImlhdCI6MTc0OTg4MTQxMywianRpIjoiMTk3YTM5MGYtNjcwOC00NDdjLWI3ODAtMzA5MTdhYjc2ZGJkIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.eJdkBF7lZa3GDXTOvYqcKy7L_4HjJbWR7g63MQTUxDWBp0sKPfNUB415GGfag2giJGo_ZhZcwwaXRwpjw9LA9c4lTXICA0OWFx_g3iAV9fv2hx3rHon7kD6gVtpiP58-7w6y4IuoFBfglW0oXVNYz-n2m9k_NBOr7VFYa4CyAvYvMvs5jgsBM66Wp5FPoTZ6QNiTSnGS5oZkgoybz4kEpCLEYU_OFU6mtKP96HfQ14-AbfYipvIoMVKPdoorYbLH0T_Me-RJgz1N3ek1Puk3eVrjJNCGC6p9WUbOYGevlIIhDe503j426uEiKImTrH2OIBZdpIN9-fRfd4hRhFyfaQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:10:15 GMT
+      Content-Type:
+      - text/plain
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: 020000000001010a4b885f6cc7364784e1fc946460c8ac8b4a5557b9706debe7153cd7f73e0ed40000000000ffffffff01926c000000000000160014c210ee7a074585a84e0dd0a043273563d6f3920002483045022100b47f25b0d0342ca4886defc8a34a87a6dda0669f4cd3a03bc3210026cfb003aa02203bf1db916a7e268390ce97bb5e3a920f5a063e4e7dc0d3cc15d49a1c73fa69eb012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b92900000000
+  recorded_at: Sat, 14 Jun 2025 06:10:15 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/e94bc6ad1e9c63c6e90ba746789292e0dd757e2d8a25147a76239b7f64d4c4af
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4ODE3MTMsImlhdCI6MTc0OTg4MTQxMywianRpIjoiMTk3YTM5MGYtNjcwOC00NDdjLWI3ODAtMzA5MTdhYjc2ZGJkIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.eJdkBF7lZa3GDXTOvYqcKy7L_4HjJbWR7g63MQTUxDWBp0sKPfNUB415GGfag2giJGo_ZhZcwwaXRwpjw9LA9c4lTXICA0OWFx_g3iAV9fv2hx3rHon7kD6gVtpiP58-7w6y4IuoFBfglW0oXVNYz-n2m9k_NBOr7VFYa4CyAvYvMvs5jgsBM66Wp5FPoTZ6QNiTSnGS5oZkgoybz4kEpCLEYU_OFU6mtKP96HfQ14-AbfYipvIoMVKPdoorYbLH0T_Me-RJgz1N3ek1Puk3eVrjJNCGC6p9WUbOYGevlIIhDe503j426uEiKImTrH2OIBZdpIN9-fRfd4hRhFyfaQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 06:10:15 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"e94bc6ad1e9c63c6e90ba746789292e0dd757e2d8a25147a76239b7f64d4c4af","version":2,"locktime":0,"vin":[{"txid":"d40e3ef7d73c15e7eb6d70b957554a8bacc8606494fce1844736c76c5f884b0a","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27914},"scriptsig":"","scriptsig_asm":"","witness":["3045022100b47f25b0d0342ca4886defc8a34a87a6dda0669f4cd3a03bc3210026cfb003aa02203bf1db916a7e268390ce97bb5e3a920f5a063e4e7dc0d3cc15d49a1c73fa69eb01","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":27794}],"size":192,"weight":438,"fee":120,"status":{"confirmed":false}}'
+  recorded_at: Sat, 14 Jun 2025 06:10:15 GMT
+- request:
+    method: post
+    uri: https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token
+    body:
+      encoding: US-ASCII
+      string: client_id=<BLOCKSTREAM_CLIENT_ID>&client_secret=<BLOCKSTREAM_CLIENT_SECRET>&grant_type=client_credentials&scope=openid
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - login.blockstream.com
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:24 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2533'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KC_AUTH_STATE=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure; HttpOnly
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMDQsImlhdCI6MTc0OTg5NTcwNCwianRpIjoiZTlhNmNmNmQtNDY0Zi00ZGQyLWI2ZDMtMmFkMzliYWRiMzljIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.N3WPpF-s626o-SrjHRTpHJ5ekSIOM3q8F36ydmY7o_J_se88tJ1Uaj7yQ5jDZTAw_GzIbcqhKjNmy5CM15Jlus5K9cknURcheEyDUgFsvTXcDJOeBrjhV0fmaI9eqLs4r_tlS8uON-2swMRFv7FyBY07DtJRvbalQ2UeJXwiDo9zB5NVACXPhQRkXFuF6IhJRHWzgRQ3lUXg5FB-sOahbopav1KFMKN5RRQ02culpDyUFYRRL3Yl0Sjacga9vXxAVxTzYUnp9yyudwm6Yb9qNECGiOGvLyOaB8VxzqamSF11n-i34cgIUJEmxzunlGADnc7Afyzkl6yoaKegYpQL7A","expires_in":300,"refresh_expires_in":0,"token_type":"Bearer","id_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMDQsImlhdCI6MTc0OTg5NTcwNCwiYXV0aF90aW1lIjowLCJqdGkiOiIwYmU5OWRhOC1jMmM2LTRlZWItYjc3Ni1kMDUwOGU5N2FlOTUiLCJpc3MiOiJodHRwczovL2xvZ2luLmJsb2Nrc3RyZWFtLmNvbS9yZWFsbXMvYmxvY2tzdHJlYW0tcHVibGljIiwiYXVkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIiwic3ViIjoiMzkxNGMwMmMtY2IwZi00NDcxLTk2NjItMDkxZGY1NTFlMzBiIiwidHlwIjoiSUQiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhdF9oYXNoIjoiMVd6WkJMT3Q2Wl9GUlM3MmZ1MzUzQSIsImFjciI6IjEiLCJjbGllbnRIb3N0IjoiODYuMjA0LjIzNC4xMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEFkZHJlc3MiOiI4Ni4yMDQuMjM0LjExMCIsImNsaWVudF9pZCI6ImNhYjU3YmQ4LWU1MGYtNGIyYy1hYzgzLTM5ZWEzNzkxNDg3ZiJ9.j2uHCBVLAXabS5RuzG1GQEiqINynqHsx5_ajKHQ5xQ4Yqr_HmJ9ALJ4R6L_mO89Cf17wiGaUL5ouAYqSuSZqowIeqAtUGtYX3ks13CUT_NAm8l6LonpX7DZvywQ-n9juWLVRJHBOke3XZWzWSwreVbRoMhDOUtaiyNKAtaY9-2vFu2AJpBETKtRxpLpC6ecNTvmPdI1CZ0inj8VCntHtmsH1Pp7XDlGYnC7zwA6o5aYNuDXESVGensXrKqpBydryLPi6R0FraFgq4xruwPRmFEnL8WRz3IC4NLWoqJ3a7VJMS3xp5HMy6DIMgV5o2USbwREIUyseNhHDSaoXsDJrYA","not-before-policy":0,"scope":"openid
+        email"}'
+  recorded_at: Sat, 14 Jun 2025 10:08:24 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/address/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0/utxo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMDQsImlhdCI6MTc0OTg5NTcwNCwianRpIjoiZTlhNmNmNmQtNDY0Zi00ZGQyLWI2ZDMtMmFkMzliYWRiMzljIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.N3WPpF-s626o-SrjHRTpHJ5ekSIOM3q8F36ydmY7o_J_se88tJ1Uaj7yQ5jDZTAw_GzIbcqhKjNmy5CM15Jlus5K9cknURcheEyDUgFsvTXcDJOeBrjhV0fmaI9eqLs4r_tlS8uON-2swMRFv7FyBY07DtJRvbalQ2UeJXwiDo9zB5NVACXPhQRkXFuF6IhJRHWzgRQ3lUXg5FB-sOahbopav1KFMKN5RRQ02culpDyUFYRRL3Yl0Sjacga9vXxAVxTzYUnp9yyudwm6Yb9qNECGiOGvLyOaB8VxzqamSF11n-i34cgIUJEmxzunlGADnc7Afyzkl6yoaKegYpQL7A
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"txid":"2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146","vout":0,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939},"value":27554}]'
+  recorded_at: Sat, 14 Jun 2025 10:08:25 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/address/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0/txs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMDQsImlhdCI6MTc0OTg5NTcwNCwianRpIjoiZTlhNmNmNmQtNDY0Zi00ZGQyLWI2ZDMtMmFkMzliYWRiMzljIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.N3WPpF-s626o-SrjHRTpHJ5ekSIOM3q8F36ydmY7o_J_se88tJ1Uaj7yQ5jDZTAw_GzIbcqhKjNmy5CM15Jlus5K9cknURcheEyDUgFsvTXcDJOeBrjhV0fmaI9eqLs4r_tlS8uON-2swMRFv7FyBY07DtJRvbalQ2UeJXwiDo9zB5NVACXPhQRkXFuF6IhJRHWzgRQ3lUXg5FB-sOahbopav1KFMKN5RRQ02culpDyUFYRRL3Yl0Sjacga9vXxAVxTzYUnp9yyudwm6Yb9qNECGiOGvLyOaB8VxzqamSF11n-i34cgIUJEmxzunlGADnc7Afyzkl6yoaKegYpQL7A
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - EXPIRED
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"txid":"42bb55239f8f781013095be610011a05d3cb0babbad30dd770b77ebc25f4bccd","version":2,"locktime":0,"vin":[{"txid":"e94bc6ad1e9c63c6e90ba746789292e0dd757e2d8a25147a76239b7f64d4c4af","vout":0,"prevout":{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":27794},"scriptsig":"","scriptsig_asm":"","witness":["3045022100ec965761a766a0f38c9f80858ed66e7ec08edeb9458ef81de7fdb1512ad10bcc02205c1b9d52afa92d147088435f023ebfa5c3a0c29922490657d249a09bd56f56cd01","03675c9e75f4ef6441c9ba400cb13cb60bb652af25f1caf4bd84db4d8e630ad9ee"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27674}],"size":192,"weight":438,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"df72bddf459507b9a22df0228ca33fb042cf2ec34325308bce050589dbe5308f","version":2,"locktime":0,"vin":[{"txid":"1407ad7ed7d4399c33dbd34fe5dddd432abdbfcf10443f17cae5d57c076ee8c2","vout":0,"prevout":{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28274},"scriptsig":"","scriptsig_asm":"","witness":["304402206fed6f9025648c1def8f9ab52d97920660322eae52970608cf85f1f1daccf5ac0220368c18aa5134c3b75fc83a14361106575d1ca3b4bd9ddc0e47deab60f7b2612e01","03675c9e75f4ef6441c9ba400cb13cb60bb652af25f1caf4bd84db4d8e630ad9ee"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28154}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"d40e3ef7d73c15e7eb6d70b957554a8bacc8606494fce1844736c76c5f884b0a","version":2,"locktime":0,"vin":[{"txid":"3b76dddac7009c470d207d2f9861bac65d8904ae5418a61c61153dbeacb614e1","vout":0,"prevout":{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28034},"scriptsig":"","scriptsig_asm":"","witness":["304402205eb8eb3cdea7a08527871962cfc771aa995643e7ba438a20f2874b7cb264cdf50220268f76e91cd282a8ac446f53bc88e046bd1acc00ecbb416c2b4f57f904385fa701","03675c9e75f4ef6441c9ba400cb13cb60bb652af25f1caf4bd84db4d8e630ad9ee"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27914}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"3b76dddac7009c470d207d2f9861bac65d8904ae5418a61c61153dbeacb614e1","version":2,"locktime":0,"vin":[{"txid":"df72bddf459507b9a22df0228ca33fb042cf2ec34325308bce050589dbe5308f","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28154},"scriptsig":"","scriptsig_asm":"","witness":["3044022006a9ff7ec26c2ce73950575a18bb75fb255b42dc9e5dff20f8fa30c213be019c022052ea902d126b070d54c4765a4a5c54444d9064fb0516c524aaee1d22ab6f256301","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28034}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"e94bc6ad1e9c63c6e90ba746789292e0dd757e2d8a25147a76239b7f64d4c4af","version":2,"locktime":0,"vin":[{"txid":"d40e3ef7d73c15e7eb6d70b957554a8bacc8606494fce1844736c76c5f884b0a","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27914},"scriptsig":"","scriptsig_asm":"","witness":["3045022100b47f25b0d0342ca4886defc8a34a87a6dda0669f4cd3a03bc3210026cfb003aa02203bf1db916a7e268390ce97bb5e3a920f5a063e4e7dc0d3cc15d49a1c73fa69eb01","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":27794}],"size":192,"weight":438,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146","version":2,"locktime":0,"vin":[{"txid":"42bb55239f8f781013095be610011a05d3cb0babbad30dd770b77ebc25f4bccd","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27674},"scriptsig":"","scriptsig_asm":"","witness":["30440220056c1101de4a55c4dd3dff2ad44610f449b7033e8214a87f8d29d754e9e109990220755de91668e23b2c98432bc7c775b0ae1cba9b9aa1c9f993d1bd0fce025527a501","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":27554}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}},{"txid":"1407ad7ed7d4399c33dbd34fe5dddd432abdbfcf10443f17cae5d57c076ee8c2","version":2,"locktime":0,"vin":[{"txid":"2c54943365b3027943301c54081815b73a4cb86172ef10fcd54985ab4dd12bc8","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28394},"scriptsig":"","scriptsig_asm":"","witness":["3045022100d41094376ae5bc35b0ed1507ef23497244d7a9ae3d771b8e800eb7ccc3f695f4022064b5a2410e10453b93214276846d282367222b22ff822ba2d82d31a8c06fbc4101","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28274}],"size":192,"weight":438,"fee":120,"status":{"confirmed":true,"block_height":4506872,"block_hash":"000000000518eb332a3711958367c265adb4e5852a6225207cf4035dfaabb8e1","block_time":1749888132}},{"txid":"2c54943365b3027943301c54081815b73a4cb86172ef10fcd54985ab4dd12bc8","version":2,"locktime":0,"vin":[{"txid":"9b6cfb89d376f20ab8192b7fd89fddcb387d51d63f41a15851bccd1e9f4c7d70","vout":0,"prevout":{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28514},"scriptsig":"","scriptsig_asm":"","witness":["3045022100f561eb0513e1f94af4016ce7da5e95a08159f4656f88fe0662cc470823c5cea802206abee02270fbcf7346fadde587adb5861a43d3f8625ef258de4c0a1bd8aece9d01","03675c9e75f4ef6441c9ba400cb13cb60bb652af25f1caf4bd84db4d8e630ad9ee"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":28394}],"size":192,"weight":438,"fee":120,"status":{"confirmed":true,"block_height":4506868,"block_hash":"000000000318c45c56d6a0b92e9c1ea9f68b4d4eaa2cfbe2a03124cd20e9c212","block_time":1749886930}},{"txid":"9b6cfb89d376f20ab8192b7fd89fddcb387d51d63f41a15851bccd1e9f4c7d70","version":2,"locktime":0,"vin":[{"txid":"20f345daa1953f7965bdbceaaf7487c15f4dec7ae8aedbb4fb9bf941c38c4ab2","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":10000},"scriptsig":"","scriptsig_asm":"","witness":["3044022064a3fb54744f8a951c120a60b4947c6a663bd738058e0edbb09225a03f6df31e02202d43c0bc98c53102f7a92d437c1c950d2a9a893e111eb47cdcab0c03106e115101","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295},{"txid":"adad62b1a35ca1a7c804ccc95d819c957ae1ef529f69ac9a5b68feaa49109373","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":18709},"scriptsig":"","scriptsig_asm":"","witness":["304402201e979edd04d6951a7b930e5fcf41686a791a65de0148ae3187c07f4548adb4c60220439da0aa9e4621bd0d9ec12779a2fbc8308ccd0461ae5aad4f36d2b761f59c0d01","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":28514}],"size":339,"weight":708,"fee":195,"status":{"confirmed":true,"block_height":4506550,"block_hash":"000000000a1801073b3257c7b53302dc6d172e7b2ddf28ca250f14f6d91e4a97","block_time":1749797952}},{"txid":"adad62b1a35ca1a7c804ccc95d819c957ae1ef529f69ac9a5b68feaa49109373","version":2,"locktime":0,"vin":[{"txid":"25f476ae7f0d43bf6d4bb4feb8e24b927e0ca53335f908524768fa0cff02bebf","vout":0,"prevout":{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":18829},"scriptsig":"","scriptsig_asm":"","witness":["3044022055899acffb7bc52cd7781b38a2d9ebaa326ed7c0731c72bc9872ddfff4bca82d0220627cc21ec96d6a80d5912e613df69e7bfd93a927c71d13a209a5df9244c7cd3301","03675c9e75f4ef6441c9ba400cb13cb60bb652af25f1caf4bd84db4d8e630ad9ee"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":18709}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":3614626,"block_hash":"0000000000e54287adaf4af3ec0086a58aa920800172250cc0f74c3d312b6505","block_time":1738048337}},{"txid":"25f476ae7f0d43bf6d4bb4feb8e24b927e0ca53335f908524768fa0cff02bebf","version":2,"locktime":0,"vin":[{"txid":"3befe1c30f30c1139fea3c4380bc10c8442fd8e5ee45465bcf7db1fe88eba433","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":18949},"scriptsig":"","scriptsig_asm":"","witness":["3044022049935b009275a180a519fc3be4b496c9efeb800d3ab45ae4a4637467e170ed9902206504341982f470e780df8d7dfccef3886ec2c5cad19c23bc741b12d90fe8c57301","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":18829}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":3613857,"block_hash":"000000000094ae8f848a8f7b7d8c43af0a9b4d647053bb14e6c15e7b919d1319","block_time":1737394274}}]'
+  recorded_at: Sat, 14 Jun 2025 10:08:25 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/blocks/tip/height
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMDQsImlhdCI6MTc0OTg5NTcwNCwianRpIjoiZTlhNmNmNmQtNDY0Zi00ZGQyLWI2ZDMtMmFkMzliYWRiMzljIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.N3WPpF-s626o-SrjHRTpHJ5ekSIOM3q8F36ydmY7o_J_se88tJ1Uaj7yQ5jDZTAw_GzIbcqhKjNmy5CM15Jlus5K9cknURcheEyDUgFsvTXcDJOeBrjhV0fmaI9eqLs4r_tlS8uON-2swMRFv7FyBY07DtJRvbalQ2UeJXwiDo9zB5NVACXPhQRkXFuF6IhJRHWzgRQ3lUXg5FB-sOahbopav1KFMKN5RRQ02culpDyUFYRRL3Yl0Sjacga9vXxAVxTzYUnp9yyudwm6Yb9qNECGiOGvLyOaB8VxzqamSF11n-i34cgIUJEmxzunlGADnc7Afyzkl6yoaKegYpQL7A
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '7'
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - HIT
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+    body:
+      encoding: UTF-8
+      string: '4506894'
+  recorded_at: Sat, 14 Jun 2025 10:08:25 GMT
+- request:
+    method: get
+    uri: https://api.coinbase.com/v2/prices/BTC-USD/spot
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.coinbase.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, Second-Factor-Proof-Token, Client-Id,
+        Access-Token, X-Cb-Project-Name, X-Cb-Is-Logged-In, X-Cb-Platform, X-Cb-Session-Uuid,
+        X-Cb-Pagekey, X-Cb-UJS, Fingerprint-Tokens, X-Cb-Device-Id, X-Cb-Version-Name
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Private-Network:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      Cache-Control:
+      - no-store
+      Grpc-Metadata-Cache-Control:
+      - public, max-age=60
+      Grpc-Metadata-Content-Type:
+      - application/grpc
+      Grpc-Metadata-Vary:
+      - Accept-Language
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Trace-Id:
+      - '8449412256938176604'
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Forwarded-For:
+      - asset-stats.cbhq.net
+      X-Forwarded-Port:
+      - '8001'
+      X-Forwarded-Proto:
+      - https
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Cf-Cache-Status:
+      - HIT
+      Age:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=MSeWm0r_K5WLrkgPBT0_xjf.Y9eQ.Lma1N1yIsHP6Gg-1749895705-1.0.1.1-gfmxapyqwtYZ6GiY7DjfsVy8nazagDWPbePxTM9.t18btfTh1cDRZtWP1xtVnKg2LH5nddAIy8WtbsadqLVISPE4xv7IQYs4tI83CUia4lo;
+        path=/; expires=Sat, 14-Jun-25 10:38:25 GMT; domain=.coinbase.com; HttpOnly;
+        Secure; SameSite=None
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=Eb9KuENv517dp%2FYWgPsoON5XtVSDld5q3m7c7R9U7HUiprYrE20yvl67WccISFb6i1wcT4iWvTp%2B1uu8t5gSAdX9NsRvJaL0zb03swS%2FvVzXzi5yGWZQPRg5P4SKUNBgALyu7%2B%2B8xhGdWGIYN58%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 94f906c11f9b6fde-CDG
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"amount":"104994.985","base":"BTC","currency":"USD"}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:25 GMT
+- request:
+    method: get
+    uri: https://api.coinbase.com/v2/prices/BTC-USD/spot?date=2025-06-14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.coinbase.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, Second-Factor-Proof-Token, Client-Id,
+        Access-Token, X-Cb-Project-Name, X-Cb-Is-Logged-In, X-Cb-Platform, X-Cb-Session-Uuid,
+        X-Cb-Pagekey, X-Cb-UJS, Fingerprint-Tokens, X-Cb-Device-Id, X-Cb-Version-Name
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Private-Network:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      Cache-Control:
+      - no-store
+      Grpc-Metadata-Cache-Control:
+      - public, max-age=60
+      Grpc-Metadata-Content-Type:
+      - application/grpc
+      Grpc-Metadata-Vary:
+      - Accept-Language
+      Set-Cookie:
+      - __cf_bm=J8Rmx_4IJmPTiBFF0z9UqXFdMbRtX8FtKI3grPnfkWY-1749895706-1.0.1.1-j9TmEvyAJmmjzfLS8UlHg4PqSU83BBAE2j1igwEk.3qGXfK.vUEOOCrwLfCNkRiFbDI98OcojHPHFhNyP0GFPBQqDyuXvEsMa.jj05JNnpw;
+        path=/; expires=Sat, 14-Jun-25 10:38:26 GMT; domain=.coinbase.com; HttpOnly;
+        Secure; SameSite=None
+      - cb_dm=386c8a21-0af0-497e-9138-e8931cf66caa; Path=/; Domain=coinbase.com; Expires=Thu,
+        14 Jun 2035 10:08:25 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Trace-Id:
+      - '5189853962899576930'
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Forwarded-For:
+      - asset-stats.cbhq.net
+      X-Forwarded-Port:
+      - '8001'
+      X-Forwarded-Proto:
+      - https
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Sat, 14 Jun 2025 10:08:25 GMT
+      Cf-Cache-Status:
+      - EXPIRED
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=Kx3BSnFrlOoQhIP9YnIEK%2Fr9aN3ZsaoW6mOHAmlFoGxSJfyiPCrtqho3sc%2BQXEzg5T51m3ngPuUHeZO097deFzoF%2FgWQGKFOi4TIb562HmvpViCKDd7FKdxXrXhaSI%2FO1J%2BjZO%2FmfZHvlDPp54Y%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 94f906c199993c8d-CDG
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"amount":"104994.525","base":"BTC","currency":"USD"}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:26 GMT
+- request:
+    method: get
+    uri: https://api.coinbase.com/v2/prices/BTC-USD/spot?date=2025-06-13
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.coinbase.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, Second-Factor-Proof-Token, Client-Id,
+        Access-Token, X-Cb-Project-Name, X-Cb-Is-Logged-In, X-Cb-Platform, X-Cb-Session-Uuid,
+        X-Cb-Pagekey, X-Cb-UJS, Fingerprint-Tokens, X-Cb-Device-Id, X-Cb-Version-Name
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Private-Network:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      Cache-Control:
+      - no-store
+      Grpc-Metadata-Cache-Control:
+      - public, max-age=60
+      Grpc-Metadata-Content-Type:
+      - application/grpc
+      Grpc-Metadata-Vary:
+      - Accept-Language
+      Set-Cookie:
+      - __cf_bm=U_K5aRrjBZdiJNpwYF4MACHy7N5YzArHWIdgmNs4yVg-1749895706-1.0.1.1-_iAVvrr4xloXcS6cEayqwEhQmqT1t0x6psWEWorQ1R0aIcqy1FfaoynEtROpFn_02UISE_01o5hawqWc.iPRyRbWq7WarLHt.GD8as4DFDI;
+        path=/; expires=Sat, 14-Jun-25 10:38:26 GMT; domain=.coinbase.com; HttpOnly;
+        Secure; SameSite=None
+      - cb_dm=9253f4a1-a364-4e11-9bca-5b6eab3cf06f; Path=/; Domain=coinbase.com; Expires=Thu,
+        14 Jun 2035 10:08:26 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Trace-Id:
+      - '3352983511476435578'
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Forwarded-For:
+      - asset-stats.cbhq.net
+      X-Forwarded-Port:
+      - '8001'
+      X-Forwarded-Proto:
+      - https
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Cf-Cache-Status:
+      - EXPIRED
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=wUwxQ1%2B4tT15PHhVr5qW7UZsYgiYzvb8pcmNeSoEHKk8NvnZAOWfXKplTUd8%2FhnnhzwPViVrbFIE4LQ0qPujZOaesncaScbgdAlzfwFCmg0Cx90ljHtrBs%2Be78pUB5iKeG%2F%2BETvKc6D5IAdghbI%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 94f906c35ba00492-CDG
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"amount":"105713.405","base":"BTC","currency":"USD"}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:26 GMT
+- request:
+    method: get
+    uri: https://api.coinbase.com/v2/prices/BTC-USD/spot?date=2025-01-28
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.coinbase.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, Second-Factor-Proof-Token, Client-Id,
+        Access-Token, X-Cb-Project-Name, X-Cb-Is-Logged-In, X-Cb-Platform, X-Cb-Session-Uuid,
+        X-Cb-Pagekey, X-Cb-UJS, Fingerprint-Tokens, X-Cb-Device-Id, X-Cb-Version-Name
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Private-Network:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      Cache-Control:
+      - no-store
+      Grpc-Metadata-Cache-Control:
+      - public, max-age=60
+      Grpc-Metadata-Content-Type:
+      - application/grpc
+      Grpc-Metadata-Vary:
+      - Accept-Language
+      Set-Cookie:
+      - __cf_bm=lQsXlPTXcHG9m8xOFBCmI7BZWa8dNk4G8uw.xu6ppnw-1749895706-1.0.1.1-Ply7IbDDirpZRAGiDgfkeNH0R7HGzGASqOQtiK0nthMQc1GEGf8BrvFJFl91W.iA1a7sPRCcQYZ3iwfroonvor0Q4jVX08xD5AOf_aA8Kp8;
+        path=/; expires=Sat, 14-Jun-25 10:38:26 GMT; domain=.coinbase.com; HttpOnly;
+        Secure; SameSite=None
+      - cb_dm=e237e16d-16f8-4c4b-a6e6-04a99b4c368a; Path=/; Domain=coinbase.com; Expires=Thu,
+        14 Jun 2035 10:08:26 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Trace-Id:
+      - '8052508267025377787'
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Forwarded-For:
+      - asset-stats.cbhq.net
+      X-Forwarded-Port:
+      - '8001'
+      X-Forwarded-Proto:
+      - https
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Cf-Cache-Status:
+      - EXPIRED
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=Hxba3KiRUH4%2Be%2FIEf0Es5XtJuZRWbRN2g0YcO8Wo9xJClQ96ztv5%2Fo3SBvCG4Ekd9ggqahoqMm8R8EX4ACUoxBCYCDgwm2TW8M9P5VHP1NkilsbVMv1XL5WBQ89n8FzXlMzIODanVWlue%2B7VuFE%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 94f906c48e1ff796-CDG
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"amount":"102060.325","base":"BTC","currency":"USD"}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:26 GMT
+- request:
+    method: get
+    uri: https://api.coinbase.com/v2/prices/BTC-USD/spot?date=2025-01-20
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.coinbase.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Accept, Second-Factor-Proof-Token, Client-Id,
+        Access-Token, X-Cb-Project-Name, X-Cb-Is-Logged-In, X-Cb-Platform, X-Cb-Session-Uuid,
+        X-Cb-Pagekey, X-Cb-UJS, Fingerprint-Tokens, X-Cb-Device-Id, X-Cb-Version-Name
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Private-Network:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      Cache-Control:
+      - no-store
+      Grpc-Metadata-Cache-Control:
+      - public, max-age=60
+      Grpc-Metadata-Content-Type:
+      - application/grpc
+      Grpc-Metadata-Vary:
+      - Accept-Language
+      Set-Cookie:
+      - __cf_bm=n37zaFdyQl4jN_PFFYJ1OwxBl3F.s93vd1FUF_NGUmA-1749895706-1.0.1.1-e5NaAxBZnDcTgdzFOBcE3x8yUwc6Jagm8Tw4bW3Lts_02mKei4HQPFAormphpw1xmEMCvtiYn4gljddt9K1f00V8LyMMSIPpHgId2V5sGFg;
+        path=/; expires=Sat, 14-Jun-25 10:38:26 GMT; domain=.coinbase.com; HttpOnly;
+        Secure; SameSite=None
+      - cb_dm=e0c7dbec-73e3-4458-8479-f33c58718455; Path=/; Domain=coinbase.com; Expires=Thu,
+        14 Jun 2035 10:08:26 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Trace-Id:
+      - '3206313569489241471'
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Forwarded-For:
+      - asset-stats.cbhq.net
+      X-Forwarded-Port:
+      - '8001'
+      X-Forwarded-Proto:
+      - https
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Sat, 14 Jun 2025 10:08:26 GMT
+      Cf-Cache-Status:
+      - EXPIRED
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=5nyh1dPXQ%2BMPErvyyTKtOuhA%2Fm9G%2BNncT98DzCgaLv58GrC8mIxyNqCybDaUfWwI5bLJleY0TeG%2FT62uiLgD9%2BueyR3xLYw0%2BgGQzMPlg6GcqgFxcWQ5%2BfcGSi92DzC2lwxLH3K%2FElwnsWHSVVA%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 94f906c5cb54008c-CDG
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"amount":"101217.78","base":"BTC","currency":"USD"}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:26 GMT
+- request:
+    method: post
+    uri: https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token
+    body:
+      encoding: US-ASCII
+      string: client_id=<BLOCKSTREAM_CLIENT_ID>&client_secret=<BLOCKSTREAM_CLIENT_SECRET>&grant_type=client_credentials&scope=openid
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - login.blockstream.com
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jun 2025 10:08:30 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2533'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KC_AUTH_STATE=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure; HttpOnly
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMTAsImlhdCI6MTc0OTg5NTcxMCwianRpIjoiODQ5NjJiYzItMDNhNS00OWNlLTk3MGYtNjhkYjVkOTBjZjk5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Fv9Mr0SwamS_TARDJwMaJS9Zuqu27PaaChpxZbFDH-vbmOo-ZRgdlSPqiwH0b5UZHnByCg398v8cjJj19N1vqxe0-WiG4zgYHjbnwJc0CarIShrk2YqM4vEXJBnvN9848tn9IiozFwmUf8lyKm2XUTyaPpl4ZkLiKMZ_MwPFqb5UbuM1o-tNK1Hd0HJ2d7TcrHLE4LFFSjw8_h6JouXb33LqWUWjOMHzDyeSFJlW1p_QMvMw7tZ2MNdBFoXcWVniwGIoGn8yzpX0DwQG-XmklNJNZuIGRcOBwye2l8DFvduS2X3LZ9PtV4SveqrZ_XAajGP4psDU5OGuFNvdVdDHfQ","expires_in":300,"refresh_expires_in":0,"token_type":"Bearer","id_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMTAsImlhdCI6MTc0OTg5NTcxMCwiYXV0aF90aW1lIjowLCJqdGkiOiI4NDgzMWJkZi1kZDQxLTQ3ODEtYTEyMS1jMmM4ZWI1YzQyY2QiLCJpc3MiOiJodHRwczovL2xvZ2luLmJsb2Nrc3RyZWFtLmNvbS9yZWFsbXMvYmxvY2tzdHJlYW0tcHVibGljIiwiYXVkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIiwic3ViIjoiMzkxNGMwMmMtY2IwZi00NDcxLTk2NjItMDkxZGY1NTFlMzBiIiwidHlwIjoiSUQiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhdF9oYXNoIjoiSi1EbU5nWjI0UUxmMVhIU1M4N3FvUSIsImFjciI6IjEiLCJjbGllbnRIb3N0IjoiODYuMjA0LjIzNC4xMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEFkZHJlc3MiOiI4Ni4yMDQuMjM0LjExMCIsImNsaWVudF9pZCI6ImNhYjU3YmQ4LWU1MGYtNGIyYy1hYzgzLTM5ZWEzNzkxNDg3ZiJ9.OrUbmWqk14FdhoGyf6GX5KlbOb9R_2BH86n8R36Jgt9lu5rB0wuBJa3p4z_1NGt7PmfBEtqxF1hKeGYxX92myjIovBfS-4tJ5CC0oq7sy9RwNiPHFjW873Q_D5Ct3tO5xRO-m66VqMYskf4cisDoih28Kai7baq2gOyEPG1Gjj4YkfQj4ocpq8ifWzpcS32vHlrOGjr-iWUIPc6Jz-54KjWWR0I2Czp2U7yhOyV7wzXeD6n1Lto4Edde6ZUUFgeI5TsVTQh8hDxVNn8cQDtNeLXokDCBT9DHZnrKOC_Im7eS7iX0sNmPwXNO5DU_GrQ0RROfOiD4gY3sEr8vpIZ0sw","not-before-policy":0,"scope":"openid
+        email"}'
+  recorded_at: Sat, 14 Jun 2025 10:08:30 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/address/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0/utxo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMTAsImlhdCI6MTc0OTg5NTcxMCwianRpIjoiODQ5NjJiYzItMDNhNS00OWNlLTk3MGYtNjhkYjVkOTBjZjk5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Fv9Mr0SwamS_TARDJwMaJS9Zuqu27PaaChpxZbFDH-vbmOo-ZRgdlSPqiwH0b5UZHnByCg398v8cjJj19N1vqxe0-WiG4zgYHjbnwJc0CarIShrk2YqM4vEXJBnvN9848tn9IiozFwmUf8lyKm2XUTyaPpl4ZkLiKMZ_MwPFqb5UbuM1o-tNK1Hd0HJ2d7TcrHLE4LFFSjw8_h6JouXb33LqWUWjOMHzDyeSFJlW1p_QMvMw7tZ2MNdBFoXcWVniwGIoGn8yzpX0DwQG-XmklNJNZuIGRcOBwye2l8DFvduS2X3LZ9PtV4SveqrZ_XAajGP4psDU5OGuFNvdVdDHfQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:30 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=10
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - EXPIRED
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"txid":"2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146","vout":0,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939},"value":27554}]'
+  recorded_at: Sat, 14 Jun 2025 10:08:30 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146/hex
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMTAsImlhdCI6MTc0OTg5NTcxMCwianRpIjoiODQ5NjJiYzItMDNhNS00OWNlLTk3MGYtNjhkYjVkOTBjZjk5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Fv9Mr0SwamS_TARDJwMaJS9Zuqu27PaaChpxZbFDH-vbmOo-ZRgdlSPqiwH0b5UZHnByCg398v8cjJj19N1vqxe0-WiG4zgYHjbnwJc0CarIShrk2YqM4vEXJBnvN9848tn9IiozFwmUf8lyKm2XUTyaPpl4ZkLiKMZ_MwPFqb5UbuM1o-tNK1Hd0HJ2d7TcrHLE4LFFSjw8_h6JouXb33LqWUWjOMHzDyeSFJlW1p_QMvMw7tZ2MNdBFoXcWVniwGIoGn8yzpX0DwQG-XmklNJNZuIGRcOBwye2l8DFvduS2X3LZ9PtV4SveqrZ_XAajGP4psDU5OGuFNvdVdDHfQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:30 GMT
+      Content-Type:
+      - text/plain
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=157784630
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: 02000000000101cdbcf425bc7eb770d70dd3baab0bcbd3051a0110e65b091310788f9f2355bb420000000000ffffffff01a26b000000000000160014c210ee7a074585a84e0dd0a043273563d6f39200024730440220056c1101de4a55c4dd3dff2ad44610f449b7033e8214a87f8d29d754e9e109990220755de91668e23b2c98432bc7c775b0ae1cba9b9aa1c9f993d1bd0fce025527a5012102a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b92900000000
+  recorded_at: Sat, 14 Jun 2025 10:08:30 GMT
+- request:
+    method: get
+    uri: https://blockstream.info/testnet/api/tx/2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk4OTYwMTAsImlhdCI6MTc0OTg5NTcxMCwianRpIjoiODQ5NjJiYzItMDNhNS00OWNlLTk3MGYtNjhkYjVkOTBjZjk5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Fv9Mr0SwamS_TARDJwMaJS9Zuqu27PaaChpxZbFDH-vbmOo-ZRgdlSPqiwH0b5UZHnByCg398v8cjJj19N1vqxe0-WiG4zgYHjbnwJc0CarIShrk2YqM4vEXJBnvN9848tn9IiozFwmUf8lyKm2XUTyaPpl4ZkLiKMZ_MwPFqb5UbuM1o-tNK1Hd0HJ2d7TcrHLE4LFFSjw8_h6JouXb33LqWUWjOMHzDyeSFJlW1p_QMvMw7tZ2MNdBFoXcWVniwGIoGn8yzpX0DwQG-XmklNJNZuIGRcOBwye2l8DFvduS2X3LZ9PtV4SveqrZ_XAajGP4psDU5OGuFNvdVdDHfQ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sat, 14 Jun 2025 10:08:30 GMT
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=157784630
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"2e03ed2212652798a68923798e8b9106f8f5600d91d767a7c001c7b30494a146","version":2,"locktime":0,"vin":[{"txid":"42bb55239f8f781013095be610011a05d3cb0babbad30dd770b77ebc25f4bccd","vout":0,"prevout":{"scriptpubkey":"00143a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 3a690dd9dabb5b5f6fbc117e05253917cb016cc3","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn","value":27674},"scriptsig":"","scriptsig_asm":"","witness":["30440220056c1101de4a55c4dd3dff2ad44610f449b7033e8214a87f8d29d754e9e109990220755de91668e23b2c98432bc7c775b0ae1cba9b9aa1c9f993d1bd0fce025527a501","02a420aaccff7999ff589204d4c03f156f5eaa75c91e778a555f665edd90b1b929"],"is_coinbase":false,"sequence":4294967295}],"vout":[{"scriptpubkey":"0014c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_asm":"OP_0
+        OP_PUSHBYTES_20 c210ee7a074585a84e0dd0a043273563d6f39200","scriptpubkey_type":"v0_p2wpkh","scriptpubkey_address":"tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0","value":27554}],"size":191,"weight":437,"fee":120,"status":{"confirmed":true,"block_height":4506875,"block_hash":"000000000e4324f8cd4cd4aac1e27dbdf8a0408cf94347b1d14ec5aec8bd2b3d","block_time":1749886939}}'
+  recorded_at: Sat, 14 Jun 2025 10:08:30 GMT
+recorded_with: VCR 6.3.1
