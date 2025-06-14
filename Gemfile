@@ -111,3 +111,5 @@ gem "rorvswild"
 
 # `Save Page As` doesn't export javascript files so we need to bundle them https://github.com/rails/importmap-rails/issues/289
 gem "jsbundling-rails"
+
+gem "chunky_png", "~> 1.4"
