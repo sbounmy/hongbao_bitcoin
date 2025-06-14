@@ -89,9 +89,10 @@ test.describe('Balance', () => {
     await expect(page.getByRole('button', { name: "Continue" })).toBeEnabled();
     await page.getByRole('button', { name: "Continue" }).click();
     await expect(page.getByText('Enter Destination')).toBeVisible();
+    await page.locator('#hong_bao_to_address').fill('tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
     await page.locator('label').filter({ hasText: 'Slow' }).click();
     await page.getByRole('button', { name: "Transfer" }).click();
-    await expect(page.getByText('Transfer successful')).toBeVisible();
+    await expect(page.getByText('Your transaction has been submitted to the network.')).toBeVisible();
   });
 
   test('user can check balance and transfer tokens with mnemonic', async ({ page }) => {
