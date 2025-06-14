@@ -114,7 +114,7 @@ test.describe('Balance', () => {
     await expect(page.getByText('Your transaction has been submitted to the network.')).toBeVisible();
   });
 
-  //
+  // if tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn doesnt have funds (uxtos), unskip this test to reload previous address + record: all
   test('user can check balance and transfer tokens with mnemonic 2', async ({ page }) => {
     test.skip('only to transfer back BTC to tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')
     await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true, record: 'all' })
