@@ -59,9 +59,7 @@ export default class extends Controller {
         this.utxos,
         this.networkValue
       )
-
       await transaction.build()
-      console.log(transaction)
       const result = await transaction.broadcast()
 
       this.dispatch("transfer:success", {

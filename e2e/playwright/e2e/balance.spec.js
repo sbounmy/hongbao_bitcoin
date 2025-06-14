@@ -112,4 +112,23 @@ test.describe('Balance', () => {
     await expect(page.getByText('Transfer successful')).toBeVisible();
   });
 
+  test('user can check balance and transfer tokens with mnemonic 2', async ({ page }) => {
+    await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true })
+    await page.goto('/hong_baos/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
+    await expect(page).toHaveURL(/step=1/);
+    await page.getByRole('button', { name: "Next →" }).click();
+    await page.getByRole('button', { name: "24 Words" }).click();
+    await page.waitForTimeout(1_000); // wait for js to fully load
+    await fillMnemonic(page, "range crucial fever correct tortoise zero unveil sell inmate robust magic soccer wood estate reunion rival flame usage around tent pony quality client process");
+    await page.getByRole('button', { name: "Continue" }).click();
+    await expect(page.getByText('Enter Destination')).toBeVisible();
+    await page.waitForTimeout(3_000); // wait utxos to be loaded
+    await page.locator('#hong_bao_to_address').fill('tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
+    await page.locator('label').filter({ hasText: 'Slow' }).click();
+    await page.getByRole('button', { name: "Transfer" }).click();
+    await page.waitForTimeout(100_000);
+    await expect(page.getByText('Transfer successful')).toBeVisible();
+  });
+
+
 });
