@@ -26,8 +26,6 @@ application.register("bitcoin-mnemonic", BitcoinMnemonicController)
 import BitcoinSegwitKeyController from "./bitcoin_segwit_key_controller"
 application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
 
-import BitcoinTransactionController from "./bitcoin_transaction_controller"
-application.register("bitcoin-transaction", BitcoinTransactionController)
 
 import BitcoinWifController from "./bitcoin_wif_controller"
 application.register("bitcoin-wif", BitcoinWifController)

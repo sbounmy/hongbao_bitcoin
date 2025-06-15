@@ -1,1 +1,6 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+User-agent: *
+Disallow: /hong_baos/*/form
+Disallow: /hong_baos/*/utxos
+Disallow: /addrs/

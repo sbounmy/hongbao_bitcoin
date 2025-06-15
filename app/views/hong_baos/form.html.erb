@@ -1,6 +1,6 @@
 <% if @hong_bao.balance.utxos.any? %>
   <%= form_with(model: @hong_bao,
-                url: transfer_hong_bao_path(@hong_bao.address),
+                url: hong_bao_path(@hong_bao.address),
                 id: "bitcoin",
                 class: "space-y-6 group",
                 data: {
