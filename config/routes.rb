@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do
     post :search, on: :collection
-    put :transfer, on: :member
+    post :transfer, on: :collection
   end
 
   scope "(:locale)", locale: /en|zh-CN/ do
