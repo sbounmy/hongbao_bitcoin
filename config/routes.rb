@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get "/about", to: "pages#about"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/wedding", to: "pages#wedding"
 
   # Authentication routes
   get "login", to: "users#new"
@@ -123,6 +124,7 @@ Rails.application.routes.draw do
 
   scope "/(:theme)" do
     get "/", to: "pages#index"
+    get "/dashboard/:subtheme", to: "papers#index"
   end
 
   # Google OAuth Routes

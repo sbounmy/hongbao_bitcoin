@@ -8,6 +8,7 @@ class PapersController < ApplicationController
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
   end
+
   def show
     @paper = Paper.find(params[:id])
     @hong_bao = HongBao.new
