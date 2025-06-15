@@ -20,6 +20,7 @@ module Client
     # Transaction endpoints - needed for transaction details in balance view
     get "/tx/:txid/hex", as: :get_transaction_hex
     get "/tx/:txid", as: :get_transaction
+    post "/tx", as: :post_transaction
     # Block endpoints - needed for confirmations calculation
     get "/blocks/tip/height", as: :get_tip_height
 

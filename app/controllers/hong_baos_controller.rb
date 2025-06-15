@@ -1,5 +1,5 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show form index search utxos]
+  allow_unauthenticated_access only: %i[new show form index search utxos transfer]
   before_action :set_network, only: %i[show form utxos]
   layout false, only: %i[form utxos]
 
@@ -42,6 +42,17 @@ class HongBaosController < ApplicationController
   end
 
   def transfer
+    raw_hex = params.require(:raw_hex)
+    network = params.require(:network)
+    Current.network = network.to_sym if network.present?
+
+    response = Client::BlockstreamApi.new(dev: Current.testnet?).post_transaction(body: raw_hex)
+
+    if response.is_a?(String)
+      render json: { txid: response }, status: :ok
+    else
+      render json: { error: "Failed to broadcast transaction: #{response.body}" }, status: :unprocessable_entity
+    end
   end
 
   def utxos

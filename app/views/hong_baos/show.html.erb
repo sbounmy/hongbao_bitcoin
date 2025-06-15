@@ -1,5 +1,9 @@
 <%= permission_banner(:camera) %>
 
+<%= content_for :head do %>
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+<% end %>
+
 <div class="flex flex-col items-center justify-center min-h-screen bg-[#FFE5E5] p-4">
   <div class="w-full max-w-xl bg-[#F04747] rounded-xl shadow-2xl overflow-hidden
               border-4 border-[#FFB636] outline outline-8 outline-[#F04747]">
