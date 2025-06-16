@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 
 
   def current_theme
-    @current_theme ||= Input::Theme.find_by(slug: params[:theme] || "usd")
+    @current_theme ||= Input::Theme.find_by!(slug: params[:theme] || "usd")
   end
 
   def current_spotify_path
