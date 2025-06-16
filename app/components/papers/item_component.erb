@@ -2,12 +2,12 @@
 <%= link_to paper_path(item), target: "_blank", class: "papers-item-component group/paper group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all", id: dom_id(item) do %>
   <div class="group-open/paper:ring-[#FFB636] group-open/paper:ring-8 relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
     <%# Front face %>
-    <div class="skeleton w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
+    <div class="skeleton rounded-lg w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
       <%= render_face(image_url: front_image_url) %>
     </div>
 
     <%# Back face %>
-    <div class="skeleton absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+    <div class="skeleton rounded-lg absolute top-0 left-0 w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform:rotateY(180deg)]">
       <%= render_face(image_url: back_image_url) %>
     </div>
   </div>
