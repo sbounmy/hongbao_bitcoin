@@ -27,12 +27,8 @@ test.describe('Theme', () => {
     // Try to access admin themes page
     await page.goto('/admin/themes/1/edit');
     
-    // Verify user is redirected or gets access denied
-    // This could be a redirect to login, unauthorized page, or error message
-    // Adjust the expectation based on your app's behavior
+    // Verify user getting access denied
     await expect(page.getByText('Admin access required')).toBeVisible();
-    // Alternative: check for error message if staying on same page
-    // await expect(page.getByText('Access denied')).toBeVisible();
   });
   test('admin can view and edit theme properties', async ({ page }) => {
     
