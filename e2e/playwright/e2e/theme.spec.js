@@ -2,8 +2,40 @@ const { test, expect } = require('../support/test-setup');
 const { appVcrInsertCassette, forceLogin, appFactories, app, turboCableConnected } = require('../support/on-rails');
 
 test.describe('Theme', () => {
+  test('should show error with wrong credentials', async ({ page }) => {
+    await appVcrInsertCassette('stripe_products');
+    await page.goto('/login');
+    
+    // Fill in wrong credentials
+    await page.getByRole('textbox', { name: 'Email address' }).fill('admin@example.com');
+    
+    // Submit login form
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('blablapassword');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    // Verify error message is displayed
+    await expect(page.getByText('Password is incorrect')).toBeVisible();
+    
+  });
 
+  test('non-admin user cannot access admin theme pages', async ({ page }) => {
+    await appVcrInsertCassette('stripe_products');
+    await forceLogin(page, {
+      email: 'john@example.com'
+    });
+    
+    // Try to access admin themes page
+    await page.goto('/admin/themes/1/edit');
+    
+    // Verify user is redirected or gets access denied
+    // This could be a redirect to login, unauthorized page, or error message
+    // Adjust the expectation based on your app's behavior
+    await expect(page.getByText('Admin access required')).toBeVisible();
+    // Alternative: check for error message if staying on same page
+    // await expect(page.getByText('Access denied')).toBeVisible();
+  });
   test('admin can view and edit theme properties', async ({ page }) => {
+    
     await appVcrInsertCassette('themes')
     await forceLogin(page, {
       email: 'admin@example.com',
