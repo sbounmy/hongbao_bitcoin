@@ -61,7 +61,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the application controller.
-  # config.authentication_method = :authenticate_admin_user!
+  config.authentication_method = :authenticate_admin_user!
 
   # == User Authorization
   #
@@ -100,7 +100,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # (within the application controller) to return the currently logged in user.
-  # config.current_user_method = :current_admin_user
+  config.current_user_method = :current_admin_user
 
   # == Logging Out
   #
@@ -112,7 +112,7 @@ ActiveAdmin.setup do |config|
   # will call the method to return the path.
   #
   # Default:
-  config.logout_link_path = :destroy_admin_user_session_path
+  config.logout_link_path = :session_path
 
   # == Root
   #
@@ -285,11 +285,17 @@ end
 
 Rails.configuration.to_prepare do
   ActiveAdmin::BaseController.class_eval do
-    allow_unauthenticated_access
+    include Authentication
 
-    http_basic_authenticate_with(
-      name: Rails.application.credentials.dig(:active_admin, :name),
-      password: Rails.application.credentials.dig(:active_admin, :password)
-    ) if ENV["SECRET_KEY_BASE_DUMMY"].nil?
+    def authenticate_admin_user!
+      unless current_user&.admin?
+        session[:return_to_after_authenticating] = request.url
+        redirect_to new_session_path, alert: "Admin access required"
+      end
+    end
+
+    def current_admin_user
+      current_user if current_user&.admin?
+    end
   end
 end
