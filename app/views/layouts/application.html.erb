@@ -46,7 +46,7 @@
     <%= csp_meta_tag %>
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
-    <% if Rails.env.production? && !content_for?(:skip_analytics) %><%= render "shared/facebook_pixel" %><% end %>
+    <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
   <%= tag.body(data: { theme: current_theme.ui_name }, **attributes_from(yield(:body_attributes))) do %>
