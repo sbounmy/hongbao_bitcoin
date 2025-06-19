@@ -1,0 +1,90 @@
+<!-- filepath: /home/greatest/work/hongbao_bitcoin/app/views/admin/themes/_visual_editor.html.erb -->
+<%
+  # Determine element types and model type based on form object
+  if form.object.is_a?(Paper)
+    element_types = Paper::ELEMENTS
+    model_type = "paper"
+  else
+    element_types = Input::Theme::AI_ELEMENT_TYPES
+    model_type = "theme"
+  end
+%>
+
+<div class="bg-gray-50 p-6 rounded-lg border visual-editor-container" 
+     data-controller="visual-editor" 
+     data-visual-editor-element-types-value="<%= element_types.to_json %>"
+     data-visual-editor-model-type-value="<%= model_type %>">
+  
+  <!-- Side Selector -->
+  <div class="mb-6" data-visual-editor-target="sideSelector">
+    <label class="block text-sm font-medium mb-2">Select Side to Edit:</label>
+    <div class="flex gap-2">
+      <button type="button" 
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+              data-action="click->visual-editor#switchToFront"
+              data-side="front">
+        Front (Public Address)
+      </button>
+      <button type="button" 
+              class="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded hover:bg-gray-600"
+              data-action="click->visual-editor#switchToBack"
+              data-side="back">
+        Back (Private Key & Mnemonic)
+      </button>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-6">
+    <!-- Canvas -->
+    <div class="lg:col-span-2">
+      <div class="bg-gray-100 border-2 border-dashed border-gray-300 rounded p-4 min-h-96">
+        <div class="relative mx-auto bg-white border rounded shadow-sm min-h-96"
+             data-visual-editor-target="canvas"
+             data-action="click->visual-editor#closeProperties">
+          
+          <!-- Elements -->
+          <% element_types.each do |element_type| %>
+            <div class="absolute flex items-center justify-center text-xs font-bold border-2 border-blue-500 bg-blue-50 rounded cursor-move select-none hover:border-blue-600 hover:bg-blue-100"
+                 data-visual-editor-target="element"
+                 data-element-type="<%= element_type %>"
+                 data-action="click->visual-editor#handleElementClick"
+                 style="left: 20px; top: 20px; width: 60px; height: 60px;">
+              <%= element_type.humanize.split.map(&:first).join.upcase %>
+            </div>
+          <% end %>
+        </div>
+        
+        <p class="text-xs text-gray-500 text-center mt-2">
+          Upload images above to see background. Drag elements to position.
+        </p>
+      </div>
+    </div>
+
+    <!-- Properties Panel -->
+    <div class="lg:col-span-1">
+      <div class="bg-white border rounded p-4 hidden"
+           data-visual-editor-target="propertiesPanel">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="font-semibold">Element Properties</h3>
+          <button type="button" 
+                  class="text-gray-400 hover:text-gray-600"
+                  data-action="click->visual-editor#closeProperties">
+            ✕
+          </button>
+        </div>
+        <div data-visual-editor-target="propertiesContent"></div>
+      </div>
+      
+      <!-- Instructions -->
+      <div class="bg-blue-50 border border-blue-200 rounded p-4 mt-4">
+        <h4 class="text-sm font-semibold text-blue-800 mb-2">How to Use:</h4>
+        <ul class="text-xs text-blue-700 space-y-1">
+          <li>• Upload images above first</li>
+          <li>• Switch between front/back</li>
+          <li>• Drag to move, resize corners</li>
+          <li>• Click to edit properties</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
