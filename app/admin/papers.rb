@@ -102,6 +102,10 @@ ActiveAdmin.register Paper do
       f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
       f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
 
+      f.inputs "Visual Element Editor" do
+        para "Position elements visually on your paper images."
+        render partial: "admin/themes/visual_editor", locals: { form: f }
+      end
       # JSONB elements handling
       Paper::ELEMENTS.each do |element|
         f.inputs element.titleize do
