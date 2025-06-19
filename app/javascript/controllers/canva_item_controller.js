@@ -26,16 +26,25 @@ export default class extends Controller {
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
-    const x = this.canvaController.originalWidth * this.xValue
-    const y = this.canvaController.originalHeight * this.yValue
+    // UPDATED: Handle percentage coordinates (0-100) from visual editor
+    const x = this.canvaController.originalWidth * (this.xValue / 100) // Convert 50 -> 0.5
+    const y = this.canvaController.originalHeight * (this.yValue / 100) // Convert 50 -> 0.5
+    
     if (this.typeValue === 'text') {
-
       this.ctx.font = `${this.fontSizeValue}px Arial`
       this.ctx.fillStyle = this.fontColorValue
       this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, this.fontSizeValue + 1)
 
     } else if (this.typeValue === 'image') {
-      let imageSize = this.fontSizeValue * this.canvaController.originalWidth
+      // UPDATED: Handle QR code size as percentage of canvas
+      let imageSize
+      if (this.fontSizeValue > 1) {
+        // If size > 1, treat as percentage (from visual editor)
+        imageSize = (this.fontSizeValue / 100) * Math.min(this.canvaController.originalWidth, this.canvaController.originalHeight)
+      } else {
+        // If size <= 1, treat as decimal multiplier (legacy)
+        imageSize = this.fontSizeValue * this.canvaController.originalWidth
+      }
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
     }
     else {
@@ -60,8 +69,9 @@ export default class extends Controller {
   }
 
   drawTextMnemonic(text) {
-    const startX = this.canvaController.originalWidth * this.xValue
-    const startY = this.canvaController.originalHeight * this.yValue
+    const startX = this.canvaController.originalWidth * (this.xValue / 100) // Convert percentage
+    const startY = this.canvaController.originalHeight * (this.yValue / 100) // Convert percentage
+
 
     this.ctx.font = `${this.fontSizeValue}px Arial`
     this.ctx.fillStyle = this.fontColorValue
