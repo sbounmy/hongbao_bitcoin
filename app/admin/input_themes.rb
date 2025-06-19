@@ -1,8 +1,8 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :front_image, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
-  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :front_image_blob, :front_image_attachment, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
@@ -175,6 +175,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :prompt
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
       f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
+      f.input :front_image, as: :file, hint: f.object.front_image.attached? ? image_tag(url_for(f.object.front_image), width: 500) : nil
       f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
       f.input :slug
       f.input :spotify_path, as: :string, hint: "track/40KNlAhOsMqCmfnbRtQrbx from embed url"
@@ -186,7 +187,10 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         "night", "coffee", "winter", "dim", "nord", "sunset"
       ]
     end
-
+    f.inputs "Visual Element Editor" do
+      para "Position elements visually on your theme images."
+      render partial: "admin/themes/visual_editor", locals: { form: f }
+    end
     # --- START: Add AI Element Inputs ---
     f.inputs "AI Element Positions & Styles" do
       para "Define the default position (x, y coordinates as percentages from top-left), size (as a percentage of image width/height), color, and max text width for each paper element."
