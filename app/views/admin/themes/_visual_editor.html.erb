@@ -37,18 +37,18 @@
   <div class="grid lg:grid-cols-3 gap-6">
     <!-- Canvas -->
     <div class="lg:col-span-2">
-      <div class="bg-gray-100 border-2 border-dashed border-gray-300 rounded p-4 min-h-96">
-        <div class="relative mx-auto bg-white border rounded shadow-sm min-h-96"
-             data-visual-editor-target="canvas"
-             data-action="click->visual-editor#closeProperties">
+      <div class="bg-gray-100 flex flex-col items-center border-2 w-full border-dashed border-gray-300 rounded p-4 ">
+        <div class="relative mx-auto bg-white border rounded shadow-sm w-[600px] h-[300px] min-w-[600px] min-h-[300px] max-w-[600px] max-h-[300px] flex-shrink-0 flex-grow-0"
+            data-visual-editor-target="canvas"
+            data-action="click->visual-editor#closeProperties">
           
           <!-- Elements -->
           <% element_types.each do |element_type| %>
             <div class="absolute flex items-center justify-center text-xs font-bold border-2 border-blue-500 bg-blue-50 rounded cursor-move select-none hover:border-blue-600 hover:bg-blue-100"
-                 data-visual-editor-target="element"
-                 data-element-type="<%= element_type %>"
-                 data-action="click->visual-editor#handleElementClick"
-                 style="left: 20px; top: 20px; width: 60px; height: 60px;">
+                data-visual-editor-target="element"
+                data-element-type="<%= element_type %>"
+                data-action="click->visual-editor#handleElementClick"
+                style="left: 20px; top: 20px; width: 60px; height: 60px;">
               <%= element_type.humanize.split.map(&:first).join.upcase %>
             </div>
           <% end %>

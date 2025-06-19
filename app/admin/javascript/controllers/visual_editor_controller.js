@@ -406,35 +406,43 @@ export default class extends Controller {
     element.style.height = `${fontSize * 1.5}px`
   } 
 
-  setDefaultCanvasSize() {
-    if (!this.canvasWidth || !this.canvasHeight) {
-      const containerWidth = this.canvasTarget.parentElement.offsetWidth
-      const maxCanvasWidth = Math.min(containerWidth - 40, 800)
-      
-      // Store the calculated dimensions
-      this.canvasWidth = maxCanvasWidth
-      this.canvasHeight = maxCanvasWidth / 2  // 2:1 ratio
-    }
+  // Update the setFixedCanvasSize method:
+
+  setFixedCanvasSize() {
+    // SMALLER: 600x300 pixels (2:1 ratio) - more reasonable size
+    this.canvasTarget.style.width = '600px'
+    this.canvasTarget.style.height = '300px'
+    this.canvasTarget.style.minWidth = '600px'
+    this.canvasTarget.style.minHeight = '300px'
+    this.canvasTarget.style.maxWidth = '600px'
+    this.canvasTarget.style.maxHeight = '300px'
     
-    this.canvasTarget.style.width = `${this.canvasWidth}px`
-    this.canvasTarget.style.height = `${this.canvasHeight}px`
-    this.canvasTarget.style.backgroundColor = '#f3f4f6'
-    this.canvasTarget.style.padding = '0'  // ADDED: Remove any padding
-    this.canvasTarget.style.margin = '0'   // ADDED: Remove any margin
-    this.canvasTarget.style.border = 'none' // ADDED: Remove border if any
+    // Other styles
+    this.canvasTarget.style.backgroundSize = 'cover'
+    this.canvasTarget.style.backgroundRepeat = 'no-repeat'
+    this.canvasTarget.style.backgroundPosition = 'center'
+    this.canvasTarget.style.padding = '0'
+    this.canvasTarget.style.margin = '0'
+    this.canvasTarget.style.border = 'none'
+    this.canvasTarget.style.boxSizing = 'border-box'
     
     // Always use 1024x512 for coordinate calculations
     this.originalImageWidth = 1024
     this.originalImageHeight = 512
     
-    console.log(`Default canvas: ${this.canvasWidth}×${this.canvasHeight} (display), Coordinates based on: ${this.originalImageWidth}×${this.originalImageHeight}`)
+    console.log(`Fixed canvas size: 600×300 pixels, Coordinates based on: ${this.originalImageWidth}×${this.originalImageHeight}`)
+}
+
+  setDefaultCanvasSize() {
+    this.setFixedCanvasSize()
+    this.canvasTarget.style.backgroundColor = '#f3f4f6'
     
     setTimeout(() => {
       this.initializeElements()
       this.setupInteractJS()
     }, 100)
   }
-  
+    
   setCanvasBackground(imageSrc) {
     this.canvasTarget.style.backgroundImage = `url(${imageSrc})`
     
