@@ -135,6 +135,11 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         image_tag theme.image, style: "width: 100px;"
       end
     end
+    column :front_image do |theme|
+      if theme.front_image.attached?
+        image_tag theme.front_image, style: "width: 100px;"
+      end
+    end
     column :back_image do |theme|
       if theme.back_image.attached?
         image_tag theme.back_image, style: "width: 100px;"
@@ -157,6 +162,11 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       row :image do |theme|
         if theme.image.attached?
           image_tag theme.image, style: "width: 500px;"
+        end
+      end
+      row :front_image do |theme|
+        if theme.front_image.attached?
+          image_tag theme.front_image, style: "width: 500px;"
         end
       end
       row :back_image do |theme|
