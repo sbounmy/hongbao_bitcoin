@@ -12,36 +12,36 @@ tunisian_dinar:
       },
       "ai": {
        "private_key_qrcode": {
-        "x": "0.1",
-        "y": "0.37",
-        "size": "0.09",
+        "x": "10",
+        "y": "37",
+        "size": "9",
         "color": "#000000",
         "max_text_width": ""
       },
       "private_key_text": {
-        "x": "0.09",
-        "y": "0.57",
+        "x": "9",
+        "y": "57",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "public_address_qrcode": {
-        "x": "0.82",
-        "y": "0.34",
-        "size": "0.09",
+        "x": "22",
+        "y": "24",
+        "size": "9",
         "color": "",
         "max_text_width": ""
       },
       "public_address_text": {
-        "x": "0.81",
-        "y": "0.55",
+        "x": "21",
+        "y": "55",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "mnemonic_text": {
-        "x": "0.05",
-        "y": "0.8",
+        "x": "5",
+        "y": "50",
         "size": "13",
         "color": "#000000",
         "max_text_width": "400"
@@ -79,39 +79,39 @@ dollar:
       },
       "ai": {
        "private_key_qrcode": {
-        "x": "0.82",
-        "y": "0.285",
-        "size": "0.09",
+        "x": "10",
+        "y": "37",
+        "size": "9",
         "color": "#000000",
         "max_text_width": ""
       },
       "private_key_text": {
-        "x": "0.815",
-        "y": "0.5",
+        "x": "9",
+        "y": "57",
         "size": "8",
         "color": "#000000",
-        "max_text_width": "10"
+        "max_text_width": "12"
       },
       "public_address_qrcode": {
-        "x": "0.82",
-        "y": "0.5",
-        "size": "0.09",
+        "x": "22",
+        "y": "24",
+        "size": "9",
         "color": "",
         "max_text_width": ""
       },
       "public_address_text": {
-        "x": "0.81",
-        "y": "0.7",
+        "x": "21",
+        "y": "55",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "mnemonic_text": {
-        "x": "0.17",
-        "y": "0.77",
-        "size": "12",
+        "x": "5",
+        "y": "50",
+        "size": "13",
         "color": "#000000",
-        "max_text_width": "360"
+        "max_text_width": "400"
       },
       "custom_text": {
         "x": "",
@@ -133,48 +133,48 @@ euro:
         "name": "aqua"
       },
       "ai": {
-        "private_key_qrcode": {
-          "x": "0.787",
-          "y": "0.18",
-          "size": "0.12",
-          "color": "#000000",
-          "max_text_width": ""
-        },
-        "private_key_text": {
-          "x": "0.785",
-          "y": "0.44",
-          "size": "8",
-          "color": "#000000",
-          "max_text_width": "12"
-        },
-        "public_address_qrcode": {
-          "x": "0.07",
-          "y": "0.3",
-          "size": "0.1",
-          "color": "",
-          "max_text_width": ""
-        },
-        "public_address_text": {
-          "x": "0.07",
-          "y": "0.55",
-          "size": "8",
-          "color": "#000000",
-          "max_text_width": "12"
-        },
-        "mnemonic_text": {
-          "x": "0.07",
-          "y": "0.88",
-          "size": "12",
-          "color": "#000000",
-          "max_text_width": "400"
-        },
-        "custom_text": {
-          "x": "",
-          "y": "",
-          "size": "",
-          "color": "",
-          "max_text_width": ""
-        }
+       "private_key_qrcode": {
+        "x": "10",
+        "y": "37",
+        "size": "9",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "9",
+        "y": "57",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "22",
+        "y": "24",
+        "size": "9",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "21",
+        "y": "55",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "5",
+        "y": "50",
+        "size": "13",
+        "color": "#000000",
+        "max_text_width": "400"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
       }
     }
 monoboly:
@@ -188,48 +188,48 @@ monoboly:
         "name": "lofi"
       },
       "ai": {
-        "private_key_qrcode": {
-          "x": "0.79",
-          "y": "0.52",
-          "size": "0.09",
-          "color": "#000000",
-          "max_text_width": ""
-        },
-        "private_key_text": {
-          "x": "0.78",
-          "y": "0.7",
-          "size": "8",
-          "color": "#000000",
-          "max_text_width": "12"
-        },
-        "public_address_qrcode": {
-          "x": "0.15",
-          "y": "0.23",
-          "size": "0.09",
-          "color": "",
-          "max_text_width": ""
-        },
-        "public_address_text": {
-          "x": "0.14",
-          "y": "0.44",
-          "size": "8",
-          "color": "#000000",
-          "max_text_width": "12"
-        },
-        "mnemonic_text": {
-          "x": "0.1",
-          "y": "0.64",
-          "size": "9",
-          "color": "#000000",
-          "max_text_width": "120"
-        },
-        "custom_text": {
-          "x": "",
-          "y": "",
-          "size": "",
-          "color": "",
-          "max_text_width": ""
-        }
+       "private_key_qrcode": {
+        "x": "10",
+        "y": "37",
+        "size": "9",
+        "color": "#000000",
+        "max_text_width": ""
+      },
+      "private_key_text": {
+        "x": "9",
+        "y": "57",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "public_address_qrcode": {
+        "x": "22",
+        "y": "24",
+        "size": "9",
+        "color": "",
+        "max_text_width": ""
+      },
+      "public_address_text": {
+        "x": "21",
+        "y": "55",
+        "size": "8",
+        "color": "#000000",
+        "max_text_width": "12"
+      },
+      "mnemonic_text": {
+        "x": "5",
+        "y": "50",
+        "size": "13",
+        "color": "#000000",
+        "max_text_width": "400"
+      },
+      "custom_text": {
+        "x": "",
+        "y": "",
+        "size": "",
+        "color": "",
+        "max_text_width": ""
+      }
       }
     }
 rouble:
@@ -242,41 +242,41 @@ rouble:
       "ui": {
         "name": "emerald"
       },
-      "ai": {
+     "ai": {
        "private_key_qrcode": {
-        "x": "0.07",
-        "y": "0.287",
-        "size": "0.09",
+        "x": "10",
+        "y": "37",
+        "size": "9",
         "color": "#000000",
         "max_text_width": ""
       },
       "private_key_text": {
-        "x": "0.069",
-        "y": "0.5",
+        "x": "9",
+        "y": "57",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "public_address_qrcode": {
-        "x": "0.87",
-        "y": "0.55",
-        "size": "0.09",
+        "x": "22",
+        "y": "24",
+        "size": "9",
         "color": "",
         "max_text_width": ""
       },
       "public_address_text": {
-        "x": "0.86",
-        "y": "0.75",
+        "x": "21",
+        "y": "55",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "mnemonic_text": {
-        "x": "0.05",
-        "y": "0.67",
-        "size": "12",
+        "x": "5",
+        "y": "50",
+        "size": "13",
         "color": "#000000",
-        "max_text_width": "280"
+        "max_text_width": "400"
       },
       "custom_text": {
         "x": "",
@@ -299,39 +299,39 @@ chinese_yuan:
       },
       "ai": {
        "private_key_qrcode": {
-        "x": "0.81",
-        "y": "0.4",
-        "size": "0.1",
+        "x": "10",
+        "y": "37",
+        "size": "9",
         "color": "#000000",
         "max_text_width": ""
       },
       "private_key_text": {
-        "x": "0.81",
-        "y": "0.62",
+        "x": "9",
+        "y": "57",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "public_address_qrcode": {
-        "x": "0.082",
-        "y": "0.455",
-        "size": "0.1",
+        "x": "22",
+        "y": "24",
+        "size": "9",
         "color": "",
         "max_text_width": ""
       },
       "public_address_text": {
-        "x": "0.082",
-        "y": "0.66",
+        "x": "21",
+        "y": "55",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "mnemonic_text": {
-        "x": "0.2",
-        "y": "0.77",
-        "size": "12",
+        "x": "5",
+        "y": "50",
+        "size": "13",
         "color": "#000000",
-        "max_text_width": "280"
+        "max_text_width": "400"
       },
       "custom_text": {
         "x": "",
@@ -352,41 +352,41 @@ indonesian_rupiah:
       "ui": {
         "name": "winter"
       },
-      "ai": {
+     "ai": {
        "private_key_qrcode": {
-        "x": "0.8",
-        "y": "0.285",
-        "size": "0.09",
+        "x": "10",
+        "y": "37",
+        "size": "9",
         "color": "#000000",
         "max_text_width": ""
       },
       "private_key_text": {
-        "x": "0.785",
-        "y": "0.5",
+        "x": "9",
+        "y": "57",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "public_address_qrcode": {
-        "x": "0.07",
-        "y": "0.25",
-        "size": "0.09",
+        "x": "22",
+        "y": "24",
+        "size": "9",
         "color": "",
         "max_text_width": ""
       },
       "public_address_text": {
-        "x": "0.07",
-        "y": "0.45",
+        "x": "21",
+        "y": "55",
         "size": "8",
         "color": "#000000",
         "max_text_width": "12"
       },
       "mnemonic_text": {
-        "x": "0.05",
-        "y": "0.67",
-        "size": "12",
+        "x": "5",
+        "y": "50",
+        "size": "13",
         "color": "#000000",
-        "max_text_width": "280"
+        "max_text_width": "400"
       },
       "custom_text": {
         "x": "",
