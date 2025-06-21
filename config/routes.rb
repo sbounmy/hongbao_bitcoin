@@ -1,6 +1,9 @@
 require "digest/md5"
 
 Rails.application.routes.draw do
+  # sitepress_root
+  sitepress_pages
+
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
   resources :bundles, only: [ :create ]
