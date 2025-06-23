@@ -198,51 +198,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       ]
     end
     f.inputs "Visual Element Editor" do
-      para "Position elements visually on your theme images."
-      render partial: "admin/themes/visual_editor", locals: { form: f }
+      para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
+      render Admin::VisualEditorComponent.new(form: f)
     end
-    # --- START: Add AI Element Inputs ---
-    f.inputs "AI Element Positions & Styles" do
-      para "Define the default position (x, y coordinates as percentages from top-left), size (as a percentage of image width/height), color, and max text width for each paper element."
-
-      # Iterate through each AI element type defined in the model
-      Input::Theme::AI_ELEMENT_TYPES.each do |element_type|
-        f.inputs element_type.titleize, class: "ai-element-group" do # Group fields visually
-          # Iterate through each property defined for AI elements
-          Input::Theme::AI_ELEMENT_PROPERTIES.each do |property|
-            # Construct the correct name attribute for the nested JSON store
-            input_name = "input_theme[ai][#{element_type}][#{property}]"
-            # Retrieve the current value, digging safely into the potentially nil 'ai' hash
-            current_value = f.object.ai&.dig(element_type, property.to_s)
-
-            # Determine input type based on property name
-            input_type = case property.to_s
-            when "x", "y", "size"
-                           :number
-            when "color"
-                           :color # Use HTML5 color picker
-            else # max_text_width, etc.
-                           :number # Assuming numeric, adjust if text needed
-            end
-
-            # Set step for float values
-            input_options = {
-              value: current_value,
-              name: input_name
-            }
-            input_options[:step] = "any" if [ :number ].include?(input_type) && [ "x", "y", "size" ].include?(property.to_s)
-            input_options[:type] = "color" if property.to_s == "color" # Force type for Formtastic string default
-
-            f.input property.to_s, # Use property name for the input's internal tracking within Formtastic
-                    label: property.to_s.titleize,
-                    as: (property.to_s == "color" ? :string : input_type), # Use string for color to allow HTML5 type attr
-                    required: false, # Adjust if any property is mandatory
-                    input_html: input_options
-          end
-        end
-      end
-    end
-    # --- END: Add AI Element Inputs ---
 
     # Define hints based on property descriptions
     property_hints = {
