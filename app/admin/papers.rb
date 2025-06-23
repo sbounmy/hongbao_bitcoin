@@ -103,19 +103,24 @@ ActiveAdmin.register Paper do
       f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
 
       f.inputs "Visual Element Editor" do
-        para "Position elements visually on your paper images."
-        render partial: "admin/themes/visual_editor", locals: { form: f }
+        para "Position elements visually on your paper images. Elements unique to Papers are managed below."
+        render Admin::VisualEditorComponent.new(form: f)
       end
       # JSONB elements handling
-      Paper::ELEMENTS.each do |element|
-        f.inputs element.titleize do
-          Paper::ELEMENT_ATTRIBUTES.each do |attribute|
-            f.input "elements_#{element}_#{attribute}",
-                    label: attribute.to_s.titleize,
-                    input_html: {
-                      value: f.object.elements&.dig(element, attribute.to_s),
-                      name: "paper[elements][#{element}][#{attribute}]"
-                    }
+      paper_only_elements = Paper::ELEMENTS - Input::Theme::AI_ELEMENT_TYPES
+      if paper_only_elements.any?
+        f.inputs "Paper-Specific Elements" do
+          paper_only_elements.each do |element|
+            f.inputs element.titleize do
+              Paper::ELEMENT_ATTRIBUTES.each do |attribute|
+                f.input "elements_#{element}_#{attribute}",
+                        label: attribute.to_s.titleize,
+                        input_html: {
+                          value: f.object.elements&.dig(element, attribute.to_s),
+                          name: "paper[elements][#{element}][#{attribute}]"
+                        }
+              end
+            end
           end
         end
       end

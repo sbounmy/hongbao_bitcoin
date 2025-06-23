@@ -26,29 +26,31 @@ export default class extends Controller {
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
-    // UPDATED: Handle percentage coordinates (0-100) from visual editor
-    const x = this.canvaController.originalWidth * (this.xValue / 100) // Convert 50 -> 0.5
-    const y = this.canvaController.originalHeight * (this.yValue / 100) // Convert 50 -> 0.5
-    
+    const x = this.canvaController.originalWidth * (this.xValue / 100)
+    const y = this.canvaController.originalHeight * (this.yValue / 100)
+
+    // FIX: Add a fallback to window.devicePixelRatio to ensure DPR is always available.
+    const dpr = this.canvaController.dpr || window.devicePixelRatio || 1;
+    const scaledFontSize = this.fontSizeValue / dpr;
+    const lineHeight = scaledFontSize * 1.25;
+    const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
+
     if (this.typeValue === 'text') {
-      this.ctx.font = `${this.fontSizeValue}px Arial`
+      this.ctx.font = `${scaledFontSize}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, this.fontSizeValue + 1)
+      this.wrapTextByChar(this.ctx, this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
 
     } else if (this.typeValue === 'image') {
-      // UPDATED: Handle QR code size as percentage of canvas
       let imageSize
       if (this.fontSizeValue > 1) {
-        // If size > 1, treat as percentage (from visual editor)
-        imageSize = (this.fontSizeValue / 100) * Math.min(this.canvaController.originalWidth, this.canvaController.originalHeight)
+        imageSize = (this.fontSizeValue / 100) * this.canvaController.originalWidth
       } else {
-        // If size <= 1, treat as decimal multiplier (legacy)
         imageSize = this.fontSizeValue * this.canvaController.originalWidth
       }
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
-    }
-    else {
-      this.drawTextMnemonic(this.textValue)
+    } else if (this.typeValue === 'mnemonic') {
+      // REFACTOR: Pass calculated values to avoid duplicate code.
+      this.drawTextMnemonic(this.textValue, x, y, scaledFontSize, lineHeight, maxWidthPx)
     }
   }
 
@@ -68,55 +70,62 @@ export default class extends Controller {
     }
   }
 
-  drawTextMnemonic(text) {
-    const startX = this.canvaController.originalWidth * (this.xValue / 100) // Convert percentage
-    const startY = this.canvaController.originalHeight * (this.yValue / 100) // Convert percentage
-
-
-    this.ctx.font = `${this.fontSizeValue}px Arial`
+  drawTextMnemonic(text, startX, startY, scaledFontSize, lineHeight, maxWidthPx) {
+    this.ctx.font = `${scaledFontSize}px Arial`
     this.ctx.fillStyle = this.fontColorValue
-    this.wrapTextByWord(this.ctx, this.textValue || '', startX, startY, this.maxTextWidthValue, this.fontSizeValue + 1)
+    this.wrapTextByWord(this.ctx, text || '', startX, startY + scaledFontSize, maxWidthPx, lineHeight)
   }
 
   wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
-    let line = '';
-
-    for (let i = 0; i < text.length; i++) {
-      const testLine = line + text[i];
-      const testWidth = line.length;
-
-      if (testWidth > maxWidth && line !== '') {
-        ctx.fillText(line, x, y);
-        line = text[i];
-        y += lineHeight;
-      } else {
-        line = testLine;
+    const paragraphs = text.split('\n');
+    for (let p = 0; p < paragraphs.length; p++) {
+      const paragraph = paragraphs[p];
+      let line = '';
+      for (let i = 0; i < paragraph.length; i++) {
+        const testLine = line + paragraph[i];
+        // BUG FIX: Measure the pixel width of the text, not the character length.
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && i > 0) {
+          ctx.fillText(line, x, y);
+          line = paragraph[i];
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
       }
-    }
-
-    if (line) {
       ctx.fillText(line, x, y);
+      if (p < paragraphs.length - 1) {
+        y += lineHeight;
+      }
     }
   }
 
   wrapTextByWord(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
+    const paragraphs = text.split('\n');
+    for (let p = 0; p < paragraphs.length; p++) {
+      const paragraph = paragraphs[p];
+      const words = paragraph.split(' ');
+      let line = '';
 
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = ctx.measureText(testLine);
-      const testWidth = metrics.width;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
 
-      if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, y);
-        line = words[n] + ' ';
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+      if (p < paragraphs.length - 1) {
         y += lineHeight;
-      } else {
-        line = testLine;
       }
     }
-    ctx.fillText(line, x, y);
   }
 
 }

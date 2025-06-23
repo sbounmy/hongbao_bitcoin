@@ -1,19 +1,24 @@
-<div data-controller="visual-editor" class="visual-editor-container border rounded-lg p-4">
+<div data-controller="visual-editor"
+     data-visual-editor-input-base-name-value="<%= input_base_name %>"
+     class="visual-editor-container border rounded-lg p-4 relative">
 
-  <div role="tablist" class="tabs tabs-boxed mb-4">
-    <a role="tab" class="tab tab-active" data-action="click->visual-editor#switchView" data-visual-editor-target="frontTab" data-view="front">Front (Public Address)</a>
-    <a role="tab" class="tab" data-action="click->visual-editor#switchView" data-visual-editor-target="backTab" data-view="back">Back (Private Key & Mnemonic)</a>
+  <div class="flex justify-between items-center mb-4">
+    <div class="btn-group flex gap-2">
+      <button class="btn btn-sm btn-active" data-action="click->visual-editor#switchView" data-visual-editor-target="frontTab" data-view="front">
+        Front
+      </button>
+      <button class="btn btn-sm" data-action="click->visual-editor#switchView" data-visual-editor-target="backTab" data-view="back">
+        Back
+      </button>
+    </div>
+    <button class="btn btn-ghost btn-sm" data-action="click->visual-editor#resetElements">Reset</button>
   </div>
 
-  <div data-visual-editor-target="canvas" class="relative bg-gray-200 overflow-hidden rounded">
-    <% if @theme.front_image.attached? %>
-      <%= image_tag url_for(@theme.front_image), class: "w-full h-auto block", data: { visual_editor_target: "frontImage" } %>
-    <% end %>
-    <% if @theme.back_image.attached? %>
-      <%= image_tag url_for(@theme.back_image), class: "w-full h-auto hidden", data: { visual_editor_target: "backImage" } %>
-    <% end %>
+  <div data-visual-editor-target="canvas" class="relative bg-gray-200 overflow-hidden rounded" data-action="click->visual-editor#deselect">
+    <%= image_tag url_for(front_image), class: "w-full h-auto block", data: { visual_editor_target: "frontImage" } if front_image.attached? %>
+    <%= image_tag url_for(back_image), class: "w-full h-auto hidden", data: { visual_editor_target: "backImage" } if back_image.attached? %>
 
-    <% if !@theme.front_image.attached? && !@theme.back_image.attached? %>
+    <% if !front_image.attached? && !back_image.attached? %>
       <div class="text-center p-10 bg-gray-100">
         <p>Please attach a Front and/or Back image to use the visual editor.</p>
       </div>
@@ -21,21 +26,19 @@
 
     <% elements_by_view.each do |view, elements| %>
       <% elements.each do |element_type| %>
-        <% if all_ai_element_types.include?(element_type) %>
+        <% if all_ai_element_types.map(&:to_s).include?(element_type.to_s) %>
           <div
             data-visual-editor-target="element"
             data-element-type="<%= element_type %>"
             data-view="<%= view %>"
-            class="visual-element absolute border-2 border-dashed border-blue-500 hover:border-solid hover:cursor-move p-1 select-none touch-none <%= element_hidden_class(view) %>"
-            style="color: <%= element_color(element_type) %>;"
+            data-action="click->visual-editor#selectElement"
+            class="visual-element absolute border-2 border-dashed border-blue-500 hover:border-solid hover:cursor-move select-none touch-none <%= element_hidden_class(view) %>"
+            style="color: <%= element_color(element_type) %>; font-family: Arial, sans-serif;"
           >
-            <div class="text-xs truncate bg-black bg-opacity-50 text-white p-0.5 rounded-sm pointer-events-none">
-              <%= element_type.titleize %>
-            </div>
             <% if is_qr?(element_type) %>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full opacity-50 pointer-events-none"><path d="M1.5 1.5v3h3v-3h-3Zm0 9v3h3v-3h-3Zm0 9v3h3v-3h-3Zm6-15v3h3v-3h-3Zm0 9v3h3v-3h-3Zm0 9v3h3v-3h-3Zm6-15v3h3v-3h-3Zm0 9v3h3v-3h-3Zm0 9v3h3v-3h-3Zm6-15v3h3v-3h-3Zm0 9v3h3v-3h-3Zm0 9v3h3v-3h-3Z"/></svg>
+              <div class="w-full h-full bg-white/60 pointer-events-none flex items-center justify-center font-bold text-blue-700">QR</div>
             <% else %>
-              <p class="pointer-events-none m-0 p-0 leading-tight">Abc 123</p>
+              <p class="pointer-events-none m-0 p-0 leading-tight whitespace-pre-wrap <%= 'break-all' unless element_type.to_s == 'mnemonic_text' %>"><%= preview_text(element_type) %></p>
             <% end %>
           </div>
         <% end %>
@@ -43,11 +46,13 @@
     <% end %>
   </div>
 
+  <%= render Admin::PropertiesPanelComponent.new %>
+
   <div class="hidden">
     <% all_ai_element_types.each do |element_type| %>
       <% all_ai_element_properties.each do |property| %>
         <%
-          input_name = "input_theme[ai][#{element_type}][#{property}]"
+          input_name = "#{input_base_name}[#{element_type}][#{property}]"
           current_value = hidden_input_value(element_type, property)
         %>
         <%= text_field_tag input_name, current_value, name: input_name %>
