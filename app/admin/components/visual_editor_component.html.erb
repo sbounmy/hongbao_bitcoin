@@ -36,7 +36,7 @@
             style="color: <%= element_color(element_type) %>; font-family: Arial, sans-serif;"
           >
             <% if is_qr?(element_type) %>
-              <div class="w-full h-full bg-white/60 pointer-events-none flex items-center justify-center font-bold text-blue-700">QR</div>
+              <div class="w-full h-full bg-white/60 pointer-events-none flex items-center justify-center font-bold text-blue-700"><%=render Admin::QrCodeComponent.new %></div>
             <% else %>
               <p class="pointer-events-none m-0 p-0 leading-tight whitespace-pre-wrap <%= 'break-all' unless element_type.to_s == 'mnemonic_text' %>"><%= preview_text(element_type) %></p>
             <% end %>

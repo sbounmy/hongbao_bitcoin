@@ -26,12 +26,17 @@ export default class extends Controller {
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
-    const x = this.canvaController.originalWidth * (this.xValue / 100)
-    const y = this.canvaController.originalHeight * (this.yValue / 100)
+   const x = this.canvaController.originalWidth * (this.xValue / 100)
+   const y = this.canvaController.originalHeight * (this.yValue / 100)
 
-    // FIX: Add a fallback to window.devicePixelRatio to ensure DPR is always available.
     const dpr = this.canvaController.dpr || window.devicePixelRatio || 1;
-    const scaledFontSize = this.fontSizeValue / dpr;
+
+    // Browsers can render fonts slightly differently between the DOM and the Canvas.
+    // This small correction factor visually aligns the canvas font with the editor preview
+    // by making the canvas font slightly smaller to compensate for it appearing larger.
+    const fontCorrectionFactor = 1.04;
+    const scaledFontSize = (this.fontSizeValue / dpr) / fontCorrectionFactor;
+
     const lineHeight = scaledFontSize * 1.25;
     const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
 
@@ -83,7 +88,6 @@ export default class extends Controller {
       let line = '';
       for (let i = 0; i < paragraph.length; i++) {
         const testLine = line + paragraph[i];
-        // BUG FIX: Measure the pixel width of the text, not the character length.
         const metrics = ctx.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth && i > 0) {
