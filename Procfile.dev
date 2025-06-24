@@ -1,5 +1,6 @@
 web: bin/rails server -p 3002
 css: bin/rails tailwindcss:watch
+site_css: yarn build:site_css --watch
 active_admin: yarn build:css --watch
 stripe: stripe listen --forward-to localhost:3002/checkout/webhook -c localhost:3002/checkout/webhook
 js: yarn build --watch

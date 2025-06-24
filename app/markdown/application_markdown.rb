@@ -39,9 +39,6 @@ class ApplicationMarkdown < MarkdownRails::Renderer::Rails
     end
   end
 
-  def postprocess(full_document)
-    "<article class=\"prose lg:prose-xl mx-auto\">#{full_document}</article>"
-  end
 
   private
     # This is provided as an example; there's many more YouTube URLs that this wouldn't catch.
