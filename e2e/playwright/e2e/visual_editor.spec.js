@@ -1,6 +1,18 @@
 import { test, expect } from '../support/test-setup';
 import { forceLogin } from '../support/on-rails';
 
+async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = { steps: 5 }) {
+  const targetBox = await targetElement.boundingBox();
+  if (!targetBox) {
+    throw new Error('Target element for drag not found or not visible.');
+  }
+  await dragHandle.hover();
+  await page.mouse.down();
+  await page.mouse.move(targetBox.x + dx, targetBox.y + dy, moveOptions);
+  await page.mouse.up();
+}
+
+
 test.describe('Visual Editor', () => {
   test.beforeEach(async ({ page }) => {
     await forceLogin(page, { email: 'admin@example.com' });
@@ -43,11 +55,7 @@ test.describe('Visual Editor', () => {
     const initialX = await xInput.inputValue();
     const initialY = await yInput.inputValue();
 
-    const elementBox = await element.boundingBox();
-    await element.hover();
-    await page.mouse.down();
-    await page.mouse.move(elementBox.x + 60, elementBox.y + 40, { steps: 5 });
-    await page.mouse.up();
+    await drag(page, element, { targetElement: element, dx: 60, dy: 40 });
 
     await expect(xInput).not.toHaveValue(initialX);
     await expect(yInput).not.toHaveValue(initialY);
@@ -60,11 +68,7 @@ test.describe('Visual Editor', () => {
     const resetButton = page.getByRole('button', { name: 'Reset' });
 
     // Move element
-    const elementBox = await element.boundingBox();
-    await element.hover();
-    await page.mouse.down();
-    await page.mouse.move(elementBox.x + 100, elementBox.y + 100, { steps: 5 });
-    await page.mouse.up();
+    await drag(page, element, { targetElement: element, dx: 60, dy: 40 });
 
     await expect(xInput).not.toHaveValue("30");
     await expect(yInput).not.toHaveValue("30");
