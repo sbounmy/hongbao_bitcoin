@@ -4,18 +4,11 @@ module Admin
   class VisualEditorComponent < ApplicationComponent
     attr_reader :form, :object
 
-    def initialize(form:)
+    def initialize(form:, input_base_name:)
       @form = form
       @object = form.object
+      @input_base_name = input_base_name
       super()
-    end
-
-    def input_base_name
-      if object.is_a?(Input::Theme)
-        "input_theme[ai]"
-      elsif object.is_a?(Paper)
-        "paper[elements]"
-      end
     end
 
     def front_image

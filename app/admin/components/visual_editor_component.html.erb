@@ -1,5 +1,5 @@
 <div data-controller="visual-editor"
-     data-visual-editor-input-base-name-value="<%= input_base_name %>"
+     data-visual-editor-input-base-name-value="<%= @input_base_name %>"
      class="visual-editor-container border rounded-lg p-4 relative">
 
   <div class="flex justify-between items-center mb-4">
@@ -52,7 +52,7 @@
     <% all_ai_element_types.each do |element_type| %>
       <% all_ai_element_properties.each do |property| %>
         <%
-          input_name = "#{input_base_name}[#{element_type}][#{property}]"
+          input_name = "#{@input_base_name}[#{element_type}][#{property}]"
           current_value = hidden_input_value(element_type, property)
         %>
         <%= text_field_tag input_name, current_value, name: input_name %>
