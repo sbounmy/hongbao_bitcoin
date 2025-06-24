@@ -41,6 +41,9 @@ class ProcessPaperJob < ApplicationJob
       full_image = response.to_blob
       top = Papers::GapCorrector.call full_image
 
+      # Convert PNG blobs to JPEG with vips
+      full_image = Vips::Image.new_from_buffer(full_image, "").write_to_buffer(".jpg")
+      top = Vips::Image.new_from_buffer(top, "").write_to_buffer(".jpg")
 
       @paper.image_full.attach(io: StringIO.new(full_image), filename: "full_#{SecureRandom.hex(4)}.jpg")
       @paper.save!
