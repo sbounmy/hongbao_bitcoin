@@ -19,6 +19,8 @@ jobs:
       run: sudo apt-get update && sudo apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3
 
     - uses: actions/checkout@v4
+      with:
+        submodules: recursive
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
