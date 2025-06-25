@@ -15,10 +15,10 @@
   </div>
 
   <div data-visual-editor-target="canvas" class="relative bg-gray-200 overflow-hidden rounded" data-action="click->visual-editor#deselect">
-    <%= image_tag url_for(front_image), class: "w-full h-auto block", data: { visual_editor_target: "frontImage" } if front_image.attached? %>
-    <%= image_tag url_for(back_image), class: "w-full h-auto hidden", data: { visual_editor_target: "backImage" } if back_image.attached? %>
+    <%= image_tag url_for(image_front), class: "w-full h-auto block", data: { visual_editor_target: "frontImage" } if image_front.attached? %>
+    <%= image_tag url_for(image_back), class: "w-full h-auto hidden", data: { visual_editor_target: "backImage" } if image_back.attached? %>
 
-    <% if !front_image.attached? && !back_image.attached? %>
+    <% if !image_front.attached? && !image_back.attached? %>
       <div class="text-center p-10 bg-gray-100">
         <p>Please attach a Front and/or Back image to use the visual editor.</p>
       </div>

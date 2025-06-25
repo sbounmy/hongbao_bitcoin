@@ -11,13 +11,7 @@ module Admin
       super()
     end
 
-    def front_image
-      object.is_a?(Input::Theme) ? object.front_image : object.image_front
-    end
-
-    def back_image
-      object.is_a?(Input::Theme) ? object.back_image : object.image_back
-    end
+    delegate :image_back, :image_front, to: :object
 
     def elements_by_view
       common = common_elements

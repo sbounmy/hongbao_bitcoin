@@ -1,8 +1,8 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :front_image, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
-  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :front_image_blob, :front_image_attachment, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
@@ -125,9 +125,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     column :ui_name
     column :prompt
     column :spotify_path
-    column :hero_image do |theme|
-      if theme.hero_image.attached?
-        image_tag theme.hero_image, style: "width: 100px;"
+    column :image_hero do |theme|
+      if theme.image_hero.attached?
+        image_tag theme.image_hero, style: "width: 100px;"
       end
     end
     column :image do |theme|
@@ -135,14 +135,14 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         image_tag theme.image, style: "width: 100px;"
       end
     end
-    column :front_image do |theme|
-      if theme.front_image.attached?
-        image_tag theme.front_image, style: "width: 100px;"
+    column :image_front do |theme|
+      if theme.image_front.attached?
+        image_tag theme.image_front, style: "width: 100px;"
       end
     end
-    column :back_image do |theme|
-      if theme.back_image.attached?
-        image_tag theme.back_image, style: "width: 100px;"
+    column :image_back do |theme|
+      if theme.image_back.attached?
+        image_tag theme.image_back, style: "width: 100px;"
       end
     end
     actions
@@ -154,9 +154,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       row :slug
       row :ui_name
       row :prompt
-      row :hero_image do |theme|
-        if theme.hero_image.attached?
-          image_tag theme.hero_image, style: "width: 500px;"
+      row :image_hero do |theme|
+        if theme.image_hero.attached?
+          image_tag theme.image_hero, style: "width: 500px;"
         end
       end
       row :image do |theme|
@@ -164,14 +164,14 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           image_tag theme.image, style: "width: 500px;"
         end
       end
-      row :front_image do |theme|
-        if theme.front_image.attached?
-          image_tag theme.front_image, style: "width: 500px;"
+      row :image_front do |theme|
+        if theme.image_front.attached?
+          image_tag theme.image_front, style: "width: 500px;"
         end
       end
-      row :back_image do |theme|
-        if theme.back_image.attached?
-          image_tag theme.back_image, style: "width: 500px;"
+      row :image_back do |theme|
+        if theme.image_back.attached?
+          image_tag theme.image_back, style: "width: 500px;"
         end
       end
     end
@@ -184,9 +184,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :name
       f.input :prompt
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
-      f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
-      f.input :front_image, as: :file, hint: f.object.front_image.attached? ? image_tag(url_for(f.object.front_image), width: 500) : nil
-      f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
+      f.input :image_hero, as: :file, hint: f.object.image_hero.attached? ? image_tag(url_for(f.object.image_hero), width: 500) : nil
+      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
+      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
       f.input :slug
       f.input :spotify_path, as: :string, hint: "track/40KNlAhOsMqCmfnbRtQrbx from embed url"
       f.input :ui_name, as: :select, collection: [

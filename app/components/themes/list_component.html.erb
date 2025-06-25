@@ -4,8 +4,8 @@
               active:scale-95 transform">
 
     <div class="relative aspect-video rounded-lg overflow-hidden bg-base-200">
-      <% if theme.hero_image.attached? %>
-        <%= image_tag theme.hero_image, class: "w-full h-full object-cover" %>
+      <% if theme.image_hero.attached? %>
+        <%= image_tag theme.image_hero, class: "w-full h-full object-cover" %>
       <% else %>
         <div class="flex items-center justify-center h-full">
           <span class="text-base-content/50">No Preview</span>

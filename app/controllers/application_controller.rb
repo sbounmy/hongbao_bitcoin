@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def themes
-    @themes ||= Input::Theme.with_attached_hero_image
+    @themes ||= Input::Theme.with_attached_image_hero
   end
 
   def set_locale

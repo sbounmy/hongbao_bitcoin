@@ -29,11 +29,11 @@ module Papers
       "background-image: url('#{image_url}')" if image_url.present?
     end
 
-    def front_image_url
+    def image_front_url
       item.image_front.attached? ? url_for(item.image_front) : ""
     end
 
-    def back_image_url
+    def image_back_url
       item.image_back.attached? ? url_for(item.image_back) : ""
     end
   end
