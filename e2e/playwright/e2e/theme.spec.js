@@ -1,6 +1,19 @@
 const { test, expect } = require('../support/test-setup');
 const { appVcrInsertCassette, forceLogin, appFactories, app, turboCableConnected } = require('../support/on-rails');
 
+
+async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = { steps: 5 }) {
+  const targetBox = await targetElement.boundingBox();
+  if (!targetBox) {
+    throw new Error('Target element for drag not found or not visible.');
+  }
+  await dragHandle.hover();
+  await page.mouse.down();
+  await page.mouse.move(targetBox.x + dx, targetBox.y + dy, moveOptions);
+  await page.mouse.up();
+}
+
+
 test.describe('Theme', () => {
   test('should show error with wrong credentials', async ({ page }) => {
     await appVcrInsertCassette('stripe_products');
@@ -60,6 +73,57 @@ test.describe('Theme', () => {
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
   });
 
+  test('admin can edit theme elements via visual editor', async ({ page }) => {
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true });
+
+    await forceLogin(page, {
+      email: 'admin@example.com',
+      redirect_to: '/dashboard'
+    });
+
+    await page.goto('/admin/themes/1/edit');
+
+    // Locate element and its corresponding hidden inputs
+    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const xInput = page.locator('input[name="input_theme[ai][public_address_qrcode][x]"]');
+    const yInput = page.locator('input[name="input_theme[ai][public_address_qrcode][y]"]');
+
+    // Drag the element to a new position
+    await drag(page, element, { targetElement: element, dx: 50, dy: 30 });
+
+    // Get the new coordinate values from the hidden inputs
+    const newX = await xInput.inputValue();
+    const newY = await yInput.inputValue();
+
+    // Save the theme
+    await page.locator('input[type="submit"]').click();
+    await expect(page.getByText('Theme was successfully updated')).toBeVisible();
+
+    // Navigate to dashboard to generate a new paper with the updated theme
+    await page.goto('/dashboard');
+    await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
+    await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
+    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await turboCableConnected(page);
+    await expect(page.getByText('Processing...')).toBeHidden();
+    await page.getByRole('button', { name: 'Generate' }).click();
+    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing...')).toBeHidden();
+
+    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2);
+    await app('perform_jobs');
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4);
+
+    // Open the print preview for the newly generated paper
+    const printPromise = page.waitForEvent('popup');
+    await page.locator('#main-content .papers-item-component').first().click();
+    const print = await printPromise;
+
+    // Verify the element in the print preview has the new coordinates
+    const canvaItem = print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
+    await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newX);
+    await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newY);
+  });
 
   test.afterEach(async ({ page }) => {
   });
