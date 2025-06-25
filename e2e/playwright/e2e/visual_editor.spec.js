@@ -15,7 +15,7 @@ async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = {
 
 test.describe('Visual Editor', () => {
   test.beforeEach(async ({ page }) => {
-    await forceLogin(page, { email: 'admin@example.com' });
+    await forceLogin(page, { email: 'admin@example.com', vcr: { cassette_name: 'visual_editor' } });
     await page.goto('/admin/papers/1/edit');
     await expect(page.locator('.visual-editor-container')).toBeVisible();
   });
