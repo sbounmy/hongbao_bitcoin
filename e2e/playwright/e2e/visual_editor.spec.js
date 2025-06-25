@@ -1,6 +1,5 @@
 import { test, expect } from '../support/test-setup';
-import { forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
-
+import { forceLogin } from '../support/on-rails';
 
 async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = { steps: 5 }) {
   const targetBox = await targetElement.boundingBox();
@@ -16,14 +15,10 @@ async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = {
 
 test.describe('Visual Editor', () => {
   test.beforeEach(async ({ page }) => {
-    await appVcrInsertCassette('visual_editor', { allow_playback_repeats: true });
-    await forceLogin(page, { email: 'admin@example.com' });
-    await page.goto('/admin/papers/1/edit');
+    await forceLogin(page, { email: 'admin@example.com',
+      redirect_to: '/admin/papers/1/edit'
+    });
     await expect(page.locator('.visual-editor-container')).toBeVisible();
-  });
-
-  test.afterEach(async () => {
-    await appVcrEjectCassette();
   });
 
   test('switches between front and back views', async ({ page }) => {
