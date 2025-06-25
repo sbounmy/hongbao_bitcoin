@@ -242,18 +242,73 @@
     <% end %>
   <% end %>
 
-  <div class='hero min-h-screen col-span-full'>
-    <div class="hero-content text-center">
-      <div class="max-w-7xl space-y-6">
-        <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
-        <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
-        <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
-        <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-          <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-          <span class="inline-block">Gift now</span>
+</section>
+
+<div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-center text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
+  <div class="hero-content text-center">
+    <div class="max-w-7xl space-y-6">
+      <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
+      <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
+      <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
+      <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
+        <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Gift now</span>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<section class="bg-stone-100 text-black py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:max-w-none">
+      <h2 class="text-4xl font-bold tracking-tight text-center sm:text-6xl">More for your freedom.</h2>
+      <div class="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
+
+        <%# Card 1: Paper wallet generator %>
+        <%= link_to dashboard_path, class: "block group" do %>
+          <%= render CardComponent.new do |card| %>
+            <%= card.with_front(class: "!cursor-pointer bg-stone-300 !text-black flex flex-col !justify-start") do %>
+              <div class="text-center space-y-2 w-full">
+                <h3 class="text-lg font-semibold text-gray-800">Paper Wallet</h3>
+                <p class="text-3xl font-bold tracking-tight">Carry one thing.<br>Everything.</p>
+                <p class="text-sm font-semibold leading-6 text-primary group-hover:underline">Gift now →</p>
+              </div>
+              <div class="mt-8">
+                <%= image_tag image_url("bill_hongbao.jpg"), class: "mx-auto rounded-xl shadow-uplift" %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%# Card 2: Blog %>
+        <%= link_to '/blog', class: "block group" do %>
+          <%= render CardComponent.new do |card| %>
+            <%= card.with_front(class: "!cursor-pointer bg-blue-500 text-white flex flex-col text-center !justify-start") do %>
+              <div class="text-center space-y-2 w-full">
+                <h3 class="text-lg font-semibold text-blue-100">Hongbao Blog</h3>
+                <p class="text-3xl font-bold tracking-tight">News, updates,<br>and stories.</p>
+                <p class="text-sm font-semibold leading-6 text-white group-hover:underline">Read more →</p>
+              </div>
+              <div class="mt-8 text-center w-full">
+                <%= heroicon "newspaper", variant: :outline, class: "h-24 w-24 inline-block" %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%# Card 3: Karaoké %>
+        <%= render CardComponent.new(clickable: false) do |card| %>
+          <%= card.with_front(class: "bg-gray-900 text-white flex flex-col !justify-start") do %>
+            <div class="text-center space-y-2 w-full">
+              <h3 class="text-lg font-semibold text-gray-400">Karaoke</h3>
+              <p class="text-3xl font-bold tracking-tight">Sing along<br>with our favorites.</p>
+              <%= link_to 'Follow us →', spotify_artist_url, class: "text-sm font-semibold leading-6 text-white group-hover:underline", target: "_blank" %>
+            </div>
+            <%= render SpotifyPlayerComponent.new(path: "artist/3cBbIJWNXmi5JwCewN7SlN") %>
+          <% end %>
         <% end %>
       </div>
     </div>
   </div>
-
 </section>
