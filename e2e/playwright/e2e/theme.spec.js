@@ -2,15 +2,19 @@ const { test, expect } = require('../support/test-setup');
 const { appVcrInsertCassette, forceLogin, appFactories, app, turboCableConnected } = require('../support/on-rails');
 
 
-async function drag(page, dragHandle, { targetElement, dx, dy }, moveOptions = { steps: 5 }) {
-  const targetBox = await targetElement.boundingBox();
-  if (!targetBox) {
-    throw new Error('Target element for drag not found or not visible.');
+async function drag(page, locator, { dx, dy }) {
+  const box = await locator.boundingBox();
+  if (!box) {
+    throw new Error('Locator for drag not found or not visible.');
   }
-  await dragHandle.hover();
-  await page.mouse.down();
-  await page.mouse.move(targetBox.x + dx, targetBox.y + dy, moveOptions);
-  await page.mouse.up();
+  await locator.dragTo(locator, {
+    // Start drag from the center of the element
+    sourcePosition: { x: box.width / 2, y: box.height / 2 },
+    // Drag to a position offset by dx, dy from the center
+    targetPosition: { x: box.width / 2 + dx, y: box.height / 2 + dy },
+    // Use force to avoid issues with other elements blocking the drag
+    force: true
+  });
 }
 
 
@@ -52,7 +56,7 @@ test.describe('Theme', () => {
     });
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(230\, 244\, 241\)/); //theme default
-
+    
     // Navigate to admin themes page
     await page.goto('/admin/themes/1/edit');
     // Verify existing values
@@ -78,27 +82,50 @@ test.describe('Theme', () => {
 
     await forceLogin(page, {
       email: 'admin@example.com',
-      redirect_to: '/dashboard'
+      redirect_to: '/admin/themes/1/edit'
     });
 
-    await page.goto('/admin/themes/1/edit');
-
-    // Locate element and its corresponding hidden inputs
+    // Locate element, canvas, and corresponding hidden inputs
     const element = page.locator('[data-element-type="public_address_qrcode"]').first();
     const xInput = page.locator('input[name="input_theme[ai][public_address_qrcode][x]"]');
     const yInput = page.locator('input[name="input_theme[ai][public_address_qrcode][y]"]');
+    const canvas = page.locator('[data-visual-editor-target="canvas"]');
+
+    // Wait for the image inside the canvas to be loaded and stable
+    await expect(page.locator('[data-visual-editor-target="frontImage"]')).toBeVisible();
+    await page.waitForLoadState('networkidle');
+
+    // Get initial coordinates from hidden inputs
+    const initialXStr = await xInput.inputValue();
+    const initialYStr = await yInput.inputValue();
+    console.log(`Initial X: ${initialXStr}, Initial Y: ${initialYStr}`);
+    // Get canvas dimensions for coordinate calculation
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
+
+    // Define drag distance
+    const dx = 50;
+    const dy = 25;
 
     // Drag the element to a new position
-    await drag(page, element, { targetElement: element, dx: 50, dy: 30 });
+    await drag(page, element, { dx, dy });
 
     // Get the new coordinate values from the hidden inputs
-    const newX = await xInput.inputValue();
-    const newY = await yInput.inputValue();
+    const newXStr = await xInput.inputValue();
+    const newYStr = await yInput.inputValue();
+    console.log(`New X: ${newXStr}, New Y: ${newYStr}`);
+
+    // Calculate expected percentage values based on drag distance and canvas size
+    const expectedX = parseFloat(initialXStr) + (dx / canvasBox.width) * 100;
+    const expectedY = parseFloat(initialYStr) + (dy / canvasBox.height) * 100;
+    console.log(`Expected X: ${expectedX}, Expected Y: ${expectedY}`);
+    // 1. Verify the hidden input values were updated correctly
+    expect(parseFloat(newXStr)).toBeCloseTo(expectedX, 1);
+    expect(parseFloat(newYStr)).toBeCloseTo(expectedY, 1);
 
     // Save the theme
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
-
     // Navigate to dashboard to generate a new paper with the updated theme
     await page.goto('/dashboard');
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
@@ -121,8 +148,8 @@ test.describe('Theme', () => {
 
     // Verify the element in the print preview has the new coordinates
     const canvaItem = print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
-    await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newX);
-    await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newY);
+    await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newXStr);
+    await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
   });
 
   test.afterEach(async ({ page }) => {

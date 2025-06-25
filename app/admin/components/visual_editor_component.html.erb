@@ -55,7 +55,7 @@
           input_name = "#{@input_base_name}[#{element_type}][#{property}]"
           current_value = hidden_input_value(element_type, property)
         %>
-        <%= text_field_tag input_name, current_value, name: input_name %>
+        <%= text_field_tag input_name, current_value, name: input_name, data: { visual_editor_target: "hiddenInput", element_type: element_type, property: property } %>
       <% end %>
     <% end %>
   </div>

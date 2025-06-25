@@ -7,7 +7,8 @@ export default class extends Controller {
     "panelColorContainer", "panelSizeContainer", "panelMaxWidthContainer", "panelSizeLabel",
     "panelHandle", "panelPreviewTextContainer", "panelPreviewTextInput",
     "panelXInput", "panelYInput", "panelSizeInput", "panelMaxWidthInput",
-    "panelXValueInput", "panelYValueInput", "panelSizeValueInput", "panelMaxWidthValueInput"
+    "panelXValueInput", "panelYValueInput", "panelSizeValueInput", "panelMaxWidthValueInput",
+    "hiddenInput"
   ]
   
   static values = {
@@ -78,8 +79,8 @@ export default class extends Controller {
           target.dataset.x = x;
           target.dataset.y = y;
 
-          this.findInputForElement(target, 'x').value = x.toFixed(4);
-          this.findInputForElement(target, 'y').value = y.toFixed(4);
+          this.updateHiddenInput(target, 'x', x.toFixed(4));
+          this.updateHiddenInput(target, 'y', y.toFixed(4));
         }
       },
       modifiers: [
@@ -135,16 +136,16 @@ export default class extends Controller {
           target.style.top = `${y}%`;
           target.dataset.x = x;
           target.dataset.y = y;
-          this.findInputForElement(target, 'x').value = x.toFixed(4);
-          this.findInputForElement(target, 'y').value = y.toFixed(4);
+          this.updateHiddenInput(target, 'x', x.toFixed(4));
+          this.updateHiddenInput(target, 'y', y.toFixed(4));
 
           if (this.isQrCode(target)) {
             const widthPercent = event.rect.width * 100 / this.canvas.offsetWidth;
-            this.findInputForElement(target, 'size').value = widthPercent.toFixed(4);
+            this.updateHiddenInput(target, 'size', widthPercent.toFixed(4));
           } else {
             const maxWidthInput = this.findInputForElement(target, 'max_text_width');
             const widthPercent = (event.rect.width / this.canvas.offsetWidth) * 100;
-            maxWidthInput.value = widthPercent.toFixed(4);
+            this.updateHiddenInput(target, 'max_text_width', widthPercent.toFixed(4));
           }
           this.setElementSize(target);
           this.updatePanel(); // Refresh panel to show new values
@@ -190,8 +191,9 @@ export default class extends Controller {
 
   findInputForElement(element, property) {
     const elementType = element.dataset.elementType;
-    const inputName = `${this.inputBaseNameValue}[${elementType}][${property}]`;
-    return this.element.closest('form').querySelector(`[name="${inputName}"]`);
+    return this.hiddenInputTargets.find(input =>
+      input.dataset.elementType === elementType && input.dataset.property === property
+    );
   }
 
   isQrCode(element) {
@@ -285,8 +287,7 @@ export default class extends Controller {
     const property = input.dataset.property;
     const value = input.value;
 
-    const hiddenInput = this.findInputForElement(this.selectedElement, property);
-    hiddenInput.value = value;
+    this.updateHiddenInput(this.selectedElement, property, value);
 
     // Update UI based on the property that changed
     switch (property) {
@@ -318,6 +319,15 @@ export default class extends Controller {
         break;
     }
   }
+
+  updateHiddenInput(element, property, value) {
+    const hiddenInput = this.findInputForElement(element, property);
+    if (hiddenInput) {
+      hiddenInput.value = value;
+      hiddenInput.setAttribute('value', value);
+    }
+  }
+
 
   updatePreviewText(event) {
     if (!this.selectedElement) return;
