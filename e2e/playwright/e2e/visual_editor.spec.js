@@ -24,8 +24,8 @@ test.describe('Visual Editor', () => {
   test('switches between front and back views', async ({ page }) => {
     const frontTab = page.getByRole('button', { name: 'Front' });
     const backTab = page.getByRole('button', { name: 'Back' });
-    const frontElement = page.locator('[data-element-type="public_address_qrcode"]');
-    const backElement = page.locator('[data-element-type="private_key_qrcode"]');
+    const frontElement = page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]');
+    const backElement = page.locator('[data-element-type="private_key_qrcode"][data-visual-editor-target="element"]');
 
     // Starts on Front
     await expect(frontTab).toHaveClass("btn btn-sm btn-active");
@@ -49,7 +49,7 @@ test.describe('Visual Editor', () => {
   });
 
   test('can drag elements and updates form fields', async ({ page }) => {
-    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const element = page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]');
     const xInput = page.locator('input[name="paper[elements][public_address_qrcode][x]"]');
     const yInput = page.locator('input[name="paper[elements][public_address_qrcode][y]"]');
 
@@ -63,7 +63,7 @@ test.describe('Visual Editor', () => {
   });
 
   test('resets only visible elements when reset button is clicked', async ({ page }) => {
-    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const element = page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]');
     const xInput = page.locator('input[name="paper[elements][public_address_qrcode][x]"]');
     const yInput = page.locator('input[name="paper[elements][public_address_qrcode][y]"]');
     const resetButton = page.getByRole('button', { name: 'Reset' });
@@ -82,7 +82,7 @@ test.describe('Visual Editor', () => {
 
   test.describe('Properties Panel', () => {
     test('opens on element click and shows correct controls for QR Code', async ({ page }) => {
-      const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+      const element = page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]');
       const panel = page.locator('[data-visual-editor-target="propertiesPanel"]');
 
       await expect(panel).toBeHidden();
@@ -99,7 +99,7 @@ test.describe('Visual Editor', () => {
     test('can be dragged', async ({ page }) => {
         const panel = page.locator('[data-visual-editor-target="propertiesPanel"]');
         const handle = panel.locator('[data-visual-editor-target="panelHandle"]');
-        await page.locator('[data-element-type="public_address_qrcode"]').first().click();
+        await page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]').click();
         await expect(panel).toBeVisible();
         
         const initialBox = await panel.boundingBox();
@@ -114,7 +114,7 @@ test.describe('Visual Editor', () => {
     });
 
     test('updates element preview text from panel', async ({ page }) => {
-      const element = page.locator('[data-element-type="public_address_text"]').first();
+      const element = page.locator('[data-element-type="public_address_text"][data-visual-editor-target="element"]');
       const panel = page.locator('[data-visual-editor-target="propertiesPanel"]');
 
       await element.click();
@@ -127,7 +127,7 @@ test.describe('Visual Editor', () => {
 
   test.describe('Resizing', () => {
     test('does not allow vertical resizing for text elements', async ({ page }) => {
-      const element = page.locator('[data-element-type="public_address_text"]').first();
+      const element = page.locator('[data-element-type="public_address_text"][data-visual-editor-target="element"]');
       const sizeInput = page.locator('input[name="paper[elements][public_address_text][size]"]');
       const initialSize = await sizeInput.inputValue();
       const initialBox = await element.boundingBox();
