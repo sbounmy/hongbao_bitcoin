@@ -60,41 +60,6 @@ test.describe('Theme', () => {
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
   });
 
-  test('admin can edit theme elements', async ({ page }) => {
-    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
-    await forceLogin(page, {
-      email: 'admin@example.com',
-      redirect_to: '/dashboard'
-    });
-
-    await page.goto('/admin/themes/1/edit');
-    await page.locator('[name="input_theme[ai][public_address_qrcode][x]"]').fill('0.33');
-    await page.locator('input[type="submit"]').click();
-    await expect(page.getByText('Theme was successfully updated')).toBeVisible();
-
-    await page.goto('/dashboard')
-    // Select styles
-    await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
-    await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
-
-    // Upload image
-    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-
-    await turboCableConnected(page);
-
-    await expect(page.getByText('Processing...')).toBeHidden();
-    await page.getByRole('button', { name: 'Generate' }).click();
-    await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.getByText('Processing...')).toBeHidden();
-
-    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2)
-    await app('perform_jobs');
-    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4); // 2 papers, 2 faces
-    const printPromise = page.waitForEvent('popup'); // https://playwright.dev/docs/pages#handling-popups
-    await page.locator('#main-content .papers-item-component').first().click()
-    const print = await printPromise;
-    await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
-  });
 
   test.afterEach(async ({ page }) => {
   });

@@ -106,6 +106,7 @@ source ~/.bashrc
 3. Clone and setup the project:
 ```bash
 git clone https://github.com/sbounmy/hongbao.git
+git submodule update --init --recursive
 cd hongbao
 
 # Install Ruby and Node.js from mise.toml
