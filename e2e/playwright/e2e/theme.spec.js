@@ -98,7 +98,6 @@ test.describe('Theme', () => {
     // Get initial coordinates from hidden inputs
     const initialXStr = await xInput.inputValue();
     const initialYStr = await yInput.inputValue();
-    console.log(`Initial X: ${initialXStr}, Initial Y: ${initialYStr}`);
     // Get canvas dimensions for coordinate calculation
     const canvasBox = await canvas.boundingBox();
     if (!canvasBox) throw new Error('Canvas not found');
@@ -113,12 +112,10 @@ test.describe('Theme', () => {
     // Get the new coordinate values from the hidden inputs
     const newXStr = await xInput.inputValue();
     const newYStr = await yInput.inputValue();
-    console.log(`New X: ${newXStr}, New Y: ${newYStr}`);
 
     // Calculate expected percentage values based on drag distance and canvas size
     const expectedX = parseFloat(initialXStr) + (dx / canvasBox.width) * 100;
     const expectedY = parseFloat(initialYStr) + (dy / canvasBox.height) * 100;
-    console.log(`Expected X: ${expectedX}, Expected Y: ${expectedY}`);
     // 1. Verify the hidden input values were updated correctly
     expect(parseFloat(newXStr)).toBeCloseTo(expectedX, 1);
     expect(parseFloat(newYStr)).toBeCloseTo(expectedY, 1);
