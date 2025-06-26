@@ -55,7 +55,7 @@ module Admin
       when "public_address_text"
         "public-address-56fz9e415s6f654e654rz465fe64ezfze65ff5"
       when "mnemonic_text"
-        "beautiful dog great cat happy fish wonderful bird amazing turtle fantastic rabbit marvelous horse astonishing cow flabbergasted sheep incredible pig lazy chicken awesome duck strong kangaroo"
+        "beautiful dog great cat happy fish wonderful bird amazing turtle fantastic rabbit marvelous horse astonishing cow flabbergasted sheep incredible pig lazy chicken awesome"
       else
         "Preview Text"
       end
