@@ -54,8 +54,6 @@ Rails.application.routes.draw do
 
   get "v1", to: "hong_baos#new" # for dev
 
-  get "/satoshi", to: "pages#satoshi"
-  get "/about", to: "pages#about"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
 
