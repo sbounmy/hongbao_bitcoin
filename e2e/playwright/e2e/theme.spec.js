@@ -1,6 +1,23 @@
 const { test, expect } = require('../support/test-setup');
 const { appVcrInsertCassette, forceLogin, appFactories, app, turboCableConnected } = require('../support/on-rails');
 
+
+async function drag(page, locator, { dx, dy }) {
+  const box = await locator.boundingBox();
+  if (!box) {
+    throw new Error('Locator for drag not found or not visible.');
+  }
+  await locator.dragTo(locator, {
+    // Start drag from the center of the element
+    sourcePosition: { x: box.width / 2, y: box.height / 2 },
+    // Drag to a position offset by dx, dy from the center
+    targetPosition: { x: box.width / 2 + dx, y: box.height / 2 + dy },
+    // Use force to avoid issues with other elements blocking the drag
+    force: true
+  });
+}
+
+
 test.describe('Theme', () => {
   test('should show error with wrong credentials', async ({ page }) => {
     await appVcrInsertCassette('stripe_products');
@@ -39,7 +56,7 @@ test.describe('Theme', () => {
     });
     await page.goto('/');
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(230\, 244\, 241\)/); //theme default
-
+    
     // Navigate to admin themes page
     await page.goto('/admin/themes/1/edit');
     // Verify existing values
@@ -60,40 +77,76 @@ test.describe('Theme', () => {
     await expect(page.locator('.bg-base-100').first()).toHaveCSS('background-color', /rgb\(17\, 47\, 163\)/);
   });
 
-  test('admin can edit theme elements', async ({ page }) => {
-    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true })
+  test('admin can edit theme elements via visual editor', async ({ page }) => {
+    await appVcrInsertCassette('bundle', { serialize_with: 'compressed', allow_playback_repeats: true });
+
     await forceLogin(page, {
       email: 'admin@example.com',
-      redirect_to: '/dashboard'
+      redirect_to: '/admin/themes/1/edit'
     });
 
-    await page.goto('/admin/themes/1/edit');
-    await page.locator('[name="input_theme[ai][public_address_qrcode][x]"]').fill('0.33');
+    // Locate element, canvas, and corresponding hidden inputs
+    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const xInput = page.locator('input[name="input_theme[ai][public_address_qrcode][x]"]');
+    const yInput = page.locator('input[name="input_theme[ai][public_address_qrcode][y]"]');
+    const canvas = page.locator('[data-visual-editor-target="canvas"]');
+
+    // Wait for the image inside the canvas to be loaded and stable
+    await expect(page.locator('[data-visual-editor-target="frontImage"]')).toBeVisible();
+    await page.waitForLoadState('networkidle');
+
+    // Get initial coordinates from hidden inputs
+    const initialXStr = await xInput.inputValue();
+    const initialYStr = await yInput.inputValue();
+    // Get canvas dimensions for coordinate calculation
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
+
+    // Define drag distance
+    const dx = 50;
+    const dy = 25;
+
+    // Drag the element to a new position
+    await drag(page, element, { dx, dy });
+
+    // Get the new coordinate values from the hidden inputs
+    const newXStr = await xInput.inputValue();
+    const newYStr = await yInput.inputValue();
+
+    // Calculate expected percentage values based on drag distance and canvas size
+    const expectedX = parseFloat(initialXStr) + (dx / canvasBox.width) * 100;
+    const expectedY = parseFloat(initialYStr) + (dy / canvasBox.height) * 100;
+    // 1. Verify the hidden input values were updated correctly
+    expect(parseFloat(newXStr)).toBeCloseTo(expectedX, 1);
+    expect(parseFloat(newYStr)).toBeCloseTo(expectedY, 1);
+
+    // Save the theme
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
-
-    await page.goto('/dashboard')
-    // Select styles
+    // Navigate to dashboard to generate a new paper with the updated theme
+    await page.goto('/dashboard');
     await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
-
-    // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-
     await turboCableConnected(page);
-
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
 
-    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2)
+    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2);
     await app('perform_jobs');
-    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4); // 2 papers, 2 faces
-    const printPromise = page.waitForEvent('popup'); // https://playwright.dev/docs/pages#handling-popups
-    await page.locator('#main-content .papers-item-component').first().click()
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4);
+
+    // Open the print preview for the newly generated paper
+    const printPromise = page.waitForEvent('popup');
+    await page.locator('#main-content .papers-item-component').first().click();
     const print = await printPromise;
-    await expect(print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]')).toHaveAttribute('data-canva-item-x-value', "0.33")
+
+    // Verify the element in the print preview has the new coordinates
+    const canvaItem = print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
+    await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newXStr);
+    await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
   });
 
   test.afterEach(async ({ page }) => {

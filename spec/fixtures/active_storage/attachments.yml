@@ -11,8 +11,14 @@ dollar_paper_back:
   record_id: 1
   blob: dollar_paper_back_blob
 
+dollar_theme_front:
+  name: image_front
+  record_type: Input
+  record_id: 1
+  blob: dollar_theme_front_blob
+
 dollar_theme_back:
-  name: back_image
+  name: image_back
   record_type: Input
   record_id: 1
   blob: dollar_theme_back_blob

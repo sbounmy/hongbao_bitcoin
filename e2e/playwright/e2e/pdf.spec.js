@@ -16,12 +16,13 @@ test.describe('PDF Generation', () => {
 
   test('should generate PDF with correct layout and content', async ({ page }) => {
     // Wait for PDF preview to be visible
-    await expect(page.locator('[data-pdf-target="content"]')).toBeVisible();
+    const pdf = page.locator('[data-pdf-target="content"]')
+    await expect(pdf).toBeVisible();
 
     // Check main sections
-    await expect(page.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
-    await expect(page.getByText('ABOUT BITCOIN')).toBeVisible();
-    await expect(page.getByText('HOW IT WORKS')).toBeVisible();
+    await expect(pdf.getByText('SLIP INSIDE THE HONG₿AO ENVELOPE')).toBeVisible();
+    await expect(pdf.getByText('ABOUT BITCOIN')).toBeVisible();
+    await expect(pdf.getByText('HOW IT WORKS')).toBeVisible();
   });
 
   test('should handle PDF download', async ({ page, context }) => {
