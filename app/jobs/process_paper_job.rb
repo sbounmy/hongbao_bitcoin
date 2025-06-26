@@ -60,7 +60,7 @@ class ProcessPaperJob < ApplicationJob
 
       Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
       @paper.image_front.attach(io: StringIO.new(top), filename: "front_#{SecureRandom.hex(4)}.jpg")
-      @paper.image_back.attach(theme_input.back_image.blob)
+      @paper.image_back.attach(theme_input.image_back.blob)
       @paper.save!
       Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
 

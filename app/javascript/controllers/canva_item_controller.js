@@ -26,20 +26,36 @@ export default class extends Controller {
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
-    const x = this.canvaController.originalWidth * this.xValue
-    const y = this.canvaController.originalHeight * this.yValue
-    if (this.typeValue === 'text') {
+   const x = this.canvaController.originalWidth * (this.xValue / 100)
+   const y = this.canvaController.originalHeight * (this.yValue / 100)
 
-      this.ctx.font = `${this.fontSizeValue}px Arial`
+    const dpr = this.canvaController.dpr || window.devicePixelRatio || 1;
+
+    // Browsers can render fonts slightly differently between the DOM and the Canvas.
+    // This small correction factor visually aligns the canvas font with the editor preview
+    // by making the canvas font slightly smaller to compensate for it appearing larger.
+    const fontCorrectionFactor = 1.04;
+    const scaledFontSize = (this.fontSizeValue / dpr) / fontCorrectionFactor;
+
+    const lineHeight = scaledFontSize * 1.25;
+    const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
+
+    if (this.typeValue === 'text') {
+      this.ctx.font = `${scaledFontSize}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.wrapTextByChar(this.ctx, this.textValue || '', x, y, this.maxTextWidthValue, this.fontSizeValue + 1)
+      this.wrapTextByChar(this.ctx, this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
 
     } else if (this.typeValue === 'image') {
-      let imageSize = this.fontSizeValue * this.canvaController.originalWidth
+      let imageSize
+      if (this.fontSizeValue > 1) {
+        imageSize = (this.fontSizeValue / 100) * this.canvaController.originalWidth
+      } else {
+        imageSize = this.fontSizeValue * this.canvaController.originalWidth
+      }
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
-    }
-    else {
-      this.drawTextMnemonic(this.textValue)
+    } else if (this.typeValue === 'mnemonic') {
+      // REFACTOR: Pass calculated values to avoid duplicate code.
+      this.drawTextMnemonic(this.textValue, x, y, scaledFontSize, lineHeight, maxWidthPx)
     }
   }
 
@@ -59,54 +75,61 @@ export default class extends Controller {
     }
   }
 
-  drawTextMnemonic(text) {
-    const startX = this.canvaController.originalWidth * this.xValue
-    const startY = this.canvaController.originalHeight * this.yValue
-
-    this.ctx.font = `${this.fontSizeValue}px Arial`
+  drawTextMnemonic(text, startX, startY, scaledFontSize, lineHeight, maxWidthPx) {
+    this.ctx.font = `${scaledFontSize}px Arial`
     this.ctx.fillStyle = this.fontColorValue
-    this.wrapTextByWord(this.ctx, this.textValue || '', startX, startY, this.maxTextWidthValue, this.fontSizeValue + 1)
+    this.wrapTextByWord(this.ctx, text || '', startX, startY + scaledFontSize, maxWidthPx, lineHeight)
   }
 
   wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
-    let line = '';
-
-    for (let i = 0; i < text.length; i++) {
-      const testLine = line + text[i];
-      const testWidth = line.length;
-
-      if (testWidth > maxWidth && line !== '') {
-        ctx.fillText(line, x, y);
-        line = text[i];
-        y += lineHeight;
-      } else {
-        line = testLine;
+    const paragraphs = text.split('\n');
+    for (let p = 0; p < paragraphs.length; p++) {
+      const paragraph = paragraphs[p];
+      let line = '';
+      for (let i = 0; i < paragraph.length; i++) {
+        const testLine = line + paragraph[i];
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && i > 0) {
+          ctx.fillText(line, x, y);
+          line = paragraph[i];
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
       }
-    }
-
-    if (line) {
       ctx.fillText(line, x, y);
+      if (p < paragraphs.length - 1) {
+        y += lineHeight;
+      }
     }
   }
 
   wrapTextByWord(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
+    const paragraphs = text.split('\n');
+    for (let p = 0; p < paragraphs.length; p++) {
+      const paragraph = paragraphs[p];
+      const words = paragraph.split(' ');
+      let line = '';
 
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = ctx.measureText(testLine);
-      const testWidth = metrics.width;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
 
-      if (testWidth > maxWidth && n > 0) {
-        ctx.fillText(line, x, y);
-        line = words[n] + ' ';
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+      if (p < paragraphs.length - 1) {
         y += lineHeight;
-      } else {
-        line = testLine;
       }
     }
-    ctx.fillText(line, x, y);
   }
 
 }

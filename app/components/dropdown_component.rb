@@ -25,7 +25,7 @@ class DropdownComponent < ApplicationComponent
   end
 
   def item_image(item)
-    return image_tag(item.hero_image.variant(resize_to_fill: [ 24, 24 ]), class: "w-6 h-6 rounded") if item.respond_to?(:hero_image) && item.hero_image.attached?
+    return image_tag(item.image_hero.variant(resize_to_fill: [ 24, 24 ]), class: "w-6 h-6 rounded") if item.respond_to?(:image_hero) && item.image_hero.attached?
     nil
   end
 

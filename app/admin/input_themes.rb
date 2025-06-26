@@ -1,8 +1,8 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
-  permit_params :name, :back_image, :hero_image, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
-  remove_filter :hero_image_attachment, :hero_image_blob, :image_attachment, :image_blob, :back_image_attachment, :back_image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
@@ -125,9 +125,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     column :ui_name
     column :prompt
     column :spotify_path
-    column :hero_image do |theme|
-      if theme.hero_image.attached?
-        image_tag theme.hero_image, style: "width: 100px;"
+    column :image_hero do |theme|
+      if theme.image_hero.attached?
+        image_tag theme.image_hero, style: "width: 100px;"
       end
     end
     column :image do |theme|
@@ -135,9 +135,14 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         image_tag theme.image, style: "width: 100px;"
       end
     end
-    column :back_image do |theme|
-      if theme.back_image.attached?
-        image_tag theme.back_image, style: "width: 100px;"
+    column :image_front do |theme|
+      if theme.image_front.attached?
+        image_tag theme.image_front, style: "width: 100px;"
+      end
+    end
+    column :image_back do |theme|
+      if theme.image_back.attached?
+        image_tag theme.image_back, style: "width: 100px;"
       end
     end
     actions
@@ -149,9 +154,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       row :slug
       row :ui_name
       row :prompt
-      row :hero_image do |theme|
-        if theme.hero_image.attached?
-          image_tag theme.hero_image, style: "width: 500px;"
+      row :image_hero do |theme|
+        if theme.image_hero.attached?
+          image_tag theme.image_hero, style: "width: 500px;"
         end
       end
       row :image do |theme|
@@ -159,9 +164,14 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           image_tag theme.image, style: "width: 500px;"
         end
       end
-      row :back_image do |theme|
-        if theme.back_image.attached?
-          image_tag theme.back_image, style: "width: 500px;"
+      row :image_front do |theme|
+        if theme.image_front.attached?
+          image_tag theme.image_front, style: "width: 500px;"
+        end
+      end
+      row :image_back do |theme|
+        if theme.image_back.attached?
+          image_tag theme.image_back, style: "width: 500px;"
         end
       end
     end
@@ -174,8 +184,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       f.input :name
       f.input :prompt
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
-      f.input :hero_image, as: :file, hint: f.object.hero_image.attached? ? image_tag(url_for(f.object.hero_image), width: 500) : nil
-      f.input :back_image, as: :file, hint: f.object.back_image.attached? ? image_tag(url_for(f.object.back_image), width: 500) : nil
+      f.input :image_hero, as: :file, hint: f.object.image_hero.attached? ? image_tag(url_for(f.object.image_hero), width: 500) : nil
+      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
+      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
       f.input :slug
       f.input :spotify_path, as: :string, hint: "track/40KNlAhOsMqCmfnbRtQrbx from embed url"
       f.input :ui_name, as: :select, collection: [
@@ -186,49 +197,10 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         "night", "coffee", "winter", "dim", "nord", "sunset"
       ]
     end
-
-    # --- START: Add AI Element Inputs ---
-    f.inputs "AI Element Positions & Styles" do
-      para "Define the default position (x, y coordinates as percentages from top-left), size (as a percentage of image width/height), color, and max text width for each paper element."
-
-      # Iterate through each AI element type defined in the model
-      Input::Theme::AI_ELEMENT_TYPES.each do |element_type|
-        f.inputs element_type.titleize, class: "ai-element-group" do # Group fields visually
-          # Iterate through each property defined for AI elements
-          Input::Theme::AI_ELEMENT_PROPERTIES.each do |property|
-            # Construct the correct name attribute for the nested JSON store
-            input_name = "input_theme[ai][#{element_type}][#{property}]"
-            # Retrieve the current value, digging safely into the potentially nil 'ai' hash
-            current_value = f.object.ai&.dig(element_type, property.to_s)
-
-            # Determine input type based on property name
-            input_type = case property.to_s
-            when "x", "y", "size"
-                           :number
-            when "color"
-                           :color # Use HTML5 color picker
-            else # max_text_width, etc.
-                           :number # Assuming numeric, adjust if text needed
-            end
-
-            # Set step for float values
-            input_options = {
-              value: current_value,
-              name: input_name
-            }
-            input_options[:step] = "any" if [ :number ].include?(input_type) && [ "x", "y", "size" ].include?(property.to_s)
-            input_options[:type] = "color" if property.to_s == "color" # Force type for Formtastic string default
-
-            f.input property.to_s, # Use property name for the input's internal tracking within Formtastic
-                    label: property.to_s.titleize,
-                    as: (property.to_s == "color" ? :string : input_type), # Use string for color to allow HTML5 type attr
-                    required: false, # Adjust if any property is mandatory
-                    input_html: input_options
-          end
-        end
-      end
+    f.inputs "Visual Element Editor" do
+      para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
+      render Admin::VisualEditorComponent.new(form: f, input_base_name: "input_theme[ai]")
     end
-    # --- END: Add AI Element Inputs ---
 
     # Define hints based on property descriptions
     property_hints = {

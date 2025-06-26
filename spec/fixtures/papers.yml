@@ -10,36 +10,36 @@ dollar:
   elements: |
     {
       "private_key_qrcode": {
-        "x": 0.82,
-        "y": 0.285,
+        "x": 82,
+        "y": 28.5,
         "size": 0.09,
         "color": "#000000",
         "max_text_width": 0
       },
       "private_key_text": {
-        "x": 0.815,
-        "y": 0.5,
+        "x": 81.5,
+        "y": 50,
         "size": 8,
         "color": "#000000",
         "max_text_width": 10
       },
       "public_address_qrcode": {
-        "x": 0.82,
-        "y": 0.5,
+        "x": 82,
+        "y": 50,
         "size": 0.09,
         "color": "",
         "max_text_width": 0
       },
       "public_address_text": {
-        "x": 0.81,
-        "y": 0.7,
+        "x": 81,
+        "y": 70,
         "size": 8,
         "color": "#000000",
         "max_text_width": 12
       },
       "mnemonic_text": {
-        "x": 0.17,
-        "y": 0.77,
+        "x": 17,
+        "y": 77,
         "size": 12,
         "color": "#000000",
         "max_text_width": 360
