@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "offline_pack", "data-turbo-track": "reload", defer: true %>
+<% end %>
 <% content_for :skip_analytics, true %>
 <!-- Right Column - Fixed Form -->
 <%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
