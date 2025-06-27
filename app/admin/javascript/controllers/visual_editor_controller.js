@@ -173,13 +173,14 @@ export default class extends Controller {
       const maxWidthInput = this.findInputForElement(element, 'max_text_width');
       const maxWidthPercent = parseFloat(maxWidthInput.value || 30);
       element.style.width = `${maxWidthPercent}%`;
-      element.style.fontSize = `${size}px`;
-      // Let the container height fit the content, then fix it for interact.js
-      element.style.height = 'auto';
-      
+
+      // Font size is now a percentage of the canvas width, making it responsive.
+      const fontSizePx = (size / 100) * this.canvas.offsetWidth;
+      element.style.fontSize = `${fontSizePx}px`;
+
       element.style.height = 'auto';
       const calculatedHeight = element.scrollHeight;
-      element.style.height = `${Math.max(calculatedHeight, size)}px`;
+      element.style.height = `${Math.max(calculatedHeight, fontSizePx)}px`;
     }
   }
 
@@ -273,10 +274,10 @@ export default class extends Controller {
       this.panelSizeInputTarget.max = 50;
       this.panelSizeInputTarget.step = 0.1;
     } else {
-      this.panelSizeLabelTarget.textContent = "Font Size (px)";
-      this.panelSizeInputTarget.min = 8;
-      this.panelSizeInputTarget.max = 150;
-      this.panelSizeInputTarget.step = 1;
+      this.panelSizeLabelTarget.textContent = "Font Size (%)";
+      this.panelSizeInputTarget.min = 1;
+      this.panelSizeInputTarget.max = 20;
+      this.panelSizeInputTarget.step = 0.01;
     }
   }
 
@@ -286,6 +287,18 @@ export default class extends Controller {
     const input = event.currentTarget;
     const property = input.dataset.property;
     const value = input.value;
+
+    if (input.type === 'number' && (value.trim() === '' || isNaN(parseFloat(value)))) {
+      const lastValue = this.findInputForElement(this.selectedElement, property).value;
+      const isQr = this.isQrCode(this.selectedElement);
+
+      if (property === 'size') {
+        input.value = parseFloat(lastValue).toFixed(isQr ? 1 : 0);
+      } else {
+        input.value = parseFloat(lastValue).toFixed(1);
+      }
+      return;
+    }
 
     this.updateHiddenInput(this.selectedElement, property, value);
 

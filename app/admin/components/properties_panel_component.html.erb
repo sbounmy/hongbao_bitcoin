@@ -14,8 +14,8 @@
         <span class="label-text">X Position (%)</span>
       <%end%>
       <div class="flex items-center space-x-2">
-        <%= range_field_tag nil, nil, min: 0, max: 100, step: 0.1, data: { visual_editor_target: "panelXInput", action: "input->visual-editor#updateFromPanel", property: "x" }, class: "range range-primary flex-grow" %>
-        <%= number_field_tag nil, nil, step: 0.1, data: { visual_editor_target: "panelXValueInput", action: "input->visual-editor#updateFromPanel", property: "x" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
+        <%= range_field_tag nil, nil, min: 0, max: 100, step: 0.01, data: { visual_editor_target: "panelXInput", action: "input->visual-editor#updateFromPanel", property: "x" }, class: "range range-primary flex-grow" %>
+        <%= number_field_tag nil, nil, step: 0.01, data: { visual_editor_target: "panelXValueInput", action: "change->visual-editor#updateFromPanel", property: "x" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
       </div>
     </div>
 
@@ -25,8 +25,8 @@
         <span class="label-text">Y Position (%)</span>
       <%end%>
       <div class="flex items-center space-x-2">
-        <%= range_field_tag nil, nil, min: 0, max: 100, step: 0.1, data: { visual_editor_target: "panelYInput", action: "input->visual-editor#updateFromPanel", property: "y" }, class: "range range-primary flex-grow" %>
-        <%= number_field_tag nil, nil, step: 0.1, data: { visual_editor_target: "panelYValueInput", action: "input->visual-editor#updateFromPanel", property: "y" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
+        <%= range_field_tag nil, nil, min: 0, max: 100, step: 0.01, data: { visual_editor_target: "panelYInput", action: "input->visual-editor#updateFromPanel", property: "y" }, class: "range range-primary flex-grow" %>
+        <%= number_field_tag nil, nil, step: 0.01, data: { visual_editor_target: "panelYValueInput", action: "change->visual-editor#updateFromPanel", property: "y" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
       </div>
     </div>
 
@@ -44,8 +44,8 @@
         <span class="label-text" data-visual-editor-target="panelSizeLabel">Size</span>
       <%end%>
       <div class="flex items-center space-x-2">
-        <%= range_field_tag nil, nil, min: 8, max: 100, step: 1, data: { visual_editor_target: "panelSizeInput", action: "input->visual-editor#updateFromPanel", property: "size" }, class: "range range-primary flex-grow" %>
-        <%= number_field_tag nil, nil, step: 1, data: { visual_editor_target: "panelSizeValueInput", action: "input->visual-editor#updateFromPanel", property: "size" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
+        <%= range_field_tag nil, nil, min: 8, max: 100, step: 0.1, data: { visual_editor_target: "panelSizeInput", action: "input->visual-editor#updateFromPanel", property: "size" }, class: "range range-primary flex-grow" %>
+        <%= number_field_tag nil, nil, step: 0.1, data: { visual_editor_target: "panelSizeValueInput", action: "change->visual-editor#updateFromPanel", property: "size" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
       </div>
     </div>
 
@@ -56,7 +56,7 @@
       <%end%>
       <div class="flex items-center space-x-2">
         <%= range_field_tag nil, nil, min: 5, max: 100, step: 1, data: { visual_editor_target: "panelMaxWidthInput", action: "input->visual-editor#updateFromPanel", property: "max_text_width" }, class: "range range-primary flex-grow" %>
-        <%= number_field_tag nil, nil, step: 1, data: { visual_editor_target: "panelMaxWidthValueInput", action: "input->visual-editor#updateFromPanel", property: "max_text_width" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
+        <%= number_field_tag nil, nil, step: 1, data: { visual_editor_target: "panelMaxWidthValueInput", action: "change->visual-editor#updateFromPanel", property: "max_text_width" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
       </div>
     </div>
 

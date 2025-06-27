@@ -26,24 +26,25 @@ export default class extends Controller {
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
-   const x = this.canvaController.originalWidth * (this.xValue / 100)
-   const y = this.canvaController.originalHeight * (this.yValue / 100)
-
-    const dpr = this.canvaController.dpr || window.devicePixelRatio || 1;
-
-    // Browsers can render fonts slightly differently between the DOM and the Canvas.
-    // This small correction factor visually aligns the canvas font with the editor preview
-    // by making the canvas font slightly smaller to compensate for it appearing larger.
-    const fontCorrectionFactor = 1.04;
-    const scaledFontSize = (this.fontSizeValue / dpr) / fontCorrectionFactor;
-
-    const lineHeight = scaledFontSize * 1.25;
+    const x = this.canvaController.originalWidth * (this.xValue / 100)
+    const y = this.canvaController.originalHeight * (this.yValue / 100)
     const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
 
-    if (this.typeValue === 'text') {
+    if (this.typeValue === 'text' || this.typeValue === 'mnemonic') {
+      const fontCorrectionFactor = 1;
+      // Font size is now a percentage of the canvas width.
+      const fontSizePx = (this.fontSizeValue / 100) * this.canvaController.originalWidth;
+      const scaledFontSize = fontSizePx / fontCorrectionFactor;
+      const lineHeight = scaledFontSize * 1.25;
+
       this.ctx.font = `${scaledFontSize}px Arial`
       this.ctx.fillStyle = this.fontColorValue
-      this.wrapTextByChar(this.ctx, this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+
+      if (this.typeValue === 'text') {
+        this.wrapTextByChar(this.ctx, this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+      } else { // mnemonic
+        this.wrapTextByWord(this.ctx, this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+      }
 
     } else if (this.typeValue === 'image') {
       let imageSize
@@ -53,9 +54,6 @@ export default class extends Controller {
         imageSize = this.fontSizeValue * this.canvaController.originalWidth
       }
       this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
-    } else if (this.typeValue === 'mnemonic') {
-      // REFACTOR: Pass calculated values to avoid duplicate code.
-      this.drawTextMnemonic(this.textValue, x, y, scaledFontSize, lineHeight, maxWidthPx)
     }
   }
 
