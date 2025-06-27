@@ -276,7 +276,7 @@ export default class extends Controller {
     } else {
       this.panelSizeLabelTarget.textContent = "Font Size (%)";
       this.panelSizeInputTarget.min = 1;
-      this.panelSizeInputTarget.max = 20;
+      this.panelSizeInputTarget.max = 10;
       this.panelSizeInputTarget.step = 0.01;
     }
   }
@@ -330,6 +330,13 @@ export default class extends Controller {
         this.panelMaxWidthInputTarget.value = value;
         this.panelMaxWidthValueInputTarget.value = parseFloat(value).toFixed(1);
         break;
+    }
+  }
+  
+  preventSubmitOnEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.currentTarget.blur(); // De-focus the input, which also triggers the 'change' event
     }
   }
 
