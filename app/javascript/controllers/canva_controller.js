@@ -17,7 +17,7 @@ export default class extends Controller {
     this.originalWidth = canvas.parentElement.offsetWidth
     this.originalHeight = canvas.parentElement.offsetHeight
 
-    // Set the canvas size in pixels (multiplied by device pixel ratio)
+    // Set the canvas size
     canvas.width = this.originalWidth
     canvas.height = this.originalHeight
 
