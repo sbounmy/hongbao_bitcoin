@@ -277,7 +277,7 @@ export default class extends Controller {
       this.panelSizeLabelTarget.textContent = "Font Size (%)";
       this.panelSizeInputTarget.min = 1;
       this.panelSizeInputTarget.max = 20;
-      this.panelSizeInputTarget.step = 0.1;
+      this.panelSizeInputTarget.step = 0.01;
     }
   }
 
@@ -287,6 +287,18 @@ export default class extends Controller {
     const input = event.currentTarget;
     const property = input.dataset.property;
     const value = input.value;
+
+    if (input.type === 'number' && (value.trim() === '' || isNaN(parseFloat(value)))) {
+      const lastValue = this.findInputForElement(this.selectedElement, property).value;
+      const isQr = this.isQrCode(this.selectedElement);
+
+      if (property === 'size') {
+        input.value = parseFloat(lastValue).toFixed(isQr ? 1 : 0);
+      } else {
+        input.value = parseFloat(lastValue).toFixed(1);
+      }
+      return;
+    }
 
     this.updateHiddenInput(this.selectedElement, property, value);
 
