@@ -1,0 +1,6 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "offline_pack", "data-turbo-track": "reload", defer: true %>
+  <%= yield :head %>
+<% end %>
+
+<%= render template: "layouts/application" %>

@@ -1,4 +1,5 @@
 class PapersController < ApplicationController
+  layout "offline", only: [ :show ]
   allow_unauthenticated_access only: [ :show, :index ]
 
   def index
