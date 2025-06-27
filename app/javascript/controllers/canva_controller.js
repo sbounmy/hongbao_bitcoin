@@ -12,14 +12,14 @@ export default class extends Controller {
     // Get the canvas element
     const canvas = this.containerTarget
 
-
+    const qualityScale = 3
     // Store the original dimensions
     this.originalWidth = canvas.parentElement.offsetWidth
     this.originalHeight = canvas.parentElement.offsetHeight
 
     // Set the canvas size
-    canvas.width = this.originalWidth
-    canvas.height = this.originalHeight
+    canvas.width = this.originalWidth * qualityScale
+    canvas.height = this.originalHeight * qualityScale
 
     // Set the canvas display size through CSS
     canvas.style.width = `${this.originalWidth}px`
@@ -30,7 +30,7 @@ export default class extends Controller {
 
     // Clear any existing transforms
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-
+    this.ctx.scale(qualityScale, qualityScale)
     // Enable image smoothing
     this.ctx.imageSmoothingEnabled = true
     this.ctx.imageSmoothingQuality = 'high'
