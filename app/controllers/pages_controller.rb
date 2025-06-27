@@ -4,10 +4,7 @@ class PagesController < ApplicationController
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
   end
 
-  def satoshi
-  end
-
-  def about
+  def pricing
   end
 
   def v2
