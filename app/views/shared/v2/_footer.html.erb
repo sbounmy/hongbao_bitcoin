@@ -28,7 +28,7 @@
 
   <%# Column 2: Features / Links %>
   <nav>
-    <h6 class="footer-title">Features</h6>
+    <h6 class="footer-title">Company</h6>
     <%= link_to "About us", about_path, class: "link link-hover" %>
     <%= link_to "How it Works", "#how-it-works", class: "link link-hover", data: { controller: "scroll-to" } %>
     <%= link_to "Why Hongbao?", "#why-hongbao-bitcoin", class: "link link-hover", data: { controller: "scroll-to" } %>
@@ -53,7 +53,7 @@
   <%# Column 4: Legal %>
   <nav>
     <h6 class="footer-title">Legal</h6>
-    <%= link_to "Privacy Policy", "", class: "link link-hover" %>
+    <%= link_to "Privacy Policy", page_path("privacy"), class: "link link-hover" %>
     <%= link_to "Terms of Service", "", class: "link link-hover" %>
   </nav>
 </footer>
