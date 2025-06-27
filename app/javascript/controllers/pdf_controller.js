@@ -13,7 +13,9 @@ export default class extends Controller {
       const canvas = await html2canvas(this.contentTarget, {
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
-        logging: true // Enabled logging
+        logging: true, // Enabled logging
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY
       })
 
       // Log canvas dimensions
