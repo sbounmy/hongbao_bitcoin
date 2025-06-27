@@ -8,7 +8,7 @@ class UpdatePaperElementsFromThemeMetadata < ActiveRecord::Migration[8.0]
 
     # Iterate over each Paper to update it.
     Paper.find_each do |paper|
-      theme = paper.bundle.&theme
+      theme = paper.bundle&.theme
 
       if theme
         # Get the coordinate data from the theme.
