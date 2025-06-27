@@ -31,7 +31,7 @@ export default class extends Controller {
     const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
 
     if (this.typeValue === 'text' || this.typeValue === 'mnemonic') {
-      const fontCorrectionFactor = 1;
+      const fontCorrectionFactor = 0.95;
       // Font size is now a percentage of the canvas width.
       const fontSizePx = (this.fontSizeValue / 100) * this.canvaController.originalWidth;
       const scaledFontSize = fontSizePx / fontCorrectionFactor;
