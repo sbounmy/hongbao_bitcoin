@@ -5,39 +5,7 @@
 import { application } from "./application"
 
 // Application controllers
-// import BindingController from "./offline/binding_controller"
-// application.register("binding", BindingController)
-//
-// import BitcoinAddressController from "./offline/bitcoin_address_controller"
-// application.register("bitcoin-address", BitcoinAddressController)
-//
-// import BitcoinController from "./offline/bitcoin_controller"
-// application.register("bitcoin", BitcoinController)
-//
-// import BitcoinKeyController from "./offline/bitcoin_key_controller"
-// application.register("bitcoin-key", BitcoinKeyController)
-//
-// import BitcoinLegacyKeyController from "./offline/bitcoin_legacy_key_controller"
-// application.register("bitcoin-legacy-key", BitcoinLegacyKeyController)
-//
-// import BitcoinMnemonicController from "./offline/bitcoin_mnemonic_controller"
-// application.register("bitcoin-mnemonic", BitcoinMnemonicController)
-//
-// import BitcoinSegwitKeyController from "./offline/bitcoin_segwit_key_controller"
-// application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
-//
-//
-// import BitcoinWifController from "./offline/bitcoin_wif_controller"
-// application.register("bitcoin-wif", BitcoinWifController)
-//
-// import CanvaController from "./offline/canva_controller"
-// application.register("canva", CanvaController)
-//
-// import CanvaItemController from "./offline/canva_item_controller"
-// application.register("canva-item", CanvaItemController)
-//
-// import DialogKeyController from "./offline/dialog_key_controller"
-// application.register("dialog-key", DialogKeyController)
+
 
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
@@ -69,17 +37,8 @@ application.register("popup", PopupController)
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
 
-// import PrivateKeyController from "./offline/private_key_controller"
-// application.register("private-key", PrivateKeyController)
-//
-// import QrCodeController from "./offline/qr_code_controller"
-// application.register("qr-code", QrCodeController)
-
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
-
-// import StepsController from "./offline/steps_controller"
-// application.register("steps", StepsController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
