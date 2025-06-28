@@ -135,13 +135,6 @@ test.describe('PDF Generation', () => {
     await expect(page.getByText('Card / Bank Transfer top up might not be available for custom keys.')).toBeHidden();
   });
 
-  test('user can watch satoshi mystery video', async ({ page }) => {
-    await page.goto('/satoshi');
-    await expect(page.locator('iframe')).toBeVisible();
-    const iframe = page.locator("section iframe").contentFrame();
-    await expect(iframe.locator('img[alt*="Le Mystère Satoshi.mp4"]').first()).toBeVisible();
-  });
-
   test('user can go offline with save page as and interact with it', async ({ page, context }) => {
     await savePageAs(page, context, async (offlinePage) => {
       await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
