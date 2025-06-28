@@ -1,0 +1,11 @@
+<div class="min-h-screen">
+  <%= render "shared/v2/header" %>
+  <section class="max-w-7xl mx-auto flex flex-col items-center gap-8 p-8 justify-center">
+
+    <%= render V3::PricingComponent.new(title: false) do |component| %>
+      <% component.with_plans(StripeService.fetch_products) %>
+    <% end %>
+
+  </section>
+</div>
+
