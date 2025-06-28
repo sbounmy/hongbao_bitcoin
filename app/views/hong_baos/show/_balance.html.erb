@@ -16,7 +16,7 @@
             <span>Confirmed</span>
             <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-2 py-1 text-xs font-medium text-white">
               <%= pluralize(@hong_bao.balance.confirmations, 'confirmation') %>
-            <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+            <% explorer_base_url = Current.testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
             <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
                target="_blank"
                rel="noopener noreferrer"
@@ -86,7 +86,7 @@
                           <span>Pending confirmation</span>
                         </span>
                       <% end %>
-                      <% explorer_base_url = testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
+                      <% explorer_base_url = Current.testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
                       <%= link_to "#{explorer_base_url}/tx/#{tx.id}",
                           class: "hover:text-white transition-colors",
                           target: "_blank",
