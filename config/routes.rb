@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     post :transfer, on: :collection
   end
 
-  scope "(:locale)", locale: /en|zh-CN/ do
+  scope "(:locale)", locale: /en|zh-CN/, defaults: { locale: "en" } do
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
       get :utxos, on: :member
