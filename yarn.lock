@@ -1545,6 +1545,13 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@stimulus-components/carousel@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/carousel/-/carousel-6.0.0.tgz#8ee0c5b78da38322c21133cbd580c0412eedca13"
+  integrity sha512-Jj7lwJI9B13+Wyt6Q27G5b45w5wyjVC79RB6eIuWt9ZYMRbjPWsV2kDofpiM1wUZi7h1+xk+vAZorPPnvGd4dA==
+  dependencies:
+    swiper "^11.0.6"
+
 "@stimulus-components/clipboard@5.0.0":
   version "5.0.0"
   resolved "https://registry.npmjs.org/@stimulus-components/clipboard/-/clipboard-5.0.0.tgz"
@@ -5254,6 +5261,11 @@ svg-pathdata@^6.0.3:
   version "6.0.3"
   resolved "https://registry.npmjs.org/svg-pathdata/-/svg-pathdata-6.0.3.tgz"
   integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
+
+swiper@^11.0.6, swiper@^11.2.10:
+  version "11.2.10"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.2.10.tgz#ed0b17286b56f7fe8d4b46ed61e6e0bd8daaccad"
+  integrity sha512-RMeVUUjTQH+6N3ckimK93oxz6Sn5la4aDlgPzB+rBrG/smPdCTicXyhxa+woIpopz+jewEloiEE3lKo1h9w2YQ==
 
 syntax-error@^1.1.1:
   version "1.4.0"

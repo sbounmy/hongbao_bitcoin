@@ -3,8 +3,11 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
-
+import "swiper/css/bundle"
 // Application controllers
+import Carousel from '@stimulus-components/carousel'
+application.register('carousel', Carousel)
+
 import BindingController from "./binding_controller"
 application.register("binding", BindingController)
 
