@@ -1,7 +1,7 @@
 import BitcoinKeyController from "./bitcoin_key_controller"
-import Master from "../services/bitcoin/master"
-import WalletFactory from "../services/bitcoin/wallet_factory"
-import * as bip39 from '../../../vendor/javascript/bip39.js'
+import Master from "../../services/bitcoin/master.js"
+import WalletFactory from "../../services/bitcoin/wallet_factory.js"
+import * as bip39 from '../../../../vendor/javascript/bip39.js'
 
 export default class extends BitcoinKeyController {
   static outlets = ["word"]

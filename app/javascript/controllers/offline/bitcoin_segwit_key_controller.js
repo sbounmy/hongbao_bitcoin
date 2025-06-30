@@ -1,9 +1,9 @@
 import BitcoinWifController from "./bitcoin_wif_controller"
-import bitcoin from '../../../vendor/javascript/bitcoinjs-lib.js'
+import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
 
 export default class extends BitcoinWifController {
   deriveAddress(keyPair) {
-    const { address } = bitcoin.payments.p2pkh({
+    const { address } = bitcoin.payments.p2wpkh({
       pubkey: keyPair.publicKey,
       network: this.network
     })
@@ -11,8 +11,7 @@ export default class extends BitcoinWifController {
   }
 
   static isValidAddress(address) {
-    return address.startsWith('1') ||
-           address.startsWith('m') ||
-           address.startsWith('n')
+    return address.startsWith('bc1') ||
+           address.startsWith('tb1')
   }
 }

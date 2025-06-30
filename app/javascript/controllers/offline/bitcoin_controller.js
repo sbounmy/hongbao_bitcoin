@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import WalletFactory from "../services/bitcoin/wallet_factory"
-import CustomWallet from "../services/bitcoin/custom_wallet"
-import Transaction from "../services/bitcoin/transaction"
-import TransactionFactory from "../services/bitcoin/transaction_factory"
+import WalletFactory from "../../services/bitcoin/wallet_factory"
+import CustomWallet from "../../services/bitcoin/custom_wallet"
+import Transaction from "../../services/bitcoin/transaction"
+import TransactionFactory from "../../services/bitcoin/transaction_factory"
 
 export default class extends Controller {
   static values = {
