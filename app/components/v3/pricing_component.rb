@@ -20,27 +20,23 @@ class V3::PricingComponent < ApplicationComponent
 
 
   def media_items
-    image_files = Dir.glob("app/assets/images/plans/#{pack}/*").map do |file_path|
-      { type: :image, url: helpers.image_path("plans/#{pack}/#{File.basename(file_path)}"), name: File.basename(file_path) }
-    end
-
-    # Load external videos from YAML
-    video_config = Rails.root.join("config/plan_videos.yml")
-    external_videos = []
-    if File.exist?(video_config)
-      videos = YAML.load_file(video_config)[pack] || []
-      external_videos = videos.map.with_index do |video, idx|
-        { type: video["type"].to_sym, url: video["url"], name: "external_#{idx}" }
-      end
-    end
-
-    (image_files + external_videos)
+    image_files + external_videos
   end
 
   def image_files
+    Dir.glob("app/assets/images/plans/#{pack}/*").map do |file_path|
+      { type: :image, url: helpers.image_path("plans/#{pack}/#{File.basename(file_path)}"), name: File.basename(file_path) }
+    end
   end
 
   def external_videos
+    video_config = Rails.root.join("config/plan_videos.yml")
+    return [] unless File.exist?(video_config)
+
+    videos = YAML.load_file(video_config)[pack] || []
+    videos.map.with_index do |video, idx|
+      { type: video["type"].to_sym, url: video["url"], name: "external_#{idx}" }
+    end
   end
 
   class V3::PlanComponent < ViewComponent::Base
