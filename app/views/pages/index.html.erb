@@ -208,6 +208,12 @@
     <% end %>
   <% end %>
 
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+    <%= card.with_front(class: '!cursor-default') do %>
+      <%= render "shared/faq" %>
+    <% end %>
+  <% end %>
+
   <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
     <%= card.with_front(class: '!cursor-default') do %>
       <%= render V3::PricingComponent.new(title: false) do |component| %>
