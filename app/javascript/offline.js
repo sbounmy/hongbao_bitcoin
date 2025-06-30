@@ -1,8 +1,19 @@
 import { application } from "./controllers/application"
 
 // --- Load all controllers from the offline folder ---
+
+
+import FormController from "./controllers/offline/form_controller"
+application.register("form", FormController)
+
+import FormWalletController from "./controllers/offline/form_wallet_controller"
+application.register("form-wallet", FormWalletController)
+
 import BindingController from "./controllers/offline/binding_controller"
 application.register("binding", BindingController)
+
+import WordController from "./controllers/offline/word_controller"
+application.register("word", WordController)
 
 import BitcoinAddressController from "./controllers/offline/bitcoin_address_controller"
 application.register("bitcoin-address", BitcoinAddressController)

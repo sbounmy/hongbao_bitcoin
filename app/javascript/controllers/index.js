@@ -10,11 +10,6 @@ import { application } from "./application"
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
-import FormController from "./form_controller"
-application.register("form", FormController)
-
-import FormWalletController from "./form_wallet_controller"
-application.register("form-wallet", FormWalletController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
@@ -43,8 +38,6 @@ application.register("qr-scanner", QrScannerController)
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 
-import WordController from "./word_controller"
-application.register("word", WordController)
 
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
