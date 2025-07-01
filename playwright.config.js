@@ -9,6 +9,9 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+// Is this a parallel run orchestrated by our Rake task?
+const isParallelRun = !!process.env.E2E_PARALLEL_RUN;
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -27,7 +30,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.APP_HOST ? `https://${process.env.APP_HOST}` : `http://localhost:3003`,
+    // For parallel runs, use the BASE_URL from the Rake task.
+    // For standard runs, fallback to the existing logic.
+    baseURL: process.env.BASE_URL || (process.env.APP_HOST ? `https://${process.env.APP_HOST}` : `http://localhost:3003`),
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -76,7 +81,9 @@ export default defineConfig({
     // },
   ],
 
-  webServer: {
+  // Only use the webServer for standard, non-parallel runs.
+  // The Rake task handles server management for parallel runs.
+  webServer: isParallelRun ? undefined : {
     command: 'bundle exec foreman start -f Procfile.test',
     port: 3003,
     reuseExistingServer: !process.env.CI,

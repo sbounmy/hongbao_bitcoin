@@ -373,6 +373,8 @@ GEM
       version_gem (>= 1.1.8, < 3)
     ostruct (0.6.1)
     parallel (1.27.0)
+    parallel_tests (5.3.0)
+      parallel
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
@@ -641,6 +643,7 @@ DEPENDENCIES
   markdown-rails (~> 2.1)
   mission_control-jobs
   oauth2
+  parallel_tests (~> 5.3)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)

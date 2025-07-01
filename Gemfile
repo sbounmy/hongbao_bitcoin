@@ -80,6 +80,7 @@ group :test do
   gem "webmock"
   gem "faker"
   gem "shoulda-matchers"
+  gem "parallel_tests", "~> 5.3"
 end
 
 gem "tailwindcss-rails"
