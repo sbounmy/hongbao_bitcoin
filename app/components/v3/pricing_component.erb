@@ -3,12 +3,10 @@
   <div class="">
     <div class="md:flex md:gap-12">
       <!-- Left Column: Product Display & Benefits -->
-      <div class="mb-8 md:mb-0">
+      <div class="md:flex-3 mb-8 md:mb-0">
         <div class="sticky top-8">
           <div class="aspect-w-16 aspect-h-9 mb-6">
-            <% image_urls.each do |image_url| %>
-              <%= image_tag image_url, class: "w-full h-96 md:h-full object-contain p-4", alt: "HongBao Product Image" %>
-            <% end %>
+            <%= render CarouselComponent.new(media_items: media_items) %>
           </div>
           <h3 class="text-lg font-semibold text-gray-800 mb-3">What's included:</h3>
           <ul class="space-y-2 text-sm text-gray-600">
@@ -29,7 +27,7 @@
       </div>
 
       <!-- Right Column: Configuration & Purchase -->
-      <div class="">
+      <div class="md:flex-2">
         <p class="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-1">FREE Credits included</p>
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Buy HongBao</h1>
         <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
