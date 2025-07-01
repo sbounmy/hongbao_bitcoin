@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   deploy:
+    timeout-minutes: 80
     name: Deploy to production
     runs-on: ubuntu-latest
     environment: production
@@ -23,6 +24,9 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
       RAILS_ENV: production
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+      KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -65,7 +69,3 @@ jobs:
 
       - name: Deploy with Kamal
         run: bin/kamal deploy
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-          KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
