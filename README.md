@@ -108,7 +108,6 @@ source ~/.bashrc
 git clone https://github.com/sbounmy/hongbao.git
 git submodule update --init --recursive
 cd hongbao
-
 # Install Ruby and Node.js from mise.toml
 mise install
 
