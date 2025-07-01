@@ -9,6 +9,10 @@ namespace :e2e do
     playwright_pids = []
 
     begin
+      puts "--> Cleaning up old reports..."
+      system("rm -rf ./blob-reports")
+      system("rm -rf ./playwright-report")
+
       puts "--> Setting up #{count} parallel test databases..."
       system("bundle exec rake parallel:create[#{count}] parallel:prepare[#{count}] RAKE_ENV=test") or raise "Failed to set up parallel databases."
 
@@ -36,20 +40,38 @@ namespace :e2e do
         env_number = i == 1 ? "" : i
 
         base_url = "http://localhost:#{foreman_port}"
-        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} npx playwright test --shard=#{i}/#{count}"
+        output_dir = "./blob-reports/shard-#{i}"
+        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} PLAYWRIGHT_BLOB_OUTPUT_DIR=#{output_dir} npx playwright test --shard=#{i}/#{count}"
         playwright_pids << Process.spawn(playwright_cmd)
         puts "  - Started foreman (base port: #{foreman_port}) and Playwright for shard #{i}"
       end
 
       puts "--> Waiting for Playwright tests to complete..."
-      playwright_pids.each { |pid| Process.wait(pid) }
-      puts "--> Playwright tests finished."
+      statuses = playwright_pids.map do |pid|
+        _pid, status = Process.wait2(pid)
+        status
+      end
+      puts "--> Playwright tests finished. #{statuses.inspect}"
+
+      # Give a moment for all the report files to be written to the disk.
+      # This helps prevent a race condition where the merge starts before all files are ready.
+      sleep 5
+
+      failed_shards = statuses.select { |s| !s.success? }
+      if failed_shards.any?
+        puts "--> #{failed_shards.size}/#{playwright_pids.size} Playwright shards failed."
+      end
 
       puts "--> Merging reports..."
-      # Clean up old reports and merge the new blob reports into a single HTML report
-      system("rm -rf playwright-report && mkdir -p playwright-report")
-      system("npx playwright merge-reports --reporter html ./blob-report")
+      # The merge-reports command will create the playwright-report directory.
+      system("rm -rf ./blob-reports/*.zip")
+      system("cp ./blob-reports/*/*.zip ./blob-reports/")
+      system("npx playwright merge-reports --reporter html ./blob-reports")
       puts "--> Reports merged into 'playwright-report' directory."
+
+      if failed_shards.any?
+        raise "One or more Playwright shards failed."
+      end
 
     ensure
       puts "--> Cleaning up..."
