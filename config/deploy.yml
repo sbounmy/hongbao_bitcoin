@@ -94,8 +94,8 @@ builder:
     COMMIT_SHA: <%= `git rev-parse HEAD`.strip %>
     COMMIT_TIME: <%= `git show -s --format=%ci HEAD`.strip %>
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: app
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
