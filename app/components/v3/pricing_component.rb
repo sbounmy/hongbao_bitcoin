@@ -20,7 +20,7 @@ class V3::PricingComponent < ApplicationComponent
 
 
   def media_items
-    image_files + external_videos
+    image_files + video_files
   end
 
   def image_files
@@ -29,7 +29,7 @@ class V3::PricingComponent < ApplicationComponent
     end
   end
 
-  def external_videos
+  def video_files
     video_config = Rails.root.join("config/plan_videos.yml")
     return [] unless File.exist?(video_config)
 
