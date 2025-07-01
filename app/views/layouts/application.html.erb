@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-testnet="<%= testnet? %>">
+<html lang="<%= I18n.locale %>">
   <head>
     <%# Mobile Viewport Meta Tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -49,12 +49,12 @@
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
-  <%= tag.body(data: { theme: current_theme.ui_name }, **attributes_from(yield(:body_attributes))) do %>
+  <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
     <%= yield %>
   <% end %>
 
   <!-- After the body tag so icons are loaded even after the page changes on click -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-  <%= content_for?(:footer) ? yield(:footer) : render("shared/v2/footer") %>
+  <%= content_for?(:footer) ? yield(:footer) : render("shared/footer") %>
 </html>

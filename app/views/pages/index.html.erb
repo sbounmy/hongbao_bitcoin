@@ -1,7 +1,7 @@
 <% attributes_for :body_attributes, { class: "bg-white", data: { controller: "scroll-reveal" } } %>
 
 <div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
-  <%= render "shared/v2/header" %>
+  <%= render "shared/header" %>
   <!-- Main text content -->
   <div class="relative px-4 pt-12 sm:pt-22 md:pt-24 z-10 mb-10">
     <div class="mb-3 md:mb-4">
@@ -40,7 +40,7 @@
 </div>
 
 <section data-scroll-reveal-target="item" data-action="click->reveal#toggle" class="reveal  flex flex-col items-center justify-center bg-white px-8 py-24 text-black/80">
-  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the paper wallet.<br/>Your keys are home-printed right on the bill — beautifully laid out and easy to understand. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<span class='text-xs'>3</span><br/>Built-in features like offline mode, custom keys import and a timeless red envelope keep your gifted Bitcoin safe for generations. <br/>It's everything a gift should be.</p>
+  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the paper wallet.<br/>Your keys are home-printed right on the bill — beautifully laid out and easy to understand.. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<br/>Built-in features like offline mode, custom keys import and a timeless red envelope keep your gifted Bitcoin safe for generations. <br/>It's everything a gift should be.</p>
 </section>
 
 <section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
@@ -205,6 +205,12 @@
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
       <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
+    <% end %>
+  <% end %>
+
+  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
+    <%= card.with_front(class: '!cursor-default') do %>
+      <%= render "shared/faq" %>
     <% end %>
   <% end %>
 

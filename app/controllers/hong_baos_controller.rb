@@ -2,7 +2,7 @@ class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos transfer]
   before_action :set_network, only: %i[show form utxos]
   layout false, only: %i[form utxos]
-
+  layout "offline", except: %i[utxos]
   def index
     # Just render the QR scanner view
   end

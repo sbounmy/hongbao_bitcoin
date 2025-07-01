@@ -254,7 +254,7 @@ export default class extends Controller {
     this.panelColorInputTarget.value = color;
 
     this.panelSizeInputTarget.value = size;
-    this.panelSizeValueInputTarget.value = parseFloat(size).toFixed(isQr ? 1 : 0);
+    this.panelSizeValueInputTarget.value = parseFloat(size).toFixed(isQr ? 1 : 2);
 
     this.panelMaxWidthInputTarget.value = maxWidth;
     this.panelMaxWidthValueInputTarget.value = parseFloat(maxWidth).toFixed(1);
@@ -272,11 +272,11 @@ export default class extends Controller {
       this.panelSizeLabelTarget.textContent = "Size (%)";
       this.panelSizeInputTarget.min = 1;
       this.panelSizeInputTarget.max = 50;
-      this.panelSizeInputTarget.step = 0.1;
+      this.panelSizeInputTarget.step = 0.01;
     } else {
       this.panelSizeLabelTarget.textContent = "Font Size (%)";
       this.panelSizeInputTarget.min = 1;
-      this.panelSizeInputTarget.max = 20;
+      this.panelSizeInputTarget.max = 10;
       this.panelSizeInputTarget.step = 0.01;
     }
   }
@@ -293,7 +293,7 @@ export default class extends Controller {
       const isQr = this.isQrCode(this.selectedElement);
 
       if (property === 'size') {
-        input.value = parseFloat(lastValue).toFixed(isQr ? 1 : 0);
+        input.value = parseFloat(lastValue).toFixed(isQr ? 1 : 2);
       } else {
         input.value = parseFloat(lastValue).toFixed(1);
       }
@@ -323,13 +323,20 @@ export default class extends Controller {
         this.setElementSize(this.selectedElement);
         const isQr = this.isQrCode(this.selectedElement);
         this.panelSizeInputTarget.value = value;
-        this.panelSizeValueInputTarget.value = parseFloat(value).toFixed(isQr ? 1 : 0);
+        this.panelSizeValueInputTarget.value = parseFloat(value).toFixed(isQr ? 1 : 2);
         break;
       case 'max_text_width':
         this.setElementSize(this.selectedElement);
         this.panelMaxWidthInputTarget.value = value;
         this.panelMaxWidthValueInputTarget.value = parseFloat(value).toFixed(1);
         break;
+    }
+  }
+  
+  preventSubmitOnEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.currentTarget.blur(); // De-focus the input, which also triggers the 'change' event
     }
   }
 
