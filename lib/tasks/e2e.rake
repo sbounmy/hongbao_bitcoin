@@ -45,6 +45,12 @@ namespace :e2e do
       playwright_pids.each { |pid| Process.wait(pid) }
       puts "--> Playwright tests finished."
 
+      puts "--> Merging reports..."
+      # Clean up old reports and merge the new blob reports into a single HTML report
+      system("rm -rf playwright-report && mkdir -p playwright-report")
+      system("npx playwright merge-reports --reporter html ./blob-report")
+      puts "--> Reports merged into 'playwright-report' directory."
+
     ensure
       puts "--> Cleaning up..."
       if foreman_pids.any?
