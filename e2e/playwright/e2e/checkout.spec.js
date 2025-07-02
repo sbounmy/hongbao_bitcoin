@@ -41,7 +41,7 @@ test.describe('Stripe Checkout Flow', () => {
       email: 'admin@example.com'
     });
 
-    await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
+    await page.locator('label:has-text("Mini Pack")').click();
     await page.getByRole('button', { name: 'Buy now' }).click();
 
     // Verify redirect to Stripe Checkout
