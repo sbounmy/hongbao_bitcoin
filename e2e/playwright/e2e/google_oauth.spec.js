@@ -5,8 +5,8 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 test.describe("Google OAuth Flow", () => {
 
   test("allows a new user to sign up via Google callback", async ({ page }) => {
-    await appVcrInsertCassette('google_oauth', { allow_playback_repeats: true });
     await page.goto('/signup');
+    await appVcrInsertCassette('google_oauth', { allow_playback_repeats: true });
     await page.getByText('Sign in with Google').click();
     await expect(page.locator('body')).toContainText('to continue to HongBao Bitcoin');
 
