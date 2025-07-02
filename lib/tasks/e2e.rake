@@ -19,12 +19,11 @@ namespace :e2e do
       puts "--> Starting #{count} foreman instances..."
       1.upto(count) do |i|
         foreman_port = base_foreman_port + ((i - 1) * 100)
-        env_number = i == 1 ? "" : i
 
         # Set WEB_PORT so the stripe process knows where to forward to.
         # Foreman will correctly assign foreman_port to the web process's $PORT.
-        foreman_cmd = "APP_PORT=#{foreman_port} TEST_ENV_NUMBER=#{env_number} foreman start -f Procfile.test"
-        foreman_pids << Process.spawn(foreman_cmd, out: "/dev/null", err: "/dev/null")
+        foreman_cmd = "APP_PORT=#{foreman_port} TEST_ENV_NUMBER=#{i} foreman start -f Procfile.test"
+        foreman_pids << Process.spawn(foreman_cmd)
 
         # # Playwright connects to the port we know Foreman assigned to the web process.
         # base_url = "http://localhost:#{foreman_port}"
@@ -37,7 +36,6 @@ namespace :e2e do
 
       1.upto(count) do |i|
         foreman_port = base_foreman_port + ((i - 1) * 100)
-        env_number = i == 1 ? "" : i
 
         base_url = "http://localhost:#{foreman_port}"
         output_dir = "./blob-reports/shard-#{i}"
