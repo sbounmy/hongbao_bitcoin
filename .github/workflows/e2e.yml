@@ -69,7 +69,7 @@ jobs:
       run: bundle exec rails assets:precompile
 
     - name: Run E2E tests in parallel
-      run: bin/e2e --parallel[6]
+      run: bin/e2e --parallel[4]
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
