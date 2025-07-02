@@ -1,7 +1,8 @@
 namespace :e2e do
   desc "Run Playwright tests in parallel"
-  task :parallel, [ :count ] do |_, args|
+  task :parallel, [ :count, :file ] do |_, args|
     count = (args[:count] || 4).to_i
+    file = args[:file]
     # Each foreman instance gets its own base port. Foreman assigns the
     # base port to the first process in the Procfile (web).
     base_foreman_port = 5100
@@ -39,7 +40,7 @@ namespace :e2e do
 
         base_url = "http://localhost:#{foreman_port}"
         output_dir = "./blob-reports/shard-#{i}"
-        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} PLAYWRIGHT_BLOB_OUTPUT_DIR=#{output_dir} npx playwright test --shard=#{i}/#{count}"
+        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} PLAYWRIGHT_BLOB_OUTPUT_DIR=#{output_dir} npx playwright test #{file} --shard=#{i}/#{count}"
         playwright_pids << Process.spawn(playwright_cmd)
         puts "  - Started foreman (base port: #{foreman_port}) and Playwright for shard #{i}"
       end

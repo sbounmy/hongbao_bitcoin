@@ -66,13 +66,8 @@ jobs:
       run: |
         bundle exec rails assets:precompile
 
-    - name: Setup test database
-      run: |
-        bundle exec rails db:test:prepare
-
-    - name: Run Playwright tests
-      run: npx playwright test
-
+    - name: Run E2E tests in parallel
+      run: bundle exec rake e2e:parallel
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
