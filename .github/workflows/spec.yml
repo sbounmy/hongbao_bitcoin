@@ -67,7 +67,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_KEY }}
 
     steps:
       - name: Install packages
