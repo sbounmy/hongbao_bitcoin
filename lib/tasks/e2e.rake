@@ -15,7 +15,7 @@ namespace :e2e do
       system("rm -rf ./playwright-report")
 
       puts "--> Setting up #{count} parallel test databases..."
-      system("bundle exec rake parallel:create[#{count}] parallel:prepare[#{count}] RAKE_ENV=test") or raise "Failed to set up parallel databases."
+      system("bundle exec rake parallel:create[#{count}] parallel:migrate[#{count}] RAKE_ENV=test") or raise "Failed to set up parallel databases."
 
       puts "--> Starting #{count} foreman instances..."
       1.upto(count) do |i|
