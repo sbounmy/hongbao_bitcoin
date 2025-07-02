@@ -31,29 +31,32 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: lts/*
-        cache: 'npm'
+        cache: 'yarn'
 
-    - name: Install npm dependencies
-      run: |
-        npm install
+    - name: Install yarn dependencies
+      run: yarn install
 
     - name: Cache Playwright browsers
       uses: actions/cache@v4
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
-        # Use package-lock.json or yarn.lock to invalidate cache
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
 
-    - name: Install Playwright Browsers
-      run: |
-        npx playwright install --with-deps
+    - name: Cache Rails assets
+      uses: actions/cache@v4
+      with:
+        path: |
+          public/assets
+          tmp/cache/assets
+        key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock', 'app/assets/**/*', 'config/tailwind.config.js', 'app/javascript/**/*.js') }}
+        restore-keys: |
+          ${{ runner.os }}-assets-
 
-    - name: Install dependencies
-      run: |
-        bundle install
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
 
     - name: Install Stripe CLI
       run: |
@@ -63,11 +66,10 @@ jobs:
         sudo apt-get install -y stripe
 
     - name: Precompile assets
-      run: |
-        bundle exec rails assets:precompile
+      run: bundle exec rails assets:precompile
 
     - name: Run E2E tests in parallel
-      run: bin/e2e --parallel 6
+      run: bin/e2e --parallel[6]
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
