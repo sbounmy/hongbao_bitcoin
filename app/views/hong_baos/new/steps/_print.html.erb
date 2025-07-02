@@ -138,12 +138,21 @@
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="text-white space-y-4 overflow-auto pb-4">
-    <!-- This is the actual content that will be rendered to PDF -->
-    <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 mx-auto flex flex-col gap-2 justify-between">
-      <div class="flex items-center">
-        <%= cuttable_content class: "flex flex-col items-center" do %>
-          <%= render 'hong_baos/new/steps/paper_canva',
+  <div class="flex-1 flex flex-col bg-black/20 overflow-hidden">
+    <!-- Zoom controls toolbar -->
+    <div class="flex justify-center items-center gap-2 p-2 bg-gray-800/50 border-b border-white/10">
+      <button data-action="pdf#zoomOut" class="btn btn-sm btn-ghost">-</button>
+      <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="btn btn-sm btn-ghost w-16"></button>
+      <button data-action="pdf#zoomIn" class="btn btn-sm btn-ghost">+</button>
+    </div>
+
+    <!-- Viewport for scrolling -->
+    <div data-pdf-target="viewport" class="flex-1 overflow-auto p-4 grid place-items-center">
+      <!-- This is the actual content that will be rendered to PDF -->
+      <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col gap-2 justify-between shadow-lg">
+        <div class="flex items-center">
+          <%= cuttable_content class: "flex flex-col items-center" do %>
+            <%= render 'hong_baos/new/steps/paper_canva',
                     class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
                     paper:,
                     elements: paper.back_elements,
