@@ -8,12 +8,11 @@ test.describe('Stripe Checkout Flow', () => {
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
     await forceLogin(page, {
-      email: 'satoshi@example.com'
+      email: 'satoshi@example.com',
+      redirect_to: '/tokens'
     });
 
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
-    // Find and click the starter plan
-    await page.goto('/tokens');
     await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
     await page.getByRole('button', { name: 'Buy now' }).click();
 
@@ -29,6 +28,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+    await appVcrEjectCassette();
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {
@@ -57,6 +57,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Manage Billing' }).click();
     await page.waitForURL('https://billing.stripe.com/p/session/**');
     await expect(page.locator('body')).toContainText("Invoice history");
+    await appVcrEjectCassette();
   });
 
   test('logged in user can buy envelopes', async ({ page }) => {
@@ -84,5 +85,6 @@ test.describe('Stripe Checkout Flow', () => {
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+    await appVcrEjectCassette();
   });
 });

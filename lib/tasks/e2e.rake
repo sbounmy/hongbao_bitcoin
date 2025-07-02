@@ -62,9 +62,12 @@ namespace :e2e do
       end
 
       puts "--> Merging reports..."
-      # The merge-reports command will create the playwright-report directory.
+      # Remove any existing zip files from the blob-reports directory
       system("rm -rf ./blob-reports/*.zip")
+      # Copy the zip files from the shard directories to the blob-reports directory
       system("cp ./blob-reports/*/*.zip ./blob-reports/")
+      # Merge the reports
+      # The merge-reports command will create the playwright-report directory.
       system("npx playwright merge-reports --reporter html ./blob-reports")
       puts "--> Reports merged into 'playwright-report' directory."
 

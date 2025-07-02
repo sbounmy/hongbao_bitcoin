@@ -30,9 +30,12 @@ module Checkout
         cs = Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "line_items.data.price.product" ] })
         user = User.find_by(email: session.customer_details.email)
 
-        if Token.find_by(external_id: session.payment_intent) # to avoid duplicate tokens when stripe retries for no reason
+        # payment_intent is nil for order full coupon
+        if session.payment_intent.present? && Token.find_by(external_id: session.payment_intent) # to avoid duplicate tokens when stripe retries for no reason
+          Rails.logger.info("#{session.payment_intent} Token already exists for session #{session.id}")
           success(user)
         elsif user.save!
+          Rails.logger.info("Creating token for session #{session.id}")
           user.tokens.create!(
             quantity: cs.line_items.data.first.price.product.metadata.tokens,
             description: "Tokens purchased from Stripe #{session.payment_intent}",
