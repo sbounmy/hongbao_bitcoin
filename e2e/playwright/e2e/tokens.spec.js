@@ -1,10 +1,11 @@
 import { test, expect } from '../support/test-setup';
-import { app, appScenario, forceLogin, fillCheckout } from '../support/on-rails';
+import { app, appScenario, forceLogin, fillCheckout, appVcrInsertCassette } from '../support/on-rails';
 
 test.describe('Tokens Page', () => {
   const userEmail = 'satoshi@example.com';
 
   test.beforeEach(async ({ page }) => {
+    await appVcrInsertCassette('tokens');
     // We log in with a consistent user. The webhook filtering logic, using
     // client_reference_id, will handle race conditions during parallel test runs.
     await forceLogin(page, {
