@@ -23,8 +23,13 @@ namespace :e2e do
 
         # Set WEB_PORT so the stripe process knows where to forward to.
         # Foreman will correctly assign foreman_port to the web process's $PORT.
-        foreman_cmd = "APP_PORT=#{foreman_port} TEST_ENV_NUMBER=#{i} foreman start -f Procfile.test"
-        foreman_pids << Process.spawn(foreman_cmd)
+        # Spawn foreman directly without a shell and in a new process group
+        # to ensure we can clean it up properly later.
+        foreman_pids << Process.spawn(
+          { "APP_PORT" => foreman_port.to_s, "TEST_ENV_NUMBER" => i.to_s },
+          "foreman", "start", "-f", "Procfile.test",
+          pgroup: true
+        )
 
         # # Playwright connects to the port we know Foreman assigned to the web process.
         # base_url = "http://localhost:#{foreman_port}"
@@ -81,8 +86,9 @@ namespace :e2e do
         puts "--> Stopping foreman processes..."
         foreman_pids.each do |pid|
           begin
-            # Kill the entire process group foreman creates
-            Process.kill("-TERM", pid)
+            # Kill the entire process group foreman creates.
+            # The negative PID sends the signal to the entire process group.
+            Process.kill("TERM", -pid)
             puts "  - Killed foreman group with PID #{pid}"
           rescue Errno::ESRCH
             puts "  - Foreman group with PID #{pid} was already stopped."
