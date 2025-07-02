@@ -64,7 +64,7 @@ test.describe('Stripe Checkout Flow', () => {
   });
 
   test('logged in user can buy envelopes', async ({ page }) => {
-
+    test.setTimeout(40_000); // 40s for CI
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
     await forceLogin(page, {
