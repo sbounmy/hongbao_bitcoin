@@ -8,7 +8,7 @@
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
 
-  <div class="space-y-3 px-8 lg:w-1/3" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+  <div class="space-y-3 p-8 lg:w-1/3" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
     <%= render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
     <%= render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
 
@@ -138,7 +138,7 @@
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="flex-1 flex flex-col bg-black/20 overflow-hidden">
+  <div class="flex-1 flex h-screen flex-col bg-black/20 overflow-hidden">
     <!-- Zoom controls toolbar -->
     <div class="flex justify-center items-center gap-2 p-2 bg-gray-800/50 border-b border-white/10">
       <button data-action="pdf#zoomOut" class="btn btn-sm btn-ghost">-</button>
@@ -147,53 +147,59 @@
     </div>
 
     <!-- Viewport for scrolling -->
-    <div data-pdf-target="viewport" class="flex-1 overflow-auto p-4 grid place-items-center">
-      <!-- This is the actual content that will be rendered to PDF -->
-      <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col gap-2 justify-between shadow-lg">
-        <div class="flex items-center">
-          <%= cuttable_content class: "flex flex-col items-center" do %>
-            <%= render 'hong_baos/new/steps/paper_canva',
-                    class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
-                    paper:,
-                    elements: paper.back_elements,
-                    image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-          %>
+    <div data-pdf-target="viewport" class="flex-1 overflow-auto p-4 w-full text-center mx-auto mb-4">
+      <!-- Wrapper to handle scaled dimensions for scrolling -->
+      <div data-pdf-target="wrapper" class="mx-auto h-1/2">
+        <!-- This is the actual content that will be rendered to PDF -->
+        <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col justify-between gap-4 shadow-lg origin-top-left">
+          <!-- Main content of the page -->
+          <div class="flex flex-col justify-between">
+            <div class="flex items-center">
+              <%= cuttable_content class: "flex flex-col items-center" do %>
+                <%= render 'hong_baos/new/steps/paper_canva',
+                        class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
+                        paper:,
+                        elements: paper.back_elements,
+                        image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
+              %>
 
-          <%# Fold Line %>
-          <div class="border-t-2 border-dashed border-gray-400">
-          </div>
-          <%= render 'hong_baos/new/steps/paper_canva',
-                    class_name: "w-[140mm] h-[70mm]",
-                    paper:,
-                    elements: paper.front_elements,
-                    actions: "bitcoin:modeChanged@window->canva#refresh",
-                    image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
-          %>
-        <% end %>
-        <div class="relative">
-          <div class="flex justify-start -ml-[180px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
-            <div class="space-y-2">
-              <div class="flex gap-2">
-                <h2 class="text-2xl font-bold">REMINDER</h2>
-                <span class="text-gray-600">(to be kept by the donor)</span>
+              <%# Fold Line %>
+              <div class="border-t-2 border-dashed border-gray-400">
               </div>
+              <%= render 'hong_baos/new/steps/paper_canva',
+                        class_name: "w-[140mm] h-[70mm]",
+                        paper:,
+                        elements: paper.front_elements,
+                        actions: "bitcoin:modeChanged@window->canva#refresh",
+                        image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
+              %>
+            <% end %>
+            <div class="relative w-8">
+              <div class="flex justify-start -ml-[180px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
+                <div class="space-y-2">
+                  <div class="flex gap-2">
+                    <h2 class="text-2xl font-bold">REMINDER</h2>
+                    <span class="text-gray-600">(to be kept by the donor)</span>
+                  </div>
 
-              <div class="space-y-4">
-                <p>
-                  <span class="font-bold">1.</span> Cut out the Bitcoin paper wallet (left part) and fold it to create your gift.
-                </p>
-                <p>
-                  <span class="font-bold">2.</span> After creating the paper wallet, you can put it in a Hong₿ao (Bitcoin red envelope) and give it to the recipient.
-                </p>
-                <p>
-                  <span class="font-bold">Warning:</span> Never share the private key with anyone. Only the recipient should have access to it.
-                </p>
+                  <div class="space-y-4">
+                    <p>
+                      <span class="font-bold">1.</span> Cut out the Bitcoin paper wallet (left part) and fold it to create your gift.
+                    </p>
+                    <p>
+                      <span class="font-bold">2.</span> After creating the paper wallet, you can put it in a Hong₿ao (Bitcoin red envelope) and give it to the recipient.
+                    </p>
+                    <p>
+                      <span class="font-bold">Warning:</span> Never share the private key with anyone. Only the recipient should have access to it.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <%= render 'hong_baos/pdf/footer', paper: %>
       </div>
-      <%= render 'hong_baos/pdf/footer', paper: %>
     </div>
   </div>
 </div>

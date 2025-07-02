@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas-pro'
 import { jsPDF } from 'jspdf'
 
 export default class extends Controller {
-  static targets = ["content", "viewport", "zoomDisplay"]
+  static targets = ["content", "viewport", "zoomDisplay", "wrapper"]
   static values = { zoom: { type: Number, default: 0.8 } }
 
   connect() {
@@ -55,8 +55,14 @@ export default class extends Controller {
   }
 
   updateZoom() {
-    if (this.hasContentTarget) {
+    if (this.hasContentTarget && this.hasWrapperTarget) {
+      const contentWidth = this.contentTarget.offsetWidth;
+
+      // Scale the content from its top-left corner
       this.contentTarget.style.transform = `scale(${this.zoomValue})`
+
+      // Resize the wrapper to the new scaled dimensions
+      this.wrapperTarget.style.width = `${contentWidth * this.zoomValue}px`
     }
     if (this.hasZoomDisplayTarget) {
       const percentage = Math.round(this.zoomValue * 100)
