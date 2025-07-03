@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.51.1
     env:
+      HOME: /root
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_KEY }}
       STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
