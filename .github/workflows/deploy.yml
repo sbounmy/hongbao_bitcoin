@@ -76,3 +76,5 @@ jobs:
 
       - name: Deploy with Kamal
         run: bin/kamal deploy
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
