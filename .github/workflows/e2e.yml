@@ -53,8 +53,9 @@ jobs:
           public/assets
           tmp/cache/assets
           app/assets/builds
-        key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock', 'app/assets/**/*', 'config/tailwind.config.js', 'app/javascript/**/*.js') }}
+        key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock', 'app/assets/**/*', 'config/tailwind.config.js', 'app/javascript/**/*.js', 'app/views/**/*', 'app/components/**/*', 'app/helpers/**/*') }}
         restore-keys: |
+          ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock') }}
           ${{ runner.os }}-assets-
 
     - name: Install Playwright Browsers
