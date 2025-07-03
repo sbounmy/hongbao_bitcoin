@@ -9,6 +9,7 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.51.1
     env:
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_KEY }}
@@ -36,15 +37,6 @@ jobs:
     - name: Install yarn dependencies
       run: yarn install
 
-    - name: Cache Playwright browsers
-      uses: actions/cache@v4
-      id: playwright-cache
-      with:
-        path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-playwright-
-
     - name: Cache Rails assets
       uses: actions/cache@v4
       id: assets-cache
@@ -57,9 +49,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock') }}
           ${{ runner.os }}-assets-
-
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
 
     - name: Install Stripe CLI
       run: |

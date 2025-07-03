@@ -42,6 +42,7 @@ test.describe('Stripe Checkout Flow', () => {
     });
 
     await page.locator('label:has-text("Mini Pack")').click();
+    await page.getByLabel('Add promotion code').click();
     await page.getByRole('button', { name: 'Buy now' }).click();
 
     // Verify redirect to Stripe Checkout
