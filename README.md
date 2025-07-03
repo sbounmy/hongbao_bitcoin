@@ -208,22 +208,6 @@ For debugging, you can still use the standard Playwright commands:
 npx playwright test --ui # Run tests with UI
 ```
 
-**A note on VCR tests:** If your test uses VCR and fails on the first run with a `VCR::Errors::CassetteInUseError`, it is likely due to a bug in the test middleware. The middleware incorrectly tries to turn VCR off on the first page navigation.
-
-To work around this, you must navigate to a page **before** you insert the VCR cassette. This "disarms" the faulty logic for all subsequent requests.
-
-**Incorrect order (causes error):**
-```javascript
-await appVcrInsertCassette('my_cassette'); // Inserts cassette first
-await page.goto('/some-path');             // First navigation triggers error
-```
-
-**Correct order (works around the bug):**
-```javascript
-await page.goto('/some-path');             // First navigation disarms the bug
-await appVcrInsertCassette('my_cassette'); // Now it's safe to insert
-```
-
 If you use VSCode / Cursor you can install [Playwright Test for VSCode](https://marketplace.cursorapi.com/items?itemName=ms-playwright.playwright) extension
 
 Then you can
