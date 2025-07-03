@@ -6,6 +6,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.13.4",
     "babel-jest": "^29.7.0",
+    "concurrently": "^9.2.0",
     "daisyui": "^5.0.11",
     "esbuild": "^0.25.4",
     "istanbul-reports": "^3.1.7",
@@ -89,4 +90,3 @@
     "wif": "5.0.0"
   }
 }
-
