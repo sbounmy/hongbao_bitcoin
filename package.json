@@ -71,6 +71,7 @@
     "qrcode": "1.5.3",
     "readable-stream": "3.6.2",
     "ripemd160": "2.0.2",
+    "run-p": "^0.0.0",
     "safe-buffer": "5.2.1",
     "sha.js": "2.4.11",
     "stimulus-textarea-autogrow": "^4.1.0",
