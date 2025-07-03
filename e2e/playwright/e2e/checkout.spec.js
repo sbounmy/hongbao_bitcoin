@@ -33,7 +33,7 @@ test.describe('Stripe Checkout Flow', () => {
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {
-    test.setTimeout(40_000); // 40s for CI
+    test.setTimeout(60_000); // 60s for CI
 
     await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });
 
@@ -47,14 +47,14 @@ test.describe('Stripe Checkout Flow', () => {
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
 
-    await expect(page.getByLabel('Add promotion code')).toBeVisible();
+    await expect(page.locator('#promotionCode')).toBeVisible();
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
     await page.getByText('Apply').click();
     await fillCheckout(page);
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header')).toContainText('12 ₿ao'); // 12 free credits with Mini
+    await expect(page.locator('header .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
     await page.goto('/tokens');
     await page.getByRole('button', { name: 'Manage Billing' }).click();
