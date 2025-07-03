@@ -24,9 +24,6 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
       RAILS_ENV: production
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-      KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -77,7 +74,9 @@ jobs:
       - name: Configure Kamal secrets
         run: |
           mkdir -p .kamal
-          echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" > .kamal/secrets
-
+          cat > .kamal/secrets <<EOF
+                  KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+                  RAILS_MASTER_KEY:        ${{ secrets.RAILS_MASTER_KEY }}
+                  EOF
       - name: Deploy with Kamal
         run: bin/kamal deploy
