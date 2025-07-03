@@ -6,7 +6,6 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.13.4",
     "babel-jest": "^29.7.0",
-    "concurrently": "^9.2.0",
     "daisyui": "^5.0.11",
     "esbuild": "^0.25.4",
     "istanbul-reports": "^3.1.7",
@@ -16,12 +15,14 @@
     "website-scraper": "^5.3.1"
   },
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify",
-    "build:site_css": "npx @tailwindcss/cli -i ./app/content/assets/stylesheets/site.css -o ./app/assets/builds/site.css --minify",
-    "build:active_admin": "esbuild app/admin/javascript/active_admin.js --bundle --sourcemap --minify --format=iife --outfile=app/assets/builds/active_admin.js --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
-    "build:esm": "esbuild app/javascript/application.js app/javascript/offline.js --bundle --sourcemap --minify --format=iife --outdir=app/assets/builds --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
+    "build:css": "npx @tailwindcss/cli -i ./app/assets/tailwind/application.css -o ./app/assets/builds/tailwind.css --minify",
+    "build:css:active_admin": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify",
+    "build:css:site": "npx @tailwindcss/cli -i ./app/content/assets/stylesheets/site.css -o ./app/assets/builds/site.css --minify",
+    "build:js:active_admin": "esbuild app/admin/javascript/active_admin.js --bundle --sourcemap --minify --format=iife --outfile=app/assets/builds/active_admin.js --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
+    "build:js": "esbuild app/javascript/application.js app/javascript/offline.js --bundle --sourcemap --minify --format=iife --outdir=app/assets/builds --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
     "build": "concurrently \"yarn:build:*\"",
-    "watch": "concurrently \"yarn:build:esm --watch\" \"yarn:build:site_css --watch\" \"yarn:build:active_admin --watch\""
+    "watch:js": "concurrently \"yarn:build:js --watch\" \"yarn:build:js:active_admin --watch\"",
+    "watch:css": "concurrently \"yarn:build:css --watch\" \"yarn:build:css:active_admin --watch\" \"yarn:build:css:site --watch\""
   },
   "dependencies": {
     "@activeadmin/activeadmin": "^4.0.0-beta15",
@@ -88,3 +89,4 @@
     "wif": "5.0.0"
   }
 }
+

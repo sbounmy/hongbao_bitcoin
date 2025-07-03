@@ -83,7 +83,6 @@ group :test do
   gem "parallel_tests", "~> 5.3"
 end
 
-gem "tailwindcss-rails"
 
 gem "bitcoin-ruby", require: "bitcoin", github: "sbounmy/bitcoin-ruby", branch: "bip39-mnemonic"
 
