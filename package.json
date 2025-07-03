@@ -19,8 +19,7 @@
     "build:site_css": "npx @tailwindcss/cli -i ./app/content/assets/stylesheets/site.css -o ./app/assets/builds/site.css --minify",
     "build:active_admin": "esbuild app/admin/javascript/active_admin.js --bundle --sourcemap --minify --format=iife --outfile=app/assets/builds/active_admin.js --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
     "build:esm": "esbuild app/javascript/application.js app/javascript/offline.js --bundle --sourcemap --minify --format=iife --outdir=app/assets/builds --public-path=/assets --alias:stream=stream-browserify --alias:process=process --inject:./app/javascript/esbuild-shims.js",
-    "build": "run-p build:esm build:site_css build:active_admin",
-    "watch:js": "yarn build:esm  && yarn build:active_admin --watch"
+    "build": "yarn build:esm & yarn build:site_css & yarn build:active_admin"
   },
   "dependencies": {
     "@activeadmin/activeadmin": "^4.0.0-beta15",
@@ -71,7 +70,6 @@
     "qrcode": "1.5.3",
     "readable-stream": "3.6.2",
     "ripemd160": "2.0.2",
-    "run-p": "^0.0.0",
     "safe-buffer": "5.2.1",
     "sha.js": "2.4.11",
     "stimulus-textarea-autogrow": "^4.1.0",
