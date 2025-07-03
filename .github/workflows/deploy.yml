@@ -14,7 +14,7 @@ jobs:
   deploy:
     timeout-minutes: 80
     name: Deploy to production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     environment: production
     permissions:
       contents: read
