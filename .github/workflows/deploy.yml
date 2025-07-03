@@ -74,7 +74,10 @@ jobs:
           wait-interval: 10
           running-workflow-name: 'E2E'
 
+      - name: Configure Kamal secrets
+        run: |
+          mkdir -p .kamal
+          echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" > .kamal/secrets
+
       - name: Deploy with Kamal
         run: bin/kamal deploy
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
