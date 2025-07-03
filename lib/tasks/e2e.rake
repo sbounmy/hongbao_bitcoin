@@ -21,21 +21,11 @@ namespace :e2e do
       1.upto(count) do |i|
         foreman_port = base_foreman_port + ((i - 1) * 100)
 
-        # Set WEB_PORT so the stripe process knows where to forward to.
-        # Foreman will correctly assign foreman_port to the web process's $PORT.
-        # Spawn foreman directly without a shell and in a new process group
-        # to ensure we can clean it up properly later.
         foreman_pids << Process.spawn(
           { "APP_PORT" => foreman_port.to_s, "TEST_ENV_NUMBER" => i.to_s },
           "foreman", "start", "-f", "Procfile.test",
           pgroup: true
         )
-
-        # # Playwright connects to the port we know Foreman assigned to the web process.
-        # base_url = "http://localhost:#{foreman_port}"
-        # playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} npx playwright test --shard=#{i}/#{count}"
-        # playwright_pids << Process.spawn(playwright_cmd)
-        # puts "  - Started foreman (base port: #{foreman_port}) and Playwright for shard #{i}"
       end
 
       sleep 15 # Wait for the puma server to boot
