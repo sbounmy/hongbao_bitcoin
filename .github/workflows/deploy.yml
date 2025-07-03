@@ -34,6 +34,9 @@ jobs:
           fetch-depth: 0 # Fetch all history for git info
           submodules: recursive
 
+      - name: Install libvips
+        run: sudo apt-get update && sudo apt-get install -y libvips-dev
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -51,7 +54,7 @@ jobs:
 
       - name: "Display credentials"
         run: |
-          bin/rails runner "puts 'activeadmin credentials:' + Rails.application.credentials.active_admin[:name] || 'not found'"
+          bin/rails runner "puts \"activeadmin credentials: #{Rails.application.credentials.active_admin&.dig(:name) || 'not found'}\""
 
       - name: Wait for Spec tests
         uses: lewagon/wait-on-check-action@v1.3.4
