@@ -60,7 +60,15 @@ jobs:
 
     - name: Precompile assets
       if: steps.assets-cache.outputs.cache-hit != 'true'
-      run: bundle exec rails assets:precompile
+      run: |
+        echo "Starting asset precompilation..."
+        start_time=$(date +%s)
+
+        bundle exec rake assets:precompile
+
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "Asset precompilation finished in $duration seconds."
 
     - name: Run E2E tests in parallel
       run: bin/e2e --parallel[4]
