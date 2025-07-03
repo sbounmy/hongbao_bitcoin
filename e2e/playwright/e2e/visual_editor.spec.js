@@ -101,7 +101,7 @@ test.describe('Visual Editor', () => {
         const handle = panel.locator('[data-visual-editor-target="panelHandle"]');
         await page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]').click();
         await expect(panel).toBeVisible();
-        
+
         const initialBox = await panel.boundingBox();
         await handle.hover();
         await page.mouse.down();
