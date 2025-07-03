@@ -4,6 +4,7 @@ class CheckoutController < ApplicationController
 
   def create
     # Create a Stripe Checkout Session
+    Rails.logger.info("\n\n\n\n\n\n\n\n\n\nCreating Stripe Checkout Session with params: #{params.inspect}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     result = Checkout::Create.call(params, current_user:)
     if result.success?
       redirect_to result.payload.url, allow_other_host: true

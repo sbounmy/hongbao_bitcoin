@@ -10,6 +10,7 @@ module Checkout
     private
 
     def checkout_params
+      Rails.logger.info "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHEY Creating Stripe Checkout Session with params: #{@params.inspect}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
       p = {
         payment_method_types: [ "card" ],
         shipping_address_collection: {
@@ -37,6 +38,9 @@ module Checkout
           price: @params[:price_id],
           quantity: 1
         } ],
+        payment_intent_data: {
+          colors: @params[:colors]
+        },
         mode: "payment",
         success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
         cancel_url: cancel_checkout_index_url

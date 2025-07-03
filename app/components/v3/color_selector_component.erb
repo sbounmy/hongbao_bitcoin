@@ -1,0 +1,39 @@
+<div class="w-2/3 group relative">
+  <div
+    data-controller="carousel"
+    class="swiper [mask-image:linear-gradient(to_right,transparent,black_1rem,black_calc(100%-1rem),transparent)]"
+    style="overflow:visible;"
+    data-carousel-options-value='{
+      "slidesPerView": 2,
+      "spaceBetween": 30,
+      "loop": false,
+      "initialSlide": 1,
+      "centeredSlides": true,
+      "slideToClickedSlide": true,
+      "breakpoints": {
+        "460": {
+          "slidesPerView": 3,
+          "spaceBetween": 0
+        }
+      },
+      "navigation": {
+        "nextEl": ".color-carousel-next",
+        "prevEl": ".color-carousel-prev"
+      }
+    }'>
+    <div class="swiper-wrapper flex items-center py-2">
+      <% buttons.each do |button| %>
+        <div class="swiper-slide text-center w-auto">
+          <%= button %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <button type="button" class="color-carousel-prev cursor-pointer !absolute top-1/2 -translate-y-1/2 -translate-x-4 left-0 ml-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
+    <%=heroicon "chevron-left", class:"w-4 h-4"%>
+  </button>
+  <button type="button" class="color-carousel-next cursor-pointer !absolute top-1/2 -translate-y-1/2 translate-x-4 right-0 mr-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
+    <%=heroicon "chevron-right", class:"w-4 h-4"%>
+  </button>
+</div>

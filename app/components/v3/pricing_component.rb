@@ -24,7 +24,8 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   def image_files
-    Dir.glob("app/assets/images/plans/#{pack}/*").map do |file_path|
+    path_pattern = "app/assets/images/plans/#{pack}/*"
+    Dir.glob(path_pattern).select { |f| File.file?(f) }.map do |file_path|
       { type: :image, url: helpers.image_path("plans/#{pack}/#{File.basename(file_path)}"), name: File.basename(file_path) }
     end
   end
