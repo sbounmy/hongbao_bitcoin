@@ -49,6 +49,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: "Display credentials"
+        run: |
+          bin/rails runner "puts 'activeadmin credentials:' + Rails.application.credentials.active_admin[:name] || 'not found'"
+
       - name: Wait for Spec tests
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
