@@ -47,10 +47,12 @@ jobs:
 
     - name: Cache Rails assets
       uses: actions/cache@v4
+      id: assets-cache
       with:
         path: |
           public/assets
           tmp/cache/assets
+          app/assets/builds
         key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock', 'app/assets/**/*', 'config/tailwind.config.js', 'app/javascript/**/*.js') }}
         restore-keys: |
           ${{ runner.os }}-assets-
@@ -66,6 +68,7 @@ jobs:
         sudo apt-get install -y stripe
 
     - name: Precompile assets
+      if: steps.assets-cache.outputs.cache-hit != 'true'
       run: bundle exec rails assets:precompile
 
     - name: Run E2E tests in parallel
