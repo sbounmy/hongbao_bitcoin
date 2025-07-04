@@ -16,10 +16,17 @@
       In an envelope.
     </h1>
 
-    <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-      <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-      <span class="inline-block">Gift now</span>
-    <% end %>
+    <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+      <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+        <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Buy Envelope</span>
+      <% end %>
+
+      <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+        <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Print paper wallet</span>
+      <% end %>
+    </div>
   </div>
 
   <!-- Bitcoin Red Envelope Mockup -->
@@ -58,6 +65,10 @@
 					<div class='w-full'>
 						<%= render 'shared/diffs', class: 'z-99' %>
 					</div>
+          <%= link_to paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+            <%= heroicon "sparkles", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+            <span class="inline-block">Try it now</span>
+          <% end %>
 				</div>
 			</div>
     <% end %>
@@ -216,7 +227,7 @@
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
+  <%= render CardComponent.new(id: 'pricing', class: 'col-span-full h-full') do |card| %>
     <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
       <%= render V3::PricingComponent.new(title: false) do |component| %>
         <% component.with_plans(StripeService.fetch_products) %>
@@ -260,10 +271,17 @@
       <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
       <p class='text-5xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
       <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
-      <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-        <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-        <span class="inline-block">Gift now</span>
-      <% end %>
+      <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+        <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+          <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Buy Envelope</span>
+        <% end %>
+
+        <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+          <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Print paper wallet</span>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
