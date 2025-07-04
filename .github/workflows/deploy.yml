@@ -32,15 +32,6 @@ jobs:
           fetch-depth: 0 # Fetch all history for git info
           submodules: recursive
 
-      - name: Cache APT packages
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-libvips
-
-      - name: Install libvips
-        run: sudo apt-get update && sudo apt-get install -y libvips-dev
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
