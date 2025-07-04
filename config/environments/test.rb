@@ -5,10 +5,10 @@
 ENV["FIXTURES_PATH"] = "spec/fixtures"
 
 Rails.application.configure do
-  host = ENV.fetch("APP_HOST") { "localhost:3003" }
-  base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
+  port = ENV.fetch("APP_PORT", 3003)
+  base_url ="http://localhost:#{port}"
 
-  puts "#{Rails.env.inspect} APP_HOST: #{ENV['APP_HOST']}"
+  puts "#{Rails.env.inspect} base_url: #{base_url}"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.

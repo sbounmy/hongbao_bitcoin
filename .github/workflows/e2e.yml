@@ -9,14 +9,16 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.51.1
     env:
+      HOME: /root
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_KEY }}
       STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
 
     steps:
     - name: Install system dependencies
-      run: sudo apt-get update && sudo apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3
+      run: apt-get update && apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 build-essential libyaml-dev
 
     - uses: actions/checkout@v4
       with:
@@ -31,48 +33,45 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: lts/*
-        cache: 'npm'
+        cache: 'yarn'
 
-    - name: Install npm dependencies
-      run: |
-        npm install
+    - name: Install yarn dependencies
+      run: yarn install
 
-    - name: Cache Playwright browsers
+    - name: Cache Rails assets
       uses: actions/cache@v4
-      id: playwright-cache
+      id: assets-cache
       with:
-        path: ~/.cache/ms-playwright
-        # Use package-lock.json or yarn.lock to invalidate cache
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+        path: |
+          public/assets
+          tmp/cache/assets
+          app/assets/builds
+        key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock', 'app/assets/**/*', 'config/tailwind.config.js', 'app/javascript/**/*.js', 'app/views/**/*', 'app/components/**/*', 'app/helpers/**/*') }}
         restore-keys: |
-          ${{ runner.os }}-playwright-
-
-    - name: Install Playwright Browsers
-      run: |
-        npx playwright install --with-deps
-
-    - name: Install dependencies
-      run: |
-        bundle install
+          ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock') }}
+          ${{ runner.os }}-assets-
 
     - name: Install Stripe CLI
       run: |
-        curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg && \
-        echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list && \
-        sudo apt-get update && \
-        sudo apt-get install -y stripe
+        curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | tee /usr/share/keyrings/stripe.gpg > /dev/null && \
+        echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | tee -a /etc/apt/sources.list.d/stripe.list && \
+        apt-get update && \
+        apt-get install -y stripe
 
     - name: Precompile assets
+      if: steps.assets-cache.outputs.cache-hit != 'true'
       run: |
-        bundle exec rails assets:precompile
+        echo "Starting asset precompilation..."
+        start_time=$(date +%s)
 
-    - name: Setup test database
-      run: |
-        bundle exec rails db:test:prepare
+        bundle exec rake assets:precompile
 
-    - name: Run Playwright tests
-      run: npx playwright test
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "Asset precompilation finished in $duration seconds."
 
+    - name: Run E2E tests in parallel
+      run: bin/e2e --parallel[4]
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}

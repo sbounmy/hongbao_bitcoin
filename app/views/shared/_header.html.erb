@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-2">
             <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
-            <h1 class="text-xl font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
+            <h1 class="text-xl hidden sm:inline-block font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
             <%= render DropdownComponent.new(
                 items: themes,
                 current_item: current_theme,
@@ -13,7 +13,7 @@
             <span class="pt-2 hidden sm:inline-block">
                 <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
             </span>
-
+    
             <%# Replaced icon-only link with a button including text for clarity %>
             <%= link_to hong_baos_path,
                 class: "btn btn-ghost btn-sm normal-case rounded-selector hover:bg-base-200/20 transition-colors" do %>
