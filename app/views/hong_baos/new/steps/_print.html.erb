@@ -138,16 +138,16 @@
   </div>
 
   <!-- PDF Preview Section with simple scrolling -->
-  <div class="flex-1 flex h-screen flex-col bg-black/20 overflow-hidden">
+  <div class="flex-1 flex h-screen flex-col bg-[#2a2a2e] overflow-hidden">
     <!-- Zoom controls toolbar -->
-    <div class="flex justify-center text-white items-center gap-2 p-2 bg-gray-800/50 border-b border-white/10">
-      <button data-action="pdf#zoomOut" class="btn btn-sm btn-ghost">-</button>
-      <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="btn btn-sm btn-ghost w-16"></button>
-      <button data-action="pdf#zoomIn" class="btn btn-sm btn-ghost">+</button>
+    <div class="flex justify-center text-white items-center gap-2 p-2 bg-[#38383d] border-b border-white/10">
+      <button data-action="pdf#zoomOut" class="h-full hover:bg-[#737376] w-8 p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">-</button>
+      <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="h-full w-16 text-sm font-thin hover:bg-[#737376] p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]"></button>
+      <button data-action="pdf#zoomIn" class="h-full w-8 flex p-1 hover:bg-[#737376] justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">+</button>
     </div>
 
     <!-- Viewport for scrolling -->
-    <div data-pdf-target="viewport" class="flex-1 overflow-auto p-4 w-full text-center mx-auto mb-4">
+    <div data-pdf-target="viewport" class="flex-1 bg-[#2a2a2e] overflow-auto p-4 w-full text-center mx-auto mb-4">
       <!-- Wrapper to handle scaled dimensions for scrolling -->
       <div data-pdf-target="wrapper" class="mx-auto h-1/2">
         <!-- This is the actual content that will be rendered to PDF -->
@@ -161,7 +161,7 @@
                         paper:,
                         elements: paper.back_elements,
                         image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-              %>
+                %>
 
               <%# Fold Line %>
               <div class="border-t-2 border-dashed border-gray-400">
