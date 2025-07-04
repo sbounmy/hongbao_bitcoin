@@ -92,3 +92,6 @@ jobs:
 
       - name: Deploy with Kamal
         run: bin/kamal deploy --skip-push
+
+      - name: Create Sitemap
+        run: bin/kamal sitemap
