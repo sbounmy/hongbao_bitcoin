@@ -1,4 +1,8 @@
-# production:
+production:
+  sitemap:
+    command: "bin/rails sitemap:create"
+    priority: 2
+    schedule: every 1 hour
 #   periodic_cleanup:
 #     class: CleanSoftDeletedRecordsJob
 #     queue: background
