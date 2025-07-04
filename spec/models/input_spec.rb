@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Input, type: :model do
   subject { inputs(:dollar) }
 
-  it 'can store metadata' do
+   it 'can store metadata' do
     expect(subject.metadata).to include({
         "ui" => {
           "name" => "cyberpunk",
@@ -22,39 +22,39 @@ RSpec.describe Input, type: :model do
         },
         "ai" => {
           "private_key_qrcode" => {
-            "x" => "0.82",
-            "y" => "0.285",
-            "size" => "0.09",
+            "x" => "10",
+            "y" => "37",
+            "size" => "9",
             "color" => "#000000",
             "max_text_width" => ""
           },
           "private_key_text" => {
-            "x" => "0.815",
-            "y" => "0.5",
+            "x" => "9",
+            "y" => "57",
             "size" => "8",
             "color" => "#000000",
-            "max_text_width" => "10"
+            "max_text_width" => "12"
           },
           "public_address_qrcode" => {
-            "x" => "0.82",
-            "y" => "0.5",
-            "size" => "0.09",
+            "x" => "22",
+            "y" => "24",
+            "size" => "9",
             "color" => "",
             "max_text_width" => ""
           },
           "public_address_text" => {
-            "x" => "0.81",
-            "y" => "0.7",
+            "x" => "21",
+            "y" => "55",
             "size" => "8",
             "color" => "#000000",
             "max_text_width" => "12"
           },
           "mnemonic_text" => {
-            "x" => "0.17",
-            "y" => "0.77",
-            "size" => "12",
+            "x" => "5",
+            "y" => "50",
+            "size" => "13",
             "color" => "#000000",
-            "max_text_width" => "360"
+            "max_text_width" => "400"
           },
           "custom_text" => {
             "x" => "",
@@ -89,39 +89,39 @@ RSpec.describe Input, type: :model do
     it 'is accessible as ai' do
       expect(subject.ai).to include({
         "private_key_qrcode" => {
-          "x" => "0.82",
-          "y" => "0.285",
-          "size" => "0.09",
+          "x" => "10",
+          "y" => "37",
+          "size" => "9",
           "color" => "#000000",
           "max_text_width" => ""
         },
         "private_key_text" => {
-          "x" => "0.815",
-          "y" => "0.5",
+          "x" => "9",
+          "y" => "57",
           "size" => "8",
           "color" => "#000000",
-          "max_text_width" => "10"
+          "max_text_width" => "12"
         },
         "public_address_qrcode" => {
-          "x" => "0.82",
-          "y" => "0.5",
-          "size" => "0.09",
+          "x" => "22",
+          "y" => "24",
+          "size" => "9",
           "color" => "",
           "max_text_width" => ""
         },
         "public_address_text" => {
-          "x" => "0.81",
-          "y" => "0.7",
+          "x" => "21",
+          "y" => "55",
           "size" => "8",
           "color" => "#000000",
           "max_text_width" => "12"
         },
         "mnemonic_text" => {
-          "x" => "0.17",
-          "y" => "0.77",
-          "size" => "12",
+          "x" => "5",
+          "y" => "50",
+          "size" => "13",
           "color" => "#000000",
-          "max_text_width" => "360"
+          "max_text_width" => "400"
         },
         "custom_text" => {
           "x" => "",
@@ -158,13 +158,13 @@ RSpec.describe Input, type: :model do
     it 'supports ai properties accessor' do
       expect {
         subject.update ai_private_key_qrcode_x: "0.13"
-      }.to change(subject, :ai_private_key_qrcode_x).from("0.82").to("0.13")
+      }.to change(subject, :ai_private_key_qrcode_x).from("10").to("0.13")
 
       expect(subject.ai).to include({
         "private_key_qrcode" => {
           "x" => "0.13",
-          "y" => "0.285",
-          "size" => "0.09",
+          "y" => "37",
+          "size" => "9",
           "color" => "#000000",
           "max_text_width" => ""
         }
@@ -177,7 +177,7 @@ RSpec.describe Input, type: :model do
     end
 
     it 'is accessible by ai[...]' do
-      expect(subject.ai_private_key_qrcode_x).to eql("0.82")
+      expect(subject.ai_private_key_qrcode_x).to eql("10")
     end
   end
 end

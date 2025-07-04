@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token
+    body:
+      encoding: US-ASCII
+      string: client_id=<BLOCKSTREAM_CLIENT_ID>&client_secret=<BLOCKSTREAM_CLIENT_SECRET>&grant_type=client_credentials&scope=openid
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - login.blockstream.com
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 07 Jun 2025 06:28:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2533'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KC_AUTH_STATE=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure; HttpOnly
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDkyNzgwMTYsImlhdCI6MTc0OTI3NzcxNiwianRpIjoiZTE0NGI5ZGEtZTczYi00ODg4LWI1YjItZWJkNDFlZGVmOTAwIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.Tel5DjGQpKJQpv21hxm1oICDXg3DqedSB_YGDwO9NcVt_xasFtw7vefD6mHTGT0Fai6J2l_8uHbIncaCu0s_zSx_qimMNk2_-Llv70uW0FD9eiQaHNmzLzocS1qXV1LKXpcsMD3rVrgKc84Pv648UA53NkDUn0DGPPMZOryB6cGeZlneMDHX3EImlU5IEehM70_bXD7kH5yzW48__Fgxlkjl6rnNEFBqtkQC0l4YuUXejMDwp-yG7Ap-m6-AP5AC8dOgxRTvBjslorPmk6kMDyqx_ccK3RdJ7QLME7QE3gFkI5x1Z3oFsoJ_xzqkLYIGX4Z_O8XTY_WJUtsFp3YOQQ","expires_in":300,"refresh_expires_in":0,"token_type":"Bearer","id_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDkyNzgwMTYsImlhdCI6MTc0OTI3NzcxNiwiYXV0aF90aW1lIjowLCJqdGkiOiI1ZjAwZjcwYy1kZTNmLTQzMzEtYmFkNy1lZDM2YjZlMGViMTYiLCJpc3MiOiJodHRwczovL2xvZ2luLmJsb2Nrc3RyZWFtLmNvbS9yZWFsbXMvYmxvY2tzdHJlYW0tcHVibGljIiwiYXVkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIiwic3ViIjoiMzkxNGMwMmMtY2IwZi00NDcxLTk2NjItMDkxZGY1NTFlMzBiIiwidHlwIjoiSUQiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhdF9oYXNoIjoiTkNKT3dyTW9QMTNocF9hWTRtVVVyUSIsImFjciI6IjEiLCJjbGllbnRIb3N0IjoiODYuMjA0LjIzNC4xMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEFkZHJlc3MiOiI4Ni4yMDQuMjM0LjExMCIsImNsaWVudF9pZCI6ImNhYjU3YmQ4LWU1MGYtNGIyYy1hYzgzLTM5ZWEzNzkxNDg3ZiJ9.UllNK99Nq86vw7s8tV155ICBX8XRwyr9r3UCyF5arJGFnamOYYn_XwsXdCJ23wsNivbm3lvYIW2fiOy3775f-Pzmf6CfeTGmGEH5gocSywO5t2M_tFkcdXRQE9JBYmNPINN7yxdHbqlG1sBHJArIfqskiXESu2n1J3Z1JVrRB4sE7bzbUycINVfZol5EtdAKiMJScNdoSHL4ilgXkcoPxD54vQUsqg9nzgXFIayUXWUhPAWubnYIaAwdQOMtmE46zKYBQ6KShoS-qvmzaOSVHrL0Ic5g8GtPUJBTwvTRWvvOy3D12ZxkaWMiVpzVDRs0qJMGq4VuTLgZNlj9hjKiDQ","not-before-policy":0,"scope":"openid
+        email"}'
+  recorded_at: Sat, 07 Jun 2025 06:28:36 GMT
+recorded_with: VCR 6.3.1

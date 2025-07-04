@@ -28,7 +28,6 @@
       </button>
 
       <%= error_message_target(controller: "form-wallet") %>
-
     </div>
     <div class="grid grid-cols-3 gap-4">
       <% TransactionFee.current.priority_options.each do |option| %>
@@ -63,7 +62,11 @@
       <% end %>
     </div>
 
+    <%= render ContentLoaderComponent.new(url: utxos_hong_bao_path(@hong_bao.address, testnet: Current.testnet?), lazy_loading: true) %>
+
     <div class="flex items-center mt-4 gap-4">
+
+
       <%= render "hong_baos/new/previous_button" %>
 
 
@@ -73,10 +76,10 @@
                text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300
                disabled:opacity-30",
         data: {
-          action: "steps#transfer",
+          action: "form-wallet#transfer",
           form_wallet_target: "submitButton"
         } %>
       </div>
     </div>
-
+  </div>
 </div>

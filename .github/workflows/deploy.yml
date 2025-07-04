@@ -3,56 +3,95 @@ name: Deploy
 on:
   push:
     branches: [main]
-    # Optionally add tags if you want to deploy on releases
-    # tags: ['v*']
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false # Prevents ongoing deployments from being canceled
+
 jobs:
   deploy:
+    timeout-minutes: 80
     name: Deploy to production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     environment: production
-
-    # Only deploy if tests pass
-    needs: [test]
-
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    env:
+      DOCKER_BUILDKIT: 1
+      RAILS_ENV: production
+      KAMAL_IMAGE: hackerhouse/hongbao
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all history for git info
+          submodules: recursive
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Install Kamal
-        run: gem install kamal
-
-      - name: Login to Docker Hub
+      - name: Login to Docker Registry
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
           password: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
 
-      - name: Set Git commit info for the build
-        run: |
-          echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "COMMIT_TIME=$(git show -s --format=%ci HEAD)" >> $GITHUB_ENV
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          labels: service=hongbao
+          tags: |
+            ${{ env.KAMAL_IMAGE }}:latest
+            ${{ env.KAMAL_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build and push with Kamal
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.8'
+          bundler-cache: true
+          cache-version: "tools-v1-${{ runner.os }}"
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Wait for Spec tests
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.sha }}
+          check-name: 'test'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+          running-workflow-name: 'Spec'
+
+      - name: Wait for E2E tests
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.sha }}
+          check-name: 'test'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+          running-workflow-name: 'E2E'
+
+      - name: Configure Kamal secrets
         run: |
-          kamal setup --destination production
-          kamal build --build-arg COMMIT_SHA=${{ env.COMMIT_SHA }} --build-arg COMMIT_TIME="${{ env.COMMIT_TIME }}"
-          kamal push
+          mkdir -p .kamal
+          cat > .kamal/secrets <<EOF
+                  KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+                  RAILS_MASTER_KEY:        ${{ secrets.RAILS_MASTER_KEY }}
+                  EOF
 
       - name: Deploy with Kamal
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-          KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
-        run: |
-          kamal deploy
+        run: bin/kamal deploy --skip-push
+
+      - name: Create Sitemap
+        run: bin/kamal sitemap

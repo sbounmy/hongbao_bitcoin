@@ -22,6 +22,7 @@ class ProcessPaperJob < ApplicationJob
       theme_attachment = theme_input&.image
       image_attachment = image_input&.image
 
+
       Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
@@ -37,7 +38,14 @@ class ProcessPaperJob < ApplicationJob
 
       Rails.logger.info "Response: #{response.usage.inspect}"
 
-      @paper.image_full.attach(io: StringIO.new(response.to_blob), filename: "full_#{SecureRandom.hex(4)}.jpg")
+      full_image = response.to_blob
+      top = Papers::GapCorrector.call full_image
+
+      # Convert PNG blobs to JPEG with vips
+      full_image = Vips::Image.new_from_buffer(full_image, "").write_to_buffer(".jpg")
+      top = Vips::Image.new_from_buffer(top, "").write_to_buffer(".jpg")
+
+      @paper.image_full.attach(io: StringIO.new(full_image), filename: "full_#{SecureRandom.hex(4)}.jpg")
       @paper.save!
 
       @message.update!(
@@ -51,11 +59,11 @@ class ProcessPaperJob < ApplicationJob
         output_costs: response.output_cost,
       )
 
-      top, bottom = split_image(response.to_blob)
+
 
       Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
-      @paper.image_front.attach(io: top, filename: "front_#{SecureRandom.hex(4)}.jpg")
-      @paper.image_back.attach(theme_input.back_image.blob)
+      @paper.image_front.attach(io: StringIO.new(top), filename: "front_#{SecureRandom.hex(4)}.jpg")
+      @paper.image_back.attach(theme_input.image_back.blob)
       @paper.save!
       Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
 
@@ -72,23 +80,6 @@ class ProcessPaperJob < ApplicationJob
   end
 
   private
-
-  def split_image(binary_data)
-    # Load image with Vips directly
-    vips_image = Vips::Image.new_from_buffer(binary_data, "")
-    width = vips_image.width
-    height = vips_image.height
-
-    # Extract top and bottom halves
-    top_half = vips_image.crop(0, 0, width, height / 2)
-    bottom_half = vips_image.crop(0, height / 2, width, height / 2)
-
-    # Convert to PNG format and get binary data
-    top_data = top_half.write_to_buffer(".jpg")
-    bottom_data = bottom_half.write_to_buffer(".jpg")
-
-    [ StringIO.new(top_data), StringIO.new(bottom_data) ]
-  end
 
   def path_for(attachment)
     ActiveStorage::Blob.service.path_for(attachment.key)

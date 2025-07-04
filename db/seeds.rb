@@ -47,7 +47,7 @@ Paper.find_each do |paper|
 end if fixtures.include?('papers')
 
 Input::Theme.find_each do |theme|
-  attach(theme, :name, :hero_image, [ 'inputs', 'themes' ])
+  attach(theme, :name, :image_hero, [ 'inputs', 'themes' ])
   theme.save!
 end if fixtures.include?('input/themes')
 

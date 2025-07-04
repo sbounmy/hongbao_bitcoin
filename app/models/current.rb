@@ -5,4 +5,8 @@ class Current < ActiveSupport::CurrentAttributes
   def self.network_gem
     network == :mainnet ? :bitcoin : :testnet
   end
+
+  def self.testnet?
+    network == :testnet
+  end
 end

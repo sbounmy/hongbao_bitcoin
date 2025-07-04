@@ -10,12 +10,23 @@ class Balance
 
   SATOSHIS_PER_BTC = 100_000_000
 
-  delegate :transactions, to: :@mempool_client
-  delegate :utxos, to: :@mempool_client
-
   def initialize(attributes = {})
     super
-    @mempool_client = MempoolClient.new(address)
+    @blockstream_client = Client::BlockstreamApi.new(dev: Current.testnet?)
+  end
+
+  def current_height
+    @current_height ||= @blockstream_client.get_tip_height
+  end
+
+  def transactions
+    Rails.cache.fetch("balance_transactions_#{address}", expires_in: 12.minutes) do
+      @blockstream_client.get_address_transactions(address).map { |tx| Transaction.from_blockstream_data(tx, address, current_height) }
+    end
+  end
+
+  def utxos
+    @utxos ||= @blockstream_client.get_address_utxos(address)
   end
 
   def btc
@@ -48,15 +59,14 @@ class Balance
   end
 
   # Returns UTXOs that can be used for creating a transaction
-  def utxos_for_transaction
-    utxos.map do |utxo|
+  # script and hex are needed for transaction creation, not balance, we should do a separate method for that
+  def utxos_for_transaction(full = false)
+    utxos.map.with_index do |utxo, index|
       {
-        hex: utxo.hex,
         txid: utxo.txid,
         vout: utxo.vout,
-        value: utxo.value,
-        script: utxo.script
-      }
+        value: utxo.value
+      }.merge(full ? { hex: @blockstream_client.get_transaction_hex(utxo.txid), script: @blockstream_client.get_transaction(utxo.txid).vout.find { |v| v.scriptpubkey_address == address }.scriptpubkey } : {})
     end
   end
 end

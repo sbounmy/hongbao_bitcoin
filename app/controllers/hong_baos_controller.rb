@@ -1,6 +1,8 @@
 class HongBaosController < ApplicationController
-  allow_unauthenticated_access only: %i[new show form index search]
-
+  allow_unauthenticated_access only: %i[new show form index search utxos transfer]
+  before_action :set_network, only: %i[show form utxos]
+  layout false, only: %i[form utxos]
+  layout "offline", except: %i[utxos]
   def index
     # Just render the QR scanner view
   end
@@ -40,5 +42,27 @@ class HongBaosController < ApplicationController
   end
 
   def transfer
+    raw_hex = params.require(:raw_hex)
+    network = params.require(:network)
+    Current.network = network.to_sym if network.present?
+
+    response = Client::BlockstreamApi.new(dev: Current.testnet?).post_transaction(body: raw_hex)
+
+    if response.is_a?(String)
+      render json: { txid: response }, status: :ok
+    else
+      render json: { error: "Failed to broadcast transaction: #{response.body}" }, status: :unprocessable_entity
+    end
+  end
+
+  def utxos
+    @hong_bao = HongBao.from_scan(params[:id])
+    @utxos = @hong_bao.balance.utxos_for_transaction(true)
+  end
+
+  private
+
+  def set_network
+    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
   end
 end

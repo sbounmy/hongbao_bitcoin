@@ -4,3 +4,6 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+# Load tasks from the parallel_tests gem
+require 'parallel_tests/tasks'

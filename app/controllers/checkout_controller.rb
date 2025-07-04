@@ -34,7 +34,7 @@ class CheckoutController < ApplicationController
   end
 
   def webhook
-    result = Checkout::Webhook.call(payload: request.body.read, sig_header: request.env["HTTP_STRIPE_SIGNATURE"])
+    result = Checkout::Webhook.call(request)
     if result.success?
       render json: { message: :success }
     else

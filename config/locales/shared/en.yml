@@ -14,21 +14,3 @@ en:
       copied: "Bitcoin address copied to clipboard!"
     bitcoin_address:
       copied: "Bitcoin address copied to clipboard!"
-    faq:
-      title: "Frequently Asked Questions"
-      questions:
-        what_is:
-          q: "What is Hong₿ao Bitcoin ?"
-          a: "Originally inspired by Chinese tradition of gifting red envelopes, Hong₿ao is a simple way to preserve and share wealth across generations using Bitcoin.<br/>It now combines AI to let you print beautifully personalized Bitcoin paper gifts for your loved ones."
-        how_works:
-          q: "How does it work?"
-          a: "Select one or more styles, upload your photo and generate your custom bank note. Then you can print and top up the note with Bitcoin through our secure partner Mt Pelerin or directly from your wallet."
-        security:
-          q: "Is this actually safe?"
-          a: "Yep! Your Bitcoin wallet is generated right in your browser — your private key never leaves your device.<br/>Want extra peace of mind? Just switch off your internet after picking your design and you're good to go.<br/>You won't be able to use Mt Pelerin to top it up while offline, but you can still send Bitcoin to it from any wallet.<br/>And don't just take our word for it — the code is <a href='https://github.com/sbounmy/hongbao_bitcoin' class='underline' target='_blank' rel='noopener'>open source</a>, so anyone can inspect it."
-        why:
-          q: "Can't I just send Bitcoin to their wallet?"
-          a: "If you ask for their wallet address, it's kind of like saying, 'Hey, I'm giving you Bitcoin!' — and where's the fun in that? Hong₿ao lets you keep the mystery and make it feel like a real gift."
-        scan:
-          q: "I received a HongBao Bitcoin bill. How do I use it?"
-          a: "You can scan your bill's QR code to check the balance or manage the funds. <a href=\"/hong_baos\" class=\"link link-primary\">Scan now</a>."

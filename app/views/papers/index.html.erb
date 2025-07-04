@@ -1,12 +1,12 @@
 <div class="min-h-screen">
   <!-- Header -->
-  <%= render "shared/v2/header" %>
+  <%= render "shared/header" %>
 
   <!-- Hero -->
   <section id="hero" class="relative">
-    <% if current_theme.hero_image.attached? %>
+    <% if current_theme.image_hero.attached? %>
       <div class="absolute inset-0 z-0">
-        <%= image_tag current_theme.hero_image, class: "w-full h-full object-cover" %>
+        <%= image_tag current_theme.image_hero, class: "w-full h-full object-cover" %>
         <div class="absolute inset-0 bg-black/40"></div>
       </div>
     <% end %>
@@ -74,6 +74,4 @@
       </div>
     </div>
   </section>
-
-  <%= render "shared/v2/footer" %>
 </div>

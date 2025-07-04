@@ -58,6 +58,26 @@ RSpec.describe Client::Request do
           )
       end
 
+      it "handles raw text POST requests" do
+        url = "#{base_url}/tx"
+        raw_hex = "0100000001..."
+
+        stub_request(:post, url)
+          .with(body: raw_hex, headers: { 'Content-Type' => 'text/plain' })
+          .to_return(status: 200, body: "txid_123")
+
+        request = post(url, body: raw_hex)
+        response = request.execute
+
+        expect(response.code).to eq("200")
+        expect(response.body).to eq("txid_123")
+        expect(WebMock).to have_requested(:post, url)
+          .with(
+            body: raw_hex,
+            headers: { 'Content-Type' => 'text/plain' }
+          )
+      end
+
       it "handles multipart form data with files" do
         url = "#{base_url}/upload"
         file = double("ActiveStorage::Blob")

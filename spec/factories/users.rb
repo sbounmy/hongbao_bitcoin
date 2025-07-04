@@ -6,5 +6,10 @@ FactoryBot.define do
     trait :john do
       email { "john@example.com" }
     end
+
+    trait :admin do
+      admin { true }
+      email { "admin@example.com" }
+    end
   end
 end

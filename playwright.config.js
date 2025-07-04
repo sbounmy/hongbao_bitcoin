@@ -9,6 +9,9 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+// Is this a parallel run orchestrated by our Rake task?
+const isParallelRun = !!process.env.E2E_PARALLEL_RUN;
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -23,11 +26,13 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: isParallelRun ? 'blob' : 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.APP_HOST ? `https://${process.env.APP_HOST}` : `http://localhost:3003`,
+    // For parallel runs, use the BASE_URL from the Rake task.
+    // For standard runs, fallback to the existing logic.
+    baseURL: process.env.BASE_URL || (process.env.APP_HOST ? `https://${process.env.APP_HOST}` : `http://localhost:3003`),
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -40,19 +45,28 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // This project runs once before all tests to disarm a VCR bug.
+    {
+      name: 'setup',
+      testDir: './e2e/playwright/support',
+      testMatch: /global-setup\.js/,
+    },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], bypassCSP: true, launchOptionms: { args: ['--disable-web-security']} },
+      use: { ...devices['Desktop Chrome'], bypassCSP: true, launchOptions: { args: ['--disable-web-security']} },
+      dependencies: ['setup'],
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'], bypassCSP: true },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'], bypassCSP: true },
+      dependencies: ['setup'],
     },
 
     /* Test against mobile viewports. */
@@ -62,7 +76,7 @@ export default defineConfig({
     // },
     // {
     //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
+    //   use: { ...devices['iPhone 12'], bypassCSP: true },
     // },
 
     /* Test against branded browsers. */
@@ -76,8 +90,10 @@ export default defineConfig({
     // },
   ],
 
-  webServer: {
-    command: 'bundle exec foreman start -f Procfile.test',
+  // Only use the webServer for standard, non-parallel runs.
+  // The Rake task handles server management for parallel runs.
+  webServer: isParallelRun ? undefined : {
+    command: 'APP_PORT=3003 bundle exec foreman start -f Procfile.test',
     port: 3003,
     reuseExistingServer: !process.env.CI,
     timeout: 120000, // 2 minutes for slow Rails boot

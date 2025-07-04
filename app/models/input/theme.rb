@@ -97,8 +97,10 @@ class Input::Theme < Input
     }
   end
 
-  has_one_attached :hero_image
-  has_one_attached :back_image
+  has_one_attached :image_hero
+  has_one_attached :image_back
+  has_one_attached :image_front
+
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
