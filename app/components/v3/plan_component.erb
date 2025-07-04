@@ -6,7 +6,7 @@
   <%= radio_button_tag :pack, slug, selected?, id: radio_id, class: "sr-only peer", onchange: "this.closest('form').requestSubmit();" %>
 
   <label for="<%= radio_id %>"
-         class="w-full label text-left p-4 border rounded-lg transition-colors duration-150 ease-in-out
+         class="w-full label !whitespace-normal text-left p-4 border rounded-lg transition-colors duration-150 ease-in-out
                 hover:border-blue-500 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:outline-none
                 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-blue-500
                 <%= selected? ? 'border-blue-500 ring-2 ring-blue-500' : 'border-gray-300' %>">
@@ -15,12 +15,12 @@
         Plus Populaire
       </div>
     <% end %>
-    <div class="flex justify-between items-center w-full">
-      <div>
+    <div class="flex flex-col w-full">
+      <div class="flex justify-between items-center w-full">
         <span class="block font-semibold text-gray-800"><%= name %></span>
-        <span class="block text-sm text-gray-600"><%= formatted_description %></span>
+        <span class="font-semibold text-gray-800"><%= formatted_price %></span>
       </div>
-      <span class="font-semibold text-gray-800"><%= formatted_price %></span>
+      <span class="block text-sm text-gray-600"><%= formatted_description %></span>
     </div>
   </label>
 </div>
