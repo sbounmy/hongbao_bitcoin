@@ -65,6 +65,10 @@
 					<div class='w-full'>
 						<%= render 'shared/diffs', class: 'z-99' %>
 					</div>
+          <%= link_to paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+            <%= heroicon "sparkles", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+            <span class="inline-block">Try it now</span>
+          <% end %>
 				</div>
 			</div>
     <% end %>
