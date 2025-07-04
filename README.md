@@ -106,8 +106,8 @@ source ~/.bashrc
 3. Clone and setup the project:
 ```bash
 git clone https://github.com/sbounmy/hongbao.git
+git submodule update --init --recursive
 cd hongbao
-
 # Install Ruby and Node.js from mise.toml
 mise install
 
@@ -185,11 +185,26 @@ We use RSpec for model,controller, service testing and Playwright for frontend t
 bin/rspec spec/
 ```
 
-### Playwright Tests
+### Playwright E2E Tests
+
+To run the end-to-end test suite, use the `bin/e2e` script:
 
 ```bash
-npm install              # Install dependencies
-npx playwright test     # Run tests headless
+# Run all tests with 4 parallel workers (default)
+bin/e2e
+
+# Run a specific test file
+bin/e2e e2e/playwright/e2e/visual_editor.spec.js
+
+# Run all tests with a specific number of parallel workers
+bin/e2e --parallel[8]
+
+# Combine both options
+bin/e2e --parallel[2] e2e/playwright/e2e/visual_editor.spec.js
+```
+
+For debugging, you can still use the standard Playwright commands:
+```bash
 npx playwright test --ui # Run tests with UI
 ```
 

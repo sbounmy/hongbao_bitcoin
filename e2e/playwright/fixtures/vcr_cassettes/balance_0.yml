@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://mempool.space/testnet/api/blocks/tip/height
+    method: post
+    uri: https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token
     body:
       encoding: US-ASCII
-      string: ''
+      string: client_id=<BLOCKSTREAM_CLIENT_ID>&client_secret=<BLOCKSTREAM_CLIENT_SECRET>&grant_type=client_credentials&scope=openid
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -14,49 +14,49 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - mempool.space
+      - login.blockstream.com
+      Content-Type:
+      - application/x-www-form-urlencoded
   response:
     status:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx
       Date:
-      - Mon, 19 May 2025 04:18:46 GMT
+      - Thu, 12 Jun 2025 05:09:56 GMT
       Content-Type:
-      - text/plain
+      - application/json
       Content-Length:
-      - '7'
+      - '2533'
       Connection:
       - keep-alive
       Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/blocks/tip/height
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
+      - no-store
       Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
+      - no-cache
+      Set-Cookie:
+      - KC_AUTH_STATE=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/realms/blockstream-public/; Secure; HttpOnly
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
     body:
       encoding: UTF-8
-      string: '4377330'
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk3MDUyOTYsImlhdCI6MTc0OTcwNDk5NiwianRpIjoiM2NmMjE5N2EtYzU0Zi00M2VkLThiYjQtOGY3N2E4MjQwZjI5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.nb6sRmUZJmedwr58e_isDmVUgyQo_Lt6viXsDJ9oJLY-zuMceXi5bTmsEYblTe2PADANc3vKXPcaIGT_M6cecJjh9iaa5-p0JLYUhsHVI_MTz6BK4F7Tr1V4LeJJ-umgmviHVfUS4u7b9twlQfHIxesGsN4QHgGyTQJpW7mxfGm_mUuko4kJcN999HY84CBuHUoTCzUZpDTH2lIJ0_aBDhytWly6Ry-tIrYsTzEDgnC_-x_Y5QGk40RU5J_NVlWD5ZquQaZ7sTVxyvc37hZh7PInsv0HBMFVLGzpvpE9CZUvDPszq3z0ZmCA_Vt7S2pBoqXsQgmu-oCx-Wl78YOhNw","expires_in":300,"refresh_expires_in":0,"token_type":"Bearer","id_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk3MDUyOTYsImlhdCI6MTc0OTcwNDk5NiwiYXV0aF90aW1lIjowLCJqdGkiOiI0YjIxNjU0MC02ZGU5LTQ4NGUtYTlkOC02ZGI1OTc2ZjQ0MTUiLCJpc3MiOiJodHRwczovL2xvZ2luLmJsb2Nrc3RyZWFtLmNvbS9yZWFsbXMvYmxvY2tzdHJlYW0tcHVibGljIiwiYXVkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIiwic3ViIjoiMzkxNGMwMmMtY2IwZi00NDcxLTk2NjItMDkxZGY1NTFlMzBiIiwidHlwIjoiSUQiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhdF9oYXNoIjoiWWYwcmxCT25zZFdqUUpvVFNGdl9QUSIsImFjciI6IjEiLCJjbGllbnRIb3N0IjoiODYuMjA0LjIzNC4xMTAiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEFkZHJlc3MiOiI4Ni4yMDQuMjM0LjExMCIsImNsaWVudF9pZCI6ImNhYjU3YmQ4LWU1MGYtNGIyYy1hYzgzLTM5ZWEzNzkxNDg3ZiJ9.A8sGgfiB3niDtOqNqRpPK2NGZHU9CdweDz2d4vU52dIBH0v_AGYQ94rsQQrppRfOTtZVJNmVf1B5Ob6NB5fVChJp2Qov5KzS7YVowU5nz0a2Xof89sRH4s2jP7tjvfEQRmEUu-vgpeOBFm9_uTkwfo6Kd_cJIu1Y_txDKQc5OzOtQbehfCPc_x0dTu4abCBv5LhLf511bEi6Hly5Kvd6Xax4HW58CrC7dnfczMFlX3j9Z5fbv2OZCkDk4O9WvAASvnN7aP8J_uCLf5wHAzUangD9ym85Z_ugB0lpTQDpik4kLUTz6wMtU5Rq0vU3PWyH2v3QSVrjXUlBc7WvMUaDxA","not-before-policy":0,"scope":"openid
+        email"}'
+  recorded_at: Thu, 12 Jun 2025 05:09:56 GMT
 - request:
     method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
+    uri: https://blockstream.info/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
     body:
       encoding: US-ASCII
       string: ''
@@ -68,49 +68,56 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - mempool.space
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk3MDUyOTYsImlhdCI6MTc0OTcwNDk5NiwianRpIjoiM2NmMjE5N2EtYzU0Zi00M2VkLThiYjQtOGY3N2E4MjQwZjI5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.nb6sRmUZJmedwr58e_isDmVUgyQo_Lt6viXsDJ9oJLY-zuMceXi5bTmsEYblTe2PADANc3vKXPcaIGT_M6cecJjh9iaa5-p0JLYUhsHVI_MTz6BK4F7Tr1V4LeJJ-umgmviHVfUS4u7b9twlQfHIxesGsN4QHgGyTQJpW7mxfGm_mUuko4kJcN999HY84CBuHUoTCzUZpDTH2lIJ0_aBDhytWly6Ry-tIrYsTzEDgnC_-x_Y5QGk40RU5J_NVlWD5ZquQaZ7sTVxyvc37hZh7PInsv0HBMFVLGzpvpE9CZUvDPszq3z0ZmCA_Vt7S2pBoqXsQgmu-oCx-Wl78YOhNw
+      Content-Type:
+      - application/json
   response:
     status:
       code: 200
       message: OK
     headers:
       Server:
-      - nginx
+      - openresty
       Date:
-      - Mon, 19 May 2025 04:18:46 GMT
+      - Thu, 12 Jun 2025 05:09:56 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '2'
-      Connection:
-      - keep-alive
       Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
+      - public, max-age=10
       Access-Control-Allow-Origin:
       - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
     body:
       encoding: UTF-8
       string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
+  recorded_at: Thu, 12 Jun 2025 05:09:56 GMT
 - request:
     method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
+    uri: https://blockstream.info/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
     body:
       encoding: US-ASCII
       string: ''
@@ -122,424 +129,53 @@ http_interactions:
       User-Agent:
       - Ruby
       Host:
-      - mempool.space
+      - blockstream.info
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZV2p3blRVTmcwREtDU2NXNUFreFk2LUcyYllCd0ZKV2w2QTNuNlFSd1dnIn0.eyJleHAiOjE3NDk3MDUyOTYsImlhdCI6MTc0OTcwNDk5NiwianRpIjoiM2NmMjE5N2EtYzU0Zi00M2VkLThiYjQtOGY3N2E4MjQwZjI5IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5ibG9ja3N0cmVhbS5jb20vcmVhbG1zL2Jsb2Nrc3RyZWFtLXB1YmxpYyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzOTE0YzAyYy1jYjBmLTQ0NzEtOTY2Mi0wOTFkZjU1MWUzMGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYWI1N2JkOC1lNTBmLTRiMmMtYWM4My0zOWVhMzc5MTQ4N2YiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMta2V5Y2xvYWstZGVtbyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImNsaWVudEhvc3QiOiI4Ni4yMDQuMjM0LjExMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50QWRkcmVzcyI6Ijg2LjIwNC4yMzQuMTEwIiwiY2xpZW50X2lkIjoiY2FiNTdiZDgtZTUwZi00YjJjLWFjODMtMzllYTM3OTE0ODdmIn0.nb6sRmUZJmedwr58e_isDmVUgyQo_Lt6viXsDJ9oJLY-zuMceXi5bTmsEYblTe2PADANc3vKXPcaIGT_M6cecJjh9iaa5-p0JLYUhsHVI_MTz6BK4F7Tr1V4LeJJ-umgmviHVfUS4u7b9twlQfHIxesGsN4QHgGyTQJpW7mxfGm_mUuko4kJcN999HY84CBuHUoTCzUZpDTH2lIJ0_aBDhytWly6Ry-tIrYsTzEDgnC_-x_Y5QGk40RU5J_NVlWD5ZquQaZ7sTVxyvc37hZh7PInsv0HBMFVLGzpvpE9CZUvDPszq3z0ZmCA_Vt7S2pBoqXsQgmu-oCx-Wl78YOhNw
+      Content-Type:
+      - application/json
   response:
     status:
       code: 200
       message: OK
     headers:
       Server:
-      - nginx
+      - openresty
       Date:
-      - Mon, 19 May 2025 04:18:46 GMT
+      - Thu, 12 Jun 2025 05:09:56 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '2'
-      Connection:
-      - keep-alive
       Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
+      - public, max-age=10
       Access-Control-Allow-Origin:
       - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
+      Access-Control-Expose-Headers:
+      - x-total-results
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;
+        style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - no-referrer
+      X-Cache-Status:
+      - MISS
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
     body:
       encoding: UTF-8
       string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/blocks/tip/height
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:46 GMT
-      Content-Type:
-      - text/plain
-      Content-Length:
-      - '7'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/blocks/tip/height
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: '4377330'
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:46 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:46 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/blocks/tip/height
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - text/plain
-      Content-Length:
-      - '7'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/blocks/tip/height
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: '4377330'
-  recorded_at: Mon, 19 May 2025 04:18:46 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/blocks/tip/height
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - text/plain
-      Content-Length:
-      - '7'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/blocks/tip/height
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: '4377330'
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
+  recorded_at: Thu, 12 Jun 2025 05:09:56 GMT
 - request:
     method: get
     uri: https://api.coinbase.com/v2/prices/BTC-USD/spot
@@ -561,7 +197,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 May 2025 04:18:47 GMT
+      - Thu, 12 Jun 2025 05:09:56 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -593,7 +229,7 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Trace-Id:
-      - '2921505149106388146'
+      - '5720913365604472635'
       X-Content-Type-Options:
       - nosniff
       X-Dns-Prefetch-Control:
@@ -611,17 +247,17 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       Last-Modified:
-      - Mon, 19 May 2025 04:18:46 GMT
+      - Thu, 12 Jun 2025 05:09:54 GMT
       Cf-Cache-Status:
       - HIT
       Age:
-      - '0'
+      - '1'
       Set-Cookie:
-      - __cf_bm=y5CT6weKwSTtpl9MLJ5EOqk4olVpPL9vObUtckFenn4-1747628327-1.0.1.1-8bSdLH2O2LrXUVyGJO4YUAAk0ySoM5C5fyKR7OVgMyyBYBtWCACgFnohmLNmo0u7eMtVC2amjpd5X3OLklgEL_L0dmT6rQbzVJNV_AMTpGA;
-        path=/; expires=Mon, 19-May-25 04:48:47 GMT; domain=.coinbase.com; HttpOnly;
+      - __cf_bm=bmO39faNw5kR2EKwbT1YZ_rcJCvSEF5f4mJA1631XIY-1749704996-1.0.1.1-h3gsxS5c8ehXel4VewiHSQq5alKnYVwyLGc8bAtgsnSGGHA3qvn6zlz7BJcpH5aDHLPCNuuANfsai7xJNir1Slaa4hGJgMbBBteYRSI1FlE;
+        path=/; expires=Thu, 12-Jun-25 05:39:56 GMT; domain=.coinbase.com; HttpOnly;
         Secure; SameSite=None
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=tXDzuElzhBnvXkv0zjV4W0kiNzfowtgKNmiHcDp58tS2gqqL8AaXXKA1fZSC1SUmvOBu3EOOfphoPIRj87UcQ4CRaeqmzt1wuBo8QQ9G2JtbEq6MVw9VAsCGy1laVO0F4Jbv71om633tF3C2eHE%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=I7E%2FC3QJE1lDBq6AC61o7xu%2Fq0baiTbHQXWrm9Q2zFZThx%2F9ICkKqTjOagUSUHTinHAEwtXXQ3BKbsGqzCreMZtV4tRDnUewzo%2BT5voPGtu7WR5m6Zn7e%2BSDQZlm52r7o7T2Njm6xGP5zCRjw3E%3D"}],"group":"cf-nel","max_age":604800}'
       Nel:
       - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
       Vary:
@@ -629,171 +265,9 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9420cad64eca7b1d-CDG
+      - 94e6d6c648ac9ed3-CDG
     body:
       encoding: ASCII-8BIT
-      string: '{"data":{"amount":"103463.77","base":"BTC","currency":"USD"}}'
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/txs
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/blocks/tip/height
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - text/plain
-      Content-Length:
-      - '7'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/blocks/tip/height
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: '4377330'
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
-- request:
-    method: get
-    uri: https://mempool.space/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - mempool.space
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Mon, 19 May 2025 04:18:47 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '2'
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=1
-      - public
-      X-Powered-By:
-      - mempool-electrs 3.2.0-dev-6cb9bec
-      Access-Control-Allow-Origin:
-      - "*"
-      Expires:
-      - Mon, 19 May 2025 04:18:48 GMT
-      Onion-Location:
-      - http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/testnet/api/address/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p/utxo
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains; preload
-      Content-Security-Policy:
-      - frame-ancestors 'self'
-      Pragma:
-      - public
-      Vary:
-      - Accept-Language
-      - Cookie
-    body:
-      encoding: UTF-8
-      string: "[]"
-  recorded_at: Mon, 19 May 2025 04:18:47 GMT
+      string: '{"data":{"amount":"107622.335","base":"BTC","currency":"USD"}}'
+  recorded_at: Thu, 12 Jun 2025 05:09:56 GMT
 recorded_with: VCR 6.3.1

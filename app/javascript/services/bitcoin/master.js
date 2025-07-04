@@ -2,8 +2,9 @@ import Wallet from './wallet'
 import { BIP32Factory } from 'bip32'
 import secp256k1 from '@bitcoinerlab/secp256k1'
 import * as bip39 from '../../../../vendor/javascript/bip39.js'
-// import bitcoin from 'bitcoinjs-lib'
 import * as bitcoin from '../../../../vendor/javascript/bitcoinjs-lib.js'
+import { ECPairFactory } from 'ecpair'
+
 export default class Master extends Wallet {
   static COIN_TYPE = {
     MAINNET: "0'",
@@ -106,5 +107,12 @@ export default class Master extends Wallet {
       }
     })
     window.dispatchEvent(event)
+  }
+
+  get wif() {
+    const ECPair = ECPairFactory(secp256k1)
+    console.log("wif", this.privateKey, this.network)
+    const keyPair = ECPair.fromPrivateKey(this.privateKey, { network: this.network })
+    return keyPair.toWIF()
   }
 }

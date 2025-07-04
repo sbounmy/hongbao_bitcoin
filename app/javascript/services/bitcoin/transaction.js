@@ -8,10 +8,8 @@ export default class BaseTransaction {
     this.recipientAddress = recipientAddress
     this.feeRate = Math.max(parseInt(feeRate), 1.1)  // minimum 1.1 sats/vbyte
     this.utxos = utxos
+    this.networkName = network // 'mainnet' or 'testnet'
     this.network = network === 'mainnet' ? bitcoin.networks.bitcoin : bitcoin.networks.testnet
-    this.baseUrl = network === 'mainnet' ?
-      'https://mempool.space/api' :
-      'https://mempool.space/testnet/api'
 
     // Calculate actual fee based on size and fee rate
     const estimatedSize = this.estimateTransactionSize()
@@ -79,21 +77,28 @@ export default class BaseTransaction {
 
   async broadcast() {
     try {
-      const response = await fetch(`${this.baseUrl}/tx`, {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+      const response = await fetch('/hong_baos/transfer', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
         },
-        body: this.rawHex
+        body: JSON.stringify({
+          raw_hex: this.rawHex,
+          network: this.networkName
+        })
       })
 
       if (!response.ok) {
-        const error = await response.text()
-        throw new Error(`Failed to broadcast: ${error}`)
+        const error = await response.json()
+        throw new Error(`Failed to broadcast: ${error.error}`)
       }
 
+      const data = await response.json()
+
       return {
-        txid: this.txid,
+        txid: data.txid,
         hex: this.rawHex
       }
     } catch (error) {

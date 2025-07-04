@@ -3,52 +3,15 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+import "swiper/css/bundle"
 
 // Application controllers
-import BindingController from "./binding_controller"
-application.register("binding", BindingController)
 
-import BitcoinAddressController from "./bitcoin_address_controller"
-application.register("bitcoin-address", BitcoinAddressController)
-
-import BitcoinController from "./bitcoin_controller"
-application.register("bitcoin", BitcoinController)
-
-import BitcoinKeyController from "./bitcoin_key_controller"
-application.register("bitcoin-key", BitcoinKeyController)
-
-import BitcoinLegacyKeyController from "./bitcoin_legacy_key_controller"
-application.register("bitcoin-legacy-key", BitcoinLegacyKeyController)
-
-import BitcoinMnemonicController from "./bitcoin_mnemonic_controller"
-application.register("bitcoin-mnemonic", BitcoinMnemonicController)
-
-import BitcoinSegwitKeyController from "./bitcoin_segwit_key_controller"
-application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
-
-import BitcoinTransactionController from "./bitcoin_transaction_controller"
-application.register("bitcoin-transaction", BitcoinTransactionController)
-
-import BitcoinWifController from "./bitcoin_wif_controller"
-application.register("bitcoin-wif", BitcoinWifController)
-
-import CanvaController from "./canva_controller"
-application.register("canva", CanvaController)
-
-import CanvaItemController from "./canva_item_controller"
-application.register("canva-item", CanvaItemController)
-
-import DialogKeyController from "./dialog_key_controller"
-application.register("dialog-key", DialogKeyController)
+import Carousel from '@stimulus-components/carousel'
+application.register('carousel', Carousel)
 
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
-
-import FormController from "./form_controller"
-application.register("form", FormController)
-
-import FormWalletController from "./form_wallet_controller"
-application.register("form-wallet", FormWalletController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
@@ -59,8 +22,8 @@ application.register("mnemonic-input", MnemonicInputController)
 import MtPelerinController from "./mt_pelerin_controller"
 application.register("mt-pelerin", MtPelerinController)
 
-import PdfController from "./pdf_controller"
-application.register("pdf", PdfController)
+// import PdfController from "./offline/pdf_controller"
+// application.register("pdf", PdfController)
 
 import PermissionController from "./permission_controller"
 application.register("permission", PermissionController)
@@ -71,23 +34,12 @@ application.register("popup", PopupController)
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
 
-import PrivateKeyController from "./private_key_controller"
-application.register("private-key", PrivateKeyController)
-
-import QrCodeController from "./qr_code_controller"
-application.register("qr-code", QrCodeController)
-
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
-
-import StepsController from "./steps_controller"
-application.register("steps", StepsController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 
-import WordController from "./word_controller"
-application.register("word", WordController)
 
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /

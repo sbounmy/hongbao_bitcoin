@@ -16,6 +16,7 @@ module Client
       @http_method = http_method
       @url = url
       @headers = options.delete(:headers) || {}
+      @body = options.delete(:body) # Will be nil if not present
 
       # Handle content_type first, before it gets mixed with params
       @headers["Content-Type"] = options.delete(:content_type)
@@ -103,12 +104,20 @@ module Client
     def add_body(request)
       return if http_method == :get
 
+      # Prioritize raw body if it's a string
+      if @body.is_a?(String)
+        request.body = @body
+        # Blockstream wants text/plain for raw tx broadcasts
+        request["Content-Type"] = "text/plain"
+        return
+      end
+
       if @files.any?
         form_data = build_multipart_form_data
         request.set_form(form_data, "multipart/form-data")
       elsif @params.any?
         if headers["Content-Type"] == CONTENT_TYPES[:JSON]
-          request.body = @params.to_json
+          request.body = (@body || @params).to_json
         else
           request.set_form_data(@params)
         end

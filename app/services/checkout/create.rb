@@ -50,7 +50,16 @@ module Checkout
         end
       end
       p[:allow_promotion_codes] = @current_user&.admin
+      p[:client_reference_id] = "#{reference_id_prefix}#user_#{@current_user&.id}"
       p
+    end
+
+    def reference_id_prefix
+      if Rails.env.test? && ENV["TEST_ENV_NUMBER"].present?
+        "#{Rails.env}_#{ENV.fetch("TEST_ENV_NUMBER", nil)}"
+      else
+        Rails.env
+      end
     end
   end
 end

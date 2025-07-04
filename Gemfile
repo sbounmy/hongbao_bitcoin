@@ -10,6 +10,7 @@ gem "sqlite3", ">= 2.1"
 gem "puma", ">= 5.0"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
+gem "sitepress-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -40,7 +41,7 @@ gem "image_processing", ">= 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "debug", platforms: %i[ mri mswin ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
@@ -74,14 +75,13 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
   gem "faker"
   gem "shoulda-matchers"
+  gem "parallel_tests", "~> 5.3"
 end
 
-gem "tailwindcss-rails"
 
 gem "bitcoin-ruby", require: "bitcoin", github: "sbounmy/bitcoin-ruby", branch: "bip39-mnemonic"
 
@@ -111,3 +111,9 @@ gem "rorvswild"
 
 # `Save Page As` doesn't export javascript files so we need to bundle them https://github.com/rails/importmap-rails/issues/289
 gem "jsbundling-rails"
+
+gem "chunky_png", "~> 1.4"
+
+gem "markdown-rails", "~> 2.1"
+
+gem "sitemap_generator"

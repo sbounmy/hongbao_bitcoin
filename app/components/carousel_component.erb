@@ -1,12 +1,22 @@
-<div class="carousel w-full">
-  <% images.each_with_index do |image, index| %>
-    <div id="slide<%= index + 1 %>" class="carousel-item relative w-full">
-      <%= image_tag image, class: "w-full" %>
-      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-        <a href="#slide<%= index - 1 %>" class="btn btn-circle">❮</a>
-        <a href="#slide<%= index + 1 %>" class="btn btn-circle">❯</a>
-      </div>
+<div class="w-full h-96 flex flex-col items-center justify-center relative">
+  <!-- Carousel media area -->
+  <div
+    data-controller="carousel"
+    class="swiper w-full h-full"
+    data-carousel-options-value='{"loop": true, "slidesPerView": "auto", "navigation": {"nextEl": ".carousel-next", "prevEl": ".carousel-prev"}, "pagination": {"el": ".carousel-pagination", "clickable": true}}'>
+    <div class="swiper-wrapper w-full h-full">
+      <% media_items.each do |item| %>
+        <div class="swiper-slide w-full h-full flex items-center justify-center">
+          <%= media_tag_for(item) %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
+    <!-- Pagination dots -->
+    <div class="carousel-pagination absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"></div>
+  </div>
 
+  <div class="flex justify-center items-center gap-4 mt-4">
+    <button type="button" class="btn btn-circle carousel-prev">❮</button>
+    <button type="button" class="btn btn-circle carousel-next">❯</button>
+  </div>
+</div>

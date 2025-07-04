@@ -1,6 +1,9 @@
 require "digest/md5"
 
 Rails.application.routes.draw do
+  # sitepress_root
+  sitepress_pages
+
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
   resources :bundles, only: [ :create ]
@@ -10,12 +13,13 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do
     post :search, on: :collection
-    put :transfer, on: :member
+    post :transfer, on: :collection
   end
 
-  scope "(:locale)", locale: /en|zh-CN/ do
+  scope "(:locale)", locale: /en|zh-CN/, defaults: { locale: "en" } do
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
+      get :utxos, on: :member
     end
     resources :papers, only: [ :show ]
     root "pages#index"
@@ -50,8 +54,7 @@ Rails.application.routes.draw do
 
   get "v1", to: "hong_baos#new" # for dev
 
-  get "/satoshi", to: "pages#satoshi"
-  get "/about", to: "pages#about"
+  get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
 
@@ -107,6 +110,10 @@ Rails.application.routes.draw do
 
   direct :etsy do
     "https://etsy.com/shop/HongBaoBitcoin"
+  end
+
+  direct :spotify_artist do
+    "https://open.spotify.com/artist/3cBbIJWNXmi5JwCewN7SlN"
   end
 
   # Direct route to generate Gravatar URLs
