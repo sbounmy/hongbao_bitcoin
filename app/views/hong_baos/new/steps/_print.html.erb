@@ -147,7 +147,14 @@
     </div>
 
     <!-- Viewport for scrolling -->
-    <div data-pdf-target="viewport" class="flex-1 bg-[#2a2a2e] overflow-auto p-4 w-full text-center mx-auto mb-4">
+    <div data-pdf-target="viewport"
+         class="flex-1 bg-[#2a2a2e] overflow-auto p-4 w-full text-center mx-auto mb-4"
+         data-action="
+           wheel->pdf#handleWheel
+           touchstart->pdf#handleTouchStart
+           touchmove->pdf#handleTouchMove
+           touchend->pdf#handleTouchEnd
+         ">
       <!-- Wrapper to handle scaled dimensions for scrolling -->
       <div data-pdf-target="wrapper" class="mx-auto h-screen">
         <!-- This is the actual content that will be rendered to PDF -->

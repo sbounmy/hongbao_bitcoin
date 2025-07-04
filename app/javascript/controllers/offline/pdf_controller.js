@@ -10,26 +10,6 @@ export default class extends Controller {
     this.updateZoom()
     this.lastZoom = this.zoomValue
     this.initialPinchDistance = 0
-
-    // Bind touch events for pinch-to-zoom
-    this.boundHandleTouchStart = this.handleTouchStart.bind(this)
-    this.boundHandleTouchMove = this.handleTouchMove.bind(this)
-    this.boundHandleTouchEnd = this.handleTouchEnd.bind(this)
-    this.boundHandleWheel = this.handleWheel.bind(this)
-
-    this.viewportTarget.addEventListener('touchstart', this.boundHandleTouchStart, { passive: false })
-    this.viewportTarget.addEventListener('touchmove', this.boundHandleTouchMove, { passive: false })
-    this.viewportTarget.addEventListener('touchend', this.boundHandleTouchEnd)
-    // Listen for the wheel event to handle trackpad pinch-to-zoom
-    this.viewportTarget.addEventListener('wheel', this.boundHandleWheel, { passive: false })
-  }
-
-  disconnect() {
-    // Clean up event listeners
-    this.viewportTarget.removeEventListener('touchstart', this.boundHandleTouchStart)
-    this.viewportTarget.removeEventListener('touchmove', this.boundHandleTouchMove)
-    this.viewportTarget.removeEventListener('touchend', this.boundHandleTouchEnd)
-    this.viewportTarget.removeEventListener('wheel', this.boundHandleWheel)
   }
   
   zoomIn() {
