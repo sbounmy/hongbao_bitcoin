@@ -4,3 +4,4 @@ User-agent: *
 Disallow: /hong_baos/*/form
 Disallow: /hong_baos/*/utxos
 Disallow: /addrs/
+Sitemap: https://hongbaob.tc/sitemap.xml.gz

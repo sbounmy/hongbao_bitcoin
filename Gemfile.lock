@@ -513,6 +513,8 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
+    sitemap_generator (6.3.0)
+      builder (~> 3.0)
     sitepress-core (4.0.8)
       mime-types (>= 2.99)
     sitepress-rails (4.0.8)
@@ -648,6 +650,7 @@ DEPENDENCIES
   ruby_llm!
   selenium-webdriver
   shoulda-matchers
+  sitemap_generator
   sitepress-rails
   solid_cable
   solid_cache

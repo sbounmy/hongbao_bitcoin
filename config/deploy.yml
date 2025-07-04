@@ -66,6 +66,7 @@ aliases:
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole"
   migrate: app exec --interactive --reuse "bin/rails db:migrate"
+  sitemap: app exec --interactive --reuse "bin/rails sitemap:create"
 
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
