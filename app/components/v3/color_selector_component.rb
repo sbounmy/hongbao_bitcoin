@@ -21,7 +21,7 @@ class V3::ColorSelectorComponent < ApplicationComponent
     path = Rails.root.join("app/assets/images/plans/#{pack}/*")
     Dir.glob(path)
        .select { |f| File.directory? f }
-       .map { |d| File.basename(d).to_sym }
        .sort
+       .map { |d| File.basename(d).split("_").last.to_sym } # Extract just the color name, e.g., :red
   end
 end
