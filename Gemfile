@@ -117,3 +117,5 @@ gem "chunky_png", "~> 1.4"
 gem "markdown-rails", "~> 2.1"
 
 gem "sitemap_generator"
+
+gem 'canonical-rails', github: 'jumph4x/canonical-rails'

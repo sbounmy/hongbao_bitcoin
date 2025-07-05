@@ -14,6 +14,13 @@ GIT
       ransack (>= 4.0)
 
 GIT
+  remote: https://github.com/jumph4x/canonical-rails.git
+  revision: 344ca31a148e68f07446dda8b2d4913342372777
+  specs:
+    canonical-rails (0.2.17)
+      actionview (>= 4.1, < 8.1)
+
+GIT
   remote: https://github.com/rspec/rspec-rails
   revision: b80f752e136707671503e8253cb0ee782432067c
   specs:
@@ -611,6 +618,7 @@ DEPENDENCIES
   bitcoin-ruby!
   bootsnap
   brakeman
+  canonical-rails!
   capybara
   chunky_png (~> 1.4)
   cypress-on-rails (~> 1.0)
