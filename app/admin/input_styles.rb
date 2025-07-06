@@ -3,7 +3,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
 
   remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug
 
-  config.sort_order = 'position_asc'
+  config.sort_order = "position_asc"
 
   index do
     selectable_column
