@@ -59,9 +59,9 @@ GIT
 
 GIT
   remote: https://github.com/thoughtbot/factory_bot_rails.git
-  revision: 83109a5ff2a0601df21547a56797635616e0d8eb
+  revision: 8e45bc342682b610952935354fa478bbe616390f
   specs:
-    factory_bot_rails (6.4.4)
+    factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
 
@@ -200,7 +200,7 @@ GEM
       tzinfo
     event_stream_parser (1.0.0)
     eventmachine (1.2.7)
-    factory_bot (6.5.1)
+    factory_bot (6.5.4)
       activesupport (>= 6.1.0)
     faker (3.5.2)
       i18n (>= 1.8.11, < 2)
