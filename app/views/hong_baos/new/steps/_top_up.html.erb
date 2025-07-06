@@ -19,9 +19,7 @@
       message: 'Card / Bank Transfer top up might not be available for custom keys.',
       class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'
     ) %>
-    <div class="grid grid-cols-2 gap-4">
-      <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
-    </div>
+    <%= render "payment_methods/radio_buttons", form: form, payment_methods: payment_methods %>
 
     <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
       <div class="flex items-center space-x-4 p-8 w-full">

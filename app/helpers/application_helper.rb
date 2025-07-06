@@ -5,9 +5,13 @@ module ApplicationHelper
     return placeholder_logo unless logo.attached?
 
     if logo.content_type == "image/svg+xml"
-      raw(logo.download)
+      # Wrap the raw SVG and use Tailwind's `[&>svg]` syntax to style the nested SVG.
+      # This avoids manipulating the SVG string and is a cleaner approach.
+      content_tag(:div, class: "h-full [&>svg]:w-full [&>svg]:h-full") do
+        raw(logo.download)
+      end
     else
-      image_tag(rails_blob_path(logo, only_path: true),
+      image_tag(logo,
         class: "w-full h-full object-contain",
         alt: "Payment method logo")
     end

@@ -13,7 +13,7 @@ test.describe('Topup', () => {
     console.log(address);
     await page.locator("label", { has: page.locator('#hong_bao_payment_method_id_1') }).click();
 
-    const iframe = page.locator("iframe[data-mt-pelerin-target='iframe']").contentFrame();
+    const iframe = page.locator("#payment_method_credit_card iframe").contentFrame();
     await iframe.getByText('Buy BTC').click();
 
     await expect(iframe.getByRole('button', { name: 'Next' })).toBeVisible();

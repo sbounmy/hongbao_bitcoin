@@ -1,7 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  host = ENV.fetch("APP_HOST") { "localhost:3002" }
+  host = ENV.fetch("APP_HOST") { "localhost:3001" }
   base_url = host.include?("localhost") ? "http://#{host}" : "https://#{host}"
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -71,7 +71,7 @@ Rails.application.configure do
   config.action_cable.url = host.include?("localhost") ? "ws://#{host}/cable" : "wss://#{host}/cable"
   config.action_cable.allowed_request_origins = [
     base_url,
-    "http://127.0.0.1:3002",
+    "http://127.0.0.1:3001",
     /https?:\/\/localhost:*/
   ]
 

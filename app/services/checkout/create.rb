@@ -48,18 +48,12 @@ module Checkout
           p[:customer_email] = @current_user.email
           p[:customer_creation] = "always"
         end
+        p[:allow_promotion_codes] = @current_user.admin
+        if ENV["STRIPE_CONTEXT_ID"].present?
+          p[:client_reference_id] = "#{ENV['STRIPE_CONTEXT_ID']}#user_#{@current_user.id}"
+        end
       end
-      p[:allow_promotion_codes] = @current_user&.admin
-      p[:client_reference_id] = "#{reference_id_prefix}#user_#{@current_user&.id}"
       p
-    end
-
-    def reference_id_prefix
-      if Rails.env.test? && ENV["TEST_ENV_NUMBER"].present?
-        "#{Rails.env}_#{ENV.fetch("TEST_ENV_NUMBER", nil)}"
-      else
-        Rails.env
-      end
     end
   end
 end
