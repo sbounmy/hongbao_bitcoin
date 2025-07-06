@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show ]
+    resources :papers, only: [ :show, :new ]
     root "pages#index"
   end
 
@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/dashboard-3", to: "papers#index_3"
 
   # Authentication routes
   get "login", to: "users#new"

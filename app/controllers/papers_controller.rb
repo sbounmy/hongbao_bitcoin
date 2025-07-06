@@ -12,12 +12,23 @@ class PapersController < ApplicationController
     @bundle.input_items.build(input: Input::Theme.first)
   end
 
+  def index_3
+    @styles = Input::Style.with_attached_image
+    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+    @bundle = Bundle.new
+    @bundle.input_items.build(input: Input::Theme.first)
+  end
+
   def show
     @paper = Paper.find(params[:id])
     @hong_bao = HongBao.new
     @payment_methods = PaymentMethod.active.order(order: :asc).with_attached_logo
     @steps = Step.for_new
     @current_step = (params[:step] || 1).to_i
+  end
+
+  def new
+    @paper = Paper.new
   end
 
   private
