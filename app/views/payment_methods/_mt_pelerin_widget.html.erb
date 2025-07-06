@@ -22,8 +22,9 @@
 <div data-popup-target="modal"
      data-controller="mt-pelerin"
      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-     data-action="bitcoin:changed@window->mt-pelerin#update">
-  <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-2xl w-full relative h-[50vh] flex flex-col">
+     data-action="bitcoin:changed@window->mt-pelerin#update"
+     id="payment_method_<%= payment_method.name %>">
+  <div class="bg-[#F04747] border-4 border-[#FFB636] rounded-xl p-6 max-w-2xl w-full relative h-[80vh] flex flex-col">
     <button data-action="popup#close"
             class="absolute top-2 right-2 text-white/60 hover:text-white">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
