@@ -53,8 +53,9 @@
 
   <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
     <%= render "shared/header" %>
-    <%= render "main/sidebar" %>
-    <%= yield %>
+    <%= render "main/sidebar" do %>
+      <%= yield %>
+    <% end %>
   <% end %>
 
   <!-- After the body tag so icons are loaded even after the page changes on click -->

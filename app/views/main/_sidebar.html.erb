@@ -1,6 +1,10 @@
 <%= render DrawerComponent.new(id: "sidebar", class: "md:drawer-open") do |drawer| %>
   <% drawer.with_body do %>
-    <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+    <%= yield %>
+  <% end %>
+
+  <% drawer.with_side do %>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-32 p-4">
       <!-- Sidebar content here -->
       <%= link_to t("layouts.main.footer.home"), dashboard_3_path, class: "menu-item" %>
       <%= link_to t("layouts.main.footer.create"), new_paper_path, class: "menu-item" %>

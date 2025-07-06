@@ -5,12 +5,13 @@
 
   <%# This renders the content block passed to the component (the avatar label) %>
   <div class="drawer-content">
-    <%= label %>
+    <%= body %>
   </div>
 
   <%# The sidebar itself %>
   <div class="drawer-side <%= z_class %>">
     <%# Overlay to close drawer when clicked %>
     <%= label_tag id, '', class: "drawer-overlay", aria: { label: "close sidebar" } %>
-    <%= body %>
+    <%= side %>
+  </div>
 </div>

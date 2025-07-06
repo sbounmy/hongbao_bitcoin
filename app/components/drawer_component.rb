@@ -1,6 +1,6 @@
 class DrawerComponent < ApplicationComponent
   renders_one :body
-  renders_one :label
+  renders_one :side
 
   def initialize(id:, **options)
     @id = id
