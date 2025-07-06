@@ -18,11 +18,8 @@ module Checkout
 
         # In a sharded test environment, we only process webhooks designated for this specific shard.
         if Rails.env.test?
-          if ENV["TEST_ENV_NUMBER"].present?
-            return success unless client_reference_id&.start_with?("test_#{ENV["TEST_ENV_NUMBER"]}")
-          elsif client_reference_id&.start_with?(/test_\d+/)
-            return success
-          end
+          context_id = ENV["STRIPE_CONTEXT_ID"]
+          return success if context_id.present? && !client_reference_id&.start_with?(context_id)
         end
 
         Rails.logger.info("event: #{event.id} session##{session.id}: #{event.inspect}")
