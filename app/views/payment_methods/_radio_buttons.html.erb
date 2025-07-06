@@ -8,8 +8,11 @@
             data: {
                 action: "click->popup#open"
             } %>
-            <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4
+            <div class="relative border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4
                         bg-white/10 hover:bg-white/20 transition-colors duration-300 h-full">
+                <% if payment_method.no_kyc? %>
+                  <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">No KYC</span>
+                <% end %>
                 <div class="flex flex-col items-center justify-center gap-4 h-full">
                     <div class="h-10">
                       <%= render_payment_logo(payment_method.logo) %>
