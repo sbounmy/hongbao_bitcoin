@@ -113,7 +113,7 @@ mise install
 
 # Install dependencies
 bundle install
-npm install
+yarn install
 
 # Copy environment configuration
 cp .env.example .env
@@ -229,7 +229,7 @@ TODO
 
 Emails are caught by Letter Opener:
 - Auto-preview in new tab
-- Dashboard at http://localhost:3000/letter_opener
+- Dashboard at http://localhost:3001/letter_opener
 </details>
 
 <details>
