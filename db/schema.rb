@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_06_055755) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_06_150530) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -155,6 +155,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_06_055755) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "metadata", default: "{}"
+    t.integer "position", default: 0
+    t.index ["position"], name: "index_inputs_on_position"
   end
 
   create_table "messages", force: :cascade do |t|
