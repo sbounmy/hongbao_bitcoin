@@ -1,0 +1,16 @@
+<%# app/components/user_drawer_component.html.erb %>
+<div class="<%= html_class %>">
+  <%# The hidden checkbox controlled by the label (avatar) %>
+  <%= check_box_tag id, nil, false, class: "drawer-toggle" %>
+
+  <%# This renders the content block passed to the component (the avatar label) %>
+  <div class="drawer-content">
+    <%= label %>
+  </div>
+
+  <%# The sidebar itself %>
+  <div class="drawer-side <%= z_class %>">
+    <%# Overlay to close drawer when clicked %>
+    <%= label_tag id, '', class: "drawer-overlay", aria: { label: "close sidebar" } %>
+    <%= body %>
+</div>
