@@ -1,4 +1,7 @@
 <% content_for :skip_analytics, true %>
+<% content_for :head do %>
+  <meta name="robots" content="noindex, follow">
+<% end %>
 <!-- Right Column - Fixed Form -->
 <%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
 <%= content_for :title, @paper.name if @paper.name.present? %>

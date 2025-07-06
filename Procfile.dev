@@ -1,4 +1,4 @@
-web: bin/rails server -p 3002
+web: bin/rails server -p 3001
 css: yarn watch:css
-stripe: stripe listen --forward-to localhost:3002/checkout/webhook -c localhost:3002/checkout/webhook
+stripe: stripe listen --forward-to localhost:3001/checkout/webhook -c localhost:3001/checkout/webhook
 js: yarn watch:js

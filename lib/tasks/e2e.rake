@@ -1,3 +1,5 @@
+require "socket"
+
 namespace :e2e do
   desc "Run Playwright tests in parallel"
   task :parallel, [ :count, :file ] do |_, args|
@@ -21,8 +23,17 @@ namespace :e2e do
       1.upto(count) do |i|
         foreman_port = base_foreman_port + ((i - 1) * 100)
 
+        env = { "APP_PORT" => foreman_port.to_s, "TEST_ENV_NUMBER" => i.to_s }
+
+        if ENV["GITHUB_RUN_ID"].present?
+          env["STRIPE_CONTEXT_ID"] = "test_run_#{ENV['GITHUB_RUN_ID']}_shard_#{i}"
+        else
+          # Fallback for local execution
+          env["STRIPE_CONTEXT_ID"] = "dev_#{Socket.gethostname.split(".").first}_shard_#{i}"
+        end
+
         foreman_pids << Process.spawn(
-          { "APP_PORT" => foreman_port.to_s, "TEST_ENV_NUMBER" => i.to_s },
+          env,
           "foreman", "start", "-f", "Procfile.test",
           pgroup: true
         )

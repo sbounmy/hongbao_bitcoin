@@ -1,27 +1,32 @@
-mt_pelerin:
+credit_card:
   id: 1
-  name: "mt_pelerin"
+  name: "credit_card"
   instructions:
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">1</span><span>Open Mt Pelerin app or website</span></div>'
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Click on "Buy/Sell" button</span></div>'
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select Bitcoin and enter the amount</span></div>'
-      - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Follow the payment process</span></div>'
+      - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Follow the payment process for Bank Transfer</span></div>'
+  order: 1
+  no_kyc: false
+
+bank_transfer:
+  id: 4
+  name: "bank_transfer"
+  instructions:
+    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">1</span><span>Open Mt Pelerin app or website</span></div>'
+    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Click on "Buy/Sell" button</span></div>'
+    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select Bitcoin and enter the amount</span></div>'
+    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Follow the payment process for Card</span></div>'
+  order: 2
+  no_kyc: true
 
 bitstack:
   id: 2
-  name: "bitstack"
+  name: "wallet"
   instructions:
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">1</span><span>Open Bitstack</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Select "Send"</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select "Bitcoin"</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Enter the amount</span></div>'
-
-ledger:
-  id: 3
-  name: "ledger"
-  instructions:
-    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">1</span><span>Connect your Ledger device</span></div>'
-    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Open Ledger Live</span></div>'
-    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Navigate to Bitcoin account</span></div>'
-    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Click "Receive"</span></div>'
-    - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">5</span><span>Verify address on device</span></div>'
+  order: 3
+  no_kyc: true

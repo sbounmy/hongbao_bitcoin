@@ -42,7 +42,7 @@ env:
     # For webooks assets etc
     APP_HOST: hongbaob.tc
     STRIPE_PRODUCT_IDS: prod_SOpApecECpJnYH,prod_SOpA89K3IVc5fn,prod_SOpAOt3ccxW67Z # Mini, Family, Maximalist
-    DEMO_PAPER_ID: 60
+    DEMO_PAPER_ID: 33
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -65,8 +65,8 @@ aliases:
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole"
-  migrate: app exec --interactive --reuse "bin/rails db:migrate"
-  sitemap: app exec --interactive --reuse "bin/rails sitemap:create"
+  migrate: app exec --reuse "bin/rails db:migrate"
+  sitemap: app exec --reuse "bin/rails sitemap:create"
 
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
