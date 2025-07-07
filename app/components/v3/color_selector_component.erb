@@ -1,57 +1,7 @@
-<%# This new parent div is the relative anchor for the buttons and handles the group-hover effect. %>
-<div class="group relative">
-  <%# This inner div is now only responsible for clipping the slides. %>
-  <div class="overflow-x-hidden">
-    <div
-      data-controller="carousel"
-      class="swiper"
-      style="overflow:visible;"
-      data-carousel-options-value='{
-        "slidesPerView": "2",
-        "spaceBetween": 2,
-        "loop": false,
-        "initialSlide": <%= initial_slide_index%>,
-        "centeredSlides": true,
-        "slideToClickedSlide": false,
-        "navigation": {
-          "nextEl": ".color-carousel-next",
-          "prevEl": ".color-carousel-prev"
-        },
-        "breakpoints": {
-          "380": {
-            "slidesPerView": 3,
-            "spaceBetween": 5
-          },
-          "380": {
-            "slidesPerView": 3,
-            "spaceBetween": 5
-          },
-          "768": {
-            "slidesPerView": 2,
-            "spaceBetween": 5
-          },
-          "1050": {
-            "slidesPerView": 3,
-            "spaceBetween": 5
-          }
-        }
-      }'>
-      <div class="swiper-wrapper flex items-center py-2">
-        <% buttons.each do |button| %>
-          <div class="swiper-slide text-center w-auto">
-            <%= button %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+<div class="overflow-x-auto">
+  <div class="flex items-center space-x-4 py-2 px-3">
+    <% buttons.each do |button| %>
+      <%= button %>
+    <% end %>
   </div>
-
-  <% if buttons.size > 2 %>
-    <button type="button" class="color-carousel-prev cursor-pointer !absolute top-1/2 -translate-y-1/2 -translate-x-4 left-0 ml-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
-      <%=heroicon "chevron-left", class:"w-4 h-4"%>
-    </button>
-    <button type="button" class="color-carousel-next cursor-pointer !absolute top-1/2 -translate-y-1/2 translate-x-4 right-0 mr-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
-      <%=heroicon "chevron-right", class:"w-4 h-4"%>
-    </button>
-  <% end %>
 </div>

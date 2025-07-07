@@ -22,9 +22,9 @@ class V3::ColorButtonComponent < ApplicationComponent
 
   def classes
     [
-      "block w-16 h-16 rounded-full mx-auto border-2 shadow-md cursor-pointer",
+      "block w-16 h-16 rounded-full border-2 shadow-md cursor-pointer flex-shrink-0",
       "focus:outline-none transition-transform transform hover:scale-110",
-      "peer-focus:ring-2 peer-focus:ring-blue-200 peer-focus:ring-offset-2",
+      "peer-focus:ring-2 peer-focus:ring-offset-2",
       color_classes,
       selected ? COLOR_MAP[color.is_a?(Array) ? color.first : color][:selected]  : "border-white"
     ].join(" ")

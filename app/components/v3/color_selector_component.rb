@@ -3,26 +3,23 @@
 class V3::ColorSelectorComponent < ApplicationComponent
   renders_many :buttons, "V3::ColorButtonComponent"
 
-  attr_reader :pack, :current_color, :initial_slide_index
+  # FIX: Remove initial_slide_index as it's no longer needed.
+  attr_reader :pack, :current_color
 
   def initialize(pack:, current_color:)
     super()
     @pack = pack
     @current_color = current_color
     current_color_list = current_color.split(",").map(&:to_sym).sort
-    @initial_slide_index = 1 # Default to the first slide
 
     all_colors = discover_available_colors
 
-    all_colors.each_with_index do |color_data, index|
+    all_colors.each do |color_data|
       is_selected = if color_data.is_a?(Array)
                       color_data.sort == current_color_list
       else
                       [ color_data ] == current_color_list
       end
-
-      # If this is the selected color, store its index for the carousel
-      @initial_slide_index = index if is_selected && index != 0
 
       with_button(
         color: color_data,
