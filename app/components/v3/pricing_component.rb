@@ -47,16 +47,18 @@ class V3::PricingComponent < ApplicationComponent
 
   def image_folder_name
     colors = color.split(",")
-    if colors.size > 1
-      # For split colors, check for all possible folder name permutations.
-      base_path = Rails.root.join("app/assets/images/plans", pack)
-      permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
+    base_path = Rails.root.join("app/assets/images/plans", pack)
+    # get a list of all directory names, for example we have ["001_red", "005_split_orange_red"]
+    all_folders = Dir.glob(base_path.join("*")).select { |p| File.directory?(p) }.map { |p| File.basename(p) }
 
-      # Find the first folder name that actually exists.
-      permutations.find { |name| File.directory?(base_path.join(name)) } || permutations.first
+    if colors.size > 1
+      # for split colors, find the folder that contains the right combination.
+      permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
+      all_folders.find { |folder| permutations.any? { |perm| folder.include?(perm) } } || colors.first
     else
-      # For single colors, the name is just the color itself.
-      colors.first
+      # for single colors, find the folder that ends with the color name.
+      color_name = colors.first
+      all_folders.find { |folder| folder.end_with?("_#{color_name}") } || color_name
     end
   end
 
