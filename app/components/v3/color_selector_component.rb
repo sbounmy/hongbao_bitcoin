@@ -10,9 +10,9 @@ class V3::ColorSelectorComponent < ApplicationComponent
     @pack = pack
     @current_color = current_color
     current_color_list = current_color.split(",").map(&:to_sym).sort
-    @initial_slide_index = 1
+    @initial_slide_index = 1 # Default to the first slide
 
-    all_colors = available_colors + available_color_combinations
+    all_colors = discover_available_colors
 
     all_colors.each_with_index do |color_data, index|
       is_selected = if color_data.is_a?(Array)
@@ -21,7 +21,7 @@ class V3::ColorSelectorComponent < ApplicationComponent
                       [ color_data ] == current_color_list
       end
 
-      # If this is the selected color, store its index
+      # If this is the selected color, store its index for the carousel
       @initial_slide_index = index if is_selected && index != 0
 
       with_button(
@@ -34,20 +34,23 @@ class V3::ColorSelectorComponent < ApplicationComponent
 
   private
 
-  def available_colors
-    path = Rails.root.join("app/assets/images/plans/#{pack}/*")
-    Dir.glob(path)
-       .select { |f| File.directory? f }
-       .sort
-       .map { |d| d.split("/").last.split("_").last.to_sym }
-       .uniq
-  end
+  def discover_available_colors
+    path = Rails.root.join("app/assets/images/plans", pack, "*")
 
-  def available_color_combinations
-    if available_colors.size > 1 && [ "family", "maximalist" ].include?(pack)
-      available_colors.combination(2).to_a
-    else
-      []
-    end
+    Dir.glob(path).sort.map do |dir_path|
+      next unless File.directory?(dir_path)
+
+      folder_name = File.basename(dir_path) # for example 001_red or 005_split_orange_red
+
+      if folder_name.include?("split_")
+        # Extract "orange_red" from "005_split_orange_red"
+        color_string = folder_name.split("split_").last
+        # Convert "orange_red" to [:orange, :red]
+        color_string.split("_").map(&:to_sym)
+      else
+        # Extract :red from "001_red"
+        folder_name.split("_").last.to_sym
+      end
+    end.compact
   end
 end
