@@ -399,31 +399,37 @@ indonesian_rupiah:
     }
 ghibli:
   id: 6
+  position: 0
   name: Ghibli
   prompt: turn me into ghibli style with pastel colors, soft landscapes and a poetic atmosphere picture
   type: "Input::Style"
 simpson:
   id: 7
+  position: 1
   name: Simpson
   prompt: turn me into simpson style with yellow skin, big eyes, and cartoon outlines
   type: "Input::Style"
 marvel:
   id: 8
+  position: 2
   name: Marvel
   prompt: turn me into marvel comic style with bold colors, dynamic poses, and comic book effects
   type: "Input::Style"
 pixar:
   id: 9
+  position: 3
   name: Pixar
   prompt: turn me into pixar style with soft colors, cute characters, and a happy atmosphere
   type: "Input::Style"
 lego:
   id: 10
+  position: 4
   name: Lego
   prompt: turn me into lego style with brick textures, toy-like faces, and fun, colorful results
   type: "Input::Style"
 cyberpunk:
   id: 11
+  position: 5
   name: Cyberpunk
   prompt: turn me into cyberpunk style with neon colors, bold outlines, and a futuristic atmosphere
   type: "Input::Style"
