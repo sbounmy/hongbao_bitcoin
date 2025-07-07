@@ -1,28 +1,33 @@
-<div data-controller="gallery" class="w-full h-96 flex items-center justify-center relative [&_.swiper-slide-thumb-active]:!border-orange-500 [&_.swiper-slide-thumb-active]:!rounded-none">
+<div data-controller="gallery"
+  class="relative [&_.swiper-slide-thumb-active]:!border-blue-500 ">
   <!-- Carousel media area -->
-  <div data-gallery-target="thumbs" class="swiper h-full w-24">
-    <div class="swiper-wrapper">
-      <% media_items.each do |item| %>
-        <div class="swiper-slide cursor-pointer border border-transparent rounded-lg">
-          <%= media_tag_for(item) %>
-        </div>
-      <% end %>
-    </div>
-  </div>
   <div
     data-gallery-target="main"
     class="swiper w-full h-full">
-    <div class="swiper-wrapper w-full h-full">
+    <div class="swiper-wrapper w-1/3 aspect-square">
       <% media_items.each do |item| %>
-        <div class="swiper-slide w-full h-full flex items-center justify-center">
+      <div
+        class="swiper-slide w-full h-full flex items-center justify-center bg-gray-100">
+        <%= media_tag_for(item) %>
+      </div>
+      <% end %>
+    </div>
+    <% if media_items.size > 1 %>
+    <button type="button"
+      class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-prev absolute top-1/2  left-4 z-10">❮</button>
+    <button type="button"
+      class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-next absolute top-1/2 right-4 z-10">❯</button>
+    <% end %>
+  </div>
+
+  <div data-gallery-target="thumbs" class="swiper mt-4">
+    <div class="swiper-wrapper [&_.swiper-slide]:bg-contain [&_.swiper-slide]:bg-no-repeat [&_.swiper-slide]:bg-center ">
+      <% media_items.each do |item| %>
+        <div
+          class="swiper-slide hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden">
           <%= media_tag_for(item) %>
         </div>
       <% end %>
     </div>
-    <button type="button" class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-prev absolute top-1/2 left-4 z-10">❮</button>
-    <button type="button" class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-next absolute top-1/2 right-4 z-10">❯</button>
-    <!-- Pagination dots -->
-    <div class="carousel-pagination absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"></div>
   </div>
 </div>
-

@@ -7,9 +7,8 @@ export default class extends Controller {
 
   connect() {
     this.thumbsSwiper = new Swiper(this.thumbsTarget, {
-      direction: 'vertical',
       spaceBetween: 10,
-      slidesPerView: 4,
+      slidesPerView: 6,
       freeMode: true,
       watchSlidesProgress: true,
     });
@@ -25,7 +24,6 @@ export default class extends Controller {
       thumbs: {
         swiper: this.thumbsSwiper,
       },
-      pagination: {el: ".carousel-pagination", clickable: true}
     });
   }
   disconnect() {
