@@ -18,15 +18,20 @@ class V3::PricingComponent < ApplicationComponent
     params[:pack] || "mini"
   end
 
+  def color
+    params[:color] || "red"
+  end
+
 
   def media_items
     image_files + video_files
   end
 
   def image_files
-    path_pattern = "app/assets/images/plans/#{pack}/*"
+    folder = image_folder_name
+    path_pattern = "app/assets/images/plans/#{pack}/#{folder}/*"
     Dir.glob(path_pattern).select { |f| File.file?(f) }.map do |file_path|
-      { type: :image, url: helpers.image_path("plans/#{pack}/#{File.basename(file_path)}"), name: File.basename(file_path) }
+      { type: :image, url: helpers.image_path("plans/#{pack}/#{folder}/#{File.basename(file_path)}"), name: File.basename(file_path) }
     end
   end
 
@@ -37,6 +42,21 @@ class V3::PricingComponent < ApplicationComponent
     videos = YAML.load_file(video_config)[pack] || []
     videos.map.with_index do |video, idx|
       { type: video["type"].to_sym, url: video["url"], name: "external_#{idx}" }
+    end
+  end
+
+  def image_folder_name
+    colors = color.split(",")
+    if colors.size > 1
+      # For split colors, check for all possible folder name permutations.
+      base_path = Rails.root.join("app/assets/images/plans", pack)
+      permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
+
+      # Find the first folder name that actually exists.
+      permutations.find { |name| File.directory?(base_path.join(name)) } || permutations.first
+    else
+      # For single colors, the name is just the color itself.
+      colors.first
     end
   end
 

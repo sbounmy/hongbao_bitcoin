@@ -4,15 +4,15 @@
   <div class="overflow-x-hidden">
     <div
       data-controller="carousel"
-      class="swiper [mask-image:linear-gradient(to_right,transparent,black_1rem,black_calc(100%-1rem),transparent)]"
+      class="swiper"
       style="overflow:visible;"
       data-carousel-options-value='{
         "slidesPerView": "2",
-        "spaceBetween": 0,
+        "spaceBetween": 2,
         "loop": false,
-        "initialSlide": 1,
+        "initialSlide": <%= initial_slide_index%>,
         "centeredSlides": true,
-        "slideToClickedSlide": true,
+        "slideToClickedSlide": false,
         "navigation": {
           "nextEl": ".color-carousel-next",
           "prevEl": ".color-carousel-prev"
@@ -35,10 +35,10 @@
   </div>
 
   <% if buttons.size > 3 %>
-    <button type="button" class="color-carousel-prev cursor-pointer !absolute top-1/2 -translate-y-1/2 -translate-x-3 left-0 ml-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
+    <button type="button" class="color-carousel-prev cursor-pointer !absolute top-1/2 -translate-y-1/2 -translate-x-4 left-0 ml-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
       <%=heroicon "chevron-left", class:"w-4 h-4"%>
     </button>
-    <button type="button" class="color-carousel-next cursor-pointer !absolute top-1/2 -translate-y-1/2 translate-x-3 right-0 mr-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
+    <button type="button" class="color-carousel-next cursor-pointer !absolute top-1/2 -translate-y-1/2 translate-x-4 right-0 mr-[-1rem] z-10 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 disabled:cursor-not-allowed">
       <%=heroicon "chevron-right", class:"w-4 h-4"%>
     </button>
   <% end %>
