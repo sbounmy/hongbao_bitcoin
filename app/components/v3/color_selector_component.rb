@@ -12,6 +12,12 @@ class V3::ColorSelectorComponent < ApplicationComponent
     available_colors.each do |color|
       with_button(color: color, label: "Select #{color} color")
     end
+    if available_colors.size > 1 && [ "family", "maximalist" ].include?(pack)
+      available_colors.combination(2).each do |color_pair|
+        label = "Select a mix of #{color_pair.first} and #{color_pair.second}"
+        with_button(color: :split, label: label, available_colors: color_pair)
+      end
+    end
   end
 
   private
@@ -22,6 +28,6 @@ class V3::ColorSelectorComponent < ApplicationComponent
     Dir.glob(path)
        .select { |f| File.directory? f }
        .sort
-       .map { |d| File.basename(d).split("_").last.to_sym } # Extract just the color name, e.g., :red
+       .map { |d| File.basename(d).split("_").last.to_sym } # Extract just the color name
   end
 end
