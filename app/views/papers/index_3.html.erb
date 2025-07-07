@@ -6,3 +6,35 @@
     <%= image_tag "index/red_front.jpg", class: "w-full h-full object-cover" %>
   </div>
 </section>
+
+<section id='papers'>
+  <div class='grid grid-cols-2 md:grid-cols-3 gap-4'>
+    <div>
+      <h3>Latest</h3>
+      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+    </div>
+    <div>
+      <h3>Best</h3>
+      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+    </div>
+    <div>
+      <h3>Creators</h3>
+      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+    </div>
+  </div>
+
+  <div class='flex justify-center'>
+    <h2>History</h2>
+    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+  </div>
+
+  <div class='flex justify-center'>
+    <h2>Top Styles</h2>
+    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+  </div>
+
+  <div class='flex justify-center'>
+    <h2>Creators</h2>
+    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+  </div>
+</section>
