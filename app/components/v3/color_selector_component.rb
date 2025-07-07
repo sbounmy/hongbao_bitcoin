@@ -3,7 +3,6 @@
 class V3::ColorSelectorComponent < ApplicationComponent
   renders_many :buttons, "V3::ColorButtonComponent"
 
-  # FIX: Remove initial_slide_index as it's no longer needed.
   attr_reader :pack, :current_color
 
   def initialize(pack:, current_color:)
