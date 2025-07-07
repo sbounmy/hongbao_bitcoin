@@ -51,8 +51,11 @@ module Checkout
           p[:customer_email] = @current_user.email
           p[:customer_creation] = "always"
         end
+        p[:allow_promotion_codes] = @current_user.admin
+        if ENV["STRIPE_CONTEXT_ID"].present?
+          p[:client_reference_id] = "#{ENV['STRIPE_CONTEXT_ID']}#user_#{@current_user.id}"
+        end
       end
-      p[:allow_promotion_codes] = @current_user&.admin
       p
     end
   end

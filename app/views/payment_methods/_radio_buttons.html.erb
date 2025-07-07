@@ -1,4 +1,5 @@
-<% payment_methods.each do |payment_method| %>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <% payment_methods.each do |payment_method| %>
     <div data-controller="popup">
         <label class="cursor-pointer">
         <%= form.radio_button :payment_method_id,
@@ -7,13 +8,20 @@
             data: {
                 action: "click->popup#open"
             } %>
-            <div class="border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4 text-center
-                        bg-white/10 hover:bg-white/20 transition-colors duration-300">
-                <div class="w-full flex items-center justify-center h-4 m-auto">
-                <%= render_payment_logo(payment_method.logo) %>
+            <div class="relative border-2 border-transparent peer-checked:border-[#FFB636] rounded-lg p-4
+                        bg-white/10 hover:bg-white/20 transition-colors duration-300 h-full">
+                <% if payment_method.no_kyc? %>
+                  <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">No KYC</span>
+                <% end %>
+                <div class="flex flex-col items-center justify-center gap-4 h-full">
+                    <div class="h-10">
+                      <%= render_payment_logo(payment_method.logo) %>
+                    </div>
+                    <span class="text-lg font-semibold"><%= payment_method.name.titleize %></span>
                 </div>
             </div>
         </label>
         <%= render "payment_methods/#{payment_method.name}", form: form, payment_method: payment_method %>
     </div>
-<% end %>
+  <% end %>
+</div>

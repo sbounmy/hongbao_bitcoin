@@ -15,7 +15,7 @@ class PapersController < ApplicationController
   def show
     @paper = Paper.find(params[:id])
     @hong_bao = HongBao.new
-    @payment_methods = PaymentMethod.all
+    @payment_methods = PaymentMethod.active.order(order: :asc).with_attached_logo
     @steps = Step.for_new
     @current_step = (params[:step] || 1).to_i
   end

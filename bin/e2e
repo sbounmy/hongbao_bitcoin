@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+count = 4 # default
+file = nil
+
+parallel_arg = ARGV.find { |arg| arg.start_with?('--parallel') }
+
+if parallel_arg
+  ARGV.delete(parallel_arg)
+  match = parallel_arg.match(/--parallel\[(\d+)\]/)
+  count = match[1].to_i if match
+end
+
+file = ARGV.first
+
+rake_args = [count, file].compact.join(',')
+command = "bundle exec rake \"e2e:parallel[#{rake_args}]\""
+
+exec(command)

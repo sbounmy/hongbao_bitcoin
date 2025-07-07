@@ -59,11 +59,11 @@ en:
         description: "Create secure, KYC-free paper wallets in minutes wrapped in red envelopes."
         keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"
   wallet_instructions:
-    bitstack:
-      title: "Connect BitStack Wallet"
+    wallet:
+      title: "Send Bitcoin from your wallet"
       withdrawal_title: "Withdraw to BitStack Wallet"
       steps:
-        - "Open your BitStack wallet"
+        - "Open your software or hardware wallet"
         - "Scan the QR code or copy the address"
         - "Enter the amount you want to send"
         - "Confirm the transaction"
@@ -73,24 +73,14 @@ en:
         - "Copy your receiving address"
         - "Click the button below to initiate transfer"
       withdrawal_action: "Connect BitStack"
-    ledger:
-      title: "Connect Ledger Wallet"
-      withdrawal_title: "Withdraw to Ledger"
-      steps:
-        - "Connect your Ledger device"
-        - "Open the Bitcoin app"
-        - "Scan the QR code or copy the address"
-        - "Confirm the transaction on your device"
-      withdrawal_steps:
-        - "Connect your Ledger device"
-        - "Open the Bitcoin app"
-        - "Verify the receiving address"
-        - "Click the button below to initiate transfer"
-      withdrawal_action: "Connect Ledger"
-    mt_pelerin:
-      title: "Pay with your local currency"
-      withdrawal_title: "Withdraw to Mt Pelerin"
-      withdrawal_action: "Connect Mt Pelerin"
+    credit_card:
+      title: "Pay with your credit card"
+      withdrawal_title: "Withdraw to your credit card"
+      withdrawal_action: "Connect credit card"
+    bank_transfer:
+      title: "Pay with your bank transfer"
+      withdrawal_title: "Withdraw to your bank account"
+      withdrawal_action: "Connect bank transfer"
   datetime:
     distance_in_words:
       short:

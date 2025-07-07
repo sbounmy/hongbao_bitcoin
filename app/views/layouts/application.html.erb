@@ -25,6 +25,8 @@
     <meta property="twitter:description" content="<%= t('.meta.description') %>">
     <meta property="twitter:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
 
+    <%= canonical_tag %>
+
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
