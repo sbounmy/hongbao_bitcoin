@@ -47,27 +47,9 @@
                 </div>
               </div>
             </div>
-                  <%# <div class="mb-8">
-          <h2 class="text-xl font-semibold text-gray-800 mb-1">Souhaitez-vous le personnaliser ?</h2>
-          <p class="text-sm text-gray-500 mb-4">Ajoutez une touche personnelle. Ce service est gratuit.</p>
-          <div class="space-y-3">
-            <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
-              <div class="flex justify-between items-center">
-                <span class="font-medium text-gray-700">Ajouter une gravure</span>
-                <span class="text-sm text-gray-500">Gratuit</span>
-              </div>
-              <p class="text-xs text-gray-500 mt-1">Faites graver des emoji, des initiales et des chiffres. Votre HongBao sera à vous, rien qu'à vous.</p>
-            </button>
-            <button type="button" class="w-full text-left p-4 border border-gray-300 rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-150 ease-in-out">
-              <span class="font-medium text-gray-700">Ignorer la gravure</span>
-            </button>
-          </div>
-        </div> %>
 
           <% end %>
           
-
-          <%# The form for the buy button now follows naturally after the placeholder. %>
           <%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
             <%= hidden_field_tag :price_id, stripe_price_id %>
             <%= hidden_field_tag :color, color %>
