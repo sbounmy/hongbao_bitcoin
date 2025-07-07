@@ -1,40 +1,51 @@
-<section class="container flex flex-col md:flex-row">
-  <div class="flex-1">
-    <h1 class="text-4xl font-bold" >The easiest way to gift Bitcoin</h1>
-  </div>
-  <div class="flex-1">
-    <%= image_tag "index/red_front.jpg", class: "w-full h-full object-cover" %>
-  </div>
-</section>
+<div class="my-12">
+  <%= render CollapseComponent.new do |component| %>
+    <%# --- Header Content --- %>
+    <% component.with_summary do %>
+      <div class="flex items-center gap-4">
+        <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">New Features</span>
+        <h2 class="text-xl font-serif hidden md:block">A new dimension of gifting.</h2>
+      </div>
+    <% end %>
+
+    <%# --- Body Content --- %>
+    <div class="mt-8 text-center max-w-3xl mx-auto">
+      <h1 class="text-5xl md:text-6xl font-serif font-bold">A whole new level of creative control.</h1>
+      <p class="mt-4 text-lg text-gray-400">
+        Unlock your inner artist, at any skill level. Start with a beautiful design, then break it open—upload your own images, rewrite the text, and remix the vibe. Creative control is at your fingertips.
+      </p>
+      <div class="mt-8">
+        <%= link_to "Create Your Hongbao", "#", class: "bg-white text-black font-semibold px-8 py-3 rounded-full transition-transform hover:scale-105" %>
+      </div>
+    </div>
+
+    <%# Feature Cards %>
+    <div class="grid md:grid-cols-3 gap-6 mt-12 text-center">
+      <div class="bg-black/50 p-6 rounded-xl">
+        <h3 class="font-semibold mt-4">Scan Paper</h3>
+        <p class="text-sm text-gray-400 mt-1">Bring physical designs into the digital world.</p>
+      </div>
+      <div class="bg-black/50 p-6 rounded-xl">
+        <h3 class="font-semibold mt-4">Generate PDF</h3>
+        <p class="text-sm text-gray-400 mt-1">Create high-quality, printable PDFs of your designs.</p>
+      </div>
+      <div class="bg-black/50 p-6 rounded-xl">
+        <h3 class="font-semibold mt-4">Custom Bills</h3>
+        <p class="text-sm text-gray-400 mt-1">Upload any photo to generate a unique bill.</p>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <section id='papers'>
-  <div class='grid grid-cols-2 md:grid-cols-3 gap-4'>
+  <div class='grid grid-cols-2 gap-4'>
     <div>
       <h3>Latest</h3>
-      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+      <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
     </div>
     <div>
-      <h3>Best</h3>
-      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
+      <h3>Suggested Creators</h3>
+      <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
     </div>
-    <div>
-      <h3>Creators</h3>
-      <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
-    </div>
-  </div>
-
-  <div class='flex justify-center'>
-    <h2>History</h2>
-    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
-  </div>
-
-  <div class='flex justify-center'>
-    <h2>Top Styles</h2>
-    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
-  </div>
-
-  <div class='flex justify-center'>
-    <h2>Creators</h2>
-    <%= render Papers::ItemComponent.with_collection(Paper.order(created_at: :desc).limit(3)) %>
   </div>
 </section>

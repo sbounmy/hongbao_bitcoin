@@ -45,6 +45,14 @@ class Paper < ApplicationRecord
     input_items.map(&:input)
   end
 
+  def theme
+    input_items.find { |item| item.input.is_a?(Input::Theme) }
+  end
+
+  def style
+    input_items.find { |item| item.input.is_a?(Input::Style) }
+  end
+
   def front_elements
     elements.slice("public_address_qrcode", "app_public_address_qrcode", "public_address_text")
   end

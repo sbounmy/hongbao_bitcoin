@@ -35,4 +35,16 @@ class User < ApplicationRecord
   def clear_magic_link!
     update(magic_link_token: nil, magic_link_expires_at: nil)
   end
+
+  def name
+    email.split("@").first
+  end
+
+  def followers_count
+    papers.count
+  end
+
+  def handle
+    email.split("@").first
+  end
 end

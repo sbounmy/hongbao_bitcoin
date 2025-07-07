@@ -1,0 +1,51 @@
+<%= link_to "#", class: "flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10" do %>
+  <%# Left: Image %>
+  <div class="relative flex-shrink-0 w-16 h-16 overflow-hidden rounded-md md:w-20 md:h-20">
+    <%= image_tag image_front_url, class: "absolute w-full h-full bg-gray-700 object-cover" %>
+  </div>
+
+  <%# Right: Details %>
+  <div class="flex-1 min-w-0">
+    <%# Title and Version %>
+    <div class="flex items-center justify-between gap-2">
+      <h3 class="font-bold text-white truncate"><%= paper.name %></h3>
+      <% if theme_version.present? %>
+        <span class="text-xs font-semibold text-white bg-purple-500/50 px-2 py-0.5 rounded-md flex-shrink-0">
+          v<%= theme_version %>
+        </span>
+      <% end %>
+    </div>
+
+    <%# Genres %>
+    <p class="text-sm text-gray-400 truncate"><%= paper_genres %></p>
+
+    <%# Creator & Stats %>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-gray-400">
+      <%# Creator %>
+      <div class="flex items-center gap-2">
+        <% if creator_avatar_url %>
+          <%= image_tag creator_avatar_url, class: "w-4 h-4 rounded-full" %>
+        <% else %>
+          <div class="w-4 h-4 bg-gray-600 rounded-full"></div>
+        <% end %>
+        <span class="truncate"><%= creator_name %></span>
+      </div>
+
+      <%# Stats %>
+      <div class="flex items-center gap-4 ml-auto text-xs md:ml-0">
+        <div class="flex items-center gap-1" title="Plays">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 3.6a.7.7 0 0 0-1.1.5v11.8a.7.7 0 0 0 1.1.5l9.5-5.9a.7.7 0 0 0 0-1.1L6.3 3.6Z"/></svg>
+          <span><%= play_count %></span>
+        </div>
+        <div class="flex items-center gap-1" title="Likes">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M11.2 3.1a1.5 1.5 0 0 1 1.6 0l2.5 2.2a1.5 1.5 0 0 1 .4 1.1v6.5a1.5 1.5 0 0 1-1.5 1.5h-5.9a1.5 1.5 0 0 1-1.5-1.5v-2.8l-1.1-3.6a1.5 1.5 0 0 1 .6-1.7l2.5-1.9Z"/><path d="M4.5 15V8.5a1.5 1.5 0 0 1 3 0V15a1.5 1.5 0 0 1-3 0Z"/></svg>
+          <span><%= like_count %></span>
+        </div>
+        <div class="flex items-center gap-1" title="Comments">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM6.33 6.22a.75.75 0 0 1 1.06 0l.22.22c.29.29.29.77 0 1.06L6.55 8.56a.25.25 0 0 0 0 .35l1.06 1.06c.29.29.29.77 0 1.06l-.22.22a.75.75 0 0 1-1.06 0L4.72 9.97a.75.75 0 0 1 0-1.06l1.61-1.61Zm3.94 0a.75.75 0 0 1 1.06 0l1.61 1.61a.75.75 0 0 1 0 1.06L11.45 9.97a.75.75 0 0 1-1.06 0l-.22-.22a.75.75 0 0 0-1.06 0L7.82 11.06a.25.25 0 0 0-.02.02.75.75 0 0 1-1.06-1.06l.22-.22c.29-.29.77-.29 1.06 0l1.06 1.06c.29.29.77.29 1.06 0l1.06-1.06a.25.25 0 0 0 0-.35L10.28 6.22Z" clip-rule="evenodd" /></svg>
+          <span><%= comment_count %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
