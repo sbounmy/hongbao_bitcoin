@@ -3,7 +3,6 @@ class Input < ApplicationRecord
   has_many :bundles, through: :input_items
 
   validates :name, presence: true
-  validates :position, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   has_one_attached :image
 
