@@ -10,7 +10,6 @@ module Checkout
     private
 
     def checkout_params
-      Rails.logger.info "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHEY Creating Stripe Checkout Session with params: #{@params.inspect}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
       p = {
         payment_method_types: [ "card" ],
         shipping_address_collection: {
