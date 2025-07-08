@@ -9,6 +9,7 @@ export default class extends Controller {
     autoGenerate: { type: Boolean, default: false },
     customWallet: { type: Boolean, default: false },
     network: { type: String, default: 'mainnet' },
+    mode: { type: String, default: 'beginner' },
   }
   static targets = ["utxos"]
 
@@ -44,12 +45,21 @@ export default class extends Controller {
   }
 
   get detail() {
+    const { appPublicAddressQrcode, publicAddressQrcode, ...restOfInfo } = this.wallet.info;
+
+    // Choose which QRCODE to use based on the current mode.
+    const activeQrCodeFunction = this.modeValue === 'beginner'
+      ? appPublicAddressQrcode
+      : publicAddressQrcode;
+
     return {
       wallet: this.wallet,
       mnemonicText: this.master?.mnemonic || '',
-      ...this.wallet.info
-    }
+      ...restOfInfo,
+      publicAddressQrcode: activeQrCodeFunction
+    };
   }
+
   async transfer(address, fee) {
     try {
       const transaction = TransactionFactory.create(
@@ -103,11 +113,12 @@ export default class extends Controller {
   }
 
   modeChanged(event) {
-    if (event.target.checked) { // Maximalist
-      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
-    } else { // Beginner
-      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
-    }
+    // Update the internal state based on the toggle.
+    this.modeValue = event.target.checked ? 'maximalist' : 'beginner';
+
+    // Dispatch the 'changed' event. The canva_controller will listen for this
+    //    and redraw everything using the new data from the `detail` getter.
+    this.dispatchWalletChanged();
   }
 
   customWalletChanged(event) {
