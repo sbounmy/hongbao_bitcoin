@@ -22,7 +22,7 @@ module Admin
         }
       elsif object.is_a?(Paper)
         {
-          "front" => object.front_elements.keys.map(&:to_s) & common - [ "app_public_address_qrcode" ],
+          "front" => object.front_elements.keys.map(&:to_s) & common,
           "back" => object.back_elements.keys.map(&:to_s) & common
         }
       end
