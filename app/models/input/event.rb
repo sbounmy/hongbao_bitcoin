@@ -3,6 +3,8 @@
 class Input::Event < Input
   store :metadata, accessors: [:date]
 
+  # Doing this in ruby because date is stored as a string in a jsonb column.
+  # We won't have millions of events, so it's not a big deal.
   def self.find_by_anniversary(today = Date.today)
     all.sort_by { |event| event.anniversary(today) }
   end
