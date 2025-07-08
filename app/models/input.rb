@@ -7,4 +7,6 @@ class Input < ApplicationRecord
   has_one_attached :image
 
   store :metadata
+
+  scope :ordered, -> { order(:position, :name) }
 end
