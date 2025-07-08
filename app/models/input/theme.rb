@@ -32,6 +32,7 @@ class Input::Theme < Input
   UI_PROPERTIES = CSS_PROPERTIES.map(&:underscore)
 
   AI_ELEMENT_TYPES = [
+    "app_public_address_qrcode",
     "private_key_qrcode",
     "private_key_text",
     "public_address_qrcode",

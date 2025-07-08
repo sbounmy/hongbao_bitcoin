@@ -17,12 +17,12 @@ module Admin
       common = common_elements
       if object.is_a?(Input::Theme)
         {
-          "front" => [ "public_address_qrcode", "public_address_text", "app_public_address_qrcode" ] & common,
+          "front" => [ "public_address_qrcode", "public_address_text" ] & common,
           "back" => [ "private_key_qrcode", "private_key_text", "mnemonic_text" ] & common
         }
       elsif object.is_a?(Paper)
         {
-          "front" => object.front_elements.keys.map(&:to_s) & common,
+          "front" => object.front_elements.keys.map(&:to_s) & common - [ "app_public_address_qrcode" ],
           "back" => object.back_elements.keys.map(&:to_s) & common
         }
       end

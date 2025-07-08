@@ -341,10 +341,21 @@ export default class extends Controller {
   }
 
   updateHiddenInput(element, property, value) {
+    const elementType = element.dataset.elementType;
     const hiddenInput = this.findInputForElement(element, property);
     if (hiddenInput) {
       hiddenInput.value = value;
       hiddenInput.setAttribute('value', value);
+    }
+
+    if (elementType === 'public_address_qrcode') {
+      const appPublicAddressInput = this.hiddenInputTargets.find(input =>
+        input.dataset.elementType === 'app_public_address_qrcode' && input.dataset.property === property
+      );
+      if (appPublicAddressInput) {
+        appPublicAddressInput.value = value;
+        appPublicAddressInput.setAttribute('value', value);
+      }
     }
   }
 
