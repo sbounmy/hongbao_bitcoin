@@ -45,17 +45,18 @@ export default class extends Controller {
   }
 
   get detail() {
-    const { appPublicAddressQrcode, publicAddressQrcode, ...restOfInfo } = this.wallet.info;
+    const walletInfo = this.wallet.info;
 
     // Choose which QRCODE to use based on the current mode.
     const activeQrCodeFunction = this.modeValue === 'beginner'
-      ? appPublicAddressQrcode
-      : publicAddressQrcode;
+      ? walletInfo.appPublicAddressQrcode
+      : walletInfo.publicAddressQrcode;
 
     return {
       wallet: this.wallet,
       mnemonicText: this.master?.mnemonic || '',
-      ...restOfInfo,
+      // Pass all original info from the wallet, including appPublicAddressQrcode.
+      ...walletInfo,
       publicAddressQrcode: activeQrCodeFunction
     };
   }
