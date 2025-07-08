@@ -1,9 +1,21 @@
-    <div class="flex gap-4">
-      <%= form_with(model: @bundle, class: "flex-1 flex flex-col gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
-        <!-- Row 1: Styles -->
+    <div class="flex flex-col md:flex-row gap-8 p-4">
+      <div class="flex w-full md:max-w-md flex-col gap-4">
+        <%= form_with(model: @bundle, class: "flex flex-col gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
+          <!-- Row 3 : Upload -->
+          <div class="relative">
+            <h2 class="text-lg font-medium mb-4">1. Choose Theme</h2>
+            <div class="grid grid-cols-3 gap-2">
+              <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
+              <%= form.fields_for :input_items do |input_item_fields| %>
+                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Row 1: Styles -->
           <div class="">
-            <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
-            <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
+            <h2 class="text-lg font-medium mb-4">2. Choose Style</h2>
+            <div class="grid grid-cols-3 gap-2">
               <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
               <%= form.fields_for :input_items do |input_item_fields| %>
                 <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
@@ -13,26 +25,18 @@
 
           <!-- Row 2: Upload -->
           <div class="relative h-full flex flex-col">
-            <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
+            <h2 class="text-lg font-medium mb-4">3. Upload Picture</h2>
             <%= render PictureUploadComponent.new(form: form) %>
           </div>
 
-          <!-- Row 3 : Upload -->
-          <div class="relative">
-            <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
-            <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
-              <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
-              <%= form.fields_for :input_items do |input_item_fields| %>
-                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-              <% end %>
-            </div>
-          </div>
-      <% end %>
+        <% end %>
+      </div>
+
 
       <!-- Column 3: Preview -->
-      <div class="relative md:col-span-2 h-screen overflow-y-auto">
+      <div class="h-screen overflow-y-auto flex-1">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
-          <h2 class="text-lg font-medium">3. Preview</h2>
+          <h2 class="text-lg font-medium">4. Preview</h2>
           <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
               <%= render Papers::ItemComponent.with_collection(@papers) %>
           </div>
