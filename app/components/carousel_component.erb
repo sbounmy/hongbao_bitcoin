@@ -24,8 +24,8 @@
     <div class="swiper-wrapper [&_.swiper-slide]:bg-contain [&_.swiper-slide]:bg-no-repeat [&_.swiper-slide]:bg-center ">
       <% media_items.each do |item| %>
         <div
-          class="swiper-slide hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden">
-          <%= media_tag_for(item) %>
+          class="swiper-slide aspect-square hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden">
+          <%= media_tag_for(item, is_thumbnail: true) %>
         </div>
       <% end %>
     </div>
