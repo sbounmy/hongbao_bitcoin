@@ -1,6 +1,6 @@
-<%= link_to "#", class: "flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10" do %>
+<%= link_to paper_path(paper), class: "flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10", target: "_blank" do %>
   <%# Left: Image %>
-  <div class="relative flex-shrink-0 w-16 h-16 overflow-hidden rounded-md md:w-20 md:h-20">
+  <div class="relative flex-shrink-0 w-30  aspect-[170/90] overflow-hidden rounded-md">
     <%= image_tag image_front_url, class: "absolute w-full h-full bg-gray-700 object-cover" %>
   </div>
 
@@ -8,7 +8,7 @@
   <div class="flex-1 min-w-0">
     <%# Title and Version %>
     <div class="flex items-center justify-between gap-2">
-      <h3 class="font-bold text-white truncate"><%= paper.name %></h3>
+      <h3 class="font-bold truncate"><%= paper.name %></h3>
       <% if theme_version.present? %>
         <span class="text-xs font-semibold text-white bg-purple-500/50 px-2 py-0.5 rounded-md flex-shrink-0">
           v<%= theme_version %>

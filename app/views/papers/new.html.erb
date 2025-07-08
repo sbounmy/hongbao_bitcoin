@@ -1,5 +1,46 @@
-NEW
-  <%= render DockComponent.new do |dock| %>
-    <% dock.with_item(label: "Home", icon: "home", href: dashboard_3_path) %>
-    <% dock.with_item(label: "Create", icon: "banknotes", href: new_paper_path) %>
-  <% end %>
+    <div class="flex gap-4">
+      <%= form_with(model: @bundle, class: "flex-1 flex flex-col gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
+        <!-- Row 1: Styles -->
+          <div class="">
+            <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
+            <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
+              <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
+              <%= form.fields_for :input_items do |input_item_fields| %>
+                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Row 2: Upload -->
+          <div class="relative h-full flex flex-col">
+            <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
+            <%= render PictureUploadComponent.new(form: form) %>
+          </div>
+
+          <!-- Row 3 : Upload -->
+          <div class="relative">
+            <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
+            <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
+              <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
+              <%= form.fields_for :input_items do |input_item_fields| %>
+                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
+
+      <!-- Column 3: Preview -->
+      <div class="relative md:col-span-2 h-screen overflow-y-auto">
+        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
+          <h2 class="text-lg font-medium">3. Preview</h2>
+          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
+              <%= render Papers::ItemComponent.with_collection(@papers) %>
+          </div>
+          <%= turbo_stream_from :papers %>
+          <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">
+            <button class="btn btn-primary btn-wide rounded-selector">Print</button>
+            <button class="btn btn-secondary rounded-selector">Share</button>
+          </div>
+        </div>
+      </div>
+    </div>

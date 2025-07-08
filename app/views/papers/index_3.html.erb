@@ -40,12 +40,23 @@
 <section id='papers'>
   <div class='grid grid-cols-2 gap-4'>
     <div>
-      <h3>Latest</h3>
+      <h3 class="text-xl font-bold">Latest</h3>
       <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
     </div>
     <div>
-      <h3>Suggested Creators</h3>
+      <h3 class="text-xl font-bold">Creators</h3>
       <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
     </div>
+  </div>
+</section>
+
+<section class="my-12">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-xl font-bold">Upcoming Bitcoin Days</h3>
+    <%= link_to "Show More >", "#", class: "text-sm font-semibold text-gray-400 hover:text-white" %>
+  </div>
+  <div class="flex gap-4 overflow-x-auto">
+    <%# Query for all events, order them by anniversary, and display them %>
+    <%= render Events::CardComponent.with_collection(Input::Event.find_by_anniversary) %>
   </div>
 </section>

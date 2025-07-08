@@ -570,6 +570,7 @@ GEM
     thruster (0.1.14-aarch64-linux)
     thruster (0.1.14-arm64-darwin)
     thruster (0.1.14-x86_64-linux)
+    timecop (0.9.10)
     timeout (0.4.3)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
@@ -638,7 +639,7 @@ DEPENDENCIES
   markdown-rails (~> 2.1)
   mission_control-jobs
   oauth2
-  parallel_tests (~> 5.3)
+  parallel_tests
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)
@@ -658,6 +659,7 @@ DEPENDENCIES
   stimulus-rails
   stripe
   thruster
+  timecop
   turbo-rails
   tzinfo-data
   vcr

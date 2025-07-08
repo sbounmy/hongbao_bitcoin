@@ -4,10 +4,41 @@
   <% end %>
 
   <% drawer.with_side do %>
-    <ul class="menu bg-base-200 text-base-content min-h-full w-32 p-4">
-      <!-- Sidebar content here -->
-      <%= link_to t("layouts.main.footer.home"), dashboard_3_path, class: "menu-item" %>
-      <%= link_to t("layouts.main.footer.create"), new_paper_path, class: "menu-item" %>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-64 p-4 gap-2">
+      <% if authenticated? && current_user %>
+        <li>
+          <details>
+            <summary class="flex items-center gap-2 p-2">
+              <% if current_user.avatar.attached? %>
+                <%= image_tag url_for(current_user.avatar), class: "w-10 h-10 rounded-full" %>
+              <% else %>
+                <div class="avatar placeholder">
+                  <div class="bg-neutral text-neutral-content rounded-full w-10">
+                    <span><%= current_user.name.first.upcase %></span>
+                  </div>
+                </div>
+              <% end %>
+              <span class="font-bold"><%= current_user.name %></span>
+            </summary>
+            <ul>
+              <li><a><%= t("layouts.main.footer.settings") %></a></li>
+              <li><%= link_to t("layouts.main.footer.logout"), session_path(Current.session), data: { "turbo-method": :delete } %></li>
+            </ul>
+          </details>
+        </li>
+      <% end %>
+      <li>
+        <%= link_to dashboard_3_path, class: "text-base" do %>
+          <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.home") %>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_paper_path, class: "text-base" do %>
+          <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.create") %>
+        <% end %>
+      </li>
     </ul>
   <% end %>
 <% end %>

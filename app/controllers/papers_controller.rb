@@ -29,7 +29,10 @@ class PapersController < ApplicationController
   end
 
   def new
-    @paper = Paper.new
+    @bundle = Bundle.new
+    @styles = Input::Style.with_attached_image
+    @themes = Input::Theme.with_attached_image
+    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
   end
 
   private

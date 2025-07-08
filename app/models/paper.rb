@@ -18,6 +18,7 @@ class Paper < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :events, -> { joins(:input_items).where(input_items: { input_type: "Input::Event" }) }
 
   ELEMENTS = %w[
     app_public_address_qrcode
@@ -39,6 +40,7 @@ class Paper < ApplicationRecord
 
   def input_items=(input_items)
     self.input_item_ids = input_items.map(&:id)
+    self.input_ids = input_items.map(&:input_id)
   end
 
   def inputs
@@ -51,6 +53,10 @@ class Paper < ApplicationRecord
 
   def style
     input_items.find { |item| item.input.is_a?(Input::Style) }
+  end
+
+  def event
+    input_items.find { |item| item.input.is_a?(Input::Event) }
   end
 
   def front_elements

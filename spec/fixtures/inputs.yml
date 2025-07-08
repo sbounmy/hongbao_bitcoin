@@ -432,3 +432,57 @@ user:
   name: User upload
   prompt: ""
   type: "Input::Image"
+
+pizza_day:
+  id: 15
+  name: Pizza Day
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2010-05-22"
+    }
+
+genesis:
+  id: 16
+  name: Genesis Block
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2009-01-03"
+    }
+
+first_halving:
+  id: 17
+  name: First Halving
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2012-11-28"
+    }
+
+whitepaper:
+  id: 18
+  name: Whitepaper
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2008-10-31"
+    }
+
+first_transaction:
+  id: 19
+  name: First Transaction
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2009-01-12"
+    }
+
+satoshi_sayonara:
+  id: 20
+  name: Satoshi Sayonara
+  type: "Input::Event"
+  metadata: |
+    {
+      "date": "2011-04-23"
+    }
