@@ -8,7 +8,7 @@ export default class extends Controller {
   connect() {
     this.thumbsSwiper = new Swiper(this.thumbsTarget, {
       spaceBetween: 10,
-      slidesPerView: 6,
+      slidesPerView: '4',
       freeMode: true,
       watchSlidesProgress: true,
     });
