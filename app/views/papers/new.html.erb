@@ -5,7 +5,7 @@
           <!-- Row 1 : Theme -->
           <div class="flex flex-col gap-4 h-full overflow-y-auto">
             <div class="relative">
-              <h2 class="text-lg font-medium mb-4">1. Choose Theme</h2>
+              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "banknotes", class: "w-6 h-6" %> Theme</h2>
               <div class="grid grid-cols-4 gap-4">
                 <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
                 <%= form.fields_for :input_items do |input_item_fields| %>
@@ -15,8 +15,8 @@
             </div>
 
             <!-- Row 2: Styles -->
-            <div class="">
-              <h2 class="text-lg font-medium mb-4">2. Choose Style</h2>
+            <div class="relative">
+              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "sparkles", class: "w-6 h-6" %> Style</h2>
               <div class="grid grid-cols-4 gap-4">
                 <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
                 <%= form.fields_for :input_items do |input_item_fields| %>
@@ -27,7 +27,7 @@
 
             <!-- Row 3: Upload -->
             <div class="relative h-full flex flex-col">
-              <h2 class="text-lg font-medium mb-4">3. Upload Picture</h2>
+              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
               <%= render PictureUploadComponent.new(form: form) %>
             </div>
           </div>
