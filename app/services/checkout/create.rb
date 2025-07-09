@@ -37,6 +37,9 @@ module Checkout
           price: @params[:price_id],
           quantity: 1
         } ],
+        payment_intent_data: {
+          colors: @params[:colors]
+        },
         mode: "payment",
         success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
         cancel_url: cancel_checkout_index_url
