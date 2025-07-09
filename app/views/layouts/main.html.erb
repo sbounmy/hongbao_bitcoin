@@ -54,7 +54,7 @@
   <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
     <%# render "shared/header" %>
     <%= render "main/sidebar" do %>
-      <div class="px-4 h-screen">
+      <div class="h-screen">
         <%= yield %>
       </div>
     <% end %>

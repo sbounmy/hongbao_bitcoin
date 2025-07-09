@@ -1,9 +1,9 @@
-    <div class="flex flex-col h-full md:flex-row gap-8 p-4">
+    <div class="flex flex-col h-full md:flex-row">
       <!-- Column 1: Form -->
       <div class="flex w-full h-full md:max-w-md flex-col gap-4">
-        <%= form_with(model: @bundle, class: "flex flex-col h-full gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
+        <%= form_with(model: @bundle, class: "flex flex-col h-full gap-4 py-4", data: { turbo_frame: "paper_form" }) do |form| %>
           <!-- Row 1 : Theme -->
-          <div class="flex flex-col gap-4 h-full overflow-y-auto">
+          <div class="flex flex-col gap-4 h-full overflow-y-auto px-4">
             <div class="relative">
               <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "banknotes", class: "w-6 h-6" %> Theme</h2>
               <div class="grid grid-cols-4 gap-4">
@@ -31,17 +31,19 @@
               <%= render PictureUploadComponent.new(form: form) %>
             </div>
           </div>
-          <div class="bg-base-100">
+          <div class="bg-base-100 border-t border-slate-500 p-4">
             <%= form.submit "Generate", class: "btn btn-primary w-full rounded-selector", disabled: true, data: { controller: "disabled", action: "preview:none@window->disabled#add preview:selected@window->disabled#remove", turbo_submits_with: "Processing...", disabled_target: "element" } %>
           </div>
         <% end %>
       </div>
 
+      <div class="split-bar w-1 bg-slate-500 h-full">
+      </div>
 
       <!-- Column 2: Preview -->
-      <div class="h-screen overflow-y-auto flex-1">
-        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
-          <h2 class="text-lg font-medium">4. Preview</h2>
+      <div class="overflow-y-auto flex-1 p-4">
+        <div class="flex flex-col gap-4 h-full">
+          <h2 class="text-lg font-medium">My Papers</h2>
           <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
               <%= render Papers::ItemComponent.with_collection(@papers) %>
           </div>
