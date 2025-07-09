@@ -48,10 +48,13 @@ class PapersController < ApplicationController
   private
 
   def set_layout
-    if action_name == "show"
+    case action_name
+    when "show"
       "offline"
-    else
+    when "new", "index_3"
       "main"
+    else
+      "application"
     end
   end
 end
