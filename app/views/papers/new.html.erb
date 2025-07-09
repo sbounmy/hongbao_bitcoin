@@ -1,39 +1,44 @@
-    <div class="flex flex-col md:flex-row gap-8 p-4">
-      <div class="flex w-full md:max-w-md flex-col gap-4">
-        <%= form_with(model: @bundle, class: "flex flex-col gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
-          <!-- Row 3 : Upload -->
-          <div class="relative">
-            <h2 class="text-lg font-medium mb-4">1. Choose Theme</h2>
-            <div class="grid grid-cols-3 gap-2">
-              <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
-              <%= form.fields_for :input_items do |input_item_fields| %>
-                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-              <% end %>
+    <div class="flex flex-col h-full md:flex-row gap-8 p-4">
+      <!-- Column 1: Form -->
+      <div class="flex w-full h-full md:max-w-md flex-col gap-4">
+        <%= form_with(model: @bundle, class: "flex flex-col h-full gap-4", data: { turbo_frame: "paper_form" }) do |form| %>
+          <!-- Row 1 : Theme -->
+          <div class="flex flex-col gap-4 h-full overflow-y-auto">
+            <div class="relative">
+              <h2 class="text-lg font-medium mb-4">1. Choose Theme</h2>
+              <div class="grid grid-cols-4 gap-4">
+                <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
+                <%= form.fields_for :input_items do |input_item_fields| %>
+                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Row 2: Styles -->
+            <div class="">
+              <h2 class="text-lg font-medium mb-4">2. Choose Style</h2>
+              <div class="grid grid-cols-4 gap-4">
+                <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
+                <%= form.fields_for :input_items do |input_item_fields| %>
+                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Row 3: Upload -->
+            <div class="relative h-full flex flex-col">
+              <h2 class="text-lg font-medium mb-4">3. Upload Picture</h2>
+              <%= render PictureUploadComponent.new(form: form) %>
             </div>
           </div>
-
-          <!-- Row 1: Styles -->
-          <div class="">
-            <h2 class="text-lg font-medium mb-4">2. Choose Style</h2>
-            <div class="grid grid-cols-3 gap-2">
-              <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
-              <%= form.fields_for :input_items do |input_item_fields| %>
-                <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-              <% end %>
-            </div>
+          <div class="bg-base-100">
+            <%= form.submit "Generate", class: "btn btn-primary w-full rounded-selector", disabled: true, data: { controller: "disabled", action: "preview:none@window->disabled#add preview:selected@window->disabled#remove", turbo_submits_with: "Processing...", disabled_target: "element" } %>
           </div>
-
-          <!-- Row 2: Upload -->
-          <div class="relative h-full flex flex-col">
-            <h2 class="text-lg font-medium mb-4">3. Upload Picture</h2>
-            <%= render PictureUploadComponent.new(form: form) %>
-          </div>
-
         <% end %>
       </div>
 
 
-      <!-- Column 3: Preview -->
+      <!-- Column 2: Preview -->
       <div class="h-screen overflow-y-auto flex-1">
         <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
           <h2 class="text-lg font-medium">4. Preview</h2>
@@ -41,10 +46,6 @@
               <%= render Papers::ItemComponent.with_collection(@papers) %>
           </div>
           <%= turbo_stream_from :papers %>
-          <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">
-            <button class="btn btn-primary btn-wide rounded-selector">Print</button>
-            <button class="btn btn-secondary rounded-selector">Share</button>
-          </div>
         </div>
       </div>
     </div>
