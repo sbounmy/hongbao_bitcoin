@@ -43,6 +43,8 @@ application.register("qr-scanner", QrScannerController)
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 
+import ToggleController from './toggle_controller'
+application.register('toggle', ToggleController)
 
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
