@@ -44,6 +44,46 @@
           <%= t("layouts.main.footer.create") %>
         <% end %>
       </li>
+
+      <div class="flex-grow"></div>
+      <ul class='flex flex-col gap-2'>
+      <li>
+        <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
+        <%= link_to "#", class: "text-base" do %>
+          <%= heroicon "gift", variant: :outline, class: "w-6 h-6" %>
+          Invite friends
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#", class: "text-base" do %>
+          <div class="indicator">
+            <span class="indicator-item badge badge-secondary">20</span>
+            <%= heroicon "document-text", variant: :outline, class: "w-6 h-6" %>
+          </div>
+          What's new?
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#", class: "text-base" do %>
+          <%= heroicon "ellipsis-horizontal", variant: :outline, class: "w-6 h-6" %>
+          More from HongBao
+        <% end %>
+      </li>
+      </ul>
+      <div class="flex items-center justify-around p-4">
+        <%= link_to x_url, target: "_blank", rel: "noopener noreferrer" do %>
+            <%= image_tag "x.svg", class: "w-5 h-5" %>
+        <% end %>
+        <%= link_to linkedin_url, target: "_blank", rel: "noopener noreferrer" do %>
+            <%= image_tag "linkedin.svg", class: "w-5 h-5" %>
+        <% end %>
+        <%= link_to github_url, target: "_blank", rel: "noopener noreferrer" do %>
+          <%= github_icon size: 5 %>
+        <% end %>
+        <%= link_to etsy_url, target: "_blank", rel: "noopener noreferrer" do %>
+          <%= image_tag "etsy.png", class: "w-5 h-5" %>
+        <% end %>
+      </div>
     </ul>
   <% end %>
 <% end %>

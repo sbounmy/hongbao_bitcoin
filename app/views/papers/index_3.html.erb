@@ -1,62 +1,64 @@
-<div class="my-12">
-  <%= render CollapseComponent.new do |component| %>
-    <%# --- Header Content --- %>
-    <% component.with_summary do %>
-      <div class="flex items-center gap-4">
-        <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">New Features</span>
-        <h2 class="text-xl font-serif hidden md:block">A new dimension of gifting.</h2>
+<div class="overflow-y-auto h-full">
+  <div class="my-12">
+    <%= render CollapseComponent.new do |component| %>
+      <%# --- Header Content --- %>
+      <% component.with_summary do %>
+        <div class="flex items-center gap-4">
+          <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">New Features</span>
+          <h2 class="text-xl font-serif hidden md:block">A new dimension of gifting.</h2>
+        </div>
+      <% end %>
+
+      <%# --- Body Content --- %>
+      <div class="mt-8 text-center max-w-3xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-serif font-bold">A whole new level of creative control.</h1>
+        <p class="mt-4 text-lg text-gray-400">
+          Unlock your inner artist, at any skill level. Start with a beautiful design, then break it open—upload your own images, rewrite the text, and remix the vibe. Creative control is at your fingertips.
+        </p>
+        <div class="mt-8">
+          <%= link_to "Create Your Hongbao", "#", class: "bg-white text-black font-semibold px-8 py-3 rounded-full transition-transform hover:scale-105" %>
+        </div>
+      </div>
+
+      <%# Feature Cards %>
+      <div class="grid md:grid-cols-3 gap-6 mt-12 text-center">
+        <div class="bg-black/50 p-6 rounded-xl">
+          <h3 class="font-semibold mt-4">Scan Paper</h3>
+          <p class="text-sm text-gray-400 mt-1">Bring physical designs into the digital world.</p>
+        </div>
+        <div class="bg-black/50 p-6 rounded-xl">
+          <h3 class="font-semibold mt-4">Generate PDF</h3>
+          <p class="text-sm text-gray-400 mt-1">Create high-quality, printable PDFs of your designs.</p>
+        </div>
+        <div class="bg-black/50 p-6 rounded-xl">
+          <h3 class="font-semibold mt-4">Custom Bills</h3>
+          <p class="text-sm text-gray-400 mt-1">Upload any photo to generate a unique bill.</p>
+        </div>
       </div>
     <% end %>
+  </div>
 
-    <%# --- Body Content --- %>
-    <div class="mt-8 text-center max-w-3xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-serif font-bold">A whole new level of creative control.</h1>
-      <p class="mt-4 text-lg text-gray-400">
-        Unlock your inner artist, at any skill level. Start with a beautiful design, then break it open—upload your own images, rewrite the text, and remix the vibe. Creative control is at your fingertips.
-      </p>
-      <div class="mt-8">
-        <%= link_to "Create Your Hongbao", "#", class: "bg-white text-black font-semibold px-8 py-3 rounded-full transition-transform hover:scale-105" %>
+  <section id='papers'>
+    <div class='flex flex-col md:flex-row gap-4'>
+      <div>
+        <h3 class="text-xl font-bold">Latest</h3>
+        <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold">Creators</h3>
+        <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
       </div>
     </div>
+  </section>
 
-    <%# Feature Cards %>
-    <div class="grid md:grid-cols-3 gap-6 mt-12 text-center">
-      <div class="bg-black/50 p-6 rounded-xl">
-        <h3 class="font-semibold mt-4">Scan Paper</h3>
-        <p class="text-sm text-gray-400 mt-1">Bring physical designs into the digital world.</p>
-      </div>
-      <div class="bg-black/50 p-6 rounded-xl">
-        <h3 class="font-semibold mt-4">Generate PDF</h3>
-        <p class="text-sm text-gray-400 mt-1">Create high-quality, printable PDFs of your designs.</p>
-      </div>
-      <div class="bg-black/50 p-6 rounded-xl">
-        <h3 class="font-semibold mt-4">Custom Bills</h3>
-        <p class="text-sm text-gray-400 mt-1">Upload any photo to generate a unique bill.</p>
-      </div>
+  <section class="my-12">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Upcoming Bitcoin Days</h3>
+      <%= link_to "Show More >", "#", class: "text-sm font-semibold text-gray-400 hover:text-white" %>
     </div>
-  <% end %>
+    <div class="flex gap-4 overflow-x-auto">
+      <%# Query for all events, order them by anniversary, and display them %>
+      <%= render Events::CardComponent.with_collection(Input::Event.find_by_anniversary) %>
+    </div>
+  </section>
 </div>
-
-<section id='papers'>
-  <div class='flex flex-col md:flex-row gap-4'>
-    <div>
-      <h3 class="text-xl font-bold">Latest</h3>
-      <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
-    </div>
-    <div>
-      <h3 class="text-xl font-bold">Creators</h3>
-      <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
-    </div>
-  </div>
-</section>
-
-<section class="my-12">
-  <div class="flex items-center justify-between mb-4">
-    <h3 class="text-xl font-bold">Upcoming Bitcoin Days</h3>
-    <%= link_to "Show More >", "#", class: "text-sm font-semibold text-gray-400 hover:text-white" %>
-  </div>
-  <div class="flex gap-4 overflow-x-auto">
-    <%# Query for all events, order them by anniversary, and display them %>
-    <%= render Events::CardComponent.with_collection(Input::Event.find_by_anniversary) %>
-  </div>
-</section>
