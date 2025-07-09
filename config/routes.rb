@@ -116,6 +116,10 @@ Rails.application.routes.draw do
     "https://open.spotify.com/artist/3cBbIJWNXmi5JwCewN7SlN"
   end
 
+  direct :reddit do
+    "https://www.reddit.com/r/HongBaoBitcoin/"
+  end
+
   # Direct route to generate Gravatar URLs
   # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
   direct :gravatar do |email, options = {}|
