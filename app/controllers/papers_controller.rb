@@ -1,6 +1,5 @@
 class PapersController < ApplicationController
-  layout "offline", only: [ :show ]
-  layout "main", only: [ :new, :index_3 ]
+  layout :set_layout
   allow_unauthenticated_access only: [ :show, :index ]
   helper_method :testnet?
   before_action :set_network
@@ -44,5 +43,15 @@ class PapersController < ApplicationController
 
   def set_network
     Current.network = testnet? ? :testnet : :mainnet
+  end
+
+  private
+
+  def set_layout
+    if action_name == "show"
+      "offline"
+    else
+      "main"
+    end
   end
 end
