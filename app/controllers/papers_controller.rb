@@ -15,7 +15,6 @@ class PapersController < ApplicationController
 
   def index_3
     @styles = Input::Style.with_attached_image
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
   end
@@ -32,7 +31,7 @@ class PapersController < ApplicationController
     @bundle = Bundle.new
     @styles = Input::Style.with_attached_image
     @themes = Input::Theme.with_attached_image
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+    @papers = current_user.papers.active.recent.with_attached_image_front.with_attached_image_back
   end
 
   private
