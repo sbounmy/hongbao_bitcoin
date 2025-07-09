@@ -52,47 +52,40 @@ class Input::Theme < Input
   def self.default_ai_elements
     {
       "private_key_qrcode" => {
-        "x" => 0.12,
-        "y" => 0.38,
-        "size" => 0.17,
+        "x" => 12,
+        "y" => 38,
+        "size" => 17,
         "color" => "224, 120, 1",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "private_key_text" => {
-        "x" => 0.15,
-        "y" => 0.35,
+        "x" => 15,
+        "y" => 35,
         "size" => 14,
         "color" => "224, 120, 1",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
+        "x" => 55,
+        "y" => 24,
+        "size" => 25,
         "color" => "224, 120, 1",
-        "max_text_width" => 100,
+        "max_text_width" => 12,
         "hidden" => true
       },
-      "app_public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100
-      },
       "public_address_text" => {
-        "x" => 0.55,
-        "y" => 0.24,
+        "x" => 55,
+        "y" => 24,
         "size" => 18,
         "color" => "0, 0, 0",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "mnemonic_text" => {
-        "x" => 0.2,
-        "y" => 0.2,
+        "x" => 20,
+        "y" => 20,
         "size" => 16,
         "color" => "0, 0, 0",
-        "max_text_width" => 100
+        "max_text_width" => 12
       }
     }
   end
