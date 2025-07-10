@@ -67,7 +67,7 @@ class HongBaosController < ApplicationController
   end
   def set_layout
     if request.format.html?
-      :offline
+      "offline"
     else
       false
     end
