@@ -1,8 +1,13 @@
-<details class="collapse collapse-arrow bg-white border rounded-2xl" <%= "open" if open %>>
-  <summary class="collapse-title">
+<div class="collapse collapse-arrow bg-white border rounded-2xl"
+     data-controller="collapse"
+     data-collapse-id-value="<%= @id %>"
+     data-collapse-open-value="<%= @open %>">
+
+  <div class="collapse-title cursor-pointer" data-action="click->collapse#toggle">
     <%= summary %>
-  </summary>
+  </div>
+
   <div class="collapse-content">
     <%= content %>
   </div>
-</details>
+</div>

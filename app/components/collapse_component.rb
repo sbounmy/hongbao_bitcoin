@@ -5,11 +5,13 @@ class CollapseComponent < ApplicationComponent
   renders_one :summary
 
   # @param open [Boolean] Whether the collapsible is open by default.
-  def initialize(open: false)
+  # @param id [String] A unique identifier for the collapsible.
+  def initialize(id:, open: false)
+    @id = id
     @open = open
   end
 
   private
 
-  attr_reader :open
+  attr_reader :open, :id
 end

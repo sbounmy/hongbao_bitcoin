@@ -13,6 +13,9 @@ application.register('carousel', Carousel)
 import GalleryController from "./gallery_controller"
 application.register("gallery", GalleryController)
 
+import Collapse from './collapse_controller'
+application.register('collapse', Collapse)
+
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
