@@ -106,9 +106,17 @@ export default class extends Controller {
   async download(event) {
     event.preventDefault()
 
+    const originalTransform = this.contentTarget.style.transform
+    const originalScrollTop = this.viewportTarget.scrollTop
+    const originalScrollLeft = this.viewportTarget.scrollLeft
+
     try {
+      this.contentTarget.style.transform = '' // Remove zoom transform
+      this.viewportTarget.scrollTop = 0       // Scroll to top
+      this.viewportTarget.scrollLeft = 0      // Scroll to left
       // Convert content to canvas
       const canvas = await html2canvas(this.contentTarget, {
+        
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
         logging: true, // Enabled logging
@@ -157,6 +165,10 @@ export default class extends Controller {
     } catch (error) {
       console.error("PDF generation failed:", error)
       this.dispatch("error", { detail: { error: error.message } })
+    } finally {
+      this.contentTarget.style.transform = originalTransform
+      this.viewportTarget.scrollTop = originalScrollTop
+      this.viewportTarget.scrollLeft = originalScrollLeft
     }
   }
 }
