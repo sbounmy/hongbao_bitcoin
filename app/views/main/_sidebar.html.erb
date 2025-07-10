@@ -10,7 +10,25 @@
           <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %> Hong₿ao
         <% end %>
       </li>
-      <% if authenticated? && current_user %>
+      <li>
+        <%= link_to dashboard_3_path, class: "text-base" do %>
+          <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.home") %>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_paper_path, class: "text-base" do %>
+          <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.create") %>
+        <% end %>
+      </li>
+
+      <div class="flex-grow"></div>
+      <ul class='flex flex-col gap-2'>
+        <li>
+          <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
+        </li>
+        <% if authenticated? && current_user %>
         <li>
           <details>
             <summary class="flex items-center gap-2 p-2">
@@ -33,22 +51,6 @@
         </li>
       <% end %>
       <li>
-        <%= link_to dashboard_3_path, class: "text-base" do %>
-          <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
-          <%= t("layouts.main.footer.home") %>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to new_paper_path, class: "text-base" do %>
-          <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
-          <%= t("layouts.main.footer.create") %>
-        <% end %>
-      </li>
-
-      <div class="flex-grow"></div>
-      <ul class='flex flex-col gap-2'>
-      <li>
-        <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
         <%= link_to "#", class: "text-base" do %>
           <%= heroicon "gift", variant: :outline, class: "w-6 h-6" %>
           Invite friends
