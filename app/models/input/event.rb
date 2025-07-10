@@ -22,4 +22,8 @@ class Input::Event < Input
   def date
     Date.parse(super)
   end
+
+  def age
+    Date.today.year - date.year
+  end
 end

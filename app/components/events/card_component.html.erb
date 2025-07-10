@@ -9,8 +9,9 @@
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
     <div class="relative h-full flex flex-col justify-between p-3 text-white">
-      <div class="flex justify-end">
-        <span class="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-md">in <%= distance_of_time_in_words(Date.today, event.anniversary) %></span>
+      <div class="flex justify-between">
+        <span class="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-2"><%= heroicon "cake", class: "w-4 h-4 inline-block -mt-1" %> <%= event.age %>y</span>
+        <span class="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-2"><%= heroicon "calendar", class: "w-4 h-4" %> in <%= distance_of_time_in_words(Date.today, event.anniversary) %></span>
       </div>
 
       <div class="flex-1 flex items-center justify-center">
