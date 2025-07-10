@@ -10,6 +10,9 @@ import "swiper/css/bundle"
 import Carousel from '@stimulus-components/carousel'
 application.register('carousel', Carousel)
 
+import GalleryController from "./gallery_controller"
+application.register("gallery", GalleryController)
+
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 

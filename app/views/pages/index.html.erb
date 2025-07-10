@@ -3,7 +3,7 @@
 <div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
   <%= render "shared/header" %>
   <!-- Main text content -->
-  <div class="relative px-4 pt-12 sm:pt-22 md:pt-24 z-10 mb-10">
+  <div class="relative px-4 pt-16 sm:pt-22 md:pt-24 z-10 mb-10">
     <div class="mb-3 md:mb-4">
       <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-black">
       <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-7.5 w-7.5 align-middle -mt-1" %>
@@ -11,22 +11,29 @@
       </span>
     </div>
 
-    <h1 class="text-5xl md:text-6xl lg:text-8xl font-semibold text-black leading-tight mb-8 md:mb-10">
+    <h1 class="text-4xl md:text-6xl lg:text-8xl font-semibold text-black leading-tight mb-8 md:mb-10">
       The freedom of Bitcoin.<br/>
       In an envelope.
     </h1>
 
-    <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-      <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-      <span class="inline-block">Gift now</span>
-    <% end %>
+    <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+      <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+        <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Buy Envelope</span>
+      <% end %>
+
+      <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+        <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Print paper wallet</span>
+      <% end %>
+    </div>
   </div>
 
   <!-- Bitcoin Red Envelope Mockup -->
-  <div data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle" class="group absolute bottom-0 left-1/2 -translate-x-1/2 w-60 md:w-86 lg:w-96 z-0 mb-[-100px] md:mb-[-188px]">
-		<div class="w-full h-full cursor-pointer relative transition-transform duration-700 ease-in-out group-[.is-flipped]:[transform:rotateY(180deg)] group-[.is-flipped]:z-40 [transform-style:preserve-3d] min-h-[280px]">
+  <div data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle" class="group absolute bottom-0 left-1/2 -translate-x-1/2 w-60 md:w-72 lg:w-96 z-0 mb-[-100px] md:mb-[-188px]">
+        <div class="w-full h-full cursor-pointer relative transition-transform duration-700 ease-in-out group-[.is-flipped]:[transform:rotateY(180deg)] group-[.is-flipped]:z-40 [transform-style:preserve-3d] min-h-[280px]">
       <!-- Front Face -->
-			<div class="w-full h-full flex flex-col justify-center items-start space-y-4 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
+            <div class="w-full h-full flex flex-col justify-center items-start space-y-4 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
       data-action="click->reveal#show">
       	<%= image_tag image_url("index/red_front.jpg"), class: "brightness-100 rounded shadow-uplift" %>
 			</div>
@@ -40,47 +47,51 @@
 </div>
 
 <section data-scroll-reveal-target="item" data-action="click->reveal#toggle" class="reveal  flex flex-col items-center justify-center bg-white px-8 py-24 text-black/80">
-  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-8">With Hong₿ao, we completely reinvented the paper wallet.<br/>Your keys are home-printed right on the bill — beautifully laid out and easy to understand.. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<br/>Built-in features like offline mode, custom keys import and a timeless red envelope keep your gifted Bitcoin safe for generations. <br/>It's everything a gift should be.</p>
+  <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-center max-w-7xl px-0 sm:px-8">With Hong₿ao, we completely reinvented the paper wallet.<br/>Your keys are home-printed right on the bill — beautifully laid out and easy to understand.. We eliminated KYC and built tools to help your recipient learn Bitcoin, and you can create one in minutes.<br/>Built-in features like offline mode, custom keys import and a timeless red envelope keep your gifted Bitcoin safe for generations. <br/>It's everything a gift should be.</p>
 </section>
 
 <section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
 
 
   <%= render CardComponent.new(clickable: false, class: 'col-span-full overflow-hidden') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
+    <%= card.with_front(class: '!cursor-default p-8 sm:p-12') do %>
 			<div class="flex flex-col md:flex-row gap-4 w-full">
 				<%= image_tag image_url("index/red_front.jpg"), class: "w-full hidden md:block md:w-1/3 rounded md:-mb-20" %>
 				<div class='flex grow flex-col gap-4 '>
-					<div class='text-5xl font-semibold reveal' data-scroll-reveal-target="item" data-delay="500ms">
+					<div class='text-4xl sm:text-5xl font-semibold reveal' data-scroll-reveal-target="item" data-delay="500ms">
 						<p>Designed by AI.</p>
 						<p>Backed by Bitcoin.</p>
 					</div>
 					<div class='w-full'>
 						<%= render 'shared/diffs', class: 'z-99' %>
 					</div>
+          <%= link_to paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+            <%= heroicon "sparkles", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+            <span class="inline-block">Try it now</span>
+          <% end %>
 				</div>
 			</div>
     <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default text-white bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]') do %>
-			<p class='text-7xl font-semibold'>No <br/>KYC.</p>
-			<p class='text-7xl font-semibold'>No fees.</p>
-			<p class='text-7xl font-semibold'>No limits.</p>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default text-white bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]') do %>
+			<p class='text-5xl sm:text-6xl md:text-7xl font-semibold'>No <br/>KYC.</p>
+			<p class='text-5xl sm:text-6xl md:text-7xl font-semibold'>No fees.</p>
+			<p class='text-5xl sm:text-6xl md:text-7xl font-semibold'>No limits.</p>
     <% end %>
   <% end %>
 
  <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
-    	<p class='text-4xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
+    	<p class='text-5xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
     <% end %>
   <% end %>
 
 	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default bg-black/80 text-white') do %>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-black/80 text-white') do %>
 			<div class='flex flex-col md:flex-row gap-8'>
-				<p class='text-6xl md:text-8xl font-semibold'>There is<br/> no second best</p>
+				<p class='text-5xl md:text-6xl lg:text-8xl font-semibold'>There is<br/> no second best</p>
 				<div class="flex flex-col lg:flex-row gap-6">
 								<%# Item: Weddings %>
 					<div class="flex items-center gap-2 group">
@@ -136,8 +147,8 @@
     <% end %>
   <% end %>
 
-	<%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'bg-gradient-to-br from-sky-400 to-emerald-400 text-white') do %>
+	<%= render CardComponent.new(clickable: false, class: 'h-full') do |card| %>
+    <%= card.with_front(class: 'p-8 sm:p-12 bg-gradient-to-br from-sky-400 to-emerald-400 text-white') do %>
     	<p class='text-2xl lg:text-6xl font-semibold'>Be your<br/>own ₿ank.</p>
  			<%= render "shared/v2/papers_marquee", papers: @papers %>
     <% end %>
@@ -146,8 +157,8 @@
     <% end %>
   <% end %>
 
-	<%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front do %>
+	<%= render CardComponent.new(clickable: false, class: 'h-full') do |card| %>
+    <%= card.with_front(class: "p-8 sm:p-12") do %>
 			<div class="flex flex-col gap-4 h-full justify-between">
 				<p class='text-2xl lg:text-6xl font-semibold bg-gradient-to-r from-blue-500 via-cyan-500 to-green-500 bg-clip-text text-transparent'>No matter<br/>where you're from.</p>
 				<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
@@ -161,15 +172,15 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
-      <p class='text-7xl lg:text-14xl xl:text-16xl font-semibold'>Turn gifts <br/>into lifetime<br/> savings.</p>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
+      <p class='text-5xl sm:text-6xl lg:text-14xl xl:text-16xl font-semibold'>Turn gifts <br/>into lifetime<br/> savings.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
 			<%= image_tag image_url("index/cash-graph.jpg") %>
     <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
       <%= image_tag image_url("index/family-friends.jpg") %>
       <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Amaze Friends & Family.</p>
       <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
@@ -177,9 +188,9 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full overflow-auto') do |card| %>
-    <%= card.with_front(class: '!cursor-default bg-white') do %>
+    <%= card.with_front(class: '!cursor-default bg-white p-1 sm:p-12') do %>
 		<%# Container with masonry layout %>
-			<div class="max-w-7xl mx-auto columns-1 lg:columns-2 space-y-4">
+			<div class="w-full mx-auto columns-1 lg:columns-2 space-y-4">
 				<%# Copy paste reviews here from https://publish.twitter.com/ DO NOT COPY/PASTE THE SCRIPT TAGS %>
 					<blockquote class="twitter-tweet" data-conversation="none" data-theme="light">
 						<p lang="en" dir="ltr">This is fun. And somehow, it has value. <a href="https://twitter.com/hashtag/Bitcoin?src=hash&amp;ref_src=twsrc%5Etfw">#Bitcoin</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1910327335842181282?ref_src=twsrc%5Etfw">April 10, 2025</a>
@@ -193,29 +204,31 @@
 
 			<%# Twitter Widget Script %>
 			<%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
-      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
-      <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
+      <div class="p-6 mb-3">
+        <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
+        <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
+      </div>
     <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default bg-orange-400') do %>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-orange-400') do %>
       <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
       <h4 class='text-xl md:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
-      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
-      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
-      <p class='text-6xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
+      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
+      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
+      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
     <% end %>
   <% end %>
 
   <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
+    <%= card.with_front(class: 'p-4 sm:p-8 md:p-12 !cursor-default') do %>
       <%= render "shared/faq" %>
     <% end %>
   <% end %>
 
-  <%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default') do %>
+  <%= render CardComponent.new(id: 'pricing', class: 'col-span-full h-full') do |card| %>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
       <%= render V3::PricingComponent.new(title: false) do |component| %>
         <% component.with_plans(StripeService.fetch_products) %>
       <% end %>
@@ -223,7 +236,7 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'bg-green-400') do %>
+    <%= card.with_front(class: 'p-8 sm:p-12 bg-green-400') do %>
       <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>Built by Bitcoiners<br/>for Bitcoiners</p>
       <%= image_tag image_url("index/team.jpg"), class: "w-full shadow-uplift rounded" %>
     <% end %>
@@ -242,7 +255,7 @@
   <% end %>
 
   <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: '!cursor-default bg-white') do %>
+    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-white p-12') do %>
       <div class='flex flex-col gap-20'>
         <%= image_tag image_url("index/mtpelerin.svg"), class: "" %>
       <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified <br/>Company<br/> Bitcoin Exchange</p>
@@ -256,12 +269,19 @@
   <div class="hero-content text-center">
     <div class="max-w-7xl space-y-6">
       <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-20 w-20" %>
-      <p class='text-6xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
+      <p class='text-5xl lg:text-8xl xl:text-10xl font-bold text-black'>Get Started <br/>with Hong₿ao</p>
       <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Create your custom Bill and put it in an envelope</p>
-      <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-        <%= heroicon "printer", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-        <span class="inline-block">Gift now</span>
-      <% end %>
+      <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+        <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+          <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Buy Envelope</span>
+        <% end %>
+
+        <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+          <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+          <span class="inline-block">Print paper wallet</span>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
@@ -276,7 +296,7 @@
         <%# Card 1: Paper wallet generator %>
         <%= link_to dashboard_path, class: "block group" do %>
           <%= render CardComponent.new do |card| %>
-            <%= card.with_front(class: "!cursor-pointer bg-stone-300 !text-black flex flex-col !justify-start") do %>
+            <%= card.with_front(class: "p-8 sm:p-12 !cursor-pointer bg-stone-300 !text-black flex flex-col !justify-start") do %>
               <div class="text-center space-y-2 w-full">
                 <h3 class="text-lg font-semibold text-gray-800">Paper Wallet</h3>
                 <p class="text-3xl font-bold tracking-tight">Carry one thing.<br>Everything.</p>
@@ -292,7 +312,7 @@
         <%# Card 2: Blog %>
         <%= link_to '/blog', class: "block group" do %>
           <%= render CardComponent.new do |card| %>
-            <%= card.with_front(class: "!cursor-pointer bg-blue-500 text-white flex flex-col text-center !justify-start") do %>
+            <%= card.with_front(class: "p-8 sm:p-12 !cursor-pointer bg-blue-500 text-white flex flex-col text-center !justify-start") do %>
               <div class="text-center space-y-2 w-full">
                 <h3 class="text-lg font-semibold text-blue-100">Hongbao Blog</h3>
                 <p class="text-3xl font-bold tracking-tight">News, updates,<br>and stories.</p>
@@ -307,7 +327,7 @@
 
         <%# Card 3: Karaoké %>
         <%= render CardComponent.new(clickable: false) do |card| %>
-          <%= card.with_front(class: "bg-gray-900 text-white flex flex-col !justify-start") do %>
+          <%= card.with_front(class: "p-8 sm:p-12 bg-gray-900 text-white flex flex-col !justify-start") do %>
             <div class="text-center space-y-2 w-full">
               <h3 class="text-lg font-semibold text-gray-400">Karaoke</h3>
               <p class="text-3xl font-bold tracking-tight">Sing along<br>with our favorites.</p>

@@ -1,10 +1,13 @@
 <% content_for :skip_analytics, true %>
+<% content_for :head do %>
+  <meta name="robots" content="noindex, follow">
+<% end %>
 <!-- Right Column - Fixed Form -->
 <%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
 <%= content_for :title, @paper.name if @paper.name.present? %>
-<div class="w-full md:h-screen relative flex flex-col">
+<div class="w-full md:h-full relative">
   <%= render "shared/header" %>
-  <div class="flex-1 min-h-0 flex items-center justify-center p-8 bg-[#F04747] overflow-hidden">
+  <div class="flex-1 min-h-0 flex flex-col items-center justify-center p-8 bg-[#F04747] overflow-hidden">
     <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
                 rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
                 flex flex-col">

@@ -20,7 +20,6 @@ class Paper < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
 
   ELEMENTS = %w[
-    app_public_address_qrcode
     private_key_qrcode
     private_key_text
     public_address_qrcode
@@ -46,7 +45,7 @@ class Paper < ApplicationRecord
   end
 
   def front_elements
-    elements.slice("public_address_qrcode", "app_public_address_qrcode", "public_address_text")
+    elements.slice("public_address_qrcode", "public_address_text")
   end
 
   def back_elements
