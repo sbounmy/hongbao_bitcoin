@@ -3,13 +3,13 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :tokens, dependent: :destroy
 
-  enum status: {
+  enum :status, {
     pending: "pending",
     completed: "completed",
     failed: "failed"
   }
 
-  enum payment_provider: {
+  enum :payment_provider, {
     stripe: "stripe",
     btcpay: "btcpay"
   }
