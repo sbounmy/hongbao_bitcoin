@@ -38,7 +38,7 @@ module Events
     end
 
     def event_year
-      event_date.strftime("%y")
+      event_date.strftime("%Y")
     end
   end
 end
