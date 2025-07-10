@@ -1,39 +1,46 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full">
-  <div class="px-4">
+
+  <div class="px-4 text-gray-800">
     <%= render CollapseComponent.new(open: true) do |component| %>
-      <%# --- Header Content --- %>
       <% component.with_summary do %>
-        <div class="flex items-center gap-4">
-          <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">New Features</span>
-          <h2 class="text-xl font-serif hidden md:block">A new dimension of gifting.</h2>
+        <div class="flex items-center justify-between w-full">
+          <div class="flex items-center gap-2">
+            <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">BITCOIN GIFTING</span>
+            <h2 class="text-xl font-serif font-semibold">Buy traditional red envelopes</h2>
+          </div>
+          <div class="flex items-center gap-4">
+            <p class="text-sm text-gray-500 hidden md:block">Free credits included</p>
+          </div>
         </div>
       <% end %>
-
-      <%# --- Body Content --- %>
-      <div class="mt-8 text-center max-w-3xl mx-auto">
-        <h1 class="text-5xl md:text-6xl font-serif font-bold">A whole new level of creative control.</h1>
-        <p class="mt-4 text-lg text-gray-400">
-          Unlock your inner artist, at any skill level. Start with a beautiful design, then break it open—upload your own images, rewrite the text, and remix the vibe. Creative control is at your fingertips.
-        </p>
-        <div class="mt-8">
-          <%= link_to "Create Your Hongbao", "#", class: "bg-white text-black font-semibold px-8 py-3 rounded-full transition-transform hover:scale-105" %>
+      <div class="mt-8">
+        <div class="flex flex-col lg:flex-row items-center gap-20 px-4">
+          <div class="">
+            <%= image_tag image_url("papers/dimensions.png"), class: "w-full" %>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+              <%= heroicon "bolt", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+              <h3 class="font-semibold text-lg">Striking Design</h3>
+              <p class="text-sm text-gray-400 text-center">A beautiful, collectible Bitcoin design on premium red paper.</p>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+              <%= heroicon "check-badge", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+              <h3 class="font-semibold text-lg">Superior Quality</h3>
+              <p class="text-sm text-gray-400 text-center">Thick, durable paper with a luxurious feel, built to last.</p>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+              <%= heroicon "chat-bubble-left-right", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+              <h3 class="font-semibold text-lg">Inspiring Quotes</h3>
+              <p class="text-sm text-gray-400 text-center">Features one of six different quotes from Bitcoin pioneers.</p>
+            </div>
+          </div>
         </div>
       </div>
-
-      <%# Feature Cards %>
-      <div class="grid md:grid-cols-3 gap-6 mt-12 text-center">
-        <div class="bg-black/50 p-6 rounded-xl">
-          <h3 class="font-semibold mt-4">Scan Paper</h3>
-          <p class="text-sm text-gray-400 mt-1">Bring physical designs into the digital world.</p>
-        </div>
-        <div class="bg-black/50 p-6 rounded-xl">
-          <h3 class="font-semibold mt-4">Generate PDF</h3>
-          <p class="text-sm text-gray-400 mt-1">Create high-quality, printable PDFs of your designs.</p>
-        </div>
-        <div class="bg-black/50 p-6 rounded-xl">
-          <h3 class="font-semibold mt-4">Custom Bills</h3>
-          <p class="text-sm text-gray-400 mt-1">Upload any photo to generate a unique bill.</p>
-        </div>
+      <div class="mt-8 text-center">
+        <%= link_to pricing_path, class: "btn btn-primary rounded-full" do %>
+          <span>Buy now</span>
+        <% end %>
       </div>
     <% end %>
   </div>
