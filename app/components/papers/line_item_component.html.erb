@@ -34,15 +34,15 @@
       <%# Stats %>
       <div class="flex items-center gap-4 ml-auto text-xs md:ml-0">
         <div class="flex items-center gap-1" title="Plays">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 3.6a.7.7 0 0 0-1.1.5v11.8a.7.7 0 0 0 1.1.5l9.5-5.9a.7.7 0 0 0 0-1.1L6.3 3.6Z"/></svg>
+          <%= heroicon "play", variant: :solid, class: "w-4 h-4" %>
           <span><%= play_count %></span>
         </div>
         <div class="flex items-center gap-1" title="Likes">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M11.2 3.1a1.5 1.5 0 0 1 1.6 0l2.5 2.2a1.5 1.5 0 0 1 .4 1.1v6.5a1.5 1.5 0 0 1-1.5 1.5h-5.9a1.5 1.5 0 0 1-1.5-1.5v-2.8l-1.1-3.6a1.5 1.5 0 0 1 .6-1.7l2.5-1.9Z"/><path d="M4.5 15V8.5a1.5 1.5 0 0 1 3 0V15a1.5 1.5 0 0 1-3 0Z"/></svg>
+          <%= heroicon "hand-thumb-up", variant: :solid, class: "w-4 h-4" %>
           <span><%= like_count %></span>
         </div>
         <div class="flex items-center gap-1" title="Comments">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM6.33 6.22a.75.75 0 0 1 1.06 0l.22.22c.29.29.29.77 0 1.06L6.55 8.56a.25.25 0 0 0 0 .35l1.06 1.06c.29.29.29.77 0 1.06l-.22.22a.75.75 0 0 1-1.06 0L4.72 9.97a.75.75 0 0 1 0-1.06l1.61-1.61Zm3.94 0a.75.75 0 0 1 1.06 0l1.61 1.61a.75.75 0 0 1 0 1.06L11.45 9.97a.75.75 0 0 1-1.06 0l-.22-.22a.75.75 0 0 0-1.06 0L7.82 11.06a.25.25 0 0 0-.02.02.75.75 0 0 1-1.06-1.06l.22-.22c.29-.29.77-.29 1.06 0l1.06 1.06c.29.29.77.29 1.06 0l1.06-1.06a.25.25 0 0 0 0-.35L10.28 6.22Z" clip-rule="evenodd" /></svg>
+          <%= heroicon "chat-bubble-left-right", variant: :solid, class: "w-4 h-4" %>
           <span><%= comment_count %></span>
         </div>
       </div>
