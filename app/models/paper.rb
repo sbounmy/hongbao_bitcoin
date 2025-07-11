@@ -34,7 +34,7 @@ class Paper < ApplicationRecord
   store :elements, accessors: ELEMENTS, prefix: true
 
   def input_items
-    bundle.input_items.where(id: input_item_ids)
+    bundle&.input_items&.where(id: input_item_ids) || []
   end
 
   def input_items=(input_items)
