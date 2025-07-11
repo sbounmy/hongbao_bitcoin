@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :show, :index, :index_3 ]
+  allow_unauthenticated_access
   helper_method :testnet?
   before_action :set_network
 
@@ -31,10 +31,14 @@ class PapersController < ApplicationController
     @bundle.input_items.build(input: Input::Theme.first)
     @styles = Input::Style.with_attached_image
     @themes = Input::Theme.with_attached_image
-    @papers = current_user.papers.active.recent.with_attached_image_front.with_attached_image_back
+    @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
   end
 
   private
+
+  def paper_scope
+    current_user ? current_user.papers : Paper
+  end
 
   def testnet?
     value = ActiveModel::Type::Boolean.new.cast(params[:testnet])
