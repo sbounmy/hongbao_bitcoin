@@ -20,6 +20,9 @@ class Paper < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :events, -> { joins(:input_items).where(input_items: { input_type: "Input::Event" }) }
 
+  include ArrayColumns
+  array_columns :input_ids
+
   ELEMENTS = %w[
     private_key_qrcode
     private_key_text

@@ -53,3 +53,14 @@ dollar:
       }
     }
 
+pizza_day:
+  id: 2
+  name: "Pizza Day"
+  ai_style_id: 0
+  message_id: 1
+  active: true
+  created_at: "2025-05-05T10:07:56.136Z"
+  updated_at: "2025-05-05T10:16:20.522Z"
+  input_ids:
+  - "15" # pizza_day (dont ask me why this should be a string)
+

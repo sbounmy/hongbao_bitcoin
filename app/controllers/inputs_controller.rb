@@ -1,8 +1,11 @@
 class InputsController < ApplicationController
   allow_unauthenticated_access
+  layout "main"
 
   def show
     @input = Input.find(params[:id])
+    @papers = Paper.with_all_input_ids(@input.id).order(created_at: :desc)
+
     if @input.renderable
       render "inputs/#{@input.type.split("::").last.downcase.pluralize}/show"
     else

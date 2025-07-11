@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_06_150530) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_11_100606) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -186,11 +186,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_06_150530) do
     t.integer "bundle_id"
     t.json "input_item_ids", default: "[]"
     t.integer "message_id"
+    t.json "input_ids", default: [], null: false
     t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
     t.index ["message_id"], name: "index_papers_on_message_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
+    t.check_constraint "JSON_TYPE(input_ids) = 'array'", name: "paper_input_ids_is_array"
   end
 
   create_table "payment_methods", force: :cascade do |t|
