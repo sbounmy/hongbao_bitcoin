@@ -5,12 +5,12 @@
     <% else %>
       <div class="absolute inset-0 bg-gray-800"></div>
     <% end %>
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="absolute inset-0 bg-black/40 bg-opacity-50"></div>
     <div class="relative h-full flex flex-col justify-end p-8 text-white">
       <h1 class="text-5xl font-bold font-serif"><%= @input.name %></h1>
       <p class="text-xl text-gray-300"><%= @input.date.strftime("%B %d, %Y") %></p>
-      <% if @input.prompt.present? %>
-        <p class="mt-4 max-w-2xl"><%= @input.prompt %></p>
+      <% if @input.description.present? %>
+        <p class="mt-4 max-w-2xl"><%= @input.description %></p>
       <% end %>
     </div>
   </div>

@@ -25,10 +25,10 @@
 
       <div class="flex-grow"></div>
       <ul class='flex flex-col gap-2'>
+        <% if authenticated? && current_user %>
         <li>
           <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
         </li>
-        <% if authenticated? && current_user %>
         <li>
           <details>
             <summary class="flex items-center gap-2 p-2">

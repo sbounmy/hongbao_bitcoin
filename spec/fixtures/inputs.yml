@@ -445,7 +445,8 @@ pizza_day:
   type: "Input::Event"
   metadata: |
     {
-      "date": "2010-05-22"
+      "date": "2010-05-22",
+      "description": "Pizza Day is the first commercial transaction on the Bitcoin network. 2 Pizzas were bought for 10,000 BTC by Laszlo Hanyecz, a Bitcoin enthusiast and was the first GPU miner."
     }
 
 genesis:
@@ -454,7 +455,8 @@ genesis:
   type: "Input::Event"
   metadata: |
     {
-      "date": "2009-01-03"
+      "date": "2009-01-03",
+      "description": "The first block on the Bitcoin network was mined by Satoshi Nakamoto on January 3, 2009. He encrypted the message 'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks' in the block."
     }
 
 first_halving:

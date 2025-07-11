@@ -3,7 +3,7 @@
 class Input::Event < Input
   self.renderable = true
 
-  store :metadata, accessors: [ :date ]
+  store :metadata, accessors: [ :date, :description ]
 
   # Doing this in ruby because date is stored as a string in a jsonb column.
   # We won't have millions of events, so it's not a big deal.

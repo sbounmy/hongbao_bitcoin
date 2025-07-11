@@ -1,0 +1,27 @@
+<div class="overflow-y-auto flex flex-col gap-8 h-full">
+  <div class="relative h-96 rounded-lg overflow-hidden -m-4">
+    <% if @input.image.attached? %>
+      <%= image_tag @input.image, class: "absolute inset-0 w-full h-full object-cover" %>
+    <% else %>
+      <div class="absolute inset-0 bg-gray-800"></div>
+    <% end %>
+    <div class="absolute inset-0 bg-black/40 bg-opacity-50"></div>
+    <div class="relative h-full flex flex-col justify-end p-8 text-white">
+      <h1 class="text-5xl font-bold font-serif"><%= @input.name %></h1>
+    </div>
+  </div>
+
+  <section id="papers" class="px-4">
+    <h3 class="text-2xl font-bold mb-4">Creations</h3>
+    <% if @papers.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <%= render Papers::ItemComponent.with_collection(@papers, broadcast: false) %>
+      </div>
+    <% else %>
+      <div class="text-center py-16">
+        <p class="text-gray-500">No papers have been created for this event yet.</p>
+        <%= link_to "Create one now", new_paper_path, class: "btn btn-primary mt-4" %>
+      </div>
+    <% end %>
+  </section>
+</div>
