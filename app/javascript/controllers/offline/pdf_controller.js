@@ -106,10 +106,6 @@ export default class extends Controller {
   async download(event) {
     event.preventDefault()
 
-    const originalTransform = this.contentTarget.style.transform
-    const originalScrollTop = this.viewportTarget.scrollTop
-    const originalScrollLeft = this.viewportTarget.scrollLeft
-
     try {
       this.contentTarget.style.transform = '' // Remove zoom transform
       this.viewportTarget.scrollTop = 0       // Scroll to top
@@ -120,7 +116,7 @@ export default class extends Controller {
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
         logging: true, // Enabled logging
-        scrollX: -window.scrollX,
+        scrollX: -window.scrollX, // negate scroll position to prevent clipping upon pdf download
         scrollY: -window.scrollY
       })
 
@@ -165,10 +161,6 @@ export default class extends Controller {
     } catch (error) {
       console.error("PDF generation failed:", error)
       this.dispatch("error", { detail: { error: error.message } })
-    } finally {
-      this.contentTarget.style.transform = originalTransform
-      this.viewportTarget.scrollTop = originalScrollTop
-      this.viewportTarget.scrollLeft = originalScrollLeft
     }
   }
 }
