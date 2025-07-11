@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Input::Event < Input
+  self.renderable = true
+
   store :metadata, accessors: [:date]
 
   # Doing this in ruby because date is stored as a string in a jsonb column.

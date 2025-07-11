@@ -1,4 +1,6 @@
 class Input::Theme < Input
+  self.renderable = true
+
   CSS_PROPERTIES = [
     "color-base-100",       # Base color of page, used for blank backgrounds
     "color-base-200",       # Base color, darker shade

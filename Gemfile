@@ -81,6 +81,7 @@ group :test do
   gem "shoulda-matchers"
   gem "parallel_tests"
   gem "timecop"
+  gem "rails-controller-testing"
 end
 
 
