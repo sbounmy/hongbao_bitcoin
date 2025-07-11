@@ -49,6 +49,10 @@
             </ul>
           </details>
         </li>
+      <% else %>
+        <li>
+          <%= link_to "Sign in", new_session_path, class: "btn btn-outline" %>
+        </li>
       <% end %>
       <li>
         <%= link_to "#", class: "text-base" do %>
