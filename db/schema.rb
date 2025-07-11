@@ -185,7 +185,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_10_103448) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.string "status", default: "pending", null: false
     t.string "payment_provider", null: false
     t.decimal "total_amount", null: false
