@@ -16,7 +16,7 @@
     <div class="flex gap-4">
       <%# QR code for video/tutorial %>
       <div class="flex flex-col items-center">
-        <%= render QrcodeComponent.new(url: page_path("satoshi"), size: 128, class: "w-32 h-32", icon: youtube_icon(class: "w-8 h-8 bg-white p-1 rounded-xl"), logo_alt: "YouTube Logo") %>
+        <%= render QrcodeComponent.new(url: page_url("satoshi"), size: 128, class: "w-32 h-32", icon: youtube_icon(class: "w-8 h-8 bg-white p-1 rounded-xl"), logo_alt: "YouTube Logo") %>
         <p class="mt-1 font-mono text-xs">Discover bitcoin</p>
       </div>
     </div>
