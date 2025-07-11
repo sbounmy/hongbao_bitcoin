@@ -1,4 +1,25 @@
 class Order < ApplicationRecord
+  include AASM
+
+  aasm do
+    state :pending, initial: true
+    state :processing
+    state :completed
+    state :failed
+
+    event :process do
+      transitions from: :pending, to: :processing
+    end
+
+    event :complete do
+      transitions from: :processing, to: :completed
+    end
+
+    event :fail do
+      transitions from: [ :pending, :processing ], to: :failed
+    end
+  end
+
   belongs_to :user, optional: true
   has_many :line_items, dependent: :destroy
   has_many :tokens, dependent: :destroy
