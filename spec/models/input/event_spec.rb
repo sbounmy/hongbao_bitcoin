@@ -17,7 +17,7 @@ RSpec.describe Input::Event, type: :model do
         ordered_events = described_class.find_by_anniversary
 
         expected_order = [
-          inputs(:satoshi_sayonara),# April 23
+          inputs(:satoshi_sayonara), # April 23
           inputs(:pizza_day),       # May 22
           inputs(:whitepaper),      # October 31
           inputs(:first_halving),   # November 28

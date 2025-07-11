@@ -12,5 +12,4 @@ class InputsController < ApplicationController
       render plain: "Not found", status: :not_found
     end
   end
-
 end

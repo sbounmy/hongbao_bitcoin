@@ -8,7 +8,7 @@ RSpec.describe InputsController, type: :controller do
       get :show, params: { id: inputs(:pizza_day).id }
       expect(response).to be_successful
       expect(response).to render_template("inputs/events/show")
-      expect(assigns(:papers).to_a).to eq([papers(:pizza_day)])
+      expect(assigns(:papers).to_a).to eq([ papers(:pizza_day) ])
     end
 
     it "renders the theme template on theme input" do
