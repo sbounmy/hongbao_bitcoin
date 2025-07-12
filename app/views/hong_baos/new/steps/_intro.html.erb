@@ -7,17 +7,17 @@
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
-  <div role="alert" class="alert rounded-t-xl alert-horizontal bg-purple/20 border-none border-b">
-    <%= heroicon "arrow-down-tray", class: "stroke-info w-6 h-6 shrink-0" %>
-    <div class='space-y-1'>
-      <h3 class="flex flex-row gap-2 items-center font-bold">OFFLINE MODE<span class='badge badge-neutral badge-xs'>NEW</span></h3>
-      <div class="text-sm">In your browser, <span class="font-medium">select <kbd class="kbd kbd-sm">File </kbd> &gt; <kbd class='kbd kbd-sm'>Save Page As</kbd> &gt; <kbd class='kbd kbd-sm'>Format: <b>Webpage, Complete</b></kbd> &gt; <kbd class='kbd kbd-sm'>Save</kbd></span></div>
-      <div class="text-sm">Double-click that <kbd class="kbd kbd-sm">.html</kbd> file to open it in a browser on any offline computer.</div>
-    </div>
-    <%# <button class="btn btn-sm">See</button> %>
-  </div>
-
   <div class="flex flex-col gap-2 px-4">
+    <div role="alert" class="alert alert-info shadow-lg bg-info/10">
+      <%= heroicon "arrow-down-tray", class: "w-6 h-6 shrink-0" %>
+      <div>
+        <h3 class="font-bold flex items-center gap-2">OFFLINE MODE <span class='badge badge-neutral badge-xs'>NEW</span></h3>
+        <div class="text-xs">For best security, save this page and open it on an offline computer.</div>
+        <div class="text-xs mt-1">
+          <kbd class="kbd kbd-xs">File</kbd> › <kbd class="kbd kbd-xs">Save Page As</kbd> › <kbd class="kbd kbd-xs">Webpage, Complete</kbd>
+        </div>
+      </div>
+    </div>
     <%= button_tag "Use my own keys",
             data: {
               action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
