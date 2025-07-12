@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_11_094049) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_142648) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -193,6 +193,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_11_094049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "aasm_state"
+    t.string "shipping_name"
+    t.string "shipping_address_line1"
+    t.string "shipping_address_line2"
+    t.string "shipping_city"
+    t.string "shipping_state"
+    t.string "shipping_postal_code"
+    t.string "shipping_country"
     t.index ["external_id"], name: "index_orders_on_external_id", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
