@@ -18,7 +18,8 @@
                 flex flex-col">
       <%= turbo_frame_tag "qr_scanner" %>
       <div class="flex flex-col h-full group overflow-hidden"
-           data-controller="steps bitcoin"
+           data-controller="steps bitcoin pdf"
+           data-pdf-filename-value=""
            data-steps-hidden-class="hidden"
            data-steps-current-value="<%= @current_step %>"
            data-bitcoin-auto-generate-value="true"
