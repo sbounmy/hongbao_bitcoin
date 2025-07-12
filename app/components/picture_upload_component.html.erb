@@ -21,7 +21,6 @@
         <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
       </label>
   </div>
-  <%= form.submit "Generate", class: "btn btn-primary w-full rounded-selector", disabled: true, data: { controller: "disabled", action: "preview:none@window->disabled#add preview:selected@window->disabled#remove", turbo_submits_with: "Processing...", disabled_target: "element" } %>
 </div>
 
 <div class="mt-4 hidden" data-dropzone-target="preview">

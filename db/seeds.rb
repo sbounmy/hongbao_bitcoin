@@ -10,7 +10,7 @@
 
 # Set fixtures path
 ENV['FIXTURES_PATH'] = 'spec/fixtures'
-fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,input/themes,input/styles').split(',')
+fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,inputs').split(',')
 
 # Load papers and styles from fixtures
 puts "Loading #{fixtures.join(', ')} from fixtures..."
@@ -49,12 +49,18 @@ end if fixtures.include?('papers')
 Input::Theme.find_each do |theme|
   attach(theme, :name, :image_hero, [ 'inputs', 'themes' ])
   theme.save!
-end if fixtures.include?('input/themes')
+end if fixtures.include?('inputs')
 
 
 Input::Style.find_each do |theme|
   attach(theme, :name, :image, [ 'inputs', 'styles' ])
   theme.save!
-end if fixtures.include?('input/styles')
+end if fixtures.include?('inputs')
+
+Input::Event.find_each do |event|
+  attach(event, :name, :image, [ 'inputs', 'events' ])
+  event.save!
+end if fixtures.include?('inputs')
+
 
 TransactionFeesImportJob.new.perform

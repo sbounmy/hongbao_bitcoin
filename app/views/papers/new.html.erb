@@ -1,0 +1,64 @@
+    <div class="flex flex-col h-full md:flex-row" data-controller="toggle">
+      <!-- Column 1: Form -->
+      <div id="form-column" class="flex w-full h-full md:max-w-md flex-col gap-4">
+        <%= form_with(model: @bundle, class: "flex flex-col h-full gap-4 py-4", data: { turbo_frame: "paper_form" }) do |form| %>
+          <!-- Row 1 : Theme -->
+          <div class="flex flex-col gap-4 h-full overflow-y-auto px-4">
+            <div class="relative">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg flex gap-2 font-medium"><%= heroicon "banknotes", class: "w-6 h-6" %> Theme</h2>
+                <button type="button" class="btn btn-sm md:hidden" data-action="toggle#switch" data-toggle-hide-param="#form-column" data-toggle-show-param="#preview-column">
+                  My Papers
+                </button>
+              </div>
+              <div class="grid grid-cols-4 gap-4">
+                <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
+                <%= form.fields_for :input_items do |input_item_fields| %>
+                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Row 2: Styles -->
+            <div class="relative">
+              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "sparkles", class: "w-6 h-6" %> Style</h2>
+              <div class="grid grid-cols-4 gap-4">
+                <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
+                <%= form.fields_for :input_items do |input_item_fields| %>
+                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Row 3: Upload -->
+            <div class="relative h-full flex flex-col">
+              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
+              <%= render PictureUploadComponent.new(form: form) %>
+            </div>
+          </div>
+          <div class="bg-base-100 mb-8 md:mb-0 border-t border-slate-500 p-4">
+            <%= render Papers::CreateButtonComponent.new(form: form) %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Column 2: Splitter -->
+      <div class="split-bar w-1 bg-slate-500 h-full hidden md:block">
+      </div>
+
+      <!-- Column 3: Preview -->
+      <div id="preview-column" class="overflow-y-auto flex-1 p-4 hidden md:flex flex-col">
+        <div class="flex flex-col gap-4 h-full">
+          <div class="flex justify-between items-center">
+            <h2 class="text-lg font-medium">My Papers</h2>
+            <button type="button" class="btn btn-sm md:hidden" data-action="toggle#switch" data-toggle-hide-param="#preview-column" data-toggle-show-param="#form-column">
+              Back
+            </button>
+          </div>
+          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
+              <%= render Papers::ItemComponent.with_collection(@papers) %>
+          </div>
+          <%= turbo_stream_from :papers %>
+        </div>
+      </div>
+    </div>

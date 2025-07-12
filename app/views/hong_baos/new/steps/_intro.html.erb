@@ -1,0 +1,37 @@
+<div class="flex flex-col h-full max-h-full overflow-hidden"
+     data-controller="pdf binding"
+     data-pdf-filename-value=""
+     data-binding-attribute-value="pdfFilenameValue"
+     data-binding-name-value="publicAddressText"
+     data-action="bitcoin:changed@window->binding#attribute"
+     data-steps-target="content"
+     data-steps-index="<%= local_assigns[:index] || 2 %>">
+
+  <div class="flex flex-col gap-2 px-4">
+    <div role="alert" class="alert alert-info shadow-lg bg-info/10">
+      <%= heroicon "arrow-down-tray", class: "w-6 h-6 shrink-0" %>
+      <div>
+        <h3 class="font-bold flex items-center gap-2">OFFLINE MODE <span class='badge badge-neutral badge-xs'>NEW</span></h3>
+        <div class="text-xs">For best security, save this page and open it on an offline computer.</div>
+        <div class="text-xs mt-1">
+          <kbd class="kbd kbd-xs">File</kbd> › <kbd class="kbd kbd-xs">Save Page As</kbd> › <kbd class="kbd kbd-xs">Webpage, Complete</kbd>
+        </div>
+      </div>
+    </div>
+    <%= button_tag "Use my own keys",
+            data: {
+              action: "bitcoin#useCustomKeys steps#next"
+            },
+            class: "btn btn-secondary" do %>
+      <%= heroicon "pencil-square", class: "w-5 h-5" %> Use my own keys
+    <% end %>
+
+    <%= button_tag "Generate new keys",
+            data: {
+              action: "bitcoin#generateNewKeys steps#next"
+            },
+            class: "btn btn-primary" do %>
+      <%= heroicon "arrow-path", class: "w-5 h-5" %> Generate new keys
+    <% end %>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 <%= field_set_tag '', attributes do %>
-  <legend class="fieldset-legend w-full flex flex-row justify-between text-white"><span><%= label %></span><%= badge %></legend>
+  <% if label.present? %>
+    <legend class="fieldset-legend w-full flex flex-row justify-between text-white"><span><%= label %></span><%= badge %></legend>
+  <% end %>
   <%= label_tag name, label, class: label_class, name: label do %>
     <%= icon %>
     <%= input %>

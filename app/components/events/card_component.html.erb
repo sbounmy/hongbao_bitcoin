@@ -1,0 +1,44 @@
+<%= link_to input_path(event), class: "block w-64 flex-shrink-0" do %>
+  <%# --- Card with Image --- %>
+  <div class="relative w-full h-full object-scale-down aspect-[3/4] rounded-2xl overflow-hidden group">
+    <% if image_url %>
+      <%= image_tag image_url, class: "absolute w-full h-full object-cover" %>
+    <% else %>
+      <div class="absolute w-full h-full bg-gray-800"></div>
+    <% end %>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+    <div class="relative h-full flex flex-col justify-between p-3 text-white">
+      <div class="flex justify-between">
+        <span class="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-2"><%= heroicon "cake", class: "w-4 h-4 inline-block -mt-1" %> <%= event.age %>y</span>
+        <span class="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-2"><%= heroicon "calendar", class: "w-4 h-4" %> in <%= distance_of_time_in_words(Date.today, event.anniversary) %></span>
+      </div>
+
+      <div class="flex-1 flex items-center justify-center">
+        <h2 class="text-4xl font-bold tracking-widest uppercase text-center"><%= event.name %></h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div class="bg-black/50 p-2 rounded-lg"><div class="text-xl font-bold"><%= event_day %></div><div class="text-xs font-semibold tracking-wider">DAY</div></div>
+        <div class="bg-black/50 p-2 rounded-lg"><div class="text-xl font-bold"><%= event_month %></div><div class="text-xs font-semibold tracking-wider">MONTH</div></div>
+        <div class="bg-black/50 p-2 rounded-lg"><div class="text-xl font-bold"><%= event_year %></div><div class="text-xs font-semibold tracking-wider">YEAR</div></div>
+      </div>
+    </div>
+  </div>
+
+  <%# --- Info Below Card --- %>
+  <% if cover_paper %>
+    <div class="mt-3">
+      <h3 class="font-semibold text-white truncate"><%= cover_paper.name %></h3>
+      <p class="text-sm text-gray-400 truncate"><%= cover_paper.style %></p>
+      <% if cover_paper.user %>
+        <div class="flex items-center gap-2 mt-2">
+          <% if cover_paper.user.avatar.attached? %>
+            <%= image_tag url_for(cover_paper.user.avatar), class: "w-5 h-5 rounded-full" %>
+          <% end %>
+          <span class="text-sm text-gray-300 truncate"><%= cover_paper.user.handle %></span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

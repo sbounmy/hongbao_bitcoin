@@ -13,17 +13,17 @@ RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper
   end
 
   it "updates paper front on success" do
-    expect { described_class.perform_now(message.id) }.to change { Paper.last.image_front.attached? }.from(false).to(true)
+    expect { described_class.perform_now(message.id) }.to change { paper.reload.image_front.attached? }.from(false).to(true)
   end
 
   it "updates paper back on success" do
-    expect { described_class.perform_now(message.id) }.to change { Paper.last.image_back.attached? }.from(false).to(true)
+    expect { described_class.perform_now(message.id) }.to change { paper.reload.image_back.attached? }.from(false).to(true)
   end
 
   it 'updates paper full on success' do
     # expect { described_class.perform_now(message) }.to change { Paper.last.image_full.attached? }.from(false).to(true)
     described_class.perform_now(message.id)
-    expect(Paper.last.image_full.attached?).to be_truthy
+    expect(paper.reload.image_full.attached?).to be_truthy
   end
 
   it 'saves tokens used' do
@@ -42,6 +42,9 @@ RSpec.describe ProcessPaperJob, type: :job, vcr: { cassette_name: "process_paper
 
   it 'uses theme back image if available' do
     described_class.perform_now(message.id)
-    expect(Paper.last.image_back.blob).to eq(active_storage_blobs(:dollar_theme_back_blob))
+    puts paper.image_front.attached?.inspect
+    puts paper.image_back.attached?.inspect
+    paper.save!
+    expect(paper.reload.image_back.blob).to eq(active_storage_blobs(:dollar_theme_back_blob))
   end
 end

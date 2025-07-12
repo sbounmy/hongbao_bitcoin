@@ -1,6 +1,6 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex  gap-4">
   <% payment_methods.each do |payment_method| %>
-    <div data-controller="popup">
+    <div class="flex-1" data-controller="popup">
         <label class="cursor-pointer">
         <%= form.radio_button :payment_method_id,
             payment_method.id,

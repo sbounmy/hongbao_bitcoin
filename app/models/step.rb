@@ -14,14 +14,24 @@ class Step
   def self.for_new
     [
       new(
+        name: "Intro",
+        icon: "arrow-down-tray",
+        position: 1
+      ),
+      new(
         name: "Print",
         icon: "printer",
-        position: 1
+        position: 2
+      ),
+      new(
+        name: "Beneficiary",
+        icon: "user",
+        position: 3
       ),
       new(
         name: "Top up",
         icon: "credit-card",
-        position: 2
+        position: 4
       )
     ]
   end

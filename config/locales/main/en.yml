@@ -1,0 +1,13 @@
+en:
+  layouts:
+    main:
+      footer:
+        home: "Home"
+        create: "Create"
+        dashboard: "Dashboard"
+        settings: "Settings"
+        logout: "Logout"
+      meta:
+        title: "The easiest way to gift Bitcoin - HongBao"
+        description: "Create secure, KYC-free paper wallets in minutes wrapped in red envelopes."
+        keywords: "bitcoin hong bao, bitcoin red envelope, chinese new year bitcoin, lunar new year bitcoin, digital red packet, 比特币红包, bitcoin gift, crypto red envelope, bitcoin lai see, bitcoin ang pao, paper wallet bitcoin, physical bitcoin gift"

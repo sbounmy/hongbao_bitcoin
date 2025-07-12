@@ -38,6 +38,18 @@ export default class extends Controller {
     this.dispatchWalletChanged()
   }
 
+  generateNewKeys() {
+    this.generate()
+  }
+
+  useCustomKeys() {
+    this.master = new CustomWallet({ network: this.networkValue });
+    this.master.mnemonic = ''
+    this.wallet = this.master.derive('0')
+    this.customWalletValue = true
+    this.dispatchWalletChanged()
+  }
+
   dispatchWalletChanged() {
     this.dispatch("changed", {
       detail: this.detail
@@ -135,11 +147,10 @@ export default class extends Controller {
     const walletOptions = { network: this.networkValue };
     walletOptions[propertyName] = value;
 
-    if (this.master instanceof CustomWallet) {
-      this.master[propertyName] = value;
-    } else {
+    if (!(this.master instanceof CustomWallet)) {
       this.master = new CustomWallet(walletOptions);
     }
+    this.master[propertyName] = value;
     this.customWalletValue = true;
     this.wallet = this.master.derive('0');
     this.dispatchWalletChanged();

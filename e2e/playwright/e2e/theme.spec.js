@@ -124,8 +124,7 @@ test.describe('Theme', () => {
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
     // Navigate to dashboard to generate a new paper with the updated theme
-    await page.goto('/dashboard');
-    await page.getByText('Ghibli').filter({ visible: true }).first().click({ force: true });
+    await page.goto('/papers/new');
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
     await turboCableConnected(page);
@@ -134,13 +133,13 @@ test.describe('Theme', () => {
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
 
-    await expect(page.locator('#main-content .papers-item-component')).toHaveCount(2);
+    await expect(page.locator('#preview-column .papers-item-component')).toHaveCount(2);
     await app('perform_jobs');
-    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(4);
+    await expect(page.locator('#preview-column .papers-item-component .bg-cover')).toHaveCount(4);
 
     // Open the print preview for the newly generated paper
     const printPromise = page.waitForEvent('popup');
-    await page.locator('#main-content .papers-item-component').first().click();
+    await page.locator('#preview-column .papers-item-component').first().click();
     const print = await printPromise;
 
     // Verify the element in the print preview has the new coordinates

@@ -1,0 +1,9 @@
+<%= link_to input_path(theme), class: "relative block w-60 h-60 rounded-2xl overflow-hidden shadow-lg group shrink-0" do %>
+  <%= image_tag image_url, class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" %>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+  <div class="absolute bottom-4 left-4">
+    <div class="px-3 py-1.5 rounded-lg bg-black/30 backdrop-blur-sm">
+      <h3 class="text-white font-semibold"><%= name %></h3>
+    </div>
+  </div>
+<% end %>
