@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_032334) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -51,60 +51,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "ai_elements", force: :cascade do |t|
-    t.string "leonardo_id"
-    t.string "title"
-    t.string "weight"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status"
-    t.datetime "leonardo_created_at"
-    t.datetime "leonardo_updated_at"
-    t.index ["leonardo_id"], name: "index_ai_elements_on_leonardo_id", unique: true
-  end
-
-  create_table "ai_elements_themes", id: false, force: :cascade do |t|
-    t.integer "theme_id", null: false
-    t.integer "element_id", null: false
-    t.index ["element_id", "theme_id"], name: "index_ai_elements_themes_on_element_id_and_theme_id"
-    t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
-  end
-
-  create_table "ai_messages", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.text "text"
-    t.string "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_ai_messages_on_type"
-  end
-
-  create_table "ai_tasks", force: :cascade do |t|
-    t.string "external_id"
-    t.string "status"
-    t.integer "user_id", null: false
-    t.string "type", null: false
-    t.string "prompt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.json "request"
-    t.json "response"
-    t.string "source_type"
-    t.integer "source_id"
-    t.index ["source_type", "source_id"], name: "index_ai_tasks_on_source"
-    t.index ["type", "external_id"], name: "index_ai_tasks_on_type_and_external_id"
-    t.index ["user_id"], name: "index_ai_tasks_on_user_id"
-  end
-
-  create_table "ai_themes", force: :cascade do |t|
-    t.string "title", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "path"
-    t.json "ui", default: "{}"
   end
 
   create_table "bundles", force: :cascade do |t|
@@ -174,7 +120,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
 
   create_table "papers", force: :cascade do |t|
     t.string "name"
-    t.integer "ai_style_id", default: 0
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -182,12 +127,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
     t.integer "user_id"
     t.boolean "public", default: false
     t.integer "parent_id"
-    t.integer "ai_theme_id"
     t.integer "bundle_id"
-    t.json "input_item_ids", default: []
     t.integer "message_id"
     t.json "input_ids", default: [], null: false
-    t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
+    t.json "input_item_ids", default: []
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
     t.index ["message_id"], name: "index_papers_on_message_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
@@ -252,13 +195,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ai_tasks", "users"
   add_foreign_key "bundles", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
   add_foreign_key "messages", "chats"
-  add_foreign_key "papers", "ai_themes"
   add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "messages"
   add_foreign_key "papers", "papers", column: "parent_id"
