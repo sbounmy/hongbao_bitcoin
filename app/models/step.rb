@@ -24,9 +24,14 @@ class Step
         position: 2
       ),
       new(
+        name: "Beneficiary",
+        icon: "user",
+        position: 3
+      ),
+      new(
         name: "Top up",
         icon: "credit-card",
-        position: 3
+        position: 4
       )
     ]
   end

@@ -12,7 +12,7 @@
 <%= content_for :title, @paper.name if @paper.name.present? %>
 
 <div class="w-full h-screen relative">
-  <div class="flex-1 h-full flex flex-col items-center justify-center p-8 bg-[#F04747] overflow-hidden">
+  <div class="flex-1 h-full flex flex-col items-center justify-center px-4 py-2 bg-[#F04747] overflow-hidden">
     <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
                 rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
                 flex flex-col">
@@ -29,8 +29,8 @@
 
       <div class=' bg-[#F04747]'>
         <!-- Sticky Progress Steps -->
-        <div class="rounded-t-3xl z-30 border-b border-[#FFB636]/20 p-4">
-          <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
+        <div class="rounded-t-3xl z-30 border-b border-[#FFB636]/20 px-4 py-2">
+          <%= render "papers/progress_indicator", steps: @steps, current_step: @current_step %>
           <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
         </div>
 
@@ -42,8 +42,12 @@
             index: 2,
             paper: @paper %>
 
-        <%= render "hong_baos/new/steps/top_up",
+        <%= render "hong_baos/new/steps/beneficiary",
             index: 3,
+            paper: @paper %>
+
+        <%= render "hong_baos/new/steps/top_up",
+            index: 4,
             hong_bao: @hong_bao,
             payment_methods: @payment_methods %>
         </div>
