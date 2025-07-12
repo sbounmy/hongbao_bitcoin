@@ -20,18 +20,16 @@
     </div>
     <%= button_tag "Use my own keys",
             data: {
-              action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
+              action: "bitcoin#useCustomKeys steps#next"
             },
-            id: "bitcoin-generate",
             class: "btn btn-secondary" do %>
       <%= heroicon "pencil-square", class: "w-5 h-5" %> Use my own keys
     <% end %>
 
     <%= button_tag "Generate new keys",
             data: {
-              action: "steps#next"
+              action: "bitcoin#generateNewKeys steps#next"
             },
-            id: "bitcoin-generate",
             class: "btn btn-primary" do %>
       <%= heroicon "arrow-path", class: "w-5 h-5" %> Generate new keys
     <% end %>

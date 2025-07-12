@@ -5,11 +5,11 @@
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
 
-  <div class="space-y-3 px-4 py-2" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
+  <div class="space-y-3 px-4 py-2">
     <%# render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
     <%# render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
 
-    <%= render TextareaComponent.new(:mnemonic_text, label: 'Recovery Phrase (24 words)', clipboard: true) do |fieldset| %>
+    <%= render TextareaComponent.new(:mnemonic_text, label: 'Seed (24 words)', clipboard: true) do |fieldset| %>
       <%= fieldset.with_icon do %>
         <%= heroicon "qr-code", class: "w-5 h-5" %>
       <% end %>
@@ -17,9 +17,8 @@
         <div class="flex flex-row gap-2 items-center">
           <%= button_tag '#',
                   data: {
-                    action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
+                    action: "bitcoin#generateNewKeys"
                   },
-                  id: "bitcoin-generate",
                   class: "text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors" do %>
             <%= heroicon "arrow-path", class: "w-5 h-5" %>
           <% end %>
@@ -34,15 +33,15 @@
                             clipboard_target: "source",
                             controller: "binding textarea-autogrow",
                             binding_name_value: "mnemonicText",
-                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow"
                           } %>
         <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
       <% end %>
     <% end %>
 
-    <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
+    <%= render FieldsetComponent.new(:private_key_text, label: '', clipboard: true) do |fieldset| %>
       <%= fieldset.with_icon do %>
-        <%= heroicon "key", class: "w-5 h-5" %>
+        <span class="label">Private Key</span>
       <% end %>
       <%= fieldset.with_badge do %>
         <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
@@ -55,7 +54,7 @@
                               clipboard_target: "source",
                               controller: "binding",
                               binding_name_value: "privateKeyText",
-                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
+                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged"
                             } %>
       <% end %>
       <%= fieldset.with_note do %>
@@ -64,20 +63,9 @@
     <% end %>
 
     <div class="space-y-1">
-      <dialog class="modal" data-dialog-key-target="dialog">
-        <div class="modal-box">
-          <p>Using your own key will clear the other keys.</p>
-          <p>Are you sure?</p>
-
-          <div class="modal-action">
-            <button type="button" class="btn btn-ghost" data-action="dialog-key#close" autofocus>Cancel</button>
-            <button type="button" class="btn btn-primary" data-action="dialog-key#accept" autofocus>Accept</button>
-          </div>
-        </div>
-      </dialog>
-      <%= render FieldsetComponent.new(:public_address_text, label: 'Public Address', clipboard: true) do |fieldset| %>
+      <%= render FieldsetComponent.new(:public_address_text, label: '', clipboard: true) do |fieldset| %>
         <%= fieldset.with_icon do %>
-          <%= heroicon "qr-code", class: "w-5 h-5" %>
+          <span class="label">Public Address</span>
         <% end %>
         <%= fieldset.with_input do %>
             <%= text_field_tag :public_address_text,
@@ -87,7 +75,7 @@
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "publicAddressText",
-                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged"
                               } %>
 
         <% end %>
