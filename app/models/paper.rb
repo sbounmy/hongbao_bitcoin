@@ -21,7 +21,7 @@ class Paper < ApplicationRecord
   scope :events, -> { joins(:input_items).where(input_items: { input_type: "Input::Event" }) }
 
   include ArrayColumns
-  array_columns :input_ids
+  array_columns :input_ids, :input_item_ids
 
   ELEMENTS = %w[
     private_key_qrcode
@@ -46,7 +46,7 @@ class Paper < ApplicationRecord
   end
 
   def inputs
-    input_items.map(&:input)
+    Input.where(id: input_ids)
   end
 
   def theme

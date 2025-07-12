@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_11_100606) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_032000) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -184,7 +184,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_11_100606) do
     t.integer "parent_id"
     t.integer "ai_theme_id"
     t.integer "bundle_id"
-    t.json "input_item_ids", default: "[]"
+    t.json "input_item_ids", default: []
     t.integer "message_id"
     t.json "input_ids", default: [], null: false
     t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
