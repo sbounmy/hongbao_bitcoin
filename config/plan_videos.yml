@@ -10,6 +10,12 @@
 # maximalist: [] # for empty
 
 
-mini: []
-family: []
-maximalist: []
+mini: [
+  { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+]
+family: [
+  { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+]
+maximalist: [
+  { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+]
