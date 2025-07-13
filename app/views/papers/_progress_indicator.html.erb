@@ -1,9 +1,14 @@
 <div class="flex flex-col gap-2 w-full">
-  <div class="flex items-center gap-4 text-white">
-    <button class="btn btn-ghost btn-square btn-sm" data-action="click->steps#previous" data-steps-target="previousButton">
-      <%= heroicon "chevron-left", class: "w-4 h-4" %>
-    </button>
-    <div class="font-semibold text-xs"><%= t(".step", default: "Étape") %>: <span data-steps-target="counterCurrent"><%= current_step %></span> / <span><%= steps.size %></span></div>
+  <div class="flex justify-between gap-4 text-white">
+    <div class="flex items-center gap-4">
+      <button class="btn btn-ghost btn-square btn-sm" data-action="click->steps#previous" data-steps-target="previousButton">
+        <%= heroicon "chevron-left", class: "w-4 h-4" %>
+      </button>
+      <div class="font-semibold text-xs"><%= t(".step", default: "Étape") %>: <span data-steps-target="counterCurrent"><%= current_step %></span> / <span><%= steps.size %></span></div>
+    </div>
+    <%= link_to dashboard_path, class: "btn btn-ghost btn-square btn-sm" do %>
+      <%= image_tag "logo.png", class: "w-6 h-6" %>
+    <% end %>
   </div>
   <progress class="progress progress-warning w-full" data-steps-target="progress" value="<%= current_step %>" max="<%= steps.size %>"></progress>
 </div>
