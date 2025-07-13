@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["content", "indicator", "progress", "counterCurrent", "counterTotal"]
+  static targets = ["content", "indicator", "progress", "counterCurrent", "counterTotal", "previousButton"]
   static classes = ["hidden"]
   static values = {
     current: Number,
@@ -16,6 +16,7 @@ export default class extends Controller {
   }
 
   previous(event) {
+    if (this.currentValue <= 1) return;
     this.currentValue--
   }
 
@@ -30,6 +31,13 @@ export default class extends Controller {
     this.#updateVisibility()
     this.#updateProgress()
     this.#updateURL()
+    this.#updatePreviousButton()
+  }
+
+  #updatePreviousButton() {
+    if (this.hasPreviousButtonTarget) {
+      this.previousButtonTarget.disabled = this.currentValue <= 1
+    }
   }
 
   #updateVisibility() {
