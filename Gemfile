@@ -79,7 +79,9 @@ group :test do
   gem "webmock"
   gem "faker"
   gem "shoulda-matchers"
-  gem "parallel_tests", "~> 5.3"
+  gem "parallel_tests"
+  gem "timecop"
+  gem "rails-controller-testing"
 end
 
 

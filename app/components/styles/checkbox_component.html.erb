@@ -2,7 +2,7 @@
 
   <label class="block cursor-pointer">
     <%= form.fields_for :input_items do |item_form| %>
-        <%= item_form.check_box :_destroy, { checked: item_form.options[:child_index] == 0, class: "peer sr-only" }, '0', '1' %>
+        <%= item_form.check_box :_destroy, { checked: @iteration.first?, class: "peer sr-only" }, '0', '1' %>
         <%= item_form.hidden_field :input_id, value: checkbox.id %>
     <% end %>
 

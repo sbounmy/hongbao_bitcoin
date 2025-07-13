@@ -18,6 +18,10 @@ class Paper < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :events, -> { joins(:input_items).where(input_items: { input_type: "Input::Event" }) }
+
+  include ArrayColumns
+  array_columns :input_ids, :input_item_ids
 
   ELEMENTS = %w[
     private_key_qrcode
@@ -33,15 +37,28 @@ class Paper < ApplicationRecord
   store :elements, accessors: ELEMENTS, prefix: true
 
   def input_items
-    bundle.input_items.where(id: input_item_ids)
+    bundle&.input_items&.where(id: input_item_ids) || []
   end
 
   def input_items=(input_items)
     self.input_item_ids = input_items.map(&:id)
+    self.input_ids = input_items.map(&:input_id)
   end
 
   def inputs
-    input_items.map(&:input)
+    Input.where(id: input_ids)
+  end
+
+  def theme
+    input_items.find { |item| item.input.is_a?(Input::Theme) }
+  end
+
+  def style
+    input_items.find { |item| item.input.is_a?(Input::Style) }
+  end
+
+  def event
+    input_items.find { |item| item.input.is_a?(Input::Event) }
   end
 
   def front_elements

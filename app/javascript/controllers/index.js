@@ -13,6 +13,9 @@ application.register('carousel', Carousel)
 import GalleryController from "./gallery_controller"
 application.register("gallery", GalleryController)
 
+import Collapse from './collapse_controller'
+application.register('collapse', Collapse)
+
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
@@ -43,6 +46,8 @@ application.register("qr-scanner", QrScannerController)
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 
+import ToggleController from './toggle_controller'
+application.register('toggle', ToggleController)
 
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /

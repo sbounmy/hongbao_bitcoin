@@ -42,9 +42,6 @@ application.register("canva", CanvaController)
 import CanvaItemController from "./controllers/offline/canva_item_controller"
 application.register("canva-item", CanvaItemController)
 
-import DialogKeyController from "./controllers/offline/dialog_key_controller"
-application.register("dialog-key", DialogKeyController)
-
 import PdfController from "./controllers/offline/pdf_controller"
 application.register("pdf", PdfController)
 
