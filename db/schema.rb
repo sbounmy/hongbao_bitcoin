@@ -163,7 +163,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_094043) do
     t.integer "order_id", null: false
     t.integer "quantity", null: false
     t.decimal "price", null: false
-    t.string "currency", null: false
     t.string "stripe_price_id"
     t.json "metadata", default: {}
     t.datetime "created_at", null: false
