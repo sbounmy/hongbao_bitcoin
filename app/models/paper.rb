@@ -36,6 +36,8 @@ class Paper < ApplicationRecord
 
   store :elements, accessors: ELEMENTS, prefix: true
 
+  store_accessor :metadata, :prompt, :costs, :tokens
+
   def input_items
     bundle&.input_items&.where(id: input_item_ids) || []
   end
