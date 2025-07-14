@@ -48,7 +48,7 @@ module Checkout
         end
       end
       def event
-        @event ||= Stripe::Webhook.construct_event(@payload, @sig_header, endpoint_secret)
+        @event ||= Checkout::Stripe::Webhook.construct_event(@payload, @sig_header, endpoint_secret)
       end
       def endpoint_secret
         Rails.application.credentials.dig(:stripe, :signing_secret)
