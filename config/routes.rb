@@ -21,7 +21,9 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show ]
+    resources :papers, only: [ :show, :new ] do
+      get :explore, on: :collection
+    end
     root "pages#index"
   end
 
@@ -41,6 +43,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :inputs, only: [ :show ]
+
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
   end
@@ -57,6 +61,7 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/dashboard-3", to: "papers#index_3"
 
   # Authentication routes
   get "login", to: "users#new"
@@ -114,6 +119,10 @@ Rails.application.routes.draw do
 
   direct :spotify_artist do
     "https://open.spotify.com/artist/3cBbIJWNXmi5JwCewN7SlN"
+  end
+
+  direct :reddit do
+    "https://www.reddit.com/r/HongBaoBitcoin/"
   end
 
   # Direct route to generate Gravatar URLs

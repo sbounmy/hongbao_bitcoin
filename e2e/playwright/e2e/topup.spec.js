@@ -2,7 +2,7 @@ import { test, expect } from '../support/test-setup';
 
 test.describe('Topup', () => {
   test('user can topup', async ({ page }) => {
-    await page.goto('/en/papers/1?step=2');
+    await page.goto('/en/papers/1?step=4');
 
     const input = '[data-binding-name-value="publicAddressText"]:visible';
     await expect(page.locator(input)).toHaveCount(1);
@@ -13,7 +13,7 @@ test.describe('Topup', () => {
     console.log(address);
     await page.locator("label", { has: page.locator('#hong_bao_payment_method_id_1') }).click();
 
-    const iframe = page.locator("iframe[data-mt-pelerin-target='iframe']").contentFrame();
+    const iframe = page.locator("#payment_method_credit_card iframe").contentFrame();
     await iframe.getByText('Buy BTC').click();
 
     await expect(iframe.getByRole('button', { name: 'Next' })).toBeVisible();

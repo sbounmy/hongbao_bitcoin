@@ -1,8 +1,8 @@
 class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos transfer]
   before_action :set_network, only: %i[show form utxos]
-  layout false, only: %i[form utxos]
-  layout "offline", except: %i[utxos]
+  layout :set_layout
+
   def index
     # Just render the QR scanner view
   end
@@ -20,7 +20,7 @@ class HongBaosController < ApplicationController
   def new
     @hong_bao = HongBao.new(paper_id: params[:paper_id])
     @papers = Paper.active.template.with_attached_image_front.with_attached_image_back
-    @payment_methods = PaymentMethod.active.with_attached_logo
+    @payment_methods = PaymentMethod.active.order(order: :asc).with_attached_logo
     @current_step = (params[:step] || 1).to_i
 
     @paper =  @papers.find { |p| p.id.to_s == @hong_bao.paper_id.to_s } || @papers.first
@@ -64,5 +64,12 @@ class HongBaosController < ApplicationController
 
   def set_network
     Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
+  end
+  def set_layout
+    if request.format.html?
+      "offline"
+    else
+      false
+    end
   end
 end

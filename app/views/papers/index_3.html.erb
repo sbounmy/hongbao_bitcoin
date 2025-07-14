@@ -1,0 +1,78 @@
+<div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
+
+  <div class="px-4 text-gray-800">
+    <%= render CollapseComponent.new(id: 'buy-traditional-red-envelopes', open: true) do |component| %>
+      <% component.with_summary do %>
+        <div class="flex items-center justify-between w-full">
+          <div class="flex items-center gap-2">
+            <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">BITCOIN GIFTING</span>
+            <h2 class="text-xl font-serif font-semibold">Buy traditional red envelopes</h2>
+          </div>
+          <div class="flex items-center gap-4">
+            <p class="text-sm text-gray-500 hidden md:block">Free credits included</p>
+          </div>
+        </div>
+      <% end %>
+      <div class="flex flex-col lg:flex-row items-center gap-20 px-4">
+        <div class="">
+          <%= image_tag image_url("papers/dimensions.png"), class: "w-full" %>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "bolt", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Striking Design</h3>
+            <p class="text-sm text-gray-400 text-center">A beautiful, collectible Bitcoin design on premium red paper.</p>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "check-badge", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Superior Quality</h3>
+            <p class="text-sm text-gray-400 text-center">Thick, durable paper with a luxurious feel, built to last.</p>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "chat-bubble-left-right", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Inspiring Quotes</h3>
+            <p class="text-sm text-gray-400 text-center">Features one of six different quotes from Bitcoin pioneers.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 text-center">
+        <%= link_to pricing_path, class: "btn btn-primary rounded-full" do %>
+          <span>Buy now</span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <section id='papers' class="px-4">
+    <div class='flex flex-col md:flex-row gap-4'>
+      <div>
+        <h3 class="text-xl font-bold">Latest</h3>
+        <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold">Creators</h3>
+        <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
+      </div>
+    </div>
+  </section>
+
+  <section id='events' class="px-4">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Upcoming Bitcoin Days</h3>
+    </div>
+    <div class="flex gap-4 overflow-x-auto">
+      <%# Query for all events, order them by anniversary, and display them %>
+      <%= render Events::CardComponent.with_collection(Input::Event.find_by_anniversary) %>
+    </div>
+  </section>
+
+  <section id='themes' class="px-4">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Top themes</h3>
+    </div>
+    <div class="flex gap-4 overflow-x-auto">
+      <%= render Inputs::Themes::CardComponent.with_collection(Input::Theme.order(created_at: :desc)) %>
+    </div>
+  </section>
+
+</div>

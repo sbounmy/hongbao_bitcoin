@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-2">
             <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
-            <h1 class="text-xl font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
+            <h1 class="text-xl hidden sm:inline-block font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
             <%= render DropdownComponent.new(
                 items: themes,
                 current_item: current_theme,
@@ -23,16 +23,7 @@
 
 
             <% if authenticated? %>
-                <%= render UserDrawerComponent.new do |component| %>
-                    <%# This label triggers the drawer identified by drawer_id %>
-                    <label for="<%= component.drawer_id %>"
-                            tabindex="0"
-                            class="btn btn-ghost btn-circle cursor-pointer">
-                            <%= render AvatarComponent.new(user: Current.user) do |avatar| %>
-                                <%= avatar.with_badge(user: Current.user) %>
-                            <% end %>
-                    </label>
-                <% end %>
+                <%= render "shared/user_drawer" %>
             <% else %>
                 <%= link_to "Login", signup_path, class: "btn btn-outline rounded-selector hover:bg-base-200/20 transition-colors" %>
             <% end %>

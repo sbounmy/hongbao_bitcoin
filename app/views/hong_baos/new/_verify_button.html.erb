@@ -1,4 +1,4 @@
-<%= link_to "https://mempool.space/#{Rails.env.production? ? '' : 'testnet/'}address/#{hong_bao.address}",
+<%= link_to "https://mempool.space/#{Current.testnet? ? 'testnet/' : ''}address/#{hong_bao.address}",
     target: "_blank",
     data: { hong_bao_target: "verifyButton" },
     style: current_step == 3 ? "" : "display: none;",

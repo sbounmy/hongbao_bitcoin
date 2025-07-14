@@ -9,6 +9,7 @@ export default class extends Controller {
     autoGenerate: { type: Boolean, default: false },
     customWallet: { type: Boolean, default: false },
     network: { type: String, default: 'mainnet' },
+    mode: { type: String, default: 'beginner' },
   }
   static targets = ["utxos"]
 
@@ -37,6 +38,18 @@ export default class extends Controller {
     this.dispatchWalletChanged()
   }
 
+  generateNewKeys() {
+    this.generate()
+  }
+
+  useCustomKeys() {
+    this.master = new CustomWallet({ network: this.networkValue });
+    this.master.mnemonic = ''
+    this.wallet = this.master.derive('0')
+    this.customWalletValue = true
+    this.dispatchWalletChanged()
+  }
+
   dispatchWalletChanged() {
     this.dispatch("changed", {
       detail: this.detail
@@ -44,12 +57,22 @@ export default class extends Controller {
   }
 
   get detail() {
+    const walletInfo = this.wallet.info;
+
+    // Choose which QRCODE to use based on the current mode.
+    const activeQrCodeFunction = this.modeValue === 'beginner'
+      ? walletInfo.appPublicAddressQrcode
+      : walletInfo.publicAddressQrcode;
+
     return {
       wallet: this.wallet,
       mnemonicText: this.master?.mnemonic || '',
-      ...this.wallet.info
-    }
+      // Pass all original info from the wallet, including appPublicAddressQrcode.
+      ...walletInfo,
+      publicAddressQrcode: activeQrCodeFunction
+    };
   }
+
   async transfer(address, fee) {
     try {
       const transaction = TransactionFactory.create(
@@ -103,11 +126,12 @@ export default class extends Controller {
   }
 
   modeChanged(event) {
-    if (event.target.checked) { // Maximalist
-      this.dispatch("modeChanged", { detail: { show: 'publicAddressQrcode', hide: 'appPublicAddressQrcode' } })
-    } else { // Beginner
-      this.dispatch("modeChanged", { detail: { hide: 'publicAddressQrcode', show: 'appPublicAddressQrcode' } })
-    }
+    // Update the internal state based on the toggle.
+    this.modeValue = event.target.checked ? 'maximalist' : 'beginner';
+
+    // Dispatch the 'changed' event. The canva_controller will listen for this
+    //    and redraw everything using the new data from the `detail` getter.
+    this.dispatchWalletChanged();
   }
 
   customWalletChanged(event) {
@@ -123,11 +147,10 @@ export default class extends Controller {
     const walletOptions = { network: this.networkValue };
     walletOptions[propertyName] = value;
 
-    if (this.master instanceof CustomWallet) {
-      this.master[propertyName] = value;
-    } else {
+    if (!(this.master instanceof CustomWallet)) {
       this.master = new CustomWallet(walletOptions);
     }
+    this.master[propertyName] = value;
     this.customWalletValue = true;
     this.wallet = this.master.derive('0');
     this.dispatchWalletChanged();
