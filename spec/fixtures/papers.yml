@@ -52,12 +52,12 @@ dollar:
       }
     }
   input_ids:
-  - "1" # dollar
-  - "6" # ghibli
+    - "1" # dollar
+    - "6" # ghibli
   input_item_ids:
-  - "1" # input_items(:dollar)
-  - "2" # input_items(:ghibli)
-  - "3" # input_items(:image)
+    - "1" # input_items(:dollar)
+    - "2" # input_items(:ghibli)
+    - "3" # input_items(:image)
 
 pizza_day:
   id: 2
@@ -66,10 +66,10 @@ pizza_day:
   active: true
   created_at: "2025-05-05T10:07:56.136Z"
   updated_at: "2025-05-05T10:16:20.522Z"
-  input_item_ids:
-  - "2" # input_items(:ghibli)
-  - "3" # input_items(:image)
   input_ids:
-  - "6" # ghibli
-  - "15" # pizza_day (dont ask me why this should be a string)
+    - "6" # ghibli
+    - "15" # pizza_day
+  input_item_ids:
+    - "2" # input_items(:ghibli)
+    - "3" # input_items(:image)
 

@@ -29,6 +29,8 @@ module Bundles
           public: false,
           user: chat.user,
           bundle: chat.bundle,
+          input_ids: chat.input_items.map(&:input_id),
+          input_item_ids: chat.input_items.map(&:id),
           message: message
         )
         ProcessPaperJob.perform_later(message.id, quality: @quality)
