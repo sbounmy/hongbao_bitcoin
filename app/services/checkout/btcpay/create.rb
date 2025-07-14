@@ -11,6 +11,7 @@ module Checkout
           title: order.line_items.first.metadata["name"],
           description: order.line_items.first.metadata["description"],
           formId: ENV["BTCPAY_FORM_ID"],
+          expiryDate: 1.hours.from_now.to_i,
           referenceId: order.id
         }
 
