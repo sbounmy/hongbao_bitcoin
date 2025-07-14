@@ -1,4 +1,5 @@
 class PaymentMethod < ApplicationRecord
+  include Positionable
   has_many :hong_baos
   has_one_attached :logo
 

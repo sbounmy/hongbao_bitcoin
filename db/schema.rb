@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_14_150209) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -117,7 +117,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.json "settings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order"
+    t.integer "position"
     t.boolean "no_kyc", default: true
     t.index ["name"], name: "index_payment_methods_on_name", unique: true
   end
