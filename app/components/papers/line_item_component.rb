@@ -32,7 +32,7 @@ module Papers
 
     def paper_genres
       # NOTE: Assuming `paper` has a `style` attribute.
-      paper.style.name || "No style defined"
+      paper.style&.name || "No style"
     end
 
     def theme_version
