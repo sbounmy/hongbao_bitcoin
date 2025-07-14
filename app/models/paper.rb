@@ -1,12 +1,9 @@
 class Paper < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true
-  belongs_to :message, optional: true
   has_one_attached :image_front
   has_one_attached :image_back
   has_one_attached :image_full
-  has_many :children, class_name: "Paper", foreign_key: :parent_id
-  belongs_to :parent, class_name: "Paper", optional: true
 
   before_validation :set_default_elements
   after_create_commit :broadcast_prepend
@@ -18,7 +15,12 @@ class Paper < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :events, -> { joins(:input_items).where(input_items: { input_type: "Input::Event" }) }
+
+  scope :with_input, ->(input) { with_any_input_ids(input.id) }
+  scope :with_input_type, ->(type) { with_any_input_ids(Input.where(type: type).pluck(:id)) }
+  scope :with_themes, -> { with_input_type("Input::Theme") }
+  scope :with_events, -> { with_input_type("Input::Event") }
+  scope :with_styles, -> { with_input_type("Input::Style") }
 
   include ArrayColumns
   array_columns :input_ids, :input_item_ids
