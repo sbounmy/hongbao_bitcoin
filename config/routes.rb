@@ -21,7 +21,9 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show, :new ]
+    resources :papers, only: [ :show, :new ] do
+      get :explore, on: :collection
+    end
     root "pages#index"
   end
 

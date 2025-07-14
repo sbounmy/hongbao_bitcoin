@@ -23,6 +23,12 @@
         <% end %>
       </li>
 
+      <li>
+        <%= link_to explore_papers_path, class: "text-base" do %>
+          <%= heroicon "banknotes", variant: :outline, class: "w-6 h-6" %>
+          Explore
+        <% end %>
+      </li>
       <div class="flex-grow"></div>
       <ul class='flex flex-col gap-2'>
         <% if authenticated? && current_user %>

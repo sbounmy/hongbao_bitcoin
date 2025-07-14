@@ -34,6 +34,10 @@ class PapersController < ApplicationController
     @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
   end
 
+  def explore
+    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+  end
+
   private
 
   def paper_scope
@@ -55,7 +59,7 @@ class PapersController < ApplicationController
     case action_name
     when "show"
       "offline"
-    when "new", "index_3"
+    when "new", "index_3", "explore"
       "main"
     else
       "application"
