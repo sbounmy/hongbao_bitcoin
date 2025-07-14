@@ -3,11 +3,11 @@ module Checkout
     class Create < Checkout::Create
       private
       def provider_specific_call(order, product)
-        session = ::Stripe::Checkout::Session.create(checkout_params)
+        session = ::Stripe::Checkout::Session.create(checkout_params(order))
         success(session)
       end
 
-      def checkout_params
+      def checkout_params(order)
         p = {
           payment_method_types: [ "card" ],
           shipping_address_collection: {
@@ -35,7 +35,9 @@ module Checkout
             quantity: 1
           } ],
           payment_intent_data: {
-            colors: order.line_items.first.metadata["color"]
+            metadata: {
+              colors: order.line_items.first.metadata["color"]
+          }
           },
           mode: "payment",
           success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
