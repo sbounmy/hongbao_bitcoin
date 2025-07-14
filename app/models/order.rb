@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   include AASM
 
-  aasm do
+  aasm column: "state" do
     state :pending, initial: true
     state :processing
     state :completed
