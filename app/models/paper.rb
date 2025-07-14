@@ -37,13 +37,13 @@ class Paper < ApplicationRecord
   ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
 
   store :elements, accessors: ELEMENTS, prefix: true
-
-  store :metadata, accessors: [ :prompt, :costs, :tokens ]
+  # store_accessor :metadata, :prompt, :costs, :tokens
+  store :metadata, accessors: [ :costs, :tokens, :prompt ]
   store :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
   store :costs, accessors: [ :input, :output, :total ], suffix: true
 
   def input_items
-    bundle&.input_items&.where(id: input_item_ids) || []
+    InputItem.where(id: input_item_ids)
   end
 
   def input_items=(input_items)
