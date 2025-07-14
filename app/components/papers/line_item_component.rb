@@ -32,12 +32,12 @@ module Papers
 
     def paper_genres
       # NOTE: Assuming `paper` has a `style` attribute.
-      paper.style.presence || "No style defined"
+      paper.style.name || "No style defined"
     end
 
     def theme_version
       # NOTE: Assuming `paper` has a `theme` with a `version`.
-      paper.theme&.version
+      "1.0"
     end
 
     # NOTE: The following stats are placeholders to match the design.

@@ -36,7 +36,9 @@ class Paper < ApplicationRecord
 
   store :elements, accessors: ELEMENTS, prefix: true
 
-  store_accessor :metadata, :prompt, :costs, :tokens
+  store :metadata, accessors: [ :prompt, :costs, :tokens ]
+  store :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
+  store :costs, accessors: [ :input, :output, :total ], suffix: true
 
   def input_items
     bundle&.input_items&.where(id: input_item_ids) || []
@@ -52,15 +54,15 @@ class Paper < ApplicationRecord
   end
 
   def theme
-    input_items.find { |item| item.input.is_a?(Input::Theme) }
+    inputs.find { |i| i.is_a?(Input::Theme) }
   end
 
   def style
-    input_items.find { |item| item.input.is_a?(Input::Style) }
+    inputs.find { |i| i.is_a?(Input::Style) }
   end
 
   def event
-    input_items.find { |item| item.input.is_a?(Input::Event) }
+    inputs.find { |i| i.is_a?(Input::Event) }
   end
 
   def front_elements
