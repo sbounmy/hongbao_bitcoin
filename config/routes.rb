@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post "mt_pelerin", to: "mt_pelerin#create"
+    post "btcpay", to: "btcpay#create"
   end
 
   resources :addrs, only: [ :show ], controller: "hong_baos"
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
 
   resources :checkout, only: [ :create, :update ] do
     collection do
+      post :create
       get :success
       get :cancel
       post :webhook
