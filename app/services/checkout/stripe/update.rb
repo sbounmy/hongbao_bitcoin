@@ -8,7 +8,7 @@ module Checkout
       private
       def portal_session
         failure "Unable to manage billing: No Stripe customer ID found." unless @user.stripe_customer_id
-         Stripe::BillingPortal::Session.create({
+         ::Stripe::BillingPortal::Session.create({
           customer: @user.stripe_customer_id,
           return_url: tokens_url
         })

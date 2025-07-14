@@ -3,7 +3,7 @@ module Checkout
     class Create < Checkout::Create
       private
       def provider_specific_call(order, product)
-        session = Stripe::Checkout::Session.create(checkout_params)
+        session = ::Stripe::Checkout::Session.create(checkout_params)
         success(session)
       end
 
