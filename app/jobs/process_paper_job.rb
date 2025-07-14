@@ -10,7 +10,6 @@ class ProcessPaperJob < ApplicationJob
 
       # begin
       input_items = @paper.input_items
-      puts input_items.to_a.inspect
       theme_input = input_items.find { |item| item.input.type == "Input::Theme" }&.input
       image_input = input_items.find { |item| item.input.type == "Input::Image" }
 
