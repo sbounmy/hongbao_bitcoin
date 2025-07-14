@@ -62,18 +62,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.index ["user_id"], name: "index_bundles_on_user_id"
   end
 
-  create_table "chats", force: :cascade do |t|
-    t.string "model_id"
-    t.integer "user_id"
-    t.integer "bundle_id"
-    t.json "input_item_ids", default: "[]"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bundle_id"], name: "index_chats_on_bundle_id"
-    t.index ["user_id", "bundle_id"], name: "index_chats_on_user_id_and_bundle_id"
-    t.index ["user_id"], name: "index_chats_on_user_id"
-  end
-
   create_table "identities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "provider_name"
@@ -105,19 +93,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.index ["position"], name: "index_inputs_on_position"
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.integer "chat_id", null: false
-    t.string "role"
-    t.text "content"
-    t.string "model_id"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.json "metadata", default: "{}"
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
-  end
-
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.boolean "active", default: true
@@ -126,15 +101,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.json "elements"
     t.integer "user_id"
     t.boolean "public", default: false
-    t.integer "parent_id"
     t.integer "bundle_id"
     t.json "input_item_ids", default: []
-    t.integer "message_id"
     t.json "input_ids", default: [], null: false
     t.json "metadata", default: "{}"
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
-    t.index ["message_id"], name: "index_papers_on_message_id"
-    t.index ["parent_id"], name: "index_papers_on_parent_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
     t.check_constraint "JSON_TYPE(input_ids) = 'array'", name: "paper_input_ids_is_array"
   end
@@ -200,10 +171,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
-  add_foreign_key "messages", "chats"
   add_foreign_key "papers", "bundles"
-  add_foreign_key "papers", "messages"
-  add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tokens", "users"
