@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_032334) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_14_082749) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -131,6 +131,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_032334) do
     t.integer "message_id"
     t.json "input_ids", default: [], null: false
     t.json "input_item_ids", default: []
+    t.json "metadata", default: {}
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
     t.index ["message_id"], name: "index_papers_on_message_id"
     t.index ["parent_id"], name: "index_papers_on_parent_id"
