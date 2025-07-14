@@ -1,62 +1,47 @@
 module Checkout
-  class Create < ApplicationService
-    def call(params, current_user: nil)
+  class Create < Base
+    def call(params:, current_user:, currency: "EUR")
       @params = params
       @current_user = current_user
-      session = Stripe::Checkout::Session.create(checkout_params)
-      success session
+      @currency = currency
+      # 1. Find the product
+      price_id = @params[:price_id]
+      return failure("Price ID is missing.") unless price_id
+
+      product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
+      return failure("Product not found for price ID: #{price_id}") unless product
+
+      # 2. Create the Order and LineItem
+      order = create_order_and_line_item(product)
+
+      # This calls the `provider_specific_call` method in the child class
+      provider_specific_call(order, product)
     end
 
     private
 
-    def checkout_params
-      p = {
-        payment_method_types: [ "card" ],
-        shipping_address_collection: {
+    def create_order_and_line_item(product)
+      order = Order.create!(
+        user: @current_user,
+        total_amount: product[:price],
+        currency: @currency,
+        payment_provider: @params[:provider],
+        external_id: "external_id_#{SecureRandom.hex(10)}"
+      )
 
-          allowed_countries: [
-            "AC", "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AT", "AU", "AW", "AX",
-            "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ",
-            "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CD", "CF", "CG", "CH", "CI", "CK", "CL",
-            "CM", "CN", "CO", "CR", "CV", "CW", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC",
-            "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FO", "FR", "GA", "GB", "GD", "GE",
-            "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY",
-            "HK", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IS", "IT", "JE",
-            "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KR", "KW", "KY", "KZ", "LA", "LB",
-            "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG",
-            "MK", "ML", "MM", "MN", "MO", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ",
-            "NA", "NC", "NE", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF",
-            "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PY", "QA", "RE", "RO", "RS", "RU",
-            "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO",
-            "SR", "SS", "ST", "SV", "SX", "SZ", "TA", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL",
-            "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "US", "UY", "UZ", "VA", "VC",
-            "VE", "VG", "VN", "VU", "WF", "WS", "XK", "YE", "YT", "ZA", "ZM", "ZW", "ZZ"
-          ] # allow countries
-        },
-        line_items: [ {
-          price: @params[:price_id],
-          quantity: 1
-        } ],
-        payment_intent_data: {
-          colors: @params[:colors]
-        },
-        mode: "payment",
-        success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
-        cancel_url: cancel_checkout_index_url
-      }
-      if @current_user
-        if @current_user.stripe_customer_id
-          p[:customer] = @current_user.stripe_customer_id
-        else
-          p[:customer_email] = @current_user.email
-          p[:customer_creation] = "always"
-        end
-        p[:allow_promotion_codes] = @current_user.admin
-        if ENV["STRIPE_CONTEXT_ID"].present?
-          p[:client_reference_id] = "#{ENV['STRIPE_CONTEXT_ID']}#user_#{@current_user.id}"
-        end
-      end
-      p
+      order.line_items.create!(
+        quantity: 1,
+        price: product[:price],
+        stripe_price_id: product[:stripe_price_id],
+        metadata: {
+          name: product[:name],
+          tokens: product[:tokens],
+          envelopes: product[:envelopes],
+          description: product[:description],
+          color: @params[:color]
+        }
+      )
+      order
     end
   end
 end
