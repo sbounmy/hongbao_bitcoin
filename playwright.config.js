@@ -5,9 +5,9 @@ import { defineConfig, devices } from '@playwright/test';
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
 // Is this a parallel run orchestrated by our Rake task?
 const isParallelRun = !!process.env.E2E_PARALLEL_RUN;
@@ -32,7 +32,17 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // For parallel runs, use the BASE_URL from the Rake task.
     // For standard runs, fallback to the existing logic.
-    baseURL: process.env.BASE_URL || (process.env.APP_HOST ? `https://${process.env.APP_HOST}` : `http://localhost:3003`),
+    baseURL: (() => {
+      // For CI/prod, a full BASE_URL (e.g., https://staging.myapp.com) is often provided.
+      if (process.env.BASE_URL) {
+        return process.env.BASE_URL;
+      }
+
+      // For local development, determine protocol based on hostname.
+      const host = process.env.APP_HOST || 'localhost:3003';
+      const protocol = host.includes('localhost') ? 'http' : 'https';
+      return `${protocol}://${host}`;
+    })(),
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
