@@ -1,0 +1,46 @@
+<div class="flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10">
+  <%# Left: Image %>
+  <%= link_to paper_path(paper), target: "_blank", class: "relative flex-shrink-0 w-30 aspect-[170/90] overflow-hidden rounded-md" do %>
+    <%= image_tag image_front_url, class: "absolute w-full h-full bg-gray-700 object-cover" %>
+  <% end %>
+
+  <%# Right: Details %>
+  <div class="flex-1 min-w-0">
+    <%# Title and Version %>
+    <%= link_to paper_path(paper), target: "_blank", class: "block" do %>
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="font-bold truncate"><%= paper.name %></h3>
+        <% if theme_version.present? %>
+          <span class="text-xs font-semibold text-white bg-purple-500/50 px-2 py-0.5 rounded-md flex-shrink-0">
+            v<%= theme_version %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Genres %>
+    <p class="text-sm text-gray-400 truncate"><%= paper_genres %></p>
+
+    <%# Creator & Stats %>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-gray-400">
+      <%# Creator %>
+      <div class="flex items-center gap-2">
+        <% if creator_avatar_url %>
+          <%= image_tag creator_avatar_url, class: "w-4 h-4 rounded-full" %>
+        <% else %>
+          <div class="w-4 h-4 bg-gray-600 rounded-full"></div>
+        <% end %>
+        <span class="truncate"><%= creator_name %></span>
+      </div>
+
+      <%# Stats %>
+      <div class="flex items-center gap-4 ml-auto text-xs md:ml-0">
+        <div class="flex items-center gap-1 text-sm" title="Views">
+          <%= heroicon "eye", variant: :solid, class: "w-4 h-4" %>
+          <span><%= views_count %></span>
+        </div>
+        <%= render Papers::LikeButtonComponent.new(paper: paper, size: :small) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,7 +21,10 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show ]
+    resources :papers, only: [ :show, :new ] do
+      get :explore, on: :collection
+      post :like, on: :member
+    end
     root "pages#index"
   end
 
@@ -42,6 +45,8 @@ Rails.application.routes.draw do
       post :webhook
     end
   end
+
+  resources :inputs, only: [ :show ]
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
@@ -96,6 +101,10 @@ Rails.application.routes.draw do
 
   direct :github do
     "https://github.com/sbounmy/hongbao_bitcoin"
+  end
+
+  direct :github_bitcoin_calendar_discussions do
+    "https://github.com/sbounmy/hongbao_bitcoin/discussions/categories/bitcoin-calendar"
   end
 
   direct :satoshi_video do

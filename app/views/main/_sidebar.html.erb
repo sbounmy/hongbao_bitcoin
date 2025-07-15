@@ -1,0 +1,101 @@
+<%= render DrawerComponent.new(id: "sidebar", class: "md:drawer-open") do |drawer| %>
+  <% drawer.with_body do %>
+    <%= yield %>
+  <% end %>
+
+  <% drawer.with_side do %>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-64 p-4 gap-2 border-r border-slate-500">
+      <li>
+        <%= link_to root_path, class: "text-base" do %>
+          <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %> Hong₿ao
+        <% end %>
+      </li>
+      <li>
+        <%= link_to dashboard_path, class: "text-base" do %>
+          <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.home") %>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_paper_path, class: "text-base" do %>
+          <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
+          <%= t("layouts.main.footer.create") %>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to explore_papers_path, class: "text-base" do %>
+          <%= heroicon "banknotes", variant: :outline, class: "w-6 h-6" %>
+          Explore
+        <% end %>
+      </li>
+      <div class="flex-grow"></div>
+      <ul class='flex flex-col gap-2'>
+        <% if authenticated? && current_user %>
+        <li>
+          <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
+        </li>
+        <li>
+          <details>
+            <summary class="flex items-center gap-2 p-2">
+              <% if current_user.avatar.attached? %>
+                <%= image_tag url_for(current_user.avatar), class: "w-10 h-10 rounded-full" %>
+              <% else %>
+                <div class="avatar placeholder">
+                  <div class="bg-neutral text-neutral-content rounded-full w-10">
+                    <span><%= current_user.handle.first.upcase %></span>
+                  </div>
+                </div>
+              <% end %>
+              <span class="font-bold"><%= current_user.handle %></span>
+            </summary>
+            <ul>
+              <li><a><%= t("layouts.main.footer.settings") %></a></li>
+              <li><%= link_to t("layouts.main.footer.logout"), session_path(Current.session), data: { "turbo-method": :delete } %></li>
+            </ul>
+          </details>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "Sign in", new_session_path, class: "btn btn-outline" %>
+        </li>
+      <% end %>
+      <li>
+        <%= link_to "#", class: "text-base" do %>
+          <%= heroicon "gift", variant: :outline, class: "w-6 h-6" %>
+          Invite friends
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#", class: "text-base" do %>
+          <div class="indicator">
+            <span class="indicator-item badge badge-secondary">20</span>
+            <%= heroicon "document-text", variant: :outline, class: "w-6 h-6" %>
+          </div>
+          What's new?
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#", class: "text-base" do %>
+          <%= heroicon "ellipsis-horizontal", variant: :outline, class: "w-6 h-6" %>
+          More from HongBao
+        <% end %>
+      </li>
+      </ul>
+      <div class="flex items-center justify-around p-4">
+        <%= link_to x_url, target: "_blank", rel: "noopener noreferrer" do %>
+            <%= image_tag "x.svg", class: "w-5 h-5" %>
+        <% end %>
+        <%= link_to linkedin_url, target: "_blank", rel: "noopener noreferrer" do %>
+            <%= image_tag "linkedin.svg", class: "w-5 h-5" %>
+        <% end %>
+        <%= link_to github_url, target: "_blank", rel: "noopener noreferrer" do %>
+          <%= github_icon size: 5 %>
+        <% end %>
+        <%= link_to etsy_url, target: "_blank", rel: "noopener noreferrer" do %>
+          <%= image_tag "etsy.png", class: "w-5 h-5" %>
+        <% end %>
+      </div>
+    </ul>
+  <% end %>
+<% end %>

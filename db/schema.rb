@@ -53,60 +53,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "ai_elements", force: :cascade do |t|
-    t.string "leonardo_id"
-    t.string "title"
-    t.string "weight"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status"
-    t.datetime "leonardo_created_at"
-    t.datetime "leonardo_updated_at"
-    t.index ["leonardo_id"], name: "index_ai_elements_on_leonardo_id", unique: true
-  end
-
-  create_table "ai_elements_themes", id: false, force: :cascade do |t|
-    t.integer "theme_id", null: false
-    t.integer "element_id", null: false
-    t.index ["element_id", "theme_id"], name: "index_ai_elements_themes_on_element_id_and_theme_id"
-    t.index ["theme_id", "element_id"], name: "index_ai_elements_themes_on_theme_id_and_element_id"
-  end
-
-  create_table "ai_messages", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.text "text"
-    t.string "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_ai_messages_on_type"
-  end
-
-  create_table "ai_tasks", force: :cascade do |t|
-    t.string "external_id"
-    t.string "status"
-    t.integer "user_id", null: false
-    t.string "type", null: false
-    t.string "prompt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.json "request"
-    t.json "response"
-    t.string "source_type"
-    t.integer "source_id"
-    t.index ["source_type", "source_id"], name: "index_ai_tasks_on_source"
-    t.index ["type", "external_id"], name: "index_ai_tasks_on_type_and_external_id"
-    t.index ["user_id"], name: "index_ai_tasks_on_user_id"
-  end
-
-  create_table "ai_themes", force: :cascade do |t|
-    t.string "title", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "path"
-    t.json "ui", default: "{}"
-  end
-
   create_table "bundles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name"
@@ -114,18 +60,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bundles_on_user_id"
-  end
-
-  create_table "chats", force: :cascade do |t|
-    t.string "model_id"
-    t.integer "user_id"
-    t.integer "bundle_id"
-    t.json "input_item_ids", default: "[]"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bundle_id"], name: "index_chats_on_bundle_id"
-    t.index ["user_id", "bundle_id"], name: "index_chats_on_user_id_and_bundle_id"
-    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -170,19 +104,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.integer "chat_id", null: false
-    t.string "role"
-    t.text "content"
-    t.string "model_id"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.json "metadata", default: "{}"
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
-  end
-
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
     t.string "payment_provider", null: false
@@ -205,23 +126,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
 
   create_table "papers", force: :cascade do |t|
     t.string "name"
-    t.integer "ai_style_id", default: 0
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "elements"
     t.integer "user_id"
     t.boolean "public", default: false
-    t.integer "parent_id"
-    t.integer "ai_theme_id"
     t.integer "bundle_id"
-    t.json "input_item_ids", default: "[]"
-    t.integer "message_id"
-    t.index ["ai_theme_id"], name: "index_papers_on_ai_theme_id"
+    t.json "input_item_ids", default: []
+    t.json "input_ids", default: [], null: false
+    t.json "metadata", default: "{}"
+    t.integer "views_count", default: 0, null: false
+    t.integer "likes_count", default: 0, null: false
+    t.json "liker_ids", default: []
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
-    t.index ["message_id"], name: "index_papers_on_message_id"
-    t.index ["parent_id"], name: "index_papers_on_parent_id"
+    t.index ["likes_count"], name: "index_papers_on_likes_count"
     t.index ["user_id"], name: "index_papers_on_user_id"
+    t.index ["views_count"], name: "index_papers_on_views_count"
+    t.check_constraint "JSON_TYPE(input_ids) = 'array'", name: "paper_input_ids_is_array"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -231,7 +153,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.json "settings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order"
+    t.integer "position"
     t.boolean "no_kyc", default: true
     t.index ["name"], name: "index_payment_methods_on_name", unique: true
   end
@@ -283,18 +205,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ai_tasks", "users"
   add_foreign_key "bundles", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
   add_foreign_key "line_items", "orders"
-  add_foreign_key "messages", "chats"
   add_foreign_key "orders", "users"
-  add_foreign_key "papers", "ai_themes"
   add_foreign_key "papers", "bundles"
-  add_foreign_key "papers", "messages"
-  add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tokens", "orders"

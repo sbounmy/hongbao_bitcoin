@@ -107,12 +107,16 @@ export default class extends Controller {
     event.preventDefault()
 
     try {
+      this.contentTarget.style.transform = '' // Remove zoom transform
+      this.viewportTarget.scrollTop = 0       // Scroll to top
+      this.viewportTarget.scrollLeft = 0      // Scroll to left
       // Convert content to canvas
       const canvas = await html2canvas(this.contentTarget, {
+        
         scale: 2, // Higher quality
         useCORS: true, // Allow cross-origin images
         logging: true, // Enabled logging
-        scrollX: -window.scrollX,
+        scrollX: -window.scrollX, // negate scroll position to prevent clipping upon pdf download
         scrollY: -window.scrollY
       })
 

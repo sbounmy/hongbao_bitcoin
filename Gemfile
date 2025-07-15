@@ -70,6 +70,7 @@ group :development do
   gem "web-console"
   gem "letter_opener"
   gem "letter_opener_web" # Optional: adds a web interface to view emails
+  gem "claude-on-rails"
 end
 
 group :test do
@@ -79,7 +80,9 @@ group :test do
   gem "webmock"
   gem "faker"
   gem "shoulda-matchers"
-  gem "parallel_tests", "~> 5.3"
+  gem "parallel_tests"
+  gem "timecop"
+  gem "rails-controller-testing"
 end
 
 

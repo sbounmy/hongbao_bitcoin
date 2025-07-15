@@ -1,6 +1,0 @@
-dollar_ghibli:
-  bundle: dollar
-  input_item_ids:
-    - 1
-    - 2
-    - 3

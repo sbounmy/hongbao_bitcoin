@@ -39,7 +39,13 @@ class V3::PricingComponent < ApplicationComponent
     video_config = Rails.root.join("config/plan_videos.yml")
     return [] unless File.exist?(video_config)
 
-    videos = YAML.load_file(video_config)[pack] || []
+    all_videos = YAML.load_file(video_config)
+    plan_videos = all_videos[pack]
+    return [] unless plan_videos
+
+    selected_colors = color.split(",")
+    videos = selected_colors.flat_map { |c| plan_videos[c] || [] }.compact
+
     videos.map.with_index do |video, idx|
       { type: video["type"].to_sym, url: video["url"], name: "external_#{idx}" }
     end

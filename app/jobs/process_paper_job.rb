@@ -5,17 +5,11 @@ require "vips"
 class ProcessPaperJob < ApplicationJob
   queue_as :default
 
-  def perform(message_id, quality: "high")
-    @message = Message.find(message_id)
-    @paper = @message.paper
-    @chat = @message.chat
-    theme_attachment = nil
-    image_attachment = nil
-    prepared_theme = nil
-    prepared_image = nil
+  def perform(paper_id, quality: "high")
+    @paper = Paper.find(paper_id)
 
-    begin
-      input_items = @chat.input_items.includes(input: { image_attachment: :blob }) # Eager load
+      # begin
+      input_items = @paper.input_items
       theme_input = input_items.find { |item| item.input.type == "Input::Theme" }&.input
       image_input = input_items.find { |item| item.input.type == "Input::Image" }
 
@@ -23,16 +17,16 @@ class ProcessPaperJob < ApplicationJob
       image_attachment = image_input&.image
 
 
-      Rails.logger.info "[RubyLLM] #{quality} Chat #{@chat.id} with prompt, theme, and image."
+      Rails.logger.info "[RubyLLM] #{quality} Paper #{@paper.id} with prompt, theme, and image."
       # 5. Call the LLM service
       response = RubyLLM.edit(
-        @message.content,
+        @paper.prompt,
         model: "gpt-image-1",
         with: { image: [ path_for(theme_attachment), path_for(image_attachment) ] },
         options: {
           size: "1024x1024",
           quality:,
-          user: @message.user_id
+          user: @paper.user_id
         }
       )
 
@@ -46,9 +40,8 @@ class ProcessPaperJob < ApplicationJob
       top = Vips::Image.new_from_buffer(top, "").write_to_buffer(".jpg")
 
       @paper.image_full.attach(io: StringIO.new(full_image), filename: "full_#{SecureRandom.hex(4)}.jpg")
-      @paper.save!
 
-      @message.update!(
+      @paper.assign_attributes(
         input_tokens: response.usage["input_tokens"],
         output_tokens: response.usage["output_tokens"],
         input_image_tokens: response.usage.dig("input_tokens_details", "image_tokens"),
@@ -59,24 +52,23 @@ class ProcessPaperJob < ApplicationJob
         output_costs: response.output_cost,
       )
 
+      @paper.save!
 
 
-      Rails.logger.info "Attaching generated image to Paper for Chat #{@chat.id}."
+      Rails.logger.info "Attaching generated image to Paper #{@paper.id}."
       @paper.image_front.attach(io: StringIO.new(top), filename: "front_#{SecureRandom.hex(4)}.jpg")
       @paper.image_back.attach(theme_input.image_back.blob)
       @paper.save!
-      Rails.logger.info "Successfully saved Paper #{@paper.id} for Chat #{@chat.id}."
+      Rails.logger.info "Successfully saved Paper #{@paper.id}"
 
-    rescue => e
-      puts "Error during job for Chat #{@chat.id}: #{e.message}"
-      puts e.backtrace.join("\n")
-      # Handle error (e.g., update chat status, retry job)
-    ensure
-      # 7. CRITICAL: Ensure cleanup for both attachments
-      puts "Ensuring cleanup for Chat #{@chat.id}..."
-      prepared_theme&.cleanup
-      prepared_image&.cleanup
-    end
+    # rescue => e
+    #   puts "Error during job for Paper #{@paper.id}: #{e.message}"
+    #   puts e.backtrace.join("\n")
+    #   # Handle error (e.g., update chat status, retry job)
+    # ensure
+    #   # 7. CRITICAL: Ensure cleanup for both attachments
+    #   puts "Ensuring cleanup for Paper #{@paper.id}..."
+    # end
   end
 
   private
