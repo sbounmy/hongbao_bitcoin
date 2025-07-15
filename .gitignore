@@ -60,3 +60,7 @@ coveragejs
 yarn-error.log
 /blob-reports
 /public/*.xml.gz
+
+# ClaudeOnRails
+.claude-on-rails/sessions/
+swarm.log
