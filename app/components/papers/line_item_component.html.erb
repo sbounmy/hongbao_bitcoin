@@ -1,20 +1,22 @@
-<%= link_to paper_path(paper), class: "flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10", target: "_blank" do %>
+<div class="flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10">
   <%# Left: Image %>
-  <div class="relative flex-shrink-0 w-30  aspect-[170/90] overflow-hidden rounded-md">
+  <%= link_to paper_path(paper), target: "_blank", class: "relative flex-shrink-0 w-30 aspect-[170/90] overflow-hidden rounded-md" do %>
     <%= image_tag image_front_url, class: "absolute w-full h-full bg-gray-700 object-cover" %>
-  </div>
+  <% end %>
 
   <%# Right: Details %>
   <div class="flex-1 min-w-0">
     <%# Title and Version %>
-    <div class="flex items-center justify-between gap-2">
-      <h3 class="font-bold truncate"><%= paper.name %></h3>
-      <% if theme_version.present? %>
-        <span class="text-xs font-semibold text-white bg-purple-500/50 px-2 py-0.5 rounded-md flex-shrink-0">
-          v<%= theme_version %>
-        </span>
-      <% end %>
-    </div>
+    <%= link_to paper_path(paper), target: "_blank", class: "block" do %>
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="font-bold truncate"><%= paper.name %></h3>
+        <% if theme_version.present? %>
+          <span class="text-xs font-semibold text-white bg-purple-500/50 px-2 py-0.5 rounded-md flex-shrink-0">
+            v<%= theme_version %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
 
     <%# Genres %>
     <p class="text-sm text-gray-400 truncate"><%= paper_genres %></p>
@@ -33,19 +35,12 @@
 
       <%# Stats %>
       <div class="flex items-center gap-4 ml-auto text-xs md:ml-0">
-        <div class="flex items-center gap-1" title="Plays">
-          <%= heroicon "play", variant: :solid, class: "w-4 h-4" %>
-          <span><%= play_count %></span>
+        <div class="flex items-center gap-1" title="Views">
+          <%= heroicon "eye", variant: :solid, class: "w-4 h-4" %>
+          <span><%= views_count %></span>
         </div>
-        <div class="flex items-center gap-1" title="Likes">
-          <%= heroicon "hand-thumb-up", variant: :solid, class: "w-4 h-4" %>
-          <span><%= like_count %></span>
-        </div>
-        <div class="flex items-center gap-1" title="Comments">
-          <%= heroicon "chat-bubble-left-right", variant: :solid, class: "w-4 h-4" %>
-          <span><%= comment_count %></span>
-        </div>
+        <%= render Papers::LikeButtonComponent.new(paper: paper, size: :small) %>
       </div>
     </div>
   </div>
-<% end %>
+</div>

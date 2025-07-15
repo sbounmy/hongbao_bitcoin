@@ -1,4 +1,7 @@
 class Paper < ApplicationRecord
+  include Likeable
+  include Viewable
+
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true
   has_one_attached :image_front

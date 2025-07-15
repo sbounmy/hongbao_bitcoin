@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show, :new ] do
       get :explore, on: :collection
+      post :like, on: :member
     end
     root "pages#index"
   end
@@ -61,7 +62,6 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
-  get "/dashboard-3", to: "papers#index_3"
 
   # Authentication routes
   get "login", to: "users#new"

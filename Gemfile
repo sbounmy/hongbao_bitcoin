@@ -70,6 +70,7 @@ group :development do
   gem "web-console"
   gem "letter_opener"
   gem "letter_opener_web" # Optional: adds a web interface to view emails
+  gem "claude-on-rails"
 end
 
 group :test do

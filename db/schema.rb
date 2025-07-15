@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_15_090409) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -105,8 +105,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.json "input_item_ids", default: []
     t.json "input_ids", default: [], null: false
     t.json "metadata", default: "{}"
+    t.integer "views_count", default: 0, null: false
+    t.integer "likes_count", default: 0, null: false
+    t.json "liker_ids", default: []
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
+    t.index ["likes_count"], name: "index_papers_on_likes_count"
     t.index ["user_id"], name: "index_papers_on_user_id"
+    t.index ["views_count"], name: "index_papers_on_views_count"
     t.check_constraint "JSON_TYPE(input_ids) = 'array'", name: "paper_input_ids_is_array"
   end
 
@@ -117,7 +122,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_121756) do
     t.json "settings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order"
+    t.integer "position"
     t.boolean "no_kyc", default: true
     t.index ["name"], name: "index_payment_methods_on_name", unique: true
   end

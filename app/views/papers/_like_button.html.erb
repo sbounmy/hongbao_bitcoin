@@ -1,0 +1,8 @@
+<%= button_to like_paper_path(paper), 
+              method: :post,
+              id: dom_id(paper, :like_button),
+              class: "flex items-center gap-2 px-3 py-1 rounded-lg transition-colors #{paper.liked_by?(current_user) ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}",
+              data: { turbo_stream: true } do %>
+  <%= heroicon "heart", variant: paper.liked_by?(current_user) ? :solid : :outline, class: "w-5 h-5" %>
+  <span><%= paper.likes_count %></span>
+<% end %>

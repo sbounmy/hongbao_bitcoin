@@ -1,18 +1,10 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access
+  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
   helper_method :testnet?
   before_action :set_network
 
   def index
-    # Will be used to list available styles and papers
-    @styles = Input::Style.ordered.with_attached_image
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
-    @bundle = Bundle.new
-    @bundle.input_items.build(input: Input::Theme.first)
-  end
-
-  def index_3
     @styles = Input::Style.with_attached_image
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
@@ -20,8 +12,9 @@ class PapersController < ApplicationController
 
   def show
     @paper = Paper.find(params[:id])
+    @paper.increment_views!
     @hong_bao = HongBao.new
-    @payment_methods = PaymentMethod.active.order(order: :asc).with_attached_logo
+    @payment_methods = PaymentMethod.active.by_position.with_attached_logo
     @steps = Step.for_new
     @current_step = (params[:step] || 1).to_i
   end
@@ -36,6 +29,16 @@ class PapersController < ApplicationController
 
   def explore
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+  end
+
+  def like
+    @paper = Paper.find(params[:id])
+    @paper.like_toggle!(current_user)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @paper }
+    end
   end
 
   private
@@ -59,7 +62,7 @@ class PapersController < ApplicationController
     case action_name
     when "show"
       "offline"
-    when "new", "index_3", "explore"
+    when "new", "index", "explore"
       "main"
     else
       "application"

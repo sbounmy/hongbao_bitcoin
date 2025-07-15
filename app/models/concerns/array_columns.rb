@@ -9,17 +9,18 @@ module ArrayColumns
   class_methods do
     def array_columns_sanitize_list(values = [])
       return [] if values.nil?
-      values.select(&:present?).map(&:to_s).uniq.sort
+      values.select(&:present?).uniq
     end
 
     def array_columns(*column_names)
       @array_columns ||= {}
 
-      array_columns_sanitize_list(column_names).each do |column_name|
-        @array_columns[column_name] ||= false
+      column_names.each do |column_name|
+        @array_columns[column_name.to_s] ||= false
       end
 
-      @array_columns.each do |column_name, initialized|
+      @array_columns.keys.each do |column_name|
+        initialized = @array_columns[column_name]
         next if initialized
 
         column_name = column_name.to_s
