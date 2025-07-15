@@ -42,7 +42,7 @@ class PapersController < ApplicationController
   def like
     @paper = Paper.find(params[:id])
     @paper.like_toggle!(current_user)
-    
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to @paper }

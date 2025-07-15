@@ -153,22 +153,22 @@ RSpec.describe ArrayColumns, type: :concern do
   end
 
   describe "integer array support" do
-    let!(:post_with_authors) { Post.create!(author_ids: [1, 2, 3]) }
-    let!(:post_with_more_authors) { Post.create!(author_ids: [2, 3, 4]) }
+    let!(:post_with_authors) { Post.create!(author_ids: [ 1, 2, 3 ]) }
+    let!(:post_with_more_authors) { Post.create!(author_ids: [ 2, 3, 4 ]) }
     let!(:post_without_authors) { Post.create! }
 
     describe "type preservation" do
       it "preserves integer types in arrays" do
-        post = Post.create!(author_ids: [1, 2, 3])
+        post = Post.create!(author_ids: [ 1, 2, 3 ])
         post.reload
-        expect(post.author_ids).to eq([1, 2, 3])
+        expect(post.author_ids).to eq([ 1, 2, 3 ])
         expect(post.author_ids.first).to be_a(Integer)
       end
 
       it "removes duplicates while preserving type" do
-        post = Post.create!(author_ids: [1, 2, 2, 3, 1])
+        post = Post.create!(author_ids: [ 1, 2, 2, 3, 1 ])
         post.reload
-        expect(post.author_ids).to eq([1, 2, 3])
+        expect(post.author_ids).to eq([ 1, 2, 3 ])
       end
     end
 
