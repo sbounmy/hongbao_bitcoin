@@ -2,12 +2,13 @@
 
 module Papers
   class LikeButtonComponent < ApplicationComponent
-    attr_reader :paper, :size, :show_count
+    attr_reader :paper, :size, :show_count, :variant
 
-    def initialize(paper:, size: :small, show_count: true)
+    def initialize(paper:, size: :small, show_count: true, variant: :default)
       @paper = paper
       @size = size
       @show_count = show_count
+      @variant = variant
       super
     end
 
@@ -32,7 +33,13 @@ module Papers
 
     def button_classes
       base_classes = "flex items-center gap-1 transition-colors"
-      color_classes = liked? ? "text-red-500" : "hover:text-red-500"
+
+      color_classes = if variant == :light
+        liked? ? "text-red-500" : "text-white hover:text-red-500"
+      else
+        liked? ? "text-red-500" : "hover:text-red-500"
+      end
+
       "#{base_classes} #{color_classes}"
     end
 
