@@ -19,7 +19,7 @@ module Checkout
             return success if context_id.present? && !client_reference_id&.start_with?(context_id)
           end
           Rails.logger.info("event: #{event.id} session##{session.id}: #{event.inspect}")
-          cs = Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "line_items.data.price.product" ] })
+          cs = ::Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "line_items.data.price.product" ] })
           user = User.find_by(email: session.customer_details.email)
           # payment_intent is nil for order full coupon
           if session.payment_intent.present? && Token.find_by(external_id: session.payment_intent) # to avoid duplicate tokens when stripe retries for no reason
@@ -48,7 +48,7 @@ module Checkout
         end
       end
       def event
-        @event ||= Checkout::Stripe::Webhook.construct_event(@payload, @sig_header, endpoint_secret)
+        @event ||= ::Stripe::Webhook.construct_event(@payload, @sig_header, endpoint_secret)
       end
       def endpoint_secret
         Rails.application.credentials.dig(:stripe, :signing_secret)
