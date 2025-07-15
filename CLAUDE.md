@@ -31,7 +31,7 @@ The following specialized agents work together to implement your requests:
 - **Architect**: Coordinates all development and makes high-level decisions
 - **Models**: Handles ActiveRecord models, migrations, and database design
 - **Controllers**: Manages request handling, routing, and controller logic
-- **Views**: Creates and maintains views, layouts, and partials
+- **Views**: Creates and maintains views, View Components, layouts, and partials
 - **Stimulus**: Implements interactive features with Stimulus controllers
 - **Services**: Extracts business logic into service objects
 - **Jobs**: Handles background processing and async tasks
@@ -47,10 +47,10 @@ The following specialized agents work together to implement your requests:
 - Write self-documenting code
 
 ### Testing
-- RSpec for all tests
-- Factory Bot for test data
+- RSpec for all tests except user interations.
+- Fixtures for test data
 - Request specs for API endpoints
-- System specs for user interactions
+- E2E playwright for user interactions
 
 ### Git Workflow
 - Feature branches for new work
