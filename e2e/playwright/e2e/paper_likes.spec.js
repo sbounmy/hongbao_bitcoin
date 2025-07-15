@@ -94,7 +94,9 @@ test.describe('Paper Likes', () => {
 
       // Rapidly click the like button multiple times
       await likeButton.click();
+      await page.waitForTimeout(500);
       await likeButton.click();
+      await page.waitForTimeout(500);
       await likeButton.click();
 
       // Wait a bit for any pending requests
