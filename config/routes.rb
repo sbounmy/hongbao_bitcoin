@@ -44,7 +44,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :inputs, only: [ :show ]
+  resources :inputs, only: [ :show ] do
+    get :calendar, on: :collection
+  end
+
+  get "/calendar", to: "inputs#calendar"
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
