@@ -9,7 +9,16 @@
           Bitcoin Calendar
         </h1>
       </div>
-      <p class="text-base-content/70">Celebrating Bitcoin's Historic Moments</p>
+
+      <p class="text-base-content/70 mb-4">Celebrating Bitcoin's Historic Moments</p>
+
+      <!-- Suggest a Bitcoin Day Button -->
+      <%= link_to github_bitcoin_calendar_discussions_url, target: "_blank", class: "btn btn-primary bg-gradient-to-r from-orange-500 to-orange-600 border-0 hover:from-orange-600 hover:to-orange-700 text-white inline-flex items-center" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Suggest a Bitcoin Day
+      <% end %>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
