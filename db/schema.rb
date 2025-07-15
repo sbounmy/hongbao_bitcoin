@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_14_094043) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -253,8 +253,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_094043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.integer "order_id"
     t.index ["created_at"], name: "index_tokens_on_created_at"
     t.index ["external_id"], name: "index_tokens_on_external_id"
+    t.index ["order_id"], name: "index_tokens_on_order_id"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
@@ -295,5 +297,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_094043) do
   add_foreign_key "papers", "papers", column: "parent_id"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tokens", "orders"
   add_foreign_key "tokens", "users"
 end
