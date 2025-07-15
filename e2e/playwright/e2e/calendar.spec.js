@@ -14,11 +14,11 @@ test.describe('Event Calendar', () => {
   test('displays the calendar page with current month', async ({ page }) => {
     await page.goto('/calendar');
     
-    // Check page title
-    await expect(page.getByRole('heading', { name: 'Event Calendar' })).toBeVisible();
+    // Check page title - now it's "Bitcoin Calendar"
+    await expect(page.getByRole('heading', { name: 'Bitcoin Calendar' })).toBeVisible();
     
-    // Check calendar is displayed
-    await expect(page.locator('.calendar')).toBeVisible();
+    // Check calendar grid is displayed (no longer has .calendar class)
+    await expect(page.locator('.grid-cols-7').first()).toBeVisible();
     
     // Check day headers
     const dayHeaders = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -89,8 +89,13 @@ test.describe('Event Calendar', () => {
   test('highlights today\'s date', async ({ page }) => {
     await page.goto('/calendar');
     
-    // Today should have primary background color
-    const todayElement = page.locator('.bg-primary.text-primary-content');
+    // Find the parent div that contains today's gradient background
+    const todayParent = page.locator('.aspect-square').filter({ 
+      has: page.locator('.bg-gradient-to-br.from-orange-500.to-orange-600') 
+    });
+    
+    // Today's date should be visible with white text
+    const todayElement = todayParent.locator('.text-white.font-bold');
     await expect(todayElement).toBeVisible();
     
     // Check it contains today's date
@@ -102,7 +107,7 @@ test.describe('Event Calendar', () => {
     // Navigate to a future month that should have no events
     await page.goto('/calendar?date=2099-12-01');
     
-    await expect(page.getByText('No Bitcoin days to celebrate this month')).toBeVisible();
+    await expect(page.getByText('No Bitcoin milestones this month')).toBeVisible();
   });
 
   test('displays event details in list format', async ({ page }) => {
@@ -170,11 +175,11 @@ test.describe('Event Calendar', () => {
     
     // Check legend items
     await expect(page.getByText('Today')).toBeVisible();
-    await expect(page.getByText('Has events')).toBeVisible();
+    await expect(page.getByText('Bitcoin Event')).toBeVisible();
     
-    // Check legend indicators exist
-    await expect(page.locator('.w-3.h-3.bg-primary')).toBeVisible();
-    await expect(page.locator('.w-1.h-1.bg-primary.rounded-full').first()).toBeVisible();
+    // Check legend indicators exist - updated for new orange theme
+    await expect(page.locator('.w-4.h-4.bg-gradient-to-br')).toBeVisible();
+    await expect(page.locator('.w-4.h-4.bg-orange-500\\/10')).toBeVisible();
   });
 
   test('preserves date when navigating', async ({ page }) => {

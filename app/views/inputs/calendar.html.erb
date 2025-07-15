@@ -1,138 +1,193 @@
-<div class="container mx-auto px-4 py-4">
-  <h1 class="text-2xl font-bold mb-6">Event Calendar</h1>
+<div class="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header with Bitcoin theme -->
+    <div class="text-center mb-8">
+      <div class="flex items-center justify-center gap-3 mb-2">
+        <!-- Bitcoin Logo -->
+        <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-7.5 w-7.5 align-middle" %>
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+          Bitcoin Calendar
+        </h1>
+      </div>
+      <p class="text-base-content/70">Celebrating Bitcoin's Historic Moments</p>
+    </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Events list column (takes remaining width) -->
-    <div class="lg:col-span-8">
-      <h3 class="text-lg font-semibold mb-4">
-        Events in <%= @date.strftime('%B %Y') %>
-      </h3>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Events list column -->
+      <div class="lg:col-span-8">
+        <div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300">
+          <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Events in <%= @date.strftime('%B %Y') %>
+          </h3>
 
-      <% if @month_events.any? %>
-        <div class="space-y-3">
-          <% @month_events.each do |event| %>
-            <div class="card card-side bg-base-100 shadow-sm border border-base-200 hover:shadow-md transition-shadow">
-              <% if event.image.attached? %>
-                <figure class="w-24 h-24 flex-shrink-0">
-                  <%= image_tag event.image, class: "w-full h-full object-cover" %>
-                </figure>
-              <% else %>
-                <div class="w-24 h-24 flex-shrink-0 bg-base-200 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              <% end %>
+          <% if @month_events.any? %>
+            <div class="space-y-3">
+              <% @month_events.each do |event| %>
+                <div class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-base-200/50 to-base-300/30 hover:from-orange-500/10 hover:to-orange-600/5 transition-all duration-300 border border-base-300 hover:border-orange-500/30">
+                  <div class="flex items-stretch">
+                    <!-- Image/Icon -->
+                    <% if event.image.attached? %>
+                      <figure class="w-28 h-28 flex-shrink-0 relative overflow-hidden">
+                        <%= image_tag event.image, class: "w-full h-full object-cover" %>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </figure>
+                    <% else %>
+                      <div class="w-28 h-28 flex-shrink-0 bg-gradient-to-br from-orange-500/20 to-orange-600/10 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-orange-500/60" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12.5 13.2c2.7 0 2.7-1.7 2.7-2.2 0-1.4-1.3-1.8-2.7-1.8h-.8v4h.8zm-.8-5.5h.5c2.2 0 2.2-1.2 2.2-1.5 0-1.1-.9-1.5-2.2-1.5h-.5v3zm2.5 8.8v2.2c0 .3-.2.5-.5.5s-.5-.2-.5-.5v-2.1c-.9-.1-1.8-.3-2.6-.7-.3-.1-.4-.4-.3-.7.1-.3.4-.4.7-.3.9.4 1.9.6 2.9.6h.3c1.7 0 3.1-.4 3.1-2 0-2.1-2.4-2.3-3.9-2.6-1.9-.4-3.2-.7-3.2-2.6 0-1.8 1.5-2.5 3.2-2.5v-2c0-.3.2-.5.5-.5s.5.2.5.5v2c.7.1 1.5.2 2.2.5.3.1.4.4.3.7-.1.3-.4.4-.7.3-.7-.3-1.5-.4-2.3-.5-1.7 0-2.7.4-2.7 1.5 0 1.3 1.5 1.5 3 1.9 2.1.5 4.1.9 4.1 3.4-.1 1.9-1.7 2.9-3.6 3z"/>
+                        </svg>
+                      </div>
+                    <% end %>
 
-              <div class="card-body p-4 flex-row items-center justify-between">
-                <div class="flex-1">
-                  <div class="flex items-start gap-4">
-                    <div class="text-center min-w-[3rem]">
-                      <div class="text-2xl font-bold text-primary"><%= event.anniversary(@date).day %></div>
-                      <div class="text-xs uppercase text-base-content/60"><%= event.anniversary(@date).strftime('%b') %></div>
-                    </div>
+                    <!-- Content -->
+                    <div class="flex-1 p-4">
+                      <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                          <div class="flex items-start gap-4">
+                            <!-- Date Badge -->
+                            <div class="text-center bg-gradient-to-b from-orange-500 to-orange-600 text-white rounded-lg p-2 shadow-lg">
+                              <div class="text-2xl font-bold leading-none"><%= event.anniversary(@date).day %></div>
+                              <div class="text-xs uppercase"><%= event.anniversary(@date).strftime('%b') %></div>
+                            </div>
 
-                    <div class="flex-1">
-                      <h4 class="font-semibold text-base"><%= event.name %></h4>
-                      <% if event.description.present? %>
-                        <p class="text-sm text-base-content/70 mt-1 line-clamp-2"><%= event.description %></p>
-                      <% end %>
-                      <div class="flex gap-2 mt-2">
-                        <% if event.age > 0 %>
-                          <span class="badge badge-sm badge-ghost">
-                            <%= event.age %> <%= 'year'.pluralize(event.age) %> old
-                          </span>
+                            <!-- Event Info -->
+                            <div class="flex-1">
+                              <h4 class="font-bold text-lg group-hover:text-orange-500 transition-colors">
+                                <%= event.name %>
+                              </h4>
+                              <% if event.description.present? %>
+                                <p class="text-sm text-base-content/70 mt-1 line-clamp-2">
+                                  <%= event.description %>
+                                </p>
+                              <% end %>
+                              <div class="flex items-center gap-3 mt-2">
+                                <% if event.age > 0 %>
+                                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500/10 text-orange-600 border border-orange-500/20">
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <%= event.age %> <%= 'year'.pluralize(event.age) %>
+                                  </span>
+                                <% end %>
+                                <span class="text-xs text-base-content/60">
+                                  <%= event.anniversary(@date).strftime('%A') %>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <%= link_to input_path(event), class: "btn btn-circle btn-sm bg-orange-500/10 hover:bg-orange-500 hover:text-white border-0 transition-all" do %>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
                         <% end %>
-                        <span class="text-xs text-base-content/60">
-                          <%= event.anniversary(@date).strftime('%A') %>
-                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-12">
+              <svg class="w-16 h-16 text-base-content/20 mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.5 13.2c2.7 0 2.7-1.7 2.7-2.2 0-1.4-1.3-1.8-2.7-1.8h-.8v4h.8zm-.8-5.5h.5c2.2 0 2.2-1.2 2.2-1.5 0-1.1-.9-1.5-2.2-1.5h-.5v3zm2.5 8.8v2.2c0 .3-.2.5-.5.5s-.5-.2-.5-.5v-2.1c-.9-.1-1.8-.3-2.6-.7-.3-.1-.4-.4-.3-.7.1-.3.4-.4.7-.3.9.4 1.9.6 2.9.6h.3c1.7 0 3.1-.4 3.1-2 0-2.1-2.4-2.3-3.9-2.6-1.9-.4-3.2-.7-3.2-2.6 0-1.8 1.5-2.5 3.2-2.5v-2c0-.3.2-.5.5-.5s.5.2.5.5v2c.7.1 1.5.2 2.2.5.3.1.4.4.3.7-.1.3-.4.4-.7.3-.7-.3-1.5-.4-2.3-.5-1.7 0-2.7.4-2.7 1.5 0 1.3 1.5 1.5 3 1.9 2.1.5 4.1.9 4.1 3.4-.1 1.9-1.7 2.9-3.6 3z"/>
+              </svg>
+              <p class="text-base-content/50">No Bitcoin milestones this month</p>
+              <p class="text-sm text-base-content/40 mt-2">Check other months for historic events</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-                <div class="flex-shrink-0 ml-4">
-                  <%= link_to input_path(event), class: "btn btn-sm btn-ghost btn-circle" do %>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
+      <!-- Calendar column -->
+      <div class="lg:col-span-4">
+        <div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300">
+          <!-- Month navigation -->
+          <div class="flex justify-between items-center mb-6">
+            <%= link_to calendar_inputs_path(date: @date.prev_month), class: "btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            <% end %>
+
+            <h2 class="text-xl font-bold flex items-center gap-2">
+              <span class="text-orange-500">₿</span>
+              <%= @date.strftime('%B %Y') %>
+            </h2>
+
+            <%= link_to calendar_inputs_path(date: @date.next_month), class: "btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            <% end %>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="bg-gradient-to-br from-base-200/50 to-base-300/30 rounded-xl p-4">
+            <div class="grid grid-cols-7 gap-2 text-center mb-3">
+              <% %w[M T W T F S S].each do |day| %>
+                <div class="font-bold text-xs text-base-content/60 uppercase"><%= day %></div>
+              <% end %>
+            </div>
+
+            <div class="grid grid-cols-7 gap-2">
+              <% start_date = @date.beginning_of_month.beginning_of_week(:monday) %>
+              <% end_date = @date.end_of_month.end_of_week(:monday) %>
+
+              <% (start_date..end_date).each do |day| %>
+                <% has_event = @event_dates.include?(day) %>
+                <% is_current_month = day.month == @date.month %>
+                <% is_today = day == Date.current %>
+
+                <div class="aspect-square flex items-center justify-center relative <%= 'opacity-30' unless is_current_month %>">
+                  <% if is_today %>
+                    <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg"></div>
+                  <% elsif has_event && is_current_month %>
+                    <div class="absolute inset-0 bg-orange-500/10 rounded-lg border border-orange-500/30"></div>
+                  <% elsif is_current_month %>
+                    <div class="absolute inset-0 hover:bg-base-300/50 rounded-lg transition-colors cursor-pointer"></div>
+                  <% end %>
+
+                  <span class="relative text-sm <%= 'text-white font-bold' if is_today %> <%= 'text-orange-600 font-semibold' if has_event && !is_today && is_current_month %>">
+                    <%= day.day %>
+                  </span>
+
+                  <% if has_event && !is_today && is_current_month %>
+                    <div class="absolute bottom-0.5 left-1/2 -translate-x-1/2">
+                      <div class="w-1 h-1 bg-orange-500 rounded-full"></div>
+                    </div>
                   <% end %>
                 </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="alert">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>No Bitcoin days to celebrate this month</span>
-        </div>
-      <% end %>
-    </div>
-
-    <!-- Calendar column (fixed width) -->
-    <div class="lg:col-span-4">
-      <!-- Month navigation -->
-      <div class="flex justify-between items-center mb-4">
-        <%= link_to calendar_inputs_path(date: @date.prev_month), class: "btn btn-circle btn-sm btn-outline" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        <% end %>
-
-        <h2 class="text-lg font-semibold">
-          <%= @date.strftime('%B %Y') %>
-        </h2>
-
-        <%= link_to calendar_inputs_path(date: @date.next_month), class: "btn btn-circle btn-sm btn-outline" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        <% end %>
-      </div>
-
-      <!-- Calendar -->
-      <div class="calendar rounded-lg p-3 bg-base-100 shadow-sm border border-base-200">
-        <div class="grid grid-cols-7 gap-1 text-center mb-2">
-          <% %w[M T W T F S S].each do |day| %>
-            <div class="font-semibold text-xs text-base-content/60"><%= day %></div>
-          <% end %>
-        </div>
-
-        <div class="grid grid-cols-7 gap-1">
-          <% start_date = @date.beginning_of_month.beginning_of_week(:monday) %>
-          <% end_date = @date.end_of_month.end_of_week(:monday) %>
-
-          <% (start_date..end_date).each do |day| %>
-            <% has_event = @event_dates.include?(day) %>
-            <% is_current_month = day.month == @date.month %>
-            <% is_today = day == Date.current %>
-
-            <div class="aspect-square flex items-center justify-center relative rounded <%= 'bg-primary text-primary-content' if is_today %> <%= 'hover:bg-base-200' if is_current_month && !is_today %> <%= 'opacity-40' unless is_current_month %> transition-colors cursor-pointer">
-              <% if has_event && !is_today %>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="w-1 h-1 bg-primary rounded-full absolute bottom-1"></div>
-                </div>
               <% end %>
-
-              <span class="text-sm <%= 'font-semibold' if has_event || is_today %>">
-                <%= day.day %>
-              </span>
             </div>
-          <% end %>
-        </div>
-      </div>
+          </div>
 
-      <div class="mt-4 flex items-center gap-4 text-xs text-base-content/60">
-        <div class="flex items-center gap-1">
-          <div class="w-3 h-3 bg-primary rounded"></div>
-          <span>Today</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <div class="w-1 h-1 bg-primary rounded-full"></div>
-          <span>Has events</span>
+          <!-- Legend -->
+          <div class="mt-6 space-y-2">
+            <div class="flex items-center gap-2 text-sm">
+              <div class="w-4 h-4 bg-gradient-to-br from-orange-500 to-orange-600 rounded"></div>
+              <span class="text-base-content/70">Today</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <div class="w-4 h-4 bg-orange-500/10 rounded border border-orange-500/30"></div>
+              <span class="text-base-content/70">Bitcoin Event</span>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="mt-6 pt-6 border-t border-base-300">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-orange-500">
+                <%= @month_events.count %>
+              </div>
+              <div class="text-xs text-base-content/60 uppercase">Events This Month</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
