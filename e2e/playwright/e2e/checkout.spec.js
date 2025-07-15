@@ -47,7 +47,7 @@ test.describe('Stripe Checkout Flow', () => {
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
 
-    await expect(page.locator('#promotionCode')).toBeVisible();
+    await expect(page.locator('#promotionCode')).toBeVisible({ timeout: 10_000 });
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
     await page.getByText('Apply').click();
     await fillCheckout(page);
