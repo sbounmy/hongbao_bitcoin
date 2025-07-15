@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access
+  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
   helper_method :testnet?
   before_action :set_network
 
@@ -20,6 +20,7 @@ class PapersController < ApplicationController
 
   def show
     @paper = Paper.find(params[:id])
+    @paper.increment_views!
     @hong_bao = HongBao.new
     @payment_methods = PaymentMethod.active.by_position.with_attached_logo
     @steps = Step.for_new
@@ -36,6 +37,16 @@ class PapersController < ApplicationController
 
   def explore
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+  end
+
+  def like
+    @paper = Paper.find(params[:id])
+    @paper.like_toggle!(current_user)
+    
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @paper }
+    end
   end
 
   private

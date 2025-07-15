@@ -42,16 +42,8 @@ module Papers
 
     # NOTE: The following stats are placeholders to match the design.
     # The `Paper` model does not have these attributes yet.
-    def play_count
-      "5.5K"
-    end
-
-    def like_count
-      "130"
-    end
-
-    def comment_count
-      "19"
+    def views_count
+      paper.views_count
     end
   end
 end

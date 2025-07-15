@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show, :new ] do
       get :explore, on: :collection
+      post :like, on: :member
     end
     root "pages#index"
   end

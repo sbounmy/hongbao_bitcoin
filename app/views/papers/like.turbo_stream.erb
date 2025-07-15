@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@paper, :like_button) do %>
+  <%= render Papers::LikeButtonComponent.new(paper: @paper, size: :small) %>
+<% end %>
