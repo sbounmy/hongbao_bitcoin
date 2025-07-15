@@ -105,6 +105,10 @@ Rails.application.routes.draw do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
 
+  direct :github_bitcoin_calendar_discussions do
+    "https://github.com/sbounmy/hongbao_bitcoin/discussions/categories/bitcoin-calendar"
+  end
+
   direct :satoshi_video do
     "https://drive.google.com/file/d/1SkxgeFFKGZfsk4ro7GwGhPJz8pJio7QP/preview"
   end

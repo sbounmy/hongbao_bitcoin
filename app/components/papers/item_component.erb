@@ -21,8 +21,8 @@
         <%= heroicon "eye", variant: :solid, class: "w-4 h-4" %>
         <span><%= item.views_count %></span>
       </div>
-      <div class="bg-black/60 backdrop-blur-sm rounded-full pointer-events-auto">
-        <%= render Papers::LikeButtonComponent.new(paper: item, size: :small, show_count: true) %>
+      <div class="bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full pointer-events-auto">
+        <%= render Papers::LikeButtonComponent.new(paper: item, size: :small, show_count: true, variant: :light) %>
       </div>
     </div>
   </div>
