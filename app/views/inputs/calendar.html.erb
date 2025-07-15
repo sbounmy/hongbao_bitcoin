@@ -83,6 +83,11 @@
                                     <%= event.age %> <%= 'year'.pluralize(event.age) %>
                                   </span>
                                 <% end %>
+                                <% if event.price_usd.present? %>
+                                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-600 border border-green-500/20">
+                                    1 BTC = $<%= number_with_delimiter(event.price_usd.to_f.round(2)) %>
+                                  </span>
+                                <% end %>
                                 <span class="text-xs text-base-content/60">
                                   <%= event.anniversary(@date).strftime('%A') %>
                                 </span>
