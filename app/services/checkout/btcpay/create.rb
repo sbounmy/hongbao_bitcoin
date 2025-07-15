@@ -12,14 +12,13 @@ module Checkout
           description: order.line_items.first.metadata["description"],
           formId: ENV["BTCPAY_FORM_ID"],
           expiryDate: 1.hours.from_now.to_i,
-          referenceId: order.id
+          referenceId: "#{SecureRandom.hex(10)}_#{order.id}"
         }
-
         payment_request = client.create_payment_request(**pr_payload)
 
         if payment_request.id
           order.update!(external_id: payment_request.id)
-          payment_request.url = "#{Rails.application.credentials.dig(:btcpay, :server_url)}/payment-requests/#{payment_request.id}"
+          payment_request.url = "#{ENV["BTCPAY_SERVER"]}/payment-requests/#{payment_request.id}"
           success(payment_request)
         else
           order.fail! if order.may_fail?
