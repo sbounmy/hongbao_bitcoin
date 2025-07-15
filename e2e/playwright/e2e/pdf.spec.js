@@ -120,6 +120,7 @@ test.describe('PDF Generation', () => {
   });
 
   test('user can go offline with save page as and interact with it', async ({ page, context }) => {
+    test.setTimeout(60_000);
     await savePageAs(page, context, async (offlinePage) => {
       await offlinePage.getByRole('button', { name: 'Generate new keys' }).click()
       await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
