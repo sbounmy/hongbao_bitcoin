@@ -1,5 +1,5 @@
 <%= render DockComponent.new do |dock| %>
-  <% dock.with_item(label: "Home", icon: "home", href: dashboard_3_path) %>
+  <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
   <% dock.with_item(label: "Create", icon: "sparkles", href: new_paper_path) %>
   <% dock.with_item(label: "Explore", icon: "banknotes", href: explore_papers_path) %>
   <% if authenticated? %>

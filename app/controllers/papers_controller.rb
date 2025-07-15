@@ -5,14 +5,6 @@ class PapersController < ApplicationController
   before_action :set_network
 
   def index
-    # Will be used to list available styles and papers
-    @styles = Input::Style.by_position.with_attached_image
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
-    @bundle = Bundle.new
-    @bundle.input_items.build(input: Input::Theme.first)
-  end
-
-  def index_3
     @styles = Input::Style.with_attached_image
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
@@ -70,7 +62,7 @@ class PapersController < ApplicationController
     case action_name
     when "show"
       "offline"
-    when "new", "index_3", "explore"
+    when "new", "index", "explore"
       "main"
     else
       "application"
