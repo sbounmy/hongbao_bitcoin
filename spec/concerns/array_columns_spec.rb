@@ -6,13 +6,15 @@ RSpec.describe ArrayColumns, type: :concern do
     ActiveRecord::Schema.define do
       create_table :posts, force: true do |t|
         t.json :tags, null: false, default: []
+        t.json :author_ids, null: false, default: []
         t.check_constraint "JSON_TYPE(tags) = 'array'", name: 'post_tags_is_array'
+        t.check_constraint "JSON_TYPE(author_ids) = 'array'", name: 'post_author_ids_is_array'
       end
     end
 
     class Post < ActiveRecord::Base
       include ArrayColumns
-      array_columns :tags
+      array_columns :tags, :author_ids
     end
   end
 
@@ -147,6 +149,69 @@ RSpec.describe ArrayColumns, type: :concern do
     it "with split arguments" do
       expect(post_1.has_all_tags?('a', 'f')).to be false
       expect(post_2.has_all_tags?('a', 'f')).to be false
+    end
+  end
+
+  describe "integer array support" do
+    let!(:post_with_authors) { Post.create!(author_ids: [1, 2, 3]) }
+    let!(:post_with_more_authors) { Post.create!(author_ids: [2, 3, 4]) }
+    let!(:post_without_authors) { Post.create! }
+
+    describe "type preservation" do
+      it "preserves integer types in arrays" do
+        post = Post.create!(author_ids: [1, 2, 3])
+        post.reload
+        expect(post.author_ids).to eq([1, 2, 3])
+        expect(post.author_ids.first).to be_a(Integer)
+      end
+
+      it "removes duplicates while preserving type" do
+        post = Post.create!(author_ids: [1, 2, 2, 3, 1])
+        post.reload
+        expect(post.author_ids).to eq([1, 2, 3])
+      end
+    end
+
+    describe ".with_any_author_ids" do
+      it "finds posts with any of the given author ids" do
+        collection = Post.with_any_author_ids(1)
+        expect(collection).to include(post_with_authors)
+        expect(collection).not_to include(post_with_more_authors, post_without_authors)
+      end
+
+      it "works with multiple author ids" do
+        collection = Post.with_any_author_ids(1, 4)
+        expect(collection).to include(post_with_authors, post_with_more_authors)
+        expect(collection).not_to include(post_without_authors)
+      end
+    end
+
+    describe ".with_all_author_ids" do
+      it "finds posts with all of the given author ids" do
+        collection = Post.with_all_author_ids(2, 3)
+        expect(collection).to include(post_with_authors, post_with_more_authors)
+        expect(collection).not_to include(post_without_authors)
+      end
+
+      it "returns empty when no posts have all ids" do
+        expect(Post.with_all_author_ids(1, 4)).to be_empty
+      end
+    end
+
+    describe "#has_any_author_ids?" do
+      it "checks if post has any of the given author ids" do
+        expect(post_with_authors.has_any_author_ids?(1)).to be true
+        expect(post_with_authors.has_any_author_ids?(4)).to be false
+        expect(post_with_authors.has_any_author_ids?(1, 4)).to be true
+      end
+    end
+
+    describe "#has_all_author_ids?" do
+      it "checks if post has all of the given author ids" do
+        expect(post_with_authors.has_all_author_ids?(1, 2)).to be true
+        expect(post_with_authors.has_all_author_ids?(1, 4)).to be false
+        expect(post_with_more_authors.has_all_author_ids?(2, 3)).to be true
+      end
     end
   end
 end
