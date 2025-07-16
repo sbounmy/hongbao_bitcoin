@@ -11,7 +11,7 @@ class CheckoutButtonComponent < ApplicationComponent
   end
 
   def button_classes
-    base_classes = "w-full text-center p-4 border rounded-lg text-white transition-colors duration-150 ease-in-out"
+    base_classes = "w-full cursor-pointer text-center p-4 border rounded-lg text-white transition-colors duration-150 ease-in-out"
 
     [ base_classes, provider_classes, @classes ].compact.join(" ")
   end
