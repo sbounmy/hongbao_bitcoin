@@ -45,13 +45,6 @@ class Input::Event < Input
     !fixed_day?
   end
 
-  # Set default for new records
-  after_initialize do
-    if new_record? && fixed_day.nil?
-      self.fixed_day = true
-    end
-  end
-
   # Ransacker for ActiveAdmin filtering on metadata fields
   ransacker :fixed_day do
     Arel.sql("metadata->>'fixed_day'")
