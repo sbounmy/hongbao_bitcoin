@@ -1,4 +1,4 @@
-<div class="relative rounded-lg min-h-[140px] border <%= border_classes %> <%= opacity_class %> hover:shadow-md transition-shadow overflow-hidden">
+<div class="calendar-day relative rounded-lg min-h-[140px] border <%= border_classes %> <%= opacity_class %> hover:shadow-md transition-shadow overflow-hidden">
   <% if events.any? && is_current_month? %>
     <% if events.size == 1 %>
       <!-- Single event - full cell -->
@@ -10,7 +10,7 @@
         <% else %>
           <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-orange-600/30"></div>
         <% end %>
-        
+
         <!-- Content overlay -->
         <div class="relative h-full p-3 flex flex-col justify-between">
           <div class="text-lg font-bold <%= text_color_for_event(event) %>" >
@@ -39,7 +39,7 @@
             <% else %>
               <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-orange-600/30"></div>
             <% end %>
-            
+
             <!-- Content overlay -->
             <div class="relative h-full p-2 flex flex-col justify-between">
               <% if index == 0 %>

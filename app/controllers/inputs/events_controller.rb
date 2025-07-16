@@ -10,6 +10,8 @@ module Inputs
       @events = result.events
       @month_events = result.month_events
       @events_by_day = result.events_by_day
+      @selected_tag_ids = result.selected_tag_ids
+      @all_tags = result.all_tags
 
       if result.calendar?
         render "calendar"

@@ -1,7 +1,7 @@
 ActiveAdmin.register Input::Event, as: "Event" do
   menu parent: "Inputs", priority: 3
 
-  permit_params :name, :image, :date, :description, :price_usd
+  permit_params :name, :image, :date, :description, :price_usd, :fixed_day, tag_ids: []
 
   remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug, :metadata
 
@@ -23,6 +23,16 @@ ActiveAdmin.register Input::Event, as: "Event" do
     column :age do |event|
       "#{event.age} years" if event.age > 0
     end
+    column :tags do |event|
+      event.tags.map { |tag| status_tag tag.name, class: "tag" }.join(" ").html_safe
+    end
+    column :recurring do |event|
+      if event.fixed_day?
+        status_tag "Fixed Date", class: "yes"
+      else
+        status_tag "Variable Date", class: "no"
+      end
+    end
     column :image do |event|
       if event.image.attached?
         image_tag event.image, style: "width: 50px; height: 50px; object-fit: cover;"
@@ -39,6 +49,8 @@ ActiveAdmin.register Input::Event, as: "Event" do
   filter :date
   filter :price_usd
   filter :description
+  filter :tag_ids, as: :select, collection: -> { Tag.ordered.pluck(:name, :id) }, label: "Tags"
+  filter :fixed_day, label: "Date Type", as: :select, collection: [["Fixed Date", true], ["Variable Date", false]]
   filter :created_at
 
   # Show page configuration
@@ -61,6 +73,16 @@ ActiveAdmin.register Input::Event, as: "Event" do
       end
       row :anniversary do |event|
         event.anniversary.strftime("%A, %B %d, %Y")
+      end
+      row :tags do |event|
+        event.tags.map { |tag| status_tag tag.name, class: "tag" }.join(" ").html_safe
+      end
+      row :date_type do |event|
+        if event.fixed_day?
+          status_tag "Fixed Date - occurs on #{event.date.strftime('%B %d')} every year", class: "yes"
+        else
+          status_tag "Variable Date - date changes yearly", class: "no"
+        end
       end
       row :image do |event|
         if event.image.attached?
@@ -135,6 +157,19 @@ ActiveAdmin.register Input::Event, as: "Event" do
               label: "Bitcoin Price (USD)",
               hint: "The price of 1 BTC in USD on this date (optional)",
               input_html: { step: "0.01", min: "0" }
+      f.input :fixed_day, 
+              label: "Date Type",
+              as: :select,
+              collection: [[" Fixed Date (same date every year, e.g., Bitcoin Pizza Day - May 22)", true], 
+                           [" Variable Date (changes yearly, e.g., Chinese New Year)", false]],
+              include_blank: false,
+              hint: "Select whether this event occurs on the same calendar date every year"
+      f.input :tag_ids,
+              label: "Tags",
+              as: :select,
+              collection: Tag.ordered.pluck(:name, :id),
+              input_html: { multiple: true, class: "select2" },
+              hint: "Select tags to categorize this event"
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image, style: "max-width: 300px;") : "Upload an image representing this event"
     end
 

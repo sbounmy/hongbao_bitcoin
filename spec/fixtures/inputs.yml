@@ -445,6 +445,7 @@ genesis_block:
   id: 16
   name: Genesis Block Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2009-01-03",
@@ -456,6 +457,7 @@ proof_of_keys:
   id: 21
   name: Proof of Keys Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2019-01-03",
@@ -467,6 +469,7 @@ bitcoin_etfs_approved:
   id: 22
   name: Bitcoin ETFs Approved
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2024-01-10",
@@ -478,6 +481,7 @@ first_transaction:
   id: 19
   name: First Bitcoin Transaction
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2009-01-11",
@@ -489,6 +493,7 @@ lightning_whitepaper:
   id: 23
   name: Lightning Whitepaper Released
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2016-01-14",
@@ -500,6 +505,7 @@ mike_hearn_quits:
   id: 24
   name: Mike Hearn Quits Bitcoin
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2016-01-14",
@@ -511,6 +517,7 @@ silk_road_launched:
   id: 25
   name: Silk Road Launched
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2011-02-01",
@@ -522,6 +529,7 @@ mt_gox_hack:
   id: 26
   name: Mt Gox Hack
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2014-02-07",
@@ -533,6 +541,7 @@ bitcoin_dollar_parity:
   id: 27
   name: Bitcoin Reaches Dollar Parity
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2011-02-09",
@@ -544,6 +553,7 @@ mtgox_collapse:
   id: 28
   name: MTGOX Collapse
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2014-02-24",
@@ -555,6 +565,7 @@ lightning_pizza_day:
   id: 29
   name: Lightning Pizza Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2018-02-25",
@@ -566,6 +577,7 @@ cypherpunk_manifesto:
   id: 30
   name: Cypherpunk Manifesto Released
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "1993-03-09",
@@ -577,6 +589,7 @@ bitcoin_billion_market_cap:
   id: 31
   name: Bitcoin Passes $1 Billion Market Cap
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-03-28",
@@ -588,6 +601,7 @@ satoshi_birthday:
   id: 32
   name: Satoshi Nakamoto's Birthday
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "1975-04-05",
@@ -599,6 +613,7 @@ halving_2024:
   id: 33
   name: 2024 Halving
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2024-04-19",
@@ -610,6 +625,7 @@ first_lightning_transaction:
   id: 34
   name: First Lightning Network Transaction
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-05-10",
@@ -621,6 +637,7 @@ halving_2020:
   id: 35
   name: 2020 Halving
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2020-05-11",
@@ -632,6 +649,7 @@ pizza_day:
   id: 15
   name: Bitcoin Pizza Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2010-05-22",
@@ -643,6 +661,7 @@ new_york_agreement:
   id: 36
   name: New York Agreement
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-05-23",
@@ -654,6 +673,7 @@ el_salvador_bill:
   id: 37
   name: El Salvador Bitcoin Legal Tender Bill
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1%>]
   metadata: |
     {
       "date": "2021-06-09",
@@ -665,6 +685,7 @@ wikileaks_bitcoin:
   id: 38
   name: WikiLeaks Bitcoin Sanctions Bypass
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2011-06-14",
@@ -676,6 +697,7 @@ halving_2016:
   id: 39
   name: 2016 Bitcoin Halving
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2016-07-09",
@@ -687,6 +709,7 @@ bitcoin_sign_guy:
   id: 40
   name: Bitcoin Sign Guy
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-07-12",
@@ -698,6 +721,7 @@ bitcoin_independence_day:
   id: 41
   name: Bitcoin Independence Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-08-01",
@@ -709,6 +733,7 @@ bitfinex_hack:
   id: 42
   name: Bitfinex Hack
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2016-08-02",
@@ -720,6 +745,7 @@ segwit_lock_in:
   id: 43
   name: Segwit Lock In Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-08-09",
@@ -731,6 +757,7 @@ bitcoin_network_downtime:
   id: 44
   name: Bitcoin Network Downtime
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2010-08-15",
@@ -742,6 +769,7 @@ bitcoin_org_registered:
   id: 45
   name: Bitcoin.org Domain Registration
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2008-08-18",
@@ -753,6 +781,7 @@ bitcoin_infinity_day:
   id: 46
   name: Bitcoin Infinity Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2019-08-21",
@@ -764,6 +793,7 @@ segwit_activation:
   id: 47
   name: Segwit Activation Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2017-08-23",
@@ -775,6 +805,7 @@ el_salvador_implementation:
   id: 48
   name: Bitcoin Becomes Legal Tender in El Salvador
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2021-09-07",
@@ -786,6 +817,7 @@ free_ross_day:
   id: 49
   name: Free Ross Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-10-01",
@@ -797,6 +829,7 @@ first_bitcoin_valuation:
   id: 50
   name: First Bitcoin Valuation
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2009-10-05",
@@ -808,6 +841,7 @@ bearwhale_slaying:
   id: 51
   name: The Slaying of the BearWhale
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2014-10-06",
@@ -819,6 +853,7 @@ first_bitcoin_atm:
   id: 52
   name: First Bitcoin ATM
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-10-28",
@@ -830,6 +865,7 @@ whitepaper:
   id: 18
   name: Bitcoin Whitepaper Day
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2008-10-31",
@@ -841,6 +877,7 @@ this_is_gentlemen:
   id: 53
   name: This is GENTLEMEN!
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2014-11-11",
@@ -852,6 +889,7 @@ first_halving:
   id: 17
   name: 2012 Bitcoin Halving
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2012-11-28",
@@ -863,6 +901,7 @@ bitcoin_breaks_1000:
   id: 54
   name: Bitcoin Breaks 4 Digits Price
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-11-28",
@@ -874,6 +913,7 @@ bitcoin_gold_parity:
   id: 55
   name: Bitcoin vs Gold Parity
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-12-05",
@@ -885,6 +925,7 @@ hodl_meme:
   id: 56
   name: HODL Meme Starts
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2013-12-18",
@@ -896,6 +937,7 @@ satoshi_sayonara:
   id: 20
   name: Satoshi Sayonara
   type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2011-04-23",
@@ -906,7 +948,7 @@ genesis_block:
   id: 16
   name: Genesis Block Day
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2009-01-03",
@@ -919,7 +961,7 @@ pizza_day:
   id: 15
   name: Bitcoin Pizza Day
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2010-05-22",
@@ -932,7 +974,7 @@ whitepaper:
   id: 18
   name: Bitcoin Whitepaper Day
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
   metadata: |
     {
       "date": "2008-10-31",
@@ -946,7 +988,7 @@ chinese_new_year_2025:
   id: 901
   name: Chinese New Year 2025
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
   metadata: |
     {
       "date": "2025-01-29",
@@ -958,7 +1000,7 @@ chinese_new_year_2026:
   id: 902
   name: Chinese New Year 2026
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
   metadata: |
     {
       "date": "2026-02-17",
@@ -970,7 +1012,7 @@ chinese_new_year_2027:
   id: 903
   name: Chinese New Year 2027
   type: "Input::Event"
-  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
   metadata: |
     {
       "date": "2027-02-06",

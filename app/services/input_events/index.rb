@@ -8,6 +8,7 @@ module InputEvents
       @params = params
       @type = params[:type] || "calendar"
       @month_year = params[:month]
+      @tag_ids = Array(params[:tags]).map(&:to_i).reject(&:zero?)
     end
 
     def call
@@ -16,20 +17,30 @@ module InputEvents
         month_events: month_events,
         events_by_day: events_by_day,
         date: date,
-        type: @type
+        type: @type,
+        selected_tag_ids: @tag_ids,
+        all_tags: event_tags
       )
     end
 
     private
 
-    attr_reader :params, :type, :month_year
+    attr_reader :params, :type, :month_year, :tag_ids
 
     def date
       @date ||= parse_calendar_date
     end
 
     def events
-      @events ||= Input::Event.all
+      @events ||= begin
+        scope = Input::Event.all
+        scope = scope.with_any_tag_ids(*tag_ids) if tag_ids.present?
+        scope
+      end
+    end
+
+    def event_tags
+      @event_tags ||= Tag.for_category("input_events")
     end
 
     def month_events
@@ -83,14 +94,16 @@ module InputEvents
     end
 
     class Result
-      attr_reader :events, :month_events, :events_by_day, :date, :type
+      attr_reader :events, :month_events, :events_by_day, :date, :type, :selected_tag_ids, :all_tags
 
-      def initialize(events:, month_events:, events_by_day:, date:, type:)
+      def initialize(events:, month_events:, events_by_day:, date:, type:, selected_tag_ids:, all_tags:)
         @events = events
         @month_events = month_events
         @events_by_day = events_by_day
         @date = date
         @type = type
+        @selected_tag_ids = selected_tag_ids
+        @all_tags = all_tags
       end
 
       def calendar?

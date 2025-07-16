@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
   <div class="container mx-auto px-4 py-8">
-    <%= render "header", date: @date, view_type: "agenda" %>
+    <%= render "header", date: @date, view_type: "agenda", selected_tag_ids: @selected_tag_ids, all_tags: @all_tags %>
 
     <!-- Month Navigation -->
     <div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300 mb-6">
