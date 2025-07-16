@@ -1,5 +1,5 @@
 <!-- Header with Bitcoin theme -->
-<div class="flex items-center justify-between mb-<%= local_assigns.fetch(:mb, 8) %>">
+<div class="flex items-center justify-between p-4 mb-<%= local_assigns.fetch(:mb, 8) %>">
   <!-- Left: Title and subtitle -->
   <div>
     <div class="flex items-center gap-3 mb-2">
@@ -24,14 +24,14 @@
         <% end %>
       </label>
       <div tabindex="0" class="dropdown-content z-50 menu p-2 shadow-lg bg-base-100 rounded-box w-52 border border-base-300">
-        <%= form_with url: view_type == 'calendar' ? calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")) : agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")), 
-                      method: :get, 
+        <%= form_with url: view_type == 'calendar' ? calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")) : agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")),
+                      method: :get,
                       local: true,
                       class: "space-y-2" do |f| %>
           <h3 class="font-semibold px-2 py-1">Event Types</h3>
           <% all_tags.each do |tag| %>
             <label class="flex items-center gap-2 px-2 py-1 hover:bg-base-200 rounded cursor-pointer">
-              <%= check_box_tag "tags[]", tag.id, selected_tag_ids.include?(tag.id), 
+              <%= check_box_tag "tags[]", tag.id, selected_tag_ids.include?(tag.id),
                   class: "checkbox checkbox-sm",
                   style: tag.color.present? ? "border-color: #{tag.color};" : "",
                   onchange: "this.form.submit()" %>
@@ -45,7 +45,7 @@
           <% end %>
           <div class="divider my-1"></div>
           <% if selected_tag_ids.present? %>
-            <%= link_to "Clear filters", view_type == 'calendar' ? calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")) : agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")), 
+            <%= link_to "Clear filters", view_type == 'calendar' ? calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")) : agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")),
                 class: "btn btn-ghost btn-xs btn-block" %>
           <% else %>
             <div class="text-xs text-base-content/60 px-2 text-center">All events shown</div>
@@ -56,13 +56,13 @@
 
     <!-- View Switcher -->
     <div class="btn-group">
-      <%= link_to calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids), 
+      <%= link_to calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
           class: "btn btn-sm #{'btn-active' if view_type == 'calendar'}",
           "aria-label": "Calendar view" do %>
         <%= heroicon("calendar-days", class: "w-4 h-4") %>
         <span class="hidden sm:inline ml-1">Calendar</span>
       <% end %>
-      <%= link_to agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids), 
+      <%= link_to agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
           class: "btn btn-sm #{'btn-active' if view_type == 'agenda'}",
           "aria-label": "List view" do %>
         <%= heroicon("list-bullet", class: "w-4 h-4") %>

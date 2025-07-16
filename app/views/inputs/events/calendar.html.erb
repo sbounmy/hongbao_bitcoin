@@ -1,8 +1,8 @@
-<div class="h-screen flex flex-col container mx-auto px-4 py-4">
+<div class="h-screen flex flex-col mx-auto">
   <%= render "header", date: @date, view_type: "calendar", mb: 4, selected_tag_ids: @selected_tag_ids, all_tags: @all_tags %>
 
   <!-- Calendar Section -->
-  <div class="w-full flex-1 max-w-6xl mx-auto overflow-y-auto">
+  <div class="w-full flex-1 max-w-6xl mx-auto overflow-y-auto md:p-4">
     <%= render Calendar::GridComponent.new(date: @date, events_by_day: @events_by_day) do |calendar| %>
       <% calendar.with_month_header(
           date: @date,

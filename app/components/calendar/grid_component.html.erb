@@ -1,10 +1,10 @@
-<div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300">
+<div class="bg-base-100 rounded-2xl shadow-xl border border-base-300">
   <% if month_header %>
     <%= month_header %>
   <% end %>
 
   <!-- Calendar Grid -->
-  <div class="bg-base-200/30 rounded-xl p-4">
+  <div class="bg-base-200/30 md:rounded-xl md:p-4">
     <div class="grid grid-cols-7 gap-1 text-center mb-2">
       <% day_names.each do |day_name| %>
         <div class="font-medium text-sm text-base-content/70 py-2"><%= day_name %></div>
@@ -29,7 +29,7 @@
   </div>
 
   <!-- Legend -->
-  <div class="flex gap-2">
+  <div class="flex gap-2 pb-2 px-4">
     <div class="flex items-center gap-2 text-sm">
       <div class="w-4 h-4 bg-gradient-to-br from-orange-500 to-orange-600 rounded"></div>
       <span class="text-base-content/70">Today</span>
