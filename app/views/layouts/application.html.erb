@@ -52,6 +52,7 @@
   </head>
 
   <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
+    <%= render FlashComponent.new(flash: flash, display_mode: :toast) if flash.any? %>
     <%= yield %>
   <% end %>
 
