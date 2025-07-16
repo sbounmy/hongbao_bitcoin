@@ -52,6 +52,38 @@ The following specialized agents work together to implement your requests:
 - Request specs for API endpoints
 - E2E playwright for user interactions
 
+### E2E Testing Best Practices
+
+When writing E2E tests with Playwright, use maintainable selectors that won't break easily with UI/UX changes:
+
+**Good Selectors (Preferred):**
+- Semantic roles: `page.getByRole('button', { name: 'Submit' })`
+- Visible text: `page.getByText('Welcome to our site')`
+- Labels: `page.getByLabel('Email Address')`
+- Placeholders: `page.getByPlaceholder('Enter your email')`
+- Test IDs (when necessary): `page.getByTestId('submit-form')`
+- ARIA attributes: `page.getByRole('navigation')`, `page.getByRole('main')`
+
+**Bad Selectors (Avoid):**
+- CSS classes: `page.locator('.lg\\:col-span-4')` - Classes change with styling
+- Generic elements: `page.locator('body')` - Too broad and brittle
+- Complex CSS paths: `page.locator('div > span.text-sm')` - Tightly coupled to DOM structure
+- nth-child selectors: `page.locator('li:nth-child(3)')` - Order may change
+
+**Example:**
+```javascript
+// ❌ Bad - Uses CSS classes that may change
+await page.locator('.lg\\:col-span-4').click();
+await page.locator('body').fill('some text');
+
+// ✅ Good - Uses semantic selectors
+await page.getByRole('button', { name: 'Save Event' }).click();
+await page.getByLabel('Event Name').fill('Bitcoin Pizza Day');
+await page.getByText('Delete Event').click();
+```
+
+The goal is to write tests that read like user stories and survive refactoring of the implementation details.
+
 ### Git Workflow
 - Feature branches for new work
 - Descriptive commit messages

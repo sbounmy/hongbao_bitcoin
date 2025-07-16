@@ -70,6 +70,57 @@ RSpec.describe 'User Registration', type: :system do
   end
 end
 ```
+
+### E2E Tests with Playwright
+
+For user interaction testing, use Playwright with maintainable selectors:
+
+**Selector Best Practices:**
+```javascript
+// ❌ AVOID - Brittle selectors that break with UI changes
+await page.locator('.lg\\:col-span-4').click(); // CSS classes
+await page.locator('body').fill('text'); // Too generic
+await page.locator('div > span.text-sm').click(); // DOM-dependent
+await page.locator('li:nth-child(3)').click(); // Position-dependent
+
+// ✅ PREFER - Semantic selectors that survive refactoring
+await page.getByRole('button', { name: 'Save Event' }).click();
+await page.getByLabel('Event Name').fill('Bitcoin Pizza Day');
+await page.getByText('Delete Event').click();
+await page.getByPlaceholder('Enter email').fill('user@example.com');
+await page.getByTestId('submit-form').click(); // When semantic options aren't available
+```
+
+**E2E Test Example:**
+```javascript
+test('admin can create and edit events', async ({ page }) => {
+  // Login using semantic selectors
+  await page.goto('/admin/login');
+  await page.getByLabel('Email').fill('admin@example.com');
+  await page.getByLabel('Password').fill('password');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  
+  // Navigate to events
+  await page.getByRole('link', { name: 'Events' }).click();
+  
+  // Create new event
+  await page.getByRole('link', { name: 'New Event' }).click();
+  await page.getByLabel('Name').fill('Bitcoin Genesis Block');
+  await page.getByLabel('Date').fill('2009-01-03');
+  await page.getByRole('button', { name: 'Create Event' }).click();
+  
+  // Verify creation
+  await expect(page.getByText('Event was successfully created')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bitcoin Genesis Block' })).toBeVisible();
+});
+```
+
+**Key Principles:**
+1. Use role-based selectors when possible (button, link, heading, etc.)
+2. Select by visible text that users would see
+3. Use form labels and placeholders
+4. Only use test IDs as a last resort
+5. Write tests that read like user stories
 <% else %>
 ### Minitest Best Practices
 
