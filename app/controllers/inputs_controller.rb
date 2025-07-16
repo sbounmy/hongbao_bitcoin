@@ -21,6 +21,14 @@ class InputsController < ApplicationController
     @event_dates = @events.map do |event|
       event.anniversary(@date) if event.date
     end.compact
+
+    # Group events by day for calendar display
+    @events_by_day = {}
+    @month_events.each do |event|
+      day = event.anniversary(@date)
+      @events_by_day[day] ||= []
+      @events_by_day[day] << event
+    end
   end
 
   def show
