@@ -1,0 +1,9 @@
+<%= form_tag checkout_index_path, method: :post, data: form_data, class: "block" do %>
+  <%= hidden_field_tag :provider, provider %>
+  <%= hidden_field_tag :price_id, price_id %>
+  <%= hidden_field_tag :color, color if color.present? %>
+  
+  <button type="submit" class="<%= button_classes %>">
+    <%= button_text %>
+  </button>
+<% end if price_id.present? %>

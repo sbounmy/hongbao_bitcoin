@@ -50,23 +50,19 @@
 
           <% end %>
           
-          <%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
-            <%= hidden_field_tag :provider, "stripe"%>
-            <%= hidden_field_tag :price_id, stripe_price_id %>
-            <%= hidden_field_tag :color, color %>
-            <button type="submit" class="w-full text-center p-4 border rounded-lg bg-blue-500 text-white transition-colors duration-150 ease-in-out">
-              Buy now
-            </button>
-          <% end if stripe_price_id.present? %>
-
-          <%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
-              <%= hidden_field_tag :provider, "btcpay"%>
-              <%= hidden_field_tag :price_id, stripe_price_id %>
-              <%= hidden_field_tag :color, color %>
-              <button type="submit" class="w-full text-center p-4 border rounded-lg bg-orange-500 text-white transition-colors duration-150 ease-in-out">
-                Buy with Bitcoin/Lightning ⚡
-              </button>
-          <% end if stripe_price_id.present? %>
+          <div class="space-y-2">
+            <%= render CheckoutButtonComponent.new(
+              provider: :stripe,
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+            
+            <%= render CheckoutButtonComponent.new(
+              provider: :btcpay,
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+          </div>
         <div class="block sm:hidden pt-3">
           <%=render V3::InclusionsComponent.new%>
         </div>
