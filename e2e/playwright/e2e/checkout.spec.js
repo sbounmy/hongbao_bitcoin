@@ -87,7 +87,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
-    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+    await expect(page.locator('.drawer').getByRole('button', { name: 'Logout' })).toBeVisible();
     await appVcrEjectCassette();
   });
 });
