@@ -1,6 +1,6 @@
 ActiveAdmin.register Input::Style, as: "Style" do
   menu parent: "Inputs", priority: 2
-  
+
   permit_params :name, :image, :prompt, :position, :ui_name, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
 
   remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug

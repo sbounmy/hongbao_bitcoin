@@ -1,6 +1,6 @@
 ActiveAdmin.register Input::Event, as: "Event" do
   menu parent: "Inputs", priority: 3
-  
+
   permit_params :name, :image, :date, :description, :price_usd
 
   remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug, :metadata
@@ -84,7 +84,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
         end
         column :created_at
       end
-      
+
       if resource.papers.count > 10
         div do
           text_node "Showing 10 of #{resource.papers.count} papers. "
@@ -99,7 +99,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
   end
 
   # Sidebar for additional info
-  sidebar "Event Statistics", only: [:show, :edit] do
+  sidebar "Event Statistics", only: [ :show, :edit ] do
     attributes_table_for resource do
       row :papers_count do |event|
         event.papers.count
@@ -126,18 +126,18 @@ ActiveAdmin.register Input::Event, as: "Event" do
   # Form for creating/editing
   form do |f|
     f.semantic_errors(*f.object.errors.attribute_names)
-    
+
     f.inputs "Event Details" do
       f.input :name, hint: "The name of the Bitcoin event"
       f.input :date, as: :string, input_html: { type: "date", value: f.object.date&.strftime("%Y-%m-%d") }, hint: "The date when this event occurred"
       f.input :description, as: :text, input_html: { rows: 4 }, hint: "A brief description of the event's significance"
-      f.input :price_usd, 
-              label: "Bitcoin Price (USD)", 
+      f.input :price_usd,
+              label: "Bitcoin Price (USD)",
               hint: "The price of 1 BTC in USD on this date (optional)",
               input_html: { step: "0.01", min: "0" }
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image, style: "max-width: 300px;") : "Upload an image representing this event"
     end
-    
+
     f.actions
   end
 
@@ -177,7 +177,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
       return
     end
 
-    require 'csv'
+    require "csv"
     imported_count = 0
     error_count = 0
     errors = []
@@ -185,12 +185,12 @@ ActiveAdmin.register Input::Event, as: "Event" do
     begin
       CSV.foreach(params[:file].path, headers: true) do |row|
         event = Input::Event.new(
-          name: row['name'],
-          date: row['date'],
-          description: row['description'],
-          price_usd: row['price_usd']
+          name: row["name"],
+          date: row["date"],
+          description: row["description"],
+          price_usd: row["price_usd"]
         )
-        
+
         if event.save
           imported_count += 1
         else
