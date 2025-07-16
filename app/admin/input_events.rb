@@ -50,7 +50,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
   filter :price_usd
   filter :description
   filter :tag_ids, as: :select, collection: -> { Tag.ordered.pluck(:name, :id) }, label: "Tags"
-  filter :fixed_day, label: "Date Type", as: :select, collection: [ [ "Fixed Date", true ], [ "Variable Date", false ] ]
+  filter :fixed_day, label: "Date Type", as: :select, collection: [ [ "Fixed Date", "true" ], [ "Variable Date", "false" ] ]
   filter :created_at
 
   # Show page configuration

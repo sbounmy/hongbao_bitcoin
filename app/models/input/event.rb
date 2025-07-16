@@ -51,4 +51,21 @@ class Input::Event < Input
       self.fixed_day = true
     end
   end
+
+  # Ransacker for ActiveAdmin filtering on metadata fields
+  ransacker :fixed_day do
+    Arel.sql("metadata->>'fixed_day'")
+  end
+
+  ransacker :price_usd do
+    Arel.sql("CAST(metadata->>'price_usd' AS DECIMAL)")
+  end
+
+  ransacker :date do
+    Arel.sql("date(metadata->>'date')")
+  end
+
+  ransacker :description do
+    Arel.sql("metadata->>'description'")
+  end
 end
