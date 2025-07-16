@@ -50,7 +50,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
   filter :price_usd
   filter :description
   filter :tag_ids, as: :select, collection: -> { Tag.ordered.pluck(:name, :id) }, label: "Tags"
-  filter :fixed_day, label: "Date Type", as: :select, collection: [["Fixed Date", true], ["Variable Date", false]]
+  filter :fixed_day, label: "Date Type", as: :select, collection: [ [ "Fixed Date", true ], [ "Variable Date", false ] ]
   filter :created_at
 
   # Show page configuration
@@ -157,11 +157,11 @@ ActiveAdmin.register Input::Event, as: "Event" do
               label: "Bitcoin Price (USD)",
               hint: "The price of 1 BTC in USD on this date (optional)",
               input_html: { step: "0.01", min: "0" }
-      f.input :fixed_day, 
+      f.input :fixed_day,
               label: "Date Type",
               as: :select,
-              collection: [[" Fixed Date (same date every year, e.g., Bitcoin Pizza Day - May 22)", true], 
-                           [" Variable Date (changes yearly, e.g., Chinese New Year)", false]],
+              collection: [ [ " Fixed Date (same date every year, e.g., Bitcoin Pizza Day - May 22)", true ],
+                           [ " Variable Date (changes yearly, e.g., Chinese New Year)", false ] ],
               include_blank: false,
               hint: "Select whether this event occurs on the same calendar date every year"
       f.input :tag_ids,

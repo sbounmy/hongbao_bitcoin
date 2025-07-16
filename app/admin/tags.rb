@@ -52,7 +52,7 @@ ActiveAdmin.register Tag do
 
     panel "Events with this Tag" do
       events = Input::Event.with_any_tag_ids(resource.id)
-      
+
       if events.any?
         table_for events do
           column :id do |event|
@@ -83,17 +83,17 @@ ActiveAdmin.register Tag do
     f.inputs "Tag Details" do
       f.input :name, hint: "Display name for the tag"
       f.input :slug, hint: "URL-friendly version (auto-generated if blank)"
-      f.input :color, 
-              as: :string, 
+      f.input :color,
+              as: :string,
               input_html: { type: "color", value: f.object.color || "#ff9500" },
               hint: "Color for the tag (used in calendar views)"
-      f.input :icon, 
+      f.input :icon,
               hint: "Icon name from Heroicons (e.g., 'star', 'calendar', 'globe-alt')"
-      f.input :position, 
+      f.input :position,
               hint: "Order position (lower numbers appear first)"
       f.input :categories,
               as: :check_boxes,
-              collection: ["input_events"],
+              collection: [ "input_events" ],
               hint: "Categories this tag belongs to"
     end
 
@@ -111,5 +111,5 @@ ActiveAdmin.register Tag do
   end
 
   # Sort by position by default
-  config.sort_order = 'position_asc'
+  config.sort_order = "position_asc"
 end

@@ -9,7 +9,7 @@ module Calendar
     end
 
     def month_year
-      date.strftime('%B %Y')
+      date.strftime("%B %Y")
     end
   end
 end
