@@ -39,4 +39,18 @@ RSpec.describe Input::Event, type: :model do
       end
     end
   end
+
+  it 'works with multiple metadata fields' do
+    event = Input::Event.new(name: 'Test Event', date: '2025-01-01')
+    event.description = 'Test description'
+    event.price_usd = 100
+    event.fixed_day = false
+
+    expect(event.metadata).to include(
+      'date' => '2025-01-01',
+      'description' => 'Test description',
+      'price_usd' => 100,
+      'fixed_day' => false
+    )
+  end
 end
