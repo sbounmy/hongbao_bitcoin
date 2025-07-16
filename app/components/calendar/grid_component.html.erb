@@ -1,0 +1,42 @@
+<div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300">
+  <% if month_header %>
+    <%= month_header %>
+  <% end %>
+
+  <!-- Calendar Grid -->
+  <div class="bg-base-200/30 rounded-xl p-4">
+    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+      <% day_names.each do |day_name| %>
+        <div class="font-medium text-sm text-base-content/70 py-2"><%= day_name %></div>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-7 gap-1">
+      <% weeks.each do |week_start| %>
+        <% days_in_week(week_start).each do |day| %>
+          <% if days.any? %>
+            <%= render days.find { |d| d.day == day } %>
+          <% else %>
+            <%= render Calendar::DayComponent.new(
+              day: day,
+              current_month: date.month,
+              events: events_by_day[day] || []
+            ) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="flex gap-2">
+    <div class="flex items-center gap-2 text-sm">
+      <div class="w-4 h-4 bg-gradient-to-br from-orange-500 to-orange-600 rounded"></div>
+      <span class="text-base-content/70">Today</span>
+    </div>
+    <div class="flex items-center gap-2 text-sm">
+      <div class="w-4 h-4 bg-orange-500/10 rounded border border-orange-500/30"></div>
+      <span class="text-base-content/70">Bitcoin Event</span>
+    </div>
+  </div>
+</div>

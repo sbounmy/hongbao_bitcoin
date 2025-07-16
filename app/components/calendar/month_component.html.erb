@@ -1,0 +1,18 @@
+<!-- Month navigation -->
+<div class="flex justify-between items-center mb-6">
+  <%= link_to prev_link,
+      class: "prev-month btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all",
+      "aria-label": "Previous month" do %>
+    <%= heroicon("chevron-left", class: "h-4 w-4") %>
+  <% end %>
+
+  <h2 class="text-2xl font-bold flex items-center gap-2">
+    <%= month_year %>
+  </h2>
+
+  <%= link_to next_link,
+      class: "next-month btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all",
+      "aria-label": "Next month" do %>
+    <%= heroicon("chevron-right", class: "h-4 w-4") %>
+  <% end %>
+</div>

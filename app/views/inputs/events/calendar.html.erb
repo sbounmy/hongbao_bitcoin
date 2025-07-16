@@ -1,0 +1,16 @@
+<div class="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
+  <div class="container mx-auto px-4 py-8">
+    <%= render "header", date: @date, view_type: "calendar", mb: 4, selected_tag_ids: @selected_tag_ids, all_tags: @all_tags %>
+
+    <!-- Calendar Section -->
+    <div class="w-full max-w-6xl mx-auto">
+      <%= render Calendar::GridComponent.new(date: @date, events_by_day: @events_by_day) do |calendar| %>
+        <% calendar.with_month_header(
+            date: @date,
+            prev_link: calendar_month_path(month: @date.prev_month.strftime("%B").downcase + (@date.prev_month.year != Date.current.year ? "-#{@date.prev_month.year}" : "")),
+            next_link: calendar_month_path(month: @date.next_month.strftime("%B").downcase + (@date.next_month.year != Date.current.year ? "-#{@date.next_month.year}" : ""))
+          ) %>
+        <% end %>
+    </div>
+  </div>
+</div>
