@@ -1,0 +1,39 @@
+<!-- Header with Bitcoin theme -->
+<div class="flex items-center justify-between mb-<%= local_assigns.fetch(:mb, 8) %>">
+  <!-- Left: Title and subtitle -->
+  <div>
+    <div class="flex items-center gap-3 mb-2">
+      <!-- Bitcoin Logo -->
+      <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-7.5 w-7.5 align-middle" %>
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+        Bitcoin Calendar
+      </h1>
+    </div>
+    <p class="text-base-content/70">Celebrating Bitcoin's Historic Moments</p>
+  </div>
+
+  <!-- Right: Actions -->
+  <div class="flex items-center gap-3">
+    <!-- View Switcher -->
+    <div class="btn-group">
+      <%= link_to calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")), 
+          class: "btn btn-sm #{'btn-active' if view_type == 'calendar'}",
+          "aria-label": "Calendar view" do %>
+        <%= heroicon("calendar-days", class: "w-4 h-4") %>
+        <span class="hidden sm:inline ml-1">Calendar</span>
+      <% end %>
+      <%= link_to agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : "")), 
+          class: "btn btn-sm #{'btn-active' if view_type == 'agenda'}",
+          "aria-label": "List view" do %>
+        <%= heroicon("list-bullet", class: "w-4 h-4") %>
+        <span class="hidden sm:inline ml-1">List</span>
+      <% end %>
+    </div>
+
+    <!-- Suggest Button -->
+    <%= link_to github_bitcoin_calendar_discussions_url, target: "_blank", class: "btn btn-primary btn-sm bg-gradient-to-r from-orange-500 to-orange-600 border-0 hover:from-orange-600 hover:to-orange-700 text-white inline-flex items-center" do %>
+      <%= heroicon("plus", class: "w-4 h-4 sm:mr-2") %>
+      <span class="hidden sm:inline">Suggest a Bitcoin Day</span>
+    <% end %>
+  </div>
+</div>

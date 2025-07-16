@@ -1,0 +1,80 @@
+<div class="relative rounded-lg min-h-[140px] border <%= border_classes %> <%= opacity_class %> hover:shadow-md transition-shadow overflow-hidden">
+  <% if events.any? && is_current_month? %>
+    <% if events.size == 1 %>
+      <!-- Single event - full cell -->
+      <% event = events.first %>
+      <%= link_to input_path(event), class: "block relative h-full min-h-[140px]" do %>
+        <% if event.image.attached? %>
+          <%= image_tag event.image, class: "absolute inset-0 w-full h-full object-cover", alt: event.name %>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+        <% else %>
+          <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-orange-600/30"></div>
+        <% end %>
+        
+        <!-- Content overlay -->
+        <div class="relative h-full p-3 flex flex-col justify-between">
+          <div class="text-lg font-bold <%= text_color_for_event(event) %>" >
+            <%= day.day %>
+          </div>
+          <div>
+            <p class="<%= text_color_for_event(event) %> text-sm font-semibold line-clamp-2" >
+              <%= event.name %>
+            </p>
+            <% if event.price_usd.present? %>
+              <p class="<%= price_color_for_event(event) %> text-xs mt-1" >
+                BTC: $<%= number_with_delimiter(event.price_usd.to_f.round(0)) %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <!-- Multiple events - horizontal split -->
+      <div class="flex flex-col h-full min-h-[140px]">
+        <% events.first(2).each_with_index do |event, index| %>
+          <%= link_to input_path(event), class: "block relative flex-1 #{index > 0 ? 'border-t border-base-300' : ''}" do %>
+            <% if event.image.attached? %>
+              <%= image_tag event.image, class: "absolute inset-0 w-full h-full object-cover", alt: event.name %>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+            <% else %>
+              <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-orange-600/30"></div>
+            <% end %>
+            
+            <!-- Content overlay -->
+            <div class="relative h-full p-2 flex flex-col justify-between">
+              <% if index == 0 %>
+                <div class="text-lg font-bold <%= text_color_for_event(event) %>">
+                  <%= day.day %>
+                </div>
+              <% else %>
+                <div></div>
+              <% end %>
+              <div>
+                <p class="<%= text_color_for_event(event) %> text-xs font-semibold truncate">
+                  <%= event.name %>
+                </p>
+                <% if event.price_usd.present? %>
+                  <p class="<%= price_color_for_event(event) %> text-xs">
+                    $<%= number_with_delimiter(event.price_usd.to_f.round(0)) %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <% if events.size > 2 %>
+        <div class="absolute bottom-0 right-0 bg-black/60 text-white text-xs px-2 py-1 rounded-tl">
+          +<%= events.size - 2 %>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <!-- No events - plain cell -->
+    <div class="bg-base-100 h-full min-h-[140px] p-3">
+      <span class="text-sm font-medium <%= day_number_color %>" >
+        <%= day.day %>
+      </span>
+    </div>
+  <% end %>
+</div>
