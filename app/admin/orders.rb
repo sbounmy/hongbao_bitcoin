@@ -89,11 +89,11 @@ ActiveAdmin.register Order do
       table_for order.line_items do
         column :id
         column :quantity
-        column :unit_price do |line_item|
-          number_to_currency(line_item.unit_price, unit: order.currency.upcase + " ")
+        column :price do |line_item|
+          number_to_currency(line_item.price, unit: order.currency.upcase + " ")
         end
         column :total_price do |line_item|
-          number_to_currency(line_item.total_price, unit: order.currency.upcase + " ")
+          number_to_currency(order.total_amount, unit: order.currency.upcase + " ")
         end
         column :metadata do |line_item|
           line_item.metadata if line_item.metadata.present?
