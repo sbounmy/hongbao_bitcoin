@@ -3,7 +3,9 @@ module Checkout
     class Create < Checkout::Create
       private
 
-      def provider_specific_call(order, product)
+      def provider_specific_call(product)
+        # Create order first (Bitcoin payments need tracking)
+        order = create_order_and_line_item(product)
         client = Client::BtcpayApi.new
         pr_payload = {
           amount: order.total_amount.to_s,

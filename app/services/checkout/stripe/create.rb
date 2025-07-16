@@ -2,16 +2,12 @@ module Checkout
   module Stripe
     class Create < Checkout::Create
       private
-      def provider_specific_call(order, product)
-        session = ::Stripe::Checkout::Session.create(checkout_params(order))
-
-        order.update!(external_id: session.id)
-        order.process! if order.may_process?
-
+      def provider_specific_call(product)
+        session = ::Stripe::Checkout::Session.create(checkout_params(product))
         success(session)
       end
 
-      def checkout_params(order)
+      def checkout_params(product)
         p = {
           payment_method_types: [ "card" ],
           shipping_address_collection: {
@@ -35,12 +31,12 @@ module Checkout
             ] # allow countries
           },
           line_items: [ {
-            price: order.line_items.first.stripe_price_id,
+            price: product[:stripe_price_id],
             quantity: 1
           } ],
           payment_intent_data: {
             metadata: {
-              colors: order.line_items.first.metadata["color"]
+              colors: @params[:color]
           }
           },
           mode: "payment",
@@ -59,6 +55,7 @@ module Checkout
             p[:client_reference_id] = "#{ENV['STRIPE_CONTEXT_ID']}#user_#{@current_user.id}"
           end
         end
+        Rails.logger.info("Creating Stripe Checkout Session with params: #{p.inspect}")
         p
       end
     end

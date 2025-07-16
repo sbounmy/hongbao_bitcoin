@@ -4,6 +4,7 @@ module Checkout
       @params = params
       @current_user = current_user
       @currency = currency
+
       # 1. Find the product
       price_id = @params[:price_id]
       return failure("Price ID is missing.") unless price_id
@@ -11,14 +12,13 @@ module Checkout
       product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
       return failure("Product not found for price ID: #{price_id}") unless product
 
-      # 2. Create the Order and LineItem
-      order = create_order_and_line_item(product)
-
-      # This calls the `provider_specific_call` method in the child class
-      provider_specific_call(order, product)
+      # 2. Call provider-specific implementation
+      provider_specific_call(product)
     end
 
-    private
+    protected
+
+    attr_reader :params, :current_user, :currency
 
     def create_order_and_line_item(product)
       order = Order.create!(

@@ -39,11 +39,29 @@ module Checkout
               }
             )
 
-            order = Order.find_by(external_id: session.id)
-            return failure("Order not found for session #{session.id}") unless order
+            order =  user.orders.create!(
+              total_amount: cs.amount_total/100.0, # Convert cents to dollars
+              currency: cs.currency,
+              payment_provider: "stripe",
+              external_id: session.payment_intent,
+            )
 
-            order.update!(external_id: session.payment_intent)
             order.complete! if order.may_complete?
+
+            order.line_items.create!(
+              quantity: 1,
+              price: cs.amount_total/100.0, # Convert cents to dollars
+              stripe_price_id: cs.line_items.data.first.price.id,
+              metadata: {
+                name: cs.line_items.data.first.price.product.name,
+                tokens: cs.line_items.data.first.price.product.metadata.tokens,
+                envelopes: cs.line_items.data.first.price.product.metadata.envelopes,
+                description: cs.line_items.data.first.price.product.description,
+                color: cs.line_items.data.first.price.product.metadata.color
+              }
+            )
+
+
 
             success user
           else
