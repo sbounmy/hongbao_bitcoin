@@ -1,6 +1,8 @@
 class Paper < ApplicationRecord
   include Likeable
   include Viewable
+  include ArrayColumns
+  include Metadata
 
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true
@@ -25,7 +27,6 @@ class Paper < ApplicationRecord
   scope :with_events, -> { with_input_type("Input::Event") }
   scope :with_styles, -> { with_input_type("Input::Style") }
 
-  include ArrayColumns
   array_columns :input_ids, :input_item_ids
 
   ELEMENTS = %w[
@@ -39,11 +40,13 @@ class Paper < ApplicationRecord
 
   ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
 
+  # Elements are stored in elements column, not metadata
   store :elements, accessors: ELEMENTS, prefix: true
-  # store_accessor :metadata, :prompt, :costs, :tokens
-  store :metadata, accessors: [ :costs, :tokens, :prompt ]
-  store :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
-  store :costs, accessors: [ :input, :output, :total ], suffix: true
+
+  # Metadata fields
+  metadata :prompt
+  metadata :costs, accessors: [ :input, :output, :total ], suffix: true
+  metadata :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
 
   def input_items
     InputItem.where(id: input_item_ids)

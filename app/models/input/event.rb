@@ -3,7 +3,7 @@
 class Input::Event < Input
   self.renderable = true
 
-  store :metadata, accessors: [ :date, :description, :price_usd ]
+  metadata :date, :description, :price_usd, :fixed_day
 
   validates :date, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
@@ -35,5 +35,20 @@ class Input::Event < Input
 
   def age
     Date.today.year - date.year
+  end
+
+  def fixed_day?
+    fixed_day == true || fixed_day == "true" || fixed_day == "1"
+  end
+
+  def variable_date?
+    !fixed_day?
+  end
+
+  # Set default for new records
+  after_initialize do
+    if new_record? && fixed_day.nil?
+      self.fixed_day = true
+    end
   end
 end
