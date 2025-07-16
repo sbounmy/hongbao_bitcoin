@@ -50,18 +50,18 @@ module InputEvents
 
         events.select do |event|
           if event.date
-            anniversary = event.anniversary(date)
+            anniversary = event.anniversary(date.beginning_of_month)
             anniversary >= start_date && anniversary <= end_date
           end
-        end.sort_by { |e| e.anniversary(date) }
-      end
+        end
+      end.sort_by { |e| e.anniversary(date.beginning_of_month) }
     end
 
     def events_by_day
       @events_by_day ||= begin
         grouped = {}
         month_events.each do |event|
-          day = event.anniversary(date)
+          day = event.anniversary(date.beginning_of_month)
           grouped[day] ||= []
           grouped[day] << event
         end

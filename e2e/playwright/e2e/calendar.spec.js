@@ -86,7 +86,7 @@ test.describe('Event Calendar', () => {
 
     // Find today's date cell
     const today = new Date().getDate().toString();
-    const todayCell = page.locator('.calendar-day').filter({ hasText: today });
+    const todayCell = page.locator('.calendar-day').filter({ hasText: today }).last();
 
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);
@@ -149,5 +149,128 @@ test.describe('Event Calendar', () => {
 
     // Check URL has updated
     await expect(page).toHaveURL(/may-2024/);
+  });
+
+  test('shows tag filter dropdown', async ({ page }) => {
+    await page.goto('/calendar');
+
+    // Check filter button exists (it's a label with btn class)
+    const filterButton = page.locator('label.btn').filter({ hasText: /Filter/i });
+    await expect(filterButton).toBeVisible();
+
+    // Click to open dropdown
+    await filterButton.click();
+
+    // Check dropdown content
+    await expect(page.getByText('Event Types')).toBeVisible();
+
+    // Check for tag checkboxes
+    const checkboxes = page.locator('input[type="checkbox"][name="tags[]"]');
+    const count = await checkboxes.count();
+    expect(count).toBeGreaterThan(0);
+  });
+
+  test('filters events by tag', async ({ page }) => {
+    await page.goto('/calendar');
+
+    // Open filter dropdown
+    await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
+
+    // Get initial event count
+    const initialEventLinks = page.locator('[data-testid="calendar-event-link"]');
+    const initialCount = await initialEventLinks.count();
+
+    // Select first tag checkbox
+    const firstCheckbox = page.locator('input[type="checkbox"][name="tags[]"]').first();
+    await firstCheckbox.check();
+
+    // Wait for page to reload with filtered results
+    await page.waitForLoadState('networkidle');
+
+    // Check URL contains tag parameter (brackets are URL encoded)
+    await expect(page).toHaveURL(/tags(%5B%5D|\\[\\])=/);
+
+    // Verify filter badge shows count
+    const filterBadge = page.locator('.badge-primary');
+    await expect(filterBadge).toContainText('1');
+
+    // Event count may have changed (filtered)
+    const filteredEventLinks = page.locator('[data-testid="calendar-event-link"]');
+    const filteredCount = await filteredEventLinks.count();
+
+    // The filtered count should be less than or equal to initial count
+    expect(filteredCount).toBeLessThanOrEqual(initialCount);
+  });
+
+  test('clears tag filters', async ({ page }) => {
+    await page.goto('/calendar');
+
+    // Open filter dropdown and select a tag
+    await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
+    const firstCheckbox = page.locator('input[type="checkbox"][name="tags[]"]').first();
+    await firstCheckbox.check();
+
+    // Wait for filtered results
+    await page.waitForLoadState('networkidle');
+
+    // Open dropdown again
+    await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
+
+    // Click clear filters link
+    await page.getByText('Clear filters').click();
+
+    // Check URL no longer has tags parameter
+    await expect(page).not.toHaveURL(/tags(%5B%5D|\\[\\])=/);
+
+    // Filter badge should not exist
+    const filterBadge = page.locator('.badge-primary');
+    await expect(filterBadge).not.toBeVisible();
+  });
+
+  test('preserves tag filters when navigating months', async ({ page }) => {
+    await page.goto('/calendar');
+
+    // Open filter dropdown and select a tag
+    await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
+    const firstCheckbox = page.locator('input[type="checkbox"][name="tags[]"]').first();
+    await firstCheckbox.check();
+
+    // Wait for filtered results
+    await page.waitForLoadState('networkidle');
+
+    // Navigate to next month
+    await page.locator('.next-month').click();
+
+    // Check URL still contains tag parameter
+    await expect(page).toHaveURL(/tags(%5B%5D|\\[\\])=/);
+
+    // Filter badge should still show
+    const filterBadge = page.locator('.badge-primary');
+    await expect(filterBadge).toBeVisible();
+    await expect(filterBadge).toContainText('1');
+  });
+
+  test('switches views while preserving tag filters', async ({ page }) => {
+    await page.goto('/calendar');
+
+    // Open filter dropdown and select a tag
+    await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
+    const firstCheckbox = page.locator('input[type="checkbox"][name="tags[]"]').first();
+    await firstCheckbox.check();
+
+    // Wait for filtered results
+    await page.waitForLoadState('networkidle');
+
+    // Switch to list view
+    await page.getByRole('link', { name: /List view/i }).click();
+
+    // Should be on agenda page with tags preserved
+    await expect(page).toHaveURL(/agenda/);
+    await expect(page).toHaveURL(/tags(%5B%5D|\\[\\])=/);
+
+    // Filter badge should still show
+    const filterBadge = page.locator('.badge-primary');
+    await expect(filterBadge).toBeVisible();
+    await expect(filterBadge).toContainText('1');
   });
 });
