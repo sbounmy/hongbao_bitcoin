@@ -12,7 +12,7 @@ class Order < ApplicationRecord
     end
 
     event :complete do
-      transitions from: :processing, to: :completed
+      transitions from: [ :pending, :processing ], to: :completed
     end
 
     event :fail do
