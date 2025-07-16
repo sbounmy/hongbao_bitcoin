@@ -1,0 +1,29 @@
+<div class="h-screen mx-auto px-4 py-8">
+  <div class="h-full max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">My Orders</h1>
+      <%= link_to "← Back to Dashboard", dashboard_path, class: "btn btn-outline" %>
+    </div>
+
+    <% if @orders.any? %>
+      <div class="space-y-4">
+        <% @orders.each do |order| %>
+          <%= render Orders::ItemComponent.new(order: order) %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-12">
+        <div class="mx-auto h-12 w-12 text-gray-400">
+          <%= heroicon "shopping-bag", variant: :outline, class: "h-full w-full" %>
+        </div>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No orders yet</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Start by purchasing your first Bitcoin envelope.
+        </p>
+        <div class="mt-6">
+          <%= link_to "Check Envelopes", root_path + "#pricing", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

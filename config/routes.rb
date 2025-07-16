@@ -17,6 +17,12 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|zh-CN/, defaults: { locale: "en" } do
+    resources :orders, only: [ :index, :show ] do
+      member do
+        get :status
+      end
+    end
+
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
       get :utxos, on: :member
