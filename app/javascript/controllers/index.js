@@ -19,11 +19,20 @@ application.register('collapse', Collapse)
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
+
+import FlashModalController from "./flash_modal_controller"
+application.register("flash-modal", FlashModalController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
+
+import OrderStatusController from "./order_status_controller"
+application.register("order-status", OrderStatusController)
 
 import MtPelerinController from "./mt_pelerin_controller"
 application.register("mt-pelerin", MtPelerinController)
