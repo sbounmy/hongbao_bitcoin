@@ -7,7 +7,16 @@ class CheckoutController < ApplicationController
     result = service.call(params:, current_user:)
 
     if result.success?
-      redirect_to result.payload.url, allow_other_host: true, status: :see_other
+      case params[:provider]
+      when "btcpay"
+        # BTCPay flow: Store order ID in session and return JSON for dual-action
+        order = Order.find_by(external_id: result.payload.id)
+        session[:current_order_id] = order&.id
+
+        redirect_to status_order_path(order)
+      else
+        redirect_to result.payload.url, allow_other_host: true, status: :see_other
+      end
     else
       flash[:alert] = "Payment failed: #{result.error}"
       redirect_to root_path
