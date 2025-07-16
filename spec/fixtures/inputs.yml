@@ -902,3 +902,78 @@ satoshi_sayonara:
       "description": "Satoshi Nakamoto's last known communication before disappearing from public view. His departure left Bitcoin to develop as a truly decentralized project without a central leader.",
       "price_usd": "1.19"
     }
+genesis_block:
+  id: 16
+  name: Genesis Block Day
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  metadata: |
+    {
+      "date": "2009-01-03",
+      "description": "Genesis Block Day celebrates the mining of the Bitcoin Blockchain's very first block. This block was first mined on January 3, 2009 by Satoshi Nakamoto. It's also known as Block 0, and contains the famous embedded message: 'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.'",
+      "price_usd": "0",
+      "fixed_day": true
+    }
+
+pizza_day:
+  id: 15
+  name: Bitcoin Pizza Day
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  metadata: |
+    {
+      "date": "2010-05-22",
+      "description": "Celebrates the very first 'real world' purchase using bitcoin, where Laszlo Hanyecz bought two pizzas for 10,000 bitcoins. This transaction proved Bitcoin could function as a medium of exchange, not just a technological curiosity.",
+      "price_usd": "0.041",
+      "fixed_day": true
+    }
+
+whitepaper:
+  id: 18
+  name: Bitcoin Whitepaper Day
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:bitcoin) %>]
+  metadata: |
+    {
+      "date": "2008-10-31",
+      "description": "The Bitcoin whitepaper was published by Satoshi Nakamoto to the cryptography mailing list, marking the beginning of a new era in finance and self-sovereignty. This 9-page document outlined the solution to the double-spending problem.",
+      "price_usd": "0",
+      "fixed_day": true
+    }
+
+# Cultural Events
+chinese_new_year_2025:
+  id: 901
+  name: Chinese New Year 2025
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  metadata: |
+    {
+      "date": "2025-01-29",
+      "description": "Year of the Snake begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }
+
+chinese_new_year_2026:
+  id: 902
+  name: Chinese New Year 2026
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  metadata: |
+    {
+      "date": "2026-02-17",
+      "description": "Year of the Horse begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }
+
+chinese_new_year_2027:
+  id: 903
+  name: Chinese New Year 2027
+  type: "Input::Event"
+  tag_ids: [<%= ActiveRecord::FixtureSet.identify(:cultural) %>, <%= ActiveRecord::FixtureSet.identify(:holiday) %>]
+  metadata: |
+    {
+      "date": "2027-02-06",
+      "description": "Year of the Goat begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }
