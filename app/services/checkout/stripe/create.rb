@@ -4,6 +4,10 @@ module Checkout
       private
       def provider_specific_call(order, product)
         session = ::Stripe::Checkout::Session.create(checkout_params(order))
+
+        order.update!(external_id: session.id)
+        order.process! if order.may_process?
+
         success(session)
       end
 

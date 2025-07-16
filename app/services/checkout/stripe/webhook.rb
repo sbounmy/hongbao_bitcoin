@@ -38,6 +38,13 @@ module Checkout
                 stripe_checkout_session_payment_intent: session.payment_intent
               }
             )
+
+            order = Order.find_by(external_id: session.id)
+            return failure("Order not found for session #{session.id}") unless order
+
+            order.update!(external_id: session.payment_intent)
+            order.complete! if order.may_complete?
+
             success user
           else
             failure user.errors.full_messages.join(", ")
