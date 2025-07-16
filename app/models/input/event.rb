@@ -5,6 +5,14 @@ class Input::Event < Input
 
   store :metadata, accessors: [ :date, :description, :price_usd ]
 
+  validates :date, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :price_usd, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+
+  def papers
+    Paper.with_any_input_ids(id)
+  end
+
   # Doing this in ruby because date is stored as a string in a jsonb column.
   # We won't have millions of events, so it's not a big deal.
   def self.find_by_anniversary(today = Date.today)
