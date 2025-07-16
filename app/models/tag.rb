@@ -2,8 +2,6 @@ class Tag < ApplicationRecord
   include ArrayColumns
   include Metadata
 
-  array_columns :tag_ids
-
   metadata :color, :icon
 
   validates :name, presence: true, uniqueness: true
