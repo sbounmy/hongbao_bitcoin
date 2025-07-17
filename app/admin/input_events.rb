@@ -155,8 +155,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
       f.input :description, as: :text, input_html: { rows: 4 }, hint: "A brief description of the event's significance"
       f.input :price_usd,
               label: "Bitcoin Price (USD)",
-              hint: "The price of 1 BTC in USD on this date (optional)",
-              input_html: { step: "0.01", min: "0" }
+              hint: "The price of 1 BTC in USD on this date (optional)"
       f.input :fixed_day,
               label: "Date Type",
               as: :select,
@@ -263,10 +262,4 @@ ActiveAdmin.register Input::Event, as: "Event" do
     events.where("date(metadata->>'date') < date(?)", 1.year.ago.to_date)
   end
 
-  # Override the default finder to handle date parsing
-  controller do
-    def find_resource
-      Input::Event.find(params[:id])
-    end
-  end
 end

@@ -7,7 +7,7 @@ class Input::Event < Input
 
   validates :date, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates :price_usd, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :price_usd, numericality: { greater_than_or_equal_to: 0, allow_blank: true }
 
   def papers
     Paper.with_any_input_ids(id)
@@ -30,7 +30,7 @@ class Input::Event < Input
   end
 
   def date
-    Date.parse(super)
+    Date.parse(super || Date.today.to_s)
   end
 
   def age
