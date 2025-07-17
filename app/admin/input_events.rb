@@ -261,5 +261,4 @@ ActiveAdmin.register Input::Event, as: "Event" do
     # SQLite compatible date comparison
     events.where("date(metadata->>'date') < date(?)", 1.year.ago.to_date)
   end
-
 end
