@@ -31,8 +31,6 @@ application.register("hello", HelloController)
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
 
-import OrderStatusController from "./order_status_controller"
-application.register("order-status", OrderStatusController)
 
 import MtPelerinController from "./mt_pelerin_controller"
 application.register("mt-pelerin", MtPelerinController)

@@ -64,18 +64,6 @@ module Orders
       end
     end
 
-    def should_poll?
-      %w[pending processing].include?(order.state)
-    end
-
-    def poll_interval
-      case order.state
-      when "processing"
-        3000 # 3 seconds for processing (faster updates)
-      else
-        5000 # 5 seconds for pending
-      end
-    end
 
     private
 
