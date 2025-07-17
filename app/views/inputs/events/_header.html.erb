@@ -55,19 +55,27 @@
     </div>
 
     <!-- View Switcher -->
-    <div class="btn-group">
-      <%= link_to calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
-          class: "btn btn-sm #{'btn-active' if view_type == 'calendar'}",
-          "aria-label": "Calendar view" do %>
-        <%= heroicon("calendar-days", class: "w-4 h-4") %>
-        <span class="hidden sm:inline ml-1">Calendar</span>
-      <% end %>
-      <%= link_to agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
-          class: "btn btn-sm #{'btn-active' if view_type == 'agenda'}",
-          "aria-label": "List view" do %>
-        <%= heroicon("list-bullet", class: "w-4 h-4") %>
-        <span class="hidden sm:inline ml-1">List</span>
-      <% end %>
+    <div class="relative bg-base-200 rounded-full p-0.5">
+      <div class="flex relative">
+        <!-- Active indicator -->
+        <div class="absolute inset-y-0.5 transition-all duration-200 ease-out <%= view_type == 'calendar' ? 'left-0.5 w-[calc(50%-2px)]' : 'left-[calc(50%+2px)] w-[calc(50%-2px)]' %>">
+          <div class="h-full bg-white rounded-full shadow-sm"></div>
+        </div>
+
+        <!-- Calendar button -->
+        <%= link_to calendar_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
+            class: "relative z-10 flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full transition-colors #{view_type == 'calendar' ? 'text-base-content' : 'text-base-content/60 hover:text-base-content/80'}",
+            "aria-label": "Calendar view" do %>
+          <%= heroicon("calendar-days", class: "w-4 h-4") %>
+        <% end %>
+
+        <!-- List button -->
+        <%= link_to agenda_month_path(month: date.strftime("%B").downcase + (date.year != Date.current.year ? "-#{date.year}" : ""), tags: selected_tag_ids),
+            class: "relative z-10 flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full transition-colors #{view_type == 'agenda' ? 'text-base-content' : 'text-base-content/60 hover:text-base-content/80'}",
+            "aria-label": "List view" do %>
+          <%= heroicon("list-bullet", class: "w-4 h-4") %>
+          <% end %>
+      </div>
     </div>
 
     <!-- Suggest Button -->
