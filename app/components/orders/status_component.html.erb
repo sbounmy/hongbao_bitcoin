@@ -19,7 +19,15 @@
   <div class="bg-white rounded-lg shadow p-6 mb-6">
     <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Details</h2>
     
+    <% line_item = order.line_items.first %>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Product</label>
+        <p class="text-lg font-semibold text-gray-900"><%= line_item&.metadata&.dig("name") || "N/A" %></p>
+        <p class="text-sm text-gray-600"><%= line_item&.metadata&.dig("description") %></p>
+      </div>
+      
       <div>
         <label class="block text-sm font-medium text-gray-700">Amount</label>
         <p class="text-lg font-semibold text-gray-900"><%= order.formatted_total %></p>
