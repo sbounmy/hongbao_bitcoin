@@ -11,6 +11,8 @@ http_interactions:
       - Stripe/v1 RubyBindings/15.3.0
       Authorization:
       - Bearer <STRIPE_SECRET_KEY>
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_qSvnsX7LmEMF6p","request_duration_ms":246}}'
       Stripe-Version:
       - 2025-06-30.basil
       X-Stripe-Client-User-Agent:
@@ -30,7 +32,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 15 Jul 2025 16:04:32 GMT
+      - Fri, 18 Jul 2025 16:21:50 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,9 +55,9 @@ http_interactions:
       Content-Security-Policy:
       - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
         img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
-        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=YdIyGoWjDvc37cRFq2GRoZ_1eiH5QgBCYIGc2Pw6qlmrrN1YQfeT9Ekt7cXg0_p4hOx59cs4AmZNsEYZ
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=omvIojVpWc2QjzzGhFwlGYrKHxY2QpCytI5yF4H88DJk--Kgz0WYOFv5UMvB9ELsFewVxIaaDMqdj8-3
       Request-Id:
-      - req_vTgORP6zexp5Eb
+      - req_8UUyrVHWh3EJkJ
       Stripe-Version:
       - 2025-06-30.basil
       Vary:
@@ -218,7 +220,7 @@ http_interactions:
           "has_more": false,
           "url": "/v1/products"
         }
-  recorded_at: Tue, 15 Jul 2025 16:04:31 GMT
+  recorded_at: Fri, 18 Jul 2025 16:21:48 GMT
 - request:
     method: get
     uri: https://api.stripe.com/v1/products?active=true&expand%5B%5D=data.default_price&ids%5B%5D=prod_SO9GmhAFidiukT&ids%5B%5D=prod_SOA4vfEvazoRti&ids%5B%5D=prod_SOA6phfwu0fqTR
@@ -231,7 +233,7 @@ http_interactions:
       Authorization:
       - Bearer <STRIPE_SECRET_KEY>
       X-Stripe-Client-Telemetry:
-      - '{"last_request_metrics":{"request_id":"req_vTgORP6zexp5Eb","request_duration_ms":395}}'
+      - '{"last_request_metrics":{"request_id":"req_8UUyrVHWh3EJkJ","request_duration_ms":370}}'
       Stripe-Version:
       - 2025-06-30.basil
       X-Stripe-Client-User-Agent:
@@ -251,7 +253,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 15 Jul 2025 16:04:34 GMT
+      - Fri, 18 Jul 2025 16:21:52 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -274,9 +276,9 @@ http_interactions:
       Content-Security-Policy:
       - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
         img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
-        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=dqCMLz7MQKoFpGS6XoWoXLnBTPkR_EqWV1MqWWFKG3XwBYlOR2qm-x1MWj4CKvEMVzxzusKJpUc3ROpB
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=omvIojVpWc2QjzzGhFwlGYrKHxY2QpCytI5yF4H88DJk--Kgz0WYOFv5UMvB9ELsFewVxIaaDMqdj8-3
       Request-Id:
-      - req_VoaSp912yUkQxZ
+      - req_4EWGb1c2O3820R
       Stripe-Version:
       - 2025-06-30.basil
       Vary:
@@ -439,7 +441,7 @@ http_interactions:
           "has_more": false,
           "url": "/v1/products"
         }
-  recorded_at: Tue, 15 Jul 2025 16:04:34 GMT
+  recorded_at: Fri, 18 Jul 2025 16:21:51 GMT
 - request:
     method: get
     uri: https://api.stripe.com/v1/products?active=true&expand%5B%5D=data.default_price&ids%5B%5D=prod_SO9GmhAFidiukT&ids%5B%5D=prod_SOA4vfEvazoRti&ids%5B%5D=prod_SOA6phfwu0fqTR
@@ -452,7 +454,7 @@ http_interactions:
       Authorization:
       - Bearer <STRIPE_SECRET_KEY>
       X-Stripe-Client-Telemetry:
-      - '{"last_request_metrics":{"request_id":"req_VoaSp912yUkQxZ","request_duration_ms":375}}'
+      - '{"last_request_metrics":{"request_id":"req_4EWGb1c2O3820R","request_duration_ms":252}}'
       Stripe-Version:
       - 2025-06-30.basil
       X-Stripe-Client-User-Agent:
@@ -472,7 +474,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 15 Jul 2025 16:04:36 GMT
+      - Fri, 18 Jul 2025 16:21:53 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -495,9 +497,9 @@ http_interactions:
       Content-Security-Policy:
       - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
         img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
-        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=dqCMLz7MQKoFpGS6XoWoXLnBTPkR_EqWV1MqWWFKG3XwBYlOR2qm-x1MWj4CKvEMVzxzusKJpUc3ROpB
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=omvIojVpWc2QjzzGhFwlGYrKHxY2QpCytI5yF4H88DJk--Kgz0WYOFv5UMvB9ELsFewVxIaaDMqdj8-3
       Request-Id:
-      - req_e49pl2MF2VQdmz
+      - req_oFljvWXjhij0fF
       Stripe-Version:
       - 2025-06-30.basil
       Vary:
@@ -660,60 +662,5 @@ http_interactions:
           "has_more": false,
           "url": "/v1/products"
         }
-  recorded_at: Tue, 15 Jul 2025 16:04:35 GMT
-- request:
-    method: post
-    uri: https://testnet.demo.btcpayserver.org/api/v1/stores/5J8edsBQADQ17kfw2iLbQ23PX79Lbc1wTWGqwzCBm5rR/payment-requests
-    body:
-      encoding: UTF-8
-      string: '{"amount":"19.0","currency":"EUR","title":"Mini Pack","description":"6
-        envelopes + 12 credits","formId":"e0042b63-24e4-4d12-bfac-b91937c252b5","expiryDate":1752599075,"referenceId":"7fabdf1ac2d54256d76c_1"}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - testnet.demo.btcpayserver.org
-      Authorization:
-      - token <BTCPAY_API_KEY>
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Tue, 15 Jul 2025 16:04:36 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '433'
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - UserPrefsCookie=%7B%22InvoicesQuery%22%3Anull%2C%22PaymentRequestsQuery%22%3Anull%2C%22UsersQuery%22%3Anull%2C%22PayoutsQuery%22%3Anull%2C%22PullPaymentsQuery%22%3Anull%2C%22CurrentStoreId%22%3A%225J8edsBQADQ17kfw2iLbQ23PX79Lbc1wTWGqwzCBm5rR%22%7D;
-        path=/
-      Content-Security-Policy:
-      - script-src 'self'
-      Referrer-Policy:
-      - same-origin
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - DENY
-      Strict-Transport-Security:
-      - max-age=31536000
-    body:
-      encoding: UTF-8
-      string: '{"storeId":"5J8edsBQADQ17kfw2iLbQ23PX79Lbc1wTWGqwzCBm5rR","amount":19.0,"currency":"EUR","expiryDate":1752599075,"title":"Mini
-        Pack","description":"6 envelopes + 12 credits","email":null,"referenceId":"7fabdf1ac2d54256d76c_1","allowCustomPaymentAmounts":false,"status":"Pending","createdTime":1752595476,"id":"1e4f74d3-86a4-4971-bd21-d524132f729e","archived":false,"formId":"e0042b63-24e4-4d12-bfac-b91937c252b5","formResponse":null}'
-  recorded_at: Tue, 15 Jul 2025 16:04:35 GMT
+  recorded_at: Fri, 18 Jul 2025 16:21:51 GMT
 recorded_with: VCR 6.3.1

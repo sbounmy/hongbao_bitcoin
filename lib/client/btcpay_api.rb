@@ -2,7 +2,7 @@ require_relative "base"
 
 module Client
   class BtcpayApi < Client::Base
-    url ENV["BTCPAY_SERVER"]
+    url "https://#{ENV["BTCPAY_HOST"]}"
 
     auth_prefix "token"
 

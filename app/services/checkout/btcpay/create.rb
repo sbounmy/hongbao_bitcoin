@@ -14,12 +14,13 @@ module Checkout
           description: product[:description],
           formId: ENV["BTCPAY_FORM_ID"],
           expiryDate: 1.hours.from_now.to_i,
-          referenceId: "#{SecureRandom.hex(10)}_#{product[:stripe_price_id]}",
+          referenceId: "#{SecureRandom.hex(10)}_#{@current_user&.id || 'guest'}",
         }
+
         payment_request = client.create_payment_request(**pr_payload)
 
         if payment_request.id
-          payment_request.url = "#{ENV["BTCPAY_SERVER"]}/payment-requests/#{payment_request.id}"
+          payment_request.url = "https://#{ENV["BTCPAY_HOST"]}/payment-requests/#{payment_request.id}"
           success(payment_request)
         else
           failure(payment_request.message || "Failed to create BTCPay Payment Request")

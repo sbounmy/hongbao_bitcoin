@@ -27,11 +27,12 @@ module Checkout
 
           client = Client::BtcpayApi.new
           payment_request = client.get_payment_request(payment_request_id)
+          user_id = payment_request.referenceId.split("_").last
 
           color = payment_request.title.split(" ").first
           tokens, envelopes = parse_description_details(payment_request.description)
 
-          user = find_or_create_user(metadata["buyerEmail"])
+          user = find_or_create_user(user_id, email: metadata["buyerEmail"])
 
           order = user.orders.create!(
             total_amount: payment_request.amount,
@@ -98,10 +99,16 @@ module Checkout
         description.split(" + ").map { |part| part.split(" ").first }
       end
 
-      def find_or_create_user(email)
-        user = User.find_or_create_by(email: email.downcase) do |u|
-          u.password = SecureRandom.hex(16)
-        end
+      def find_or_create_user(reference_id, email: nil)
+        user = User.find(reference_id)
+        return user if user
+          
+        # If the user is not found, create a new one using the provided email.
+        password = SecureRandom.hex(16)
+        User.create!(
+          email: email,
+          password: password,
+        )
       end
 
       def save_shipping_address(order, metadata)

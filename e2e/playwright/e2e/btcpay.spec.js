@@ -5,8 +5,9 @@ test.describe('BTCPay Checkout Flow', () => {
   test('logged in user can initiate a purchase with BTCPay ON CHAIN', async ({ page, context }) => {
     test.setTimeout(180_000); // 3 minutes for payment flow
     const btcpayCredentials = await appGetCredentials('btcpay');
-    const btcpayServerUrl = process.env.BTCPAY_SERVER
+    const btcpayServerUrl = `https://${process.env.BTCPAY_HOST}`
     
+    console.log(`Using BTCPay Server URL: ${btcpayServerUrl}`);
     // Use VCR to record/replay the interaction with the BTCPay Server API
     await appVcrInsertCassette('btcpay_checkout_wallet_transfer', { allow_playback_repeats: true});
 
