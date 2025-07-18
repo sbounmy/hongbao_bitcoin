@@ -1,0 +1,16 @@
+<%= content_tag(:div, **html_attributes) do %>
+  <%= figure if figure? %>
+  <div class="card-body">
+    <% if title? %>
+      <h2 class="card-title">
+        <%= title %>
+      </h2>
+    <% end %>
+    <%= body || content %>
+    <% if actions? %>
+      <div class="card-actions">
+        <%= actions %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

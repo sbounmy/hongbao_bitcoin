@@ -1,0 +1,24 @@
+<div class="<%= component_classes %>" <%= tag.attributes(options.except(:class)) %>>
+  <!-- Stars -->
+  <div class="flex gap-0.5 justify-center">
+    <% stars.each do |star| %>
+      <span class="text-3xl <%= star == '★' ? 'text-yellow-400' : 'text-gray-300' %>"><%= star %></span>
+    <% end %>
+  </div>
+
+  <% if text.present? %>
+    <!-- Review text -->
+    <div class="mt-4">
+      <p class="text-lg text-gray-900 text-center leading-relaxed">
+        <%= text %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if avatar? %>
+    <!-- Avatar section -->
+    <div class="mt-6 flex gap-2">
+      <%= avatar %>
+    </div>
+  <% end %>
+</div>
