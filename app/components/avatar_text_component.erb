@@ -1,0 +1,11 @@
+  <% if url %>
+    <%= link_to url, class: "inline-flex items-baseline", target: "_blank" do %>
+      <img src="<%= image_url(image) %>" class="mx-1 size-5 self-center rounded-full" />
+      <span><%= text %></span>
+    <% end %>
+  <% else %>
+  <span class="inline-flex items-baseline">
+      <img src="<%= image_url(image) %>" class="mx-1 size-5 self-center rounded-full" />
+      <span><%= text %></span>
+  </span>
+  <% end %>
