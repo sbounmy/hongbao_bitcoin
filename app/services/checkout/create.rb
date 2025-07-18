@@ -10,38 +10,12 @@ module Checkout
       return failure("Price ID is missing.") unless price_id
 
       product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
+      product[:color] = @params[:color]
+      
       return failure("Product not found for price ID: #{price_id}") unless product
 
       # 2. Call provider-specific implementation
       provider_specific_call(product)
-    end
-
-    protected
-
-    attr_reader :params, :current_user, :currency
-
-    def create_order_and_line_item(product)
-      order = Order.create!(
-        user: @current_user,
-        total_amount: product[:price],
-        currency: @currency,
-        payment_provider: @params[:provider],
-        external_id: "external_id_#{SecureRandom.hex(10)}"
-      )
-
-      order.line_items.create!(
-        quantity: 1,
-        price: product[:price],
-        stripe_price_id: product[:stripe_price_id],
-        metadata: {
-          name: product[:name],
-          tokens: product[:tokens],
-          envelopes: product[:envelopes],
-          description: product[:description],
-          color: @params[:color]
-        }
-      )
-      order
     end
   end
 end

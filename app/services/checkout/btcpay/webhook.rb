@@ -15,24 +15,61 @@ module Checkout
       private
 
       def handle_event
-        # The referenceId is in the metadata, which we passed when creating the Payment Request.
-        payment_request_id = event_data.dig("metadata", "paymentRequestId") || event_data["paymentRequestId"]
-        order = Order.find_by(external_id: payment_request_id.split("_").last)
-
-        return failure("Order not found for ID: #{payment_request_id}") unless order
+        payment_request_id = event_data.dig("metadata","paymentRequestId") || event_data["paymentRequestId"]
+        order = Order.find_by(external_id: payment_request_id)
 
         # Idempotency check: Do not process an order that is already finalized.
-        return success("Order ##{order.id} already processed") if order.completed? || order.failed?
+        return success("Order ##{order.id} already processed") if order && order&.completed? || order&.failed?
 
         case event_data["type"]
-        when "InvoiceCreated"
-          # the user has submitted the form. Save their infos but keep the order pending.
-          save_shipping_address(order, event_data.dig("metadata"))
-          # if the user is not logged in, we can create a user based on the email provided.
-          find_or_create_user(order, event_data.dig("metadata", "buyerEmail"))
+        when "InvoiceReceivedPayment"
+          metadata = event_data["metadata"]
+
+          client = Client::BtcpayApi.new
+          payment_request = client.get_payment_request(payment_request_id)
+
+          color = payment_request.title.split(" ").first
+          tokens, envelopes = parse_description_details(payment_request.description)
+
+          user = find_or_create_user(metadata["buyerEmail"])
+
+          order = user.orders.create!(
+            total_amount: payment_request.amount,
+            currency: payment_request.currency,
+            payment_provider: "btcpay",
+            external_id: payment_request_id,
+            shipping_name: metadata["buyerName"],
+            shipping_address_line1: metadata["buyerAddress1"],
+            shipping_address_line2: metadata["buyerAddress2"],
+            shipping_city: metadata["buyerCity"],
+            shipping_state: metadata["buyerState"],
+            shipping_postal_code: metadata["buyerZip"],
+            shipping_country: metadata["buyerCountry"]
+          )
+
+          Rails.logger.info "Creating line item for order ##{order.id} with tokens: #{tokens}, envelopes: #{envelopes}, color: #{color}"
+
+          order.line_items.create!(
+            quantity: 1,
+            price: payment_request.amount,
+            metadata: {
+              name: payment_request.title,
+              tokens: tokens.to_i,
+              envelopes: envelopes.to_i,
+              description: payment_request.description,
+              color: color
+            }
+          )
+
+          Rails.logger.info "Order ##{order.id} created with line item for order: #{order.inspect}"
+          
         when "InvoiceProcessing"
+          return failure("Order not found for ID: #{payment_request_id}") unless order
+
           order.process! if order.may_process?
         when "PaymentRequestStatusChanged"
+          return failure("Order not found for ID: #{payment_request_id}") unless order
+
           case event_data["status"]
           when "Completed"
             # Payment is complete.
@@ -57,13 +94,14 @@ module Checkout
         success(order)
       end
 
-      def find_or_create_user(order, email)
-        return if order.user.present? || email.blank?
+      def parse_description_details(description) 
+        description.split(" + ").map { |part| part.split(" ").first }
+      end
 
+      def find_or_create_user(email)
         user = User.find_or_create_by(email: email.downcase) do |u|
           u.password = SecureRandom.hex(16)
         end
-        order.update!(user: user)
       end
 
       def save_shipping_address(order, metadata)
