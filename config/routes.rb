@@ -54,6 +54,15 @@ Rails.application.routes.draw do
 
   resources :inputs, only: [ :show ]
 
+  # Calendar and agenda routes
+  get "/calendar", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_root
+  get "/calendar/:month", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_month,
+      constraints: { month: /[a-z]+(?:-\d{4})?/ }
+
+  get "/agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_root
+  get "/agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
+      constraints: { month: /[a-z]+(?:-\d{4})?/ }
+
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
   end

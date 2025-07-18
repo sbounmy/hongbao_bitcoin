@@ -99,10 +99,9 @@ class Input::Theme < Input
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
-  store :metadata, accessors: [ :ui, :ai, :spotify ]
-  store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
-  store :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
-  store :spotify, accessors: [ :path ], prefix: true
+  metadata :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
+  metadata :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
+  metadata :spotify, accessors: [ :path ], prefix: true
 
   AI_ELEMENT_TYPES.each do |type|
     store :"ai_#{type}", accessors: AI_ELEMENT_PROPERTIES, prefix: true

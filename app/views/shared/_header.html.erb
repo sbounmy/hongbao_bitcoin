@@ -3,11 +3,6 @@
         <div class="flex items-center gap-2">
             <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
             <h1 class="text-xl hidden sm:inline-block font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
-            <%= render DropdownComponent.new(
-                items: themes,
-                current_item: current_theme,
-                path_helper: :root_path,
-                title: false) %>
         </div>
         <div class="flex items-center gap-2">
             <span class="pt-2 hidden sm:inline-block">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_16_094603) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -90,6 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.datetime "updated_at", null: false
     t.json "metadata", default: "{}"
     t.integer "position", default: 0
+    t.json "tag_ids", default: []
     t.index ["position"], name: "index_inputs_on_position"
   end
 
@@ -165,6 +166,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_113634) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.integer "position"
+    t.json "metadata", default: {}
+    t.json "categories", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
   end
 
   create_table "tokens", force: :cascade do |t|

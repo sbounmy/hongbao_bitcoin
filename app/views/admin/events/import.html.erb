@@ -1,0 +1,33 @@
+<div class="active_admin_content">
+  <div class="panel">
+    <h3>Import Bitcoin Events</h3>
+    
+    <%= form_tag do_import_admin_events_path, multipart: true, class: "formtastic" do %>
+      <fieldset class="inputs">
+        <ol>
+          <li class="file input">
+            <label>CSV File</label>
+            <%= file_field_tag :file, accept: ".csv" %>
+            <p class="inline-hints">
+              Upload a CSV file with columns: name, date (YYYY-MM-DD), description, price_usd
+            </p>
+          </li>
+        </ol>
+      </fieldset>
+      
+      <fieldset class="actions">
+        <%= submit_tag "Import Events", class: "btn" %>
+        <%= link_to "Cancel", admin_events_path, class: "btn cancel" %>
+      </fieldset>
+    <% end %>
+    
+    <div class="panel_contents">
+      <h4>CSV Format Example:</h4>
+      <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px;">
+name,date,description,price_usd
+"Bitcoin Pizza Day",2010-05-22,"First commercial Bitcoin transaction",0.0041
+"Mt. Gox Hack",2014-02-24,"Major exchange hack",850.00
+"Lightning Network Launch",2018-01-10,"Layer 2 scaling solution launched",14112.00</pre>
+    </div>
+  </div>
+</div>

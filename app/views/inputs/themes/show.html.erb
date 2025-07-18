@@ -1,5 +1,5 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full">
-  <div class="relative h-96 rounded-lg overflow-hidden -m-4">
+  <div class="relative h-96 rounded-lg -m-4">
     <% if @input.image.attached? %>
       <%= image_tag @input.image, class: "absolute inset-0 w-full h-full object-cover" %>
     <% else %>
@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <section id="papers" class="px-4">
+  <section id="papers" class="px-4 flex-1 overflow-y-auto">
     <h3 class="text-2xl font-bold mb-4">Creations</h3>
     <% if @papers.any? %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

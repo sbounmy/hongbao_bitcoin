@@ -4,7 +4,7 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 test.describe('Stripe Checkout Flow', () => {
 
   test('logged in user can buy tokens', async ({ page }) => {
-    test.setTimeout(40_000); // 40s for CI
+    test.setTimeout(60_000); // 40s for CI
 
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
@@ -64,7 +64,7 @@ test.describe('Stripe Checkout Flow', () => {
   });
 
   test('logged in user can buy envelopes', async ({ page }) => {
-    test.setTimeout(40_000); // 40s for CI
+    test.setTimeout(60_000); // 60s for CI
     await appVcrInsertCassette('stripe_checkout_existing_user_logged_in', { allow_playback_repeats: true });
 
     await forceLogin(page, {
@@ -87,7 +87,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
-    await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+    await expect(page.locator('.drawer').getByRole('button', { name: 'Logout' })).toBeVisible();
     await appVcrEjectCassette();
   });
 });

@@ -29,6 +29,12 @@
           Explore
         <% end %>
       </li>
+      <li>
+        <%= link_to calendar_root_path, class: "text-base" do %>
+          <%= heroicon "calendar-days", variant: :outline, class: "w-6 h-6" %>
+          Bitcoin Days
+        <% end %>
+      </li>
       <div class="flex-grow"></div>
       <ul class='flex flex-col gap-2'>
         <% if authenticated? && current_user %>
