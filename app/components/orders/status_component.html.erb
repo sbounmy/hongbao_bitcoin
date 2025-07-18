@@ -1,0 +1,98 @@
+<div class="max-w-2xl mx-auto">
+  
+  <!-- Status Header -->
+  <div class="<%= status_bg_color %> rounded-lg p-6 mb-6">
+    <div class="flex items-center space-x-3">
+      <%= heroicon status_icon, variant: :solid, class: "h-12 w-12 #{status_color}" %>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">
+          Order #<%= order.id %>
+        </h1>
+        <p class="<%= status_color %> text-lg font-semibold">
+          <%= status_message %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Details -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Details</h2>
+    
+    <% line_item = order.line_items.first %>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Product</label>
+        <p class="text-lg font-semibold text-gray-900"><%= line_item&.metadata&.dig("name") || "N/A" %></p>
+        <p class="text-sm text-gray-600"><%= line_item&.metadata&.dig("description") %></p>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Amount</label>
+        <p class="text-lg font-semibold text-gray-900"><%= order.formatted_total %></p>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Payment Method</label>
+        <p class="text-lg font-semibold text-gray-900">
+          <%= order.payment_provider.humanize %>
+        </p>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Order Date</label>
+        <p class="text-lg font-semibold text-gray-900">
+          <%= order.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </p>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Status</label>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= order.state == 'completed' ? 'green' : order.state == 'failed' ? 'red' : 'yellow' %>-100 text-<%= order.state == 'completed' ? 'green' : order.state == 'failed' ? 'red' : 'yellow' %>-800">
+          <%= order.state.humanize %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Instructions (for pending orders) -->
+  <% if order.state == "pending" && order.payment_provider == "btcpay" %>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+      <h3 class="text-lg font-semibold text-blue-900 mb-2">Complete Your Payment</h3>
+      <p class="text-blue-700 mb-4">
+        Please complete your Bitcoin payment to continue. This page will automatically update when your payment is confirmed.
+      </p>
+      <% if order.payment_provider_dashboard_url %>
+        <%= link_to "Complete Payment", order.payment_provider_dashboard_url, 
+                    target: "_blank", 
+                    class: "btn btn-primary",
+                    data: { turbo: false } %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Shipping Information (if available) -->
+  <% if order.shipping_name.present? %>
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Shipping Information</h3>
+      <div class="text-gray-700">
+        <p><strong><%= order.shipping_name %></strong></p>
+        <p><%= order.shipping_address_line1 %></p>
+        <% if order.shipping_address_line2.present? %>
+          <p><%= order.shipping_address_line2 %></p>
+        <% end %>
+        <p><%= order.shipping_city %>, <%= order.shipping_state %> <%= order.shipping_postal_code %></p>
+        <p><%= order.shipping_country %></p>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Actions -->
+  <div class="text-center">
+    <%= link_to "← Back to Orders", orders_path, class: "btn btn-outline" %>
+    <% if order.state == "completed" %>
+      <%= link_to "View Details", order_path(order), class: "btn btn-primary ml-2" %>
+    <% end %>
+  </div>
+</div>

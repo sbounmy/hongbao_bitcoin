@@ -2,6 +2,7 @@
 
 class Token < ApplicationRecord
   belongs_to :user
+  belongs_to :order, optional: true
 
   validates :quantity, presence: true, numericality: { only_integer: true }
 

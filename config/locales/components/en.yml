@@ -1,0 +1,5 @@
+en:
+  components:
+    checkout_button:
+      stripe: "Buy with Credit Card"
+      btcpay: "Buy with Bitcoin or Lightning ⚡"

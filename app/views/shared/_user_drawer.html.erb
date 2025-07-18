@@ -36,6 +36,12 @@
                 Billing & Credits
             <% end %>
             </li>
+            <li>
+            <%= link_to orders_path, class: "flex items-center gap-2" do %>
+                <%= heroicon "shopping-bag", options: { class: "w-5 h-5" } %>
+                My Orders
+            <% end %>
+            </li>
             <%# Add mt-auto to push this list item to the bottom %>
             <li class="mt-auto">
             <%= button_to logout_path, method: :delete, form_class: "flex", class: "btn btn-outline w-full" do %>

@@ -1,0 +1,39 @@
+<%= link_to order_path(order), class: "block p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow" do %>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="flex-shrink-0">
+        <%= heroicon status_icon, variant: :outline, class: "h-8 w-8 text-gray-500" %>
+      </div>
+      
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center space-x-2 mb-1">
+          <h3 class="text-lg font-semibold text-gray-900 truncate">
+            Order #<%= order.id %>
+          </h3>
+          <span class="<%= status_badge_classes %>">
+            <%= order.state.humanize %>
+          </span>
+        </div>
+        
+        <div class="flex items-center space-x-4 text-sm text-gray-500">
+          <span><%= order.formatted_total %></span>
+          <span class="<%= provider_badge_classes %>">
+            <%= order.payment_provider.humanize %>
+          </span>
+          <span><%= time_ago_in_words(order.created_at) %> ago</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-shrink-0 text-right">
+      <div class="text-sm text-gray-500">
+        <%= order.line_items.count %> items
+      </div>
+      <% if order.tokens.any? %>
+        <div class="text-sm text-green-600">
+          <%= order.tokens.count %> tokens generated
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

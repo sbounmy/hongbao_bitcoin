@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :papers, dependent: :destroy
   has_many :tokens, dependent: :destroy
+  has_many :orders, dependent: :destroy
   has_many :bundles, dependent: :destroy
   has_secure_password
   has_one_attached :avatar

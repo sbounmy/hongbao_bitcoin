@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Checkout::Success, type: :service do
+RSpec.describe Checkout::Stripe::Success, type: :service do
   let(:session_id) { 'cs_test_123' }
   let(:stripe_email) { 'satoshi@example.com' } # Email as known by Stripe
   let(:stripe_customer_id) { 'cus_O7lxYiqVso4zB5' }

@@ -49,6 +49,10 @@ module Client
         @url_dev = value.freeze
       end
 
+      def auth_prefix(value)
+        @auth_prefix = value.freeze
+      end
+
       def base_url
         @url
       end
@@ -79,7 +83,8 @@ module Client
 
       private
 
-      def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON])
+      def define_request_method(name, http_method, path, key: nil, content_type: Request::CONTENT_TYPES[:JSON], auth_prefix: nil)
+        authorization_prefix = auth_prefix || @auth_prefix || "Bearer"
         define_method(name) do |*args, **params|
           Rails.logger.info("[#{self.class.name}] #{http_method} #{path} #{args}")
           url = build_url(path, args, params)
@@ -91,7 +96,7 @@ module Client
             **params
           )
 
-          response = request.execute(api_key: api_key)
+          response = request.execute(api_key: api_key, prefix: authorization_prefix)
           Response.new(response, key: key).handle
         end
       end

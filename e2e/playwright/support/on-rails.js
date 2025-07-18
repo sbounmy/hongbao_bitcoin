@@ -9,9 +9,15 @@ const appCommands = async (data) => {
 
   if (response.ok()) {
     console.log('[AppCommand] Command executed: ', data)
-    return await response.body()
+    const contentType = response.headers()['content-type'];
+    if (contentType && contentType.includes('application/json')) {
+      // If the response is JSON, parse it as JSON.
+      return await response.json();
+    } else {
+      return await response.body();
+    }
   } else {
-    throw new Error(`Command failed with status: ${response.status()} : ${await response.body()}`);
+    throw new Error(`Command failed with status: ${response.status()} : ${response.body()}`);
   }
 }
 
@@ -19,6 +25,8 @@ const app = (name, options = {}) => appCommands({ name, options }).then((body) =
 const appScenario = (name, options = {}) => app('scenarios/' + name, options)
 const appEval = (code) => app('eval', code)
 const appFactories = (options) => app('factory_bot', options)
+
+const appGetCredentials = (key) => app('get_credentials', key)
 
 const appVcrInsertCassette = async (cassette_name, options) => {
   const context = await contextPromise;
@@ -173,4 +181,4 @@ const fillCheckout = async (page) => {
   }
 };
 
-export { appCommands, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout }
+export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout }
