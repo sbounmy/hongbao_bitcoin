@@ -111,14 +111,5 @@
       </div>
     <% end %>
 
-    <!-- Actions -->
-    <div class="text-center">
-      <% if @order.state == "pending" || @order.state == "processing" %>
-        <%= link_to "View Live Status", status_order_path(@order), 
-                    class: "btn btn-primary mr-2" %>
-      <% end %>
-      
-      <%= link_to "← Back to Orders", orders_path, class: "btn btn-outline" %>
-    </div>
   </div>
 </div>
