@@ -18,7 +18,7 @@
     <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
       <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
         <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-        <span class="inline-block">Buy Envelope</span>
+        <span class="inline-block">Get Envelopes</span>
       <% end %>
 
       <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
@@ -72,6 +72,10 @@
     </div>
   </div>
 </div>
+
+<section class="p-8">
+  <%= render 'shared/diffs' %>
+</section>
 
 <%= render "shared/testimonials_marquee" %>
 
@@ -147,7 +151,7 @@
 </section>
 
 <section class="flex flex-col lg:flex-row gap-4">
-  <%= render Ui::RatingComponent.new(rate: 5, text: "This fucks hard + HongBao meets Bitcoin = biggest cultural arbitrage play since El Salvador. Asia already
+  <%= render Ui::RatingComponent.new(rate: 5, class: "max-w-lg mx-auto", text: "This fucks hard + HongBao meets Bitcoin = biggest cultural arbitrage play since El Salvador. Asia already
 diamond hands gift-giving traditions - now they just need to diamond hand actual scarce assets. WeChat Pay users bout to get red-pilled by red envelopes. Absolute 200 IQ move, ngmi if you don't see the vision") do
   |rating| %>
     <%= rating.with_avatar do %>
@@ -159,7 +163,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
       </div>
     <% end %>
   <% end %>
-  <%= render Ui::RatingComponent.new(rate: 5, text: "Never to early for Bitcoin. Shouldn't leave the hospital after birth before they have a wallet to their name") do
+  <%= render Ui::RatingComponent.new(rate: 5, class: "max-w-lg mx-auto", text: "Never to early for Bitcoin. Shouldn't leave the hospital after birth before they have a wallet to their name") do
   |rating| %>
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: OpenStruct.new(name: "Wozu", email: "wozu@gfluo.com",
@@ -170,7 +174,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
       </div>
     <% end %>
   <% end %>
-    <%= render Ui::RatingComponent.new(rate: 5, text: "As a person of Chinese descent, I would say the red envelopes. # Greater visibility and you're already tapping on positive emotions engendered within Chinese people whenever they see red packets.") do
+    <%= render Ui::RatingComponent.new(rate: 5, class: "max-w-lg mx-auto", text: "As a person of Chinese descent, I would say the red envelopes. # Greater visibility and you're already tapping on positive emotions engendered within Chinese people whenever they see red packets.") do
   |rating| %>
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: OpenStruct.new(name: "Wozu", email: "wozu@gfluo.com",
@@ -183,11 +187,11 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
-<section class="flex flex-col">
+<section class="flex flex-col my-8">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
       <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">FEATURES</p>
       <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
-        Bitcoin gifting that spreads adoption, not confusion
+        Bitcoin gift that spread adoption, not confusion
       </h2>
     </div>
 
@@ -197,7 +201,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
         <%= card.with_title do %>
-          Red envelpoe
+          Red envelope
         <% end %>
         <%= card.with_body do %>
           Perfectly sized to protect Bitcoin paper wallets. Front has Bitcoin gold foil logo and back has an inspirational quote from famous Bitcoiners.Free international shipping.
@@ -206,10 +210,12 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
       <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+          <div class="relative w-full h-full bg-white rounded-lg shadow-2xl overflow-hidden">
+            <embed src="<%= asset_path("index/demo.pdf") %>" type="application/pdf" class="w-full h-full" />
+          </div>
         <% end %>
         <%= card.with_title do %>
-          Self-custody Paper Wallet
+          Paper wallet with all instructions
         <% end %>
         <%= card.with_body do %>
         <% end %>
@@ -239,7 +245,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 </section>
 
-<section class="bg-gray-50 py-16 md:py-24">
+<section class="py-16 md:py-24">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Badge floated to the left -->
     <div class="float-left mr-8 mb-6">
@@ -313,6 +319,16 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
+<section class="mx-auto px-8">
+  <%= render V3::PricingComponent.new(title: false) do |component| %>
+    <% component.with_plans(StripeService.fetch_products) %>
+  <% end %>
+</section>
+
+<section class="mx-auto px-8">
+  <%= render "shared/faq" %>
+</section>
+
 <section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
 
 
@@ -321,9 +337,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 			<div class="flex flex-col lg:flex-row gap-8 w-full items-center lg:items-start">
         <div class="relative h-full w-1/2">
           <!-- PDF preview -->
-          <div class="relative w-full h-full bg-white rounded-lg shadow-2xl overflow-hidden">
-            <embed src="<%= asset_path("index/demo.pdf") %>" type="application/pdf" class="w-full h-full" />
-          </div>
         </div>
 				<div class='flex flex-1 flex-col gap-4 justify-center'>
 					<div class='text-4xl sm:text-5xl font-semibold reveal' data-scroll-reveal-target="item" data-delay="500ms">
@@ -405,112 +418,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           </div>
         </div>
       </div>
-    <% end %>
-  <% end %>
-
-	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-black/80 text-white') do %>
-			<div class='flex flex-col md:flex-row gap-8'>
-				<p class='text-5xl md:text-6xl lg:text-8xl font-semibold'>There is<br/> no second best</p>
-				<div class="flex flex-col lg:flex-row gap-6">
-								<%# Item: Weddings %>
-					<div class="flex items-center gap-2 group">
-						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-							<%= heroicon "heart", variant: :solid, class: "h-4 w-4" %>
-						</div>
-						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
-							Weddings
-						</h3>
-					</div>
-
-					<%# Item: Birthdays %>
-					<div class="flex items-center gap-2 group">
-						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-							<%= heroicon "cake", variant: :solid, class: "h-4 w-4" %>
-						</div>
-						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
-							Birthdays
-						</h3>
-					</div>
-
-					<%# Item: Chinese New Year %>
-					<div class="flex items-center gap-2 group">
-						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-							<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
-						</div>
-						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
-							Chinese New Year
-						</h3>
-					</div>
-
-					<%# Item: 1st time Bitcoiners %>
-					<div class="flex items-center gap-2 group">
-						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-							<%= heroicon "sparkles", variant: :solid, class: "h-4 w-4" %>
-						</div>
-						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
-							Business clients
-						</h3>
-					</div>
-
-					<%# Item: Christmas %>
-					<div class="flex items-center gap-2 group">
-						<div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-content">
-							<%= heroicon "gift", variant: :solid, class: "h-4 w-4" %>
-						</div>
-						<h3 class="text-sm font-medium text-white group-hover:text-primary transition-colors">
-							Christmas
-						</h3>
-					</div>
-				</div>
-			</div>
-    <% end %>
-  <% end %>
-
-	<%= render CardComponent.new(clickable: false, class: 'h-full') do |card| %>
-    <%= card.with_front(class: "p-8 sm:p-12") do %>
-			<div class="flex flex-col gap-4 h-full justify-between">
-				<p class='text-2xl lg:text-6xl font-semibold bg-gradient-to-r from-blue-500 via-cyan-500 to-green-500 bg-clip-text text-transparent'>No matter<br/>where you're from.</p>
-				<div class="grid grid-cols-3 lg:grid-cols-4 gap-6">
-					<%= render Themes::ListComponent.with_collection(themes) %>
-				</div>
-			</div>
-    <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'p-4 sm:p-8 md:p-12 !cursor-default') do %>
-      <%= render "shared/faq" %>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(id: 'pricing', class: 'col-span-full h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
-      <%= render V3::PricingComponent.new(title: false) do |component| %>
-        <% component.with_plans(StripeService.fetch_products) %>
-      <% end %>
-   <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 bg-green-400') do %>
-      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-white'>Built by Bitcoiners<br/>for Bitcoiners</p>
-      <%= image_tag image_url("index/team.jpg"), class: "w-full shadow-uplift rounded" %>
-    <% end %>
-
-    <%= card.with_back(class: '') do %>
-      <div class='flex flex-row gap-4'>
-        <div class='avatar'>
-          <%= image_tag image_url('sbounmy-b.jpg'), class: "avatar" %>
-        </div>
-        <div class='avatar'>
-          <%= image_tag image_url('salma.jpg'), class: "avatar" %>
-        </div>
-      </div>
-      <%= render(ContributorsComponent.new) %>
     <% end %>
   <% end %>
 
