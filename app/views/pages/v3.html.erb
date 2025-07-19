@@ -1,4 +1,7 @@
 <% attributes_for :body_attributes, { class: "bg-white", data: { controller: "scroll-reveal" } } %>
+<% content_for :head do %>
+  <%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
+<% end %>
 
 <div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
   <%= render "shared/header" %>
@@ -83,7 +86,7 @@
     </div>
     <div class="flex flex-col md:flex-row md:items-center gap-6">
       <!-- Step 1: Buy Envelopes -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1") do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -103,7 +106,7 @@
       </div>
 
       <!-- Step 2: Customize Design -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1") do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -123,7 +126,7 @@
       </div>
 
       <!-- Step 3: Print & Gift -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1") do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_back_front.png"), alt: "Gift Bitcoin", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -189,7 +192,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 
     <div class="flex flex-col md:flex-row gap-4">
-      <%= render Ui::CardComponent.new(class: "h-full flex-1", figure_position: :bottom) do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -199,7 +202,38 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <%= card.with_body do %>
           Perfectly sized to protect Bitcoin paper wallets. Front has Bitcoin gold foil logo and back has an inspirational quote from famous Bitcoiners.Free international shipping.
         <% end %>
-        <%= card.with_actions do %>
+      <% end %>
+
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          Self-custody Paper Wallet
+        <% end %>
+        <%= card.with_body do %>
+        <% end %>
+      <% end %>
+
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          Transfer funds online
+        <% end %>
+        <%= card.with_body do %>
+        <% end %>
+      <% end %>
+
+      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          Bitcoin Calendar
+        <% end %>
+        <%= card.with_body do %>
         <% end %>
       <% end %>
     </div>
@@ -262,6 +296,21 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <!-- Clear the float -->
     <div class="clear-both"></div>
   </div>
+
+
+  <%= render Ui::RatingComponent.new(rate: 5, text: " Bitcoin is the best gift today... 😎") do
+  |rating| %>
+    <%= rating.with_avatar do %>
+      <%= render AvatarComponent.new(user: OpenStruct.new(name: "Wozu", email: "wozu@gfluo.com",
+  avatar_url: "sbounmy.jpg"), class: "w-8 h-8") %>
+        <div class="text-center">
+        <div class="font-semibold text-gray-900">r_victory</div>
+        <div class="text-sm text-gray-600"><%= link_to "BitcoinTalk Forum", "https://bitcointalk.org/index.php?topic=5549677.msg65587486#msg65587486", class: "underline font-semibold" %></div>
+      </div>
+
+
+    <% end %>
+  <% end %>
 </section>
 
 <section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
@@ -359,12 +408,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <% end %>
   <% end %>
 
- <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
-    	<p class='text-5xl md:text-6xl font-semibold'>The first gift that people will never throw away.</p>
-    <% end %>
-  <% end %>
-
 	<%= render CardComponent.new(class: 'col-span-full h-full') do |card| %>
     <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-black/80 text-white') do %>
 			<div class='flex flex-col md:flex-row gap-8'>
@@ -425,16 +468,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 
 	<%= render CardComponent.new(clickable: false, class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 bg-gradient-to-br from-sky-400 to-emerald-400 text-white') do %>
-    	<p class='text-2xl lg:text-6xl font-semibold'>Be your<br/>own ₿ank.</p>
- 			<%= render "shared/v2/papers_marquee", papers: @papers %>
-    <% end %>
-
-    <%= card.with_back do %>
-    <% end %>
-  <% end %>
-
-	<%= render CardComponent.new(clickable: false, class: 'h-full') do |card| %>
     <%= card.with_front(class: "p-8 sm:p-12") do %>
 			<div class="flex flex-col gap-4 h-full justify-between">
 				<p class='text-2xl lg:text-6xl font-semibold bg-gradient-to-r from-blue-500 via-cyan-500 to-green-500 bg-clip-text text-transparent'>No matter<br/>where you're from.</p>
@@ -445,57 +478,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <% end %>
 
     <%= card.with_back do %>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
-      <p class='text-5xl sm:text-6xl lg:text-14xl xl:text-16xl font-semibold'>Turn gifts <br/>into lifetime<br/> savings.</p>
-      <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
-			<%= image_tag image_url("index/cash-graph.jpg") %>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default') do %>
-      <%= image_tag image_url("index/family-friends.jpg") %>
-      <p class='w-1/2 text-5xl lg:text-6xl xl:text-10xl font-semibold'>Amaze Friends & Family.</p>
-      <p class='text-xl lg:text-3xl xl:text-4xl font-semibold'>With Bitcoin, value grows — and memories last.</p>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'col-span-full overflow-auto') do |card| %>
-    <%= card.with_front(class: '!cursor-default bg-white p-1 sm:p-12') do %>
-		<%# Container with masonry layout %>
-			<div class="w-full mx-auto columns-1 lg:columns-2 space-y-4">
-				<%# Copy paste reviews here from https://publish.twitter.com/ DO NOT COPY/PASTE THE SCRIPT TAGS %>
-					<blockquote class="twitter-tweet">
-						<p lang="en" dir="ltr">Forget flowers. He gave me some BTC 😍📷 <a href="https://t.co/KSQlCWW1vM">https://t.co/KSQlCWW1vM</a> <a href="https://t.co/ApT6DJPDl5">pic.twitter.com/ApT6DJPDl5</a></p>&mdash; Salma Talbi (@himesalma) <a href="https://twitter.com/himesalma/status/1914971769582047470?ref_src=twsrc%5Etfw">April 23, 2025</a>
-					</blockquote>
-          <blockquote class="twitter-tweet">
-            <p lang="en" dir="ltr">No apps, no tracking, just pure signal. 🧡⚡</p>&mdash; Sunflower 🌻 (@Sflower_m) <a href="https://twitter.com/Sflower_m/status/1937165010771542480?ref_src=twsrc%5Etfw">June 23, 2025</a>
-          </blockquote>
-          <blockquote class="twitter-tweet">
-            <p lang="en" dir="ltr">At friends birthday: 🎁<br><br>BEFORE<br>&quot;Sorry, I don&#39;t have any Bitcoin. I don&#39;t think I will buy it&#39;s too late.&quot;<br><br>AFTER<br>&quot;Ok now I have Bitcoin I will quit my job after I read this book 😂&quot;<br><br>My orange pill recipe :<br>- Print $21 in BTC<br>- A book that is easy to read 21 Leçons or Alice au… <a href="https://t.co/PZHizfRjnz">pic.twitter.com/PZHizfRjnz</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1943578237214327268?ref_src=twsrc%5Etfw">July 11, 2025</a>
-          </blockquote>
-			</div>
-
-			<%# Twitter Widget Script %>
-			<%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
-      <div class="p-6 mb-3">
-        <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Goodbye, Fiat.</p>
-        <p class='text-5xl lg:text-6xl xl:text-10xl font-semibold'>Hello, Bitcoin.</p>
-      </div>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'col-span-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-orange-400') do %>
-      <%= image_tag image_url("index/bitcoin-lock.svg"), class: "inline-block h-12 w-12 align-middle -mt-1" %>
-      <h4 class='text-xl md:text-2xl xl:text-3xl font-semibold text-white'>Privacy and Security.</h4>
-      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your keys.</p>
-      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your coins.</p>
-      <p class='text-5xl md:text-10xl xl:text-16xl font-semibold text-white'>Your memories.</p>
     <% end %>
   <% end %>
 
@@ -529,15 +511,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         </div>
       </div>
       <%= render(ContributorsComponent.new) %>
-    <% end %>
-  <% end %>
-
-  <%= render CardComponent.new(class: 'h-full') do |card| %>
-    <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-white p-12') do %>
-      <div class='flex flex-col gap-20'>
-        <%= image_tag image_url("index/mtpelerin.svg"), class: "" %>
-      <p class='text-4xl lg:text-6xl xl:text-8xl font-semibold text-black'>Verified <br/>Company<br/> Bitcoin Exchange</p>
-      </div>
     <% end %>
   <% end %>
 
