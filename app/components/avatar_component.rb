@@ -4,13 +4,16 @@ class AvatarComponent < ViewComponent::Base
   # Specifies that when rendering a collection, each item should be passed as the 'contributor' argument.
   with_collection_parameter :user
 
+  attr_reader :options
+
   renders_one :badge, Tokens::BadgeComponent
   # Required:
   #   contributor: An object or hash containing contributor details.
   #              Must respond to :name and :avatar_url.
   #              May respond to :link_url.
-  def initialize(user:, badge: nil)
+  def initialize(user:, badge: nil, **options)
     @user = user
+    @options = options
   end
 
   def avatar_url

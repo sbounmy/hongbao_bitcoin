@@ -110,7 +110,7 @@
   </section>
 
   <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
-      <%= render(PricingComponent.new) do |component| %>
+      <%= render V3::PricingComponent.new(title: false) do |component| %>
         <% component.with_plans(StripeService.fetch_products) %>
       <% end %>
   </section>
@@ -128,5 +128,5 @@
     <%= render SpotifyPlayerComponent.new(path: current_spotify_path) %>
 \  </div>
 
-  <%= render "shared/v2/footer" %>
+  <%# render "shared/v2/footer" %>
 </div>
