@@ -143,7 +143,7 @@
   </div>
 </section>
 
-<section class="flex flex-col md:flex-row">
+<section class="flex flex-col lg:flex-row gap-4">
   <%= render Ui::RatingComponent.new(rate: 5, text: "This fucks hard + HongBao meets Bitcoin = biggest cultural arbitrage play since El Salvador. Asia already
 diamond hands gift-giving traditions - now they just need to diamond hand actual scarce assets. WeChat Pay users bout to get red-pilled by red envelopes. Absolute 200 IQ move, ngmi if you don't see the vision") do
   |rating| %>
@@ -180,12 +180,28 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
-<section class="flex flex-col md:flex-row">
+<section class="flex flex-col">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
-      <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">HOW IT WORKS</p>
+      <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">FEATURES</p>
       <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
-        Gift Bitcoin the right way
+        Bitcoin gifting that spreads adoption, not confusion
       </h2>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <%= render Ui::CardComponent.new(class: "h-full flex-1", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          Red envelpoe
+        <% end %>
+        <%= card.with_body do %>
+          Perfectly sized to protect Bitcoin paper wallets. Front has Bitcoin gold foil logo and back has an inspirational quote from famous Bitcoiners.Free international shipping.
+        <% end %>
+        <%= card.with_actions do %>
+        <% end %>
+      <% end %>
     </div>
 </section>
 

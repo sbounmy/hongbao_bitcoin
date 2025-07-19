@@ -14,6 +14,7 @@ module Ui
       glass: false,
       bordered: false,
       normal: false,
+      figure_position: :top, # :top or :bottom
       **options
     )
       @image_full = image_full
@@ -22,10 +23,13 @@ module Ui
       @glass = glass
       @bordered = bordered
       @normal = normal
+      @figure_position = figure_position
       @options = options
     end
 
     private
+
+    attr_reader :figure_position
 
     def card_classes
       classes = ["card"]

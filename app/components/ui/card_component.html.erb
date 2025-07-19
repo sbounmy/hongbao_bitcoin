@@ -1,5 +1,5 @@
 <%= content_tag(:div, **html_attributes) do %>
-  <%= figure if figure? %>
+  <%= figure if figure? && figure_position == :top %>
   <div class="card-body">
     <% if title? %>
       <h2 class="card-title">
@@ -13,4 +13,5 @@
       </div>
     <% end %>
   </div>
+  <%= figure if figure? && figure_position == :bottom %>
 <% end %>
