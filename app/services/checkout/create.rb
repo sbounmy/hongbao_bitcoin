@@ -11,7 +11,7 @@ module Checkout
 
       product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
       product[:color] = @params[:color]
-      
+
       return failure("Product not found for price ID: #{price_id}") unless product
 
       # 2. Call provider-specific implementation
