@@ -2,7 +2,7 @@ module Webhooks
   class BtcpayController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    skip_before_action :require_authentication
+    allow_unauthenticated_access
 
     def create
       result = Checkout::Btcpay::Webhook.call(request)
