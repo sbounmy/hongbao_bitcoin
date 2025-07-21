@@ -43,9 +43,8 @@ Rails.application.routes.draw do
 
   resources :tokens, only: [ :index ]
 
-  resources :checkout, only: [ :create, :update ] do
+  resources :checkout, only: [ :new, :create, :update ] do
     collection do
-      post :create
       get :success
       get :cancel
       post :webhook

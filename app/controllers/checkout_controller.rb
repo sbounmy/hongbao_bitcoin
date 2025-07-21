@@ -2,6 +2,15 @@ class CheckoutController < ApplicationController
   allow_unauthenticated_access
   skip_before_action :verify_authenticity_token, only: [ :webhook ]
 
+  def new
+    case params[:provider]
+    when "btcpay"
+      render :btcpay_form
+    else
+      redirect_to root_path
+    end
+  end
+
   def create
     service = Checkout::Base.for(params[:provider], :create)
     result = service.call(params:, current_user:)
@@ -26,7 +35,9 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    result = Checkout::Stripe::Success.call(params[:session_id])
+    # Handle Stripe success with session ID
+    service = Checkout::Base.for(params[:provider], :success)
+    result = service.call(params[:session_id])
 
     if result.success?
       flash[:notice] = "Payment successful! Your tokens have been credited."

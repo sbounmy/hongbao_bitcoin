@@ -32,6 +32,7 @@ module Checkout
             currency: metadata["currency"],
             payment_provider: "btcpay",
             external_id: invoice_id,
+            redirect_ref: metadata["redirectRef"],
             shipping_name: metadata["buyerName"],
             shipping_address_line1: metadata["buyerAddress1"],
             shipping_address_line2: metadata["buyerAddress2"],
@@ -40,8 +41,6 @@ module Checkout
             shipping_postal_code: metadata["buyerZip"],
             shipping_country: metadata["buyerCountry"]
           )
-
-          Rails.logger.info "Creating line item for order ##{order.id} with tokens: #{tokens}, envelopes: #{envelopes}, color: #{color}"
 
           order.line_items.create!(
             quantity: 1,
@@ -58,31 +57,29 @@ module Checkout
           Rails.logger.info "Order ##{order.id} created with line item for order: #{order.inspect}"
 
         when "InvoiceProcessing"
-          return failure("Order not found for ID: #{payment_request_id}") unless order
+          return failure("Order not found for ID: #{invoice_id}") unless order
 
           order.process! if order.may_process?
-        when "PaymentRequestStatusChanged"
-          return failure("Order not found for ID: #{payment_request_id}") unless order
+        when "InvoiceExpired"
+          return failure("Order not found for ID: #{invoice_id}") unless order
 
-          case event_data["status"]
-          when "Completed"
-            # Payment is complete.
-            order.complete! if order.may_complete?
+          order.fail! if order.may_fail?
+        when "InvoiceSettled"
+          return failure("Order not found for ID: #{invoice_id}") unless order
 
-            # Give user tokens
-            product = order.line_items.first.metadata
-            order.user.tokens.create!(
-              quantity: product["tokens"],
-              description: product["description"],
-              external_id: order.external_id,
-              metadata: {
-                envelopes: product["envelopes"],
-                color: product["color"]
-              }
-            )
-          when "Expired"
-            order.fail! if order.may_fail?
-          end
+          # Payment is complete.
+          order.complete! if order.may_complete?
+          # Give user tokens
+          product = order.line_items.first.metadata
+          order.user.tokens.create!(
+            quantity: product["tokens"],
+            description: product["description"],
+            external_id: order.external_id,
+            metadata: {
+              envelopes: product["envelopes"],
+              color: product["color"]
+            }
+          )
         end
 
         success(order)
