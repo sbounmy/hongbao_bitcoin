@@ -28,10 +28,10 @@ module Client
       @headers["Content-Type"] ||= determine_content_type
     end
 
-    def execute(api_key: nil)
+    def execute(api_key: nil, prefix: "Bearer")
       uri = build_uri
       request = build_http_request
-      add_authorization(request, api_key)
+      add_authorization(request, prefix, api_key)
       add_headers(request)
       add_body(request)
 
@@ -61,8 +61,8 @@ module Client
       klass.new(build_uri)
     end
 
-    def add_authorization(request, api_key)
-      request["Authorization"] = "Bearer #{api_key}" if api_key
+    def add_authorization(request, prefix, api_key)
+      request["Authorization"] = "#{prefix} #{api_key}" if api_key
     end
 
     def add_headers(request)

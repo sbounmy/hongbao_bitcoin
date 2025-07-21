@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_16_094603) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_21_104341) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -94,6 +94,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_094603) do
     t.index ["position"], name: "index_inputs_on_position"
   end
 
+  create_table "line_items", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "price", null: false
+    t.string "stripe_price_id"
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "payment_provider", null: false
+    t.decimal "total_amount", null: false
+    t.string "currency", null: false
+    t.string "external_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "shipping_name"
+    t.string "shipping_address_line1"
+    t.string "shipping_address_line2"
+    t.string "shipping_city"
+    t.string "shipping_state"
+    t.string "shipping_postal_code"
+    t.string "shipping_country"
+    t.string "state"
+    t.string "redirect_ref"
+    t.index ["external_id"], name: "index_orders_on_external_id", unique: true
+    t.index ["redirect_ref"], name: "index_orders_on_redirect_ref"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string "name"
     t.boolean "active", default: true
@@ -156,8 +189,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_094603) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.integer "order_id"
     t.index ["created_at"], name: "index_tokens_on_created_at"
     t.index ["external_id"], name: "index_tokens_on_external_id"
+    t.index ["order_id"], name: "index_tokens_on_order_id"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
@@ -188,8 +223,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_094603) do
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "users"
   add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tokens", "orders"
   add_foreign_key "tokens", "users"
 end

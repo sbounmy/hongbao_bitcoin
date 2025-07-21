@@ -1,0 +1,115 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Order #<%= @order.id %></h1>
+        <p class="text-gray-600">
+          Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </p>
+      </div>
+      <%= link_to "← Back to Orders", orders_path, class: "btn btn-outline" %>
+    </div>
+
+    <!-- Order Status -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="flex-shrink-0">
+            <% case @order.state %>
+            <% when "pending" %>
+              <%= heroicon "clock", variant: :solid, class: "h-8 w-8 text-yellow-600" %>
+            <% when "processing" %>
+              <%= heroicon "arrow-path", variant: :solid, class: "h-8 w-8 text-blue-600" %>
+            <% when "completed" %>
+              <%= heroicon "check-circle", variant: :solid, class: "h-8 w-8 text-green-600" %>
+            <% when "failed" %>
+              <%= heroicon "x-circle", variant: :solid, class: "h-8 w-8 text-red-600" %>
+            <% end %>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900">
+              <%= @order.state.humanize %>
+            </h2>
+            <p class="text-gray-600">
+              Payment via <%= @order.payment_provider.humanize %>
+            </p>
+          </div>
+        </div>
+        
+        <div class="text-right">
+          <p class="text-2xl font-bold text-gray-900">
+            <%= @order.formatted_total %>
+          </p>
+          <% if @order.payment_provider_dashboard_url %>
+            <%= link_to "View in #{@order.payment_provider.humanize}", 
+                        @order.payment_provider_dashboard_url, 
+                        target: "_blank", 
+                        class: "text-sm text-blue-600 hover:text-blue-800" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line Items -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Items</h3>
+      <div class="space-y-4">
+        <% @order.line_items.each do |item| %>
+          <div class="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0">
+            <div class="flex-1">
+              <h4 class="font-medium text-gray-900">
+                <%= item.metadata&.dig("name") || "Bitcoin Envelope" %>
+              </h4>
+              <p class="text-sm text-gray-600">
+                <%= item.metadata&.dig("description") || "Custom Bitcoin paper wallet" %>
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="font-medium text-gray-900">
+                Qty: <%= item.quantity %>
+              </p>
+              <p class="text-sm text-gray-600">
+                <%= number_to_currency(item.price, unit: @order.currency.upcase + " ") %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Shipping Information -->
+    <% if @order.shipping_name.present? %>
+      <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Shipping Information</h3>
+        <div class="text-gray-700">
+          <p><strong><%= @order.shipping_name %></strong></p>
+          <p><%= @order.shipping_address_line1 %></p>
+          <% if @order.shipping_address_line2.present? %>
+            <p><%= @order.shipping_address_line2 %></p>
+          <% end %>
+          <p><%= @order.shipping_city %>, <%= @order.shipping_state %> <%= @order.shipping_postal_code %></p>
+          <p><%= @order.shipping_country %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Generated Tokens -->
+    <% if @order.tokens.any? %>
+      <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Generated Tokens</h3>
+        <div class="space-y-2">
+          <% @order.tokens.each do |token| %>
+            <div class="flex items-center justify-between py-2 border-b border-gray-200 last:border-b-0">
+              <span class="text-gray-900">Token #<%= token.id %></span>
+              <span class="text-sm text-gray-600">
+                Quantity: <%= token.quantity %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

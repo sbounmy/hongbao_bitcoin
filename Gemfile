@@ -122,3 +122,5 @@ gem "markdown-rails", "~> 2.1"
 gem "sitemap_generator"
 
 gem "canonical-rails", github: "jumph4x/canonical-rails"
+
+gem "country_select", "~> 9.0"

@@ -17,6 +17,12 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|zh-CN/, defaults: { locale: "en" } do
+    resources :orders, only: [ :index, :show ] do
+      member do
+        get :status
+      end
+    end
+
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
       get :utxos, on: :member
@@ -30,13 +36,14 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post "mt_pelerin", to: "mt_pelerin#create"
+    post "btcpay", to: "btcpay#create"
   end
 
   resources :addrs, only: [ :show ], controller: "hong_baos"
 
   resources :tokens, only: [ :index ]
 
-  resources :checkout, only: [ :create, :update ] do
+  resources :checkout, only: [ :new, :create, :update ] do
     collection do
       get :success
       get :cancel

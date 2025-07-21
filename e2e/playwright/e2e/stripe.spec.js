@@ -15,7 +15,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
-    await page.getByRole('button', { name: 'Buy now' }).click();
+    await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
 
 
     // Verify redirect to Stripe Checkout
@@ -42,7 +42,7 @@ test.describe('Stripe Checkout Flow', () => {
     });
 
     await page.locator('label:has-text("Mini Pack")').click();
-    await page.getByRole('button', { name: 'Buy now' }).click();
+    await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
 
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
@@ -74,7 +74,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
     await page.locator('label').filter({ hasText: /Family Pack/ }).click();
-    await page.getByRole('button', { name: 'Buy now' }).click();
+    await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
     // await page.getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
