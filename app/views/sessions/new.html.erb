@@ -7,6 +7,13 @@
     </div>
 
     <%= form_with(url: login_path, class: "mt-8 space-y-6") do |form| %>
+      <% if flash[:alert] %>
+        <div class="rounded-md bg-red-50 p-4">
+          <div class="text-sm text-red-700">
+            <%= flash[:alert] %>
+          </div>
+        </div>
+      <% end %>
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
           <%= form.email_field :email,
