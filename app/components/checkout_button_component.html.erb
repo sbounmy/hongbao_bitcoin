@@ -2,6 +2,7 @@
   <%= hidden_field_tag :provider, provider %>
   <%= hidden_field_tag :price_id, price_id %>
   <%= hidden_field_tag :color, color if color.present? %>
+  <%= hidden_field_tag :payment_method, payment_method if payment_method.present? %>
   
   <button type="submit" class="<%= button_classes %>">
     <%= button_text %>

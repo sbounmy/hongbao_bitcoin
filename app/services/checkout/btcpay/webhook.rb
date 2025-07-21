@@ -15,7 +15,7 @@ module Checkout
       private
 
       def handle_event
-        payment_request_id = event_data.dig("metadata","paymentRequestId") || event_data["paymentRequestId"]
+        payment_request_id = event_data.dig("metadata", "paymentRequestId") || event_data["paymentRequestId"]
         order = Order.find_by(external_id: payment_request_id)
 
         # Idempotency check: Do not process an order that is already finalized.
@@ -63,7 +63,7 @@ module Checkout
           )
 
           Rails.logger.info "Order ##{order.id} created with line item for order: #{order.inspect}"
-          
+
         when "InvoiceProcessing"
           return failure("Order not found for ID: #{payment_request_id}") unless order
 
@@ -95,14 +95,14 @@ module Checkout
         success(order)
       end
 
-      def parse_description_details(description) 
+      def parse_description_details(description)
         description.split(" + ").map { |part| part.split(" ").first }
       end
 
       def find_or_create_user(reference_id, email: nil)
         user = User.find(reference_id)
         return user if user
-          
+
         # If the user is not found, create a new one using the provided email.
         password = SecureRandom.hex(16)
         User.create!(

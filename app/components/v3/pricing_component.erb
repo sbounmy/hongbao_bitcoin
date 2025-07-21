@@ -59,6 +59,14 @@
             
             <%= render CheckoutButtonComponent.new(
               provider: :btcpay,
+              payment_method: "BTC",
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+
+            <%= render CheckoutButtonComponent.new(
+              provider: :btcpay,
+              payment_method: "BTC-LightningNetwork",
               price_id: stripe_price_id,
               color: color
             ) %>

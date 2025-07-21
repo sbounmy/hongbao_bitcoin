@@ -1,13 +1,21 @@
 class CheckoutButtonComponent < ApplicationComponent
-  def initialize(provider:, price_id:, color: nil, classes: nil)
+  def initialize(provider:, price_id:, color: nil, classes: nil, payment_method: nil)
     @provider = provider.to_s
     @price_id = price_id
     @color = color
     @classes = classes
+    @payment_method = payment_method
   end
 
   def button_text
-    I18n.t("components.checkout_button.#{provider}")
+    case provider
+    when "btcpay"
+      I18n.t(payment_method,
+             scope: "components.checkout_button.btcpay",
+             default: :default)
+    else
+      I18n.t("components.checkout_button.#{provider}")
+    end
   end
 
   def button_classes
@@ -22,14 +30,19 @@ class CheckoutButtonComponent < ApplicationComponent
 
   private
 
-  attr_reader :provider, :price_id, :color
+  attr_reader :provider, :price_id, :color, :payment_method
 
   def provider_classes
     case provider
     when "stripe"
       "bg-blue-500 hover:bg-blue-600"
     when "btcpay"
-      "bg-orange-500 hover:bg-orange-600"
+      case payment_method
+      when "BTC-LightningNetwork"
+        "bg-purple-500 hover:bg-purple-600"
+      else
+        "bg-orange-500 hover:bg-orange-600"
+      end
     else
       "bg-gray-500 hover:bg-gray-600"
     end

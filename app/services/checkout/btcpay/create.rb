@@ -5,25 +5,36 @@ module Checkout
 
       def provider_specific_call(product)
         # Create order first (Bitcoin payments need tracking)
-        Rails.logger.info "Creating order for product: #{product.inspect}"
+        Rails.logger.info "Creating order for product: #{@params[:payment_method]}"
         client = Client::BtcpayApi.new
-        pr_payload = {
+
+        # Create invoice payload
+        invoice_payload = {
           amount: product[:price].to_s,
           currency: "EUR",
-          title: "#{product[:color].capitalize} #{product[:name]}",
-          description: product[:description],
-          formId: ENV["BTCPAY_FORM_ID"],
-          expiryDate: 1.hours.from_now.to_i,
-          referenceId: "#{SecureRandom.hex(10)}_#{@current_user&.id || 'guest'}",
+          checkout: {
+            speedPolicy: "MediumSpeed",
+            paymentMethods: [ @params[:payment_method] || "BTC" ],
+            defaultPaymentMethod: @params[:payment_method] || "BTC",
+            redirectURL: success_checkout_index_url,
+            redirectAutomatically: true
+          },
+          metadata: {
+            color: product[:color],
+            itemDesc: "#{product[:color].capitalize} #{product[:name]} - #{product[:description]}",
+            itemCode: product[:stripe_price_id],
+            physical: "true",
+            userId: @current_user&.id || "guest"
+          }
         }
 
-        payment_request = client.create_payment_request(**pr_payload)
+        invoice = client.create_invoice(**invoice_payload)
 
-        if payment_request.id
-          payment_request.url = "https://#{ENV["BTCPAY_HOST"]}/payment-requests/#{payment_request.id}"
-          success(payment_request)
+        if invoice.id
+          invoice.url = invoice.checkoutLink # to match the expected format
+          success(invoice)
         else
-          failure(payment_request.message || "Failed to create BTCPay Payment Request")
+          failure(invoice.message || "Failed to create BTCPay Invoice")
         end
       end
     end
