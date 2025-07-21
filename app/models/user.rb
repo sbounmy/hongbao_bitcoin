@@ -1,3 +1,5 @@
+require "ostruct"
+
 class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :papers, dependent: :destroy
@@ -43,5 +45,9 @@ class User < ApplicationRecord
 
   def handle
     email.split("@").first
+  end
+
+  def self.fake(options = {})
+    OpenStruct.new(options)
   end
 end
