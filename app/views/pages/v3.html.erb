@@ -92,15 +92,13 @@
       <!-- Step 1: Buy Envelopes -->
       <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
-          <div class="relative w-full bg-black rounded-lg overflow-hidden aspect-video">
             <iframe
               src="https://www.youtube.com/embed/SWmwgy_hnm0"
-              class="absolute inset-0 w-full h-full"
+              class="rounded-t-lg w-full aspect-video"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
             </iframe>
-          </div>
         <% end %>
         <%= card.with_title do %>
           1. Get Premium Envelopes
@@ -136,13 +134,20 @@
       <!-- Step 3: Print & Gift -->
       <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_back_front.png"), alt: "Gift Bitcoin", class: "w-full h-48 object-cover" %>
+          <iframe
+            class="rounded-t-lg w-full aspect-video"
+            src="https://www.youtube-nocookie.com/embed/i_tLbmYumVQ?si=okhJyV8ofnhFoz4C&amp;controls=0"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
         <% end %>
         <%= card.with_title do %>
           3. Watch Them Learn
         <% end %>
         <%= card.with_body do %>
-          <p>Recipients scan to check balance and claim Bitcoin. No apps needed. Includes beginner guides on the PDF.</p>
+          <p>Recipients scan QR code to check balance and claim Bitcoin with private key. No apps needed. Includes beginner guides on the PDF.</p>
         <% end %>
       <% end %>
     </div>
