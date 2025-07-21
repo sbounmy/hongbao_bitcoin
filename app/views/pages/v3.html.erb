@@ -92,13 +92,21 @@
       <!-- Step 1: Buy Envelopes -->
       <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+          <div class="relative w-full bg-black rounded-lg overflow-hidden aspect-video">
+            <iframe
+              src="https://www.youtube.com/embed/SWmwgy_hnm0"
+              class="absolute inset-0 w-full h-full"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
         <% end %>
         <%= card.with_title do %>
-          1. Buy envelopes + free credits
+          1. Buy Premium Red Envelopes
         <% end %>
         <%= card.with_body do %>
-          <p>Free international shipping. Perfectly sized for our Bitcoin paper wallets.</p>
+          <p>120 g/m² textured paper with gold foil Bitcoin logo. Each envelope includes an inspirational quote from Satoshi, Hal Finney, or Andreas Antonopoulos. Perfectly sized (120×180mm) to protect paper wallets. Ships worldwide for free.</p>
         <% end %>
       <% end %>
 
@@ -201,17 +209,6 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 md:px-4 gap-8">
-      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
-        <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
-        <% end %>
-        <%= card.with_title do %>
-          Premium Red Envelopes
-        <% end %>
-        <%= card.with_body do %>
-          <p>120 g/m² textured paper with gold foil Bitcoin logo. Each envelope includes an inspirational quote from Satoshi, Hal Finney, or Andreas Antonopoulos. Perfectly sized (120×180mm) to protect paper wallets. Ships worldwide for free.</p>
-        <% end %>
-      <% end %>
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
@@ -220,12 +217,36 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           </div>
         <% end %>
         <%= card.with_title do %>
-          Paper wallet with all instructions
+          Self-Custody Made Simple
         <% end %>
         <%= card.with_body do %>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          <%= link_to "Try it now", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "link" %>
+          <p>Generate secure paper wallets offline or import existing keys. Each wallet includes step-by-step recovery instructions, QR codes for easy scanning, and educational content about Bitcoin basics. Perfect for beginners who want to learn by doing.</p>
+          <%= link_to "Try demo wallet", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "link" %>
 
+        <% end %>
+      <% end %>
+
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%= image_tag image_url("index/red_front.jpg"), alt: "Fund wallets", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          KYC-Free Gifting
+        <% end %>
+        <%= card.with_body do %>
+          <p>Top up paper wallets directly with Bitcoin or fiat currency. No KYC required for bank transfers. Low transaction fees and real-time blockchain verification. Track your gift's journey on the blockchain.</p>
+        <% end %>
+      <% end %>
+
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
+        <%= card.with_figure do %>
+          <%# image_tag image_url("index/mobile.jpg"), alt: "Sweep funds", class: "w-full h-48 object-cover" %>
+        <% end %>
+        <%= card.with_title do %>
+          Zero-Friction Claiming
+        <% end %>
+        <%= card.with_body do %>
+          <p>Recipients can scan the QR code and transfer Bitcoin to their own wallet in seconds. No app downloads required - works directly in any mobile browser. Includes real-time balance checking and transaction broadcasting.</p>
         <% end %>
       <% end %>
 
@@ -234,22 +255,10 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
         <%= card.with_title do %>
-          Transfer funds online
+          Never Miss a Bitcoin Day
         <% end %>
         <%= card.with_body do %>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <% end %>
-      <% end %>
-
-      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
-        <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
-        <% end %>
-        <%= card.with_title do %>
-          Bitcoin Calendar
-        <% end %>
-        <%= card.with_body do %>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <p>Interactive calendar featuring important Bitcoin dates, halvings, and milestones. Plan your gifts around meaningful events like Bitcoin Pizza Day or Satoshi's birthday. Includes historical context and celebration ideas for each date.</p>
         <% end %>
       <% end %>
     </div>
