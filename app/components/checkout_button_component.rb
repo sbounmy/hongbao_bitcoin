@@ -17,7 +17,7 @@ class CheckoutButtonComponent < ApplicationComponent
 
   def button_classes
     base_classes = "w-full cursor-pointer p-4 border rounded-lg text-white transition-colors duration-150 ease-in-out"
-    
+
     [ base_classes, provider_classes, @classes ].compact.join(" ")
   end
 
@@ -28,7 +28,7 @@ class CheckoutButtonComponent < ApplicationComponent
   def form_action
     raise NotImplementedError, "Subclasses must implement form_action"
   end
-  
+
   def render?
     price_id.present?
   end
