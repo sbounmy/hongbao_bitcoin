@@ -261,6 +261,31 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 </section>
 
+<section class="flex flex-col mt-20 my-8 max-w-5xl mx-auto">
+    <div class="mb-12 flex w-full flex-col text-center md:mb-20">
+      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
+        Works with any Bitcoin wallet
+      </h2>
+    </div>
+
+    <div class="pt-0 p-6 flex flex-wrap gap-4  justify-between">
+      <% wallets = [
+        {name: "Bitcoin Core", icon: "wallets/bitcoin-core.svg"},
+        {name: "Electrum", icon: "wallets/electrum.svg"},
+        {name: "Sparrow", icon: "wallets/sparrow.png"},
+        {name: "Bitcoin Knots", icon: "wallets/knots.png"},
+        {name: "Trezor", icon: "wallets/trezor.svg"},
+        {name: "Ledger", icon: "wallets/ledger.svg"},
+        {name: "Foundation Passport", icon: "wallets/envoy.jpg"},
+        {name: "Coinbase", icon: "wallets/coinbase.svg"},
+        {name: "Bitstack", icon: "wallets/bitstack.svg"}
+      ] %>
+
+    <% wallets.each do |wallet| %>
+      <%= image_tag wallet[:icon], class: "w-16 h-16 mb-2", alt: "#{wallet[:name]} logo" %>
+    <% end %>
+  </div>
+</section>
 <section class="flex flex-col gap-8 py-16 md:py-24">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Badge floated to the left -->
