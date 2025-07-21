@@ -82,7 +82,20 @@
 </div>
 
 <section class="p-8">
-  <%= render 'shared/diffs' %>
+  <div class="max-w-6xl mx-auto">
+    <!-- DaisyUI Tabs -->
+    <div role="tablist" class="tabs tabs-boxed justify-center mb-8 gap-2">
+      <input type="radio" name="wallet_tabs" role="tab" class="tab btn btn-lg rounded-full px-8 btn-outline" aria-label="Front" checked />
+      <div role="tabpanel" class="tab-content">
+        <%= render 'shared/diffs' %>
+      </div>
+
+      <input type="radio" name="wallet_tabs" role="tab" class="tab btn btn-lg rounded-full px-8 btn-outline" aria-label="Back" />
+      <div role="tabpanel" class="tab-content">
+        <%= render 'shared/back_diffs' %>
+      </div>
+    </div>
+  </div>
 </section>
 
 <%= render "shared/testimonials_marquee" %>
