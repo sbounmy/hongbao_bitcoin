@@ -56,6 +56,6 @@ class Order < ApplicationRecord
     # BTCPay stores payment request IDs in external_id
     return unless ENV["BTCPAY_HOST"].present?
 
-    "https://#{ENV["BTCPAY_HOST"]}/payment-requests/#{external_id}"
+    "https://#{ENV["BTCPAY_HOST"]}/i/#{external_id}"
   end
 end
