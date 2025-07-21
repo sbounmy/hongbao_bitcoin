@@ -192,7 +192,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
-<section class="flex flex-col my-8">
+<section class="flex flex-col my-8 max-w-5xl mx-auto">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
       <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">FEATURES</p>
       <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
@@ -200,8 +200,8 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 md:px-4 gap-8">
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -213,9 +213,9 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <% end %>
       <% end %>
 
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <div class="relative w-full h-full bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div class="relative w-full h-48 bg-white rounded-lg shadow-2xl overflow-hidden">
             <embed src="<%= asset_path("index/demo.pdf") %>" type="application/pdf" class="w-full h-full" />
           </div>
         <% end %>
@@ -229,7 +229,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <% end %>
       <% end %>
 
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -241,7 +241,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <% end %>
       <% end %>
 
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto", figure_position: :bottom) do |card| %>
+      <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
           <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
         <% end %>
@@ -324,11 +324,14 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <%= render Ui::RatingComponent.new(rate: 5, text: " Bitcoin is the best gift today... 😎") do
   |rating| %>
     <%= rating.with_avatar do %>
-      <%= render AvatarComponent.new(user: OpenStruct.new(name: "Wozu", email: "wozu@gfluo.com",
-  avatar_url: "sbounmy.jpg"), class: "w-8 h-8") %>
-        <div class="text-center">
+      <%= render AvatarComponent.new(user: OpenStruct.new(name: "", email: "",
+  avatar_url: "index/wolfbet.png"), class: "w-8 h-8") %>
+      <div class="">
         <div class="font-semibold text-gray-900">r_victory</div>
-        <div class="text-sm text-gray-600"><%= link_to "BitcoinTalk Forum", "https://bitcointalk.org/index.php?topic=5549677.msg65587486#msg65587486", class: "underline font-semibold" %></div>
+        <%= link_to "https://bitcointalk.org/index.php?topic=5549677.msg65587486#msg65587486", class: "text-sm text-gray-600 flex gap-1 items-center", target: "_blank" do %>
+          <span class="font-semibold">BitcoinTalk Forum</span>
+          <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "h-4 w-4 align-middle" %>
+        <% end %>
       </div>
 
 
