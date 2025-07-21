@@ -35,8 +35,8 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    # Handle Stripe success with session ID
-    service = Checkout::Base.for(params[:provider], :success)
+    # Handle success with session ID
+    service = Checkout::Base.for(params[:provider] || "stripe", :success)
     result = service.call(params[:session_id])
 
     if result.success?
