@@ -33,7 +33,7 @@ test.describe('Tokens Page', () => {
 
   test('allows purchasing tokens via Stripe Checkout', async ({ page }) => {
     await page.locator('label').filter({ hasText: /Family Pack/ }).click();
-    await page.getByRole('button', { name: 'Buy now' }).click();
+    await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
 
     await page.waitForURL('https://checkout.stripe.com/c/pay/**');
 

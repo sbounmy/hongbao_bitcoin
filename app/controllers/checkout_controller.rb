@@ -2,28 +2,42 @@ class CheckoutController < ApplicationController
   allow_unauthenticated_access
   skip_before_action :verify_authenticity_token, only: [ :webhook ]
 
-  def create
-    # Create a Stripe Checkout Session
-    result = Checkout::Create.call(params, current_user:)
-    if result.success?
-      redirect_to result.payload.url, allow_other_host: true
+  def new
+    case params[:provider]
+    when "btcpay"
+      render :btcpay_form
     else
-      flash[:alert] = "Payment failed. Please try again."
+      redirect_to root_path
+    end
+  end
+
+  def create
+    service = Checkout::Base.for(params[:provider], :create)
+    result = service.call(params:, current_user:)
+
+    if result.success?
+      redirect_to result.payload.url, allow_other_host: true, status: :see_other
+    else
+      flash[:alert] = "Payment failed: #{result.error}"
       redirect_to root_path
     end
   end
 
   def update
-    result = Checkout::Update.call(current_user:)
+    result = Checkout::Stripe::Update.call(current_user:)
+
     if result.success?
-      redirect_to result.payload.url, allow_other_host: true
+      redirect_to result.payload.url, allow_other_host: true, status: :see_other
     else
       flash[:alert] = "Payment failed. Please try again."
       redirect_to tokens_path
     end
   end
+
   def success
-    result = Checkout::Success.call(params[:session_id])
+    # Handle success with session ID
+    service = Checkout::Base.for(params[:provider] || "stripe", :success)
+    result = service.call(params[:session_id])
 
     if result.success?
       flash[:notice] = "Payment successful! Your tokens have been credited."
@@ -34,7 +48,7 @@ class CheckoutController < ApplicationController
   end
 
   def webhook
-    result = Checkout::Webhook.call(request)
+    result = Checkout::Stripe::Webhook.call(request)
     if result.success?
       render json: { message: :success }
     else

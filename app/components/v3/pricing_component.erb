@@ -38,25 +38,32 @@
               </div>
             </div>
 
-            <div class="relative h-28">
-              <div class="absolute inset-x-0 bottom-0">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Choose your color(s)</h2>
-                <div class="sm:w-2/3">
-                  <%# Pass the current pack and color to the selector component %>
-                  <%= render V3::ColorSelectorComponent.new(pack: pack, current_color: color) %>
-                </div>
+            <div class="mb-4">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">Choose your color(s)</h2>
+              <div class="sm:w-2/3">
+                <%# Pass the current pack and color to the selector component %>
+                <%= render V3::ColorSelectorComponent.new(pack: pack, current_color: color) %>
               </div>
             </div>
 
           <% end %>
-          
-          <%= form_tag helpers.checkout_index_path, method: :post, data: { turbo: false }, class: "block" do %>
-            <%= hidden_field_tag :price_id, stripe_price_id %>
-            <%= hidden_field_tag :color, color %>
-            <button type="submit" class="w-full text-center p-4 border rounded-lg bg-blue-500 text-white transition-colors duration-150 ease-in-out">
-              Buy now
-            </button>
-          <% end if stripe_price_id.present? %>
+
+          <div class="space-y-2">
+            <%= render Stripe::CheckoutButtonComponent.new(
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+
+            <%= render Btcpay::Btc::CheckoutButtonComponent.new(
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+
+            <%= render Btcpay::Lightning::CheckoutButtonComponent.new(
+              price_id: stripe_price_id,
+              color: color
+            ) %>
+          </div>
         <div class="block sm:hidden pt-3">
           <%=render V3::InclusionsComponent.new%>
         </div>

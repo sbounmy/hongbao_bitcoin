@@ -25,6 +25,7 @@ application.register("hello", HelloController)
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
 
+
 import MtPelerinController from "./mt_pelerin_controller"
 application.register("mt-pelerin", MtPelerinController)
 
@@ -85,3 +86,6 @@ application.register('scroll-to', ScrollTo)
 
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 application.register('textarea-autogrow', TextareaAutogrow)
+
+import Notification from '@stimulus-components/notification'
+application.register('notification', Notification)

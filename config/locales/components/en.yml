@@ -1,0 +1,7 @@
+en:
+  components:
+    checkout_button:
+      stripe: "Buy with Credit Card"
+      btcpay:
+        default: "Buy with Bitcoin"
+        BTC-LightningNetwork: "Buy with Lightning"
