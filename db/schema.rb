@@ -121,7 +121,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_104341) do
     t.string "shipping_postal_code"
     t.string "shipping_country"
     t.string "state"
-    t.string "buyer_phone"
     t.string "redirect_ref"
     t.index ["external_id"], name: "index_orders_on_external_id", unique: true
     t.index ["redirect_ref"], name: "index_orders_on_redirect_ref"

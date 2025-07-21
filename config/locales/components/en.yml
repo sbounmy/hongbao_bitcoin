@@ -4,5 +4,4 @@ en:
       stripe: "Buy with Credit Card"
       btcpay:
         default: "Buy with Bitcoin"
-        BTC-LightningNetwork: "Buy with Lightning ⚡"
-      
+        BTC-LightningNetwork: "Buy with Lightning"

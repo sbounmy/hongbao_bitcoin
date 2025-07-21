@@ -1,26 +1,23 @@
+# Base class for all checkout button components
 class CheckoutButtonComponent < ApplicationComponent
-  def initialize(provider:, price_id:, color: nil, classes: nil, payment_method: nil)
-    @provider = provider.to_s
+  def initialize(price_id:, color: nil, classes: nil)
     @price_id = price_id
     @color = color
     @classes = classes
-    @payment_method = payment_method
   end
 
   def button_text
-    case provider
-    when "btcpay"
-      I18n.t(payment_method,
-             scope: "components.checkout_button.btcpay",
-             default: :default)
-    else
-      I18n.t("components.checkout_button.#{provider}")
-    end
+    raise NotImplementedError, "Subclasses must implement button_text"
+  end
+
+  def button_icon
+    # Optional - subclasses can override if they want an icon
+    nil
   end
 
   def button_classes
-    base_classes = "w-full cursor-pointer text-center p-4 border rounded-lg text-white transition-colors duration-150 ease-in-out"
-
+    base_classes = "w-full cursor-pointer p-4 border rounded-lg text-white transition-colors duration-150 ease-in-out"
+    
     [ base_classes, provider_classes, @classes ].compact.join(" ")
   end
 
@@ -28,23 +25,36 @@ class CheckoutButtonComponent < ApplicationComponent
     { turbo: false }
   end
 
-  private
+  def form_action
+    raise NotImplementedError, "Subclasses must implement form_action"
+  end
+  
+  def render?
+    price_id.present?
+  end
 
-  attr_reader :provider, :price_id, :color, :payment_method
+  def form_method
+    raise NotImplementedError, "Subclasses must implement form_method"
+  end
+
+  def provider
+    raise NotImplementedError, "Subclasses must implement provider"
+  end
+
+  protected
+
+  attr_reader :price_id, :color, :classes
 
   def provider_classes
-    case provider
-    when "stripe"
-      "bg-blue-500 hover:bg-blue-600"
-    when "btcpay"
-      case payment_method
-      when "BTC-LightningNetwork"
-        "bg-purple-500 hover:bg-purple-600"
-      else
-        "bg-orange-500 hover:bg-orange-600"
-      end
-    else
-      "bg-gray-500 hover:bg-gray-600"
-    end
+    raise NotImplementedError, "Subclasses must implement provider_classes"
+  end
+
+  def hidden_fields
+    fields = {
+      provider: provider,
+      price_id: price_id
+    }
+    fields[:color] = color if color.present?
+    fields
   end
 end
