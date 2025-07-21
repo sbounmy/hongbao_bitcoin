@@ -41,6 +41,7 @@
     "@stimulus-components/content-loader": "5.0.0",
     "@stimulus-components/dialog": "1.0.1",
     "@stimulus-components/dropdown": "3.0.0",
+    "@stimulus-components/notification": "^3.0.0",
     "@stimulus-components/reveal": "^5.0.0",
     "@stimulus-components/scroll-reveal": "^4.0.0",
     "@stimulus-components/scroll-to": "5.0.1",

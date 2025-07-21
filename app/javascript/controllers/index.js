@@ -19,12 +19,6 @@ application.register('collapse', Collapse)
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
-import FlashController from "./flash_controller"
-application.register("flash", FlashController)
-
-import FlashModalController from "./flash_modal_controller"
-application.register("flash-modal", FlashModalController)
-
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
@@ -92,3 +86,6 @@ application.register('scroll-to', ScrollTo)
 
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 application.register('textarea-autogrow', TextareaAutogrow)
+
+import Notification from '@stimulus-components/notification'
+application.register('notification', Notification)
