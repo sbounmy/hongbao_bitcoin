@@ -31,7 +31,7 @@ VCR.configure do |config|
     req = URI(request.uri)
     res = (req.path.match(%r{/v1/checkout/sessions}) && req.host == 'api.stripe.com')
     res ||= (req.path.match(%r{/v1/billing_portal/sessions}) && req.host == 'api.stripe.com')
-    res ||= (req.path.match(%r{/api/v1/stores/.+/payment-requests}) && req.host == ENV["BTCPAY_HOST"])
+    res ||= (req.path.match(%r{/api/v1/stores/.+/invoices}) && req.host == ENV["BTCPAY_HOST"])
 
     Rails.logger.info "[VCR] Ignoring request: #{req.host} #{req.path}" if res
     res
