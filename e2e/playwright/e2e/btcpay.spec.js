@@ -17,25 +17,21 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
 
     // Click buy with BTC button
-    const btcpayForm = page.locator('form:has(input[name="provider"][value="btcpay"])');
-    await btcpayForm.getByRole('button').click();
-    
-    // Gets redirected to third party (btcpay) host
-    await expect(page.url()).toContain(btcpayServerUrl);
-    
-    // Click on pay invoice button
-    await page.locator('[data-test="form-button"]').click();
-    
-    // Fill the forms
+    await page.locator('button').filter({ hasText: /Buy with Bitcoin/ }).click();
+
     await page.locator('#buyerEmail').fill('test@example.com');
     await page.locator('#buyerName').fill('Satoshi Nakamoto');
     await page.locator('#buyerAddress1').fill('123 Bitcoin Plaza');
     await page.locator('#buyerCity').fill('Crypto City');
     await page.locator('#buyerZip').fill('12345');
     await page.locator('#buyerCountry').selectOption('Japan');
+    await page.locator('#buyerState').fill('Tokyo');
     
-    // Click on submit
-    await page.getByRole('button', { name: 'Submit' }).click();
+
+    await page.getByRole('button', { name: 'Continue to Payment' }).click();
+    
+    // Gets redirected to third party (btcpay) host
+    await expect(page.url()).toContain(btcpayServerUrl);
 
     // Get the Bitcoin address where money should be sent
     const addressElement = await page.locator('span.truncate-center-text');
@@ -80,6 +76,14 @@ test.describe('BTCPay Checkout Flow', () => {
     
     // Wait for "Payment Received" to appear
     await expect(page.locator('h4').filter({ hasText: 'Payment Received' })).toBeVisible({ timeout: 90000 });
+
+    await page.getByRole('link').filter({ hasText: /Return to/ }).click();
+
+    // verify here if he is back to the app
+    await expect(page).toHaveURL(/.*\/checkout\/success/);
+    
+    // it will show order not found because webhooks are not processed in this test
+    // so we will just check if the page is loaded
 
     // Eject the VCR cassette to save the recording
     await appVcrEjectCassette();
