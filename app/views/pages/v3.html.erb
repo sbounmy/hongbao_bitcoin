@@ -103,10 +103,10 @@
           </div>
         <% end %>
         <%= card.with_title do %>
-          1. Buy Premium Red Envelopes
+          1. Get Premium Envelopes
         <% end %>
         <%= card.with_body do %>
-          <p>120 g/m² textured paper with gold foil Bitcoin logo. Each envelope includes an inspirational quote from Satoshi, Hal Finney, or Andreas Antonopoulos. Perfectly sized (120×180mm) to protect paper wallets. Ships worldwide for free.</p>
+          <p>Free worldwide shipping. Includes Bitcoin quotes from Satoshi, Hal Finney and Andreas Antonopoulos. Perfect size for paper wallets.</p>
         <% end %>
       <% end %>
 
@@ -121,10 +121,10 @@
           <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 object-cover" %>
         <% end %>
         <%= card.with_title do %>
-          2. Print personalized Paper Wallet
+          2. Create Your Bitcoin Gift
         <% end %>
         <%= card.with_body do %>
-          <p>Import or generate keys offline. Top it up with wallet or FIAT with low transaction fees</p>
+          <p>Design a personalized paper wallet. Add custom amounts, messages, or artwork. Generate keys offline for maximum security.</p>
         <% end %>
       <% end %>
 
@@ -139,15 +139,10 @@
           <%= image_tag image_url("index/red_back_front.png"), alt: "Gift Bitcoin", class: "w-full h-48 object-cover" %>
         <% end %>
         <%= card.with_title do %>
-          3. Gift it and let them study
+          3. Watch Them Learn
         <% end %>
         <%= card.with_body do %>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <% end %>
-        <%= card.with_actions do %>
-          <%= link_to paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-primary btn-sm" do %>
-            See Example
-          <% end %>
+          <p>Recipients scan to check balance and claim Bitcoin. No apps needed. Includes beginner guides on the PDF.</p>
         <% end %>
       <% end %>
     </div>
