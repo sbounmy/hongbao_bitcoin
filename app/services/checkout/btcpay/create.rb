@@ -4,8 +4,7 @@ module Checkout
       private
 
       def provider_specific_call(product)
-        # Create order first (Bitcoin payments need tracking)
-        Rails.logger.info "Creating order for product: #{@params[:payment_method]}"
+        # Initialize the BTCPay API client
         client = Client::BtcpayApi.new
 
         # Create invoice payload
@@ -21,10 +20,22 @@ module Checkout
           },
           metadata: {
             color: product[:color],
+            description: product[:description],
+            envelopes: product[:envelopes],
+            tokens: product[:tokens],
+            title: product[:name],
             itemDesc: "#{product[:color].capitalize} #{product[:name]} - #{product[:description]}",
             itemCode: product[:stripe_price_id],
             physical: "true",
-            userId: @current_user&.id || "guest"
+            userId: @current_user&.id || "guest",
+            buyerEmail: @current_user&.email || @params[:email],
+            buyerName: @params[:shipping_name],
+            buyerAddress1: @params[:shipping_address_line1],
+            buyerAddress2: @params[:shipping_address_line2],
+            buyerCity: @params[:shipping_city],
+            buyerState: @params[:shipping_state],
+            buyerZip: @params[:shipping_postal_code],
+            buyerCountry: @params[:shipping_country]
           }
         }
 
