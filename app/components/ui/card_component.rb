@@ -32,7 +32,7 @@ module Ui
     attr_reader :figure_position
 
     def card_classes
-      classes = ["card"]
+      classes = [ "card" ]
       classes << "bg-base-100" unless @glass
       classes << "image-full" if @image_full
       classes << "card-compact" if @compact

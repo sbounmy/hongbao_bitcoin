@@ -15,7 +15,7 @@ module Ui
     attr_reader :rate, :text, :options
 
     def component_classes
-      classes = ["flex flex-col items-center p-8"]
+      classes = [ "flex flex-col items-center p-8" ]
       classes << options[:class] if options[:class]
       classes.compact.join(" ")
     end
