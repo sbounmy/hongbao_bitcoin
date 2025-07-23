@@ -18,5 +18,6 @@ class PagesController < ApplicationController
 
   def v3
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.order(created_at: :desc).limit(5)
+    @users = User.joins(:avatar_attachment).with_attached_avatar.limit(5)
   end
 end
