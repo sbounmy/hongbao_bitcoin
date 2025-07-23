@@ -13,5 +13,9 @@ class Token < ApplicationRecord
 
   def update_user_tokens_sum
     user.update_column(:tokens_sum, user.tokens.sum(:quantity))
+
+    user.broadcast_update_to "user_#{user.id}_tokens",
+      target: "sidebar_tokens_badge",
+      renderable: Tokens::BadgeComponent.new(user: user.reload, class: "badge-lg w-full")
   end
 end

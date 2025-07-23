@@ -39,7 +39,10 @@
       <ul class='flex flex-col gap-2'>
         <% if authenticated? && current_user %>
         <li>
-          <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
+          <%= turbo_stream_from "user_#{current_user.id}_tokens", class:"hidden" %>
+          <div id="sidebar_tokens_badge" class="flex p-0 w-full rounded-lg">
+            <%= render Tokens::BadgeComponent.new(user: current_user, class: "badge-lg w-full") %>
+          </div>
         </li>
         <li>
           <details>
