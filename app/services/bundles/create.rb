@@ -16,26 +16,32 @@ module Bundles
     end
 
     def create_papers
-      @bundle.styles.each do |style|
-        input_items = @bundle.input_items.where(input: [ @bundle.theme, style, @bundle.images.first ])
+      Rails.logger.info("Paper created start  #{@bundle.themes.count} || #{@bundle.styles.count} ----")
+      @bundle.themes.each do |theme|
+        @bundle.styles.each do |style|
+          input_items = @bundle.input_items.where(input: [ theme, style, @bundle.images.first ])
 
-        paper = Paper.create!(
-          name: "#{style.name} #{@bundle.theme.name}",
-          prompt: input_items.map(&:prompt).compact_blank.join("\n"),
-          input_items:,
-          active: true,
-          public: false,
-          user: @user,
-          bundle: @bundle,
-        )
-        ProcessPaperJob.perform_later(paper.id, quality: @quality)
 
-        Rails.logger.info("Paper created #{paper.id}")
+          paper = Paper.create!(
+            name: "#{style.name} #{theme.name}",
+            prompt: input_items.map(&:prompt).compact_blank.join("\n"),
+            input_items:,
+            active: true,
+            public: false,
+            user: @user,
+            bundle: @bundle,
+          )
+          ProcessPaperJob.perform_later(paper.id, quality: @quality)
+
+          Rails.logger.info("Paper created #{paper.id} #{paper.name} #{paper.input_items.inspect}")
+        end
       end
+
+      Rails.logger.info("Paper created done ----")
     end
 
     def create_tokens
-      @user.tokens.create(quantity: -@bundle.styles.count, description: "Bundle #{@bundle.id} tokens #{@bundle.styles.map(&:name).join(', ')}")
+      @user.tokens.create(quantity: -(@bundle.styles.count * @bundle.themes.count), description: "Bundle #{@bundle.id} tokens #{@bundle.styles.map(&:name).join(', ')} #{@bundle.themes.map(&:name).join(', ')}")
     end
   end
 end
