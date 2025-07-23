@@ -31,12 +31,9 @@
     <div class="mt-6 flex flex-col items-center justify-center gap-2 text-md text-gray-600">
       <span>Used by <span class="font-semibold text-black"><%= User.count %></span> Bitcoiners</span>
       <div class="flex -space-x-2">
-        <%= image_tag image_url("sbounmy-b.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
-        <%= image_tag image_url("salma.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
-        <%= image_tag image_url("mouaad.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
-        <%= image_tag image_url("sbounmy-b.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
-        <%= image_tag image_url("sbounmy-b.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
-        <%= image_tag image_url("sbounmy-b.jpg"), class: "w-8 h-8 rounded-full border-2 border-white" %>
+        <% @users.each do |user| %>
+          <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-white" %>
+        <% end %>
       </div>
     </div>
   </div>
