@@ -1,13 +1,14 @@
 import { test, expect } from '../support/test-setup';
+import { appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Color Selection', () => {
-  // test.beforeEach(async ({ page }) => {
-  //   await appVcrInsertCassette('stripe_products', { allow_playback_repeats: true });
-  // });
+  test.beforeEach(async () => {
+    await appVcrInsertCassette('stripe_products', { allow_playback_repeats: true });
+  });
 
-  // test.afterEach(async () => {
-  //   await appVcrEjectCassette();
-  // });
+  test.afterEach(async () => {
+    await appVcrEjectCassette();
+  });
 
   test('updates URL when color is selected', async ({ page }) => {
     await page.goto('/#pricing');
