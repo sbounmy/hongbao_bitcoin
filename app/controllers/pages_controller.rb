@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   allow_unauthenticated_access
   def index
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.order(created_at: :desc).limit(5)
+    @users = User.joins(:avatar_attachment).with_attached_avatar.limit(5)
   end
 
   def pricing
@@ -14,10 +15,5 @@ class PagesController < ApplicationController
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
     @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { InstagramService.new.fetch_media }
-  end
-
-  def v3
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.order(created_at: :desc).limit(5)
-    @users = User.joins(:avatar_attachment).with_attached_avatar.limit(5)
   end
 end
