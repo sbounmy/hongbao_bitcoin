@@ -123,4 +123,4 @@ gem "sitemap_generator"
 
 gem "canonical-rails", github: "jumph4x/canonical-rails"
 
-gem "country_select", "~> 9.0"
+gem "country_select", "~> 11.0"
