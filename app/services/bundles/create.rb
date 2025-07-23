@@ -17,24 +17,23 @@ module Bundles
 
     def create_papers
       Rails.logger.info("Paper created start  #{@bundle.themes.count} || #{@bundle.styles.count} ----")
-      @bundle.themes.each do |theme|
-        @bundle.styles.each do |style|
-          input_items = @bundle.input_items.where(input: [ theme, style, @bundle.images.first ])
+      theme = @bundle.input_item_theme.input
+      @bundle.styles.each do |style|
+        input_items = @bundle.input_items.where(input: [ theme, style, @bundle.images.first ])
 
 
-          paper = Paper.create!(
-            name: "#{style.name} #{theme.name}",
-            prompt: input_items.map(&:prompt).compact_blank.join("\n"),
-            input_items:,
-            active: true,
-            public: false,
-            user: @user,
-            bundle: @bundle,
-          )
-          ProcessPaperJob.perform_later(paper.id, quality: @quality)
+        paper = Paper.create!(
+          name: "#{style.name} #{theme.name}",
+          prompt: input_items.map(&:prompt).compact_blank.join("\n"),
+          input_items:,
+          active: true,
+          public: false,
+          user: @user,
+          bundle: @bundle,
+        )
+        ProcessPaperJob.perform_later(paper.id, quality: @quality)
 
-          Rails.logger.info("Paper created #{paper.id} #{paper.name} #{paper.input_items.inspect}")
-        end
+        Rails.logger.info("Paper created #{paper.id} #{paper.name} #{paper.input_items.inspect}")
       end
 
       Rails.logger.info("Paper created done ----")

@@ -21,7 +21,8 @@ class PapersController < ApplicationController
 
   def new
     @bundle = Bundle.new
-    @bundle.input_items.build(input: Input::Theme.first)
+    @bundle.build_input_item_theme(input: Input::Theme.first)
+    @bundle.input_items.build
     @styles = Input::Style.with_attached_image
     @themes = Input::Theme.with_attached_image
     @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back

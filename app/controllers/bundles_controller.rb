@@ -6,6 +6,6 @@ class BundlesController < ApplicationController
   private
 
   def bundle_params
-    params.require(:bundle).permit(input_items_attributes: [ :input_id, :_destroy, :image, :prompt ])
+    params.require(:bundle).permit(input_item_theme_attributes: [ :input_id ], input_items_attributes: [ :input_id, :_destroy, :image, :prompt ])
   end
 end
