@@ -1,9 +1,14 @@
 import { test, expect } from '../support/test-setup';
-import { forceLogin } from '../support/on-rails';
+import { forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('User Drawer', () => {
   test.beforeEach(async ({ page }) => {
+    await appVcrInsertCassette('stripe_products', { allow_playback_repeats: true });
     await forceLogin(page, { email: 'satoshi@example.com', redirect_to: '/' });
+  });
+
+  test.afterEach(async () => {
+    await appVcrEjectCassette();
   });
 
   test('can open user drawer by clicking avatar', async ({ page }) => {
