@@ -12,10 +12,7 @@
                 </button>
               </div>
               <div class="grid grid-cols-4 gap-4">
-                <%= render Styles::CheckboxComponent.with_collection(@themes, form:) %>
-                <%= form.fields_for :input_items do |input_item_fields| %>
-                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-                <% end %>
+                <%= render Styles::RadioComponent.with_collection(@themes, form:) %>
               </div>
             </div>
 
@@ -24,9 +21,6 @@
               <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "sparkles", class: "w-6 h-6" %> Style</h2>
               <div class="grid grid-cols-4 gap-4">
                 <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
-                <%= form.fields_for :input_items do |input_item_fields| %>
-                  <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-                <% end %>
               </div>
             </div>
 
