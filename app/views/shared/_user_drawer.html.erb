@@ -1,4 +1,4 @@
-<%= render DrawerComponent.new(id: "user-drawer", class: "drawer-end", z: 99) do |drawer| %>
+<%= render DrawerComponent.new(id: "user-drawer", class: "drawer-end", z: 50) do |drawer| %>
     <% drawer.with_body do %>
     <%# This label triggers the drawer identified by drawer_id %>
         <label for="user-drawer"
@@ -10,7 +10,7 @@
         </label>
     <% end %>
     <% drawer.with_side do %>
-        <div class="flex flex-col min-h-full w-60 sm:w-80 bg-base-200 text-base-content">
+        <div class="flex flex-col min-h-full w-60 sm:w-80 bg-base-200 text-base-content relative z-50">
         <%# Drawer Header %>
         <div class="flex items-center justify-between p-4 border-b border-base-300">
             <div class="flex items-center gap-3">
