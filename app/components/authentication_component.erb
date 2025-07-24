@@ -10,6 +10,6 @@
     <%= render Authentication::GoogleComponent.new %>
 
     <div class="text-center space-y-2">
-        <a href="#" class="link link-primary text-sm">Forgot password?</a>
+        <%= link_to "Forgot password?", new_password_path, class: "link link-primary text-sm", data: { turbo_frame: "_top" } %>
     </div>
 </div>
