@@ -227,26 +227,40 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <div class="relative w-full h-48 bg-white rounded-lg shadow-2xl overflow-hidden">
-            <embed src="<%= asset_path("index/demo.pdf") %>" type="application/pdf" class="w-full h-full" />
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/eN9DhhQria8"
+            class="rounded-t-lg w-full aspect-video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         <% end %>
         <%= card.with_title do %>
-          Self-Custody Made Simple
+          <div class="w-full flex gap-2 justify-between">
+            <p>Self-Custody Made Simple</p>
+            <%= link_to "Try demo", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-xs btn-outline" %>
+          </div>
         <% end %>
         <%= card.with_body do %>
           <p>Generate secure paper wallets offline or import existing keys. Each wallet includes step-by-step recovery instructions, QR codes for easy scanning, and educational content about Bitcoin basics. Perfect for beginners who want to learn by doing.</p>
-          <%= link_to "Try demo wallet", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "link" %>
-
         <% end %>
       <% end %>
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Fund wallets", class: "w-full h-48 object-cover" %>
+          <iframe
+            src="https://www.youtube.com/embed/CzRldpvGJw0"
+            class="rounded-t-lg w-full aspect-video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         <% end %>
         <%= card.with_title do %>
-          KYC-Free Gifting
+          <div class="w-full flex gap-2 justify-between">
+            <p>KYC-Free Gifting</p>
+            <%= link_to "Create Gift", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id), step: 4), class: "btn btn-xs btn-outline" %>
+          </div>
         <% end %>
         <%= card.with_body do %>
           <p>Top up paper wallets directly with Bitcoin or fiat currency. No KYC required for bank transfers. Low transaction fees and real-time blockchain verification. Track your gift's journey on the blockchain.</p>
@@ -255,9 +269,19 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
+          <iframe
+            src="https://www.youtube.com/embed/Fm0YkubCZGc"
+            class="rounded-t-lg w-full aspect-video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         <% end %>
         <%= card.with_title do %>
-          Custom AI Art
+          <div class="w-full flex gap-2 justify-between">
+            <p>Custom AI Art</p>
+            <%= link_to "Create Bitcoin note", new_paper_path, class: "btn btn-xs btn-outline" %>
+          </div>
         <% end %>
         <%= card.with_body do %>
           <p>Generate unique Bitcoin paper wallet designs with AI.
@@ -277,7 +301,10 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           </iframe>
         <% end %>
         <%= card.with_title do %>
-          Never Miss a Bitcoin Day
+          <div class="w-full flex gap-2 justify-between">
+            <p>Never Miss a Bitcoin Day</p>
+            <%= link_to "See Bitcoin Calendar", calendar_path, class: "btn btn-xs btn-outline" %>
+          </div>
         <% end %>
         <%= card.with_body do %>
           <p>Interactive calendar featuring important Bitcoin dates, halvings, and milestones. Plan your gifts around meaningful events like Bitcoin Pizza Day or Satoshi's birthday. Includes historical context and celebration ideas for each date.</p>
