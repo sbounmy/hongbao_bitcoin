@@ -1,6 +1,13 @@
-<%= link_to "https://mempool.space/#{Current.testnet? ? 'testnet/' : ''}address/#{hong_bao.address}",
+<%= link_to "#",
     target: "_blank",
-    data: { hong_bao_target: "verifyButton" },
+    data: { 
+      hong_bao_target: "verifyButton",
+      controller: "binding",
+      binding_attribute_value: "href",
+      binding_name_value: "publicAddressText",
+      binding_template_value: "https://mempool.space/#{Current.testnet? ? 'testnet/' : ''}address/{publicAddressText}",
+      action: "bitcoin:changed@window->binding#attribute"
+    },
     style: current_step == 3 ? "" : "display: none;",
     class: "w-full py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium
            text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300

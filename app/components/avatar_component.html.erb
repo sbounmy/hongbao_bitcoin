@@ -1,5 +1,5 @@
 <%# Component to display a single contributor avatar %>
-<div class="flex flex-col items-center gap-2 text-center">
+<div class="flex flex-col items-center gap-2 text-center <%= options[:class] %>">
   <div class="avatar indicator w-full">
     <%= badge %>
     <% if link_url&.present? %>
