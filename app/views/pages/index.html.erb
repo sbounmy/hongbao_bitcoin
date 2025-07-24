@@ -268,7 +268,13 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("index/red_front.jpg"), alt: "Red envelope", class: "w-full h-48 object-cover" %>
+          <iframe
+            src="https://www.youtube.com/embed/M-Aa_ywI4OA"
+            class="rounded-t-lg w-full aspect-video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         <% end %>
         <%= card.with_title do %>
           Never Miss a Bitcoin Day
