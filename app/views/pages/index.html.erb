@@ -421,7 +421,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
-<section class="mx-auto max-w-4xl px-8">
+<section id="pricing" class="mx-auto max-w-4xl px-8">
   <%= render V3::PricingComponent.new(title: false) do |component| %>
     <% component.with_plans(StripeService.fetch_products) %>
   <% end %>
