@@ -35,15 +35,15 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    # Handle success with session ID
     service = Checkout::Base.for(params[:provider] || "stripe", :success)
     result = service.call(params[:session_id])
 
     if result.success?
-      flash[:notice] = "Payment successful! Your tokens have been credited."
+      set_success_flash_message
     else
-      flash[:alert] = "Payment failed. Please try again."
+      flash[:alert] = "Payment processing. Please check your email for confirmation."
     end
+
     redirect_to root_path
   end
 
@@ -62,5 +62,15 @@ class CheckoutController < ApplicationController
     # Handle cancelled payment
     flash[:alert] = "Payment cancelled."
     redirect_to root_path
+  end
+
+  private
+
+  def set_success_flash_message
+    if authenticated?
+      flash[:notice] = "Payment successful! Your tokens have been credited."
+    else
+      flash[:notice] = "Payment successful! An account has been created for you. Please check your email for further instructions."
+    end
   end
 end
