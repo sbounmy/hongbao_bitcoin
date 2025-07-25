@@ -1,0 +1,7 @@
+<%= turbo_stream.append "papers" do %>
+  <%= render Papers::ItemComponent.with_collection(@papers, broadcast: false) %>
+<% end %>
+
+<%= turbo_stream.replace "papers_page_#{@pagy.page}" do %>
+  <%= render "infinite_scroll_loader", pagy: @pagy %>
+<% end %>

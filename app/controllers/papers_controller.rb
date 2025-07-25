@@ -29,7 +29,15 @@ class PapersController < ApplicationController
   end
 
   def explore
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+    @pagy, @papers = pagy_countless(
+      Paper.active.recent.with_attached_image_front.with_attached_image_back,
+      limit: 20
+    )
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def like
