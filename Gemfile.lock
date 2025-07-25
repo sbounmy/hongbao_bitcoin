@@ -59,7 +59,7 @@ GIT
 
 GIT
   remote: https://github.com/thoughtbot/factory_bot_rails.git
-  revision: 8e45bc342682b610952935354fa478bbe616390f
+  revision: 364bd890bfcfb538fa31318759c93d7e5c4e11a1
   specs:
     factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
