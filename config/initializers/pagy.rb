@@ -27,7 +27,7 @@ Pagy::DEFAULT[:limit] = 20                                  # default
 
 # Countless extra: Paginate without the need of any count, saving one query per rendering
 # See https://ddnexus.github.io/pagy/docs/extras/countless
-require 'pagy/extras/countless'
+require "pagy/extras/countless"
 # Pagy::DEFAULT[:countless_minimal] = false                 # default (eager loading)
 
 # Headers extra: http response headers with pagination info (and other helpers)
@@ -40,7 +40,7 @@ require 'pagy/extras/countless'
 
 # Overflow extra: Allow for easy handling of overflowing pages
 # See https://ddnexus.github.io/pagy/docs/extras/overflow
-require 'pagy/extras/overflow'
+require "pagy/extras/overflow"
 Pagy::DEFAULT[:overflow] = :last_page                       # (other options: :empty_page and :exception)
 
 # Rails
