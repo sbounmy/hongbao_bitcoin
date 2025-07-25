@@ -1,5 +1,3 @@
-<%= render "shared/header" %>
-
 <div class="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
   <%= render PasswordComponent.new(action: :edit, user: @user, token: params[:token]) %>
 </div>
