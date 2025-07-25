@@ -21,7 +21,20 @@ module Checkout
           Rails.logger.info("event: #{event.id} session##{session.id}: #{event.inspect}")
           cs = ::Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "line_items.data.price.product" ] })
           # Find or create user from checkout session email
-          user = find_or_create_user(session.customer_details.email)
+          user = User.find_by(email: session.customer_details.email)
+
+          if user.nil?
+            # Create new user for guest checkout
+            password = SecureRandom.hex(16)
+            user = User.create!(
+              email: session.customer_details.email,
+              password: password
+            )
+
+            # Send welcome email for new guest account
+            AuthMailer.account_created(user).deliver_later
+          end
+
           return failure("Unable to find or create user") unless user
 
           # Update stripe customer ID if not already set
@@ -77,20 +90,6 @@ module Checkout
           Rails.logger.error("Unknown event type: #{event.type}")
           success
         end
-      end
-
-      def find_or_create_user(email)
-        return nil if email.blank?
-
-        user = User.find_by(email: email)
-        return user if user
-
-        # Create new user for guest checkout
-        password = SecureRandom.hex(16)
-        User.create!(
-          email: email,
-          password: password
-        )
       end
 
       def event
