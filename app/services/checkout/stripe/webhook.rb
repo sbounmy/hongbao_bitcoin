@@ -24,6 +24,11 @@ module Checkout
           user = find_or_create_user(session.customer_details.email)
           return failure("Unable to find or create user") unless user
 
+          # Update stripe customer ID if not already set
+          if session.customer.present? && user.stripe_customer_id.blank?
+            user.update!(stripe_customer_id: session.customer)
+          end
+
           # payment_intent is nil for order full coupon
           if session.payment_intent.present? && Token.find_by(external_id: session.payment_intent) # to avoid duplicate tokens when stripe retries for no reason
             Rails.logger.info("#{session.payment_intent} Token already exists for session #{session.id}")

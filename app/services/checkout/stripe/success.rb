@@ -1,15 +1,16 @@
 module Checkout
   module Stripe
     class Success < ApplicationService
-      def call(session_id, authenticated: false)
-        # Handle successful payment
-        @checkout_session = ::Stripe::Checkout::Session.retrieve(session_id)
-        Rails.logger.info("checkout_session: #{@checkout_session.inspect}")
-        if @user = User.find_by(email: @checkout_session.customer_details.email)
-          @user.update!(stripe_customer_id: @checkout_session.customer) if @user.stripe_customer_id.nil?
-        end
-        Rails.logger.info("user: #{@user.inspect}")
-        success @user
+      def call(session_id)
+        return failure("Session ID is required") if session_id.blank?
+
+        checkout_session = ::Stripe::Checkout::Session.retrieve(session_id)
+        Rails.logger.info("checkout_session: #{checkout_session.inspect}")
+
+        success(checkout_session)
+      rescue ::Stripe::InvalidRequestError => e
+        Rails.logger.error("Invalid Stripe session: #{e.message}")
+        failure("Invalid session")
       end
     end
   end
