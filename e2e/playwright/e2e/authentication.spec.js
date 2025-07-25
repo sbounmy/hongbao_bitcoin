@@ -63,3 +63,60 @@ test.describe('Authentication Flow', () => {
     await page.getByRole('button', { name: 'Logout' }).click();
   });
 });
+
+test.describe('Password Reset Flow', () => {
+  test.beforeEach(async ({ page }) => {
+    await appVcrInsertCassette('password_reset', { allow_playback_repeats: true });
+  });
+
+  test.afterEach(async ({ page }) => {
+    await appVcrEjectCassette();
+  });
+
+  test('user can request password reset', async ({ page }) => {
+    await page.goto('/signup');
+
+    await page.getByRole('button', { name: 'Continue' }).click();
+    
+    await page.getByRole('link', { name: 'Forgot password?' }).click();
+    
+    await expect(page).toHaveURL('/passwords/new');
+    await expect(page.getByRole('heading', { name: 'Forgot your password?' })).toBeVisible();
+    
+    await page.getByPlaceholder('Email address').fill('satoshi@example.com');
+
+    await page.getByRole('button', { name: 'Email reset instructions' }).click();
+    
+    await expect(page).toHaveURL('/login');
+    await expect(page.locator('.toast .alert-success')).toBeVisible();
+    await expect(page.locator('.toast .alert-success')).toContainText('Password reset instructions sent');
+  });
+
+  test('password reset with non-existent email', async ({ page }) => {
+    await page.goto('/passwords/new');
+    
+    await page.getByPlaceholder('Enter your email address').fill('nonexistent@example.com');
+    await page.getByRole('button', { name: 'Email reset instructions' }).click();
+    
+    await expect(page).toHaveURL('/passwords/new');
+    await expect(page.locator('.toast .alert-error')).toBeVisible();
+    await expect(page.locator('.toast .alert-error')).toContainText('No account found with email');
+  });
+
+  test('user can navigate back to sign in from password reset', async ({ page }) => {
+    await page.goto('/passwords/new');
+    
+    await page.getByRole('link', { name: 'Back to sign in' }).click();
+    
+    await expect(page).toHaveURL('/login');
+  });
+
+  test('password reset form validation', async ({ page }) => {
+    await page.goto('/passwords/new');
+    
+    await page.getByPlaceholder('Enter your email address').fill('');
+    await page.getByRole('button', { name: 'Email reset instructions' }).click();
+    
+    await expect(page).toHaveURL('/passwords/new');
+  });
+});
