@@ -1,0 +1,18 @@
+<div class="<%= container_classes %>">
+  <div id="<%= container_id %>" class="<%= grid_classes %>">
+    <%= render collection %>
+  </div>
+  
+  <% if pagy.next %>
+    <%= turbo_frame_tag loader_id, 
+        src: next_page_path, 
+        loading: :lazy do %>
+      <div class="col-span-full flex justify-center items-center py-8">
+        <div class="flex flex-col items-center gap-2">
+          <span class="loading loading-spinner loading-lg text-primary"></span>
+          <span class="text-base-content/60"><%= loader_text %></span>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
