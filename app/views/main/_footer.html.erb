@@ -5,6 +5,6 @@
   <% if authenticated? %>
     <% dock.with_item(label: "Sign out", icon: "user", href: session_path(Current.session), data: { turbo_method: :delete }) %>
   <% else %>
-    <% dock.with_item(label: "Sign in", icon: "user", href: new_session_path) %>
+    <% dock.with_item(label: "Sign in", icon: "user", href: login_path) %>
   <% end %>
 <% end %>

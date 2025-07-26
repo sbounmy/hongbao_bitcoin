@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :bundles, only: [ :create ]
 
   ActiveAdmin.routes(self)
-  resource :session
+  resource :session, except: [ :new ]
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do
     post :search, on: :collection
