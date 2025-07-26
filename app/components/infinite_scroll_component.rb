@@ -21,16 +21,6 @@ class InfiniteScrollComponent < ApplicationComponent
     collection.present?
   end
 
-  private
-
-  def loader_id
-    "#{container_id}_page_#{pagy.next}"
-  end
-
-  def next_page_path
-    path_method.call(page: pagy.next, format: :turbo_stream)
-  end
-
   # Generate turbo stream response for appending items and updating loader
   def turbo_stream_response
     safe_join([
@@ -44,6 +34,14 @@ class InfiniteScrollComponent < ApplicationComponent
   end
 
   private
+
+  def loader_id
+    "#{container_id}_page_#{pagy.next}"
+  end
+
+  def next_page_path
+    path_method.call(page: pagy.next, format: :turbo_stream)
+  end
 
   def loader_frame_id
     "#{container_id}_page_#{pagy.page}"
