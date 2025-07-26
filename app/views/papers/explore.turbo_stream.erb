@@ -1,0 +1,12 @@
+<%= turbo_stream.append "papers" do %>
+  <%= render Papers::ItemComponent.with_collection(@papers, broadcast: false) %>
+<% end %>
+
+<%= turbo_stream.replace "papers_page_#{@pagy.page}" do %>
+  <%= InfiniteScrollComponent.new(
+    collection: Papers::ItemComponent.with_collection(@papers, broadcast: false),
+    pagy: @pagy,
+    path_method: method(:explore_papers_path),
+    container_id: "papers"
+  ).loader_frame %>
+<% end %>
