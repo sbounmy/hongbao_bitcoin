@@ -1,8 +1,11 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full px-4 pt-4 pb-16 md:pb-4">
   <h3 class="text-xl font-bold">Explore</h3>
-  <div id="papers" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <%= render Papers::ItemComponent.with_collection(@papers, broadcast: false) %>
-  </div>
   
-  <%= render "infinite_scroll_loader", pagy: @pagy %>
+  <%= render InfiniteScrollComponent.new(
+    collection: Papers::ItemComponent.with_collection(@papers, broadcast: false),
+    pagy: @pagy,
+    path_method: method(:explore_papers_path),
+    container_id: "papers",
+    container_classes: "w-full"
+  ) %>
 </div>

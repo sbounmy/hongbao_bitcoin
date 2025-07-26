@@ -36,7 +36,15 @@ class PapersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.turbo_stream
+      format.turbo_stream do
+        component = InfiniteScrollComponent.new(
+          collection: Papers::ItemComponent.with_collection(@papers, broadcast: false),
+          pagy: @pagy,
+          path_method: method(:explore_papers_path),
+          container_id: "papers"
+        )
+        render turbo_stream: component.turbo_stream_response
+      end
     end
   end
 
