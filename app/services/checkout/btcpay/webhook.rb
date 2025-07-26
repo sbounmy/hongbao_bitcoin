@@ -86,7 +86,8 @@ module Checkout
       end
 
       def find_or_create_user(reference_id, email: nil)
-        user = User.find(reference_id)
+        user = nil
+        user = User.find(reference_id) if reference_id.present? && reference_id.is_a?(Integer)
         return user if user
 
         # If the user is not found, create a new one using the provided email.
