@@ -15,9 +15,15 @@
 mini:
   red:
     - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
 family:
   red:
     - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
 maximalist:
   red:
     - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
