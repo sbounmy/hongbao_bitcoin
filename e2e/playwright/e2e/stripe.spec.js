@@ -25,7 +25,9 @@ test.describe('Stripe Checkout Flow', () => {
     await fillCheckout(page);
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 10_000 }); // 12 free credits with Mini
+
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
@@ -54,7 +56,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
+    await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
     await page.goto('/tokens');
     await page.getByRole('button', { name: 'Manage Billing' }).click();

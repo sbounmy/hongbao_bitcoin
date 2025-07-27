@@ -1,5 +1,5 @@
 <div data-controller="gallery"
-  class="relative pl-12 sm:pl-0 pr-12 w-full [&_.swiper-slide-thumb-active]:!border-blue-500 ">
+  class="relative sm:pr-12 p-0 w-full [&_.swiper-slide-thumb-active]:!border-blue-500 ">
   <!-- Carousel media area -->
   <div
     data-gallery-target="main"
@@ -14,13 +14,13 @@
     </div>
     <% if media_items.size > 1 %>
     <button type="button"
-      class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-prev absolute top-1/2  left-4 z-10">❮</button>
+      class="btn btn-circle text-lg sm:text-xl opacity-90 w-8 h-8 sm:w-12 sm:h-12 carousel-prev absolute top-1/2  left-4 z-10">❮</button>
     <button type="button"
-      class="btn btn-circle text-xl opacity-90 w-12 h-12 carousel-next absolute top-1/2 right-4 z-10">❯</button>
+      class="btn btn-circle text-lg sm:text-xl opacity-90 w-8 h-8 sm:w-12 sm:h-12 carousel-next absolute top-1/2 right-4 z-10">❯</button>
     <% end %>
   </div>
 
-  <div data-gallery-target="thumbs" class="swiper w-64 sm:w-92 mt-4">
+  <div data-gallery-target="thumbs" class="swiper w-48 sm:w-92 mt-4">
     <div class="swiper-wrapper [&_.swiper-slide]:bg-contain [&_.swiper-slide]:bg-no-repeat [&_.swiper-slide]:bg-center ">
       <% media_items.each do |item| %>
         <div

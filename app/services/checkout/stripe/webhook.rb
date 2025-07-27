@@ -6,7 +6,9 @@ module Checkout
         @sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
         handle_event
       end
+
       private
+
       def handle_event
         case event.type
         when "checkout.session.completed"
@@ -52,7 +54,7 @@ module Checkout
           user.tokens.create!(
               quantity: cs.line_items.data.first.price.product.metadata.tokens,
               description: "Tokens purchased from Stripe #{session.payment_intent}",
-              external_id: session.payment_intent,
+              external_id: session.payment_intent || session.id,
               metadata: {
                 stripe_checkout_session_id: session.id,
                 stripe_checkout_session_url: session.url,
@@ -65,7 +67,7 @@ module Checkout
               total_amount: cs.amount_total/100.0, # Convert cents to dollars
               currency: cs.currency,
               payment_provider: "stripe",
-              external_id: session.payment_intent,
+              external_id: session.payment_intent || session.id,
             )
 
             order.complete! if order.may_complete?
@@ -76,10 +78,10 @@ module Checkout
               stripe_price_id: cs.line_items.data.first.price.id,
               metadata: {
                 name: cs.line_items.data.first.price.product.name,
-                tokens: cs.line_items.data.first.price.product.metadata.tokens,
-                envelopes: cs.line_items.data.first.price.product.metadata.envelopes,
+                tokens: cs.line_items.data.first.price.product.metadata["tokens"],
+                envelopes: cs.line_items.data.first.price.product.metadata["envelopes"],
                 description: cs.line_items.data.first.price.product.description,
-                color: cs.line_items.data.first.price.product.metadata.color
+                color: cs.line_items.data.first.price.product.metadata["color"]
               }
             )
 
@@ -90,6 +92,9 @@ module Checkout
           Rails.logger.error("Unknown event type: #{event.type}")
           success
         end
+        # rescue => e # uncomment this in dev so we can see the error
+        #   Rails.logger.error("Error creating order for session #{session.inspect}: #{e.message}")
+        #   failure e.message
       end
 
       def event
