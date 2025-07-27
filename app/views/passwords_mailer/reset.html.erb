@@ -1,95 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @media only screen and (max-width: 600px) {
-      .container { width: 100% !important; }
-      .content { padding: 24px !important; }
-    }
-  </style>
-</head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif; background-color: #f6f9fc; -webkit-font-smoothing: antialiased;">
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 0 auto;" class="container">
-    <tr>
-      <td style="padding: 48px 24px 0;">
-        <!-- Logo -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-          <tr>
-            <td style="text-align: center; padding-bottom: 32px;">
-              <%= image_tag "hongbao-bitcoin.png", alt: "Hongbao Bitcoin", style: "height: 40px; width: auto;", height: "40" %>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        <!-- Main Content Card -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);">
-          <tr>
-            <td style="padding: 48px 48px 24px;" class="content">
-              <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 600; color: #1a1f36; line-height: 32px;">
-                Reset your password
-              </h1>
-              
-              <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #697386;">
-                We received a request to reset your password for your Hongbao Bitcoin account. Click the button below to create a new password.
-              </p>
-              
-              <!-- CTA Button -->
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 32px 0;">
-                <tr>
-                  <td style="border-radius: 6px; background-color: #f97316;">
-                    <a href="<%= edit_password_url(@user.password_reset_token) %>" target="_blank" style="display: inline-block; padding: 12px 24px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 6px;">
-                      Reset password
-                    </a>
-                  </td>
-                </tr>
-              </table>
-              
-              <p style="margin: 24px 0 16px; font-size: 14px; line-height: 20px; color: #8898aa;">
-                Or copy and paste this link into your browser:
-              </p>
-              
-              <p style="margin: 0 0 32px; font-size: 14px; line-height: 20px; color: #8898aa; word-break: break-all;">
-                <%= edit_password_url(@user.password_reset_token) %>
-              </p>
-              
-              <hr style="border: none; border-top: 1px solid #e3e8ee; margin: 32px 0;">
-              
-              <!-- Security Notice -->
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f6f9fc; border-radius: 6px;">
-                <tr>
-                  <td style="padding: 16px;">
-                    <p style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #1a1f36;">
-                      Didn't request this?
-                    </p>
-                    <p style="margin: 0; font-size: 14px; line-height: 20px; color: #697386;">
-                      If you didn't request a password reset, you can safely ignore this email. Your password won't be changed. This link will expire in 15 minutes.
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    
-    <!-- Footer -->
-    <tr>
-      <td style="padding: 32px 24px 48px; text-align: center;">
-        <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; color: #8898aa;">
-          Hongbao Bitcoin · Create Bitcoin paper wallets
-        </p>
-        <p style="margin: 0; font-size: 12px; line-height: 16px; color: #8898aa;">
-          © <%= Date.current.year %> Hongbao Bitcoin. All rights reserved.
-        </p>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 0 auto;" class="container">
+  <tr>
+    <td style="padding: 48px 24px 0;">
+      <%= render "shared/mailer/header" %>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);">
+        <tr>
+          <td style="padding: 48px 48px 24px;" class="content">
+            <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 600; color: #1a1f36; line-height: 32px;">
+              Reset your password
+            </h1>
+            
+            <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #697386;">
+              We received a request to reset your password for your Hongbao Bitcoin account. Click the button below to create a new password.
+            </p>
+            
+            <%= render "shared/mailer/button", href: edit_password_url(@user.password_reset_token), text: "Reset password" %>
+            
+            <p style="margin: 24px 0 16px; font-size: 14px; line-height: 20px; color: #8898aa;">
+              Or copy and paste this link into your browser:
+            </p>
+            
+            <p style="margin: 0 0 32px; font-size: 14px; line-height: 20px; color: #8898aa; word-break: break-all;">
+              <%= edit_password_url(@user.password_reset_token) %>
+            </p>
+            
+            <hr style="border: none; border-top: 1px solid #e3e8ee; margin: 32px 0;">
+            
+            <%= render "shared/mailer/security_notice", title: "Didn't request this?" do %>
+              If you didn't request a password reset, you can safely ignore this email. Your password won't be changed. This link will expire in 15 minutes.
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  
+  <%= render "shared/mailer/footer" %>
+</table>
