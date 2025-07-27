@@ -1,39 +1,81 @@
 <% attributes_for :body_attributes, class: "bg-white" %>
 
-<div class="flex items-center justify-between relative overflow-hidden p-12 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]" style="width: <%= @width -%>px; height: <%= @height -%>px;">
+<div class="flex items-center justify-between relative overflow-hidden bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]" style="width: <%= @width -%>px; height: <%= @height -%>px;">
   <!-- Main text content -->
-  <div class="relative z-10 ml-96">
-    <div class="mb-3 md:mb-4">
-      <span class="text-4xl font-semibold text-black">
-      <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-10 w-10 align-middle -mt-1" %>
-        Hong₿ao
-      </span>
-    </div>
-
-    <h1 class="text-7xl font-semibold text-black leading-tight mb-8 md:mb-10">
-      The freedom of Bitcoin.<br/>
-      In an envelope.
+  <div class="relative pl-64 px-4 pt-10 z-10 mb-10">
+    <h1 class="text-5xl font-semibold text-black leading-tight mb-4 md:mb-6">
+      Teach Bitcoin with an envelope
     </h1>
 
-    <%= link_to dashboard_path, class: "bg-black text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-2xl font-medium hover:bg-gray-800 transition-colors duration-150 ease-in-out shadow-lg" do %>
-      <%= heroicon "printer", variant: :solid, class: "inline-block h-7 w-7 align-middle mr-1" %>
-      <span class="inline-block">Gift now</span>
-    <% end %>
+    <p class="text-2xl text-black/70 mb-8 md:mb-10">
+      Print a paper wallet → Gift it in a red envelope → Let them study
+    </p>
+
+    <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+      <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+        <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Get Envelopes</span>
+      <% end %>
+
+      <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
+        <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Print paper wallet</span>
+      <% end %>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="mt-6 flex flex-col items-center justify-center gap-2 text-md text-gray-600">
+      <span>Used by <span class="font-semibold text-black"><%= User.count %></span> Bitcoiners</span>
+      <div class="flex -space-x-2">
+        <% @users.each do |user| %>
+          <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-white" %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
+
   <!-- Bitcoin Red Envelope Mockup -->
-  <div class="group w-60 z-0 mb-[-100px]" data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle">
+  <!--<div class="group w-60 z-0 mb-[-100px]" data-controller='reveal' data-reveal-target='item' data-reveal-hidden-class="is-flipped" data-action="click->reveal#toggle">
 		<div class="w-full h-full cursor-pointer relative transition-transform duration-700 ease-in-out group-[.is-flipped]:[transform:rotateY(180deg)] group-[.is-flipped]:z-40 [transform-style:preserve-3d] min-h-[280px]">
-      <!-- Front Face -->
 			<div class="w-full h-full flex flex-col justify-center items-start space-y-4 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
       data-action="click->reveal#show">
       	<%= image_tag image_url("index/red_front.jpg"), class: "brightness-100 rounded shadow-uplift" %>
 			</div>
 
-      <!-- Back Face (Modal Content) -->
 			<div class="absolute inset-0 w-full h-full bg-base-100 [transform:rotateY(180deg)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
 				<%= image_tag image_url("index/red_back.jpg"), class: "brightness-100 rounded shadow-xl/30" %>
 			</div>
+    </div>
+  </div> -->
+
+    <div class="w-[380px] md:w-[580px] lg:w-[620px] z-0 mb-[-48px] md:mb-[-160px] lg:mb-[-180px]">
+    <div class="relative">
+      <!-- Container for front and back -->
+      <div class="relative flex items-end justify-center gap-0 m-0">
+        <!-- Front Face (left side) -->
+        <div class="relative w-[42%] transform translate-x-[6%] z-10">
+          <%= image_tag image_url("index/red_front.jpg"), class: "w-full brightness-100 rounded shadow-uplift" %>
+        </div>
+
+        <!-- Back Face with Bill (right side) -->
+        <div class="relative w-[42%] transform -translate-x-[5%]">
+          <!-- Back envelope -->
+          <div class="absolute -top-[35.5%]">
+            <%= image_tag image_url("index/red_back_back.png"), class: "w-full" %>
+          </div>
+          <!-- Bill sticking out from top of envelope -->
+          <div class="absolute -left-[30%] w-[160%] z-20 rotate-[90deg] hover:translate-y-[-64px] transition-all duration-300">
+            <%= link_to explore_papers_path, class: "w-full rounded-t shadow-lg" do %>
+              <%= image_tag "bill_hongbao.jpg" %>
+            <% end %>
+          </div>
+          <!-- Back envelope -->
+          <div class="relative z-30">
+            <%= image_tag image_url("index/red_back_front.png"), class: "w-full brightness-100 rounded shadow-xl" %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
