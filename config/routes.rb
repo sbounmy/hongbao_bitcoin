@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get "/calendar/:month", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 
-  get "/agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_root
+  get "/agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda
   get "/agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 

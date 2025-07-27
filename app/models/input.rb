@@ -2,7 +2,9 @@ class Input < ApplicationRecord
   include Positionable
   include ArrayColumns
   include Metadata
+  extend FriendlyId
 
+  friendly_id :name, use: :slugged
   array_columns :tag_ids
 
   has_many :input_items, dependent: :destroy

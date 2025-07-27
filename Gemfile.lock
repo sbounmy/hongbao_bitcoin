@@ -272,6 +272,8 @@ GEM
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
+    friendly_id (5.5.1)
+      activerecord (>= 4.0.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -682,6 +684,7 @@ DEPENDENCIES
   factory_bot_rails!
   faker
   foreman
+  friendly_id (~> 5.5)
   image_processing (>= 1.2)
   jbuilder
   jsbundling-rails
