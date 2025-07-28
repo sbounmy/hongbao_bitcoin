@@ -10,8 +10,6 @@ test.describe('Explore', () => {
 
   test.describe('Infinity Scroll', () => {
     test.beforeEach(async () => {
-      await appVcrInsertCassette('explore_infinity_scroll', { allow_playback_repeats: true });
-      
       await appFactories([
         ['create_list', 'paper', 25, {
           active: true,
@@ -19,10 +17,6 @@ test.describe('Explore', () => {
           image_back: null
         }]
       ]);
-    });
-
-    test.afterEach(async () => {
-      await appVcrEjectCassette();
     });
 
     test('loads initial papers and shows loader', async ({ page }) => {
