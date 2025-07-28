@@ -129,3 +129,26 @@ test.describe('Password Reset Flow', () => {
     await expect(page.locator('.toast .alert-error')).toContainText('Password reset link is invalid or has expired');
   });
 });
+
+test.describe('Protected Routes', () => {
+  test('redirects unauthenticated users to signup', async ({ page }) => {
+    await page.goto('/orders');
+    await expect(page).toHaveURL('/signup');
+    
+    await page.goto('/tokens');
+    await expect(page).toHaveURL('/signup');
+  });
+
+  test('authenticated users can access protected routes', async ({ page }) => {
+    await forceLogin(page, {
+      email: 'satoshi@example.com'
+    });
+    
+    await page.goto('/orders');
+    await expect(page).toHaveURL('/orders');
+    await expect(page.getByRole('heading', { name: 'My Orders' })).toBeVisible();
+    
+    await page.goto('/tokens');
+    await expect(page).toHaveURL('/tokens');
+  });
+});
