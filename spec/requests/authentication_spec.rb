@@ -18,7 +18,7 @@ RSpec.describe "Authentication", type: :request do
 
       it "allows access to protected routes" do
         get orders_path
-        expect(response).to be_successful
+        expect(response).to have_http_status(:ok)
       end
     end
   end
