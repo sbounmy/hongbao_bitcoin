@@ -99,6 +99,18 @@ RSpec.describe Papers::GapCorrector do
         expect(line_y).to eq(488)
       end
     end
+
+    context 'with darker red line' do
+      let(:image_blob) { File.binread(fixtures_path.join('darker_red_line.png')) }
+      let(:service) { Papers::GapCorrector.new }
+
+      it 'detects darker red line at y=488' do
+        setup_service_for_testing(service, image_blob)
+
+        line_y = service.send(:find_red_line)
+        expect(line_y).to eq(455)
+      end
+    end
   end
 
   describe '.call' do
