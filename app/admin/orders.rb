@@ -109,8 +109,6 @@ ActiveAdmin.register Order do
         column :created_at
       end
     end if order.tokens.any?
-
-    active_admin_comments
   end
 
   sidebar "Payment Provider", only: :show do
@@ -154,7 +152,7 @@ ActiveAdmin.register Order do
       f.input :shipping_city
       f.input :shipping_state
       f.input :shipping_postal_code
-      f.input :shipping_country
+      f.input :shipping_country, as: :select, collection: ISO3166::Country.all.map { |c| [ c.common_name || c.name, c.alpha2 ] }
     end
 
     f.actions
