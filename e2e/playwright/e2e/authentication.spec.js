@@ -131,6 +131,14 @@ test.describe('Password Reset Flow', () => {
 });
 
 test.describe('Protected Routes', () => {
+  test.beforeEach(async ({ page }) => {
+    await appVcrInsertCassette('authentication', { allow_playback_repeats: true });
+  });
+
+  test.afterEach(async ({ page }) => {
+    await appVcrEjectCassette();
+  });
+
   test('redirects unauthenticated users to signup', async ({ page }) => {
     await page.goto('/orders');
     await expect(page).toHaveURL('/signup');
