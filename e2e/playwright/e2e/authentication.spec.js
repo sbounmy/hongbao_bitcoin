@@ -1,5 +1,5 @@
 import { test, expect } from '../support/test-setup';
-import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
+import { forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
 
 test.describe('Authentication Flow', () => {
 
@@ -118,5 +118,14 @@ test.describe('Password Reset Flow', () => {
     await page.getByRole('button', { name: 'Email reset instructions' }).click();
     
     await expect(page).toHaveURL('/passwords/new');
+  });
+  
+  test('expired or invalid password reset token shows error', async ({ page }) => {
+    // Test with an obviously invalid token
+    await page.goto('/passwords/invalid-token-12345/edit');
+    
+    await expect(page).toHaveURL('/passwords/new');
+    await expect(page.locator('.toast .alert-error')).toBeVisible();
+    await expect(page.locator('.toast .alert-error')).toContainText('Password reset link is invalid or has expired');
   });
 });
