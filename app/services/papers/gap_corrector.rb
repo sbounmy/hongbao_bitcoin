@@ -86,7 +86,7 @@ module Papers
       sufficient_value = v > 80
 
       red_dominant = r > g + 30 && r > b + 30
-      red_strong = r > 120
+      red_strong = r > 110  # Lowered from 120 to accept slightly darker reds
       not_too_green = g < r * 0.7
       not_too_blue = b < r * 0.7
 
