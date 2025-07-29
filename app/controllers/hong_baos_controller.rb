@@ -79,27 +79,7 @@ class HongBaosController < ApplicationController
   private
 
   def set_network
-    key = extract_bitcoin_key
-    return unless key.present?
-
-    Current.network = testnet_key?(key) ? :testnet : :mainnet
-    Bitcoin.network = Current.network == :testnet ? :testnet3 : :bitcoin
-  end
-
-  def extract_bitcoin_key
-    key = params[:id] || params.dig(:hong_bao, :scanned_key)
-    return unless key
-
-    # Extract from URL if needed
-    if key.start_with?("http")
-      key.match(%r{/addrs/([^/]+)$}).try(:[], 1) || key
-    else
-      key
-    end
-  end
-
-  def testnet_key?(key)
-    key.match?(/^(tb|m|n|2|9|c)/)
+    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
   end
   def set_layout
     if request.format.html?
