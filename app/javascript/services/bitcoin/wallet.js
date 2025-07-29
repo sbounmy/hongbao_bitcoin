@@ -158,6 +158,7 @@ export default class Wallet {
     await QRCode.toCanvas(canvas, data, {
       width: size,
       margin: 1.5,
+      errorCorrectionLevel: 'H', // High error correction because of logo eating qr data
       color: {
         dark: '#000000',
         light: '#ffffff'
