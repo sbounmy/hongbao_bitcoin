@@ -152,7 +152,7 @@ export default class Wallet {
     if (!data) return null
     
     const canvas = document.createElement('canvas')
-    const size = 150 // Standard QR code size
+    const size = 600 // higher resolution for crisp logos
     
     // Generate QR code
     await QRCode.toCanvas(canvas, data, {
@@ -176,20 +176,26 @@ export default class Wallet {
     const ctx = canvas.getContext('2d')
     const img = new Image()
     
+    // Enable high quality image rendering
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
+    
     return new Promise((resolve, reject) => {
       img.onload = () => {
-        const size = canvas.width * 0.25 // Logo is 25% of QR code
-        const padding = 5
+        const size = canvas.width * 0.35 // Logo is 35% of QR code
+        const padding = 10 // Larger padding for QR code readability
         const centerX = canvas.width / 2
         const centerY = canvas.height / 2
         
-        // Draw white circle background
+        // Draw white circle background with anti-aliasing
+        ctx.save()
         ctx.beginPath()
         ctx.arc(centerX, centerY, size/2 + padding, 0, 2 * Math.PI)
         ctx.fillStyle = 'white'
         ctx.fill()
+        ctx.restore()
         
-        // Draw the logo
+        ctx.save()
         ctx.drawImage(
           img,
           centerX - size/2,
@@ -197,6 +203,7 @@ export default class Wallet {
           size,
           size
         )
+        ctx.restore()
         resolve()
       }
       img.onerror = reject
