@@ -6,10 +6,10 @@ export default class extends Controller {
   static targets = ["content", "viewport", "zoomDisplay", "wrapper"]
   static values = { 
     zoom: { type: Number, default: 0.8 },
-    minZoom: { type: Number, default: 0.4 },
-    maxZoom: { type: Number, default: 5.0 },
+    minZoom: { type: Number, default: 0.3 },
+    maxZoom: { type: Number, default: 6.0 },
     zoomStep: { type: Number, default: 0.1 },
-    wheelZoomSpeed: { type: Number, default: 0.005 }
+    wheelZoomSpeed: { type: Number, default: 0.01 }
   }
 
   connect() {
