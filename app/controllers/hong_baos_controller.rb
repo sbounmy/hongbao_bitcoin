@@ -1,6 +1,6 @@
 class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos transfer]
-  before_action :set_network, only: %i[show form utxos]
+  before_action :set_network, only: %i[show form utxos search]
   layout :set_layout
 
   def index
@@ -8,13 +8,27 @@ class HongBaosController < ApplicationController
   end
 
   def search
-    @hong_bao = HongBao.from_scan(params[:hong_bao][:scanned_key])
-    if @hong_bao.present?
+    scanned_key = params[:hong_bao][:scanned_key]
+
+    # Handle app URLs (beginner mode)
+    if scanned_key.start_with?("http")
+      if (match = scanned_key.match(%r{/addrs/([^/]+)$}))
+        scanned_key = match[1]
+      else
+        redirect_to hong_baos_path, alert: "This QR code contains a URL that is not a Bitcoin wallet"
+        return
+      end
+    end
+
+    @hong_bao = HongBao.from_scan(scanned_key)
+    if @hong_bao.address.present?
       session[:private_key] = @hong_bao.private_key if @hong_bao.private_key.present?
-      redirect_to hong_bao_path(@hong_bao.address)
+      redirect_to addr_path(@hong_bao.address)
     else
       redirect_to hong_baos_path, alert: "Invalid QR code"
     end
+  rescue => e
+    redirect_to hong_baos_path, alert: "Invalid QR code: #{e.message}"
   end
 
   def new
@@ -32,6 +46,8 @@ class HongBaosController < ApplicationController
 
   def show
     @hong_bao = HongBao.from_scan(params[:id])
+  rescue => e
+    redirect_to hong_baos_path, alert: "Invalid address: #{e.message}"
   end
 
   def form
@@ -63,7 +79,27 @@ class HongBaosController < ApplicationController
   private
 
   def set_network
-    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
+    key = extract_bitcoin_key
+    return unless key.present?
+
+    Current.network = testnet_key?(key) ? :testnet : :mainnet
+    Bitcoin.network = Current.network == :testnet ? :testnet3 : :bitcoin
+  end
+
+  def extract_bitcoin_key
+    key = params[:id] || params.dig(:hong_bao, :scanned_key)
+    return unless key
+
+    # Extract from URL if needed
+    if key.start_with?("http")
+      key.match(%r{/addrs/([^/]+)$}).try(:[], 1) || key
+    else
+      key
+    end
+  end
+
+  def testnet_key?(key)
+    key.match?(/^(tb|m|n|2|9|c)/)
   end
   def set_layout
     if request.format.html?
