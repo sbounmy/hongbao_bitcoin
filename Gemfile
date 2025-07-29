@@ -30,6 +30,9 @@ gem "solid_cable"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# Slugs and permalinks
+gem "friendly_id", "~> 5.5"
+
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", ">= 2.0.0.rc2", require: false
 
@@ -124,3 +127,5 @@ gem "sitemap_generator"
 gem "canonical-rails", github: "jumph4x/canonical-rails"
 
 gem "country_select", "~> 11.0"
+
+gem "pagy", "~> 9.3"

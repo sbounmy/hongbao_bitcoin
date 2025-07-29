@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Authentication
+  include Pagy::Backend
   before_action :set_locale
   helper_method :authenticated?, :current_theme, :current_spotify_path, :themes
 
