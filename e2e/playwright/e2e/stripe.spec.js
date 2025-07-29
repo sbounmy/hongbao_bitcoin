@@ -64,7 +64,7 @@ test.describe('Stripe Checkout Flow', () => {
     const billingButton = page.getByRole('button', { name: 'Manage Billing' });
     await billingButton.scrollIntoViewIfNeeded();
     await billingButton.click();
-    
+
     await page.waitForURL('https://billing.stripe.com/p/session/**');
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
