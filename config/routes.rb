@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/designer", to: "designer#index"
 
   # Authentication routes
   get "login", to: "users#new"

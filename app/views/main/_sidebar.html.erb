@@ -35,6 +35,12 @@
           Bitcoin Days
         <% end %>
       </li>
+      <li>
+        <%= link_to designer_path, class: "text-base" do %>
+          <%= heroicon "paint-brush", variant: :outline, class: "w-6 h-6" %>
+          Designer
+        <% end %>
+      </li>
       <div class="flex-grow"></div>
       <ul class='flex flex-col gap-2'>
         <% if authenticated? && current_user %>
