@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :inputs, only: [ :show ]
+
   scope "bitcoin-day" do
     resources :inputs, only: [ :show ], path: ""
   end
