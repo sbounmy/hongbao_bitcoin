@@ -10,12 +10,12 @@ namespace :e2e do
     base_foreman_port = 5100
     foreman_pids = []
     playwright_pids = []
-    
+
     # Determine if we're in CI and should reduce output
     is_ci = ENV["CI"] == "true"
     reporter = is_ci ? "--reporter=dot" : "--reporter=list"
     foreman_output = is_ci ? "/dev/null" : :out
-    
+
     # Helper method to handle CI-aware output
     log_section = lambda do |title, is_end = false|
       if is_end && is_ci
@@ -79,7 +79,7 @@ namespace :e2e do
         _pid, status = Process.wait2(pid)
         status
       end
-      
+
       unless is_ci
         puts "--> Playwright tests finished. #{statuses.inspect}"
       end
