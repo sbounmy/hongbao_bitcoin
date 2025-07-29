@@ -24,7 +24,9 @@
            data-steps-current-value="<%= @current_step %>"
            data-bitcoin-auto-generate-value="true"
            data-bitcoin-network-value="<%= Current.network %>"
-           data-bitcoin-custom-wallet-value="false">
+           data-bitcoin-custom-wallet-value="false"
+           data-bitcoin-hongbao-logo-value="<%= image_url('hongbao-bitcoin.png') %>"
+           data-bitcoin-bitcoin-logo-value="<%= image_url('bitcoin-64x64.svg') %>">
 
        <%= render "papers/preview_pdf", paper: @paper %>
 

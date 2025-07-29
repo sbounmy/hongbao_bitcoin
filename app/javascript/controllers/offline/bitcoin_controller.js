@@ -10,6 +10,8 @@ export default class extends Controller {
     customWallet: { type: Boolean, default: false },
     network: { type: String, default: 'mainnet' },
     mode: { type: String, default: 'beginner' },
+    hongbaoLogo: String,
+    bitcoinLogo: String
   }
   static targets = ["utxos"]
 
@@ -63,13 +65,20 @@ export default class extends Controller {
     const activeQrCodeFunction = this.modeValue === 'beginner'
       ? walletInfo.appPublicAddressQrcode
       : walletInfo.publicAddressQrcode;
+    
+    // Choose logo based on mode
+    const logoUrl = this.modeValue === 'beginner' 
+      ? this.hongbaoLogoValue
+      : this.bitcoinLogoValue;
 
     return {
       wallet: this.wallet,
       mnemonicText: this.master?.mnemonic || '',
       // Pass all original info from the wallet, including appPublicAddressQrcode.
       ...walletInfo,
-      publicAddressQrcode: activeQrCodeFunction
+      // we have to override QR code functions to include logo
+      publicAddressQrcode: async () => await activeQrCodeFunction(logoUrl),
+      privateKeyQrcode: walletInfo.privateKeyQrcode  // No logo for private key
     };
   }
 
