@@ -106,8 +106,13 @@ namespace :e2e do
       system("cp ./blob-reports/*/*.zip ./blob-reports/")
       # Merge the reports
       # The merge-reports command will create the playwright-report directory.
-      system("npx playwright merge-reports --reporter html ./blob-reports#{is_ci ? ' > /dev/null 2>&1' : ''}")
-      puts "--> Reports merged into 'playwright-report' directory."
+      # Don't suppress merge-reports output completely as it needs to create the directory
+      merge_success = system("npx playwright merge-reports --reporter html ./blob-reports")
+      if merge_success
+        puts "--> Reports merged into 'playwright-report' directory."
+      else
+        puts "::error::Failed to merge playwright reports"
+      end
       log_section.call(nil, true)
 
       if failed_shards.any?
