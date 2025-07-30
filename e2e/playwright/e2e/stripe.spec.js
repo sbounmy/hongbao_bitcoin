@@ -58,10 +58,14 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
-    await page.goto('/tokens');
+    // Navigate to tokens page with relaxed wait condition
+    await page.goto('/tokens', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    
+    // Wait for the billing button to be visible before interacting
+    const billingButton = page.getByRole('button', { name: 'Manage Billing' });
+    await expect(billingButton).toBeVisible({ timeout: 10000 });
     
     // Scroll the Manage Billing button into view
-    const billingButton = page.getByRole('button', { name: 'Manage Billing' });
     await billingButton.scrollIntoViewIfNeeded();
     await billingButton.click();
 
@@ -85,7 +89,7 @@ test.describe('Stripe Checkout Flow', () => {
     // await page.getByRole('button', { name: 'Select' }).click();
 
     // Verify redirect to Stripe Checkout
-    expect(page.url()).toContain('checkout.stripe.com');
+    await expect(page.url()).toContain('checkout.stripe.com');
 
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await fillCheckout(page);
