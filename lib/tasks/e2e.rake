@@ -13,7 +13,6 @@ namespace :e2e do
 
     # Determine if we're in CI and should reduce output
     is_ci = ENV["CI"] == "true"
-    reporter = is_ci ? "--reporter=dot" : "--reporter=list"
     foreman_output = is_ci ? "/dev/null" : :out
 
     # Helper method to handle CI-aware output
@@ -68,7 +67,7 @@ namespace :e2e do
 
         base_url = "http://localhost:#{foreman_port}"
         output_dir = "./blob-reports/shard-#{i}"
-        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} PLAYWRIGHT_BLOB_OUTPUT_DIR=#{output_dir} npx playwright test #{file} #{reporter} --shard=#{i}/#{count}"
+        playwright_cmd = "E2E_PARALLEL_RUN=true BASE_URL=#{base_url} PLAYWRIGHT_BLOB_OUTPUT_DIR=#{output_dir} npx playwright test #{file} --shard=#{i}/#{count}"
         playwright_pids << Process.spawn(playwright_cmd)
         puts "  - Started shard #{i} (port: #{foreman_port})"
       end
