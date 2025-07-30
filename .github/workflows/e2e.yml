@@ -15,6 +15,7 @@ jobs:
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_KEY }}
       STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+      CI: true
 
     steps:
     - name: Install system dependencies

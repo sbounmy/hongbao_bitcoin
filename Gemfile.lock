@@ -272,6 +272,8 @@ GEM
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
+    friendly_id (5.5.1)
+      activerecord (>= 4.0.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -426,6 +428,7 @@ GEM
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (>= 1.1.8, < 3)
     ostruct (0.6.2)
+    pagy (9.3.5)
     parallel (1.27.0)
     parallel_tests (5.3.1)
       parallel
@@ -682,6 +685,7 @@ DEPENDENCIES
   factory_bot_rails!
   faker
   foreman
+  friendly_id (~> 5.5)
   image_processing (>= 1.2)
   jbuilder
   jsbundling-rails
@@ -692,6 +696,7 @@ DEPENDENCIES
   markdown-rails (~> 2.1)
   mission_control-jobs
   oauth2
+  pagy (~> 9.3)
   parallel_tests
   propshaft
   puma (>= 5.0)

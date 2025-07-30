@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pagy::Frontend
   def render_payment_logo(logo)
     return placeholder_logo unless logo.attached?
 

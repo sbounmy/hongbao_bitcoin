@@ -1,0 +1,223 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/products?active=true&expand%5B%5D=data.default_price&ids%5B%5D=prod_SO9GmhAFidiukT&ids%5B%5D=prod_SOA4vfEvazoRti&ids%5B%5D=prod_SOA6phfwu0fqTR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/15.3.0
+      Authorization:
+      - Bearer <STRIPE_SECRET_KEY>
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_WpCurR5TB2IF1r","request_duration_ms":0}}'
+      Stripe-Version:
+      - 2025-06-30.basil
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"15.3.0","lang":"ruby","lang_version":"3.2.8 p263 (2025-03-26)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        stephanes-mbp.home 24.5.0 Darwin Kernel Version 24.5.0: Tue Apr 22 19:54:25
+        PDT 2025; root:xnu-11417.121.6~2/RELEASE_ARM64_T6020 arm64","hostname":"stephanes-mbp.home"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 29 Jul 2025 15:21:23 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4038'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, HEAD, PUT, PATCH, POST, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required,
+        X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Content-Security-Policy:
+      - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
+        img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src
+        'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=Gq544_DQ-Sp97iRBSV0dXxgVhDM_JsqD6erYjk0B495y3DjWS_Crltvk_rVGVczD3ABoN-EKRowdX04f
+      Request-Id:
+      - req_RHUDuMBsl7tJ20
+      Stripe-Version:
+      - 2025-06-30.basil
+      Vary:
+      - Origin
+      X-Stripe-Priority-Routing-Enabled:
+      - 'true'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      X-Wc:
+      - ABGHIJ
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "prod_SO9GmhAFidiukT",
+              "object": "product",
+              "active": true,
+              "attributes": [],
+              "created": 1748350230,
+              "default_price": {
+                "id": "price_1RTMxeIeDQzQhbSLlt6A80i8",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1748350230,
+                "currency": "eur",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": "6 envelopes + 12 credits",
+                "product": "prod_SO9GmhAFidiukT",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1900,
+                "unit_amount_decimal": "1900"
+              },
+              "description": "6 envelopes + 12 credits",
+              "images": [
+                "https://files.stripe.com/links/MDB8YWNjdF8xTkJIYXRJZURRelFoYlNMfGZsX3Rlc3RfbHZkWW1vaFBZOGZsSk5qRzVocTkwUnNQ00HFJxTKXr"
+              ],
+              "livemode": false,
+              "marketing_features": [],
+              "metadata": {
+                "envelopes": "6",
+                "slug": "mini",
+                "tokens": "12"
+              },
+              "name": "Mini Pack",
+              "package_dimensions": null,
+              "shippable": null,
+              "statement_descriptor": null,
+              "tax_code": null,
+              "type": "service",
+              "unit_label": null,
+              "updated": 1748497552,
+              "url": null
+            },
+            {
+              "id": "prod_SOA4vfEvazoRti",
+              "object": "product",
+              "active": true,
+              "attributes": [],
+              "created": 1748353233,
+              "default_price": {
+                "id": "price_1RTNk5IeDQzQhbSLX9WPtg2z",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1748353233,
+                "currency": "eur",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_SOA4vfEvazoRti",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 2900,
+                "unit_amount_decimal": "2900"
+              },
+              "description": "12 envelopes + 24 credits",
+              "images": [],
+              "livemode": false,
+              "marketing_features": [],
+              "metadata": {
+                "envelopes": "12",
+                "slug": "family",
+                "tokens": "24"
+              },
+              "name": "Family Pack",
+              "package_dimensions": null,
+              "shippable": null,
+              "statement_descriptor": null,
+              "tax_code": null,
+              "type": "service",
+              "unit_label": null,
+              "updated": 1748404142,
+              "url": null
+            },
+            {
+              "id": "prod_SOA6phfwu0fqTR",
+              "object": "product",
+              "active": true,
+              "attributes": [],
+              "created": 1748353346,
+              "default_price": {
+                "id": "price_1RTNluIeDQzQhbSL0OFxGeT5",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1748353346,
+                "currency": "eur",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_SOA6phfwu0fqTR",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 3900,
+                "unit_amount_decimal": "3900"
+              },
+              "description": "24 envelopes + 42 credits",
+              "images": [],
+              "livemode": false,
+              "marketing_features": [],
+              "metadata": {
+                "envelopes": "24",
+                "slug": "maximalist",
+                "tokens": "42"
+              },
+              "name": "Maximalist Pack",
+              "package_dimensions": null,
+              "shippable": null,
+              "statement_descriptor": null,
+              "tax_code": null,
+              "type": "service",
+              "unit_label": null,
+              "updated": 1748404159,
+              "url": null
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/products"
+        }
+  recorded_at: Tue, 29 Jul 2025 15:21:23 GMT
+recorded_with: VCR 6.3.1

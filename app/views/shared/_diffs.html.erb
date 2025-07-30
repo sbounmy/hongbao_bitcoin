@@ -1,7 +1,7 @@
 <%= render DiffComponent.new(class: local_assigns[:class]) do |diff| %>
 	<% diff.with_before do %>
 			<div class="flex flex-col justify-center items-center">
-					<%= image_tag image_url("bill_usd.jpg") %>
+					<%= image_tag image_url("bill_usd.jpg"), class:"w-full" %>
 					<div class="absolute bottom-[12%] left-[8%] badge badge-error badge-xl rounded-full font-bold">
 					<%= heroicon "no-symbol", variant: :solid, class: "w-5 h-5" %>
 					HONG₿AO
@@ -10,7 +10,7 @@
 	<% end %>
 	<% diff.with_after do %>
 			<div class="flex flex-col justify-center items-center">
-					<%= image_tag image_url("bill_hongbao.jpg") %>
+					<%= image_tag image_url("bill_hongbao.jpg"), class:"w-full" %>
 					<div class="absolute bottom-[12%] right-[8%] badge badge-success badge-xl rounded-full font-bold">
 					<%= heroicon "check-circle", variant: :outline, class: "w-5 h-5" %>
 					HONG₿AO
