@@ -297,5 +297,22 @@ Rails.configuration.to_prepare do
     def current_admin_user
       current_user if current_user&.admin?
     end
+
+
+    ActiveAdmin::ResourceController.prepend(ActiveAdminFriendlyIdScoping)
+  end
+end
+
+module ActiveAdminFriendlyIdScoping
+  def find_resource
+    if resource_class.is_a? FriendlyId
+      scoped_collection.friendly.find params[:id]
+      # Or potentially even
+      # scoped_collection.friendly.send method_for_find, params[:id]
+      # Or you could do something like this
+      # raise "Using FriendlyId, find method configuration ignored" if method_for_find != :find
+    else
+      super
+    end
   end
 end
