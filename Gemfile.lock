@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://github.com/sbounmy/bitcoin-ruby.git
-  revision: 4b20d628f7b201610d3e90c28ba081b384e95867
+  revision: abff666d0fdbf6b1b8f518479c630f4bb78b6062
   branch: bip39-mnemonic
   specs:
     bitcoin-ruby (0.0.20)
@@ -560,9 +560,9 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    scrypt (3.0.8)
+    scrypt (3.1.0)
       ffi-compiler (>= 1.0, < 2.0)
-      rake (>= 9, < 14)
+      rake (~> 13)
     securerandom (0.4.1)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
