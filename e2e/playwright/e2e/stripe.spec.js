@@ -95,6 +95,7 @@ test.describe('Stripe Checkout Flow', () => {
     await fillCheckout(page);
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
