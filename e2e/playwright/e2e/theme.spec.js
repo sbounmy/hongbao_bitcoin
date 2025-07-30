@@ -148,6 +148,16 @@ test.describe('Theme', () => {
     await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
   });
 
+  test('user can view per theme', async ({ page }) => {
+    await appVcrInsertCassette('themes')
+    await forceLogin(page, {
+      email: 'satoshi@example.com',
+      redirect_to: '/dashboard/wedding'
+    });
+    await expect(page.locator('#main-content .papers-item-component .bg-cover')).toHaveCount(6); // 3 papers, 2 faces
+    await expect(page.locator('#main-content .papers-item-component .bg-cover').first()).toHaveText('Wedding');
+  });
+
   test.afterEach(async ({ page }) => {
   });
 

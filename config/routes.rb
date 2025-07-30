@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/wedding", to: "pages#wedding"
 
   resources :themes, only: [ :new ]
 
@@ -165,6 +166,7 @@ Rails.application.routes.draw do
 
   scope "/(:theme)" do
     get "/", to: "pages#index"
+    get "/dashboard/:subtheme", to: "papers#index"
   end
 
   # Google OAuth Routes
