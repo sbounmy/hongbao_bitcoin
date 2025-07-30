@@ -3,6 +3,14 @@
   <%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
 <% end %>
 
+<!-- Review Banner -->
+<div class="bg-black text-white py-2 px-4 text-center text-sm">
+  <span class="opacity-80">🎉 Featured on Bitcourier: </span>
+  <span class="font-medium">"With a few $, you can put lasting smiles on the faces of your loved ones"</span>
+  <span class="text-yellow-400 ml-2">★★★★★</span>
+  <%= link_to "Read review", "https://bitcourier.co.uk/blog/hongbao-review", target: "_blank", rel: "noopener", class: "ml-3 underline opacity-80 hover:opacity-100" %>
+</div>
+
 <div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
   <%= render "shared/header" %>
   <!-- Main text content -->
