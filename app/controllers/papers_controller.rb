@@ -23,13 +23,21 @@ class PapersController < ApplicationController
     @bundle = Bundle.new
     @bundle.build_input_item_theme(input: Input::Theme.first)
     @bundle.input_items.build
-    @styles = Input::Style.with_attached_image
-    @themes = Input::Theme.with_attached_image
+    @styles = Input::Style.by_position.with_attached_image
+    @themes = Input::Theme.by_position.with_attached_image
     @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
   end
 
   def explore
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back
+    @pagy, @papers = pagy_countless(
+      Paper.active.recent.with_attached_image_front.with_attached_image_back,
+      limit: 20
+    )
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def like

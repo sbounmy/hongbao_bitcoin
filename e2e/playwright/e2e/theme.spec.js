@@ -150,4 +150,13 @@ test.describe('Theme', () => {
 
   test.afterEach(async ({ page }) => {
   });
+
+
+  test('user can submit a theme', async ({ page }) => {
+    await page.goto('/themes/new');
+
+    // Verify the Tally form iframe is loaded
+    const iframe = page.frameLocator('iframe[title="Bitcoin Designer"]');
+    await expect(iframe.locator('body')).toContainText('Upload the front of your Bitcoin note');
+  });
 });

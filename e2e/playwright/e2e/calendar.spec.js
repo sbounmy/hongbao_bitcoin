@@ -13,7 +13,7 @@ test.describe('Event Calendar', () => {
 
   test('displays the calendar page with current month', async ({ page }) => {
     const currentMonth = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Check page title - now it's "Bitcoin Calendar"
     await expect(page.getByRole('heading', { name: 'Bitcoin Calendar' })).toBeVisible();
@@ -32,7 +32,7 @@ test.describe('Event Calendar', () => {
 
   test('shows events for the current month', async ({ page }) => {
     const currentMonth = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Check that events section exists
     await expect(page.locator('body')).toContainText(currentMonth);
@@ -54,7 +54,7 @@ test.describe('Event Calendar', () => {
   test('navigates between months', async ({ page }) => {
     const currentYear = new Date().toLocaleDateString('en-US', { year: 'numeric' });
     // Start with a known date to avoid edge cases
-    await page.goto('/calendar/june');
+    await page.goto('/bitcoin-calendar/june');
 
     // Check we're on June 2024
     await expect(page.locator('body')).toContainText(`June ${currentYear}`);
@@ -82,7 +82,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('highlights today\'s date', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Find today's date cell
     const today = new Date().getDate().toString();
@@ -94,7 +94,7 @@ test.describe('Event Calendar', () => {
 
   test('displays event details in list format', async ({ page }) => {
     // Navigate to a month with known events (using fixtures)
-    await page.goto('/agenda/jan');
+    await page.goto('/bitcoin-agenda/jan');
 
     // Check for genesis block event (from fixtures)
     const genesisEvent = page.getByText('Genesis Block');
@@ -107,7 +107,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('shows event thumbnails and placeholders', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     const eventLinks = page.locator('[data-testid="calendar-event-link"]');
     const count = await eventLinks.count();
@@ -119,7 +119,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('navigates to event detail page', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     const eventLinks = page.locator('[data-testid="calendar-event-link"]');
     const count = await eventLinks.count();
@@ -136,7 +136,7 @@ test.describe('Event Calendar', () => {
 
   test('preserves date when navigating', async ({ page }) => {
     // Start at a specific date
-    await page.goto('/calendar/june-2024');
+    await page.goto('/bitcoin-calendar/june-2024');
 
     // Verify we're on June 2024 in calendar header
     await expect(page.locator('body')).toContainText('June 2024');
@@ -152,7 +152,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('shows tag filter dropdown', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Check filter button exists (it's a label with btn class)
     const filterButton = page.locator('label.btn').filter({ hasText: /Filter/i });
@@ -171,7 +171,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('filters events by tag', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Open filter dropdown
     await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
@@ -203,7 +203,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('clears tag filters', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Open filter dropdown and select a tag
     await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
@@ -228,7 +228,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('preserves tag filters when navigating months', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Open filter dropdown and select a tag
     await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
@@ -251,7 +251,7 @@ test.describe('Event Calendar', () => {
   });
 
   test('switches views while preserving tag filters', async ({ page }) => {
-    await page.goto('/calendar');
+    await page.goto('/bitcoin-calendar');
 
     // Open filter dropdown and select a tag
     await page.locator('label.btn').filter({ hasText: /Filter/i }).click();
