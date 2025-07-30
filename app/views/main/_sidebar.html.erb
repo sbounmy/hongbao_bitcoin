@@ -11,28 +11,34 @@
         <% end %>
       </li>
       <li>
-        <%= link_to dashboard_path, class: "text-base" do %>
+        <%= link_to dashboard_path, class: "text-base #{current_page?(dashboard_path) ? 'bg-base-300 font-semibold' : ''}" do %>
           <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
           <%= t("layouts.main.footer.home") %>
         <% end %>
       </li>
       <li>
-        <%= link_to new_paper_path, class: "text-base" do %>
+        <%= link_to new_paper_path, class: "text-base #{current_page?(new_paper_path) ? 'bg-base-300 font-semibold' : ''}" do %>
           <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
           <%= t("layouts.main.footer.create") %>
         <% end %>
       </li>
 
       <li>
-        <%= link_to explore_papers_path, class: "text-base" do %>
+        <%= link_to explore_papers_path, class: "text-base #{current_page?(explore_papers_path) ? 'bg-base-300 font-semibold' : ''}" do %>
           <%= heroicon "banknotes", variant: :outline, class: "w-6 h-6" %>
           Explore
         <% end %>
       </li>
       <li>
-        <%= link_to calendar_path, class: "text-base" do %>
+        <%= link_to calendar_path, class: "text-base #{request.path.starts_with?('/bitcoin-calendar') || request.path.starts_with?('/bitcoin-agenda') ? 'bg-base-300 font-semibold' : ''}" do %>
           <%= heroicon "calendar-days", variant: :outline, class: "w-6 h-6" %>
           Bitcoin Days
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_theme_path, class: "text-base #{current_page?(new_theme_path) ? 'bg-base-300 font-semibold' : ''}" do %>
+          <%= heroicon "paint-brush", variant: :outline, class: "w-6 h-6" %>
+          Designer
         <% end %>
       </li>
       <div class="flex-grow"></div>

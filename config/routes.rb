@@ -53,14 +53,19 @@ Rails.application.routes.draw do
 
   resources :inputs, only: [ :show ]
 
-  # Calendar and agenda routes
-  get "/calendar", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar
-  get "/calendar/:month", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_month,
+  scope "bitcoin-day" do
+    resources :inputs, only: [ :show ], path: ""
+  end
+
+  get "/bitcoin-calendar", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar
+  get "/bitcoin-calendar/:month", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 
-  get "/agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_root
-  get "/agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
+
+  get "/bitcoin-agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda
+  get "/bitcoin-agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
+
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
@@ -78,6 +83,8 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+
+  resources :themes, only: [ :new ]
 
   # Authentication routes
   get "login", to: "users#new"

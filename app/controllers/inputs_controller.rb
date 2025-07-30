@@ -3,7 +3,7 @@ class InputsController < ApplicationController
   layout "main"
 
   def show
-    @input = Input.find(params[:id])
+    @input = Input.friendly.find(params[:id])
     @papers = Paper.with_all_input_ids(@input.id).order(created_at: :desc)
 
     if @input.renderable
