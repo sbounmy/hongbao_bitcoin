@@ -39,6 +39,7 @@ test.describe('Tokens Page', () => {
 
     await expect(page.getByText(userEmail)).toBeVisible();
     await fillCheckout(page);
+    await page.waitForTimeout(3000); // Wait for 3 seconds to simulate user filling out the form
     await page.click('button[type="submit"]');
 
     await page.getByText('Processing...').waitFor({ state: 'hidden' });
