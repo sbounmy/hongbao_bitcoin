@@ -59,18 +59,13 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
     await page.goto('/tokens');
-
+    
     // Scroll the Manage Billing button into view
     const billingButton = page.getByRole('button', { name: 'Manage Billing' });
     await billingButton.scrollIntoViewIfNeeded();
-    
-    // Use Promise.all to prevent navigation race condition
-    await Promise.all([
-      page.waitForURL('https://billing.stripe.com/p/session/**', {
-        waitUntil: 'load' // Wait for full page load (times out after 30 seconds)
-      }),
-      billingButton.click()
-    ]);
+    await billingButton.click();
+
+    await page.waitForURL('https://billing.stripe.com/p/session/**');
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
   });
