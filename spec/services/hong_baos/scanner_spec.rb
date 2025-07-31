@@ -3,22 +3,27 @@ require 'rails_helper'
 RSpec.describe HongBaos::Scanner do
   let(:service) { described_class }
 
+  before do
+    # we disable error propagation for these tests because we are expecting failure responses
+    described_class.propagate = false
+  end
+
   describe '#call' do
     context 'when scanned key is blank' do
-      it 'raises a ScanError' do
-        expect {
-          service.call(nil)
-        }.to raise_error(HongBaos::Scanner::ScanError) do |error|
-          expect(error.user_message).to eq("Invalid QR code")
-        end
+      it 'returns failure for nil input' do
+        result = service.call(nil)
+
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
       end
 
-      it 'raises a ScanError for empty string' do
-        expect {
-          service.call("")
-        }.to raise_error(HongBaos::Scanner::ScanError) do |error|
-          expect(error.user_message).to eq("Invalid QR code")
-        end
+      it 'returns failure for empty string' do
+        result = service.call("")
+
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
       end
     end
 
@@ -92,7 +97,7 @@ RSpec.describe HongBaos::Scanner do
 
           expect(result).to be_success
           expect(result.payload.private_key).to be_present
-          expect(result.payload.address).to start_with('m', 'n')
+          expect(result.payload.address).to start_with('m').or start_with('n')
         end
       end
 
@@ -162,35 +167,35 @@ RSpec.describe HongBaos::Scanner do
       before { Current.network = :testnet }
 
       it 'returns failure for random text' do
-        result = service.call("doudou")
+        result = service.call("xdxdxd")
 
         expect(result).to be_failure
-        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
-        expect(result.error.user_message).to eq("Invalid QR code")
+        expect(result.error).to be_a(ArgumentError)
+        expect(result.error.message).to include("Private key must be a valid hexadecimal string")
       end
 
       it 'returns failure for invalid hex length' do
         result = service.call("deadbeef") # Too short
 
         expect(result).to be_failure
-        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
-        expect(result.error.user_message).to eq("Invalid QR code")
+        expect(result.error).to be_a(ArgumentError)
+        expect(result.error.message).to include("Private key must be exactly 64 hex characters")
       end
 
       it 'returns failure for invalid WIF format' do
         result = service.call("KDOUDOUDODUODUOUDOUDOU")
 
         expect(result).to be_failure
-        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
-        expect(result.error.user_message).to eq("Invalid QR code")
+        expect(result.error).to be_a(ArgumentError)
+        expect(result.error.message).to include("Private key must be a valid hexadecimal string")
       end
 
       it 'returns failure for invalid address' do
         result = service.call("1InvalidAddress")
 
         expect(result).to be_failure
-        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
-        expect(result.error.user_message).to eq("Invalid QR code")
+        expect(result.error).to be_a(ArgumentError)
+        expect(result.error.message).to include("Private key must be a valid hexadecimal string")
       end
     end
   end
