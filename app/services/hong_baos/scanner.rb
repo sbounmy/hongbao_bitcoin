@@ -28,10 +28,10 @@ module HongBaos
     def extract_address_if_url
       return unless @scanned_key.start_with?("http")
 
-      match = @scanned_key.match(%r{/addrs/([^/]+)$})
+      match = @scanned_key.match(%r{/(addrs|a)/([^/]+)$})
 
       if match
-        @scanned_key = match[1]
+        @scanned_key = match[2]
       else
         raise ScanError.new(
           "Invalid URL format: #{@scanned_key}",
