@@ -1,0 +1,14 @@
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f6f9fc; border-radius: 6px;">
+  <tr>
+    <td style="padding: 16px;">
+      <% if local_assigns[:title] %>
+        <p style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #1a1f36;">
+          <%= title %>
+        </p>
+      <% end %>
+      <p style="margin: 0; font-size: 14px; line-height: 20px; color: #697386;">
+        <%= yield %>
+      </p>
+    </td>
+  </tr>
+</table>
