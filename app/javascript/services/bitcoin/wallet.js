@@ -145,7 +145,7 @@ export default class Wallet {
   }
 
   get appPublicAddress() {
-    return window.location.origin + "/addrs/" + this.address
+    return "https://hbtc.me/a/" + this.address
   }
 
   async #qrcode(data, logoUrl) {
