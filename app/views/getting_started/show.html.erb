@@ -218,6 +218,26 @@
               <p class="text-sm text-gray-600">Send to anyone, anywhere, anytime</p>
             </div>
           </li>
+          <% if @hong_bao %>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">🔍</span>
+              <div>
+                <p class="font-medium">It's fully transparent and verifiable</p>
+                <p class="text-sm text-gray-600">
+                  Anyone can check your balance on 
+                  <a href="https://mempool.space/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">mempool<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>, 
+                  <a href="https://blockstream.info/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">blockstream<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>, 
+                  <a href="https://www.blockchain.com/btc/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">blockchain<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>
+                </p>
+              </div>
+            </li>
+          <% end %>
         </ul>
       </div>
 
