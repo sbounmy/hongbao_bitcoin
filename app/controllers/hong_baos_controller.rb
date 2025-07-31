@@ -1,6 +1,6 @@
 class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos transfer]
-  before_action :set_network, only: %i[show form utxos search]
+  before_action :set_network, only: %i[show form utxos]
   layout :set_layout
 
   def index
