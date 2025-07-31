@@ -368,7 +368,6 @@ GEM
       railties (>= 6.0.0)
       redcarpet (>= 3.0.0)
     matrix (0.4.2)
-    method_source (1.1.0)
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
@@ -639,10 +638,9 @@ GEM
     vcr (6.3.1)
       base64
     version_gem (1.1.8)
-    view_component (3.23.2)
-      activesupport (>= 5.2.0, < 8.1)
+    view_component (4.0.0)
+      activesupport (>= 7.1.0, < 8.1)
       concurrent-ruby (~> 1)
-      method_source (~> 1.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
