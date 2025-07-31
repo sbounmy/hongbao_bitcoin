@@ -74,7 +74,7 @@ class HongBaosController < ApplicationController
   private
 
   def set_network
-    Current.network = (params[:id] || params[:hong_bao][:scanned_key]).start_with?("tb") ? :testnet : :mainnet
+    Current.network = Current.network_from_key(params[:id] || params[:hong_bao][:scanned_key])
   end
   def set_layout
     if request.format.html?

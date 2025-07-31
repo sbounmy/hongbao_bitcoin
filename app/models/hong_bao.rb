@@ -29,7 +29,9 @@ class HongBao
   end
 
   def scanned_key=(key)
+    Current.network = Current.network_from_key(key)
     Bitcoin.network = Current.network_gem
+
     if Bitcoin.valid_address?(key)
       self.address = key
     else
