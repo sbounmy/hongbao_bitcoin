@@ -29,12 +29,13 @@ class HongBao
   end
 
   def scanned_key=(key)
+    Current.network = Current.network_from_key(key)
     Bitcoin.network = Current.network_gem
+
     if Bitcoin.valid_address?(key)
       self.address = key
     else
-      # self.private_key = Bitcoin::Key.from_base58(key)
-      pkey = Bitcoin::Key.new(key)
+      pkey = parse_private_key(key)
       self.private_key = pkey.priv
       self.public_key = pkey.pub
       self.address = pkey.addr
@@ -47,5 +48,13 @@ class HongBao
 
   def can_transfer?
     private_key.present?
+  end
+
+  private
+
+  def parse_private_key(key)
+    Bitcoin::Key.from_base58(key)
+  rescue
+    Bitcoin::Key.new(key)
   end
 end
