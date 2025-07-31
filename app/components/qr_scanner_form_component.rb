@@ -1,26 +1,36 @@
 # frozen_string_literal: true
 
 class QrScannerFormComponent < ViewComponent::Base
-  def initialize(url:, attribute: :scanned_key, auto_start: true, form_options: {})
+  renders_one :header
+  renders_one :instructions
+
+  def initialize(url:, attribute: :scanned_key, auto_start: true, form_options: {}, fullscreen: false, title: nil)
     @url = url
     @attribute = attribute
     @auto_start = auto_start
     @form_options = form_options
+    @fullscreen = fullscreen
+    @title = title || "Scan QR Code"
   end
 
   private
 
-  attr_reader :url, :attribute, :auto_start, :form_options
+  attr_reader :url, :attribute, :auto_start, :form_options, :fullscreen, :title
 
   def qr_reader_id
     @qr_reader_id ||= "qr-reader-#{SecureRandom.hex(4)}"
+  end
+
+  def qr_overlay_id
+    @qr_overlay_id ||= "qr-overlay-#{SecureRandom.hex(4)}"
   end
 
   def form_data_attributes
     {
       controller: "qr-scanner",
       "qr-scanner-auto-start-value": auto_start,
-      "qr-scanner-reader-id-value": qr_reader_id
+      "qr-scanner-reader-id-value": qr_reader_id,
+      "qr-scanner-overlay-id-value": qr_overlay_id
     }
   end
 

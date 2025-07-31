@@ -89,11 +89,11 @@
       <%= permission_banner(:camera) %>
 
       <!-- Scanner Container -->
-      <div>
+      <div class="flex flex-col gap-4">
         <!-- QR Scanner Section -->
-        <div data-controller="reveal" data-reveal-hidden-class="hidden" class="mb-6">
+        <div data-controller="reveal" data-reveal-hidden-class="hidden">
           <!-- Scanner Trigger Button -->
-          <button type="button" class="btn btn-primary btn-block btn-lg mb-3"
+          <button type="button" class="btn btn-primary btn-block btn-lg"
                   data-action="reveal#toggle">
             <%= heroicon "camera", variant: :solid, class: "w-5 h-5" %>
             Scan QR Code
@@ -104,17 +104,40 @@
             <%= render QrScannerFormComponent.new(
                   url: getting_started_path,
                   attribute: :address,
-                  auto_start: true
-                ) do %>
-              <div class="text-center mt-4">
-                <button type="button" data-action="reveal#toggle qr-scanner#disconnect"
-                        class="btn btn-ghost">
-                  Cancel
-                </button>
-              </div>
+                  auto_start: true,
+                  fullscreen: true,
+                  title: "Public Address"
+                ) do |component| %>
+              <% component.with_header do %>
+                <div class="flex items-center justify-between">
+                  <button type="button" data-action="reveal#toggle qr-scanner#disconnect"
+                          class="btn btn-circle btn-ghost btn-sm text-white">
+                    <%= heroicon "x-mark", variant: :solid, class: "w-6 h-6" %>
+                  </button>
+
+                  <!-- Visual schema of the bill -->
+                  <div class="flex-1 flex justify-center">
+                    <div class="relative">
+                      <%= image_tag "bill_hongbao.jpg", class: "h-20 w-auto rounded shadow-lg", alt: "Paper wallet" %>
+
+                      <!-- Highlight overlay for PUBLIC ADDRESS -->
+                      <div class="absolute left-[2%] top-[20%] w-[30%] h-[50%]">
+                        <div class="w-full h-full border-3 border-orange-500 rounded-lg animate-pulse shadow-[0_0_20px_rgba(251,146,60,0.5)]"></div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="w-12"></div>
+                </div>
+              <% end %>
             <% end %>
           </div>
         </div>
+
+        <p class="text-center text-sm text-gray-600">
+          or
+        </p>
 
         <!-- Manual Input Section -->
         <div data-controller="reveal" data-reveal-hidden-class="hidden" class="mb-6">
