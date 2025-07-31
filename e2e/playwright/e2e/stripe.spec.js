@@ -63,9 +63,13 @@ test.describe('Stripe Checkout Flow', () => {
     // Scroll the Manage Billing button into view
     const billingButton = page.getByRole('button', { name: 'Manage Billing' });
     await billingButton.scrollIntoViewIfNeeded();
+    await expect(billingButton).toBeVisible();
+    await expect(billingButton).toBeEnabled();
     await billingButton.click();
 
     await page.waitForURL('https://billing.stripe.com/p/session/**');
+    await page.waitForLoadState('networkidle');
+    
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
   });
