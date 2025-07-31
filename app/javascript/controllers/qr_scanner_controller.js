@@ -6,14 +6,15 @@ QrScanner.WORKER_PATH = '/assets/qr-scanner-worker.min.js'
 export default class extends Controller {
   static targets = ["results", "scanValue"]
   static values = {
-    autoStart: Boolean
+    autoStart: Boolean,
+    readerId: String
   }
 
   connect() {
     console.log('QR Scanner Controller connected')
     if (!this.videoElem) {
       this.videoElem = document.createElement('video')
-      document.getElementById('qr-reader').appendChild(this.videoElem)
+      document.getElementById(this.readerIdValue).appendChild(this.videoElem)
     }
 
     this.scanner = new QrScanner(

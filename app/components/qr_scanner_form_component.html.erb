@@ -1,0 +1,14 @@
+<%= form_with **merged_form_options do |form| %>
+  <div class="bg-white/90 rounded-xl p-4 shadow-inner">
+    <div id="<%= qr_reader_id %>" class="w-full rounded-lg overflow-hidden"></div>
+    <div data-qr-scanner-target="results"
+         class="mt-4 text-center text-gray-700 font-medium"></div>
+  </div>
+
+  <%= form.hidden_field attribute,
+      data: { qr_scanner_target: "scanValue" } %>
+
+  <% if content %>
+    <%= content %>
+  <% end %>
+<% end %>
