@@ -29,7 +29,7 @@ module Checkout
             itemDesc: "#{@params[:color].capitalize} #{product[:name]} - #{product[:description]}",
             itemCode: product[:stripe_price_id],
             physical: "true",
-            userId: @current_user&.id || "guest",
+            userId: @current_user&.id, # nil if not logged in
             buyerEmail: @current_user&.email || @params[:buyerEmail],
             buyerName: @params[:buyerName],
             buyerAddress1: @params[:buyerAddress1],

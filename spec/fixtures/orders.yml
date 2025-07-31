@@ -1,0 +1,51 @@
+# Orders for BTCPay testing
+pending_btcpay:
+  user: john
+  total_amount: 25.0
+  currency: EUR
+  payment_provider: btcpay
+  external_id: btc_pending_123
+  state: pending
+  created_at: <%= 1.hour.ago %>
+  updated_at: <%= 1.hour.ago %>
+
+processing_btcpay:
+  user: john
+  total_amount: 25.0
+  currency: EUR
+  payment_provider: btcpay
+  external_id: btc_processing_456
+  state: processing
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= 30.minutes.ago %>
+
+completed_btcpay:
+  user: john
+  total_amount: 25.0
+  currency: EUR
+  payment_provider: btcpay
+  external_id: btc_completed_789
+  state: completed
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+# Orders for Stripe testing 
+pending_stripe:
+  user: satoshi
+  total_amount: 50.0
+  currency: USD
+  payment_provider: stripe
+  external_id: pi_pending_stripe_123
+  state: pending
+  created_at: <%= 1.hour.ago %>
+  updated_at: <%= 1.hour.ago %>
+
+completed_stripe:
+  user: satoshi
+  total_amount: 50.0
+  currency: USD
+  payment_provider: stripe
+  external_id: pi_completed_stripe_456
+  state: completed
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
