@@ -8,27 +8,18 @@ class HongBaosController < ApplicationController
   end
 
   def search
-    scanned_key = params[:hong_bao][:scanned_key]
+    result = HongBaos::Scanner.call(params[:hong_bao][:scanned_key])
 
-    # Handle app URLs (beginner mode)
-    if scanned_key.start_with?("http")
-      if (match = scanned_key.match(%r{/addrs/([^/]+)$}))
-        scanned_key = match[1]
-      else
-        redirect_to hong_baos_path, alert: "This QR code contains a URL that is not a Bitcoin wallet"
-        return
-      end
-    end
-
-    @hong_bao = HongBao.from_scan(scanned_key)
-    if @hong_bao.address.present?
-      session[:private_key] = @hong_bao.private_key if @hong_bao.private_key.present?
-      redirect_to addr_path(@hong_bao.address)
+    if result.success?
+      hong_bao = result.payload
+      session[:private_key] = hong_bao.private_key if hong_bao.private_key.present?
+      redirect_to addr_path(hong_bao.address)
     else
-      redirect_to hong_baos_path, alert: "Invalid QR code"
+      error_message = result.error.respond_to?(:user_message) ?
+                      result.error.user_message :
+                      "Invalid QR code: #{result.error.message}"
+      redirect_to hong_baos_path, alert: error_message
     end
-  rescue => e
-    redirect_to hong_baos_path, alert: "Invalid QR code: #{e.message}"
   end
 
   def new
