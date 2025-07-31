@@ -36,9 +36,13 @@ class HongBaosController < ApplicationController
   end
 
   def show
-    @hong_bao = HongBao.from_scan(params[:id])
-  rescue => e
-    redirect_to hong_baos_path, alert: "Invalid address: #{e.message}"
+    result = HongBaos::Scanner.call(params[:id])
+
+    if result.success?
+      @hong_bao = result.payload
+    else
+      redirect_to hong_baos_path, alert: result.error.user_message
+    end
   end
 
   def form
