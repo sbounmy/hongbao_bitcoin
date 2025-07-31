@@ -23,107 +23,174 @@ RSpec.describe HongBaos::Scanner do
     end
 
     context 'when scanned key is a Bitcoin address' do
-      let(:bitcoin_address) { "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" }
+      context 'mainnet addresses' do
+        before { Current.network = :mainnet }
 
-      before do
-        allow(Current).to receive(:network_gem).and_return(:bitcoin)
+        it 'handles P2PKH address (starts with 1)' do
+          result = service.call("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+
+          expect(result).to be_success
+          expect(result.payload).to be_a(HongBao)
+          expect(result.payload.address).to eq("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+          expect(result.payload.private_key).to be_nil
+        end
+
+        it 'handles P2SH address (starts with 3)' do
+          result = service.call("3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy")
+
+          expect(result).to be_success
+          expect(result.payload.address).to eq("3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy")
+        end
+
+        it 'handles Bech32 address (starts with bc1)' do
+          result = service.call("bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq")
+
+          expect(result).to be_success
+          expect(result.payload.address).to eq("bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq")
+        end
       end
 
-      it 'creates a HongBao with the address' do
-        # Use call! to get the result directly (without Response wrapper)
-        result = service.call!(bitcoin_address)
+      context 'testnet addresses' do
+        before { Current.network = :testnet }
 
-        expect(result).to be_success
-        expect(result.payload).to be_a(HongBao)
-        expect(result.payload.address).to eq(bitcoin_address)
+        it 'handles testnet P2PKH address (starts with m/n)' do
+          result = service.call("mxVFsFW5N4mu1HPkxPttorvocvzeZ7KZyk")
+
+          expect(result).to be_success
+          expect(result.payload.address).to eq("mxVFsFW5N4mu1HPkxPttorvocvzeZ7KZyk")
+        end
+
+        it 'handles testnet Bech32 address (starts with tb1)' do
+          result = service.call("tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn")
+
+          expect(result).to be_success
+          expect(result.payload.address).to eq("tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn")
+        end
       end
     end
 
     context 'when scanned key is a private key' do
-      let(:private_key) { "5JaTXbAUmfPYZFRwrYaALK48fN6sFJp4rHqq2QSXs8ucfpE4yQU" }
-      let(:expected_address) { "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" }
+      context 'WIF format private keys' do
+        before { Current.network = :testnet }
 
-      before do
-        allow(Current).to receive(:network_gem).and_return(:bitcoin)
-        # Mock Bitcoin::Key to return expected values
-        mock_key = instance_double(Bitcoin::Key,
-          priv: private_key,
-          pub: "mock_public_key",
-          addr: expected_address
-        )
-        allow(Bitcoin::Key).to receive(:new).with(private_key).and_return(mock_key)
+        it 'handles compressed WIF (starts with c for testnet)' do
+          wif_key = "cV1Y7ARUr9Yx7BR55nTdnR7ZXNJphZtCCMBTEZBJe1hXt2kB684q"
+          result = service.call(wif_key)
+
+          expect(result).to be_success
+          expect(result.payload).to be_a(HongBao)
+          expect(result.payload.private_key).to be_present
+          expect(result.payload.private_key).to match(/^[0-9a-f]{64}$/i) # Should be hex
+          expect(result.payload.public_key).to be_present
+          expect(result.payload.address).to match(/^[mn]/) # testnet address
+        end
+
+        it 'handles uncompressed WIF (starts with 9 for testnet)' do
+          # Testnet uncompressed WIF
+          wif_key = "92Pg46rUhgTT7romnV7iGW6W1gbGdeezqdbJCzShkCsYNzyyNcc"
+          result = service.call(wif_key)
+
+          expect(result).to be_success
+          expect(result.payload.private_key).to be_present
+          expect(result.payload.address).to start_with('m', 'n')
+        end
       end
 
-      it 'creates a HongBao containing private key' do
-        # Use call! to get the result directly
-        result = service.call!(private_key)
+      context 'mainnet WIF format' do
+        before { Current.network = :mainnet }
 
-        expect(result).to be_success
-        expect(result.payload).to be_a(HongBao)
-        expect(result.payload.private_key).to eq(private_key)
-        expect(result.payload.address).to eq(expected_address)
+        it 'handles compressed mainnet WIF (starts with K/L)' do
+          wif_key = "L1aW4aubDFB7yfras2S1mN3bqg9nwySY8nkoLmJebSLD5BWv3ENZ"
+          result = service.call(wif_key)
+
+          expect(result).to be_success
+          expect(result.payload.address).to start_with('1') # mainnet P2PKH
+        end
+      end
+
+      context 'hex format private keys' do
+        before { Current.network = :testnet }
+
+        it 'handles 64-character hex private key' do
+          hex_key = "e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35"
+          result = service.call(hex_key)
+
+          expect(result).to be_success
+          expect(result.payload.private_key).to eq(hex_key)
+          expect(result.payload.public_key).to be_present
+          expect(result.payload.address).to be_present
+        end
       end
     end
 
     context 'when scanned key is an app URL' do
       context 'with valid wallet URL' do
-        let(:app_url) { "https://hongbao.bitcoin/addrs/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" }
-        let(:bitcoin_address) { "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" }
+        before { Current.network = :mainnet }
 
-        before do
-          allow(Current).to receive(:network_gem).and_return(:bitcoin)
-        end
-
-        it 'extracts the address and creates HongBao' do
-          result = service.call!(app_url)
+        it 'extracts mainnet address from URL' do
+          app_url = "https://hongbao.bitcoin/addrs/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+          result = service.call(app_url)
 
           expect(result).to be_success
           expect(result.payload).to be_a(HongBao)
-          expect(result.payload.address).to eq(bitcoin_address)
+          expect(result.payload.address).to eq("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+        end
+
+        it 'extracts testnet address from URL' do
+          Current.network = :testnet
+          app_url = "https://hbtc.me/a/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn"
+          result = service.call(app_url)
+
+          expect(result).to be_success
+          expect(result.payload.address).to eq("tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn")
         end
       end
 
       context 'with invalid URL format' do
-        let(:invalid_url) { "https://example.com/not-a-wallet" }
+        it 'returns failure with user-friendly message' do
+          invalid_url = "https://example.com/not-a-wallet"
+          result = service.call(invalid_url)
 
-        it 'raises a ScanError with user-friendly message' do
-          expect {
-            service.call(invalid_url)
-          }.to raise_error(HongBaos::Scanner::ScanError) do |error|
-            expect(error.user_message).to eq("This QR code contains a URL that is not a Bitcoin wallet")
-          end
+          expect(result).to be_failure
+          expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+          expect(result.error.user_message).to eq("This QR code contains a URL that is not a Bitcoin wallet")
         end
       end
     end
 
-    context 'when HongBao.from_scan returns invalid result' do
-      let(:invalid_key) { "not-a-valid-key" }
+    context 'when invalid inputs are provided' do
+      before { Current.network = :testnet }
 
-      before do
-        allow(Current).to receive(:network_gem).and_return(:bitcoin)
-        allow(Bitcoin).to receive(:valid_address?).with(invalid_key).and_return(false)
-        # Mock Bitcoin::Key to raise error for invalid key
-        allow(Bitcoin::Key).to receive(:new).with(invalid_key).and_raise(RuntimeError, "Invalid key")
+      it 'returns failure for random text' do
+        result = service.call("doudou")
+
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
       end
 
-      it 'raises the error' do
-        expect {
-          service.call(invalid_key)
-        }.to raise_error(RuntimeError, "Invalid key")
-      end
-    end
+      it 'returns failure for invalid hex length' do
+        result = service.call("deadbeef") # Too short
 
-    context 'when unexpected error occurs' do
-      let(:scanned_key) { "test-key" }
-
-      before do
-        allow(HongBao).to receive(:from_scan).and_raise(StandardError, "Unexpected error")
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
       end
 
-      it 'raises the original error' do
-        expect {
-          service.call(scanned_key)
-        }.to raise_error(StandardError, "Unexpected error")
+      it 'returns failure for invalid WIF format' do
+        result = service.call("KDOUDOUDODUODUOUDOUDOU")
+
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
+      end
+
+      it 'returns failure for invalid address' do
+        result = service.call("1InvalidAddress")
+
+        expect(result).to be_failure
+        expect(result.error).to be_a(HongBaos::Scanner::ScanError)
+        expect(result.error.user_message).to eq("Invalid QR code")
       end
     end
   end
