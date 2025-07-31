@@ -1,0 +1,27 @@
+# Line items for orders
+btcpay_completed_item:
+  order: completed_btcpay
+  quantity: 1
+  price: 25.0
+  metadata:
+    tokens: 100
+    envelopes: 10
+    description: "100 tokens package"
+    color: "orange"
+    name: "100 Tokens Package"
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+stripe_completed_item:
+  order: completed_stripe
+  quantity: 1
+  price: 50.0
+  stripe_price_id: price_200_tokens
+  metadata:
+    tokens: 200
+    envelopes: 20
+    description: "200 tokens package"
+    color: "green"
+    name: "200 Tokens Package"
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
