@@ -90,44 +90,44 @@ module Papers
       r = (pixel >> 24) & 0xff
       g = (pixel >> 16) & 0xff
       b = (pixel >> 8) & 0xff
-      
+
       # Green must be dominant
       green_dominant = g > r && g > b
-      
+
       # Exclude colors with too much blue
       blue_ratio = b.to_f / g
       not_too_blue = blue_ratio < 0.5  # Blue should be less than 50% of green
-      
+
       not_cyan = g > b * 1.5  # Green must be at least 1.5x blue
-      
+
       max_blue_standard = 100  # For standard criteria
       max_blue_pure = 50       # For "pure" green criteria
-      
+
       ultra_pure = g >= 240 && r < 30 && b < 30
-    
+
       max_saturation = g >= 250 && (r + b) < 120 && b < max_blue_pure
-      
+
       electric = g >= 230 && g > r + 100 && g > b + 100 && not_too_blue
-      
+
       perfect = g == 255 && r < 20 && b < 20
-      
+
       high_intensity = g >= 220 && green_dominant && g > r + 60 && g > b + 60 && b < max_blue_standard && not_cyan
-      
+
       bright_lime = g >= 200 && r < 180 && b < 80 && g > r + 50
-      
+
       bright_spring = g >= 200 && b < 100 && r < 80 && g > b + 80 && not_cyan
-      
+
       bright_green = g >= 180 && green_dominant && g > r + 30 && g > b + 30 && b < max_blue_standard && not_cyan
-      
+
       light_saturated = g >= 200 && green_dominant && (g - r > 40 || g - b > 40) && b < max_blue_standard && not_too_blue
-      
+
       # Exclude near-white colors
       total_brightness = r + g + b
       not_too_pale = total_brightness < 720
-      
+
       (ultra_pure || max_saturation || electric || perfect ||
        high_intensity || bright_lime || bright_spring ||
-       (bright_green && not_too_pale && not_too_blue) || 
+       (bright_green && not_too_pale && not_too_blue) ||
        (light_saturated && not_too_pale && not_too_blue))
     end
 
@@ -170,15 +170,13 @@ module Papers
           # Calculate coverage percentage
           coverage_percentage = (total_green_pixels.to_f / @width) * 100
 
-          # UPDATED criteria for green line detection (was stricter for green):
-          # Allow larger gaps since AI overlays might break the green line
           if coverage_percentage >= 90 &&
             starts_near_beginning &&
             ends_near_end &&
-            max_gap <= 50 &&  # Allow larger gaps for overlaid elements
-            gaps.length <= 50  # AI might have overlaid text/logos
+            max_gap <= 5 &&  # Allow larger gaps for overlaid elements
+            gaps.length <= 10  # AI might have overlaid text/logos
 
-            # NEW: Check if the next row also has a similar green line
+            # Check next row for continuity
             next_row_green_pixels = []
             (0...@width).each do |x|
               pixel = @image[x, y + 1]
