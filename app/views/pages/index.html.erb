@@ -142,13 +142,13 @@
       <!-- Step 2: Customize Design -->
       <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
         <%= card.with_figure do %>
-          <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 object-cover" %>
+          <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 " %>
         <% end %>
         <%= card.with_title do %>
-          2. Create Your Bitcoin Gift
+          2. Personalize Your Paper Wallet
         <% end %>
         <%= card.with_body do %>
-          <p>Design a personalized paper wallet. Add custom amounts, messages, or artwork. Generate keys offline for maximum security.</p>
+          <p>Upload their photo to create a custom Bitcoin note. Top up the wallet with Bitcoin or fiat. Each wallet is unique to your loved one.</p>
         <% end %>
       <% end %>
 
@@ -245,33 +245,27 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <% end %>
         <%= card.with_title do %>
           <div class="w-full flex gap-2 justify-between">
-            <p>Self-Custody Made Simple</p>
+            <p>Self-Custody & KYC-Free</p>
             <%= link_to "Try demo", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-xs btn-outline" %>
           </div>
         <% end %>
         <%= card.with_body do %>
-          <p>Generate secure paper wallets offline or import existing keys. Each wallet includes step-by-step recovery instructions, QR codes for easy scanning, and educational content about Bitcoin basics. Perfect for beginners who want to learn by doing.</p>
+          <p>Generate secure paper wallets offline with no account needed. Top up directly with Bitcoin or fiat - no KYC required. Each wallet includes recovery instructions and lets recipients truly own their Bitcoin. Perfect for privacy-conscious gifting.</p>
         <% end %>
       <% end %>
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <iframe
-            src="https://www.youtube.com/embed/CzRldpvGJw0"
-            class="rounded-t-lg w-full aspect-video"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+          <%= image_tag image_url("index/back-qrcode.jpg"), alt: "QR code on envelope back", class: "w-full h-66 object-cover object-bottom" %>
         <% end %>
         <%= card.with_title do %>
           <div class="w-full flex gap-2 justify-between">
-            <p>KYC-Free Gifting</p>
-            <%= link_to "Create Gift", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id), step: 4), class: "btn btn-xs btn-outline" %>
+            <p>Step by step Onboarding</p>
+            <%= link_to "See tutorial", getting_started_path(step: 1), class: "btn btn-xs btn-outline" %>
           </div>
         <% end %>
         <%= card.with_body do %>
-          <p>Top up paper wallets directly with Bitcoin or fiat currency. No KYC required for bank transfers. Low transaction fees and real-time blockchain verification. Track your gift's journey on the blockchain.</p>
+          <p>QR code on envelope back leads to interactive tutorial. Recipients scan to check balance, learn Bitcoin basics, and discover hardware wallets. Transform confusion into confidence with our step-by-step onboarding.</p>
         <% end %>
       <% end %>
 
