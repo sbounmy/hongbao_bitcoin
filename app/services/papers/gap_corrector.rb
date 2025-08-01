@@ -72,56 +72,78 @@ module Papers
       [ h, s * 255, v * 255 ]
     end
 
-    def is_red?(pixel)
+    # Updated to detect GREEN lines instead of red.
+    def is_green?(pixel)
       r = (pixel >> 24) & 0xff
       g = (pixel >> 16) & 0xff
       b = (pixel >> 8) & 0xff
-
-      return false if r < 50 && g < 50 && b < 50
-
-      h, s, v = rgb_to_hsv(r, g, b)
-
-      red_hue = (h >= 0 && h <= 15) || (h >= 345 && h <= 360)
-      high_saturation = s > 100
-      sufficient_value = v > 80
-
-      red_dominant = r > g + 30 && r > b + 30
-      red_strong = r > 110  # Lowered from 120 to accept slightly darker reds
-      not_too_green = g < r * 0.7
-      not_too_blue = b < r * 0.7
-
-      hsv_red = red_hue && high_saturation && sufficient_value
-      rgb_red = red_dominant && red_strong && not_too_green && not_too_blue
-
-      hsv_red && rgb_red
+      
+      # Green must be dominant
+      green_dominant = g > r && g > b
+      
+      # Exclude colors with too much blue
+      blue_ratio = b.to_f / g
+      not_too_blue = blue_ratio < 0.5  # Blue should be less than 50% of green
+      
+      not_cyan = g > b * 1.5  # Green must be at least 1.5x blue
+      
+      max_blue_standard = 100  # For standard criteria
+      max_blue_pure = 50       # For "pure" green criteria
+      
+      ultra_pure = g >= 240 && r < 30 && b < 30
+    
+      max_saturation = g >= 250 && (r + b) < 120 && b < max_blue_pure
+      
+      electric = g >= 230 && g > r + 100 && g > b + 100 && not_too_blue
+      
+      perfect = g == 255 && r < 20 && b < 20
+      
+      high_intensity = g >= 220 && green_dominant && g > r + 60 && g > b + 60 && b < max_blue_standard && not_cyan
+      
+      bright_lime = g >= 200 && r < 180 && b < 80 && g > r + 50
+      
+      bright_spring = g >= 200 && b < 100 && r < 80 && g > b + 80 && not_cyan
+      
+      bright_green = g >= 180 && green_dominant && g > r + 30 && g > b + 30 && b < max_blue_standard && not_cyan
+      
+      light_saturated = g >= 200 && green_dominant && (g - r > 40 || g - b > 40) && b < max_blue_standard && not_too_blue
+      
+      # Exclude near-white colors
+      total_brightness = r + g + b
+      not_too_pale = total_brightness < 720
+      
+      (ultra_pure || max_saturation || electric || perfect ||
+       high_intensity || bright_lime || bright_spring ||
+       (bright_green && not_too_pale && not_too_blue) || 
+       (light_saturated && not_too_pale && not_too_blue))
     end
 
-    def find_red_line
-      # Scan from top to 2/3 of image height, but start from row 100 to avoid edge cases
-      min_scan_y = 100
+    def find_green_line
+      # Scan from top to 2/3 of image height, but start from row 200 to avoid edge cases
+      min_scan_y = 200 # change to 200 to speed up processing
       max_scan_y = (@height * 2.0 / 3).to_i
 
       (min_scan_y...max_scan_y).each do |y|
         # Skip if we can't check the next row
         next if y + 1 >= max_scan_y
 
-        red_pixels_positions = []
+        green_pixels_positions = []
 
-        # Check ENTIRE width of the image for red pixels in current row
+        # Check ENTIRE width of the image for green pixels in current row
         (0...@width).each do |x|
           pixel = @image[x, y]
-          red_pixels_positions << x if is_red?(pixel)
+          green_pixels_positions << x if is_green?(pixel)
         end
 
-        # Check if red pixels span the ENTIRE width
-        if !red_pixels_positions.empty?
-          # Find ALL gaps in the red line
+        # Check if green pixels span the ENTIRE width
+        if !green_pixels_positions.empty?
+          # Find ALL gaps in the green line
           gaps = []
-          total_red_pixels = red_pixels_positions.length
+          total_green_pixels = green_pixels_positions.length
 
           # Check for ANY significant gaps
-          (1...red_pixels_positions.length).each do |i|
-            gap_size = red_pixels_positions[i] - red_pixels_positions[i-1] - 1
+          (1...green_pixels_positions.length).each do |i|
+            gap_size = green_pixels_positions[i] - green_pixels_positions[i-1] - 1
             gaps << gap_size if gap_size > 0
           end
 
@@ -129,38 +151,34 @@ module Papers
           max_gap = gaps.max || 0
 
           # Check coverage from start and end
-          starts_near_beginning = red_pixels_positions.first <= 10
-          ends_near_end = red_pixels_positions.last >= @width - 10
+          starts_near_beginning = green_pixels_positions.first <= 10
+          ends_near_end = green_pixels_positions.last >= @width - 10
 
           # Calculate coverage percentage
-          coverage_percentage = (total_red_pixels.to_f / @width) * 100
+          coverage_percentage = (total_green_pixels.to_f / @width) * 100
 
-          # STRICT criteria for CONTINUOUS full-width red line:
-          # 1. Must cover at least 90% of the image width
-          # 2. Must start within first 5 pixels
-          # 3. Must end within last 5 pixels
-          # 4. Maximum gap allowed is only 3 pixels (very small imperfections only)
-          # 5. No more than 10 total gaps of any size
+          # UPDATED criteria for green line detection (was stricter for green):
+          # Allow larger gaps since AI overlays might break the green line
           if coverage_percentage >= 90 &&
             starts_near_beginning &&
             ends_near_end &&
-            max_gap <= 3 &&
-            gaps.length <= 10
+            max_gap <= 50 &&  # Allow larger gaps for overlaid elements
+            gaps.length <= 50  # AI might have overlaid text/logos
 
-            # NEW: Check if the next row also has a similar red line
-            next_row_red_pixels = []
+            # NEW: Check if the next row also has a similar green line
+            next_row_green_pixels = []
             (0...@width).each do |x|
               pixel = @image[x, y + 1]
-              next_row_red_pixels << x if is_red?(pixel)
+              next_row_green_pixels << x if is_green?(pixel)
             end
 
-            if !next_row_red_pixels.empty?
+            if !next_row_green_pixels.empty?
               # Calculate next row coverage
-              next_row_coverage = (next_row_red_pixels.length.to_f / @width) * 100
-              next_row_starts_near_beginning = next_row_red_pixels.first <= 10
-              next_row_ends_near_end = next_row_red_pixels.last >= @width - 10
+              next_row_coverage = (next_row_green_pixels.length.to_f / @width) * 100
+              next_row_starts_near_beginning = next_row_green_pixels.first <= 10
+              next_row_ends_near_end = next_row_green_pixels.last >= @width - 10
 
-              # Check if next row also meets the red line criteria
+              # Check if next row also meets the green line criteria
               if next_row_coverage >= 90 &&
                 next_row_starts_near_beginning &&
                 next_row_ends_near_end
@@ -239,7 +257,7 @@ module Papers
     end
 
     def process_to_blob(output_path)
-      line_y = find_red_line
+      line_y = find_green_line
 
       if line_y.nil?
         return false
