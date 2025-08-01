@@ -1,0 +1,380 @@
+<%
+  step = @step
+  total_steps = @total_steps
+  progress = (step.to_f / total_steps * 100).round
+%>
+
+<div class="min-h-screen">
+  <!-- Progress Bar -->
+  <div class="bg-gray-100 p-4 sticky top-0 z-10 shadow-sm">
+    <div class="max-w-2xl mx-auto">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium">Step <%= step %> of <%= total_steps %></span>
+        <span class="text-sm text-gray-600"><%= progress %>% complete</span>
+      </div>
+      <progress class="progress progress-primary w-full" value="<%= progress %>" max="100"></progress>
+    </div>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <% case step %>
+    <% when 1 %>
+      <!-- Step 1: Welcome & Overview -->
+      <div class="text-center mb-8">
+        <span class="text-6xl mb-4 block">🎥</span>
+        <h2 class="text-3xl font-bold mb-4">Your Bitcoin in 3 Minutes</h2>
+        <p class="text-lg text-gray-700 mb-8">
+          Let's start with a quick video that explains what Bitcoin is and how your gift works
+        </p>
+      </div>
+
+      <!-- Video Player -->
+      <div class="aspect-video bg-black rounded-lg mb-8 relative">
+        <iframe
+          class="w-full h-full rounded-lg"
+          src="https://www.youtube.com/embed/GzUprWHTI9U"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- Learning Points -->
+      <div class="space-y-4 mb-8">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">✓</div>
+          <span class="font-medium">What is Bitcoin?</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white">2</div>
+          <span class="font-medium text-orange-600">How to check your balance</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-400">3</div>
+          <span class="text-gray-400">Keeping your Bitcoin safe</span>
+        </div>
+      </div>
+
+    <% when 2 %>
+      <!-- Step 2: Check Balance -->
+      <h2 class="text-3xl font-bold mb-6">Let's Check Your Balance</h2>
+
+      <!-- Visual Guide -->
+      <div class="bg-gray-100 rounded-2xl p-8 mb-8">
+        <div class="relative mx-auto max-w-sm">
+          <%= image_tag "bill_hongbao.jpg", class: "w-full rounded-lg shadow-lg", alt: "Paper wallet example" %>
+          <div class="absolute top-1/4 left-4 w-18 h-24 border-4 border-orange-500 rounded-lg animate-pulse"></div>
+        </div>
+        <p class="text-center mt-4 text-sm">Find the QR code labeled "Public Address" on your paper wallet</p>
+      </div>
+
+      <!-- Instructions -->
+      <div class="space-y-4 mb-8">
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">1</div>
+          <div>
+            <p class="font-medium">Locate the Public Address QR Code</p>
+            <p class="text-sm text-gray-600">It's usually on the left side of your paper wallet</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 opacity-50">
+          <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-xs flex-shrink-0 mt-0.5">2</div>
+          <div>
+            <p class="font-medium">Scan or Enter the Address</p>
+            <p class="text-sm text-gray-600">We'll check the blockchain for your balance</p>
+          </div>
+        </div>
+      </div>
+
+      <%= permission_banner(:camera) %>
+
+      <!-- Scanner Container -->
+      <div class="flex flex-col gap-4">
+        <!-- QR Scanner Section -->
+        <div data-controller="reveal" data-reveal-hidden-class="hidden">
+          <!-- Scanner Trigger Button -->
+          <button type="button" class="btn btn-primary btn-block btn-lg"
+                  data-action="reveal#toggle">
+            <%= heroicon "camera", variant: :solid, class: "w-5 h-5" %>
+            Scan QR Code
+          </button>
+
+          <!-- Scanner Form -->
+          <div data-reveal-target="item" class="hidden">
+            <%= render QrScannerFormComponent.new(
+                  url: getting_started_path,
+                  attribute: :address,
+                  auto_start: true,
+                  fullscreen: true,
+                  title: "Public Address"
+                ) do |component| %>
+              <% component.with_header do %>
+                <div class="flex items-center justify-between">
+                  <button type="button" data-action="reveal#toggle qr-scanner#disconnect"
+                          class="btn btn-circle btn-ghost btn-sm text-white">
+                    <%= heroicon "x-mark", variant: :solid, class: "w-6 h-6" %>
+                  </button>
+
+                  <!-- Visual schema of the bill -->
+                  <div class="flex-1 flex justify-center">
+                    <div class="relative">
+                      <%= image_tag "bill_hongbao.jpg", class: "h-20 w-auto rounded shadow-lg", alt: "Paper wallet" %>
+
+                      <!-- Highlight overlay for PUBLIC ADDRESS -->
+                      <div class="absolute left-[2%] top-[20%] w-[30%] h-[50%]">
+                        <div class="w-full h-full border-3 border-orange-500 rounded-lg animate-pulse shadow-[0_0_20px_rgba(251,146,60,0.5)]"></div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="w-12"></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <p class="text-center text-sm text-gray-600">
+          or
+        </p>
+
+        <!-- Manual Input Section -->
+        <div data-controller="reveal" data-reveal-hidden-class="hidden" class="mb-6">
+          <!-- Manual Input Trigger Button -->
+          <button type="button" class="btn btn-outline btn-block mb-3"
+                  data-action="reveal#toggle">
+            <%= heroicon "pencil", variant: :outline, class: "w-5 h-5" %>
+            Type Address Manually
+          </button>
+
+          <!-- Manual Input Form -->
+          <div data-reveal-target="item" class="hidden">
+            <%= form_with url: getting_started_path, method: :post, local: true, class: "space-y-4" do |f| %>
+              <div>
+                <label class="label">
+                  <span class="label-text">Bitcoin Address</span>
+                </label>
+                <%= f.text_field :address, placeholder: "bc1q...", class: "input input-bordered w-full", value:  session[:scanned_address] %>
+              </div>
+              <div class="flex gap-2">
+                <button type="submit" class="btn btn-primary flex-1">
+                  Continue
+                </button>
+                <button type="button" data-action="reveal#toggle"
+                        class="btn btn-ghost">
+                  Cancel
+                </button>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    <% when 3 %>
+      <!-- Step 3: Understanding Your Balance -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+          <span class="text-4xl">✅</span>
+        </div>
+        <h2 class="text-3xl font-bold mb-4">Great! Here's Your Balance</h2>
+      </div>
+
+      <!-- Balance Display -->
+      <div class="card bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-xl mb-8">
+        <div class="card-body text-center">
+          <% if @hong_bao %>
+            <h3 class="text-5xl font-bold mb-2">₿ <%= number_to_btc(@hong_bao.balance.btc) %></h3>
+            <p class="text-2xl opacity-90">≈ <%= number_to_currency(@hong_bao.balance.usd) %> USD</p>
+          <% end %>
+          <p class="text-sm opacity-70 mt-4">
+            This value changes with Bitcoin's price, just like stocks or gold
+          </p>
+        </div>
+      </div>
+
+      <!-- What This Means -->
+      <div class="space-y-4 mb-8">
+        <h3 class="font-bold text-lg">What this means:</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="text-2xl">💰</span>
+            <div>
+              <p class="font-medium">You own real Bitcoin</p>
+              <p class="text-sm text-gray-600">This is actual cryptocurrency, not a voucher</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-2xl">🔐</span>
+            <div>
+              <p class="font-medium">It's secured by your private key</p>
+              <p class="text-sm text-gray-600">The code on your paper wallet controls this Bitcoin</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-2xl">🌍</span>
+            <div>
+              <p class="font-medium">You can use it globally</p>
+              <p class="text-sm text-gray-600">Send to anyone, anywhere, anytime</p>
+            </div>
+          </li>
+          <% if @hong_bao %>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">🔍</span>
+              <div>
+                <p class="font-medium">It's fully transparent and verifiable</p>
+                <p class="text-sm text-gray-600">
+                  Anyone can check your balance on 
+                  <a href="https://mempool.space/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">mempool<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>, 
+                  <a href="https://blockstream.info/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">blockstream<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>, 
+                  <a href="https://www.blockchain.com/btc/address/<%= @hong_bao.address %>" 
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-0.5 hover:underline">blockchain<%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3" %></a>
+                </p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+    <% when 4 %>
+      <!-- Step 4: Security Tips -->
+      <div class="text-center mb-8">
+        <span class="text-6xl mb-4 block">🔐</span>
+        <h2 class="text-3xl font-bold mb-4">Keep Your Bitcoin Safe</h2>
+        <p class="text-lg text-gray-700">Your private key is like a password - protect it!</p>
+      </div>
+
+      <!-- Security Guidelines -->
+      <div class="space-y-4 mb-8">
+        <div class="alert alert-success">
+          <%= heroicon "check-circle", variant: :solid, class: "w-6 h-6" %>
+          <div>
+            <h3 class="font-bold">DO: Keep it private</h3>
+            <p>Store your paper wallet in a safe place, like important documents</p>
+          </div>
+        </div>
+
+        <div class="alert alert-success">
+          <%= heroicon "check-circle", variant: :solid, class: "w-6 h-6" %>
+          <div>
+            <h3 class="font-bold">DO: Move to a hardware wallet</h3>
+            <p>For long-term storage, transfer to a hardware wallet. <a href="/learn/hardware-wallets" class="underline">See our guide</a></p>
+          </div>
+        </div>
+
+        <div class="alert alert-error">
+          <%= heroicon "x-circle", variant: :solid, class: "w-6 h-6" %>
+          <div>
+            <h3 class="font-bold">DON'T: Share your private key</h3>
+            <p>Anyone with this key can take your Bitcoin</p>
+          </div>
+        </div>
+
+        <div class="alert alert-error">
+          <%= heroicon "x-circle", variant: :solid, class: "w-6 h-6" %>
+          <div>
+            <h3 class="font-bold">DON'T: Post photos online</h3>
+            <p>Never share images of your private key on social media</p>
+          </div>
+        </div>
+      </div>
+
+    <% when 5 %>
+      <!-- Step 5: Next Steps -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-green-500 rounded-full mb-4">
+          <span class="text-4xl text-white">🎉</span>
+        </div>
+        <h2 class="text-3xl font-bold mb-4">You're All Set!</h2>
+        <p class="text-lg text-gray-700">Here's what you can do with your Bitcoin</p>
+      </div>
+
+      <!-- Options -->
+      <div class="grid gap-4 mb-8">
+        <div class="card bg-white shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">
+              <span class="text-2xl">💎</span>
+              Save It (HODL)
+            </h3>
+            <p>Keep your paper wallet safe and watch your Bitcoin's value over time</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-sm btn-primary">Learn about HODLing</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-white shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">
+              <span class="text-2xl">📱</span>
+              Transfer to a Digital Wallet
+            </h3>
+            <p>Move your Bitcoin to a mobile or hardware wallet for easier access</p>
+            <div class="card-actions justify-end">
+              <%= link_to "Wallet Guide", hong_baos_path, class: "btn btn-sm btn-primary" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-white shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">
+              <span class="text-2xl">🛍️</span>
+              Spend It
+            </h3>
+            <p>Use Bitcoin at thousands of merchants worldwide</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-sm btn-primary">Where to Spend</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completion Actions -->
+      <div class="text-center space-y-4">
+        <h3 class="font-bold text-lg">Ready to explore more?</h3>
+        <%= link_to "Visit Learning Center", "/learn/resources", class: "btn btn-primary btn-lg" %>
+        <%= link_to "Create Your Own Gift", new_paper_path, class: "btn btn-outline btn-lg" %>
+      </div>
+    <% end %>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between mt-12 pt-8 border-t">
+      <% if step > 1 %>
+        <%= link_to getting_started_path(step: step - 1), class: "btn btn-ghost" do %>
+          <%= heroicon "arrow-left", variant: :outline, class: "w-5 h-5" %>
+          Back
+        <% end %>
+      <% else %>
+        <%= link_to "/learn", class: "btn btn-ghost" do %>
+          <%= heroicon "arrow-left", variant: :outline, class: "w-5 h-5" %>
+          Back
+        <% end %>
+      <% end %>
+
+      <% if step < total_steps %>
+        <%= link_to getting_started_path(step: step + 1), class: "btn btn-primary" do %>
+          Continue
+          <%= heroicon "arrow-right", variant: :outline, class: "w-5 h-5" %>
+        <% end %>
+      <% else %>
+        <div data-controller="confetti"
+             data-confetti-animation-value="school-pride"
+             data-confetti-duration-value="3"
+             data-confetti-first-color-value="#10B981"
+             data-confetti-second-color-value="#34D399">
+          <%= link_to "/learn/resources", class: "btn btn-primary", data: { action: "click->confetti#spray" } do %>
+            Finish
+            <%= heroicon "check", variant: :outline, class: "w-5 h-5" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

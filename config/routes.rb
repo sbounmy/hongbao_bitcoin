@@ -86,6 +86,8 @@ Rails.application.routes.draw do
 
   resources :themes, only: [ :new ]
 
+  resource :getting_started, only: [ :show, :create ], controller: "getting_started"
+
   # Authentication routes
   get "login", to: "users#new"
   post "login", to: "sessions#create"

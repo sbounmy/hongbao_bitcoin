@@ -13,7 +13,7 @@
 
         <!-- Content overlay -->
         <div class="relative h-full p-3 flex flex-col justify-between">
-          <div class="text-lg font-bold <%= text_color_for_event(event) %>" >
+          <div class="calendar-day-number text-lg font-bold <%= text_color_for_event(event) %>" >
             <%= day.day %>
           </div>
           <div>
@@ -43,7 +43,7 @@
             <!-- Content overlay -->
             <div class="relative h-full p-2 flex flex-col justify-between">
               <% if index == 0 %>
-                <div class="text-lg font-bold <%= text_color_for_event(event) %>">
+                <div class="calendar-day-number text-lg font-bold <%= text_color_for_event(event) %>">
                   <%= day.day %>
                 </div>
               <% else %>

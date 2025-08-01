@@ -89,3 +89,6 @@ application.register('textarea-autogrow', TextareaAutogrow)
 
 import Notification from '@stimulus-components/notification'
 application.register('notification', Notification)
+
+import { Confetti } from "stimulus-confetti"
+application.register("confetti", Confetti)
