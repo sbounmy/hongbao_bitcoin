@@ -84,10 +84,15 @@ test.describe('Event Calendar', () => {
   test('highlights today\'s date', async ({ page }) => {
     await page.goto('/bitcoin-calendar');
 
-    // Find today's date cell
-    const today = new Date().getDate().toString();
-    const todayCell = page.locator('.calendar-day').filter({ hasText: today }).last();
+    // Get today's date in the browser's timezone
+    const today = await page.evaluate(() => new Date().getDate().toString());
 
+    // Find the cell that contains the date number
+    const todayCell = page.locator('.calendar-day').filter({
+      has: page.locator('.calendar-day-number').filter({ hasText: today })
+    }).first();
+
+    console.log(await todayCell.textContent());
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);
   });
