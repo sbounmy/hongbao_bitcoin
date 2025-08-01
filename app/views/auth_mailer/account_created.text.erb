@@ -1,0 +1,19 @@
+Welcome to Hongbao Bitcoin!
+============================
+
+Your account has been created following your recent purchase. To get started, please set up your password.
+
+YOUR ACCOUNT
+------------
+<%= @user.email %>
+
+SET YOUR PASSWORD
+-----------------
+<%= edit_password_url(@user.password_reset_token) %>
+
+Security tip: This link will expire in 15 minutes. If you didn't make this purchase, please ignore this email.
+
+Questions? We're here to help at team@hongbaob.tc
+
+---
+© <%= Date.current.year %> Hongbao Bitcoin. All rights reserved.

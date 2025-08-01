@@ -1,4 +1,43 @@
-<p>
-  You can reset your password within the next 15 minutes on
-  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token) %>.
-</p>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 0 auto;" class="container">
+  <tr>
+    <td style="padding: 48px 24px 0;">
+      <%= render "shared/mailer/header" %>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);">
+        <tr>
+          <td style="padding: 48px 48px 24px;" class="content">
+            <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 600; color: #1a1f36; line-height: 32px;">
+              Reset your password
+            </h1>
+            
+            <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #697386;">
+              We received a request to reset your password for your Hongbao Bitcoin account. Click the button below to create a new password.
+            </p>
+            
+            <%= render "shared/mailer/button", href: edit_password_url(@user.password_reset_token), text: "Reset password" %>
+            
+            <p style="margin: 24px 0 16px; font-size: 14px; line-height: 20px; color: #8898aa;">
+              Or copy and paste this link into your browser:
+            </p>
+            
+            <p style="margin: 0 0 32px; font-size: 14px; line-height: 20px; color: #8898aa; word-break: break-all;">
+              <%= edit_password_url(@user.password_reset_token) %>
+            </p>
+            
+            <hr style="border: none; border-top: 1px solid #e3e8ee; margin: 32px 0;">
+            
+            <%= render "shared/mailer/security_notice", title: "Didn't request this?" do %>
+              If you didn't request a password reset, you can safely ignore this email. Your password won't be changed. This link will expire in 15 minutes.
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  
+  <%= render "shared/mailer/footer" %>
+</table>

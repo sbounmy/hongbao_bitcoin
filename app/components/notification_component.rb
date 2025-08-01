@@ -40,7 +40,7 @@ class NotificationComponent < ViewComponent::Base
 
   def alert_type_class
     case type
-    when :success
+    when :success, :notice
       "alert-success"
     when :error, :alert
       "alert-error"
@@ -53,7 +53,7 @@ class NotificationComponent < ViewComponent::Base
 
   def icon_name
     case type
-    when :success
+    when :success, :notice
       "check-circle"
     when :error, :alert
       "x-circle"

@@ -1,15 +1,35 @@
-<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-  <h1>Welcome to Hong Bao!</h1>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 0 auto;" class="container">
+  <tr>
+    <td style="padding: 48px 24px 0;">
+      <%= render "shared/mailer/header" %>
+    </td>
+  </tr>
   
-  <p>Click the button below to sign in to your account. This magic link will expire in 30 minutes.</p>
+  <tr>
+    <td>
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);">
+        <tr>
+          <td style="padding: 48px 48px 24px;" class="content">
+            <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 600; color: #1a1f36; line-height: 32px;">
+              Welcome to Hong Bao!
+            </h1>
+            
+            <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px; color: #697386;">
+              Click the button below to sign in to your account. This magic link will expire in 30 minutes.
+            </p>
+            
+            <%= render "shared/mailer/button", href: @verify_url, text: "Sign in to Hong Bao" %>
+            
+            <hr style="border: none; border-top: 1px solid #e3e8ee; margin: 32px 0;">
+            
+            <%= render "shared/mailer/security_notice" do %>
+              If you didn't request this magic link, you can safely ignore it.
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
   
-  <div style="text-align: center; margin: 30px 0;">
-    <%= link_to "Sign in to Hong Bao", 
-        @verify_url,
-        style: "display: inline-block; padding: 12px 24px; background-color: #F04747; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;" %>
-  </div>
-  
-  <p style="color: #666; font-size: 14px;">
-    If you didn't request this magic link, you can safely ignore it.
-  </p>
-</div> 
+  <%= render "shared/mailer/footer" %>
+</table> 

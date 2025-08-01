@@ -290,7 +290,7 @@ Rails.configuration.to_prepare do
     def authenticate_admin_user!
       unless current_user&.admin?
         session[:return_to_after_authenticating] = request.url
-        redirect_to new_session_path, alert: "Admin access required"
+        redirect_to login_path, alert: "Admin access required"
       end
     end
 
