@@ -92,7 +92,6 @@ test.describe('Event Calendar', () => {
       has: page.locator('.calendar-day-number').filter({ hasText: today })
     }).first();
 
-    console.log(await todayCell.textContent());
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);
   });
