@@ -40,13 +40,26 @@ module Papers
         @temp_output.rewind
         @temp_output.read
       else
-        @binary_data
+        # If processing fails, fall back to splitting image in half and taking upper half
+        Rails.logger.info "Gap correction failed, falling back to upper half of image"
+        process_upper_half
       end
     end
 
     def cleanup_temp_files
       @temp_input&.unlink
       @temp_output&.unlink
+    end
+
+    def process_upper_half
+      # Just crop to 1024x512 from the top
+      final_result = crop_image(@image, 1024, 512)
+      final_result.save(@temp_output.path)
+      @temp_output.rewind
+      @temp_output.read
+    rescue => e
+      Rails.logger.error "Error processing upper half: #{e.message}"
+      @binary_data
     end
 
     def rgb_to_hsv(r, g, b)
