@@ -41,7 +41,7 @@ env:
     SOLID_QUEUE_IN_PUMA: true
     # For webooks assets etc
     APP_HOST: hongbaob.tc
-    BTCPAY_HOST: mainnet.demo.btcpayserver.org
+    BTCPAY_HOST: btcpay.hongbaob.tc
     STRIPE_PRODUCT_IDS: prod_SOpApecECpJnYH,prod_SOpA89K3IVc5fn,prod_SOpAOt3ccxW67Z # Mini, Family, Maximalist
     DEMO_PAPER_ID: 33
 
