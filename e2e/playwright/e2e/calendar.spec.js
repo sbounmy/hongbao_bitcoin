@@ -88,8 +88,9 @@ test.describe('Event Calendar', () => {
     const today = await page.evaluate(() => new Date().getDate().toString());
 
     // Find the cell that contains the date number
+    const childCell = page.locator('.calendar-day-number').filter({ hasText: new RegExp(`^\\s*${today}\\s*$`) }).first();
     const todayCell = page.locator('.calendar-day').filter({
-      has: page.locator('.calendar-day-number').filter({ hasText: today })
+      has: childCell
     }).first();
 
     // Today should have the orange border
