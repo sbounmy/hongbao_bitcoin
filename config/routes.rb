@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   resources :bundles, only: [ :create ]
 
   ActiveAdmin.routes(self)
+
+  namespace :admin do
+    resource :test_product, only: [ :show ], controller: "test_product"
+  end
+
   resource :session, except: [ :new ]
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do

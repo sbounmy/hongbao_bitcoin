@@ -1,5 +1,6 @@
 class StripeService
   CACHE_DURATION = 2.hours
+  ADMIN_PRICE_ID = "price_1Rs5THIeDQzQhbSLqCoiyDBt"
 
   class << self
     def fetch_products
@@ -40,6 +41,24 @@ class StripeService
           }
         end.sort_by { |price| price[:tokens] }
       # end
+    end
+
+    def fetch_admin_product
+      stripe_price = ::Stripe::Price.retrieve(
+        id: ADMIN_PRICE_ID,
+        expand: [ "product" ]
+      )
+
+      {
+        stripe_product_id: stripe_price.product.id,
+        stripe_price_id: stripe_price.id,
+        name: stripe_price.product.name,
+        description: stripe_price.product.description,
+        price: stripe_price.unit_amount / 100.0,
+        tokens: stripe_price.product.metadata["tokens"].to_i,
+        envelopes: stripe_price.product.metadata["envelopes"].to_i,
+        slug: stripe_price.product.metadata["slug"] || "admin-test"
+      }
     end
   end
 end

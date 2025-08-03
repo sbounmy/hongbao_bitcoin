@@ -1,0 +1,102 @@
+<div class="min-h-screen bg-base-200">
+  <%= render "shared/header" %>
+  
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <%# Page Header %>
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Admin Test Product</h1>
+      <p class="text-gray-600">This product is only visible to administrators</p>
+    </div>
+    
+    <% if @product.present? %>
+      <div class="grid md:grid-cols-2 gap-8">
+        <%# Product Details Card %>
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+          <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Product Details</h2>
+            
+            <div class="space-y-3">
+              <div>
+                <span class="text-sm text-gray-600">Product Name</span>
+                <p class="font-semibold"><%= @product[:name] %></p>
+              </div>
+              
+              <% if @product[:description].present? %>
+                <div>
+                  <span class="text-sm text-gray-600">Description</span>
+                  <p><%= @product[:description] %></p>
+                </div>
+              <% end %>
+              
+              <div class="divider"></div>
+              
+              <div class="stats stats-vertical shadow">
+                <div class="stat">
+                  <div class="stat-title">Price</div>
+                  <div class="stat-value text-primary">€<%= @product[:price] %></div>
+                </div>
+                
+                <% if @product[:tokens] > 0 %>
+                  <div class="stat">
+                    <div class="stat-title">Tokens Included</div>
+                    <div class="stat-value text-secondary"><%= @product[:tokens] %></div>
+                  </div>
+                <% end %>
+                
+                <% if @product[:envelopes] > 0 %>
+                  <div class="stat">
+                    <div class="stat-title">Envelopes Included</div>
+                    <div class="stat-value text-accent"><%= @product[:envelopes] %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <%# Checkout Options Card %>
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+          <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Purchase Options</h2>
+            
+            <div class="space-y-3">
+              <%= render Stripe::CheckoutButtonComponent.new(
+                price_id: @product[:stripe_price_id],
+                color: "red"
+              ) %>
+              
+              <%= render Btcpay::Btc::CheckoutButtonComponent.new(
+                price_id: @product[:stripe_price_id],
+                color: "red"
+              ) %>
+              
+              <%= render Btcpay::Lightning::CheckoutButtonComponent.new(
+                price_id: @product[:stripe_price_id],
+                color: "red"
+              ) %>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="alert alert-info">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <p class="font-semibold">Admin Only Product</p>
+                <p class="text-sm">Product ID: <%= @product[:stripe_product_id] %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="alert alert-error">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Unable to load product information.</span>
+      </div>
+    <% end %>
+  </div>
+</div>
