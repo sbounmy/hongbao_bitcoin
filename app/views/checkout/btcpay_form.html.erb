@@ -1,0 +1,95 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Complete Your Order
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Please provide your shipping information for Bitcoin payment
+      </p>
+    </div>
+    
+    <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false }, class: "mt-8 space-y-6" do |form| %>
+      <%= render "shared/error_messages", resource: @errors if @errors %>
+      
+      <div class="space-y-4">
+        <div>
+          <%= form.label :buyerName, "Full Name", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerName, 
+              required: true,
+              value: params[:buyerName],
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= form.label :buyerEmail, "Email", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.email_field :buyerEmail, 
+              required: true,
+              value: current_user&.email || params[:buyerEmail],
+              readonly: authenticated?,
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm #{'bg-gray-100' if authenticated?}" %>
+        </div>
+
+        <div>
+          <%= form.label :buyerAddress1, "Shipping Address Line 1", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerAddress1, 
+              required: true,
+              value: params[:buyerAddress1],
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= form.label :buyerAddress2, "Shipping Address Line 2 (optional)", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerAddress2, 
+              value: params[:buyerAddress2],
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= form.label :buyerCity, "City", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerCity, 
+                required: true,
+                value: params[:buyerCity],
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= form.label :buyerState, "State/Province", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerState, 
+                value: params[:buyerState],
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= form.label :buyerZip, "Postal Code", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerZip, 
+                required: true,
+                value: params[:buyerZip],
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= form.label :buyerCountry, "Country", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.country_select :buyerCountry,
+                { selected: params[:buyerCountry] },
+                { required: true,
+                  class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+          </div>
+        </div>
+      </div>
+
+      <%= form.hidden_field :provider, value: "btcpay" %>
+      <%= form.hidden_field :price_id, value: params[:price_id] %>
+      <%= form.hidden_field :color, value: params[:color] %>
+      <%= form.hidden_field :payment_method, value: params[:payment_method] %>
+
+      <div>
+        <%= form.submit "Continue to Payment", 
+            class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

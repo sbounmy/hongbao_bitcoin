@@ -137,19 +137,78 @@ export default class Wallet {
       publicAddressText: this.address,
       publicKeyText: this.publicKey,
       privateKeyText: this.wif,
-      publicAddressQrcode: async () => await this.#qrcode(this.address),
-      appPublicAddressQrcode: async () => await this.#qrcode(this.appPublicAddress),
-      publicKeyQrcode: async () => await this.#qrcode(this.publicKey),
-      privateKeyQrcode: async () => await this.#qrcode(this.wif)
+      publicAddressQrcode: async (logoUrl) => await this.#qrcode(this.address, logoUrl),
+      appPublicAddressQrcode: async (logoUrl) => await this.#qrcode(this.appPublicAddress, logoUrl),
+      publicKeyQrcode: async (logoUrl) => await this.#qrcode(this.publicKey, logoUrl),
+      privateKeyQrcode: async (logoUrl) => await this.#qrcode(this.wif, logoUrl)
     }
   }
 
   get appPublicAddress() {
-    return window.location.origin + "/addrs/" + this.address
+    return "https://hbtc.me/a/" + this.address
   }
 
-  #qrcode(data) {
+  async #qrcode(data, logoUrl) {
     if (!data) return null
-    return QRCode.toDataURL(data, { type: 'image/webp', margin: 1.5 })
+    
+    const canvas = document.createElement('canvas')
+    const size = 600 // higher resolution for crisp logos
+    
+    // Generate QR code
+    await QRCode.toCanvas(canvas, data, {
+      width: size,
+      margin: 1.5,
+      errorCorrectionLevel: 'H', // High error correction because of logo eating qr data
+      color: {
+        dark: '#000000',
+        light: '#ffffff'
+      }
+    })
+    
+    // Add logo if provided
+    if (logoUrl) {
+      await this.#addLogoToQR(canvas, logoUrl)
+    }
+    
+    return canvas.toDataURL('image/webp')
+  }
+  
+  async #addLogoToQR(canvas, logoUrl) {
+    const ctx = canvas.getContext('2d')
+    const img = new Image()
+    
+    // Enable high quality image rendering
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
+    
+    return new Promise((resolve, reject) => {
+      img.onload = () => {
+        const size = canvas.width * 0.35 // Logo is 35% of QR code
+        const padding = 10 // Larger padding for QR code readability
+        const centerX = canvas.width / 2
+        const centerY = canvas.height / 2
+        
+        // Draw white circle background with anti-aliasing
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(centerX, centerY, size/2 + padding, 0, 2 * Math.PI)
+        ctx.fillStyle = 'white'
+        ctx.fill()
+        ctx.restore()
+        
+        ctx.save()
+        ctx.drawImage(
+          img,
+          centerX - size/2,
+          centerY - size/2,
+          size,
+          size
+        )
+        ctx.restore()
+        resolve()
+      }
+      img.onerror = reject
+      img.src = logoUrl
+    })
   }
 }

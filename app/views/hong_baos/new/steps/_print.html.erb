@@ -1,18 +1,15 @@
-<div class="flex flex-col md:flex-row h-full max-h-full overflow-hidden"
-     data-controller="pdf binding"
-     data-pdf-filename-value=""
-     data-binding-attribute-value="pdfFilenameValue"
-     data-binding-name-value="publicAddressText"
+<div class="flex flex-col h-full max-h-full overflow-hidden"
+     data-controller="binding"
      data-action="bitcoin:changed@window->binding#attribute"
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
 
-  <div class="space-y-3 p-8 md:w-1/3" data-controller="dialog-key" data-action="click->dialog-key#backdropClose">
-    <%= render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
-    <%= render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
+  <div class="space-y-3 px-4 py-2">
+    <%# render AlertComponent.new(icon: 'information-circle', message: 'You can import your own keys, or generate a new random one (default). We do not validate imported keys, so please make sure you know what you are doing', class: 'group-[div[data-bitcoin-custom-wallet-value="true"]]:hidden') %>
+    <%# render AlertComponent.new(icon: 'information-circle', message: "You're using custom keys. If you're in an untrusted or unsafe environment (printer, internet, or device), fill in only the public address — never the private key & recovery phrase.", class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
 
-    <%= render TextareaComponent.new(:mnemonic_text, label: 'Recovery Phrase (24 words)', clipboard: true) do |fieldset| %>
+    <%= render TextareaComponent.new(:mnemonic_text, label: 'Seed (24 words)', clipboard: true) do |fieldset| %>
       <%= fieldset.with_icon do %>
         <%= heroicon "qr-code", class: "w-5 h-5" %>
       <% end %>
@@ -20,7 +17,7 @@
         <div class="flex flex-row gap-2 items-center">
           <%= button_tag '#',
                   data: {
-                    action: "bitcoin#generate dialog-key#reset dialog-key:accepted@window->bitcoin#customWalletChanged"
+                    action: "bitcoin#generateNewKeys"
                   },
                   id: "bitcoin-generate",
                   class: "text-[#FFB636] p-1.5 hover:text-[#FFB636]/80 transition-colors" do %>
@@ -37,15 +34,15 @@
                             clipboard_target: "source",
                             controller: "binding textarea-autogrow",
                             binding_name_value: "mnemonicText",
-                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow keydown->dialog-key#open"
+                            action: "bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged binding:changed->textarea-autogrow#autogrow"
                           } %>
         <p class='label hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'>Hand write it on the paper after printing.</p>
       <% end %>
     <% end %>
 
-    <%= render FieldsetComponent.new(:private_key_text, label: 'Private Key', clipboard: true) do |fieldset| %>
+    <%= render FieldsetComponent.new(:private_key_text, label: '', clipboard: true) do |fieldset| %>
       <%= fieldset.with_icon do %>
-        <%= heroicon "key", class: "w-5 h-5" %>
+        <span class="label">Private Key</span>
       <% end %>
       <%= fieldset.with_badge do %>
         <%= tag.span("Optional", class: 'badge badge-neutral badge-xs hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex') %>
@@ -58,7 +55,7 @@
                               clipboard_target: "source",
                               controller: "binding",
                               binding_name_value: "privateKeyText",
-                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged keydown->dialog-key#open"
+                              action: "bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged"
                             } %>
       <% end %>
       <%= fieldset.with_note do %>
@@ -67,20 +64,9 @@
     <% end %>
 
     <div class="space-y-1">
-      <dialog class="modal" data-dialog-key-target="dialog">
-        <div class="modal-box">
-          <p>Using your own key will clear the other keys.</p>
-          <p>Are you sure?</p>
-
-          <div class="modal-action">
-            <button type="button" class="btn btn-ghost" data-action="dialog-key#close" autofocus>Cancel</button>
-            <button type="button" class="btn btn-primary" data-action="dialog-key#accept" autofocus>Accept</button>
-          </div>
-        </div>
-      </dialog>
-      <%= render FieldsetComponent.new(:public_address_text, label: 'Public Address', clipboard: true) do |fieldset| %>
+      <%= render FieldsetComponent.new(:public_address_text, label: '', clipboard: true) do |fieldset| %>
         <%= fieldset.with_icon do %>
-          <%= heroicon "qr-code", class: "w-5 h-5" %>
+          <span class="label">Public Address</span>
         <% end %>
         <%= fieldset.with_input do %>
             <%= text_field_tag :public_address_text,
@@ -90,124 +76,21 @@
                                 clipboard_target: "source",
                                 controller: "binding",
                                 binding_name_value: "publicAddressText",
-                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged keydown->dialog-key#open"
+                                action: "bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged"
                               } %>
 
         <% end %>
       <% end %>
     </div>
 
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend text-[#FFB636]">Beneficiary</legend>
-      <div class="flex gap-2 text-white">
-        <label for="mode">
-          <span class="">Beginner</span>
-        </label>
-        <input type="checkbox" id="mode" class="toggle" data-action="bitcoin#modeChanged" />
-        <label for="mode">
-          <span class="">Maximalist</span>
-        </label>
-      </div>
-      <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
-    </fieldset>
-
     <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
       <div class="flex flex-col items-center gap-4 w-full">
-        <!-- Download PDF Button -->
-        <button type="button"
-                class="cursor-pointer w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
-                        text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
-                data-paper-pdf-target="downloadButton"
-                data-action="pdf#download">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-          </svg>
-          Download PDF
-        </button>
 
         <div class="flex items-center space-x-4 w-full">
-          <%= render "hong_baos/new/previous_button" if local_assigns[:index] != 1 %>
-          <%= render "hong_baos/new/next_button",
-            html_options: {
-              disabled: true,
-              data_action: "pdf:downloaded@window->disabled#remove"
-            } %>
+          <%= render "hong_baos/new/next_button" %>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PDF Preview Section with simple scrolling -->
-  <div class="flex-1 flex min-h-screen flex-col bg-[#2a2a2e] overflow-hidden">
-    <!-- Zoom controls toolbar -->
-    <div class="flex justify-center text-white items-center gap-2 p-2 bg-[#38383d] border-b border-white/10">
-      <button data-action="pdf#zoomOut" class="h-full hover:bg-[#737376] w-8 p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">-</button>
-      <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="h-full w-16 text-sm font-thin hover:bg-[#737376] p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]"></button>
-      <button data-action="pdf#zoomIn" class="h-full w-8 flex p-1 hover:bg-[#737376] justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">+</button>
-    </div>
-
-    <!-- Viewport for scrolling -->
-    <div data-pdf-target="viewport"
-         class="flex-1 bg-[#2a2a2e] overflow-auto p-4 w-full mx-auto mb-4"
-         data-action="
-           wheel->pdf#handleWheel
-           touchstart->pdf#handleTouchStart
-           touchmove->pdf#handleTouchMove
-           touchend->pdf#handleTouchEnd
-         ">
-      <!-- Wrapper to handle scaled dimensions for scrolling -->
-      <div data-pdf-target="wrapper" class="mx-auto h-screen">
-        <!-- This is the actual content that will be rendered to PDF -->
-        <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col justify-between gap-4 shadow-lg origin-top-left">
-          <!-- Main content of the page -->
-          <div class="flex flex-col justify-between">
-            <div class="flex items-center">
-              <%= cuttable_content class: "flex flex-col items-center" do %>
-                <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
-                        paper:,
-                        elements: paper.back_elements,
-                        image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-                %>
-
-              <%# Fold Line %>
-              <div class="border-t-2 border-dashed border-gray-400">
-              </div>
-              <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[70mm]",
-                        paper:,
-                        elements: paper.front_elements,
-                        actions: "bitcoin:modeChanged@window->canva#refresh",
-                        image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
-              %>
-            <% end %>
-            <div class="relative w-8">
-              <div class="flex justify-start -ml-[180px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
-                <div class="space-y-2">
-                  <div class="flex gap-2">
-                    <h2 class="text-2xl font-bold">REMINDER</h2>
-                    <span class="text-gray-600">(to be kept by the donor)</span>
-                  </div>
-
-                  <div class="space-y-4">
-                    <p>
-                      <span class="font-bold">1.</span> Cut out the Bitcoin paper wallet (left part) and fold it to create your gift.
-                    </p>
-                    <p>
-                      <span class="font-bold">2.</span> After creating the paper wallet, you can put it in a Hong₿ao (Bitcoin red envelope) and give it to the recipient.
-                    </p>
-                    <p>
-                      <span class="font-bold">Warning:</span> Never share the private key with anyone. Only the recipient should have access to it.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <%= render 'hong_baos/pdf/footer', paper: %>
-      </div>
-    </div>
-  </div>
-  </div>
 </div>

@@ -1,0 +1,13 @@
+<div class="collapse collapse-arrow bg-white border rounded-2xl"
+     data-controller="collapse"
+     data-collapse-id-value="<%= @id %>"
+     data-collapse-open-value="<%= @open %>">
+
+  <div class="collapse-title cursor-pointer" data-action="click->collapse#toggle">
+    <%= summary %>
+  </div>
+
+  <div class="collapse-content">
+    <%= content %>
+  </div>
+</div>

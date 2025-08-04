@@ -3,17 +3,12 @@
         <div class="flex items-center gap-2">
             <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
             <h1 class="text-xl hidden sm:inline-block font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
-            <%= render DropdownComponent.new(
-                items: themes,
-                current_item: current_theme,
-                path_helper: :root_path,
-                title: false) %>
         </div>
         <div class="flex items-center gap-2">
             <span class="pt-2 hidden sm:inline-block">
                 <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
             </span>
-    
+
             <%# Replaced icon-only link with a button including text for clarity %>
             <%= link_to hong_baos_path,
                 class: "btn btn-ghost btn-sm normal-case rounded-selector hover:bg-base-200/20 transition-colors" do %>
@@ -23,16 +18,7 @@
 
 
             <% if authenticated? %>
-                <%= render UserDrawerComponent.new do |component| %>
-                    <%# This label triggers the drawer identified by drawer_id %>
-                    <label for="<%= component.drawer_id %>"
-                            tabindex="0"
-                            class="btn btn-ghost btn-circle cursor-pointer">
-                            <%= render AvatarComponent.new(user: Current.user) do |avatar| %>
-                                <%= avatar.with_badge(user: Current.user) %>
-                            <% end %>
-                    </label>
-                <% end %>
+                <%= render "shared/user_drawer" %>
             <% else %>
                 <%= link_to "Login", signup_path, class: "btn btn-outline rounded-selector hover:bg-base-200/20 transition-colors" %>
             <% end %>

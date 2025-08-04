@@ -1,0 +1,13 @@
+<div class="toast <%= toast_position_class %> z-50"
+     data-controller="notification"
+     data-notification-delay-value="<%= delay %>">
+  <div role="alert" class="alert <%= alert_type_class %>">
+    <%= heroicon icon_name, options: { class: "h-6 w-6 shrink-0 stroke-current" } %>
+    <span><%= message %></span>
+    <button type="button"
+            class="btn btn-sm btn-ghost"
+            data-action="notification#hide">
+      <%= heroicon "x-mark", options: { class: "h-4 w-4" } %>
+    </button>
+  </div>
+</div>

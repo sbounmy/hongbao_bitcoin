@@ -5,11 +5,13 @@
 class Bundle < ApplicationRecord
   belongs_to :user
 
-  has_many :chats, dependent: :destroy
+  has_many :papers, dependent: :destroy
   has_many :input_items, dependent: :destroy
   has_many :inputs, through: :input_items, dependent: :destroy
+  has_one :input_item_theme, -> { joins(:input).where(inputs: { type: "Input::Theme" }) }, class_name: "InputItem", dependent: :destroy
 
   accepts_nested_attributes_for :input_items, allow_destroy: true
+  accepts_nested_attributes_for :input_item_theme, allow_destroy: true
 
   validate :user_has_enough_tokens, on: :create
   has_many :styles, -> { where(inputs: { type: "Input::Style" }) }, through: :input_items, source: :input

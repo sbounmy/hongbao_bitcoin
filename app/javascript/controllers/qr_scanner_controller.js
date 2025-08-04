@@ -6,14 +6,33 @@ QrScanner.WORKER_PATH = '/assets/qr-scanner-worker.min.js'
 export default class extends Controller {
   static targets = ["results", "scanValue"]
   static values = {
-    autoStart: Boolean
+    autoStart: Boolean,
+    readerId: String,
+    overlayId: String
   }
 
   connect() {
     console.log('QR Scanner Controller connected')
+    const readerId = this.hasReaderIdValue ? this.readerIdValue : 'qr-reader'
+    const readerElement = document.getElementById(readerId)
+    
+    if (!readerElement) {
+      console.error(`QR reader element with id '${readerId}' not found`)
+      return
+    }
+    
     if (!this.videoElem) {
       this.videoElem = document.createElement('video')
-      document.getElementById('qr-reader').appendChild(this.videoElem)
+      this.videoElem.style.width = '100%'
+      this.videoElem.style.height = '100%'
+      this.videoElem.style.objectFit = 'cover'
+      readerElement.appendChild(this.videoElem)
+    }
+
+    // Get custom overlay element if provided
+    let overlayElement = null
+    if (this.hasOverlayIdValue) {
+      overlayElement = document.getElementById(this.overlayIdValue)
     }
 
     this.scanner = new QrScanner(
@@ -27,8 +46,9 @@ export default class extends Controller {
         this.element.requestSubmit()
       },
       {
-        highlightScanRegion: true,
-        highlightCodeOutline: true,
+        highlightScanRegion: overlayElement ? false : true,
+        highlightCodeOutline: overlayElement ? false : true,
+        overlay: overlayElement,
         // Only scan when QR code is clearly visible
         maxScansPerSecond: 1,
         calculateScanRegion: (video) => {

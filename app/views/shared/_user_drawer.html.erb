@@ -1,0 +1,55 @@
+<%= render DrawerComponent.new(id: "user-drawer", class: "drawer-end", z: 50) do |drawer| %>
+    <% drawer.with_body do %>
+    <%# This label triggers the drawer identified by drawer_id %>
+        <label for="user-drawer"
+                tabindex="0"
+                class="btn btn-ghost btn-circle cursor-pointer">
+                <%= render AvatarComponent.new(user: Current.user) do |avatar| %>
+                    <%= avatar.with_badge(user: Current.user) %>
+                <% end %>
+        </label>
+    <% end %>
+    <% drawer.with_side do %>
+        <div class="flex flex-col min-h-full w-60 sm:w-80 bg-base-200 text-base-content relative z-50">
+        <%# Drawer Header %>
+        <div class="flex items-center justify-between p-4 border-b border-base-300">
+            <div class="flex items-center gap-3">
+            <%= render AvatarComponent.new(user: Current.user) %>
+            <div>
+                <div class="font-semibold">
+                <%# Display name or fallback to email %>
+                <%= Current.user.try(:name).presence || Current.user.email %>
+                </div>
+            </div>
+            </div>
+            <%# Close Button %>
+            <%= label_tag 'user-drawer', class: "btn btn-ghost btn-sm btn-circle", aria: { label: "close sidebar" } do %>
+                <%= heroicon "x-mark", options: { class: "w-6 h-6" } %>
+            <% end %>
+        </div>
+
+        <%# Menu List %>
+        <ul class="menu p-4 flex-grow w-full">
+            <li>
+            <%= link_to tokens_path, class: "flex items-center gap-2" do %>
+                <%= heroicon "credit-card", options: { class: "w-5 h-5" } %>
+                Billing & Credits
+            <% end %>
+            </li>
+            <li>
+            <%= link_to orders_path, class: "flex items-center gap-2" do %>
+                <%= heroicon "shopping-bag", options: { class: "w-5 h-5" } %>
+                My Orders
+            <% end %>
+            </li>
+            <%# Add mt-auto to push this list item to the bottom %>
+            <li class="mt-auto">
+            <%= button_to logout_path, method: :delete, form_class: "flex", class: "btn btn-outline w-full" do %>
+                <%= heroicon "arrow-left-on-rectangle", options: { class: "w-5 h-5" } %>
+                Logout
+            <% end %>
+            </li>
+        </ul>
+        </div>
+    <% end %>
+<% end %>

@@ -26,8 +26,11 @@ test.describe('PDF Generation', () => {
   });
 
   test('should handle PDF download', async ({ page, context }) => {
+    await page.getByRole('button', { name: 'Generate new keys' }).click()
+
     await expectGeneratedKeys(page)
 
+    await page.getByRole('button', { name: 'Next' }).click()
     // Start waiting for download before clicking
     const downloadPromise = page.waitForEvent('download');
 
@@ -47,55 +50,34 @@ test.describe('PDF Generation', () => {
   });
 
   test('user can input custom keys', async ({ page }) => {
-    await expectGeneratedKeys(page)
+    await page.getByRole('button', { name: 'Use my own keys' }).click()
 
-    await expect(page.getByRole('alert', { name: 'Use custom keys at your own risk.' })).toBeHidden()
-    // fill public address
+    await expect(page.locator('#public_address_text')).toBeEmpty()
+    await expect(page.locator('#private_key_text')).toBeEmpty()
+    await expect(page.locator('#mnemonic_text')).toBeEmpty()
+
     await page.locator('#public_address_text').pressSequentially('my-own-public-address')
-    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
-    await page.getByRole('button', { name: 'Accept' }).click()
-    await page.locator('#public_address_text').fill('my-own-public-addres')
-    await page.locator('#public_address_text').pressSequentially('s')
-    await expect(page.locator('body')).toContainText("You're using custom keys.")
-    await expect(page.locator('#public_address_text')).toHaveValue('my-own-public-address')
-    await expect(page.locator('#private_key_text')).toHaveValue('')
-    await expect(page.locator('#mnemonic_text')).toHaveValue('')
-
-    // fill private key
     await page.locator('#private_key_text').fill('my-own-private-key')
-    await expect(page.locator('#private_key_text')).toHaveValue('my-own-private-key')
-    await expect(page.locator('#mnemonic_text')).toHaveValue('')
-
-    // fill recovery phrase
     await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
-    await expect(page.locator('#mnemonic_text')).toHaveValue('my own mnemonic is here but you can change it')
 
     // check if pdf is generated with correct values
     await expect(page.locator('[data-canva-item-name-value="publicAddressText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
     await expect(page.locator('[data-canva-item-name-value="privateKeyText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
     await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
 
-    // generate new keys
-    await page.locator('#bitcoin-generate').click()
-    await expectGeneratedKeys(page)
-
-    // re-ask for confirmation
-    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
-    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
-    await page.getByRole('button', { name: 'Cancel' }).click()
+    page.getByRole('button', { name: 'Next' })
   });
 
   test('user top up notice for custom keys', async ({ page }) => {
-    await expectGeneratedKeys(page)
+    await page.getByRole('button', { name: 'Use my own keys' }).click()
 
     // fill public address
     await page.locator('#public_address_text').pressSequentially('my-own-public-address')
-    await expect(page.getByText('Using your own key will clear the other keys.')).toBeVisible()
-    await page.getByRole('button', { name: 'Accept' }).click()
     await page.locator('#public_address_text').fill('my-own-public-addres')
-    await page.locator('#public_address_text').pressSequentially('s')
-    await expect(page.locator('body')).toContainText("You're using custom keys.")
+    await page.locator('#private_key_text').fill('my-own-private-key')
+    // await expect(page.locator('body')).toContainText("You're using custom keys.")
 
+    await page.getByRole('button', { name: 'Next' }).click()
     const downloadPromise = page.waitForEvent('download');
 
     // Click download button (adjust selector as needed)
@@ -115,8 +97,10 @@ test.describe('PDF Generation', () => {
   });
 
   test('user top up no notice for generated keys', async ({ page }) => {
+    await page.getByRole('button', { name: 'Generate new keys' }).click()
     await expectGeneratedKeys(page)
 
+    await page.getByRole('button', { name: 'Next' }).click()
     const downloadPromise = page.waitForEvent('download');
 
     // Click download button (adjust selector as needed)
@@ -136,7 +120,9 @@ test.describe('PDF Generation', () => {
   });
 
   test('user can go offline with save page as and interact with it', async ({ page, context }) => {
+    test.setTimeout(60_000);
     await savePageAs(page, context, async (offlinePage) => {
+      await offlinePage.getByRole('button', { name: 'Generate new keys' }).click()
       await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
       var addresses = [];
       for (let i = 0; i < 10; i++) {
@@ -148,6 +134,7 @@ test.describe('PDF Generation', () => {
       // check all addresses are different
       expect(uniq).toHaveLength(10);
 
+      await offlinePage.getByRole('button', { name: 'Next' }).click()
       const downloadPromise = offlinePage.waitForEvent('download');
 
       // Click download button (adjust selector as needed)

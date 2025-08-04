@@ -1,0 +1,72 @@
+<% if fullscreen %>
+  <div class="fixed inset-0 bg-black z-[9999] flex flex-col">
+    <%= form_with **merged_form_options do |form| %>
+      <!-- Header -->
+      <div class="absolute top-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-4 text-white z-10">
+        <% if header? %>
+          <%= header %>
+        <% else %>
+          <div class="flex items-center justify-between">
+            <button type="button" data-action="reveal#toggle qr-scanner#disconnect" 
+                    class="btn btn-circle btn-ghost btn-sm text-white">
+              <%= heroicon "x-mark", variant: :solid, class: "w-6 h-6" %>
+            </button>
+            <div class="flex-1"></div>
+            <div class="w-12"></div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Instructions -->
+      <% if instructions? %>
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 bg-white/90 rounded-lg p-4 max-w-sm z-10">
+          <%= instructions %>
+        </div>
+      <% end %>
+
+      <!-- Scanner takes full screen -->
+      <div class="absolute inset-0">
+        <div id="<%= qr_reader_id %>" class="w-full h-full bg-black"></div>
+        
+        <!-- Custom overlay for QR Scanner library -->
+        <div id="<%= qr_overlay_id %>" class="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <div>
+            <!-- Title above the frame -->
+            <h2 class="text-xl font-bold text-white text-center mb-4"><%= title %></h2>
+            
+            <!-- Scanning frame -->
+            <div class="w-64 h-64 relative">
+              <!-- Corner markers -->
+              <div class="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-orange-500"></div>
+              <div class="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-orange-500"></div>
+              <div class="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-orange-500"></div>
+              <div class="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-orange-500"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Results message -->
+        <div data-qr-scanner-target="results"
+             class="absolute bottom-8 left-4 right-4 text-center text-white font-medium bg-black/70 py-3 px-4 rounded-lg"></div>
+      </div>
+
+      <%= form.hidden_field attribute,
+          data: { qr_scanner_target: "scanValue" } %>
+    <% end %>
+  </div>
+<% else %>
+  <%= form_with **merged_form_options do |form| %>
+    <div class="bg-white/90 rounded-xl p-4 shadow-inner">
+      <div id="<%= qr_reader_id %>" class="w-full rounded-lg overflow-hidden"></div>
+      <div data-qr-scanner-target="results"
+           class="mt-4 text-center text-gray-700 font-medium"></div>
+    </div>
+
+    <%= form.hidden_field attribute,
+        data: { qr_scanner_target: "scanValue" } %>
+
+    <% if content %>
+      <%= content %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,7 +1,10 @@
+require "ostruct"
+
 class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :papers, dependent: :destroy
   has_many :tokens, dependent: :destroy
+  has_many :orders, dependent: :destroy
   has_many :bundles, dependent: :destroy
   has_secure_password
   has_one_attached :avatar
@@ -34,5 +37,17 @@ class User < ApplicationRecord
 
   def clear_magic_link!
     update(magic_link_token: nil, magic_link_expires_at: nil)
+  end
+
+  def followers_count
+    papers.count
+  end
+
+  def handle
+    email.split("@").first
+  end
+
+  def self.fake(options = {})
+    OpenStruct.new(options)
   end
 end

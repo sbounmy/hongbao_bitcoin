@@ -290,12 +290,29 @@ Rails.configuration.to_prepare do
     def authenticate_admin_user!
       unless current_user&.admin?
         session[:return_to_after_authenticating] = request.url
-        redirect_to new_session_path, alert: "Admin access required"
+        redirect_to login_path, alert: "Admin access required"
       end
     end
 
     def current_admin_user
       current_user if current_user&.admin?
+    end
+
+
+    ActiveAdmin::ResourceController.prepend(ActiveAdminFriendlyIdScoping)
+  end
+end
+
+module ActiveAdminFriendlyIdScoping
+  def find_resource
+    if resource_class.is_a? FriendlyId
+      scoped_collection.friendly.find params[:id]
+      # Or potentially even
+      # scoped_collection.friendly.send method_for_find, params[:id]
+      # Or you could do something like this
+      # raise "Using FriendlyId, find method configuration ignored" if method_for_find != :find
+    else
+      super
     end
   end
 end

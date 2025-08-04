@@ -1,4 +1,6 @@
 class Input::Theme < Input
+  self.renderable = true
+
   CSS_PROPERTIES = [
     "color-base-100",       # Base color of page, used for blank backgrounds
     "color-base-200",       # Base color, darker shade
@@ -52,47 +54,40 @@ class Input::Theme < Input
   def self.default_ai_elements
     {
       "private_key_qrcode" => {
-        "x" => 0.12,
-        "y" => 0.38,
-        "size" => 0.17,
+        "x" => 12,
+        "y" => 38,
+        "size" => 17,
         "color" => "224, 120, 1",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "private_key_text" => {
-        "x" => 0.15,
-        "y" => 0.35,
+        "x" => 15,
+        "y" => 35,
         "size" => 14,
         "color" => "224, 120, 1",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
+        "x" => 55,
+        "y" => 24,
+        "size" => 25,
         "color" => "224, 120, 1",
-        "max_text_width" => 100,
+        "max_text_width" => 12,
         "hidden" => true
       },
-      "app_public_address_qrcode" => {
-        "x" => 0.55,
-        "y" => 0.24,
-        "size" => 0.25,
-        "color" => "224, 120, 1",
-        "max_text_width" => 100
-      },
       "public_address_text" => {
-        "x" => 0.55,
-        "y" => 0.24,
+        "x" => 55,
+        "y" => 24,
         "size" => 18,
         "color" => "0, 0, 0",
-        "max_text_width" => 100
+        "max_text_width" => 12
       },
       "mnemonic_text" => {
-        "x" => 0.2,
-        "y" => 0.2,
+        "x" => 20,
+        "y" => 20,
         "size" => 16,
         "color" => "0, 0, 0",
-        "max_text_width" => 100
+        "max_text_width" => 12
       }
     }
   end
@@ -104,10 +99,9 @@ class Input::Theme < Input
   validates :ui_name, presence: true
   validates :slug, presence: true, uniqueness: true
 
-  store :metadata, accessors: [ :ui, :ai, :spotify ]
-  store :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
-  store :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
-  store :spotify, accessors: [ :path ], prefix: true
+  metadata :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
+  metadata :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
+  metadata :spotify, accessors: [ :path ], prefix: true
 
   AI_ELEMENT_TYPES.each do |type|
     store :"ai_#{type}", accessors: AI_ELEMENT_PROPERTIES, prefix: true

@@ -52,6 +52,9 @@ en:
         mt_pelerin: "Credit Card"
         bitstack: "Bitstack"
         ledger: "Ledger"
+  papers:
+    progress_indicator:
+      step: "Step"
   layouts:
     application:
       meta:

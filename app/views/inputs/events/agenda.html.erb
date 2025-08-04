@@ -1,0 +1,113 @@
+<div class="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
+  <div class="container mx-auto px-4 py-8">
+    <%= render "header", date: @date, view_type: "agenda", selected_tag_ids: @selected_tag_ids, all_tags: @all_tags %>
+
+    <!-- Month Navigation -->
+    <div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300 mb-6">
+      <div class="flex justify-between items-center">
+        <%= link_to agenda_month_path(month: @date.prev_month.strftime("%B").downcase + (@date.prev_month.year != Date.current.year ? "-#{@date.prev_month.year}" : "")),
+            class: "btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all",
+            "aria-label": "Previous month" do %>
+          <%= heroicon("chevron-left", class: "h-4 w-4") %>
+        <% end %>
+
+        <h2 class="text-2xl font-bold">
+          <%= @date.strftime('%B %Y') %>
+        </h2>
+
+        <%= link_to agenda_month_path(month: @date.next_month.strftime("%B").downcase + (@date.next_month.year != Date.current.year ? "-#{@date.next_month.year}" : "")),
+            class: "btn btn-circle btn-sm bg-base-200 hover:bg-orange-500 hover:text-white border-0 transition-all",
+            "aria-label": "Next month" do %>
+          <%= heroicon("chevron-right", class: "h-4 w-4") %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Events List -->
+    <div class="bg-base-100 rounded-2xl shadow-xl p-6 border border-base-300">
+      <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+        <%= heroicon("clock", class: "w-5 h-5 text-orange-500") %>
+        Events in <%= @date.strftime('%B %Y') %>
+      </h3>
+
+      <% if @month_events.any? %>
+        <div class="space-y-4">
+          <% @month_events.each do |event| %>
+            <%= link_to input_path(event), class: "block" do %>
+              <div class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-base-200/50 to-base-300/30 hover:from-orange-500/10 hover:to-orange-600/5 transition-all duration-300 border border-base-300 hover:border-orange-500/30">
+                <div class="flex items-stretch">
+                  <!-- Image/Icon -->
+                  <% if event.image.attached? %>
+                    <figure class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0 relative overflow-hidden">
+                      <%= image_tag event.image, class: "w-full h-full object-cover", alt: event.name %>
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </figure>
+                  <% else %>
+                    <div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0 bg-gradient-to-br from-orange-500/20 to-orange-600/10 flex items-center justify-center">
+                      <svg class="w-16 h-16 text-orange-500/60" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.5 13.2c2.7 0 2.7-1.7 2.7-2.2 0-1.4-1.3-1.8-2.7-1.8h-.8v4h.8zm-.8-5.5h.5c2.2 0 2.2-1.2 2.2-1.5 0-1.1-.9-1.5-2.2-1.5h-.5v3zm2.5 8.8v2.2c0 .3-.2.5-.5.5s-.5-.2-.5-.5v-2.1c-.9-.1-1.8-.3-2.6-.7-.3-.1-.4-.4-.3-.7.1-.3.4-.4.7-.3.9.4 1.9.6 2.9.6h.3c1.7 0 3.1-.4 3.1-2 0-2.1-2.4-2.3-3.9-2.6-1.9-.4-3.2-.7-3.2-2.6 0-1.8 1.5-2.5 3.2-2.5v-2c0-.3.2-.5.5-.5s.5.2.5.5v2c.7.1 1.5.2 2.2.5.3.1.4.4.3.7-.1.3-.4.4-.7.3-.7-.3-1.5-.4-2.3-.5-1.7 0-2.7.4-2.7 1.5 0 1.3 1.5 1.5 3 1.9 2.1.5 4.1.9 4.1 3.4-.1 1.9-1.7 2.9-3.6 3z"/>
+                      </svg>
+                    </div>
+                  <% end %>
+
+                  <!-- Content -->
+                  <div class="flex-1 p-4">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="flex items-start gap-4">
+                          <!-- Date Badge -->
+                          <div class="text-center bg-gradient-to-b from-orange-500 to-orange-600 text-white rounded-lg p-2 shadow-lg">
+                            <div class="text-2xl font-bold leading-none"><%= event.anniversary(@date).day %></div>
+                            <div class="text-xs uppercase"><%= event.anniversary(@date).strftime('%b') %></div>
+                          </div>
+
+                          <!-- Event Info -->
+                          <div class="flex-1">
+                            <h4 class="font-bold text-lg group-hover:text-orange-500 transition-colors">
+                              <%= event.name %>
+                            </h4>
+                            <% if event.description.present? %>
+                              <p class="text-sm text-base-content/70 mt-1 line-clamp-2">
+                                <%= event.description %>
+                              </p>
+                            <% end %>
+                            <div class="flex items-center gap-3 mt-2">
+                              <% if event.age > 0 %>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500/10 text-orange-600 border border-orange-500/20">
+                                  <%= heroicon("clock", class: "w-3 h-3") %>
+                                  <%= event.age %> <%= 'year'.pluralize(event.age) %>
+                                </span>
+                              <% end %>
+                              <% if event.price_usd.present? %>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-600 border border-green-500/20">
+                                  1 BTC = $<%= number_with_delimiter(event.price_usd.to_f.round(2)) %>
+                                </span>
+                              <% end %>
+                              <span class="text-xs text-base-content/60">
+                                <%= event.anniversary(@date).strftime('%A') %>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Action Button -->
+                      <div class="btn btn-circle btn-sm bg-orange-500/10 group-hover:bg-orange-500 group-hover:text-white border-0 transition-all">
+                        <%= heroicon("chevron-right", class: "h-4 w-4") %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-12">
+          <p class="text-base-content/50">No Bitcoin milestones this month</p>
+          <p class="text-sm text-base-content/40 mt-2">Check other months for historic events</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

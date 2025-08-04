@@ -37,6 +37,9 @@ ActiveAdmin.register Paper do
         image_tag url_for(paper.image_back), width: 100
       end
     end
+    column :total_tokens
+    column :total_costs
+
     actions defaults: true do |paper_instance|
       item "Duplicate", duplicate_admin_paper_path(paper_instance),
            method: :post,
@@ -49,6 +52,11 @@ ActiveAdmin.register Paper do
       row :name
       row :active
       row :public
+
+      row :total_tokens
+      row :total_costs
+      row :prompt
+
       row :user do |paper|
         paper.user.email if paper.user
       end

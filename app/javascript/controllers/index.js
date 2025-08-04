@@ -10,6 +10,12 @@ import "swiper/css/bundle"
 import Carousel from '@stimulus-components/carousel'
 application.register('carousel', Carousel)
 
+import GalleryController from "./gallery_controller"
+application.register("gallery", GalleryController)
+
+import Collapse from './collapse_controller'
+application.register('collapse', Collapse)
+
 import DisabledController from "./disabled_controller"
 application.register("disabled", DisabledController)
 
@@ -18,6 +24,7 @@ application.register("hello", HelloController)
 
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
+
 
 import MtPelerinController from "./mt_pelerin_controller"
 application.register("mt-pelerin", MtPelerinController)
@@ -40,6 +47,8 @@ application.register("qr-scanner", QrScannerController)
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 
+import ToggleController from './toggle_controller'
+application.register('toggle', ToggleController)
 
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
@@ -77,3 +86,9 @@ application.register('scroll-to', ScrollTo)
 
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 application.register('textarea-autogrow', TextareaAutogrow)
+
+import Notification from '@stimulus-components/notification'
+application.register('notification', Notification)
+
+import { Confetti } from "stimulus-confetti"
+application.register("confetti", Confetti)

@@ -14,5 +14,6 @@ class OgImageController < ApplicationController
     @width, @height = params[:size].split("x")
     @width = @width.to_i || 1200
     @height = @height.to_i || 630
+    @users = User.joins(:avatar_attachment).with_attached_avatar.limit(8)
   end
 end

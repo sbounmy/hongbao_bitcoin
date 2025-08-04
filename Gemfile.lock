@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://github.com/sbounmy/bitcoin-ruby.git
-  revision: 4b20d628f7b201610d3e90c28ba081b384e95867
+  revision: abff666d0fdbf6b1b8f518479c630f4bb78b6062
   branch: bip39-mnemonic
   specs:
     bitcoin-ruby (0.0.20)
@@ -59,7 +59,7 @@ GIT
 
 GIT
   remote: https://github.com/thoughtbot/factory_bot_rails.git
-  revision: 8e45bc342682b610952935354fa478bbe616390f
+  revision: 364bd890bfcfb538fa31318759c93d7e5c4e11a1
   specs:
     factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
@@ -155,7 +155,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
-    brakeman (7.0.2)
+    brakeman (7.1.0)
       racc
     builder (3.3.0)
     capybara (3.40.0)
@@ -170,8 +170,19 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     chunky_png (1.4.0)
+    claude-on-rails (0.1.3)
+      claude_swarm (~> 0.1)
+      rails (>= 6.0)
+    claude_swarm (0.1.20)
+      fast-mcp-annotations
+      thor (~> 1.3)
+      zeitwerk (~> 2.7.3)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
+    countries (8.0.3)
+      unaccent (~> 0.3)
+    country_select (11.0.0)
+      countries (> 6.0, < 9.0)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -179,9 +190,9 @@ GEM
     csv (3.3.4)
     cypress-on-rails (1.17.0)
       rack
-    database_cleaner-active_record (2.2.0)
+    database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
+      database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
     date (3.4.1)
     debug (1.11.0)
@@ -193,8 +204,37 @@ GEM
       dotenv (= 3.1.8)
       railties (>= 6.1)
     drb (2.2.3)
-    ed25519 (1.3.0)
-    erb (5.0.1)
+    dry-configurable (1.3.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-core (1.1.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-inflector (1.2.0)
+    dry-initializer (3.2.0)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-schema (1.14.1)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 1.0, >= 1.0.1)
+      dry-core (~> 1.1)
+      dry-initializer (~> 3.2)
+      dry-logic (~> 1.5)
+      dry-types (~> 1.8)
+      zeitwerk (~> 2.6)
+    dry-types (1.8.3)
+      bigdecimal (~> 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
+    ed25519 (1.4.0)
+    erb (5.0.2)
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -214,6 +254,13 @@ GEM
       net-http (>= 0.5.0)
     faraday-retry (2.3.1)
       faraday (~> 2.0)
+    fast-mcp-annotations (1.5.2)
+      addressable (~> 2.8)
+      base64
+      dry-schema (~> 1.14)
+      json (~> 2.0)
+      mime-types (~> 3.4)
+      rack (~> 3.1)
     ffi (1.17.2)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-arm64-darwin)
@@ -221,10 +268,13 @@ GEM
     ffi-compiler (1.3.2)
       ffi (>= 1.15.5)
       rake
-    foreman (0.88.1)
+    foreman (0.90.0)
+      thor (~> 1.4)
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
+    friendly_id (5.5.1)
+      activerecord (>= 4.0.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -249,7 +299,7 @@ GEM
       has_scope (>= 0.6)
       railties (>= 7.0)
       responders (>= 2)
-    io-console (0.8.0)
+    io-console (0.8.1)
     irb (1.15.2)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
@@ -262,13 +312,13 @@ GEM
     json (2.12.2)
     jwt (3.0.0)
       base64
-    kamal (2.5.3)
+    kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
       concurrent-ruby (~> 1.2)
       dotenv (~> 3.1)
-      ed25519 (~> 1.2)
+      ed25519 (~> 1.4)
       net-ssh (~> 7.3)
       sshkit (>= 1.23.0, < 2.0)
       thor (~> 1.3)
@@ -330,7 +380,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (5.25.5)
-    mission_control-jobs (1.0.2)
+    mission_control-jobs (1.1.0)
       actioncable (>= 7.1)
       actionpack (>= 7.1)
       activejob (>= 7.1)
@@ -361,14 +411,14 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.8)
+    nokogiri (1.18.9)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.18.8-aarch64-linux-gnu)
+    nokogiri (1.18.9-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.8-arm64-darwin)
+    nokogiri (1.18.9-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
+    nokogiri (1.18.9-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
@@ -378,9 +428,10 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (>= 1.1.8, < 3)
-    ostruct (0.6.1)
+    ostruct (0.6.2)
+    pagy (9.3.5)
     parallel (1.27.0)
-    parallel_tests (5.3.0)
+    parallel_tests (5.3.1)
       parallel
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -389,16 +440,15 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
-    propshaft (1.1.0)
+    propshaft (1.2.1)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
-      railties (>= 7.0.0)
     psych (5.2.6)
       date
       stringio
     public_suffix (6.0.2)
-    puma (6.6.0)
+    puma (6.6.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -424,6 +474,10 @@ GEM
       activesupport (= 8.0.2)
       bundler (>= 1.15.0)
       railties (= 8.0.2)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -453,7 +507,7 @@ GEM
       psych (>= 4.0.0)
     redcarpet (3.6.1)
     regexp_parser (2.10.0)
-    reline (0.6.1)
+    reline (0.6.2)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
@@ -507,9 +561,9 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    scrypt (3.0.8)
+    scrypt (3.1.0)
       ffi-compiler (>= 1.0, < 2.0)
-      rake (>= 9, < 14)
+      rake (~> 13)
     securerandom (0.4.1)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
@@ -534,13 +588,13 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_queue (1.1.5)
+    solid_queue (1.2.1)
       activejob (>= 7.1)
       activerecord (>= 7.1)
       concurrent-ruby (>= 1.3.1)
       fugit (~> 1.11.0)
       railties (>= 7.1)
-      thor (~> 1.3.1)
+      thor (>= 1.3.1)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -549,11 +603,11 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (2.7.1)
+    sqlite3 (2.7.3)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (2.7.1-aarch64-linux-gnu)
-    sqlite3 (2.7.1-arm64-darwin)
-    sqlite3 (2.7.1-x86_64-linux-gnu)
+    sqlite3 (2.7.3-aarch64-linux-gnu)
+    sqlite3 (2.7.3-arm64-darwin)
+    sqlite3 (2.7.3-x86_64-linux-gnu)
     sshkit (1.24.0)
       base64
       logger
@@ -564,18 +618,20 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.7)
-    stripe (15.3.0)
-    thor (1.3.2)
+    stripe (15.4.0)
+    thor (1.4.0)
     thruster (0.1.14)
     thruster (0.1.14-aarch64-linux)
     thruster (0.1.14-arm64-darwin)
     thruster (0.1.14-x86_64-linux)
+    timecop (0.9.10)
     timeout (0.4.3)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unaccent (0.4.0)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
@@ -621,6 +677,8 @@ DEPENDENCIES
   canonical-rails!
   capybara
   chunky_png (~> 1.4)
+  claude-on-rails
+  country_select (~> 11.0)
   cypress-on-rails (~> 1.0)
   database_cleaner-active_record
   debug
@@ -628,6 +686,7 @@ DEPENDENCIES
   factory_bot_rails!
   faker
   foreman
+  friendly_id (~> 5.5)
   image_processing (>= 1.2)
   jbuilder
   jsbundling-rails
@@ -638,10 +697,12 @@ DEPENDENCIES
   markdown-rails (~> 2.1)
   mission_control-jobs
   oauth2
-  parallel_tests (~> 5.3)
+  pagy (~> 9.3)
+  parallel_tests
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0.beta1)
+  rails-controller-testing
   rails_heroicon
   rorvswild
   rqrcode
@@ -658,6 +719,7 @@ DEPENDENCIES
   stimulus-rails
   stripe
   thruster
+  timecop
   turbo-rails
   tzinfo-data
   vcr

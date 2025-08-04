@@ -8,4 +8,13 @@ class AuthMailer < ApplicationMailer
       subject: "Your magic link for Hong Bao"
     )
   end
+
+  def account_created(user)
+    @user = user
+
+    mail(
+      to: @user.email,
+      subject: "Account Created - Set Your Password"
+    )
+  end
 end

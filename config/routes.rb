@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :bundles, only: [ :create ]
 
   ActiveAdmin.routes(self)
-  resource :session
+  resource :session, except: [ :new ]
   resources :passwords, param: :token
   resources :hong_baos, only: [ :show, :index ] do
     post :search, on: :collection
@@ -17,29 +17,55 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|zh-CN/, defaults: { locale: "en" } do
+    resources :orders, only: [ :index, :show ] do
+      member do
+        get :status
+      end
+    end
+
     resources :hong_baos, only: [ :new, :show, :index ] do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show ]
+    resources :papers, only: [ :show, :new ] do
+      get :explore, on: :collection
+      post :like, on: :member
+    end
     root "pages#index"
   end
 
   namespace :webhooks do
     post "mt_pelerin", to: "mt_pelerin#create"
+    post "btcpay", to: "btcpay#create"
   end
 
   resources :addrs, only: [ :show ], controller: "hong_baos"
 
   resources :tokens, only: [ :index ]
 
-  resources :checkout, only: [ :create, :update ] do
+  resources :checkout, only: [ :new, :create, :update ] do
     collection do
       get :success
       get :cancel
       post :webhook
     end
   end
+
+  resources :inputs, only: [ :show ]
+
+  scope "bitcoin-day" do
+    resources :inputs, only: [ :show ], path: ""
+  end
+
+  get "/bitcoin-calendar", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar
+  get "/bitcoin-calendar/:month", to: "inputs/events#index", defaults: { type: "calendar" }, as: :calendar_month,
+      constraints: { month: /[a-z]+(?:-\d{4})?/ }
+
+
+  get "/bitcoin-agenda", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda
+  get "/bitcoin-agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
+      constraints: { month: /[a-z]+(?:-\d{4})?/ }
+
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify
@@ -57,6 +83,10 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+
+  resources :themes, only: [ :new ]
+
+  resource :getting_started, only: [ :show, :create ], controller: "getting_started"
 
   # Authentication routes
   get "login", to: "users#new"
@@ -96,6 +126,10 @@ Rails.application.routes.draw do
     "https://github.com/sbounmy/hongbao_bitcoin"
   end
 
+  direct :github_bitcoin_calendar_discussions do
+    "https://github.com/sbounmy/hongbao_bitcoin/discussions/categories/bitcoin-calendar"
+  end
+
   direct :satoshi_video do
     "https://drive.google.com/file/d/1SkxgeFFKGZfsk4ro7GwGhPJz8pJio7QP/preview"
   end
@@ -114,6 +148,10 @@ Rails.application.routes.draw do
 
   direct :spotify_artist do
     "https://open.spotify.com/artist/3cBbIJWNXmi5JwCewN7SlN"
+  end
+
+  direct :reddit do
+    "https://www.reddit.com/r/HongBaoBitcoin/"
   end
 
   # Direct route to generate Gravatar URLs

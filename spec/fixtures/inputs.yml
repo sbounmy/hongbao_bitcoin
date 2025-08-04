@@ -399,31 +399,37 @@ indonesian_rupiah:
     }
 ghibli:
   id: 6
+  position: 0
   name: Ghibli
   prompt: turn me into ghibli style with pastel colors, soft landscapes and a poetic atmosphere picture
   type: "Input::Style"
 simpson:
   id: 7
+  position: 1
   name: Simpson
   prompt: turn me into simpson style with yellow skin, big eyes, and cartoon outlines
   type: "Input::Style"
 marvel:
   id: 8
+  position: 2
   name: Marvel
   prompt: turn me into marvel comic style with bold colors, dynamic poses, and comic book effects
   type: "Input::Style"
 pixar:
   id: 9
+  position: 3
   name: Pixar
   prompt: turn me into pixar style with soft colors, cute characters, and a happy atmosphere
   type: "Input::Style"
 lego:
   id: 10
+  position: 4
   name: Lego
   prompt: turn me into lego style with brick textures, toy-like faces, and fun, colorful results
   type: "Input::Style"
 cyberpunk:
   id: 11
+  position: 5
   name: Cyberpunk
   prompt: turn me into cyberpunk style with neon colors, bold outlines, and a futuristic atmosphere
   type: "Input::Style"
@@ -432,3 +438,584 @@ user:
   name: User upload
   prompt: ""
   type: "Input::Image"
+
+# Bitcoin Historical Events
+
+genesis_block:
+  id: 16
+  name: Genesis Block Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2009-01-03",
+      "description": "Genesis Block Day celebrates the mining of the Bitcoin Blockchain's very first block. This block was first mined on January 3, 2009 by Satoshi Nakamoto. It's also known as Block 0, and contains the famous embedded message: 'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.'",
+      "price_usd": "0"
+    }
+
+proof_of_keys:
+  id: 21
+  name: Proof of Keys Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2019-01-03",
+      "description": "Proof of Keys Day is the annual practice of withdrawing all funds from 3rd party custodians into a wallet that you control. Started by Trace Mayer, it celebrates financial sovereignty and tests exchange solvency. 'Not your keys, not your coins.'",
+      "price_usd": "3869.47"
+    }
+
+bitcoin_etfs_approved:
+  id: 22
+  name: Bitcoin ETFs Approved
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2024-01-10",
+      "description": "The first Bitcoin ETFs in the USA were approved by the SEC on January 10, 2024. This historic decision allowed traditional investors to gain exposure to Bitcoin through regulated financial products, marking a major milestone in Bitcoin's mainstream adoption.",
+      "price_usd": "46973.91"
+    }
+
+first_transaction:
+  id: 19
+  name: First Bitcoin Transaction
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2009-01-11",
+      "description": "Bitcoin Running Day celebrates the very first person-to-person transaction ever made on the bitcoin blockchain. Satoshi Nakamoto sent 10 BTC to Hal Finney in block 170, marking the beginning of Bitcoin as a functional peer-to-peer electronic cash system.",
+      "price_usd": "0"
+    }
+
+lightning_whitepaper:
+  id: 23
+  name: Lightning Whitepaper Released
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2016-01-14",
+      "description": "Lightning Network Whitepaper Day celebrates the release of the whitepaper for the Lightning Network by Joseph Poon and Thaddeus Dryja. This layer-2 scaling solution promised instant, low-fee Bitcoin transactions through payment channels.",
+      "price_usd": "430.01"
+    }
+
+mike_hearn_quits:
+  id: 24
+  name: Mike Hearn Quits Bitcoin
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2016-01-14",
+      "description": "Bitcoin developer Mike Hearn wrote a blog post marking Bitcoin a failed experiment, citing block size debates and development gridlock. His departure caused significant price volatility but Bitcoin continued to thrive despite his predictions.",
+      "price_usd": "430.01"
+    }
+
+silk_road_launched:
+  id: 25
+  name: Silk Road Launched
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2011-02-01",
+      "description": "Silk Road Day commemorates the launch of darknet market Silk Road by Ross Ulbricht. This marketplace served as an early use case for bitcoin in the trade of illegal goods and services, demonstrating Bitcoin's censorship-resistant properties.",
+      "price_usd": "0.70"
+    }
+
+mt_gox_hack:
+  id: 26
+  name: Mt Gox Hack
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2014-02-07",
+      "description": "The Mt Gox hack represents one of Bitcoin's darkest days. The exchange lost 740,000 customer bitcoins and 100,000 of its own, worth hundreds of millions. This catastrophic security failure led to the exchange's bankruptcy and years of legal proceedings.",
+      "price_usd": "680.72"
+    }
+
+bitcoin_dollar_parity:
+  id: 27
+  name: Bitcoin Reaches Dollar Parity
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2011-02-09",
+      "description": "Bitcoin reached parity with the US Dollar when it was just an experiment. This psychological milestone validated Bitcoin as having real monetary value and marked the beginning of its journey to becoming a serious financial asset.",
+      "price_usd": "1.00"
+    }
+
+mtgox_collapse:
+  id: 28
+  name: MTGOX Collapse
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2014-02-24",
+      "description": "MTGOX Day commemorates the hacking and ultimate collapse of MTGOX, the very first bitcoin exchange. After suspending all trading, the exchange filed for bankruptcy, revealing massive losses and triggering a bear market.",
+      "price_usd": "502.93"
+    }
+
+lightning_pizza_day:
+  id: 29
+  name: Lightning Pizza Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2018-02-25",
+      "description": "Laszlo Hanyecz, famous for the original Bitcoin Pizza transaction, made history again by purchasing pizza using the Lightning Network. This demonstrated the practical functionality of Bitcoin's layer-2 scaling solution.",
+      "price_usd": "9664.73"
+    }
+
+cypherpunk_manifesto:
+  id: 30
+  name: Cypherpunk Manifesto Released
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "1993-03-09",
+      "description": "The Cypherpunk Manifesto was an early influence on Bitcoin creator Satoshi Nakamoto. Written by Eric Hughes, it outlined the philosophy of privacy through cryptography that would become fundamental to Bitcoin's design.",
+      "price_usd": "0"
+    }
+
+bitcoin_billion_market_cap:
+  id: 31
+  name: Bitcoin Passes $1 Billion Market Cap
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-03-28",
+      "description": "Bitcoin first achieved a billion dollar market cap on March 28, 2013, marking its transition from an experimental technology to a significant financial asset. This milestone attracted mainstream media attention and institutional interest.",
+      "price_usd": "95.00"
+    }
+
+satoshi_birthday:
+  id: 32
+  name: Satoshi Nakamoto's Birthday
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "1975-04-05",
+      "description": "Bitcoin inventor Satoshi Nakamoto registered his birthday as April 5, 1975 on his P2P Foundation profile. While likely not his real birthday, the date has become a celebration of Bitcoin's mysterious creator.",
+      "price_usd": "0"
+    }
+
+halving_2024:
+  id: 33
+  name: 2024 Halving
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2024-04-19",
+      "description": "Bitcoin's block reward fell from 6.25 to 3.125 BTC per block at block height 840,000. This programmed monetary policy ensures Bitcoin's scarcity and is a key feature of its economic design.",
+      "price_usd": "64221.00"
+    }
+
+first_lightning_transaction:
+  id: 34
+  name: First Lightning Network Transaction
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-05-10",
+      "description": "The first lightning network transaction occurred on May 10, 2017, but it wasn't on the bitcoin blockchain - it was on Litecoin. This proof of concept paved the way for Lightning's implementation on Bitcoin.",
+      "price_usd": "1762.68"
+    }
+
+halving_2020:
+  id: 35
+  name: 2020 Halving
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2020-05-11",
+      "description": "Bitcoin's block reward fell from 12.5 to 6.25 BTC per block. This halving occurred during the COVID-19 pandemic and preceded a massive bull run as institutional adoption accelerated.",
+      "price_usd": "8821.42"
+    }
+
+pizza_day:
+  id: 15
+  name: Bitcoin Pizza Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2010-05-22",
+      "description": "Celebrates the very first 'real world' purchase using bitcoin, where Laszlo Hanyecz bought two pizzas for 10,000 bitcoins. This transaction proved Bitcoin could function as a medium of exchange, not just a technological curiosity.",
+      "price_usd": "0.041"
+    }
+
+new_york_agreement:
+  id: 36
+  name: New York Agreement
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-05-23",
+      "description": "An agreement among major institutions in crypto to force changes to the bitcoin protocol via a hard fork. The failure of this agreement demonstrated Bitcoin's resistance to centralized control and strengthened its decentralization.",
+      "price_usd": "2289.62"
+    }
+
+el_salvador_bill:
+  id: 37
+  name: El Salvador Bitcoin Legal Tender Bill
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1%>]
+  metadata: |
+    {
+      "date": "2021-06-09",
+      "description": "The day El Salvador's Legislative Assembly voted to make Bitcoin legal tender, making it the first country to do so. President Nayib Bukele championed the bill, which passed with a supermajority.",
+      "price_usd": "37537.44"
+    }
+
+wikileaks_bitcoin:
+  id: 38
+  name: WikiLeaks Bitcoin Sanctions Bypass
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2011-06-14",
+      "description": "WikiLeaks began using Bitcoin to bypass US sanctions preventing it from taking donations through traditional payment systems. This high-profile use case demonstrated Bitcoin's censorship resistance.",
+      "price_usd": "19.84"
+    }
+
+halving_2016:
+  id: 39
+  name: 2016 Bitcoin Halving
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2016-07-09",
+      "description": "Bitcoin's block reward fell from 25 to 12.5 BTC per block. This halving preceded the 2017 bull run that saw Bitcoin reach nearly $20,000 for the first time.",
+      "price_usd": "650.63"
+    }
+
+bitcoin_sign_guy:
+  id: 40
+  name: Bitcoin Sign Guy
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-07-12",
+      "description": "Bitcoin Sign Guy held up a 'Buy Bitcoin' sign behind Fed Chair Janet Yellen during her Congressional testimony. The photobomb went viral and became an iconic meme in Bitcoin culture.",
+      "price_usd": "2364.81"
+    }
+
+bitcoin_independence_day:
+  id: 41
+  name: Bitcoin Independence Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-08-01",
+      "description": "User-activated soft fork (UASF) threatened to split the chain if miners didn't signal for Segregated Witness. This grassroots movement demonstrated user power and helped activate this crucial scaling upgrade.",
+      "price_usd": "2871.30"
+    }
+
+bitfinex_hack:
+  id: 42
+  name: Bitfinex Hack
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2016-08-02",
+      "description": "Hackers stole nearly 120,000 BTC from Bitfinex crypto exchange, worth $72 million at the time. The exchange socialized losses across all users and later fully compensated them, setting a precedent for hack recovery.",
+      "price_usd": "594.86"
+    }
+
+segwit_lock_in:
+  id: 43
+  name: Segwit Lock In Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-08-09",
+      "description": "Segregated Witness (Segwit) officially 'locked in', beginning a two-week grace period before activation. This ended the years-long scaling debate and enabled Lightning Network development.",
+      "price_usd": "3337.74"
+    }
+
+bitcoin_network_downtime:
+  id: 44
+  name: Bitcoin Network Downtime
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2010-08-15",
+      "description": "Bitcoin experienced network issues on August 15 in both 2010 (value overflow bug creating 184 billion BTC) and 2013 (blockchain fork). Both were quickly resolved, demonstrating the network's resilience.",
+      "price_usd": "0.08"
+    }
+
+bitcoin_org_registered:
+  id: 45
+  name: Bitcoin.org Domain Registration
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2008-08-18",
+      "description": "Satoshi Nakamoto registered the domain name bitcoin.org through anonymousspeech.com, preparing for the release of the whitepaper. This was one of the first public traces of the Bitcoin project.",
+      "price_usd": "0"
+    }
+
+bitcoin_infinity_day:
+  id: 46
+  name: Bitcoin Infinity Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2019-08-21",
+      "description": "Bitcoin Infinity Day celebrates the concept of all value being divided into 21 million units. The date 8/21 represents infinity over 21 million, highlighting Bitcoin's unique property of absolute scarcity with infinite divisibility.",
+      "price_usd": "10135.48"
+    }
+
+segwit_activation:
+  id: 47
+  name: Segwit Activation Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2017-08-23",
+      "description": "Segregated Witness (Segwit) officially 'activated' on the Bitcoin network, ending the transaction malleability bug and increasing block capacity. This paved the way for Lightning Network and other layer-2 solutions.",
+      "price_usd": "4114.01"
+    }
+
+el_salvador_implementation:
+  id: 48
+  name: Bitcoin Becomes Legal Tender in El Salvador
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2021-09-07",
+      "description": "El Salvador's law making bitcoin legal tender took effect, requiring businesses to accept Bitcoin alongside the US dollar. This historic implementation made El Salvador the first country with Bitcoin as official currency.",
+      "price_usd": "52920.26"
+    }
+
+free_ross_day:
+  id: 49
+  name: Free Ross Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-10-01",
+      "description": "Ross Ulbricht was arrested in connection to Silk Road. The Bitcoin community rallies annually on this day to advocate for his release, viewing his life sentence as excessive for running a marketplace.",
+      "price_usd": "123.00"
+    }
+
+first_bitcoin_valuation:
+  id: 50
+  name: First Bitcoin Valuation
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2009-10-05",
+      "description": "New Liberty Standard provided the first USD exchange rate for Bitcoin at $1 = 1,309.03 BTC, based on electricity costs. This marked the beginning of Bitcoin price discovery.",
+      "price_usd": "0.000764"
+    }
+
+bearwhale_slaying:
+  id: 51
+  name: The Slaying of the BearWhale
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2014-10-06",
+      "description": "A large Bitcoin holder attempted to sell 30,000 bitcoins in a single trade below market price, but Bitcoiners successfully filled the order without crashing the price, showing market resilience.",
+      "price_usd": "336.00"
+    }
+
+first_bitcoin_atm:
+  id: 52
+  name: First Bitcoin ATM
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-10-28",
+      "description": "The first Bitcoin ATM was installed and launched at Waves Coffee House in Vancouver, Canada by Robocoin. This made Bitcoin more accessible to the general public and sparked global ATM deployment.",
+      "price_usd": "198.00"
+    }
+
+whitepaper:
+  id: 18
+  name: Bitcoin Whitepaper Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2008-10-31",
+      "description": "The Bitcoin whitepaper was published by Satoshi Nakamoto to the cryptography mailing list, marking the beginning of a new era in finance and self-sovereignty. This 9-page document outlined the solution to the double-spending problem.",
+      "price_usd": "0"
+    }
+
+this_is_gentlemen:
+  id: 53
+  name: This is GENTLEMEN!
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2014-11-11",
+      "description": "Originally a typographical error for 'This is it, gentlemen,' the phrase has become a celebratory expression in the Bitcoin community, used during price rallies and positive developments.",
+      "price_usd": "395.00"
+    }
+
+first_halving:
+  id: 17
+  name: 2012 Bitcoin Halving
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2012-11-28",
+      "description": "Bitcoin's first halving reduced the block reward from 50 to 25 BTC, proving the protocol's monetary policy could execute as designed. This established confidence in Bitcoin's programmed scarcity.",
+      "price_usd": "12.35"
+    }
+
+bitcoin_breaks_1000:
+  id: 54
+  name: Bitcoin Breaks 4 Digits Price
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-11-28",
+      "description": "Bitcoin's price rose above the $1,000 mark for the first time ever, exactly one year after the first halving. This psychological barrier brought mainstream media attention and speculation about Bitcoin's future.",
+      "price_usd": "1124.76"
+    }
+
+bitcoin_gold_parity:
+  id: 55
+  name: Bitcoin vs Gold Parity
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-12-05",
+      "description": "Gold Parity Day celebrates when the price of one bitcoin reached parity with one ounce of gold. This symbolic milestone positioned Bitcoin as 'digital gold' and a potential store of value.",
+      "price_usd": "1032.00"
+    }
+
+hodl_meme:
+  id: 56
+  name: HODL Meme Starts
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2013-12-18",
+      "description": "The HODL meme was born from a drunk BitcoinTalk forum post titled 'I AM HODLING' by user GameKyuubi. The misspelling of 'hold' became the rallying cry for long-term Bitcoin believers during market volatility.",
+      "price_usd": "522.00"
+    }
+
+satoshi_sayonara:
+  id: 20
+  name: Satoshi Sayonara
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2011-04-23",
+      "description": "Satoshi Nakamoto's last known communication before disappearing from public view. His departure left Bitcoin to develop as a truly decentralized project without a central leader.",
+      "price_usd": "1.19"
+    }
+genesis_block:
+  id: 16
+  name: Genesis Block Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2009-01-03",
+      "description": "Genesis Block Day celebrates the mining of the Bitcoin Blockchain's very first block. This block was first mined on January 3, 2009 by Satoshi Nakamoto. It's also known as Block 0, and contains the famous embedded message: 'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.'",
+      "price_usd": "0",
+      "fixed_day": true
+    }
+
+pizza_day:
+  id: 15
+  name: Bitcoin Pizza Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2010-05-22",
+      "description": "Celebrates the very first 'real world' purchase using bitcoin, where Laszlo Hanyecz bought two pizzas for 10,000 bitcoins. This transaction proved Bitcoin could function as a medium of exchange, not just a technological curiosity.",
+      "price_usd": "0.041",
+      "fixed_day": true
+    }
+
+whitepaper:
+  id: 18
+  name: Bitcoin Whitepaper Day
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "bitcoin")&.id || 1 %>]
+  metadata: |
+    {
+      "date": "2008-10-31",
+      "description": "The Bitcoin whitepaper was published by Satoshi Nakamoto to the cryptography mailing list, marking the beginning of a new era in finance and self-sovereignty. This 9-page document outlined the solution to the double-spending problem.",
+      "price_usd": "0",
+      "fixed_day": true
+    }
+
+# Cultural Events
+chinese_new_year_2025:
+  id: 901
+  name: Chinese New Year 2025
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
+  metadata: |
+    {
+      "date": "2025-01-29",
+      "description": "Year of the Snake begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }
+
+chinese_new_year_2026:
+  id: 902
+  name: Chinese New Year 2026
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
+  metadata: |
+    {
+      "date": "2026-02-17",
+      "description": "Year of the Horse begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }
+
+chinese_new_year_2027:
+  id: 903
+  name: Chinese New Year 2027
+  type: "Input::Event"
+  tag_ids: [<%= Tag.find_by(slug: "cultural")&.id || 2 %>]
+  metadata: |
+    {
+      "date": "2027-02-06",
+      "description": "Year of the Goat begins. Chinese New Year, also known as Lunar New Year or Spring Festival, is the most important festival in Chinese culture.",
+      "fixed_day": false
+    }

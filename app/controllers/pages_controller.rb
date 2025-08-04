@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   allow_unauthenticated_access
   def index
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.order(created_at: :desc).limit(5)
+    @users = User.joins(:avatar_attachment).with_attached_avatar.limit(8)
   end
 
   def pricing
@@ -9,7 +9,7 @@ class PagesController < ApplicationController
 
   def v2
     # Will be used to list available styles and papers
-    @styles = Input::Style.with_attached_image
+    @styles = Input::Style.by_position.with_attached_image
     @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.limit(5)
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)

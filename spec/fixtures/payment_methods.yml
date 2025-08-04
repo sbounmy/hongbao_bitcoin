@@ -6,7 +6,7 @@ credit_card:
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Click on "Buy/Sell" button</span></div>'
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select Bitcoin and enter the amount</span></div>'
       - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Follow the payment process for Bank Transfer</span></div>'
-  order: 1
+  position: 1
   no_kyc: false
 
 bank_transfer:
@@ -17,7 +17,7 @@ bank_transfer:
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Click on "Buy/Sell" button</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select Bitcoin and enter the amount</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Follow the payment process for Card</span></div>'
-  order: 2
+  position: 2
   no_kyc: true
 
 bitstack:
@@ -28,5 +28,5 @@ bitstack:
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">2</span><span>Select "Send"</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">3</span><span>Select "Bitcoin"</span></div>'
     - '<div class="flex items-center gap-2 mb-2"><span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary-content">4</span><span>Enter the amount</span></div>'
-  order: 3
+  position: 3
   no_kyc: true

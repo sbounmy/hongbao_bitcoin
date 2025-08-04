@@ -23,6 +23,23 @@ dollar_theme_back:
   record_id: 1
   blob: dollar_theme_back_blob
 
+euro_theme_front:
+  name: image_front
+  record_type: Input
+  record_id: 2
+  blob: dollar_theme_front_blob
+
+euro_theme_back:
+  name: image_back
+  record_type: Input
+  record_id: 2
+  blob: dollar_theme_back_blob
+
+euro_theme_image:
+  name: image
+  record_type: Input
+  record_id: 2
+  blob: dollar_theme_image_blob
 
 satoshi_avatar:
   name: avatar

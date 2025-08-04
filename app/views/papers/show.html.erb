@@ -2,49 +2,58 @@
 <% content_for :head do %>
   <meta name="robots" content="noindex, follow">
 <% end %>
+
+<% content_for :footer do %>
+  <span class="text-white"></span>
+<% end %>
+
 <!-- Right Column - Fixed Form -->
 <%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
 <%= content_for :title, @paper.name if @paper.name.present? %>
-<div class="w-full md:h-full relative">
-  <%= render "shared/header" %>
-  <div class="flex-1 min-h-0 flex flex-col items-center justify-center p-8 bg-[#F04747] overflow-hidden">
+
+<div class="w-full h-screen relative">
+  <div class="flex-1 h-full flex flex-col items-center justify-center px-4 py-2 bg-[#F04747] overflow-hidden">
     <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
                 rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
                 flex flex-col">
       <%= turbo_frame_tag "qr_scanner" %>
-    <div role="alert" class="alert rounded-t-xl alert-horizontal bg-purple/20 border-none border-b">
-      <%= heroicon "arrow-down-tray", class: "stroke-info w-6 h-6 shrink-0" %>
-      <div class='space-y-1'>
-        <h3 class="flex flex-row gap-2 items-center font-bold">OFFLINE MODE<span class='badge badge-neutral badge-xs'>NEW</span></h3>
-        <div class="text-sm">In your browser, <span class="font-medium">select <kbd class="kbd kbd-sm">File </kbd> &gt; <kbd class='kbd kbd-sm'>Save Page As</kbd> &gt; <kbd class='kbd kbd-sm'>Format: <b>Webpage, Complete</b></kbd> &gt; <kbd class='kbd kbd-sm'>Save</kbd></span></div>
-        <div class="text-sm">Double-click that <kbd class="kbd kbd-sm">.html</kbd> file to open it in a browser on any offline computer.</div>
-      </div>
-      <%# <button class="btn btn-sm">See</button> %>
-    </div>
       <div class="flex flex-col h-full group overflow-hidden"
-           data-controller="steps bitcoin"
+           data-controller="steps bitcoin pdf"
+           data-pdf-filename-value=""
            data-steps-hidden-class="hidden"
            data-steps-current-value="<%= @current_step %>"
            data-bitcoin-auto-generate-value="true"
            data-bitcoin-network-value="<%= Current.network %>"
-           data-bitcoin-custom-wallet-value="false">
+           data-bitcoin-custom-wallet-value="false"
+           data-bitcoin-hongbao-logo-value="<%= image_url('hongbao-bitcoin.png') %>"
+           data-bitcoin-bitcoin-logo-value="<%= image_url('bitcoin-64x64.svg') %>">
 
+       <%= render "papers/preview_pdf", paper: @paper %>
+
+      <div class=' bg-[#F04747]'>
         <!-- Sticky Progress Steps -->
-        <div class="sticky top-0 rounded-t-3xl z-30 bg-[#F04747] border-b border-[#FFB636]/20">
-          <div class="p-8">
-            <%= render "hong_baos/progress_steps", steps: @steps, current_step: @current_step %>
-            <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
-          </div>
+        <div class="rounded-t-3xl z-30 border-b border-[#FFB636]/20 px-4 py-2">
+          <%= render "papers/progress_indicator", steps: @steps, current_step: @current_step %>
+          <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
         </div>
 
-        <%= render "hong_baos/new/steps/print",
+        <%= render "hong_baos/new/steps/intro",
             index: 1,
             paper: @paper %>
 
-        <%= render "hong_baos/new/steps/top_up",
+        <%= render "hong_baos/new/steps/print",
             index: 2,
+            paper: @paper %>
+
+        <%= render "hong_baos/new/steps/beneficiary",
+            index: 3,
+            paper: @paper %>
+
+        <%= render "hong_baos/new/steps/top_up",
+            index: 4,
             hong_bao: @hong_bao,
             payment_methods: @payment_methods %>
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,12 @@
+<%=
+  radio_button_tag(
+    :color,
+    color_value,
+    selected,
+    id: radio_id,
+    class: "sr-only peer",
+    onchange: "this.closest('form').requestSubmit();"
+  )
+%>
+
+<label for="<%= radio_id %>" aria-label="<%= label %>" class="<%= classes %>"></label>

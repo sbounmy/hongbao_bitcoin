@@ -30,6 +30,9 @@ gem "solid_cable"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# Slugs and permalinks
+gem "friendly_id", "~> 5.5"
+
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", ">= 2.0.0.rc2", require: false
 
@@ -70,6 +73,7 @@ group :development do
   gem "web-console"
   gem "letter_opener"
   gem "letter_opener_web" # Optional: adds a web interface to view emails
+  gem "claude-on-rails"
 end
 
 group :test do
@@ -79,7 +83,9 @@ group :test do
   gem "webmock"
   gem "faker"
   gem "shoulda-matchers"
-  gem "parallel_tests", "~> 5.3"
+  gem "parallel_tests"
+  gem "timecop"
+  gem "rails-controller-testing"
 end
 
 
@@ -119,3 +125,7 @@ gem "markdown-rails", "~> 2.1"
 gem "sitemap_generator"
 
 gem "canonical-rails", github: "jumph4x/canonical-rails"
+
+gem "country_select", "~> 11.0"
+
+gem "pagy", "~> 9.3"

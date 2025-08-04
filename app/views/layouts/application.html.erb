@@ -52,6 +52,8 @@
   </head>
 
   <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
+    <%= notification_container %>
+    <%= render_notifications %>
     <%= yield %>
   <% end %>
 

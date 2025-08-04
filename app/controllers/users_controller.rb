@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   allow_unauthenticated_access only: [ :new, :create ]
+  layout "authentication", only: [ :new, :create ]
 
   def new
     @user = User.find_or_initialize_by(email: params.dig(:user, :email))

@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["content", "indicator"]
+  static targets = ["content", "indicator", "progress", "counterCurrent", "counterTotal", "previousButton"]
   static classes = ["hidden"]
   static values = {
-    current: Number
+    current: Number,
   }
 
   connect() {
@@ -16,6 +16,7 @@ export default class extends Controller {
   }
 
   previous(event) {
+    if (this.currentValue <= 1) return;
     this.currentValue--
   }
 
@@ -30,6 +31,13 @@ export default class extends Controller {
     this.#updateVisibility()
     this.#updateProgress()
     this.#updateURL()
+    this.#updatePreviousButton()
+  }
+
+  #updatePreviousButton() {
+    if (this.hasPreviousButtonTarget) {
+      this.previousButtonTarget.disabled = this.currentValue <= 1
+    }
   }
 
   #updateVisibility() {
@@ -40,12 +48,22 @@ export default class extends Controller {
   }
 
   #updateProgress() {
-    this.indicatorTargets.forEach((indicator, index) => {
-      const isCurrent = index + 1 === this.currentValue
-      const isDone = index + 1 < this.currentValue
-      indicator.toggleAttribute('open', isCurrent)
-      indicator.toggleAttribute('done', isDone)
-    })
+    if (this.hasIndicatorTarget) {
+      this.indicatorTargets.forEach((indicator, index) => {
+        const isCurrent = index + 1 === this.currentValue
+        const isDone = index + 1 < this.currentValue
+        indicator.toggleAttribute('open', isCurrent)
+        indicator.toggleAttribute('done', isDone)
+      })
+    }
+
+    if (this.hasProgressTarget) {
+      this.progressTarget.value = this.currentValue
+    }
+
+    if (this.hasCounterCurrentTarget) {
+      this.counterCurrentTarget.textContent = this.currentValue
+    }
   }
 
   #updateURL() {

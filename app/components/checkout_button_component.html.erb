@@ -1,0 +1,18 @@
+<%= form_tag form_action, method: form_method, data: form_data, class: "block" do %>
+  <% hidden_fields.each do |field_name, field_value| %>
+    <%= hidden_field_tag field_name, field_value %>
+  <% end %>
+  
+  <button type="submit" class="<%= button_classes %>">
+    <div class="flex items-center justify-center relative">
+      <% if button_icon %>
+        <span class="absolute left-0">
+          <%= button_icon %>
+        </span>
+      <% end %>
+      <span class="flex-1 text-center">
+        <%= button_text %>
+      </span>
+    </div>
+  </button>
+<% end %>

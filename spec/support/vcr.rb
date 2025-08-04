@@ -24,12 +24,15 @@ VCR.configure do |config|
   config.filter_sensitive_data("<OPENAI_API_KEY>") { Rails.application.credentials.dig(:openai, :api_key) }
   config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_ID>") { Rails.application.credentials.dig(:blockstream, :client_id) }
   config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_SECRET>") { Rails.application.credentials.dig(:blockstream, :client_secret) }
+  config.filter_sensitive_data("<BTCPAY_API_KEY>") { Rails.application.credentials.dig(:btcpay, :api_key) }
 
   # Ignore Stripe checkout session requests as we need to checkout on Stripe's side
   config.ignore_request do |request|
     req = URI(request.uri)
     res = (req.path.match(%r{/v1/checkout/sessions}) && req.host == 'api.stripe.com')
     res ||= (req.path.match(%r{/v1/billing_portal/sessions}) && req.host == 'api.stripe.com')
+    res ||= (req.path.match(%r{/api/v1/stores/.+/invoices}) && req.host == ENV["BTCPAY_HOST"])
+
     Rails.logger.info "[VCR] Ignoring request: #{req.host} #{req.path}" if res
     res
   end

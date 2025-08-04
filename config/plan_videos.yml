@@ -1,15 +1,29 @@
 # example of plan_videos.yml
 # mini:
-#   - type: youtube
-#     url: "https://www.youtube.com/embed/your_youtube_id"
-#   - type: google
-#     url: "https://drive.google.com/file/d/your_google_id/preview"
+#   red:
+#     - type: youtube
+#       url: "https://www.youtube.com/embed/your_youtube_id"
+#     - type: google
+#       url: "https://drive.google.com/file/d/your_google_id/preview"
 # family:
-#   - type: youtube
-#     url: "https://www.youtube.com/embed/another_youtube_id"
+#   orange:
+#     - type: youtube
+#       url: "https://www.youtube.com/embed/another_youtube_id"
 # maximalist: [] # for empty
 
 
-mini: []
-family: []
-maximalist: []
+mini:
+  red:
+    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
+family:
+  red:
+    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
+maximalist:
+  red:
+    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+  orange:
+    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }

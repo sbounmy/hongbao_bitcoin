@@ -1,19 +1,24 @@
 class HongBaosController < ApplicationController
   allow_unauthenticated_access only: %i[new show form index search utxos transfer]
   before_action :set_network, only: %i[show form utxos]
-  layout false, only: %i[form utxos]
-  layout "offline", except: %i[utxos]
+  layout :set_layout
+
   def index
     # Just render the QR scanner view
   end
 
   def search
-    @hong_bao = HongBao.from_scan(params[:hong_bao][:scanned_key])
-    if @hong_bao.present?
-      session[:private_key] = @hong_bao.private_key if @hong_bao.private_key.present?
-      redirect_to hong_bao_path(@hong_bao.address)
+    result = HongBaos::Scanner.call(params[:hong_bao][:scanned_key])
+
+    if result.success?
+      hong_bao = result.payload
+      session[:private_key] = hong_bao.private_key if hong_bao.private_key.present?
+      redirect_to addr_path(hong_bao.address)
     else
-      redirect_to hong_baos_path, alert: "Invalid QR code"
+      error_message = result.error.respond_to?(:user_message) ?
+                      result.error.user_message :
+                      "Invalid QR code: #{result.error.message}"
+      redirect_to hong_baos_path, alert: error_message
     end
   end
 
@@ -31,7 +36,13 @@ class HongBaosController < ApplicationController
   end
 
   def show
-    @hong_bao = HongBao.from_scan(params[:id])
+    result = HongBaos::Scanner.call(params[:id])
+
+    if result.success?
+      @hong_bao = result.payload
+    else
+      redirect_to hong_baos_path, alert: result.error.user_message
+    end
   end
 
   def form
@@ -63,6 +74,13 @@ class HongBaosController < ApplicationController
   private
 
   def set_network
-    Current.network = params[:id].start_with?("tb") ? :testnet : :mainnet
+    Current.network = Current.network_from_key(params[:id] || params[:hong_bao][:scanned_key])
+  end
+  def set_layout
+    if request.format.html?
+      "offline"
+    else
+      false
+    end
   end
 end

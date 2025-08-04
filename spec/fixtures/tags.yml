@@ -1,0 +1,23 @@
+bitcoin:
+  id: 1
+  name: Bitcoin
+  slug: bitcoin
+  position: 1
+  metadata: |
+    {
+      "color": "#ff9500",
+      "icon": "currency-dollar"
+    }
+  categories: ["input_events"]
+
+cultural:
+  id: 2
+  name: Cultural
+  slug: cultural
+  position: 2
+  metadata: |
+    {
+      "color": "#8b5cf6",
+      "icon": "globe-alt"
+    }
+  categories: ["input_events"]

@@ -6,9 +6,20 @@ SitemapGenerator::Sitemap.default_host = "https://hongbaob.tc"
 # Sitemap for the main application pages.
 # Generates `app.xml.gz`
 SitemapGenerator::Sitemap.create(filename: :sitemap) do
-  add "/", changefreq: "monthly", priority: 0.9
-  add "/pricing", changefreq: "monthly"
-  add "/dashboard", changefreq: "weekly"
+  add root_path, changefreq: "monthly", priority: 0.9
+  add pricing_path, changefreq: "monthly"
+  add dashboard_path, changefreq: "weekly"
+
+  add calendar_path, changefreq: "monthly"
+  add agenda_path, changefreq: "monthly"
+  %w[january february march april may june july august september october november december].each do |month|
+    add calendar_month_path(month), changefreq: "monthly"
+    add agenda_month_path(month), changefreq: "monthly"
+  end
+
+  Input::Event.all.each do |event|
+    add input_path(event), changefreq: "monthly"
+  end
 
   app_pages_files = Dir[Rails.root.join("app", "content", "pages", "*.html.*")]
   app_pages_files.each do |file|

@@ -1,77 +1,78 @@
-<div class="min-h-screen">
-  <!-- Header -->
-  <%= render "shared/header" %>
+<div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
 
-  <!-- Hero -->
-  <section id="hero" class="relative">
-    <% if current_theme.image_hero.attached? %>
-      <div class="absolute inset-0 z-0">
-        <%= image_tag current_theme.image_hero, class: "w-full h-full object-cover" %>
-        <div class="absolute inset-0 bg-black/40"></div>
-      </div>
-    <% end %>
-
-    <div class="relative max-w-7xl mx-auto sm:py-16 py-6 px-4 sm:py-24 sm:px-6 lg:px-8">
-      <div class="text-left text-white">
-        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
-          <span >Bitcoin
-          <%= image_tag image_url("bitcoin-64x64.svg"), class: "inline-block h-12 w-12 ml-2 align-top" %></span>
-          <br/>
-          <span>A gift they'll never forget</span>
-        </h1>
-        <p class="mt-3 mx-auto text-base sm:text-lg md:mt-4">
-          Turn any picture into cool Bitcoin bills in seconds.<br/>Unlimited, unique and creative paper wallets.
-        </p>
-      </div>
-      <div class="flex flex-wrap gap-5 pt-4">
-        <%= link_to etsy_url, target: "_blank", class: "btn btn-primary" do %>
-          <%= image_tag "etsy.png", class: "w-5 h-5" %>
-          <span>Buy envelope on Etsy</span>
-        <% end %>
-        <%= link_to github_url, target: "_blank", class: "btn btn-secondary" do %>
-          <%= github_icon %>
-          <span>Verify on GitHub</span>
-        <% end %>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <section id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-y-8 gap-x-6">
-      <%= form_with(model: @bundle, class: "contents", data: { turbo_frame: "paper_form" }) do |form| %>
-        <!-- Column 1: Styles -->
-        <div class="relative">
-          <h2 class="text-lg font-medium mb-4">1. Choose Style</h2>
-          <div class="grid grid-cols-3 sm:grid-cols-2 gap-2">
-            <%= render Styles::CheckboxComponent.with_collection(@styles, form:) %>
-            <%= form.fields_for :input_items do |input_item_fields| %>
-              <%= input_item_fields.hidden_field :input_id, value: current_theme.id %>
-            <% end %>
+  <div class="px-4 text-gray-800">
+    <%= render CollapseComponent.new(id: 'buy-traditional-red-envelopes', open: true) do |component| %>
+      <% component.with_summary do %>
+        <div class="flex items-center justify-between w-full">
+          <div class="flex items-center gap-2">
+            <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">BITCOIN GIFTING</span>
+            <h2 class="text-xl font-serif font-semibold">Buy traditional red envelopes</h2>
           </div>
-        </div>
-
-        <!-- Column 2: Upload -->
-        <div class="relative h-full flex flex-col">
-          <h2 class="text-lg font-medium mb-4">2. Upload Picture</h2>
-          <%= render PictureUploadComponent.new(form: form) %>
+          <div class="flex items-center gap-4">
+            <p class="text-sm text-gray-500 hidden md:block">Free credits included</p>
+          </div>
         </div>
       <% end %>
-
-      <!-- Column 3: Preview -->
-      <div class="relative md:-mt-64 lg:-mt-84 z-10 md:col-span-2 h-screen overflow-y-auto">
-        <div class="rounded-xl shadow-xl p-6 bg-base-300 flex flex-col gap-4 h-full">
-          <h2 class="text-lg font-medium">3. Preview</h2>
-          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
-              <%= render Papers::ItemComponent.with_collection(@papers) %>
+      <div class="flex flex-col lg:flex-row items-center gap-20 px-4">
+        <div class="">
+          <%= image_tag image_url("papers/dimensions.png"), class: "w-full" %>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "bolt", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Striking Design</h3>
+            <p class="text-sm text-gray-400 text-center">A beautiful, collectible Bitcoin design on premium red paper.</p>
           </div>
-          <%= turbo_stream_from :papers %>
-          <div class="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between gap-2">
-            <button class="btn btn-primary btn-wide rounded-selector">Print</button>
-            <button class="btn btn-secondary rounded-selector">Share</button>
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "check-badge", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Superior Quality</h3>
+            <p class="text-sm text-gray-400 text-center">Thick, durable paper with a luxurious feel, built to last.</p>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
+            <%= heroicon "chat-bubble-left-right", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
+            <h3 class="font-semibold text-lg">Inspiring Quotes</h3>
+            <p class="text-sm text-gray-400 text-center">Features one of six different quotes from Bitcoin pioneers.</p>
           </div>
         </div>
       </div>
+      <div class="mt-8 text-center">
+        <%= link_to pricing_path, class: "btn btn-primary rounded-full" do %>
+          <span>Buy now</span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <section id='papers' class="px-4">
+    <div class='flex flex-col md:flex-row gap-4'>
+      <div>
+        <h3 class="text-xl font-bold">Latest</h3>
+        <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold">Creators</h3>
+        <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
+      </div>
     </div>
   </section>
+
+  <section id='events' class="px-4">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Upcoming Bitcoin Days</h3>
+    </div>
+    <div class="flex gap-4 overflow-x-auto">
+      <%# Query for all events, order them by anniversary, and display them %>
+      <%= render Events::CardComponent.with_collection(Input::Event.find_by_anniversary) %>
+    </div>
+  </section>
+
+  <section id='themes' class="px-4">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Top themes</h3>
+    </div>
+    <div class="flex gap-4 overflow-x-auto">
+      <%= render Inputs::Themes::CardComponent.with_collection(Input::Theme.by_position) %>
+    </div>
+  </section>
+
 </div>
