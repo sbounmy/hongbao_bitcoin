@@ -10,9 +10,15 @@ module Checkout
       return failure("Price ID is missing.") unless price_id
 
       product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
-      product[:color] = @params[:color]
+
+      # Handle admin-only product
+      if product.nil? && @current_user&.admin? && price_id == StripeService::ADMIN_PRICE_ID
+        product = StripeService.fetch_admin_product
+      end
 
       return failure("Product not found for price ID: #{price_id}") unless product
+
+      product[:color] = @params[:color]
 
       # 2. Call provider-specific implementation
       provider_specific_call(product)
