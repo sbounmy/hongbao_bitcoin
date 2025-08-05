@@ -94,6 +94,14 @@ class V3::PricingComponent < ApplicationComponent
       "#{packs} packs (#{envelopes} envelopes) + #{tokens} credits"
     end
 
+    def price_per_envelope
+      (price.to_f / envelopes).round(2)
+    end
+
+    def formatted_price_per_envelope
+      helpers.number_to_currency(price_per_envelope, unit: "€", format: "%n%u")
+    end
+
     def packs
       envelopes / 6
     end
