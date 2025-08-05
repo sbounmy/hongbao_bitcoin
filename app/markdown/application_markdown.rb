@@ -30,12 +30,22 @@ class ApplicationMarkdown < MarkdownRails::Renderer::Rails
 
   # Example of how you might override the images to show embeds, like a YouTube video.
   def image(link, title, alt)
-    url = URI(link)
-    case url.host
-    when "www.youtube.com"
-      youtube_tag url, alt
+    # Handle local asset paths to use the asset pipeline
+    if link.start_with?('/assets/')
+      # Remove /assets/ prefix and use image_tag for fingerprinting
+      asset_path = link.sub('/assets/', '')
+      helpers.image_tag(asset_path, alt: alt, title: title)
+    elsif link.start_with?('http://', 'https://', '//')
+      url = URI(link)
+      case url.host
+      when "www.youtube.com"
+        youtube_tag url, alt
+      else
+        super
+      end
     else
-      super
+      # For relative paths, use image_tag helper
+      helpers.image_tag(link, alt: alt, title: title)
     end
   end
 
