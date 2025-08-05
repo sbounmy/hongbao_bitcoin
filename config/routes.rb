@@ -123,7 +123,7 @@ Rails.application.routes.draw do
   end
 
   direct :academy do
-    "https://academy.hongbao.tc"
+    "https://academy.hongbaob.tc"
   end
 
   direct :github do
