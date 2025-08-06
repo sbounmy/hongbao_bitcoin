@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
   get "/dashboard", to: "papers#index"
+  get "/bitcoin-companies", to: "pages#business"
 
   resources :themes, only: [ :new ]
 
@@ -120,6 +121,10 @@ Rails.application.routes.draw do
     uri = "bitcoin:#{address}"
     uri << "?#{params}" if params.present?
     uri
+  end
+
+  direct :business_call do
+    "https://cal.com/sbounmy/hongbao"
   end
 
   direct :academy do

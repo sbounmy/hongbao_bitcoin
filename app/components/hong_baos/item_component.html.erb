@@ -1,0 +1,16 @@
+<div class="<%= wrapper_classes %> cursor-pointer">
+  <div class="relative rounded-xl overflow-hidden shadow-2xl">
+    <%= image_tag envelope[:image], class: image_classes, alt: "#{envelope[:name]} Custom Envelope" %>
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent <%= padding_classes %>">
+      <div class="flex items-center gap-<%= featured ? '3' : '2' %> text-white">
+        <div class="<%= logo_size_classes %> <%= envelope[:logo_color] %> rounded-full flex items-center justify-center">
+          <span class="font-bold <%= logo_text_size %>"><%= envelope[:logo] %></span>
+        </div>
+        <div>
+          <h3 class="font-bold <%= title_size %>"><%= envelope[:name] %></h3>
+          <p class="<%= subtitle_size %> opacity-80"><%= envelope[:text] %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

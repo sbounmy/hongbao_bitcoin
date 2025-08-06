@@ -1,0 +1,336 @@
+<% attributes_for :body_attributes, { class: "bg-white" } %>
+
+<!-- Hero Section with Gradient Background -->
+<div class="min-h-screen flex flex-col items-center justify-start text-center relative overflow-hidden pb-8 bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]">
+  <%= render "shared/header" %>
+  <!-- Envelope Carousel -->
+  <div class="carousel carousel-center w-full space-x-4 py-8 mt-16">
+    <%
+      featured_envelopes = [
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "PSG",
+          logo: "PSG",
+          logo_color: "bg-blue-900",
+          text: "Paris Edition",
+          description: "Limited Edition"
+        },
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "Tesla",
+          logo: "T",
+          logo_color: "bg-red-600",
+          text: "Innovation Pack",
+          description: "9,720 BTC Holdings"
+        },
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "MicroStrategy",
+          logo: "M",
+          logo_color: "bg-orange-500",
+          text: "Treasury Edition",
+          description: "189,150 BTC Holdings"
+        },
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "Block",
+          logo: "□",
+          logo_color: "bg-blue-600",
+          text: "Financial Edition",
+          description: "8,027 BTC Holdings"
+        },
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "El Salvador",
+          logo: "🇸🇻",
+          logo_color: "bg-blue-500",
+          text: "Nation Edition",
+          description: "5,748 BTC Holdings"
+        },
+        {
+          image: "business/psg/hongbao.jpg",
+          name: "Marathon",
+          logo: "M",
+          logo_color: "bg-purple-600",
+          text: "Mining Edition",
+          description: "26,842 BTC Holdings"
+        }
+      ]
+    %>
+    <% featured_envelopes.each_with_index do |envelope, index| %>
+      <div class="carousel-item" data-index="<%= index %>">
+        <div class="transform transition-all duration-300 scale-90 md:scale-100 opacity-75 hover:scale-110 cursor-pointer w-64 md:w-72">
+          <div class="relative rounded-xl overflow-hidden shadow-2xl">
+            <%= image_tag envelope[:image], class: "w-full", alt: "#{envelope[:name]} Custom Envelope" %>
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4">
+              <div class="flex items-center gap-2 text-white">
+                <div class="w-8 h-8 <%= envelope[:logo_color] %> rounded-full flex items-center justify-center">
+                  <span class="font-bold text-sm"><%= envelope[:logo] %></span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm"><%= envelope[:name] %></h3>
+                  <p class="text-xs opacity-80"><%= envelope[:description] %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Main text content -->
+  <div class="relative px-4 pt-10 sm:pt-18 md:pt-20 z-10 mb-10 max-w-5xl mx-auto">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-black leading-tight mb-4 md:mb-6">
+      Bitcoin gifts that build your legacy
+    </h1>
+
+    <p class="text-xl md:text-2xl lg:text-3xl text-black/70 mb-8 md:mb-10">
+      Empower your stakeholders with tangible Bitcoin experiences<br/>that strengthen your brand
+    </p>
+
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6">
+      <%= link_to business_call_url, target: "_blank", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto" do %>
+        <%= heroicon "calendar", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        <span class="inline-block">Schedule Call</span>
+      <% end %>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="mt-8 flex flex-col items-center justify-center gap-2 text-md text-gray-600">
+      <span>Trusted by <span class="font-semibold text-black">Leading Bitcoin Companies</span></span>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="font-semibold">MicroStrategy</span>
+        <span>•</span>
+        <span class="font-semibold">Tesla</span>
+        <span>•</span>
+        <span class="font-semibold">Block</span>
+        <span>•</span>
+        <span class="font-semibold">El Salvador</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<section class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="mb-12 flex w-full flex-col text-center md:mb-20">
+      <p class="mb-3 text-sm font-medium uppercase tracking-wider text-orange-600">WHY BITCOIN COMPANIES CHOOSE US</p>
+      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
+        Enterprise features for serious Bitcoin adoption
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Feature 1: Scale -->
+      <%= render Ui::CardComponent.new(class: "h-full") do |card| %>
+        <%= card.with_title do %>
+          <div class="flex items-center gap-2">
+            <%= heroicon "chart-bar", variant: :solid, class: "h-6 w-6 text-orange-600" %>
+            <span>Bulk Distribution</span>
+          </div>
+        <% end %>
+        <%= card.with_body do %>
+          <p>Efficiently distribute Bitcoin to hundreds of stakeholders. Custom branding and bulk wallet generation</p>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>48+ envelopes per order</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Custom denominations</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Bulk funding options</span>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+
+      <!-- Feature 2: Brand -->
+      <%= render Ui::CardComponent.new(class: "h-full") do |card| %>
+        <%= card.with_title do %>
+          <div class="flex items-center gap-2">
+            <%= heroicon "sparkles", variant: :solid, class: "h-6 w-6 text-orange-600" %>
+            <span>Premium Branding</span>
+          </div>
+        <% end %>
+        <%= card.with_body do %>
+          <p>Reinforce your Bitcoin commitment with fully customized designs. Your logo, colors, and messaging on every envelope.</p>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Corporate logo integration</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Custom color schemes</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Dedicated design support</span>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+
+      <!-- Feature 3: Analytics -->
+      <%= render Ui::CardComponent.new(class: "h-full") do |card| %>
+        <%= card.with_title do %>
+          <div class="flex items-center gap-2">
+            <%= heroicon "chart-pie", variant: :solid, class: "h-6 w-6 text-orange-600" %>
+            <span>Campaign Analytics</span>
+          </div>
+        <% end %>
+        <%= card.with_body do %>
+          <p>Track your Bitcoin education impact with detailed analytics on redemption rates and engagement metrics.</p>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Redemption tracking</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Campaign performance</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <%= heroicon "check", variant: :solid, class: "h-4 w-4 text-green-600 mt-0.5" %>
+              <span>Export reports</span>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Use Cases Section -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">How Bitcoin Companies Use HongBao</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+        <div class="aspect-video bg-gradient-to-br from-orange-100 to-orange-200 relative overflow-hidden">
+          <%= image_tag "index/red_front.jpg", alt: "Employee receiving Bitcoin red envelope", class: "absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80" %>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-2">
+                <%= heroicon "user-group", variant: :solid, class: "h-10 w-10 text-orange-600" %>
+              </div>
+              <p class="text-white font-bold text-lg">Employee Education</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-3">Employee Education</h3>
+          <p class="text-gray-600 mb-4">Transform your workforce into Bitcoin advocates. Give employees their first sats in a memorable way that sparks curiosity and learning.</p>
+          <p class="text-sm font-semibold text-orange-600">Perfect for: Onboarding, bonuses, milestone rewards</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+        <div class="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 relative overflow-hidden">
+          <%= image_tag "index/red_back_front.png", alt: "Business meeting with Bitcoin gift exchange", class: "absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80" %>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-2">
+                <%= heroicon "briefcase", variant: :solid, class: "h-10 w-10 text-blue-600" %>
+              </div>
+              <p class="text-white font-bold text-lg">Client Gifts</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-3">Client Gifts</h3>
+          <p class="text-gray-600 mb-4">Position your company as a Bitcoin innovation leader. Give clients a piece of the future that reinforces your forward-thinking brand.</p>
+          <p class="text-sm font-semibold text-orange-600">Perfect for: VIP events, partnerships, deal closings</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+        <div class="aspect-video bg-gradient-to-br from-purple-100 to-purple-200 relative overflow-hidden">
+          <%= image_tag "bill_hongbao.jpg", alt: "Corporate meeting with Bitcoin presentation", class: "absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80" %>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-2">
+                <%= heroicon "academic-cap", variant: :solid, class: "h-10 w-10 text-purple-600" %>
+              </div>
+              <p class="text-white font-bold text-lg">Shareholder Relations</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-3">Shareholder Relations</h3>
+          <p class="text-gray-600 mb-4">Demonstrate your Bitcoin strategy tangibly. Give shareholders actual Bitcoin to understand the asset your company holds.</p>
+          <p class="text-sm font-semibold text-orange-600">Perfect for: AGMs, investor days, quarterly gifts</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+        <div class="aspect-video bg-gradient-to-br from-green-100 to-green-200 relative overflow-hidden">
+          <%= image_tag "index/red_back_back.png", alt: "Conference booth with Bitcoin giveaway", class: "absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80" %>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-2">
+                <%= heroicon "megaphone", variant: :solid, class: "h-10 w-10 text-green-600" %>
+              </div>
+              <p class="text-white font-bold text-lg">Marketing Campaigns</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-3">Marketing Campaigns</h3>
+          <p class="text-gray-600 mb-4">Create viral moments with Bitcoin giveaways. Build brand awareness while spreading Bitcoin adoption through memorable experiences.</p>
+          <p class="text-sm font-semibold text-orange-600">Perfect for: Product launches, conferences, social campaigns</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonial Section -->
+<section class="py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <div class="mb-8">
+      <%# image_tag "business/saylor.jpg", class: "w-24 h-24 rounded-full mx-auto mb-4", alt: "Michael Saylor" %>
+      <blockquote class="text-2xl font-medium text-gray-900 mb-4">
+        "Bitcoin is a bank in cyberspace, run by incorruptible software, offering a global, affordable, simple, & secure savings account to billions of people."
+      </blockquote>
+      <cite class="text-gray-600">
+        <span class="font-semibold">Michael Saylor</span><br>
+        Executive Chairman, MicroStrategy
+      </cite>
+    </div>
+    <p class="text-lg text-gray-600">
+      Join the world's most forward-thinking companies in making Bitcoin tangible for everyone.
+    </p>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 bg-black text-white">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+      Ready to elevate your Bitcoin strategy?
+    </h2>
+    <p class="text-xl text-gray-300 mb-8">
+      Schedule a call to design custom HongBao for your company
+    </p>
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+      <%= link_to business_call_url, target: "_blank", class: "btn btn-primary rounded-full btn-lg bg-orange-600 border-orange-600 hover:bg-orange-700 text-white" do %>
+        <%= heroicon "calendar", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        Schedule Call
+      <% end %>
+      <a href="mailto:team@hongbaob.tc" class="btn btn-outline rounded-full btn-lg text-white border-white hover:bg-white hover:text-black">
+        <%= heroicon "envelope", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
+        Contact Sales
+      </a>
+    </div>
+    <p class="text-sm text-gray-400 mt-6">
+    </p>
+  </div>
+</section>

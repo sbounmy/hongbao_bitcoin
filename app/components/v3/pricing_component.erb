@@ -64,6 +64,14 @@
               color: color
             ) %>
           </div>
+
+          <!-- Compact Business CTA -->
+          <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">Bitcoin Companies ?
+              <%= link_to "See Custom envelopes →", bitcoin_companies_path, class: "font-medium text-orange-600 hover:text-orange-700", data: { turbo: false } %>
+            </p>
+          </div>
+
         <div class="block sm:hidden pt-3">
           <%=render V3::InclusionsComponent.new%>
         </div>

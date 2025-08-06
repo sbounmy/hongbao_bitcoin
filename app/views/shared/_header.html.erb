@@ -4,7 +4,13 @@
             <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
             <h1 class="text-xl hidden sm:inline-block font-semibold"><%= link_to "Hong₿ao", root_path %></h1>
         </div>
+        
         <div class="flex items-center gap-2">
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 mr-4">
+                <%= link_to "Pricing", pricing_path, class: "text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors" %>
+                <%= link_to "Bitcoin Companies", bitcoin_companies_path, class: "text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors" %>
+            </nav>
             <span class="pt-2 hidden sm:inline-block">
                 <%= link_to 'Star', github_url, class: "github-button", data: { color_scheme: "no-preference: light; light: light; dark: dark;", size: "large", show_count: "true", aria_label: "Star sbounmy/hongbao_bitcoin on GitHub" } %>
             </span>
