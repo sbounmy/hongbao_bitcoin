@@ -22,6 +22,9 @@ application.register("disabled", DisabledController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import ThemeController from "./theme_controller"
+application.register("theme", ThemeController)
+
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
 

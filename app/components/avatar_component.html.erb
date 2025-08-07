@@ -1,6 +1,6 @@
 <%# Component to display a single contributor avatar %>
 <div class="flex flex-col items-center gap-2 text-center <%= options[:class] %>">
-  <div class="avatar indicator w-full">
+  <div class="avatar indicator w-full h-full">
     <%= badge %>
     <% if link_url&.present? %>
       <%= link_to link_url, target: "_blank", rel: "noopener noreferrer", class: "group" do %>

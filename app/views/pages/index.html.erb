@@ -1,10 +1,10 @@
-<% attributes_for :body_attributes, { class: "bg-white", data: { controller: "scroll-reveal" } } %>
+<% attributes_for :body_attributes, { class: "bg-base-100", data: { controller: "scroll-reveal" } } %>
 <% content_for :head do %>
   <%= javascript_include_tag "https://platform.twitter.com/widgets.js", async: true, "data-turbo-track": "reload" %>
 <% end %>
 
 <!-- Review Banner -->
-<div class="bg-black text-white py-2 px-4 text-center text-sm">
+<div class="bg-neutral text-neutral-content py-2 px-4 text-center text-sm">
   <span class="opacity-80">🎉 Featured on Bitcourier: </span>
   <span class="font-medium">"With a few $, you can put lasting smiles on the faces of your loved ones"</span>
   <span class="text-yellow-400 ml-2">★★★★★</span>
@@ -15,16 +15,16 @@
   <%= render "shared/header" %>
   <!-- Main text content -->
   <div class="relative px-4 pt-10 sm:pt-18 md:pt-16 z-10 mb-10">
-    <h1 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-black leading-tight mb-4 md:mb-6">
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-base-content leading-tight mb-4 md:mb-6">
       Teach Bitcoin with an envelope
     </h1>
 
-    <p class="text-xl md:text-2xl lg:text-3xl text-black/70 mb-8 md:mb-10">
+    <p class="text-xl md:text-2xl lg:text-3xl text-base-content/70 mb-8 md:mb-10">
       Print a paper wallet → Gift it in a red envelope → Let them study
     </p>
 
     <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
-      <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+      <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
         <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
         <span class="inline-block">Get Envelopes</span>
       <% end %>
@@ -36,11 +36,11 @@
     </div>
 
     <!-- Social Proof -->
-    <div class="mt-6 flex flex-col items-center justify-center gap-2 text-md text-gray-600">
-      <span>Used by <span class="font-semibold text-black"><%= User.count %></span> Bitcoiners</span>
+    <div class="mt-6 flex flex-col items-center justify-center gap-2 text-md text-base-content/60">
+      <span>Used by <span class="font-semibold text-base-content"><%= User.count %></span> Bitcoiners</span>
       <div class="flex -space-x-2">
         <% @users.each do |user| %>
-          <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-white" %>
+          <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-base-300" %>
         <% end %>
       </div>
     </div>
@@ -81,7 +81,7 @@
 
 <!-- Hongbao explanation -->
 <div class="p-4 text-center">
-  <p class="text-sm md:text-base text-black/40">
+  <p class="text-sm md:text-base text-base-content/40">
     Hong₿ao (红包) • Traditional Chinese red envelopes for gifting money during celebrations
   </p>
 </div>
@@ -106,11 +106,11 @@
 <%= render "shared/testimonials_marquee" %>
 
 <!-- How It Works Section -->
-<section class="py-24 bg-white">
+<section class="py-24">
   <div class="max-w-6xl mx-auto px-4">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
       <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">HOW IT WORKS</p>
-      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
+      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
         Create a Bitcoin gift in 5 minutes
       </h2>
     </div>
@@ -180,15 +180,15 @@
   </div>
 </section>
 
-<section class="flex flex-col lg:flex-row gap-4">
+<section class="flex flex-col lg:flex-row gap-4 bg-base-100">
   <%= render Ui::RatingComponent.new(rate: 5, class: "max-w-lg mx-auto", text: "<span class='bg-yellow-100/80 px-1.5 font-medium dark:bg-yellow-900/80'>This fucks hard + HongBao meets Bitcoin = biggest cultural arbitrage play since El Salvador.</span>Asia already
 diamond hands gift-giving traditions - now they just need to diamond hand actual scarce assets. WeChat Pay users bout to get red-pilled by red envelopes. Absolute 200 IQ move, ngmi if you don't see the vision") do
   |rating| %>
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: User.fake(avatar_url: "index/snoovatar-back-64x64px.png"), class: "w-8 h-8") %>
       <div class="text-center">
-        <div class="font-semibold text-gray-900">Reddit User</div>
-        <%= link_to "https://www.reddit.com/r/HongBaoBitcoin/comments/1l8nslz/comment/mzaqna9/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button", class: "text-sm text-gray-600 flex gap-1 items-center", target: "_blank" do %>
+        <div class="font-semibold text-base-content">Reddit User</div>
+        <%= link_to "https://www.reddit.com/r/HongBaoBitcoin/comments/1l8nslz/comment/mzaqna9/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button", class: "text-sm text-base-content/70 flex gap-1 items-center", target: "_blank" do %>
           <span class="font-semibold">/r/Bitcoin</span>
           <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "h-4 w-4 align-middle" %>
         <% end %>
@@ -200,7 +200,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: User.fake(avatar_url: "index/snoovatar-back-64x64px.png"), class: "w-8 h-8") %>
       <div class="text-center">
-        <div class="font-semibold text-gray-900">Pristine_Hurry_4693</div>
+        <div class="font-semibold text-base-content">Pristine_Hurry_4693</div>
         <%= link_to "https://www.reddit.com/r/Bitcoin/comments/1ldmfid/comment/myfn24q/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button", class: "text-sm text-gray-600 flex gap-1 items-center", target: "_blank" do %>
           <span class="font-semibold">/r/Bitcoin</span>
           <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "h-4 w-4 align-middle" %>
@@ -213,8 +213,8 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: User.fake(avatar_url: "index/cryptosensei.png"), class: "w-8 h-8") %>
       <div class="text-center">
-        <div class="font-semibold text-gray-900">@cryptosensei</div>
-        <%= link_to "https://stacker.news/items/1010797?commentId=1012116", class: "text-sm text-gray-600 flex gap-1 items-center", target: "_blank" do %>
+        <div class="font-semibold text-base-content">@cryptosensei</div>
+        <%= link_to "https://stacker.news/items/1010797?commentId=1012116", class: "text-sm flex gap-1 items-center", target: "_blank" do %>
           <span class="font-semibold">Stackernews ⚡️</span>
           <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "h-4 w-4 align-middle" %>
         <% end %>
@@ -226,7 +226,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 <section class="flex flex-col my-8 max-w-5xl mx-auto">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
       <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">FEATURES</p>
-      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
+      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
         Bitcoin gift that spread adoption, not confusion
       </h2>
     </div>
@@ -317,7 +317,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
 <section class="flex flex-col mt-20 my-8 max-w-5xl mx-auto">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
-      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl">
+      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
         Works with any Bitcoin wallet
       </h2>
     </div>
@@ -340,7 +340,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <% end %>
   </div>
 </section>
-<section class="flex flex-col gap-8 py-16 md:py-24">
+<section class="flex flex-col gap-8 py-16 md:py-24 bg-base-100">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Badge floated to the left -->
     <div class="float-left mr-8 mb-6">
@@ -348,7 +348,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 
     <!-- Introduction text that flows around the badge -->
-    <div class="space-y-6 text-gray-800">
+    <div class="space-y-6 text-base-content">
         <div>
           <h2 class="text-3xl md:text-4xl font-semibold mb-4">
             Hey Bitcoiner,
@@ -359,7 +359,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           <p class="text-xl mb-4">
             Growing up, my grandma used to give us <span class="font-semibold">red envelopes</span> (hóng bāo) for Chinese New Year.<br/>But today, her gift vanished with inflation.
           </p>
-          <p class="text-xl text-gray-600 italic">
+          <p class="text-xl text-base-content/70 italic">
             As a dad of two, I wanted the money I saved for them to actually cover their tuition or help them buy a home.
           </p>
         </div>
@@ -410,9 +410,9 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   |rating| %>
     <%= rating.with_avatar do %>
       <%= render AvatarComponent.new(user: User.fake(avatar_url: "index/wolfbet.png"), class: "w-8 h-8") %>
-      <div class="">
-        <div class="font-semibold text-gray-900">r_victory</div>
-        <%= link_to "https://bitcointalk.org/index.php?topic=5549677.msg65587486#msg65587486", class: "text-sm text-gray-600 flex gap-1 items-center", target: "_blank" do %>
+      <div class="text-base-content">
+        <div class="font-semibold">r_victory</div>
+        <%= link_to "https://bitcointalk.org/index.php?topic=5549677.msg65587486#msg65587486", class: "text-sm flex gap-1 items-center", target: "_blank" do %>
           <span class="font-semibold">BitcoinTalk Forum</span>
           <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "h-4 w-4 align-middle" %>
         <% end %>
@@ -423,17 +423,17 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
   <% end %>
 </section>
 
-<section id="pricing" class="mx-auto max-w-4xl px-8">
+<section id="pricing" class="mx-auto max-w-4xl px-8 bg-base-100">
   <%= render V3::PricingComponent.new(title: false) do |component| %>
     <% component.with_plans(StripeService.fetch_products) %>
   <% end %>
 </section>
 
-<section class="mx-auto px-8">
+<section class="mx-auto px-8 bg-base-100">
   <%= render "shared/faq" %>
 </section>
 
-<section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-white p-8 text-black">
+<section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-base-100 p-8 text-base-content">
 
   <% render CardComponent.new(class: 'h-full') do |card| %>
     <%= card.with_front(class: 'p-8 sm:p-12 !cursor-default bg-black text-white') do %>
@@ -509,7 +509,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
       <p class='text-5xl lg:text-8xl xl:text-10xl font-bold text-black'>Turn newcoiners into <br/> Bitcoin maxis</p>
       <p class='text-2xl lg:text-3xl xl:text-4xl font-semibold text-black'>Orange-pill without the lecture</p>
       <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
-        <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
+        <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
           <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
           <span class="inline-block">Buy Envelope</span>
         <% end %>
@@ -524,7 +524,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 </div>
 
 
-<section class="bg-stone-100 text-black py-24 sm:py-32">
+<section class="bg-base-200 text-base-content py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <h2 class="text-4xl font-bold tracking-tight text-center sm:text-6xl">More for your freedom.</h2>
