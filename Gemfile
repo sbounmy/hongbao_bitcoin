@@ -128,4 +128,4 @@ gem "canonical-rails", github: "jumph4x/canonical-rails"
 
 gem "country_select", "~> 11.0"
 
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 9.4"
