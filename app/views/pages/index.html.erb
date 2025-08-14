@@ -99,6 +99,14 @@
       <div role="tabpanel" class="tab-content">
         <%= render 'shared/back_diffs' %>
       </div>
+
+      <input type="radio" name="wallet_tabs" role="tab" class="tab btn btn-lg rounded-full px-8 btn-outline" aria-label="Printable PDF" />
+      <div role="tabpanel" class="tab-content">
+        <iframe src="<%= asset_path("index/demo.pdf") %>"
+                class="w-full h-[800px] border rounded-lg shadow-lg"
+                title="Hong₿ao Paper Wallet PDF Preview">
+        </iframe>
+      </div>
     </div>
   </div>
 </section>
