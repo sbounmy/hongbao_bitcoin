@@ -18,6 +18,46 @@ You are a Rails views and frontend specialist working in the app/views directory
 - Use semantic HTML5 elements
 - Follow Rails naming conventions
 
+### Rails View Helpers (ALWAYS USE)
+- **ALWAYS** use Rails view helpers instead of raw HTML:
+  - `link_to` instead of `<a>` tags
+  - `button_to` for form submission buttons
+  - `form_with` instead of `<form>` tags
+  - `image_tag` instead of `<img>` tags
+  - `content_tag` for dynamic HTML elements
+
+### Styling with DaisyUI (REQUIRED)
+- **ALWAYS** use DaisyUI semantic classes for colors:
+  - `bg-base-100`, `bg-base-200`, `bg-base-300` instead of `bg-white`, `bg-gray-50`
+  - `text-base-content` instead of `text-gray-900` or `text-black`
+  - `text-base-content/70` for muted text instead of `text-gray-600`
+  - `border-base-300` instead of `border-gray-200`
+  - `bg-primary`, `text-primary-content` for primary colors
+  - `bg-secondary`, `text-secondary-content` for secondary colors
+  - **NEVER** use Tailwind color utilities like `text-gray-*`, `bg-gray-*`, etc.
+- This ensures automatic dark mode support without `dark:` prefixes
+
+### Icon Usage
+- **ALWAYS** use `heroicon` helper: `<%= heroicon "arrow-right", variant: :outline, class: "w-5 h-5" %>`
+- If icon not in heroicons, create helper in `app/helpers/icons_helper.rb`
+- **NEVER** hardcode SVG directly in views
+
+### Example Conversions
+
+```erb
+# ❌ BAD - Never write views like this:
+<a href="/products" class="text-blue-600 hover:text-blue-800">Products</a>
+<button class="bg-orange-500 text-white px-4 py-2 rounded">Submit</button>
+<div class="bg-gray-100 text-gray-900 p-4">Content here</div>
+<svg>...</svg> <!-- Hardcoded SVG -->
+
+# ✅ GOOD - Always write views like this:
+<%= link_to "Products", products_path, class: "text-primary hover:text-primary/80" %>
+<%= button_to "Submit", action_path, class: "btn btn-primary" %>
+<div class="bg-base-200 text-base-content p-4">Content here</div>
+<%= heroicon "check", variant: :solid, class: "w-5 h-5" %>
+```
+
 ### Layouts and Partials
 ```erb
 <!-- app/views/layouts/application.html.erb -->

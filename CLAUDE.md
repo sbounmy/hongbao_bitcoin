@@ -131,6 +131,42 @@ The following specialized agents work together to implement your requests:
 - Write self-documenting code
 - Keep controllers skinny - extract complex logic to concerns, helpers, or service objects
 
+### View Development Best Practices
+
+**Rails View Helpers:**
+- Always use Rails view helpers instead of raw HTML tags when available:
+  - `link_to` instead of `<a>` tags
+  - `button_to` for form submission buttons
+  - `form_with` instead of `<form>` tags
+  - `image_tag` instead of `<img>` tags
+  - `content_tag` for dynamic HTML elements
+
+**Styling with DaisyUI:**
+- Use DaisyUI semantic class names instead of raw Tailwind color utilities:
+  - `bg-base-100`, `bg-base-200`, `bg-base-300` instead of `bg-white`, `bg-gray-50`, etc.
+  - `text-base-content` instead of `text-gray-900` or `text-black`
+  - `text-base-content/70` for muted text instead of `text-gray-600`
+  - `border-base-300` instead of `border-gray-200`
+  - `bg-primary`, `text-primary-content` for primary colors
+  - `bg-secondary`, `text-secondary-content` for secondary colors
+- This ensures automatic dark mode support without needing `dark:` prefixes
+
+**Icons:**
+- Use `heroicon` helper for icons: `<%= heroicon "arrow-right", variant: :outline, class: "w-5 h-5" %>`
+- If an icon isn't available in heroicons, create a view helper in `app/helpers/icons_helper.rb`
+- Never hardcode SVG icons directly in views
+
+**Example Conversions:**
+```erb
+# ❌ Bad - Raw HTML with Tailwind colors
+<a href="/path" class="text-blue-600 hover:text-blue-800">Link</a>
+<button class="bg-orange-500 text-white">Submit</button>
+
+# ✅ Good - Rails helpers with DaisyUI semantic classes
+<%= link_to "Link", "/path", class: "text-primary hover:text-primary/80" %>
+<%= button_to "Submit", "/path", class: "btn btn-primary" %>
+```
+
 ### Testing
 - RSpec for all tests except user interations.
 - Fixtures for test data
