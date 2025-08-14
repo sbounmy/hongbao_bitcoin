@@ -20,7 +20,7 @@
     </h1>
 
     <p class="text-xl md:text-2xl lg:text-3xl text-black/70 mb-8 md:mb-10">
-      Print a paper wallet → Gift it in a red envelope → Let them study
+      Print a <%= link_to "Bitcoin note", "#definitions", class: "underline decoration-dotted underline-offset-4 hover:text-black transition-colors cursor-help", title: "A paper wallet styled as currency containing keys to access Bitcoin", data: { controller: "scroll-to" } %> → Gift it in a <%= link_to "Hong₿ao", "#definitions", class: "underline decoration-dotted underline-offset-4 hover:text-black transition-colors cursor-help", title: "Traditional Chinese red envelopes for gifting money", data: { controller: "scroll-to" } %> → Let them study
     </p>
 
     <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
@@ -31,7 +31,7 @@
 
       <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
         <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-        <span class="inline-block">Print paper wallet</span>
+        <span class="inline-block">Print Bitcoin note</span>
       <% end %>
     </div>
 
@@ -79,11 +79,21 @@
 
 </div>
 
-<!-- Hongbao explanation -->
-<div class="p-4 text-center">
-  <p class="text-sm md:text-base text-black/40">
-    Hong₿ao (红包) • Traditional Chinese red envelopes for gifting money during celebrations
-  </p>
+<!-- Hongbao and Bitcoin note explanations -->
+<div id="definitions" class="p-6 text-center bg-gray-50 border-y border-gray-200">
+  <div class="space-y-3 max-w-4xl mx-auto">
+    <div class="flex items-center justify-center gap-2 text-sm md:text-base">
+      <span class="font-medium text-black">Hong₿ao</span>
+      <span class="text-red-600">(红包)</span>
+      <span class="text-gray-400">•</span>
+      <span class="text-gray-600">Traditional Chinese red envelopes for gifting money during celebrations</span>
+    </div>
+    <div class="flex items-center justify-center gap-2 text-sm md:text-base">
+      <span class="font-medium text-black">Bitcoin note</span>
+      <span class="text-gray-400">•</span>
+      <span class="text-gray-600">A paper wallet styled as currency containing public and cryptographic keys to access Bitcoin funds</span>
+    </div>
+  </div>
 </div>
 
 <section class="p-8">
@@ -103,8 +113,8 @@
       <input type="radio" name="wallet_tabs" role="tab" class="tab btn btn-lg rounded-full px-8 btn-outline" aria-label="Printable PDF" />
       <div role="tabpanel" class="tab-content">
         <iframe src="<%= asset_path("index/demo.pdf") %>"
-                class="w-full h-[800px] border rounded-lg shadow-lg"
-                title="Hong₿ao Paper Wallet PDF Preview">
+                class="w-full h-[800px] border rounded-lg shadow-lg mt-8"
+                title="Hong₿ao Bitcoin Note PDF Preview">
         </iframe>
       </div>
     </div>
@@ -138,7 +148,7 @@
           1. Get Premium Envelopes
         <% end %>
         <%= card.with_body do %>
-          <p>Free worldwide shipping. Includes Bitcoin quotes from Satoshi, Hal Finney and Andreas Antonopoulos. Perfect size for paper wallets.</p>
+          <p>Free worldwide shipping. Includes Bitcoin quotes from Satoshi, Hal Finney and Andreas Antonopoulos. Perfect size for Bitcoin notes.</p>
         <% end %>
       <% end %>
 
@@ -153,7 +163,7 @@
           <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 " %>
         <% end %>
         <%= card.with_title do %>
-          2. Personalize Your Paper Wallet
+          2. Personalize Your Bitcoin Note
         <% end %>
         <%= card.with_body do %>
           <p>Upload their photo to create a custom Bitcoin note. Top up the wallet with Bitcoin or fiat. Each wallet is unique to your loved one.</p>
@@ -258,7 +268,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           </div>
         <% end %>
         <%= card.with_body do %>
-          <p>Generate secure paper wallets offline with no account needed. Top up directly with Bitcoin or fiat - no KYC required. Each wallet includes recovery instructions and lets recipients truly own their Bitcoin. Perfect for privacy-conscious gifting.</p>
+          <p>Generate secure Bitcoin notes offline with no account needed. Top up directly with Bitcoin or fiat - no KYC required. Each note includes recovery instructions and lets recipients truly own their Bitcoin. Perfect for privacy-conscious gifting.</p>
         <% end %>
       <% end %>
 
@@ -294,7 +304,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
           </div>
         <% end %>
         <%= card.with_body do %>
-          <p>Generate unique Bitcoin paper wallet designs with AI.
+          <p>Generate unique Bitcoin note designs with AI.
   Upload any image and it will transform into stunning artwork. Choose from
   multiple styles: anime, satoshi, or more. Be your own Bank.</p>
         <% end %>
@@ -524,7 +534,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
         <%= link_to dashboard_path, class: "btn btn-outline rounded-full btn-lg w-full md:w-auto" do %>
           <%= heroicon "banknotes", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
-          <span class="inline-block">Print paper wallet</span>
+          <span class="inline-block">Print Bitcoin note</span>
         <% end %>
       </div>
     </div>
@@ -538,12 +548,12 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
       <h2 class="text-4xl font-bold tracking-tight text-center sm:text-6xl">More for your freedom.</h2>
       <div class="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
 
-        <%# Card 1: Paper wallet generator %>
+        <%# Card 1: Bitcoin note generator %>
         <%= link_to dashboard_path, class: "block group" do %>
           <%= render CardComponent.new do |card| %>
             <%= card.with_front(class: "p-8 sm:p-12 !cursor-pointer bg-stone-300 !text-black flex flex-col !justify-start") do %>
               <div class="text-center space-y-2 w-full">
-                <h3 class="text-lg font-semibold text-gray-800">Paper Wallet</h3>
+                <h3 class="text-lg font-semibold text-gray-800">Bitcoin Note</h3>
                 <p class="text-3xl font-bold tracking-tight">Carry one thing.<br>Everything.</p>
                 <p class="text-sm font-semibold leading-6 text-primary group-hover:underline">Gift now →</p>
               </div>
