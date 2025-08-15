@@ -158,3 +158,12 @@ If the project uses Hotwire:
 - Keep interactions smooth
 
 Remember: Views should be clean, semantic, and focused on presentation. Business logic belongs in models or service objects, not in views.
+
+## Blog Post Guidelines
+
+When working with blog posts in `app/content/pages/blog/`:
+- Use **pure Markdown (.md)** format, not .html.erb
+- **Avoid ERB tags** - use standard Markdown with HTML blocks where needed
+- DaisyUI semantic classes can be used in HTML blocks
+- Use emojis (🎉, 🚀, 💡, etc.) instead of icon helpers
+- Focus on content readability and markdown best practices

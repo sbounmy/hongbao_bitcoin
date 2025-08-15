@@ -26,32 +26,32 @@
 
   </aside>
 
-  <%# Column 2: Features / Links %>
   <nav>
-    <h6 class="footer-title">Company</h6>
-    <%= link_to "About us", page_path("about"), class: "link link-hover" %>
-    <%= link_to "How it Works", page_path("how-it-works"), class: "link link-hover" %>
-    <%= link_to hong_baos_path, class: "link link-hover inline-flex items-center gap-1" do %>
-      <%= heroicon "viewfinder-circle", class: "w-4 h-4 inline-block" %>
-      <span>Scan Bill</span>
-    <% end %>
-    <%= link_to "FAQ", page_path("support"), class: "link link-hover", data: { controller: "scroll-to" } %>
+    <h6 class="footer-title">Products</h6>
     <%= link_to "Pricing", pricing_path, class: "link link-hover" %>
     <%= link_to "Custom Envelopes", bitcoin_companies_path, class: "link link-hover" %>
+    <%= link_to "Paper Wallets", dashboard_path, class: "link link-hover" %>
+    <%= link_to "Scan Bill", hong_baos_path, class: "link link-hover inline-flex items-center gap-1" %>
   </nav>
 
-  <%# Column 3: Community / Resources %>
+  <nav>
+    <h6 class="footer-title">Resources</h6>
+    <%= link_to "About Us", page_path("about"), class: "link link-hover" %>
+    <%= link_to "How it Works", page_path("how-it-works"), class: "link link-hover" %>
+    <%= link_to "Blog", page_path("blog"), class: "link link-hover" %>
+    <%= link_to "FAQ", page_path("support"), class: "link link-hover", data: { controller: "scroll-to" } %>
+    <%= link_to "Academy", academy_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+  </nav>
+
   <nav>
     <h6 class="footer-title">Community</h6>
     <%= link_to "GitHub", github_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+    <%= link_to "Twitter / X", x_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+    <%= link_to "LinkedIn", linkedin_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
     <%= link_to "Instagram", "#instagram", class: "link link-hover", data: { controller: "scroll-to" } %>
-    <%= link_to "Academy", academy_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
-    <%# Add other social links if needed %>
-    <%# link_to "Twitter / X", x_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
-    <%# link_to "LinkedIn", linkedin_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
+    <%= link_to "Etsy", etsy_url, class: "link link-hover", target: "_blank", rel: "noopener noreferrer" %>
   </nav>
 
-  <%# Column 4: Legal %>
   <nav>
     <h6 class="footer-title">Legal</h6>
     <%= link_to "Privacy Policy", "#", class: "link link-hover" %> <%# page_path("privacy") %>
