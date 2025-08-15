@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.0.beta1"
+gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -128,4 +128,4 @@ gem "canonical-rails", github: "jumph4x/canonical-rails"
 
 gem "country_select", "~> 11.0"
 
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 9.4"
