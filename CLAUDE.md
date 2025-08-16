@@ -156,12 +156,6 @@ The following specialized agents work together to implement your requests:
 - If an icon isn't available in heroicons, create a view helper in `app/helpers/icons_helper.rb`
 - Never hardcode SVG icons directly in views
 
-**Blog Posts:**
-- Blog posts in `app/content/pages/blog/` should use pure Markdown (.md) format
-- Avoid ERB tags in blog posts - use standard Markdown with HTML where needed
-- DaisyUI classes can still be used in HTML blocks within Markdown
-- Use emojis instead of icon helpers in blog posts
-
 **Example Conversions:**
 ```erb
 # ❌ Bad - Raw HTML with Tailwind colors

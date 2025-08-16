@@ -6,9 +6,9 @@
       <div class="md:flex-3 mb-8 md:mb-0">
         <div class="sticky top-8">
           <div class="sm:hidden block">
-            <p class="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-1">FREE Credits included</p>
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Buy HongBao</h1>
-            <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
+            <p class="text-sm font-semibold text-primary uppercase tracking-wider mb-1">FREE Credits included</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Buy HongBao</h1>
+            <p class="text-base-content/70 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
           </div>
           <div class="aspect-w-1 aspect-h-1 mb-6">
             <%= render CarouselComponent.new(media_items: media_items) %>
@@ -22,15 +22,15 @@
       <!-- Right Column: Configuration & Purchase -->
       <div class="md:flex-2">
         <div class="hidden sm:block">
-          <p class="text-sm font-semibold text-orange-600 uppercase tracking-wider mb-1">FREE Credits included</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Buy HongBao</h1>
-          <p class="text-gray-600 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
+          <p class="text-sm font-semibold text-primary uppercase tracking-wider mb-1">FREE Credits included</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-2">Buy HongBao</h1>
+          <p class="text-base-content/70 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
         </div>
   <!-- app/components/v3/plan_option_component.erb -->
           <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
 
             <div class="mb-8">
-              <h2 class="text-xl font-semibold text-gray-800 mb-4">How many would you like?</h2>
+              <h2 class="text-xl font-semibold text-base-content mb-4">How many would you like?</h2>
               <div class="space-y-3">
                 <% plans.each do |plan| %>
                   <%= plan %>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="mb-4">
-              <h2 class="text-xl font-semibold text-gray-800 mb-4">Choose your color(s)</h2>
+              <h2 class="text-xl font-semibold text-base-content mb-4">Choose your color(s)</h2>
               <div class="sm:w-2/3">
                 <%# Pass the current pack and color to the selector component %>
                 <%= render V3::ColorSelectorComponent.new(pack: pack, current_color: color) %>
@@ -67,8 +67,8 @@
 
           <!-- Compact Business CTA -->
           <div class="mt-6 text-center">
-            <p class="text-sm text-gray-600">Bitcoin Companies ?
-              <%= link_to "See Custom envelopes →", bitcoin_companies_path, class: "font-medium text-orange-600 hover:text-orange-700", data: { turbo: false } %>
+            <p class="text-sm text-base-content/70">Bitcoin Companies ?
+              <%= link_to "See Custom envelopes →", bitcoin_companies_path, class: "font-medium text-primary hover:text-primary-focus", data: { turbo: false } %>
             </p>
           </div>
 
@@ -77,9 +77,9 @@
         </div>
         <hr class="my-8">
         <div>
-          <h3 class="text-sm font-semibold text-gray-700 mb-2">Get help with your purchase.</h3>
-          <p class="text-sm text-gray-600">
-            <%= link_to "Chat now", "https://github.com/sbounmy/hongbao_bitcoin/discussions", class: "text-blue-600 hover:underline" %> or email us at <a href="mailto:team@hongbaob.tc" class="text-blue-600 hover:underline">team@hongbaob.tc</a>.
+          <h3 class="text-sm font-semibold text-base-content mb-2">Get help with your purchase.</h3>
+          <p class="text-sm text-base-content/70">
+            <%= link_to "Chat now", "https://github.com/sbounmy/hongbao_bitcoin/discussions", class: "text-primary hover:underline" %> or email us at <a href="mailto:team@hongbaob.tc" class="text-primary hover:underline">team@hongbaob.tc</a>.
           </p>
         </div>
       </div>

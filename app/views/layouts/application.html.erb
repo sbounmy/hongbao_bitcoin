@@ -49,9 +49,19 @@
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
+
+    <%# Initialize theme before page loads to prevent FOUC %>
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = savedTheme || systemTheme;
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
 
-  <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
+  <%= tag.body(**attributes_from(yield(:body_attributes))) do %>
     <%= notification_container %>
     <%= render_notifications %>
     <%= yield %>
