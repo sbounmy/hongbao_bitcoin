@@ -51,7 +51,7 @@
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
-  <%= tag.body(data: { theme: 'light' }, **attributes_from(yield(:body_attributes))) do %>
+  <%= tag.body(**attributes_from(yield(:body_attributes))) do %>
     <%# render "shared/header" %>
     <%= render "main/sidebar" do %>
       <div class="h-screen">
