@@ -1357,6 +1357,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@kanety/stimulus-static-actions@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@kanety/stimulus-static-actions/-/stimulus-static-actions-1.1.0.tgz#a62095e71bbaf73e32c7ef2ac01323263880f2c1"
+  integrity sha512-02cLimz1sOF+4wZJ7XpP+j+CnfuaSo1SKHqlnVXxMLkUDEmfpE27/2g7Qb0+dxwXvNta2H+MI7b2/nvZIit50g==
+
+"@kanety/stimulus-zoom-image@https://github.com/kanety/stimulus-zoom-image":
+  version "1.1.0"
+  resolved "https://github.com/kanety/stimulus-zoom-image#7c1ff73647da0a52bc38e549d52242713825e32b"
+
 "@napi-rs/wasm-runtime@^0.2.9":
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/@napi-rs/wasm-runtime/-/wasm-runtime-0.2.10.tgz#f3b7109419c6670000b2401e0c778b98afc25f84"

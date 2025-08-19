@@ -92,3 +92,6 @@ application.register('notification', Notification)
 
 import { Confetti } from "stimulus-confetti"
 application.register("confetti", Confetti)
+
+import ZoomImage from '@kanety/stimulus-zoom-image'
+application.register('zoom-image', ZoomImage)
