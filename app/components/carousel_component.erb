@@ -6,10 +6,9 @@
     class="swiper w-full h-full">
     <div class="swiper-wrapper aspect-square">
       <% media_items.each do |item| %>
-      <div
-        class="swiper-slide w-full h-full flex items-center justify-center bg-gray-100">
-        <%= media_tag_for(item) %>
-      </div>
+        <div class="swiper-slide w-full h-full flex items-center justify-center bg-gray-100">
+          <%= media_tag_for(item) %>
+        </div>
       <% end %>
     </div>
     <% if media_items.size > 1 %>
@@ -25,7 +24,7 @@
       <% media_items.each do |item| %>
         <div
           class="swiper-slide aspect-square hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden">
-          <%= media_tag_for(item, is_thumbnail: true) %>
+          <%= thumbnail_tag_for(item) %>
         </div>
       <% end %>
     </div>
