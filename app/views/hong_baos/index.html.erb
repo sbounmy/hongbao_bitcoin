@@ -29,6 +29,21 @@
           attribute: :scanned_key,
           auto_start: true
         ) %>
+
+    <%# Manual input option %>
+    <div class="divider">OR</div>
+
+    <div class="bg-white/90 rounded-xl p-4">
+      <p class="text-sm font-semibold text-gray-700 mb-3">Enter Bitcoin address manually:</p>
+      <%= form_with model: HongBao.new, url: search_hong_baos_path, local: false, data: { turbo: false }, class: "flex flex-col gap-3" do |f| %>
+        <%= f.text_field :scanned_key,
+            placeholder: "bc1q...",
+            class: "input input-bordered w-full",
+            pattern: "^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$|^bc1[a-z0-9]{39,59}$",
+            title: "Please enter a valid Bitcoin address" %>
+        <%= f.submit "Search Address", class: "btn btn-primary w-full" %>
+      <% end %>
+    </div>
   </div>
 
   <%# Help tooltip %>
