@@ -14,16 +14,16 @@
 
 mini:
   red:
-    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+    - { type: youtube, url: "https://www.youtube.com/embed/z_J2ZJ2wd3k" }
   orange:
-    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
+    - { type: youtube, url: "https://www.youtube.com/embed/R4H7By5NuWQ" }
 family:
   red:
-    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+    - { type: youtube, url: "https://www.youtube.com/embed/z_J2ZJ2wd3k" }
   orange:
-    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
+    - { type: youtube, url: "https://www.youtube.com/embed/R4H7By5NuWQ" }
 maximalist:
   red:
-    - { type: youtube, url: "https://www.youtube.com/embed/SWmwgy_hnm0" }
+    - { type: youtube, url: "https://www.youtube.com/embed/z_J2ZJ2wd3k" }
   orange:
-    - { type: youtube, url: "https://www.youtube.com/embed/AwXOqLY-zGk" }
+    - { type: youtube, url: "https://www.youtube.com/embed/R4H7By5NuWQ" }
