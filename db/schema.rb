@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_104341) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -142,6 +142,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_104341) do
     t.integer "views_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
     t.json "liker_ids", default: []
+    t.json "tag_ids", default: []
     t.index ["bundle_id"], name: "index_papers_on_bundle_id"
     t.index ["likes_count"], name: "index_papers_on_likes_count"
     t.index ["user_id"], name: "index_papers_on_user_id"

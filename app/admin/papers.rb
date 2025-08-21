@@ -2,7 +2,7 @@ ActiveAdmin.register Paper do
   permit_params :name, :year, :active, :public, :user_id,
                 :image_front, :image_back, :image_full,
                 { elements: Paper::ELEMENTS.map { |e| [ e.to_sym, Paper::ELEMENT_ATTRIBUTES ] }.to_h },
-                :bundle_id, :parent_id, :task_id,
+                :bundle_id, :parent_id, :task_id, { tag_ids: [] },
                 *Paper::ELEMENTS.map { |el| { "elements_#{el}".to_sym => Paper::ELEMENT_ATTRIBUTES } }
 
   remove_filter :image_front_attachment
@@ -12,12 +12,17 @@ ActiveAdmin.register Paper do
   filter :active
   filter :public
   filter :user
+  filter :tag_ids, as: :select, collection: -> { Tag.for_category(:papers) }
   filter :created_at
 
   index do
     selectable_column
     id_column
     column :name
+    column :tags do |paper|
+      paper.tag_names.map { |name| status_tag name }
+      []
+    end
     column :active
     column :user do |paper|
       paper.user.email if paper.user
@@ -50,6 +55,10 @@ ActiveAdmin.register Paper do
   show do
     attributes_table do
       row :name
+      row :tags do |paper|
+        paper.tag_names.map { |name| status_tag name, class: "yes" }
+        []
+      end
       row :active
       row :public
 
@@ -103,6 +112,7 @@ ActiveAdmin.register Paper do
 
     f.inputs do
       f.input :name
+      f.input :tag_ids, collection: Tag.for_category(:papers), as: :select, multiple: true
       f.input :active
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false

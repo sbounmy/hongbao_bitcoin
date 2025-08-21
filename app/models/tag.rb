@@ -2,6 +2,8 @@ class Tag < ApplicationRecord
   include ArrayColumns
   include Metadata
 
+  CATEGORIES = %i[ input_events papers ]
+
   metadata :color, :icon
 
   validates :name, presence: true, uniqueness: true

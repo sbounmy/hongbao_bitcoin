@@ -93,7 +93,7 @@ ActiveAdmin.register Tag do
               hint: "Order position (lower numbers appear first)"
       f.input :categories,
               as: :check_boxes,
-              collection: [ "input_events" ],
+              collection: Tag::CATEGORIES,
               hint: "Categories this tag belongs to"
     end
 

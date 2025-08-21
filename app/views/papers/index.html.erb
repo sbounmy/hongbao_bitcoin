@@ -53,6 +53,10 @@
         <h3 class="text-xl font-bold">Creators</h3>
         <%= render Users::LineItemComponent.with_collection(User.order(created_at: :desc).limit(5)) %>
       </div>
+      <div>
+        <h3 class="text-xl font-bold">Featured</h3>
+        <%= render Papers::LineItemComponent.with_collection(Paper.with_tag_name("featured").order(created_at: :desc).limit(5)) %>
+      </div>
     </div>
   </section>
 
