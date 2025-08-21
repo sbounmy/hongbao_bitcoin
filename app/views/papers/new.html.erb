@@ -3,7 +3,7 @@
       <div id="form-column" class="flex w-full h-full md:max-w-md flex-col gap-4">
         <%= form_with(model: @bundle, class: "flex flex-col h-full gap-4 py-4", data: { turbo_frame: "paper_form" }) do |form| %>
           <!-- Row 1 : Theme -->
-          <div class="flex flex-col gap-4 h-full overflow-y-auto px-4">
+          <div class="flex flex-col gap-4 flex-1 px-4 overflow-y-auto">
             <div class="relative">
               <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg flex gap-2 font-medium"><%= heroicon "banknotes", class: "w-6 h-6" %> Theme</h2>
