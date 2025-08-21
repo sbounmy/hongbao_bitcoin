@@ -76,3 +76,4 @@ pizza_day:
   input_item_ids:
     - 2 # input_items(:ghibli)
     - 3 # input_items(:image)
+  tag_ids: [3] # tags(:featured)

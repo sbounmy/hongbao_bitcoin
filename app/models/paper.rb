@@ -3,6 +3,7 @@ class Paper < ApplicationRecord
   include Viewable
   include ArrayColumns
   include Metadata
+  include Taggable
 
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true

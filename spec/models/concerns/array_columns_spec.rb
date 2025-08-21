@@ -170,6 +170,12 @@ RSpec.describe ArrayColumns, type: :concern do
         post.reload
         expect(post.author_ids).to eq([ 1, 2, 3 ])
       end
+
+      it "work on update" do
+        post = Post.create!(author_ids: [ 1, 2, 3 ])
+        post.update(author_ids: [ 1, 2, 3, 4 ])
+        expect(post.author_ids).to eq([ 1, 2, 3, 4 ])
+      end
     end
 
     describe ".with_any_author_ids" do

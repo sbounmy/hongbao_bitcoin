@@ -21,3 +21,15 @@ cultural:
       "icon": "globe-alt"
     }
   categories: ["input_events"]
+
+featured:
+  id: 3
+  name: featured
+  slug: featured
+  position: 3
+  metadata: |
+    {
+      "color": "#000000",
+      "icon": "star"
+    }
+  categories: ["papers"]
