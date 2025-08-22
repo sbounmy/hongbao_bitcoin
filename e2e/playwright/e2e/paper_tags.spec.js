@@ -15,12 +15,16 @@ test.describe('Paper Tags - Featured Section', () => {
       redirect_to: '/admin/papers/2/edit'
     });
 
+    await expect(page.locator('body')).toContainText('featured');
     // Unselect the featured tag
     const tagSelect = page.locator('select[name="paper[tag_ids][]"]');
     await tagSelect.selectOption([]); // Deselect all
 
     // Save the paper
     await page.getByRole('button', { name: /Update Paper/i }).click();
+
+    await expect(page.locator('body')).toContainText('Paper was successfully updated.');
+    await expect(page.locator('body')).not.toContainText('featured');
 
     // Navigate to the public papers page
     await page.goto('/dashboard');
