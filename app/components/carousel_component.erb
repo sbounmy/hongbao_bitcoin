@@ -19,11 +19,11 @@
     <% end %>
   </div>
 
-  <div data-gallery-target="thumbs" class="swiper w-48 sm:w-92 mt-4">
-    <div class="swiper-wrapper [&_.swiper-slide]:bg-contain [&_.swiper-slide]:bg-no-repeat [&_.swiper-slide]:bg-center ">
+  <div data-gallery-target="thumbs" class="swiper w-48 sm:w-92 mt-4 overflow-hidden">
+    <div class="swiper-wrapper [&_.swiper-slide]:bg-contain [&_.swiper-slide]:bg-no-repeat [&_.swiper-slide]:bg-center">
       <% media_items.each do |item| %>
         <div
-          class="swiper-slide aspect-square hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden">
+          class="swiper-slide aspect-square hover:border-blue-500 cursor-pointer border-2 border-transparent rounded-lg p-1 bg-white overflow-hidden transition-all duration-200">
           <%= thumbnail_tag_for(item) %>
         </div>
       <% end %>
