@@ -112,7 +112,7 @@ ActiveAdmin.register Paper do
 
     f.inputs do
       f.input :name
-      f.input :tag_ids, collection: Tag.for_category(:papers), as: :select, multiple: true
+      f.input :tag_ids, collection: Tag.for_category(:papers), as: :select, multiple: true, include_blank: "None"
       f.input :active
       f.input :public
       f.input :user, collection: User.all.map { |u| [ u.email, u.id ] }, required: false
