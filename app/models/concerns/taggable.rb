@@ -4,7 +4,7 @@ module Taggable
   extend ActiveSupport::Concern
 
   included do
-    array_columns :tag_ids
+    array_columns :tag_ids, only_integer: true
 
     scope :with_tag_name, ->(name) { with_any_tag_ids(Tag.find_by(name:)&.id) }
   end

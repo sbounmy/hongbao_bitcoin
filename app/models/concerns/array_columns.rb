@@ -7,16 +7,19 @@ module ArrayColumns
   extend ActiveSupport::Concern
 
   class_methods do
-    def array_columns_sanitize_list(values = [])
+    def array_columns_sanitize_list(values = [], only_integer: false)
       return [] if values.nil?
-      values.select(&:present?).uniq
+      sanitized = values.select(&:present?).uniq
+      only_integer ? sanitized.map(&:to_i) : sanitized
     end
 
-    def array_columns(*column_names)
+    def array_columns(*column_names, **options)
       @array_columns ||= {}
+      @array_column_options ||= {}
 
       column_names.each do |column_name|
         @array_columns[column_name.to_s] ||= false
+        @array_column_options[column_name.to_s] = options
       end
 
       @array_columns.keys.each do |column_name|
@@ -25,6 +28,7 @@ module ArrayColumns
 
         column_name = column_name.to_s
         method_name = column_name.downcase
+        column_options = @array_column_options[column_name] || {}
 
         # JSON_EACH("{table}"."{column}")
         json_each = Arel::Nodes::NamedFunction.new("JSON_EACH", [ arel_table[column_name] ])
@@ -62,7 +66,7 @@ module ArrayColumns
 
         # SELECT "{table}".* FROM "{table}" WHERE EXISTS (SELECT 1 FROM JSON_EACH("{table}"."{column}") WHERE value IN ({values}) LIMIT 1)
         scope :"with_any_#{method_name}", ->(*items) {
-          values = array_columns_sanitize_list(items)
+          values = array_columns_sanitize_list(items, **column_options)
           overlap = Arel::SelectManager.new(json_each)
             .project(1)
             .where(Arel.sql("value").in(values))
@@ -74,7 +78,7 @@ module ArrayColumns
 
         # SELECT "{table}".* FROM "{table}" WHERE (SELECT COUNT(*) FROM JSON_EACH("{table}"."{column}") WHERE value IN ({values})) = {values.size};
         scope :"with_all_#{method_name}", ->(*items) {
-          values = array_columns_sanitize_list(items)
+          values = array_columns_sanitize_list(items, **column_options)
           count = Arel::SelectManager.new(json_each)
             .project(Arel.sql("value").count(distinct = true))
             .where(Arel.sql("value").in(values))
@@ -85,7 +89,7 @@ module ArrayColumns
 
         # SELECT "{table}".* FROM "{table}" WHERE NOT EXISTS (SELECT 1 FROM JSON_EACH("{table}"."{column}") WHERE value IN ({values}) LIMIT 1)
         scope :"without_any_#{method_name}", ->(*items) {
-          values = array_columns_sanitize_list(items)
+          values = array_columns_sanitize_list(items, **column_options)
           overlap = Arel::SelectManager.new(json_each)
             .project(1)
             .where(Arel.sql("value").in(values))
@@ -96,7 +100,7 @@ module ArrayColumns
 
         # SELECT "{table}".* FROM "{table}" WHERE (SELECT COUNT(*) FROM JSON_EACH("{table}"."{column}") WHERE value IN ({values})) != {values.size};
         scope :"without_all_#{method_name}", ->(*items) {
-          values = array_columns_sanitize_list(items)
+          values = array_columns_sanitize_list(items, **column_options)
           count = Arel::SelectManager.new(json_each)
             .project(Arel.sql("value").count(distinct = true))
             .where(Arel.sql("value").in(values))
@@ -104,17 +108,19 @@ module ArrayColumns
           where.not contains
         }
 
-        before_validation -> { self[column_name] = self.class.array_columns_sanitize_list(self[column_name]) }
+        before_validation -> { self[column_name] = self.class.array_columns_sanitize_list(self[column_name], **column_options) }
 
         define_method :"has_any_#{method_name}?" do |*values|
-          values = self.class.array_columns_sanitize_list(values)
-          existing = self.class.array_columns_sanitize_list(self[column_name])
+          column_options = self.class.instance_variable_get(:@array_column_options)[column_name] || {}
+          values = self.class.array_columns_sanitize_list(values, **column_options)
+          existing = self.class.array_columns_sanitize_list(self[column_name], **column_options)
           (values & existing).present?
         end
 
         define_method :"has_all_#{method_name}?" do |*values|
-          values = self.class.array_columns_sanitize_list(values)
-          existing = self.class.array_columns_sanitize_list(self[column_name])
+          column_options = self.class.instance_variable_get(:@array_column_options)[column_name] || {}
+          values = self.class.array_columns_sanitize_list(values, **column_options)
+          existing = self.class.array_columns_sanitize_list(self[column_name], **column_options)
           (values & existing).size == values.size
         end
 

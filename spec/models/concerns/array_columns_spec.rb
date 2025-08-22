@@ -14,7 +14,8 @@ RSpec.describe ArrayColumns, type: :concern do
 
     class Post < ActiveRecord::Base
       include ArrayColumns
-      array_columns :tags, :author_ids
+      array_columns :tags
+      array_columns :author_ids, only_integer: true
     end
   end
 
@@ -175,6 +176,12 @@ RSpec.describe ArrayColumns, type: :concern do
         post = Post.create!(author_ids: [ 1, 2, 3 ])
         post.update(author_ids: [ 1, 2, 3, 4 ])
         expect(post.author_ids).to eq([ 1, 2, 3, 4 ])
+      end
+
+      it "converts string to integer" do
+        post = Post.create!(author_ids: [ "1" ])
+        post.reload
+        expect(post.author_ids).to eq([ 1 ])
       end
     end
 
