@@ -1,0 +1,60 @@
+<div class="tweet-card w-full bg-base-100 border border-base-300 rounded-2xl p-4 hover:bg-base-100/80 transition-colors">
+  <%= link_to url, target: "_blank", rel: "noopener noreferrer", class: "block" do %>
+    <!-- Header -->
+    <div class="flex items-start gap-3 mb-3">
+      <!-- Profile Image -->
+      <div class="flex-shrink-0">
+        <%= image_tag profile_image, alt: author_name, class: "w-12 h-12 rounded-full" %>
+      </div>
+      
+      <!-- Author Info and Logo -->
+      <div class="flex-grow flex items-start justify-between">
+        <div>
+          <div class="flex items-center gap-1">
+            <span class="font-bold text-base-content"><%= author_name %></span>
+            <% if verified %>
+              <svg viewBox="0 0 24 24" aria-label="Verified account" class="w-5 h-5 fill-primary">
+                <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.92.81c.66 1.31 1.9 2.19 3.33 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"/>
+              </svg>
+            <% end %>
+          </div>
+          <div class="text-base-content/60">@<%= author_handle %></div>
+        </div>
+        <%= twitter_logo %>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="text-base-content mb-3 whitespace-pre-wrap"><%= sanitize(tweet_text, tags: %w[a], attributes: %w[href]) %></div>
+
+    <!-- Media (if present) -->
+    <% if media_urls.present? && media_urls.any? %>
+      <% if media_urls.size == 1 %>
+        <div class="rounded-xl overflow-hidden mb-3">
+          <%= image_tag media_urls.first, class: "w-full", loading: "lazy" %>
+        </div>
+      <% else %>
+        <div class="mb-3 grid grid-cols-2 gap-1">
+          <% media_urls.each_with_index do |url, index| %>
+            <div class="rounded-lg overflow-hidden <%= media_urls.size == 3 && index == 0 ? 'row-span-2' : '' %>">
+              <%= image_tag url, class: "w-full h-full object-cover", loading: "lazy" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <!-- Footer -->
+    <div class="flex items-center justify-between text-base-content/60 text-sm">
+      <span><%= formatted_date %></span>
+      <% if likes.present? %>
+        <div class="flex items-center gap-1">
+          <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current">
+            <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/>
+          </svg>
+          <span><%= likes %></span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
