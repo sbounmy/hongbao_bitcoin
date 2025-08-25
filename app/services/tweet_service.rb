@@ -1,5 +1,5 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
 class TweetService
   CACHE_EXPIRY = 1.week
@@ -20,19 +20,19 @@ class TweetService
   def self.fetch_from_twitter_api(tweet_id)
     token = generate_token(tweet_id)
     uri = URI("#{SYNDICATION_API_URL}?id=#{tweet_id}&lang=en&token=#{token}")
-    
+
     begin
       response = Net::HTTP.get_response(uri)
-      
-      if response.code == '200'
+
+      if response.code == "200"
         data = JSON.parse(response.body)
-        
+
         # Check if we got an empty response
         if data.empty?
           Rails.logger.error "Empty response for tweet #{tweet_id}"
           return fallback_data(tweet_id)
         end
-        
+
         parse_tweet_data(data)
       else
         Rails.logger.error "Failed to fetch tweet #{tweet_id}: HTTP #{response.code}"
@@ -43,16 +43,16 @@ class TweetService
       fallback_data(tweet_id)
     end
   end
-  
+
   def self.generate_token(tweet_id)
     # Port of react-tweet's getToken function
     # ((Number(id) / 1e15) * Math.PI).toString(36).replace(/(0+|\.)/g, '')
     number = (tweet_id.to_f / 1e15 * Math::PI)
-    
+
     # In JavaScript, toString(36) on a float gives something like "4p0.ieqqniid"
     # Ruby doesn't have this, so we approximate it
     integer_part = number.to_i.to_s(36)
-    
+
     # For the fractional part, we convert it to a string of base-36 digits
     fractional_part = number - number.to_i
     frac_str = ""
@@ -63,7 +63,7 @@ class TweetService
       frac_str += digit.to_s(36)
       f -= digit
     end
-    
+
     # Combine and remove zeros and dots as in the JS version
     full_str = "#{integer_part}.#{frac_str}"
     full_str.gsub(/0+|\./, "")
@@ -72,7 +72,7 @@ class TweetService
   def self.parse_tweet_data(data)
     # Handle the actual syndication API response format
     user = data["user"] || {}
-    
+
     {
       id: data["id_str"],
       author_name: user["name"],
