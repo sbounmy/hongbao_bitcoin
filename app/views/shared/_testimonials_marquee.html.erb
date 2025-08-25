@@ -12,10 +12,10 @@
         to { transform: translateX(0); }
       }
       .animate-marquee {
-        animation: marquee 40s linear infinite;
+        animation: marquee 20s linear infinite;
       }
       .animate-marquee-right {
-        animation: marquee-right 40s linear infinite;
+        animation: marquee-right 20s linear infinite;
       }
       .marquee-group:hover .animate-marquee,
       .marquee-group:hover .animate-marquee-right {
@@ -23,149 +23,70 @@
       }
     </style>
 
-    <!-- Row 1: Right to Left (longer tweets) -->
-    <div class="marquee-group w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
-      <ul class="flex items-center justify-center md:justify-start animate-marquee-right">
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">Forget flowers. He gave me some BTC 😍📷 <a href="https://t.co/KSQlCWW1vM">https://t.co/KSQlCWW1vM</a> <a href="https://t.co/ApT6DJPDl5">pic.twitter.com/ApT6DJPDl5</a></p>&mdash; Salma Talbi (@himesalma) <a href="https://twitter.com/himesalma/status/1914971769582047470?ref_src=twsrc%5Etfw">April 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">At friends birthday: 🎁<br><br>BEFORE<br>&quot;Sorry, I don&#39;t have any Bitcoin. I don&#39;t think I will buy it&#39;s too late.&quot;<br><br>AFTER<br>&quot;Ok now I have Bitcoin I will quit my job after I read this book 😂&quot;<br><br>My orange pill recipe :<br>- Print $21 in BTC<br>- A book that is easy to read 21 Leçons or Alice au… <a href="https://t.co/PZHizfRjnz">pic.twitter.com/PZHizfRjnz</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1943578237214327268?ref_src=twsrc%5Etfw">July 11, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">Hong₿ao: Gifting Bitcoin 🇫🇷<br><br>Stephane and Salma quit burnout and built Hong₿ao: a way to gift Bitcoin like handing over treasure. Paper wallets, personalized with AI art, no apps, no surveillance. <a href="https://t.co/wraxu0IGgu">https://t.co/wraxu0IGgu</a> <a href="https://t.co/bv1w2K087C">pic.twitter.com/bv1w2K087C</a></p>&mdash; Geyser ⚡️ (@geyserfund) <a href="https://twitter.com/geyserfund/status/1937164001797873711?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
+    <%
+      # First row tweet IDs (longer tweets)
+      row1_tweet_ids = [
+        "1914971769582047470", # Salma Talbi - "Forget flowers..."
+        "1943578237214327268", # Stephane ₿ounmy - "At friends birthday..."
+        "1937164001797873711", # Geyser - "Hong₿ao: Gifting Bitcoin..."
+        "1953575928413741319"  # Ponderizor - "For the wedding..."
+      ]
+    %>
 
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">For the wedding of my cousin, I gave them a <a href="https://twitter.com/hongbaobitcoin?ref_src=twsrc%5Etfw">@hongbaobitcoin</a> <a href="https://t.co/JmSSF6bpKE">pic.twitter.com/JmSSF6bpKE</a></p>&mdash; Ponderizor 🐷 (@ponderizor) <a href="https://twitter.com/ponderizor/status/1953575928413741319?ref_src=twsrc%5Etfw">August 7, 2025</a>
-            </blockquote>
-          </div>
-        </li>
+    <!-- Row 1: Right to Left (longer tweets) -->
+    <div class="marquee-group flex relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
+      <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee-right">
+        <% row1_tweet_ids.each do |tweet_id| %>
+          <li class="flex-shrink-0 mx-4">
+            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
+              <%= render TweetComponent.new(tweet_id: tweet_id) %>
+            </div>
+          </li>
+        <% end %>
       </ul>
       <!-- Duplicate for seamless loop -->
-      <ul class="flex items-center justify-center md:justify-start animate-marquee-right" aria-hidden="true">
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">Forget flowers. He gave me some BTC 😍📷 <a href="https://t.co/KSQlCWW1vM">https://t.co/KSQlCWW1vM</a> <a href="https://t.co/ApT6DJPDl5">pic.twitter.com/ApT6DJPDl5</a></p>&mdash; Salma Talbi (@himesalma) <a href="https://twitter.com/himesalma/status/1914971769582047470?ref_src=twsrc%5Etfw">April 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">At friends birthday: 🎁<br><br>BEFORE<br>&quot;Sorry, I don&#39;t have any Bitcoin. I don&#39;t think I will buy it&#39;s too late.&quot;<br><br>AFTER<br>&quot;Ok now I have Bitcoin I will quit my job after I read this book 😂&quot;<br><br>My orange pill recipe :<br>- Print $21 in BTC<br>- A book that is easy to read 21 Leçons or Alice au… <a href="https://t.co/PZHizfRjnz">pic.twitter.com/PZHizfRjnz</a></p>&mdash; Stephane ₿ounmy (@sbounmy) <a href="https://twitter.com/sbounmy/status/1943578237214327268?ref_src=twsrc%5Etfw">July 11, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">Hong₿ao: Gifting Bitcoin 🇫🇷<br><br>Stephane and Salma quit burnout and built Hong₿ao: a way to gift Bitcoin like handing over treasure. Paper wallets, personalized with AI art, no apps, no surveillance. <a href="https://t.co/wraxu0IGgu">https://t.co/wraxu0IGgu</a> <a href="https://t.co/bv1w2K087C">pic.twitter.com/bv1w2K087C</a></p>&mdash; Geyser ⚡️ (@geyserfund) <a href="https://twitter.com/geyserfund/status/1937164001797873711?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[400px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true">
-              <p lang="en" dir="ltr">For the wedding of my cousin, I gave them a <a href="https://twitter.com/hongbaobitcoin?ref_src=twsrc%5Etfw">@hongbaobitcoin</a> <a href="https://t.co/JmSSF6bpKE">pic.twitter.com/JmSSF6bpKE</a></p>&mdash; Ponderizor 🐷 (@ponderizor) <a href="https://twitter.com/ponderizor/status/1953575928413741319?ref_src=twsrc%5Etfw">August 7, 2025</a>
-            </blockquote>
-          </div>
-        </li>
+      <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee-right" aria-hidden="true">
+        <% row1_tweet_ids.each do |tweet_id| %>
+          <li class="flex-shrink-0 mx-4">
+            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
+              <%= render TweetComponent.new(tweet_id: tweet_id) %>
+            </div>
+          </li>
+        <% end %>
       </ul>
     </div>
 
+    <%
+      # Second row tweet IDs (shorter tweets)
+      row2_tweet_ids = [
+        "1936760123453755629", # Hwan ChinYang - "I hope my grandma..."
+        "1937208973666709866", # MoparMiningLLC - "yes! love it..."
+        "1937165010771542480", # Sunflower - "No apps, no tracking..."
+        "1940712311171522783", # The Parallax Group - "Best way to convert..."
+        "1958230451509936551"  # Blade.MOV - "This is such a fun idea..."
+      ]
+    %>
+
     <!-- Row 2: Left to Right (shorter tweets) -->
-    <div class="marquee-group w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] mt-8">
-      <ul class="flex items-center justify-center md:justify-start animate-marquee">
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">I hope my grandma gives me BTC red pockets 😂</p>&mdash; Hwan ChinYang (@HwanChinYang) <a href="https://twitter.com/HwanChinYang/status/1936760123453755629?ref_src=twsrc%5Etfw">June 22, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">yes! love it. cant wait to get a few - I also am pretty sure a lot of collectors from the BitcoinTalk forums will want a few as well. :)</p>&mdash; MoparMiningLLC (@MoparMining) <a href="https://twitter.com/MoparMining/status/1937208973666709866?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">No apps, no tracking, just pure signal. 🧡⚡</p>&mdash; Sunflower 🌻 (@Sflower_m) <a href="https://twitter.com/Sflower_m/status/1937165010771542480?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">Best way to convert the fiat heathens.</p>&mdash; The Parallax Group (@Para_llax_Group) <a href="https://twitter.com/Para_llax_Group/status/1940712311171522783?ref_src=twsrc%5Etfw">July 3, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">This is such a fun idea! 🎉<br><br>No apps needed, just a printed bill and some sats? 💵✨ <br><br>Perfect for gifting Bitcoin with zero hassle! Can’t wait to try it! 🚀</p>&mdash; Blade.MOV (@heyemilly1) <a href="https://twitter.com/heyemilly1/status/1958230451509936551?ref_src=twsrc%5Etfw">August 20, 2025</a>
-            </blockquote>
-          </div>
-        </li>
+    <div class="marquee-group flex relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] mt-8">
+      <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee">
+        <% row2_tweet_ids.each do |tweet_id| %>
+          <li class="flex-shrink-0 mx-4">
+            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
+              <%= render TweetComponent.new(tweet_id: tweet_id) %>
+            </div>
+          </li>
+        <% end %>
       </ul>
       <!-- Duplicate for seamless loop -->
-      <ul class="flex items-center justify-center md:justify-start animate-marquee" aria-hidden="true">
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">I hope my grandma gives me BTC red pockets 😂</p>&mdash; Hwan ChinYang (@HwanChinYang) <a href="https://twitter.com/HwanChinYang/status/1936760123453755629?ref_src=twsrc%5Etfw">June 22, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">yes! love it. cant wait to get a few - I also am pretty sure a lot of collectors from the BitcoinTalk forums will want a few as well. :)</p>&mdash; MoparMiningLLC (@MoparMining) <a href="https://twitter.com/MoparMining/status/1937208973666709866?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">No apps, no tracking, just pure signal. 🧡⚡</p>&mdash; Sunflower 🌻 (@Sflower_m) <a href="https://twitter.com/Sflower_m/status/1937165010771542480?ref_src=twsrc%5Etfw">June 23, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">Best way to convert the fiat heathens.</p>&mdash; The Parallax Group (@Para_llax_Group) <a href="https://twitter.com/Para_llax_Group/status/1940712311171522783?ref_src=twsrc%5Etfw">July 3, 2025</a>
-            </blockquote>
-          </div>
-        </li>
-        <li class="flex-shrink-0 mx-4">
-          <div class="h-[250px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
-            <blockquote class="twitter-tweet [&.twitter-tweet]:!m-0 [&.twitter-tweet]:!max-w-[350px]" data-dnt="true" data-conversation="none">
-              <p lang="en" dir="ltr">This is such a fun idea! 🎉<br><br>No apps needed, just a printed bill and some sats? 💵✨ <br><br>Perfect for gifting Bitcoin with zero hassle! Can’t wait to try it! 🚀</p>&mdash; Blade.MOV (@heyemilly1) <a href="https://twitter.com/heyemilly1/status/1958230451509936551?ref_src=twsrc%5Etfw">August 20, 2025</a>
-            </blockquote>
-          </div>
-        </li>
+      <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee" aria-hidden="true" >
+        <% row2_tweet_ids.each do |tweet_id| %>
+          <li class="flex-shrink-0 mx-4">
+            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
+              <%= render TweetComponent.new(tweet_id: tweet_id) %>
+            </div>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>
