@@ -12,6 +12,7 @@
   <%= render "shared/header" %>
   <!-- Main text content -->
   <div class="relative px-4 pt-4 z-10 mb-10">
+
     <h1 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-base-content leading-tight mb-4 md:mb-6">
       Teach Bitcoin with an envelope
     </h1>
@@ -33,12 +34,20 @@
     </div>
 
     <!-- Social Proof -->
-    <div class="mt-6 flex flex-col items-center justify-center gap-2 text-md text-base-content/60">
-      <span>Used by <span class="font-semibold text-base-content"><%= User.count %></span> Bitcoiners</span>
-      <div class="flex -space-x-2">
-        <% @users.each do |user| %>
-          <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-base-300" %>
-        <% end %>
+    <div class="mt-6 flex flex-col items-center justify-center gap-4 text-md text-base-content/60">
+      <div class="flex flex-col items-center gap-2">
+        <span>Used by <span class="font-semibold text-base-content"><%= User.count %></span> Bitcoiners</span>
+        <div class="flex -space-x-2">
+          <% @users.each do |user| %>
+            <%= image_tag user.avatar, class: "w-8 h-8 rounded-full border-2 border-base-300" %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Backed by Geyser -->
+      <div class="flex items-center gap-2">
+        <span class="text-sm">Backed by</span>
+        <%= render "shared/geyser_fund" %>
       </div>
     </div>
   </div>

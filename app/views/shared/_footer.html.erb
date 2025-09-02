@@ -9,6 +9,12 @@
     <% end %>
     <p class="mt-2 text-sm text-base-content/80">Gift Bitcoin = Teach Bitcoin.<br>Orange-pill without the lecture.</p>
 
+    <%# Geyser Fund logo %>
+    <div class="my-2 flex items-center gap-2">
+      <span class="text-xs text-base-content/60">Backed by</span>
+      <%= render "shared/geyser_fund" %>
+    </div>
+
 		<div class="grid grid-flow-col gap-4">
 			<%= link_to x_url, target: "_blank", rel: "noopener noreferrer" do %>
 					<%= image_tag "x.svg", class: "w-5 h-5" %>
