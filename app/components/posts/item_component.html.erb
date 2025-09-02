@@ -1,0 +1,60 @@
+<article class="bg-base-100 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+  <!-- Featured Image -->
+  <% if has_image? %>
+    <div class="aspect-w-16 aspect-h-9 h-48 overflow-hidden">
+      <%= image_tag image, 
+          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300", 
+          alt: title,
+          loading: "lazy" %>
+    </div>
+  <% else %>
+    <div class="h-48 bg-gradient-to-br from-orange-400 to-red-400 relative overflow-hidden">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <%= image_tag image_url("bitcoin-64x64.svg"), 
+            class: "h-20 w-20 opacity-20",
+            alt: "Bitcoin logo" %>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/30 to-transparent"></div>
+    </div>
+  <% end %>
+
+  <div class="p-6">
+    <!-- Post Meta -->
+    <% if has_metadata? %>
+      <div class="flex items-center text-sm text-base-content/60 mb-3">
+        <% if date %>
+          <time datetime="<%= date.iso8601 %>">
+            <%= formatted_date %>
+          </time>
+        <% end %>
+        <% if author.present? %>
+          <span class="mx-2">•</span>
+          <span class="truncate"><%= author %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Title -->
+    <h3 class="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+      <%= link_to title, url, class: "text-base-content hover:text-primary" %>
+    </h3>
+
+    <!-- Description -->
+    <% if description.present? %>
+      <p class="text-sm text-base-content/70 line-clamp-2">
+        <%= description %>
+      </p>
+    <% end %>
+
+    <!-- Read More Link -->
+    <div class="mt-4">
+      <%= link_to url, 
+          class: "inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 group/link" do %>
+        Read article
+        <%= heroicon "arrow-right", 
+            variant: :outline, 
+            class: "ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" %>
+      <% end %>
+    </div>
+  </div>
+</article>

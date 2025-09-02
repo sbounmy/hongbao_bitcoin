@@ -2,6 +2,12 @@
 
 module ApplicationHelper
   include Pagy::Frontend
+
+  # Make Sitepress site accessible
+  def site
+    @site ||= Sitepress.site
+  end
+
   def render_payment_logo(logo)
     return placeholder_logo unless logo.attached?
 

@@ -361,6 +361,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     <% end %>
   </div>
 </section>
+
 <section class="flex flex-col gap-8 py-16 md:py-24 bg-base-100">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Badge floated to the left -->
@@ -453,6 +454,34 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 <section class="mx-auto px-8 bg-base-100">
   <%= render "shared/faq" %>
 </section>
+
+<!-- Blog Posts Section -->
+<% if ordered_pages("blog/*").any? %>
+  <section class="py-16 md:py-24 bg-base-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="mb-12 flex w-full flex-col text-center">
+        <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">BLOG</p>
+        <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
+          Bitcoin gifting, paper wallets and our latest updates
+        </h2>
+      </div>
+
+      <!-- Blog Posts Grid -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <%= render Posts::ItemComponent.with_collection(ordered_pages("blog/*").first(6)) %>
+      </div>
+
+      <!-- All Articles Button -->
+      <div class="mt-12 text-center">
+        <%= link_to "/blog",
+            class: "btn btn-primary btn-lg rounded-full" do %>
+          <%= heroicon "newspaper", variant: :outline, class: "inline-block h-5 w-5 mr-2" %>
+          View all articles
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
 
 <section class="grid grid-cols-1 gap-2 max-w-6xl mx-auto md:grid-cols-2 items-center justify-center bg-base-100 p-8 text-base-content">
 
