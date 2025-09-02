@@ -66,7 +66,7 @@
             </summary>
             <ul>
               <li><a><%= t("layouts.main.footer.settings") %></a></li>
-              <li><%= link_to t("layouts.main.footer.logout"), session_path(Current.session), data: { "turbo-method": :delete } %></li>
+              <li><%= button_to t("layouts.main.footer.logout"), session_path, method: :delete, data: { turbo: true } %></li>
             </ul>
           </details>
         </li>
