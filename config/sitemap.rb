@@ -28,7 +28,7 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
   end
 
   group(filename: :sitemap_blog) do
-    blog_post_files = Dir[Rails.root.join("app", "content", "pages", "blog", "*.md")]
+    blog_post_files = Dir[Rails.root.join("app", "content", "pages", "blog", "*.*")]
     blog_post_files.each do |file|
       # Creates a path like /blog/hello-world from a file path like
       # /path/to/app/content/pages/blog/hello-world.html.md
