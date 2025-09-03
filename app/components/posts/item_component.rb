@@ -38,7 +38,7 @@ module Posts
 
     def formatted_date
       return nil unless date
-      date.strftime('%b %d, %Y')
+      date.strftime("%b %d, %Y")
     end
 
     def has_image?
