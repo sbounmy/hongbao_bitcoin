@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
   resources :bundles, only: [ :create ]
+  
+  # Programmatic SEO routes
+  get "/bitcoin-:klass", to: "contents#index", as: :bitcoin_contents
+  get "/bitcoin-:klass/:slug", to: "contents#show", as: :bitcoin_content
 
   ActiveAdmin.routes(self)
   resource :session, except: [ :new ]

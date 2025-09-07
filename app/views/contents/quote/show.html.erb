@@ -1,0 +1,248 @@
+<%
+  @page_title = I18n.t("content.quote.show.title",
+    author: @content.author,
+    quote: @content.quote.truncate(50)
+  )
+  @meta_description = I18n.t("content.quote.show.meta_description",
+    author: @content.author,
+    quote: @content.quote.truncate(100),
+    year: @content.year,
+    source: @content.source
+  )
+%>
+
+<div class="min-h-screen bg-base-100">
+  <div class="container mx-auto px-4 py-12">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumbs text-sm mb-8">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Bitcoin Quotes", bitcoin_contents_path(klass: 'quotes') %></li>
+        <li><%= @content.author %></li>
+      </ul>
+    </div>
+
+    <!-- Main Quote Card with Gradient -->
+    <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br <%= @content.gradient || 'from-orange-400 to-red-400' %>">
+      <div class="card-body p-8 md:p-12">
+
+        <!-- Author Avatar and Quote -->
+        <div class="flex flex-col items-center">
+          <!-- Author Avatar -->
+          <% if @content.avatar.attached? %>
+            <div class="avatar mb-6">
+              <div class="w-32 h-32 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
+                <%= image_tag @content.avatar, alt: @content.author, class: "rounded-full" %>
+              </div>
+            </div>
+          <% else %>
+            <!-- Quote Icon as fallback -->
+            <div class="text-6xl mb-6 text-white">
+              <%= @content.icon || '₿' %>
+            </div>
+          <% end %>
+
+          <!-- Quote Text -->
+          <blockquote class="text-2xl md:text-3xl lg:text-4xl font-serif text-center mb-8 text-white">
+            "<%= @content.quote %>"
+          </blockquote>
+
+          <!-- Author Info -->
+          <div class="text-center mb-6">
+            <h1 class="text-xl md:text-2xl font-bold text-white">
+              — <%= @content.author %>
+            </h1>
+            <% if @content.year.present? %>
+              <p class="text-white/80 mt-2">
+                <%= @content.year %>
+                <% if @content.source.present? %>
+                  • <%= @content.source %>
+                <% end %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Category Badge -->
+        <% if @content.category.present? %>
+          <div class="text-center mb-6">
+            <div class="badge badge-lg badge-outline badge-white">
+              <%= @content.category.humanize %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Full Quote (if available) -->
+        <% if @content.full_quote.present? && @content.full_quote != @content.quote %>
+          <div class="divider divider-white"></div>
+          <div class="collapse collapse-arrow bg-white/10">
+            <input type="checkbox" />
+            <div class="collapse-title text-lg font-medium text-white">
+              Read Full Quote
+            </div>
+            <div class="collapse-content">
+              <p class="text-white/90 italic">
+                "<%= @content.full_quote %>"
+              </p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Share Buttons -->
+        <div class="divider divider-white"></div>
+        <div class="flex justify-center gap-4">
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape(@content.quote + ' - ' + @content.author)}&url=#{request.original_url}",
+                      target: "_blank",
+                      class: "btn btn-circle btn-white btn-outline",
+                      title: "Share on Twitter" do %>
+            <%= heroicon "share", variant: :outline, class: "w-5 h-5" %>
+          <% end %>
+
+          <button class="btn btn-circle btn-white btn-outline"
+                  onclick="navigator.clipboard.writeText('<%= j(@content.quote + ' - ' + @content.author) %>')"
+                  title="Copy to clipboard">
+            <%= heroicon "clipboard-document", variant: :outline, class: "w-5 h-5" %>
+          </button>
+
+          <%= link_to bitcoin_contents_path(klass: 'quotes'),
+                      class: "btn btn-circle btn-white btn-outline",
+                      title: "View all quotes" do %>
+            <%= heroicon "arrow-left", variant: :outline, class: "w-5 h-5" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orange Pill Section -->
+    <div class="card bg-base-200 shadow-xl max-w-4xl mx-auto mt-8">
+      <div class="card-body">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <!-- Avatar -->
+          <div class="avatar">
+            <div class="w-20 h-20 rounded-full">
+              <%= image_tag "sbounmy.jpg", alt: "Stéphane", class: "rounded-full" %>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="flex-1">
+            <p class="text-lg text-base-content mb-3">
+              <span class="font-semibold">Hey! 👋</span> I'm using quote like this to inspire friends and family to Bitcoin with a gift.
+              It's a great orange-pill without lecture !
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <%= link_to "#pricing",
+                          class: "btn btn-primary btn-sm rounded-full",
+                          data: { controller: "scroll-to" } do %>
+                <%= heroicon "envelope", variant: :solid, class: "w-4 h-4" %>
+                Get Hong₿ao Envelopes
+              <% end %>
+              <%= link_to new_paper_path(quote: @content.slug),
+                          class: "btn btn-outline btn-sm rounded-full" do %>
+                <%= heroicon "printer", variant: :outline, class: "w-4 h-4" %>
+                Print with this quote
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <% if @content.products.published.any? %>
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-base-content mb-6 text-center">Products with this Quote</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Hong₿ao products first -->
+          <% @content.hongbao_products.published.ordered.each do |product| %>
+            <div class="card bg-primary/10 border-2 border-primary shadow-xl hover:shadow-2xl transition-all">
+              <figure class="aspect-square bg-white">
+                <% if product.image.attached? %>
+                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-cover" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-red-100">
+                    <span class="text-4xl"><%= product.icon || '🛍️' %></span>
+                  </div>
+                <% end %>
+              </figure>
+              <div class="card-body p-4">
+                <div class="badge badge-primary badge-sm mb-2">Hong₿ao</div>
+                <h3 class="font-bold text-sm line-clamp-2"><%= product.title %></h3>
+                <div class="flex justify-between items-center mt-2">
+                  <span class="font-bold text-lg">$<%= product.price %></span>
+                  <%= link_to product.product_url || "#", class: "btn btn-sm btn-primary" do %>
+                    Get it
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- External products -->
+          <% @content.external_products.published.ordered.each do |product| %>
+            <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all">
+              <figure class="aspect-square bg-white">
+                <% if product.image.attached? %>
+                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-cover" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                    <span class="text-4xl"><%= product.icon || '🛍️' %></span>
+                  </div>
+                <% end %>
+              </figure>
+              <div class="card-body p-4">
+                <div class="badge badge-ghost badge-sm mb-2"><%= product.shop %></div>
+                <h3 class="font-bold text-sm line-clamp-2"><%= product.title %></h3>
+                <div class="flex justify-between items-center mt-2">
+                  <span class="text-base-content/70">$<%= product.price %></span>
+                  <%= link_to product.affiliate_url || product.product_url || "#",
+                              target: "_blank",
+                              rel: "noopener",
+                              class: "btn btn-sm btn-ghost" do %>
+                    View →
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% if @content.external_products.any? %>
+          <p class="text-sm text-base-content/60 mt-4 text-center">
+            * Some products are from partner shops. We may earn a commission.
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Related Quotes -->
+    <% if @related.any? %>
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-base-content mb-6 text-center">More Bitcoin Wisdom</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @related.each do |related_content| %>
+            <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+              <div class="card-body p-6">
+                <div class="text-2xl mb-2 text-center">
+                  <%= related_content.icon || '₿' %>
+                </div>
+                <p class="text-sm italic mb-3 line-clamp-3 text-base-content">
+                  "<%= related_content.quote.truncate(100) %>"
+                </p>
+                <p class="text-sm font-semibold text-base-content/70">
+                  — <%= related_content.author %>
+                </p>
+                <div class="card-actions justify-end mt-4">
+                  <%= link_to "Read →",
+                              bitcoin_content_path(klass: 'quotes', slug: related_content.slug),
+                              class: "btn btn-sm btn-ghost" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

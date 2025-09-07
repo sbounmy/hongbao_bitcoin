@@ -1,0 +1,234 @@
+# Bitcoin Quotes Fixtures
+
+quote_satoshi:
+  type: Content::Quote
+  slug: satoshi-nakamoto-peer-to-peer-electronic-cash
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Satoshi Nakamoto",
+      "quote": "A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution",
+      "year": 2008,
+      "category": "satoshi",
+      "gradient": "from-orange-400 to-red-400",
+      "icon": "₿",
+      "source": "Bitcoin Whitepaper"
+    }
+
+quote_hal:
+  type: Content::Quote
+  slug: hal-finney-bitcoin-real-innovation
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Hal Finney",
+      "quote": "Bitcoin itself is the real innovation. It's a new form of currency that is completely decentralized",
+      "year": 2009,
+      "category": "og",
+      "gradient": "from-blue-400 to-purple-400",
+      "icon": "🔗",
+      "source": "Bitcointalk Forum"
+    }
+
+quote_andreas:
+  type: Content::Quote
+  slug: andreas-antonopoulos-internet-of-money
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Andreas Antonopoulos",
+      "quote": "Bitcoin is not just digital money. It's the internet of money, and currency is just the first application",
+      "year": 2016,
+      "category": "educator",
+      "gradient": "from-green-400 to-teal-400",
+      "icon": "🌐",
+      "source": "The Internet of Money"
+    }
+
+quote_naval:
+  type: Content::Quote
+  slug: naval-ravikant-store-value-without-trust
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Naval Ravikant",
+      "quote": "Bitcoin is a way to store value across time and space without trusting anyone",
+      "year": 2018,
+      "category": "modern",
+      "gradient": "from-pink-400 to-rose-400",
+      "icon": "💎",
+      "source": "Twitter"
+    }
+
+quote_wisdom:
+  type: Content::Quote
+  slug: chinese-proverb-best-time-plant-tree
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Chinese Proverb",
+      "quote": "The best time to plant a tree was 20 years ago. The second best time is now",
+      "category": "wisdom",
+      "gradient": "from-gray-600 to-gray-800",
+      "icon": "🌳"
+    }
+
+quote_freedom:
+  type: Content::Quote
+  slug: hongbao-financial-sovereignty
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Hong₿ao",
+      "quote": "Financial sovereignty starts with understanding that money is a tool for freedom, not control",
+      "year": 2024,
+      "category": "freedom",
+      "gradient": "from-yellow-400 to-orange-400",
+      "icon": "🔑"
+    }
+
+quote_henry_ford:
+  type: Content::Quote
+  slug: henry-ford-energy-currency-stops-wars
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Henry Ford",
+      "quote": "An energy currency can stop wars",
+      "year": 1921,
+      "category": "classic",
+      "gradient": "from-red-500 to-red-600",
+      "icon": "⚡",
+      "source": "My Life and Work",
+      "full_quote": "The essential evil of gold in its relation to war is the fact that it can be controlled. Break the control and you stop war"
+    }
+
+quote_saylor:
+  type: Content::Quote
+  slug: michael-saylor-bitcoin-digital-property
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "author": "Michael Saylor",
+      "quote": "Bitcoin is digital property. It's the apex property of the human race",
+      "year": 2021,
+      "category": "modern",
+      "gradient": "from-indigo-500 to-purple-600",
+      "icon": "🏛️",
+      "source": "Bitcoin Conference"
+    }
+
+# Artist fixtures for testing
+artist_bartosz:
+  type: Content::Artist
+  slug: bartosz-cyberpunk-master
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "name": "Bartosz",
+      "style": "Cyberpunk",
+      "bio": "Digital artist specializing in Bitcoin-themed cyberpunk art",
+      "portfolio_url": "https://example.com/bartosz",
+      "commission_available": true
+    }
+
+artist_satoshi_art:
+  type: Content::Artist
+  slug: satoshi-art-minimalist
+  published_at: <%= 1.day.ago %>
+  metadata: |
+    {
+      "name": "Satoshi Art",
+      "style": "Minimalist",
+      "bio": "Creating minimalist Bitcoin artwork since 2017",
+      "portfolio_url": "https://example.com/satoshi-art",
+      "commission_available": false
+    }
+
+# Unpublished quote for testing
+quote_unpublished:
+  type: Content::Quote
+  slug: unpublished-future-quote
+  published_at: <%= 1.day.from_now %>
+  metadata: |
+    {
+      "author": "Future Author",
+      "quote": "This quote is not yet published",
+      "year": 2025,
+      "category": "future"
+    }
+
+# Product fixtures
+product_hongbao_envelope:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: hongbao-henry-ford-envelope-set
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata: |
+    {
+      "title": "Henry Ford Hong₿ao Envelope Set",
+      "shop": "Hong₿ao",
+      "price": 29,
+      "currency": "USD",
+      "url": "/products/henry-ford-set",
+      "featured": true,
+      "commission": 100,
+      "description": "Premium red envelopes featuring Henry Ford's famous Bitcoin quote"
+    }
+
+product_redbubble_poster:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: redbubble-bitcoin-revolution-poster
+  published_at: <%= 1.day.ago %>
+  position: 2
+  metadata: |
+    {
+      "title": "Bitcoin Revolution Poster",
+      "shop": "Redbubble",
+      "price": 24.99,
+      "currency": "USD",
+      "url": "https://www.redbubble.com/bitcoin-revolution-poster",
+      "affiliate_url": "https://www.redbubble.com/bitcoin-revolution-poster?ref=hongbao",
+      "featured": false,
+      "commission": 10,
+      "description": "24x36 poster with Henry Ford quote about energy currency"
+    }
+
+product_etsy_stickers:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: etsy-bitcoin-sticker-pack
+  published_at: <%= 1.day.ago %>
+  position: 3
+  metadata: |
+    {
+      "title": "Energy Currency Sticker Pack",
+      "shop": "Etsy",
+      "price": 8.99,
+      "currency": "USD",
+      "url": "https://www.etsy.com/listing/energy-currency-stickers",
+      "featured": false,
+      "commission": 5,
+      "description": "Set of 5 Bitcoin stickers featuring the Henry Ford quote"
+    }
+
+# Product for Satoshi quote
+product_satoshi_tshirt:
+  type: Content::Product
+  parent: quote_satoshi
+  slug: satoshi-peer-to-peer-tshirt
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata: |
+    {
+      "title": "Peer-to-Peer T-Shirt",
+      "shop": "Hong₿ao",
+      "price": 35,
+      "currency": "USD",
+      "url": "/products/satoshi-tshirt",
+      "featured": true,
+      "commission": 100,
+      "description": "Premium t-shirt with Satoshi's whitepaper quote"
+    }

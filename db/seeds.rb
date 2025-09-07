@@ -10,7 +10,7 @@
 
 # Set fixtures path
 ENV['FIXTURES_PATH'] = 'spec/fixtures'
-fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,inputs').split(',')
+fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,inputs,contents').split(',')
 
 # Load papers and styles from fixtures
 puts "Loading #{fixtures.join(', ')} from fixtures..."

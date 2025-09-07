@@ -1,0 +1,40 @@
+<%
+  @page_h1 = 'Bitcoin Quotes'
+  @intro_text = 'Explore wisdom about Bitcoin from influential voices throughout history'
+%>
+
+<% content_for :title do %>
+  <%= 'Bitcoin Quotes' %>
+<% end %>
+
+<% content_for :description do %>
+  <%= 'Discover inspiring Bitcoin quotes from thought leaders, pioneers, and visionaries' %>
+<% end %>
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold mb-4"><%= @page_h1 %></h1>
+  <p class="text-lg mb-8"><%= @intro_text %></p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @contents.each do |content| %>
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <blockquote class="text-lg italic mb-4">
+            "<%= content.quote.truncate(150) %>"
+          </blockquote>
+          <p class="font-semibold">— <%= content.author %></p>
+          <% if content.year.present? %>
+            <p class="text-sm text-base-content/70"><%= content.year %></p>
+          <% end %>
+          <div class="card-actions justify-end mt-4">
+            <%= link_to "Read More →",
+                        bitcoin_content_path(klass: 'quotes', slug: content.slug),
+                        class: "btn btn-sm btn-ghost" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate @contents %>
+</div>

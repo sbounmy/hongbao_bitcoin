@@ -1,0 +1,50 @@
+en:
+  content:
+    quote:
+      # SEO Templates with interpolation
+      title: "%{author} Bitcoin Quote - %{quote}"
+      h1: "%{author}: '%{quote}'"
+      meta_description: "Discover %{author}'s famous Bitcoin quote: '%{quote}'. Learn why this insight has inspired thousands to study Bitcoin. Create a custom wallet with this quote."
+      
+      # Page content templates
+      intro:
+        - "Discover why %{author} believed that %{quote}. This profound insight has shaped how we think about Bitcoin and monetary freedom."
+        - "%{author} shared this wisdom about Bitcoin that continues to inspire newcomers today. Learn the context behind this powerful quote."
+        - "%{author}'s perspective on Bitcoin remains one of the most quoted insights in the community. Explore why this quote resonates with so many Bitcoiners."
+      
+      # Collection page
+      index:
+        title: "Bitcoin Quotes from Legends & Pioneers - %{count} Inspiring Quotes"
+        h1: "%{count} Bitcoin Quotes That Changed History"
+        meta_description: "Explore %{count} powerful Bitcoin quotes from Satoshi Nakamoto, Hal Finney, Andreas Antonopoulos and more. Create custom paper wallets with these inspiring quotes."
+        intro: "Discover the wisdom that built Bitcoin. From Satoshi's whitepaper to modern thought leaders, these quotes capture the essence of the Bitcoin revolution."
+      
+      # Individual quote page
+      show:
+        title: "%{author} Bitcoin Quote - %{quote}"
+        meta_description: "Famous Bitcoin quote by %{author}: '%{quote}' from %{year}. %{source}. Create a custom Bitcoin wallet with this inspiring message."
+      
+      # Categories
+      categories:
+        satoshi: "Satoshi Nakamoto"
+        og: "Bitcoin OGs"
+        educator: "Educators"
+        modern: "Modern Thinkers"
+        wisdom: "Timeless Wisdom"
+        freedom: "Freedom & Sovereignty"
+        classic: "Classic Visionaries"
+    
+    artist:
+      title: "%{name} - Bitcoin Artist & Designer"
+      h1: "Bitcoin Art by %{name}"
+      meta_description: "Explore Bitcoin artwork by %{name}. Custom wallet designs, digital art, and unique Bitcoin-inspired creations. Commission available."
+      
+      index:
+        title: "Bitcoin Artists & Designers - Custom Wallet Art"
+        h1: "Bitcoin Artists Creating Tomorrow's Digital Heritage"
+        meta_description: "Discover talented Bitcoin artists creating custom wallet designs, digital art, and unique Bitcoin-inspired artwork. Commission your own design."
+        intro: "Meet the artists bringing beauty to Bitcoin. From wallet designs to digital masterpieces, these creators are defining Bitcoin's visual culture."
+      
+      show:
+        title: "%{name} - Bitcoin Artist Portfolio"
+        meta_description: "%{name} - %{style} Bitcoin artist. %{bio}. View portfolio and commission custom Bitcoin artwork."
