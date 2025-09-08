@@ -231,15 +231,15 @@ RSpec.describe ContentsController, type: :controller do
         #     # Henry Ford quote already has products from fixtures
         #     expect(quote.products.count).to eq(3) # From fixtures
         #     expect(quote.products.published.count).to eq(3) # Should be published
-            
+
         #     get :show, params: { klass: 'quotes', slug: quote.slug }
-            
+
         #     # The product section exists
         #     expect(response.body).to include("Products with this Quote")
         #     # Check for shop names which should always be present
         #     expect(response.body).to include("Hong₿ao")
         #     expect(response.body).to include("Redbubble")
-        #     expect(response.body).to include("Etsy") 
+        #     expect(response.body).to include("Etsy")
         #     # Check for affiliate disclosure
         #     expect(response.body).to include("partner shops")
         #     expect(response.body).to include("commission")

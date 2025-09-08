@@ -1,4 +1,4 @@
-ActiveAdmin.register Content::Quote, as: 'Quote' do
+ActiveAdmin.register Content::Quote, as: "Quote" do
   permit_params :slug, :published_at, :parent_id, :position,
                 :avatar,
                 metadata: {}
@@ -22,24 +22,24 @@ ActiveAdmin.register Content::Quote, as: 'Quote' do
 
   # Customize form
   form do |f|
-    f.inputs 'Quote Details' do
+    f.inputs "Quote Details" do
       f.input :slug
       f.input :published_at, as: :datetime_picker
       f.input :position
     end
-    
-    f.inputs 'Images' do
-      f.input :avatar, as: :file, hint: f.object.avatar.attached? ? image_tag(f.object.avatar, style: 'max-width: 200px;') : 'Author avatar image'
+
+    f.inputs "Images" do
+      f.input :avatar, as: :file, hint: f.object.avatar.attached? ? image_tag(f.object.avatar, style: "max-width: 200px;") : "Author avatar image"
     end
 
-    f.inputs 'Quote Content (JSON)', for: :metadata do |df|
-      f.input :metadata, as: :text, 
-              input_html: { 
-                rows: 20, 
+    f.inputs "Quote Content (JSON)", for: :metadata do |df|
+      f.input :metadata, as: :text,
+              input_html: {
+                rows: 20,
                 value: JSON.pretty_generate(f.object.metadata || {}),
-                class: 'json-editor'
+                class: "json-editor"
               },
-              hint: 'Edit as JSON. Fields: author, quote, year, category, gradient, icon, source, full_quote (images are now handled via file uploads)'
+              hint: "Edit as JSON. Fields: author, quote, year, category, gradient, icon, source, full_quote (images are now handled via file uploads)"
     end
 
     f.actions
@@ -62,11 +62,11 @@ ActiveAdmin.register Content::Quote, as: 'Quote' do
         end
       end
       row :icon do |quote|
-        span(quote.icon, class: 'text-4xl')
+        span(quote.icon, class: "text-4xl")
       end
       row :avatar do |quote|
         if quote.avatar.attached?
-          image_tag quote.avatar, class: 'w-20 h-20 rounded-full'
+          image_tag quote.avatar, class: "w-20 h-20 rounded-full"
         end
       end
       row :published_at
@@ -88,27 +88,27 @@ ActiveAdmin.register Content::Quote, as: 'Quote' do
         end
         column :actions do |product|
           span do
-            link_to 'View', admin_product_path(product), class: 'member_link'
+            link_to "View", admin_product_path(product), class: "member_link"
           end
           span do
-            link_to 'Edit', edit_admin_product_path(product), class: 'member_link'
+            link_to "Edit", edit_admin_product_path(product), class: "member_link"
           end
         end
       end
-      
-      div class: 'action_items' do
-        link_to 'Add Product', new_admin_product_path(product: { parent_id: quote.id }), 
-                class: 'button'
+
+      div class: "action_items" do
+        link_to "Add Product", new_admin_product_path(product: { parent_id: quote.id }),
+                class: "button"
       end
     end
   end
 
   # Filters
   filter :slug
-  filter :metadata_contains, as: :string, label: 'Author'
+  filter :metadata_contains, as: :string, label: "Author"
   filter :published_at
   filter :impressions_count
-  
+
   # Controller actions
   controller do
     def update
@@ -123,7 +123,7 @@ ActiveAdmin.register Content::Quote, as: 'Quote' do
       end
       super
     end
-    
+
     def create
       # Parse JSON metadata if it's a string
       if params[:quote][:metadata].is_a?(String)

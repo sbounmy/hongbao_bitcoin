@@ -1,4 +1,4 @@
-ActiveAdmin.register Content::Product, as: 'Product' do
+ActiveAdmin.register Content::Product, as: "Product" do
   permit_params :slug, :published_at, :parent_id, :position,
                 :image,
                 metadata: {}
@@ -14,7 +14,7 @@ ActiveAdmin.register Content::Product, as: 'Product' do
     end
     column :parent do |product|
       if product.parent
-        link_to product.parent.data['author'] || product.parent.data['name'], 
+        link_to product.parent.data["author"] || product.parent.data["name"],
                 admin_quote_path(product.parent)
       end
     end
@@ -27,28 +27,28 @@ ActiveAdmin.register Content::Product, as: 'Product' do
 
   # Customize form
   form do |f|
-    f.inputs 'Product Details' do
-      f.input :parent_id, as: :select, 
-              collection: Content::Quote.all.map { |q| [q.author + ' - ' + q.quote.truncate(50), q.id] },
+    f.inputs "Product Details" do
+      f.input :parent_id, as: :select,
+              collection: Content::Quote.all.map { |q| [ q.author + " - " + q.quote.truncate(50), q.id ] },
               include_blank: false,
-              label: 'Parent Quote'
-      f.input :slug, hint: 'Auto-generated if left blank'
+              label: "Parent Quote"
+      f.input :slug, hint: "Auto-generated if left blank"
       f.input :published_at, as: :datetime_picker
-      f.input :position, hint: 'Order within parent quote'
-    end
-    
-    f.inputs 'Product Image' do
-      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image, style: 'max-width: 200px;') : 'Product image'
+      f.input :position, hint: "Order within parent quote"
     end
 
-    f.inputs 'Product Data' do
+    f.inputs "Product Image" do
+      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image, style: "max-width: 200px;") : "Product image"
+    end
+
+    f.inputs "Product Data" do
       f.input :metadata, as: :text,
-              input_html: { 
-                rows: 20, 
+              input_html: {
+                rows: 20,
                 value: JSON.pretty_generate(f.object.metadata || default_product_data),
-                class: 'json-editor'
+                class: "json-editor"
               },
-              hint: 'Edit as JSON. Required fields: title, shop, price, url. Optional: featured, commission, affiliate_url, description, icon (images are now handled via file uploads)'
+              hint: "Edit as JSON. Required fields: title, shop, price, url. Optional: featured, commission, affiliate_url, description, icon (images are now handled via file uploads)"
     end
 
     f.actions
@@ -61,27 +61,27 @@ ActiveAdmin.register Content::Product, as: 'Product' do
       row :slug
       row :parent do |product|
         if product.parent
-          link_to product.parent.respond_to?(:author) ? product.parent.author : product.parent.name, 
+          link_to product.parent.respond_to?(:author) ? product.parent.author : product.parent.name,
                   admin_quote_path(product.parent)
         end
       end
       row :title
       row :shop do |product|
-        status_tag product.shop, class: product.internal? ? 'yes' : 'no'
+        status_tag product.shop, class: product.internal? ? "yes" : "no"
       end
       row :price do |product|
         "$#{product.price} #{product.currency}"
       end
       row :image do |product|
         if product.image.attached?
-          image_tag product.image, class: 'max-w-xs'
+          image_tag product.image, class: "max-w-xs"
         end
       end
       row :product_url do |product|
-        link_to product.product_url, product.product_url, target: '_blank' if product.product_url
+        link_to product.product_url, product.product_url, target: "_blank" if product.product_url
       end
       row :affiliate_url do |product|
-        link_to product.affiliate_url, product.affiliate_url, target: '_blank' if product.affiliate_url
+        link_to product.affiliate_url, product.affiliate_url, target: "_blank" if product.affiliate_url
       end
       row :commission do |product|
         "#{product.commission}%"
@@ -103,30 +103,30 @@ ActiveAdmin.register Content::Product, as: 'Product' do
   end
 
   # Filters
-  filter :parent, collection: -> { Content::Quote.all.map { |q| [q.author, q.id] } }
+  filter :parent, collection: -> { Content::Quote.all.map { |q| [ q.author, q.id ] } }
   filter :slug
-  filter :metadata_contains, as: :string, label: 'Shop'
+  filter :metadata_contains, as: :string, label: "Shop"
   filter :position
   filter :published_at
-  
+
   # Controller actions
   controller do
     def default_product_data
       {
-        'title' => '',
-        'shop' => 'Hong₿ao',
-        'price' => 0,
-        'currency' => 'USD',
-        'url' => '',
-        'affiliate_url' => '',
-        'featured' => false,
-        'commission' => 0,
-        'description' => ''
+        "title" => "",
+        "shop" => "Hong₿ao",
+        "price" => 0,
+        "currency" => "USD",
+        "url" => "",
+        "affiliate_url" => "",
+        "featured" => false,
+        "commission" => 0,
+        "description" => ""
       }
     end
-    
+
     helper_method :default_product_data
-    
+
     def update
       # Parse JSON metadata if it's a string
       if params[:product][:metadata].is_a?(String)
@@ -139,7 +139,7 @@ ActiveAdmin.register Content::Product, as: 'Product' do
       end
       super
     end
-    
+
     def create
       # Parse JSON metadata if it's a string
       if params[:product][:metadata].is_a?(String)
@@ -152,7 +152,7 @@ ActiveAdmin.register Content::Product, as: 'Product' do
       end
       super
     end
-    
+
     def new
       super do |format|
         if params[:product] && params[:product][:parent_id]
@@ -161,7 +161,7 @@ ActiveAdmin.register Content::Product, as: 'Product' do
       end
     end
   end
-  
+
   # Batch actions
   batch_action :mark_as_featured do |ids|
     batch_action_collection.find(ids).each do |product|
@@ -170,7 +170,7 @@ ActiveAdmin.register Content::Product, as: 'Product' do
     end
     redirect_to collection_path, alert: "Products marked as featured."
   end
-  
+
   batch_action :unmark_as_featured do |ids|
     batch_action_collection.find(ids).each do |product|
       product.featured = false
