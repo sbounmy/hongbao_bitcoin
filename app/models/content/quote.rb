@@ -5,7 +5,6 @@ class Content::Quote < Content
   # Alias for cleaner API
   alias_method :quote_text, :quote
 
-
   protected
 
   def generate_slug

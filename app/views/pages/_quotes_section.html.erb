@@ -1,5 +1,5 @@
 <!-- Envelope Quotes Section -->
-<% quotes = Quote.published.limit(8) %>
+<% quotes = Content::Quote.published.limit(8) %>
 <section class="py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
   <div class="max-w-7xl mx-auto px-4">
     <div class="grid lg:grid-cols-2 gap-12 items-center" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
@@ -9,20 +9,20 @@
         <!-- Dynamic Quotes from Database -->
         <% quotes.each_with_index do |quote, index| %>
           <div data-tabs-target="tab" data-tab-id="<%= quote.slug %>" class="<%= index > 0 ? 'hidden' : '' %>">
-            <div class="bg-gradient-to-br <%= quote.data['gradient'] || 'from-orange-400 to-red-400' %> rounded-3xl p-1">
+            <div class="bg-gradient-to-br <%= quote.gradient || 'from-orange-400 to-red-400' %> rounded-3xl p-1">
               <div class="bg-base-100 rounded-3xl p-8 md:p-12">
                 <div class="aspect-[3/4] flex items-center justify-center text-center">
                   <div class="space-y-4">
-                    <% if quote.data['icon'].present? %>
-                      <div class="text-4xl mb-2"><%= quote.data['icon'] %></div>
+                    <% if quote.icon.present? %>
+                      <div class="text-4xl mb-2"><%= quote.icon %></div>
                     <% end %>
                     <p class="text-2xl md:text-3xl font-serif italic text-base-content">
-                      "<%= quote.data['quote'] %>"
+                      "<%= quote.quote %>"
                     </p>
                     <p class="text-lg text-base-content/70">
-                      — <%= quote.data['author'] %>
-                      <% if quote.data['year'].present? %>
-                        <span class="text-sm block"><%= quote.data['year'] %></span>
+                      — <%= quote.author %>
+                      <% if quote.year.present? %>
+                        <span class="text-sm block"><%= quote.year %></span>
                       <% end %>
                     </p>
                   </div>
@@ -85,14 +85,14 @@
             <% quotes.each do |quote| %>
               <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
                       class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <div class="absolute inset-0 bg-gradient-to-br <%= quote.data['gradient'] || 'from-orange-400 to-red-400' %>"></div>
+                <div class="absolute inset-0 bg-gradient-to-br <%= quote.gradient || 'from-orange-400 to-red-400' %>"></div>
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                 <div class="absolute inset-0 flex flex-col items-center justify-center p-2">
-                  <% if quote.data['icon'].present? %>
-                    <span class="text-white text-lg mb-1"><%= quote.data['icon'] %></span>
+                  <% if quote.icon.present? %>
+                    <span class="text-white text-lg mb-1"><%= quote.icon %></span>
                   <% end %>
                   <p class="text-white font-medium text-xs text-center line-clamp-2">
-                    <%= quote.data['author'].split.last(2).join(' ') %>
+                    <%= quote.author.split.last(2).join(' ') %>
                   </p>
                 </div>
               </button>
@@ -133,13 +133,13 @@
             Create Custom Message
           <% end %>
         </div>
-        
+
         <!-- View All Quotes Link -->
         <div class="mt-6">
           <%= link_to bitcoin_contents_path(klass: 'quotes'),
               class: "text-primary hover:underline text-sm font-medium flex items-center gap-2" do %>
             <%= heroicon "arrow-right", variant: :outline, class: "w-4 h-4" %>
-            Explore all <%= Quote.published.count %> Bitcoin quotes
+            Explore all <%= Content::Quote.published.count %> Bitcoin quotes
           <% end %>
         </div>
       </div>
