@@ -59,9 +59,9 @@ GIT
 
 GIT
   remote: https://github.com/thoughtbot/factory_bot_rails.git
-  revision: 364bd890bfcfb538fa31318759c93d7e5c4e11a1
+  revision: dfdef4c70a76d36058cf77fc1ccd9904a2bf0beb
   specs:
-    factory_bot_rails (6.5.0)
+    factory_bot_rails (6.5.1)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
 
@@ -157,7 +157,7 @@ GEM
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
     benchmark (0.4.1)
-    bigdecimal (3.2.2)
+    bigdecimal (3.2.3)
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
@@ -192,7 +192,7 @@ GEM
       thor (~> 1.3)
       zeitwerk (~> 2.6)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.3)
+    connection_pool (2.5.4)
     console (1.33.0)
       fiber-annotation
       fiber-local (~> 1.1)
@@ -258,7 +258,7 @@ GEM
       tzinfo
     event_stream_parser (1.0.0)
     eventmachine (1.2.7)
-    factory_bot (6.5.4)
+    factory_bot (6.5.5)
       activesupport (>= 6.1.0)
     faker (3.5.2)
       i18n (>= 1.8.11, < 2)
@@ -483,7 +483,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.0)
+    rack (3.2.1)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
