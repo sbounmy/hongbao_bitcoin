@@ -173,7 +173,6 @@ product_hongbao_envelope:
       "currency": "USD",
       "url": "/products/henry-ford-set",
       "featured": true,
-      "commission": 100,
       "description": "Premium red envelopes featuring Henry Ford's famous Bitcoin quote"
     }
 
@@ -192,7 +191,6 @@ product_redbubble_poster:
       "url": "https://www.redbubble.com/bitcoin-revolution-poster",
       "affiliate_url": "https://www.redbubble.com/bitcoin-revolution-poster?ref=hongbao",
       "featured": false,
-      "commission": 10,
       "description": "24x36 poster with Henry Ford quote about energy currency"
     }
 
@@ -210,7 +208,6 @@ product_etsy_stickers:
       "currency": "USD",
       "url": "https://www.etsy.com/listing/energy-currency-stickers",
       "featured": false,
-      "commission": 5,
       "description": "Set of 5 Bitcoin stickers featuring the Henry Ford quote"
     }
 
@@ -229,6 +226,5 @@ product_satoshi_tshirt:
       "currency": "USD",
       "url": "/products/satoshi-tshirt",
       "featured": true,
-      "commission": 100,
       "description": "Premium t-shirt with Satoshi's whitepaper quote"
     }

@@ -240,9 +240,6 @@ RSpec.describe ContentsController, type: :controller do
         #     expect(response.body).to include("Hong₿ao")
         #     expect(response.body).to include("Redbubble")
         #     expect(response.body).to include("Etsy")
-        #     # Check for affiliate disclosure
-        #     expect(response.body).to include("partner shops")
-        #     expect(response.body).to include("commission")
         #   end
         # end
       end

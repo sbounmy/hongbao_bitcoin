@@ -3,7 +3,7 @@ class Content::Product < Content
   validates :parent_id, presence: true # Products must belong to a parent content (quote, artist, etc.)
 
   # Define accessors for product metadata fields
-  metadata :title, :shop, :price, :currency, :url, :affiliate_url, :commission, :featured, :description, :icon
+  metadata :title, :shop, :price, :currency, :url, :affiliate_url, :featured, :description, :icon
 
   # Aliases for cleaner API
   alias_method :product_url, :url
