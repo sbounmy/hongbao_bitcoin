@@ -19,6 +19,17 @@ class Content < ApplicationRecord
   before_validation :generate_slug, on: :create
   before_save :generate_seo_fields
 
+
+  # Convert class name to URL-friendly plural form
+  # 'quotes' => Content::Quote
+  # 'artists' =>Content::Artist
+  def self.content_types
+    descendants.each_with_object({}) do |klass, hash|
+      key = klass.name.demodulize.downcase.pluralize
+      hash[key] = klass
+    end
+  end
+
   def to_param
     slug
   end

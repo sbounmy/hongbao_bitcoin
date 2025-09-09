@@ -21,13 +21,9 @@ class ContentsController < ApplicationController
   private
 
   def set_content_class
-    raise ActiveRecord::RecordNotFound if params[:klass].blank?
+    @content_class = Content.content_types[params[:klass]]
+    raise ActiveRecord::RecordNotFound unless @content_class
 
-    # Map klass parameter to namespaced Content models
-    class_name = "Content::#{params[:klass].singularize.classify}"
-    @content_class = class_name.constantize
     @content_type = params[:klass].singularize.downcase
-  rescue NameError
-    raise ActiveRecord::RecordNotFound
   end
 end
