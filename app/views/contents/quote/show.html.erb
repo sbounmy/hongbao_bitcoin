@@ -5,9 +5,7 @@
   )
   @meta_description = I18n.t("content.quote.show.meta_description",
     author: @content.author,
-    quote: @content.quote.truncate(100),
-    year: @content.year,
-    source: @content.source
+    quote: @content.quote.truncate(100)
   )
 %>
 
@@ -24,7 +22,7 @@
     </div>
 
     <!-- Main Quote Card with Gradient -->
-    <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br <%= @content.gradient || 'from-orange-400 to-red-400' %>">
+    <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br from-orange-400 to-red-400">
       <div class="card-body p-8 md:p-12">
 
         <!-- Author Avatar and Quote -->
@@ -39,7 +37,7 @@
           <% else %>
             <!-- Quote Icon as fallback -->
             <div class="text-6xl mb-6 text-white">
-              <%= @content.icon || '₿' %>
+              ₿
             </div>
           <% end %>
 
@@ -53,14 +51,6 @@
             <h1 class="text-xl md:text-2xl font-bold text-white">
               — <%= @content.author %>
             </h1>
-            <% if @content.year.present? %>
-              <p class="text-white/80 mt-2">
-                <%= @content.year %>
-                <% if @content.source.present? %>
-                  • <%= @content.source %>
-                <% end %>
-              </p>
-            <% end %>
           </div>
         </div>
 
@@ -220,7 +210,7 @@
             <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
               <div class="card-body p-6">
                 <div class="text-2xl mb-2 text-center">
-                  <%= related_content.icon || '₿' %>
+                  ₿
                 </div>
                 <p class="text-sm italic mb-3 line-clamp-3 text-base-content">
                   "<%= related_content.quote.truncate(100) %>"

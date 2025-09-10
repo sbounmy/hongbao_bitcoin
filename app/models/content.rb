@@ -11,6 +11,8 @@ class Content < ApplicationRecord
   belongs_to :parent, class_name: "Content", optional: true
   has_many :children, class_name: "Content", foreign_key: "parent_id", dependent: :destroy
   has_many :products, -> { where(type: "Content::Product") }, class_name: "Content::Product", foreign_key: "parent_id"
+  has_many :hongbao_products, -> { where(type: "Content::Product").internal }, class_name: "Content::Product", foreign_key: "parent_id"
+  has_many :external_products, -> { where(type: "Content::Product").external }, class_name: "Content::Product", foreign_key: "parent_id"
 
   scope :published, -> { where.not(published_at: nil).where("published_at <= ?", Time.current) }
   scope :root_content, -> { where(parent_id: nil) }

@@ -9,10 +9,10 @@ class Content::Product < Content
   alias_method :product_url, :url
 
   # Scopes
-  scope :featured, -> { where("metadata->>'featured' = ?", "true") }
-  scope :internal, -> { where("metadata->>'shop' = ?", "Hong₿ao") }
-  scope :external, -> { where("metadata->>'shop' != ?", "Hong₿ao") }
-  scope :by_shop, ->(shop) { where("metadata->>'shop' = ?", shop) }
+  scope :featured, -> { where("json_extract(metadata, '$.featured') = ?", true) }
+  scope :internal, -> { where("json_extract(metadata, '$.shop') = ?", "HongBao") }
+  scope :external, -> { where("json_extract(metadata, '$.shop') != ?", "HongBao") }
+  scope :by_shop, ->(shop) { where("json_extract(metadata, '$.shop') = ?", shop) }
 
   def featured?
     featured == true || featured == "true"

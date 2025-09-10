@@ -60,6 +60,19 @@ RSpec.describe Metadata, type: :concern do
         expect(reloaded.icon).to eq('heart')
       end
 
+      it 'can query values from database' do
+        instance = test_class.create!(name: 'test', slug: 'test')
+        instance.color = '#00ff00'
+        instance.icon = 'heart'
+        instance.save!
+
+        reloaded = test_class.where("json_extract(metadata, '$.color') = ?", '#00ff00').first
+        expect(reloaded.color).to eq('#00ff00')
+        expect(reloaded.icon).to eq('heart')
+        reloaded = test_class.where("json_extract(metadata, '$.color') = ?", '#00000').first
+        expect(reloaded).to be_nil
+      end
+
       it 'handles nil values' do
         instance = test_class.new
         instance.color = nil

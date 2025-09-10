@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_06_083239) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_041849) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_083239) do
 
   create_table "contents", force: :cascade do |t|
     t.string "type", null: false
-    t.string "slug", null: false
+    t.string "slug"
     t.string "title"
     t.string "h1"
     t.text "meta_description"
@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_083239) do
     t.index ["parent_id", "position"], name: "index_contents_on_parent_id_and_position"
     t.index ["parent_id", "type"], name: "index_contents_on_parent_id_and_type"
     t.index ["parent_id"], name: "index_contents_on_parent_id"
-    t.index ["slug"], name: "index_contents_on_slug", unique: true
+    t.index ["slug", "type"], name: "index_contents_on_slug_and_type", unique: true
     t.index ["type", "published_at"], name: "index_contents_on_type_and_published_at"
     t.index ["type"], name: "index_contents_on_type"
   end

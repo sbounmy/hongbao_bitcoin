@@ -1,5 +1,7 @@
 <!-- Envelope Quotes Section -->
-<% quotes = Content::Quote.published.limit(8) %>
+<% hongbao_products = Content::Product.internal %>
+<% quote_ids = hongbao_products.pluck(:parent_id).compact %>
+<% quotes = Content::Quote.where(id: quote_ids).published.limit(6) %>
 <section class="py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
   <div class="max-w-7xl mx-auto px-4">
     <div class="grid lg:grid-cols-2 gap-12 items-center" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
@@ -9,15 +11,12 @@
         <!-- Dynamic Quotes from Database -->
         <% quotes.each_with_index do |quote, index| %>
           <div data-tabs-target="tab" data-tab-id="<%= quote.slug %>" class="<%= index > 0 ? 'hidden' : '' %>">
-            <div class="bg-gradient-to-br <%= quote.gradient || 'from-orange-400 to-red-400' %> rounded-3xl p-1">
+            <div class="bg-gradient-to-br from-orange-400 to-red-400 rounded-3xl p-1">
               <div class="bg-base-100 rounded-3xl p-8 md:p-12">
                 <div class="aspect-[3/4] flex items-center justify-center text-center">
                   <div class="space-y-4">
-                    <% if quote.icon.present? %>
-                      <div class="text-4xl mb-2"><%= quote.icon %></div>
-                    <% end %>
                     <p class="text-2xl md:text-3xl font-serif italic text-base-content">
-                      "<%= quote.quote %>"
+                      "<%= quote.text %>"
                     </p>
                     <p class="text-lg text-base-content/70">
                       — <%= quote.author %>
@@ -32,34 +31,6 @@
           </div>
         <% end %>
 
-        <!-- Custom Quote (keep this static) -->
-        <div data-tabs-target="tab" data-tab-id="custom" class="hidden">
-          <div class="bg-gradient-to-br from-purple-400 to-indigo-400 rounded-3xl p-1">
-            <div class="bg-base-100 rounded-3xl p-8 md:p-12">
-              <div class="aspect-[3/4] flex items-center justify-center text-center">
-                <div class="space-y-4">
-                  <p class="text-2xl md:text-3xl font-serif italic text-base-content">
-                    "Your personalized message goes here..."
-                  </p>
-                  <p class="text-lg text-base-content/70">— Your Name</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Blank Quote (keep this static) -->
-        <div data-tabs-target="tab" data-tab-id="blank" class="hidden">
-          <div class="bg-gradient-to-br from-gray-300 to-gray-400 rounded-3xl p-1">
-            <div class="bg-base-100 rounded-3xl p-8 md:p-12">
-              <div class="aspect-[3/4] flex items-center justify-center text-center">
-                <p class="text-2xl md:text-3xl text-base-content/40">
-                  [Blank envelope - no quote]
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- Background decoration -->
         <div class="absolute -inset-4 bg-gradient-to-r from-orange-400 to-red-400 rounded-3xl blur-3xl opacity-20 -z-10"></div>
@@ -70,7 +41,7 @@
         <div>
           <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">ENVELOPE BACKS</p>
           <h2 class="text-3xl md:text-5xl font-extrabold text-base-content mb-4">
-            8 pieces of wisdom that can change a life
+            Quotes that can change a life
           </h2>
           <p class="text-lg text-base-content/70">
             Each envelope features a carefully selected Bitcoin quote from OGs. Marking the beginning of their descent into the Bitcoin rabbit hole.
@@ -80,7 +51,7 @@
         <!-- Quote Thumbnails Grid -->
         <div>
           <p class="text-sm text-base-content/60 mb-4">Choose a quote style:</p>
-          <div class="grid grid-cols-3 md:grid-cols-4 gap-3">
+          <div class="grid grid-cols-3 gap-3">
             <!-- Dynamic Quote Buttons from Database -->
             <% quotes.each do |quote| %>
               <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
@@ -98,24 +69,6 @@
               </button>
             <% end %>
 
-            <!-- Static Custom and Blank buttons -->
-            <button data-tabs-target="btn" data-tab-id="custom" data-action="click->tabs#select"
-                    class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div class="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-400"></div>
-              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-              <div class="absolute inset-0 flex items-center justify-center">
-                <p class="text-white font-medium text-sm">Custom</p>
-              </div>
-            </button>
-
-            <button data-tabs-target="btn" data-tab-id="blank" data-action="click->tabs#select"
-                    class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400"></div>
-              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-              <div class="absolute inset-0 flex items-center justify-center">
-                <p class="text-white font-medium text-sm">Blank</p>
-              </div>
-            </button>
           </div>
         </div>
 
@@ -134,14 +87,6 @@
           <% end %>
         </div>
 
-        <!-- View All Quotes Link -->
-        <div class="mt-6">
-          <%= link_to bitcoin_contents_path(klass: 'quotes'),
-              class: "text-primary hover:underline text-sm font-medium flex items-center gap-2" do %>
-            <%= heroicon "arrow-right", variant: :outline, class: "w-4 h-4" %>
-            Explore all <%= Content::Quote.published.count %> Bitcoin quotes
-          <% end %>
-        </div>
       </div>
     </div>
   </div>

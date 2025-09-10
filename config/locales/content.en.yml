@@ -22,7 +22,7 @@ en:
       # Individual quote page
       show:
         title: "%{author} Bitcoin Quote - %{quote}"
-        meta_description: "Famous Bitcoin quote by %{author}: '%{quote}' from %{year}. %{source}. Create a custom Bitcoin wallet with this inspiring message."
+        meta_description: "Famous Bitcoin quote by %{author}: '%{quote}'. Create a custom Bitcoin wallet with this inspiring message."
       
       # Categories
       categories:

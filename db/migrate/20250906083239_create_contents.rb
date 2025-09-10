@@ -2,7 +2,7 @@ class CreateContents < ActiveRecord::Migration[8.0]
   def change
     create_table :contents do |t|
       t.string :type, null: false # For STI
-      t.string :slug, null: false
+      t.string :slug
       t.string :title
       t.string :h1
       t.text :meta_description
@@ -16,7 +16,7 @@ class CreateContents < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :contents, :slug, unique: true
+    add_index :contents, [ :slug, :type ], unique: true
     add_index :contents, :type
     add_index :contents, [ :type, :published_at ]
     add_index :contents, [ :parent_id, :type ]

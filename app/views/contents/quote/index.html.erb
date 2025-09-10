@@ -23,9 +23,6 @@
             "<%= content.quote.truncate(150) %>"
           </blockquote>
           <p class="font-semibold">— <%= content.author %></p>
-          <% if content.year.present? %>
-            <p class="text-sm text-base-content/70"><%= content.year %></p>
-          <% end %>
           <div class="card-actions justify-end mt-4">
             <%= link_to "Read More →",
                         bitcoin_content_path(klass: 'quotes', slug: content.slug),
