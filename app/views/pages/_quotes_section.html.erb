@@ -20,9 +20,6 @@
                     </p>
                     <p class="text-lg text-base-content/70">
                       — <%= quote.author %>
-                      <% if quote.year.present? %>
-                        <span class="text-sm block"><%= quote.year %></span>
-                      <% end %>
                     </p>
                   </div>
                 </div>
@@ -56,13 +53,21 @@
             <% quotes.each do |quote| %>
               <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
                       class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <div class="absolute inset-0 bg-gradient-to-br <%= quote.gradient || 'from-orange-400 to-red-400' %>"></div>
-                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                <% if quote.avatar.attached? %>
+                  <!-- Show avatar as background -->
+                  <%= image_tag quote.avatar, class: "absolute inset-0 w-full h-full object-cover", alt: quote.author %>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <% else %>
+                  <!-- Fallback gradient background -->
+                  <div class="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-400"></div>
+                  <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                <% end %>
                 <div class="absolute inset-0 flex flex-col items-center justify-center p-2">
-                  <% if quote.icon.present? %>
-                    <span class="text-white text-lg mb-1"><%= quote.icon %></span>
+                  <% unless quote.avatar.attached? %>
+                    <!-- Only show Bitcoin symbol if no avatar -->
+                    <span class="text-white text-lg mb-1">₿</span>
                   <% end %>
-                  <p class="text-white font-medium text-xs text-center line-clamp-2">
+                  <p class="text-white font-medium text-xs text-center line-clamp-2 <%= quote.avatar.attached? ? 'absolute bottom-2' : '' %>">
                     <%= quote.author.split.last(2).join(' ') %>
                   </p>
                 </div>

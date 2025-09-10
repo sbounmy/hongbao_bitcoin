@@ -63,4 +63,9 @@ Input::Event.find_each do |event|
 end if fixtures.include?('inputs')
 
 
+Content::Quote.find_each do |quote|
+  attach(quote, :author, :avatar, [ 'contents', 'quotes' ])
+  quote.save!
+end if fixtures.include?('contents')
+
 TransactionFeesImportJob.new.perform
