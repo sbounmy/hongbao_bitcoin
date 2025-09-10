@@ -39,18 +39,6 @@ class Content < ApplicationRecord
     self.class.name.downcase
   end
 
-  # Helper methods for products
-  def featured_products
-    products.where("metadata->>'featured' = ?", "true")
-  end
-
-  def hongbao_products
-    products.where("metadata->>'shop' = ?", "Hong₿ao")
-  end
-
-  def external_products
-    products.where("metadata->>'shop' != ?", "Hong₿ao")
-  end
 
   protected
 
