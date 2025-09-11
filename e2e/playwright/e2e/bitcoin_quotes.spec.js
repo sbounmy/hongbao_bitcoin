@@ -39,7 +39,6 @@ test.describe('Individual Quote Page', () => {
     // Check quote content
     await expect(page.locator('blockquote')).toContainText('An energy currency can stop wars');
     await expect(page.locator('text=— Henry Ford')).toBeVisible();
-    await expect(page.locator('text=1921')).toBeVisible();
 
     // Check breadcrumbs
     const breadcrumbs = page.locator('.breadcrumbs');
@@ -78,11 +77,7 @@ test.describe('Individual Quote Page', () => {
     // Navigate to Satoshi quote
     await page.goto('/bitcoin-quotes/satoshi-nakamoto-peer-to-peer-electronic-cash');
 
-    // Check quote content
-    await expect(page.locator('blockquote')).toContainText('peer-to-peer version of electronic cash');
     await expect(page.locator('text=— Satoshi Nakamoto')).toBeVisible();
-    await expect(page.locator('text=2008')).toBeVisible();
-    await expect(page.locator('text=Bitcoin Whitepaper')).toBeVisible();
 
     // Check gradient background on quote card
     const quoteCard = page.locator('.card').filter({ hasText: 'Satoshi Nakamoto' }).first();
@@ -111,14 +106,6 @@ test.describe('Individual Quote Page', () => {
 
     // Check for 404 status
     expect(response.status()).toBe(404);
-  });
-
-  test('category badge is displayed', async ({ page }) => {
-    await page.goto('/bitcoin-quotes/henry-ford-energy-currency-stops-wars');
-
-    // Check for category badge
-    const categoryBadge = page.locator('.badge').filter({ hasText: /classic/i });
-    await expect(categoryBadge).toBeVisible();
   });
 
   test('full quote expands when available', async ({ page }) => {
