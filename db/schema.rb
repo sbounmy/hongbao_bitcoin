@@ -158,8 +158,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_054608) do
     t.integer "user_id"
     t.boolean "public", default: false
     t.integer "bundle_id"
-    t.json "input_item_ids", default: []
     t.json "input_ids", default: [], null: false
+    t.json "input_item_ids", default: []
     t.json "metadata", default: {}
     t.integer "views_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
