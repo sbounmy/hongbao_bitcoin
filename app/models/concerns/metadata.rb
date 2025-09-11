@@ -20,6 +20,12 @@ module Metadata
       fields.each do |field|
         attribute field, :json, default: {}
         store_accessor field, accessors, **options
+
+        # Override the setter to handle hash assignment
+        define_method("#{field}=") do |value|
+          value.stringify_keys! if value.is_a?(Hash)
+          super(value)
+        end if accessors.any?
       end
     end
   end
