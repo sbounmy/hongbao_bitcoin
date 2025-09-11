@@ -167,6 +167,15 @@ RSpec.describe Metadata, type: :concern do
 
         expect(instance.costs).to eq({ 'input' => 10, 'output' => 20, 'total' => 30 })
       end
+
+      it 'handles updates' do
+        instance = test_class.create!(name: 'test', slug: 'test')
+        instance.update input_costs: 10, output_costs: 20, total_costs: 30
+        instance.reload
+        expect(instance.input_costs).to eq(10)
+        expect(instance.output_costs).to eq(20)
+        expect(instance.total_costs).to eq(30)
+      end
     end
 
     context 'with prefix option' do
