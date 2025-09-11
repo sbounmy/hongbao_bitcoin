@@ -68,4 +68,9 @@ Content::Quote.find_each do |quote|
   quote.save!
 end if fixtures.include?('contents')
 
+Content::Product.find_each do |product|
+  attach(product, :slug, :image, [ 'contents', 'products' ])
+  product.save!
+end if fixtures.include?('contents')
+
 TransactionFeesImportJob.new.perform

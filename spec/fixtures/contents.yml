@@ -124,7 +124,7 @@ product_hongbao_henry_ford:
 product_hongbao_satoshi:
   type: Content::Product
   parent: quote_satoshi
-  slug: hongbao-satoshi-nakamoto-envelope-set
+  slug: hongbao-satoshi-nakamoto-1
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:

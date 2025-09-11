@@ -2,39 +2,47 @@
 <% hongbao_products = Content::Product.internal %>
 <% quote_ids = hongbao_products.pluck(:parent_id).compact %>
 <% quotes = Content::Quote.where(id: quote_ids).published.limit(6) %>
-<section class="py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
+<section class="max-w-6xl mx-auto py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
   <div class="max-w-7xl mx-auto px-4">
-    <div class="grid lg:grid-cols-2 gap-12 items-center" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
+    <div class="flex flex-col lg:flex-row gap-12" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
 
-      <!-- Left: Preview Cards -->
-      <div class="relative">
-        <!-- Dynamic Quotes from Database -->
+      <!-- Left: Image container that matches right column height -->
+      <div class="lg:flex-1 relative">
+        <!-- Dynamic Product Images from Database -->
         <% quotes.each_with_index do |quote, index| %>
+          <% product = quote.hongbao_products.published.first %>
           <div data-tabs-target="tab" data-tab-id="<%= quote.slug %>" class="<%= index > 0 ? 'hidden' : '' %>">
-            <div class="bg-gradient-to-br from-orange-400 to-red-400 rounded-3xl p-1">
-              <div class="bg-base-100 rounded-3xl p-8 md:p-12">
-                <div class="aspect-[3/4] flex items-center justify-center text-center">
-                  <div class="space-y-4">
-                    <p class="text-2xl md:text-3xl font-serif italic text-base-content">
-                      "<%= quote.text %>"
-                    </p>
-                    <p class="text-lg text-base-content/70">
-                      — <%= quote.author %>
-                    </p>
+            <div class="rounded-3xl overflow-hidden shadow-2xl lg:absolute lg:inset-0">
+              <% if product&.image&.attached? %>
+                <!-- Show product image -->
+                <%= image_tag product.image,
+                    class: "w-full h-full object-contain",
+                    alt: "#{quote.author} Bitcoin envelope design" %>
+              <% else %>
+                <!-- Fallback to quote display -->
+                <div class="bg-gradient-to-br from-orange-400 to-red-400 h-full p-1">
+                  <div class="bg-base-100 h-full rounded-3xl p-8 md:p-12 flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                      <p class="text-2xl md:text-3xl font-serif italic text-base-content">
+                        "<%= quote.text %>"
+                      </p>
+                      <p class="text-lg text-base-content/70">
+                        — <%= quote.author %>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <% end %>
             </div>
           </div>
         <% end %>
-
 
         <!-- Background decoration -->
         <div class="absolute -inset-4 bg-gradient-to-r from-orange-400 to-red-400 rounded-3xl blur-3xl opacity-20 -z-10"></div>
       </div>
 
-      <!-- Right: Content & Thumbnails -->
-      <div class="space-y-8">
+      <!-- Right: Content that determines height -->
+      <div class="lg:flex-1 space-y-8">
         <div>
           <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">ENVELOPE BACKS</p>
           <h2 class="text-3xl md:text-5xl font-extrabold text-base-content mb-4">
@@ -47,7 +55,6 @@
 
         <!-- Quote Thumbnails Grid -->
         <div>
-          <p class="text-sm text-base-content/60 mb-4">Choose a quote style:</p>
           <div class="grid grid-cols-3 gap-3">
             <!-- Dynamic Quote Buttons from Database -->
             <% quotes.each do |quote| %>
