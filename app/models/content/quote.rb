@@ -1,9 +1,5 @@
 class Content::Quote < Content
-  # Define accessors for quote metadata fields
-  metadata :author, :text, :category, :full_quote
-
-  # Alias for backward compatibility
-  alias_method :quote, :text
+  metadata :author, :text
 
   protected
 

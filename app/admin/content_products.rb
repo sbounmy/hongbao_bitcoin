@@ -1,4 +1,6 @@
 ActiveAdmin.register Content::Product, as: "Product" do
+  menu parent: "Contents", priority: 2
+
   permit_params :slug, :published_at, :parent_id, :position,
                 :image,
                 metadata: {}
@@ -14,7 +16,7 @@ ActiveAdmin.register Content::Product, as: "Product" do
     end
     column :parent do |product|
       if product.parent
-        link_to product.parent.data["author"] || product.parent.data["name"],
+        link_to product.parent.author || product.parent.name,
                 admin_quote_path(product.parent)
       end
     end
@@ -105,7 +107,6 @@ ActiveAdmin.register Content::Product, as: "Product" do
   # Filters
   filter :parent, collection: -> { Content::Quote.all.map { |q| [ q.author, q.id ] } }
   filter :slug
-  filter :metadata_contains, as: :string, label: "Shop"
   filter :position
   filter :published_at
 
