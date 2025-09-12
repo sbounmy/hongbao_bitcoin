@@ -3,6 +3,9 @@ ActiveAdmin.register Content::Quote, as: "Quote" do
   permit_params :slug, :published_at, :parent_id, :position,
                 :avatar, :author, :text
 
+  action_item :view, only: :show do
+    link_to "Preview", bitcoin_content_path(resource, klass: "quotes"), target: "_blank"
+  end
   # Customize index page
   index do
     selectable_column

@@ -2,8 +2,7 @@ ActiveAdmin.register Content::Product, as: "Product" do
   menu parent: "Contents", priority: 2
 
   permit_params :slug, :published_at, :parent_id, :position,
-                :image,
-                metadata: {}
+                :image, :title, :shop, :price, :currency, :url
 
   # Customize index page
   index do
@@ -31,7 +30,7 @@ ActiveAdmin.register Content::Product, as: "Product" do
   form do |f|
     f.inputs "Product Details" do
       f.input :parent_id, as: :select,
-              collection: Content::Quote.all.map { |q| [ q.author + " - " + q.quote.truncate(50), q.id ] },
+              collection: Content::Quote.all.map { |q| [ q.author + " - " + q.text.truncate(50), q.id ] },
               include_blank: false,
               label: "Parent Quote"
       f.input :slug, hint: "Auto-generated if left blank"
@@ -44,13 +43,11 @@ ActiveAdmin.register Content::Product, as: "Product" do
     end
 
     f.inputs "Product Data" do
-      f.input :metadata, as: :text,
-              input_html: {
-                rows: 20,
-                value: JSON.pretty_generate(f.object.metadata || default_product_data),
-                class: "json-editor"
-              },
-              hint: "Edit as JSON. Required fields: title, shop, price, url. Optional: featured, commission, affiliate_url, description, icon (images are now handled via file uploads)"
+      f.input :title, as: :string, input_html: { value: f.object.title }
+      f.input :shop, as: :string, input_html: { value: f.object.shop }
+      f.input :price, as: :number, input_html: { value: f.object.price }
+      f.input :currency, as: :string, input_html: { value: f.object.currency }
+      f.input :url, as: :string, input_html: { value: f.object.url }
     end
 
     f.actions
@@ -82,12 +79,6 @@ ActiveAdmin.register Content::Product, as: "Product" do
       row :product_url do |product|
         link_to product.product_url, product.product_url, target: "_blank" if product.product_url
       end
-      row :affiliate_url do |product|
-        link_to product.affiliate_url, product.affiliate_url, target: "_blank" if product.affiliate_url
-      end
-      row :commission do |product|
-        "#{product.commission}%"
-      end
       row :featured do |product|
         status_tag product.featured?
       end
@@ -112,48 +103,6 @@ ActiveAdmin.register Content::Product, as: "Product" do
 
   # Controller actions
   controller do
-    def default_product_data
-      {
-        "title" => "",
-        "shop" => "Hong₿ao",
-        "price" => 0,
-        "currency" => "USD",
-        "url" => "",
-        "affiliate_url" => "",
-        "featured" => false,
-        "commission" => 0,
-        "description" => ""
-      }
-    end
-
-    helper_method :default_product_data
-
-    def update
-      # Parse JSON metadata if it's a string
-      if params[:product][:metadata].is_a?(String)
-        begin
-          params[:product][:metadata] = JSON.parse(params[:product][:metadata])
-        rescue JSON::ParserError
-          flash[:error] = "Invalid JSON in metadata field"
-          redirect_back(fallback_location: admin_products_path) and return
-        end
-      end
-      super
-    end
-
-    def create
-      # Parse JSON metadata if it's a string
-      if params[:product][:metadata].is_a?(String)
-        begin
-          params[:product][:metadata] = JSON.parse(params[:product][:metadata])
-        rescue JSON::ParserError
-          flash[:error] = "Invalid JSON in metadata field"
-          redirect_back(fallback_location: admin_products_path) and return
-        end
-      end
-      super
-    end
-
     def new
       super do |format|
         if params[:product] && params[:product][:parent_id]
