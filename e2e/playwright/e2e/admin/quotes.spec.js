@@ -86,10 +86,10 @@ test.describe('Admin Quotes Management', () => {
 
 
   test('deletes a quote', async ({ page }) => {
-    await page.getByRole('link', { name: 'Edit', exact: true }).last().click();
+    await page.getByRole('link', { name: 'View', exact: true }).last().click();
 
-    await page.getByRole('link', { name: 'Delete Quote' }).click();
     page.on('dialog', dialog => dialog.accept());
+    await page.getByRole('link', { name: 'Delete Quote' }).click();
 
     await expect(page.getByText('Quote was successfully destroyed.')).toBeVisible();
   });
