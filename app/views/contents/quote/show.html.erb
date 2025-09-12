@@ -1,11 +1,11 @@
 <%
   @page_title = I18n.t("content.quote.show.title",
     author: @content.author,
-    quote: @content.quote.truncate(50)
+    quote: @content.text.truncate(50)
   )
   @meta_description = I18n.t("content.quote.show.meta_description",
     author: @content.author,
-    quote: @content.quote.truncate(100)
+    quote: @content.text.truncate(100)
   )
 %>
 
@@ -43,7 +43,7 @@
 
           <!-- Quote Text -->
           <blockquote class="text-2xl md:text-3xl lg:text-4xl font-serif text-center mb-8 text-white">
-            "<%= @content.quote %>"
+            "<%= @content.text %>"
           </blockquote>
 
           <!-- Author Info -->
@@ -54,35 +54,10 @@
           </div>
         </div>
 
-        <!-- Category Badge -->
-        <% if @content.category.present? %>
-          <div class="text-center mb-6">
-            <div class="badge badge-lg badge-outline badge-white">
-              <%= @content.category.humanize %>
-            </div>
-          </div>
-        <% end %>
-
-        <!-- Full Quote (if available) -->
-        <% if @content.full_quote.present? && @content.full_quote != @content.quote %>
-          <div class="divider divider-white"></div>
-          <div class="collapse collapse-arrow bg-white/10">
-            <input type="checkbox" />
-            <div class="collapse-title text-lg font-medium text-white">
-              Read Full Quote
-            </div>
-            <div class="collapse-content">
-              <p class="text-white/90 italic">
-                "<%= @content.full_quote %>"
-              </p>
-            </div>
-          </div>
-        <% end %>
-
         <!-- Share Buttons -->
         <div class="divider divider-white"></div>
         <div class="flex justify-center gap-4">
-          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape(@content.quote + ' - ' + @content.author)}&url=#{request.original_url}",
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape(@content.text + ' - ' + @content.author)}&url=#{request.original_url}",
                       target: "_blank",
                       class: "btn btn-circle btn-white btn-outline",
                       title: "Share on Twitter" do %>
@@ -90,7 +65,7 @@
           <% end %>
 
           <button class="btn btn-circle btn-white btn-outline"
-                  onclick="navigator.clipboard.writeText('<%= j(@content.quote + ' - ' + @content.author) %>')"
+                  onclick="navigator.clipboard.writeText('<%= j(@content.text + ' - ' + @content.author) %>')"
                   title="Copy to clipboard">
             <%= heroicon "clipboard-document", variant: :outline, class: "w-5 h-5" %>
           </button>
@@ -213,7 +188,7 @@
                   ₿
                 </div>
                 <p class="text-sm italic mb-3 line-clamp-3 text-base-content">
-                  "<%= related_content.quote.truncate(100) %>"
+                  "<%= related_content.text.truncate(100) %>"
                 </p>
                 <p class="text-sm font-semibold text-base-content/70">
                   — <%= related_content.author %>
