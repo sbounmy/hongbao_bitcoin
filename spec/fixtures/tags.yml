@@ -3,11 +3,9 @@ bitcoin:
   name: Bitcoin
   slug: bitcoin
   position: 1
-  metadata: |
-    {
-      "color": "#ff9500",
-      "icon": "currency-dollar"
-    }
+  metadata:
+    color: "#ff9500"
+    icon: "currency-dollar"
   categories: ["input_events"]
 
 cultural:
@@ -15,11 +13,9 @@ cultural:
   name: Cultural
   slug: cultural
   position: 2
-  metadata: |
-    {
-      "color": "#8b5cf6",
-      "icon": "globe-alt"
-    }
+  metadata:
+    color: "#8b5cf6"
+    icon: "globe-alt"
   categories: ["input_events"]
 
 featured:
@@ -27,9 +23,7 @@ featured:
   name: featured
   slug: featured
   position: 3
-  metadata: |
-    {
-      "color": "#000000",
-      "icon": "star"
-    }
+  metadata:
+    color: "#000000"
+    icon: "star"
   categories: ["papers"]

@@ -1,0 +1,198 @@
+quote_satoshi:
+  type: Content::Quote
+  slug: satoshi-nakamoto-peer-to-peer-electronic-cash
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Satoshi Nakamoto"
+    text: "It might make sense just to get some in case it catches on"
+
+quote_andreas:
+  type: Content::Quote
+  slug: andreas-antonopoulos-not-your-keys
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Andreas Antonopoulos"
+    text: "Not your keys, not your coins"
+
+quote_henry_ford:
+  type: Content::Quote
+  slug: henry-ford-energy-currency-stops-wars
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Henry Ford"
+    text: "An energy currency can stop wars"
+
+quote_saylor:
+  type: Content::Quote
+  slug: michael-saylor-fix-the-money
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Michael Saylor"
+    text: "Fix the money, fix the world"
+
+quote_bitcoiners:
+  type: Content::Quote
+  slug: bitcoiners-dont-trust-verify
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Bitcoiners"
+    text: "Don't trust, verify"
+
+quote_jack_mallers:
+  type: Content::Quote
+  slug: jack-mallers-no-man-should-work
+  published_at: <%= 1.day.ago %>
+  metadata:
+    author: "Jack Mallers"
+    text: "No man should work for what another man can print"
+
+# Artist fixtures for testing
+artist_bartosz:
+  type: Content::Artist
+  slug: bartosz-cyberpunk-master
+  published_at: <%= 1.day.ago %>
+  metadata:
+    name: "Bartosz"
+    style: "Cyberpunk"
+    bio: "Digital artist specializing in Bitcoin-themed cyberpunk art"
+    portfolio_url: "https://example.com/bartosz"
+
+artist_satoshi_art:
+  type: Content::Artist
+  slug: satoshi-art-minimalist
+  published_at: <%= 1.day.ago %>
+  metadata:
+    name: "Satoshi Art"
+    style: "Minimalist"
+    bio: "Creating minimalist Bitcoin artwork since 2017"
+    portfolio_url: "https://example.com/satoshi-art"
+
+# Unpublished quote for testing
+quote_unpublished:
+  type: Content::Quote
+  slug: unpublished-future-quote
+  published_at: <%= 1.day.from_now %>
+  metadata:
+    author: "Future Author"
+    text: "This quote is not yet published"
+
+# Product fixtures
+product_redbubble_poster:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: redbubble-bitcoin-revolution-poster
+  published_at: <%= 1.day.ago %>
+  position: 2
+  metadata:
+    title: "Bitcoin Revolution Poster"
+    shop: "Redbubble"
+    price: 24.99
+    currency: "USD"
+    url: "https://www.redbubble.com/bitcoin-revolution-poster"
+    affiliate_url: "https://www.redbubble.com/bitcoin-revolution-poster?ref=hongbao"
+    featured: false
+    description: "24x36 poster with Henry Ford quote about energy currency"
+
+product_etsy_stickers:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: etsy-bitcoin-sticker-pack
+  published_at: <%= 1.day.ago %>
+  position: 3
+  metadata:
+    title: "Energy Currency Sticker Pack"
+    shop: "Etsy"
+    price: 8.99
+    currency: "USD"
+    url: "https://www.etsy.com/listing/energy-currency-stickers"
+    featured: false
+    description: "Set of 5 Bitcoin stickers featuring the Henry Ford quote"
+
+# Hongbao products for each quote
+product_hongbao_henry_ford:
+  type: Content::Product
+  parent: quote_henry_ford
+  slug: hongbao-henry-ford-energy-currency-stops-wars
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Henry Ford Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring Henry Ford's famous Bitcoin quote"
+
+product_hongbao_satoshi:
+  type: Content::Product
+  parent: quote_satoshi
+  slug: hongbao-satoshi-nakamoto-it-might-make-sense-just-to-get-some-in-case-it-catches-on
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Satoshi Nakamoto Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring Satoshi's famous quote about getting some Bitcoin"
+
+product_hongbao_andreas:
+  type: Content::Product
+  parent: quote_andreas
+  slug: hongbao-andreas-antonopoulos-not-your-keys
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Andreas Antonopoulos Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring the iconic 'Not your keys, not your coins' mantra"
+
+product_hongbao_saylor:
+  type: Content::Product
+  parent: quote_saylor
+  slug: hongbao-michael-saylor-fix-the-money
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Michael Saylor Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring Saylor's 'Fix the money, fix the world' quote"
+
+product_hongbao_bitcoiners:
+  type: Content::Product
+  parent: quote_bitcoiners
+  slug: hongbao-bitcoiners-dont-trust-verify
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Bitcoiners Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring the Bitcoin community motto 'Don't trust, verify'"
+
+product_hongbao_jack_mallers:
+  type: Content::Product
+  parent: quote_jack_mallers
+  slug: hongbao-jack-mallers-no-man-should-work
+  published_at: <%= 1.day.ago %>
+  position: 1
+  metadata:
+    title: "Jack Mallers Hong₿ao Envelope Set"
+    featured: true
+    shop: "HongBao"
+    description: "Premium red envelopes featuring Jack's powerful quote about money printing"
+
+# Product for Satoshi quote (t-shirt)
+product_satoshi_tshirt:
+  type: Content::Product
+  parent: quote_satoshi
+  slug: satoshi-peer-to-peer-tshirt
+  published_at: <%= 1.day.ago %>
+  position: 2
+  metadata:
+    title: "Peer-to-Peer T-Shirt"
+    shop: "HongBao"
+    price: 35
+    currency: "USD"
+    url: "/products/satoshi-tshirt"
+    featured: true
+    description: "Premium t-shirt with Satoshi's whitepaper quote"

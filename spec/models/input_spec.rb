@@ -173,7 +173,7 @@ RSpec.describe Input, type: :model do
 
     it 'is accessible by ui[...]' do
       expect(subject.ui_name).to eql('cyberpunk')
-      expect(subject.ui[:color_primary]).to eql('#006e8f')
+      expect(subject.ui['color_primary']).to eql('#006e8f')
     end
 
     it 'is accessible by ai[...]' do

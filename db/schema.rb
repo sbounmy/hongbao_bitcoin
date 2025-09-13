@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_11_054608) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -62,6 +62,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
     t.index ["user_id"], name: "index_bundles_on_user_id"
   end
 
+  create_table "contents", force: :cascade do |t|
+    t.string "type", null: false
+    t.string "slug"
+    t.string "title"
+    t.string "h1"
+    t.text "meta_description"
+    t.json "metadata", default: {}
+    t.datetime "published_at"
+    t.integer "impressions_count", default: 0
+    t.integer "clicks_count", default: 0
+    t.integer "parent_id"
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id", "position"], name: "index_contents_on_parent_id_and_position"
+    t.index ["parent_id", "type"], name: "index_contents_on_parent_id_and_type"
+    t.index ["parent_id"], name: "index_contents_on_parent_id"
+    t.index ["slug", "type"], name: "index_contents_on_slug_and_type", unique: true
+    t.index ["type", "published_at"], name: "index_contents_on_type_and_published_at"
+    t.index ["type"], name: "index_contents_on_type"
+  end
+
   create_table "identities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "provider_name"
@@ -88,7 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "metadata", default: "{}"
+    t.json "metadata", default: {}
     t.integer "position", default: 0
     t.json "tag_ids", default: []
     t.index ["position"], name: "index_inputs_on_position"
@@ -138,7 +160,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
     t.integer "bundle_id"
     t.json "input_item_ids", default: []
     t.json "input_ids", default: [], null: false
-    t.json "metadata", default: "{}"
+    t.json "metadata", default: {}
     t.integer "views_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
     t.json "liker_ids", default: []
@@ -186,7 +208,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
     t.integer "user_id", null: false
     t.integer "quantity", null: false
     t.string "description"
-    t.json "metadata", default: "{}", null: false
+    t.json "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
@@ -221,6 +243,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_21_131413) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bundles", "users"
+  add_foreign_key "contents", "contents", column: "parent_id"
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"

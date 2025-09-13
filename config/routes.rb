@@ -66,6 +66,9 @@ Rails.application.routes.draw do
   get "/bitcoin-agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 
+  # Programmatic SEO routes
+  get "/bitcoin-:klass", to: "contents#index", as: :bitcoin_contents
+  get "/bitcoin-:klass/:slug", to: "contents#show", as: :bitcoin_content
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify

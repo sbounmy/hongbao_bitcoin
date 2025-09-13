@@ -1,0 +1,103 @@
+<!-- Envelope Quotes Section -->
+<% hongbao_products = Content::Product.internal %>
+<% quote_ids = hongbao_products.pluck(:parent_id).compact %>
+<% quotes = Content::Quote.where(id: quote_ids).published.limit(6) %>
+<section class="max-w-6xl mx-auto py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col lg:flex-row gap-12" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
+
+      <!-- Left: Image container that matches right column height -->
+      <div class="lg:flex-1 relative">
+        <!-- Dynamic Product Images from Database -->
+        <% quotes.each_with_index do |quote, index| %>
+          <% product = quote.hongbao_products.published.first %>
+          <div data-tabs-target="tab" data-tab-id="<%= quote.slug %>" class="<%= index > 0 ? 'hidden' : '' %>">
+            <% if product&.image&.attached? %>
+              <!-- Show product image -->
+              <%= image_tag product.image,
+                  class: "h-96 w-full lg:h-full object-contain",
+                  alt: "#{quote.author} Bitcoin envelope design" %>
+            <% else %>
+              <!-- Fallback to quote display -->
+              <div class="bg-gradient-to-br from-orange-400 to-red-400 h-full p-1">
+                <div class="bg-base-100 h-full rounded-3xl p-8 md:p-12 flex items-center justify-center">
+                  <div class="text-center space-y-4">
+                    <p class="text-2xl md:text-3xl font-serif italic text-base-content">
+                      "<%= quote.text %>"
+                    </p>
+                    <p class="text-lg text-base-content/70">
+                      — <%= quote.author %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Background decoration -->
+        <div class="absolute -inset-4 bg-gradient-to-r from-orange-400 to-red-400 rounded-3xl blur-3xl opacity-20 -z-10"></div>
+      </div>
+
+      <!-- Right: Content that determines height -->
+      <div class="lg:flex-1 space-y-8">
+        <div>
+          <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">ENVELOPE BACKS</p>
+          <h2 class="text-3xl md:text-5xl font-extrabold text-base-content mb-4">
+            Quotes that can change a life
+          </h2>
+          <p class="text-lg text-base-content/70">
+            Each envelope features a carefully selected Bitcoin quote from OGs. Marking the beginning of their descent into the Bitcoin rabbit hole.
+          </p>
+        </div>
+
+        <!-- Quote Thumbnails Grid -->
+        <div>
+          <div class="grid grid-cols-6 md:grid-cols-3 gap-3">
+            <!-- Dynamic Quote Buttons from Database -->
+            <% quotes.each do |quote| %>
+              <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
+                      class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                <% if quote.avatar.attached? %>
+                  <!-- Show avatar as background -->
+                  <%= image_tag quote.avatar, class: "absolute inset-0 w-full h-full object-cover", alt: quote.author %>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <% else %>
+                  <!-- Fallback gradient background -->
+                  <div class="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-400"></div>
+                  <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                <% end %>
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-2">
+                  <% unless quote.avatar.attached? %>
+                    <!-- Only show Bitcoin symbol if no avatar -->
+                    <span class="text-white text-lg mb-1">₿</span>
+                  <% end %>
+                  <p class="text-white font-medium text-xs text-center line-clamp-2 <%= quote.avatar.attached? ? 'absolute bottom-2' : '' %>">
+                    <%= quote.author.split.last(2).join(' ') %>
+                  </p>
+                </div>
+              </button>
+            <% end %>
+
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to "#pricing",
+              class: "btn btn-primary btn-lg rounded-full" do %>
+            <%= heroicon "sparkles", variant: :solid, class: "w-5 h-5" %>
+            Get Envelopes with Quotes
+          <% end %>
+
+          <%= link_to dashboard_path,
+              class: "btn btn-outline btn-lg rounded-full" do %>
+            <%= heroicon "pencil", variant: :outline, class: "w-5 h-5" %>
+            Create Custom Message
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

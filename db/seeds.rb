@@ -10,7 +10,7 @@
 
 # Set fixtures path
 ENV['FIXTURES_PATH'] = 'spec/fixtures'
-fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,inputs').split(',')
+fixtures = (ENV['FIXTURES'] || 'papers,payment_methods,inputs,contents').split(',')
 
 # Load papers and styles from fixtures
 puts "Loading #{fixtures.join(', ')} from fixtures..."
@@ -62,5 +62,15 @@ Input::Event.find_each do |event|
   event.save!
 end if fixtures.include?('inputs')
 
+
+Content::Quote.find_each do |quote|
+  attach(quote, :author, :avatar, [ 'contents', 'quotes' ])
+  quote.save!
+end if fixtures.include?('contents')
+
+Content::Product.find_each do |product|
+  attach(product, :slug, :image, [ 'contents', 'products' ], format: 'webp')
+  product.save!
+end if fixtures.include?('contents')
 
 TransactionFeesImportJob.new.perform
