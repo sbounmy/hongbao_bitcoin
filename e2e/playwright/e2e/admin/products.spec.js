@@ -35,7 +35,7 @@ test.describe('Admin Products Management', () => {
   });
 
   test('edits an existing product', async ({ page }) => {
-    await page.goto('/admin/products/hongbao-andreas-antonopoulos-envelope-set/edit');
+    await page.goto('/admin/products/hongbao-andreas-antonopoulos-not-your-keys/edit');
 
     await page.getByLabel('Title').fill('Updated Test Bitcoin Envelope');
     await page.getByLabel('Price').fill('30');
@@ -50,7 +50,7 @@ test.describe('Admin Products Management', () => {
   });
 
   test('uploads product image', async ({ page }) => {
-    await page.goto('/admin/products/hongbao-andreas-antonopoulos-envelope-set/edit');
+    await page.goto('/admin/products/hongbao-andreas-antonopoulos-not-your-keys/edit');
 
     await page.locator('#content_product_image').setInputFiles('spec/fixtures/files/satoshi.jpg');
 
@@ -60,7 +60,7 @@ test.describe('Admin Products Management', () => {
 
 
   test('deletes a product', async ({ page }) => {
-    await page.goto('/admin/products/hongbao-andreas-antonopoulos-envelope-set');
+    await page.goto('/admin/products/hongbao-andreas-antonopoulos-not-your-keys');
     page.on('dialog', dialog => dialog.accept());
     await page.getByRole('link', { name: 'Delete Product' }).click();
 
