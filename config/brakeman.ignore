@@ -1,51 +1,51 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Mass Assignment",
-      "warning_code": 70,
-      "fingerprint": "30f40933595251c709ea70d879c5f3dc100c187473f78f92a9f8180090a65519",
-      "check_name": "MassAssignment",
-      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
-      "file": "app/controllers/ai/face_swaps_controller.rb",
-      "line": 17,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params.permit!",
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "84ad847cf7799ccee48534c80dcb89d1e413fde34c20f6064339e624811e02d9",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/contents_controller.rb",
+      "line": 9,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"contents/#{params[:klass].singularize.downcase}/index\", {})",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "Ai::FaceSwapsController",
-        "method": "done"
+        "class": "ContentsController",
+        "method": "index"
       },
-      "user_input": null,
+      "user_input": "params[:klass].singularize.downcase",
       "confidence": "Medium",
       "cwe_id": [
-        915
+        22
       ],
       "note": ""
     },
     {
-      "warning_type": "Mass Assignment",
-      "warning_code": 70,
-      "fingerprint": "adef332da09aef2b9bde0b95748b0b0b614d1976bf08f5a6d4962000c14c3ace",
-      "check_name": "MassAssignment",
-      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
-      "file": "app/controllers/ai/images_controller.rb",
-      "line": 14,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params.permit!",
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "bd13dfc79c14248bcaf9e89dea489d72af9c91976f0c6af55f72df41c3f5bbad",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/contents_controller.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"contents/#{params[:klass].singularize.downcase}/show\", {})",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "Ai::ImagesController",
-        "method": "done"
+        "class": "ContentsController",
+        "method": "show"
       },
-      "user_input": null,
+      "user_input": "params[:klass].singularize.downcase",
       "confidence": "Medium",
       "cwe_id": [
-        915
+        22
       ],
       "note": ""
     }
   ],
-  "brakeman_version": "7.0.0"
+  "brakeman_version": "7.1.0"
 }

@@ -163,7 +163,9 @@ function getRandomInt(max) {
 const fillCheckout = async (page) => {
   const random = getRandomInt(9999);
   await page.fill('input[name="shippingName"]', `Satoshi Nakamoto ${random}`);
-  await page.getByText("Enter address manually").click();
+  if (await page.getByText("Enter address manually").isVisible()) {
+    await page.getByText("Enter address manually").click();
+  }
   await page.fill('input[name="shippingAddressLine1"]', '123 Main St');
   await page.fill('input[name="shippingPostalCode"]', '94107');
   await page.fill('input[name="shippingLocality"]', 'San Francisco');

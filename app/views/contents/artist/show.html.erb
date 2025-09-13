@@ -1,0 +1,109 @@
+<%
+  @page_title = I18n.t("content.artist.show.title", 
+    name: @content.name
+  )
+  @meta_description = I18n.t("content.artist.show.meta_description",
+    name: @content.name,
+    style: @content.style,
+    bio: @content.bio
+  )
+%>
+
+<div class="min-h-screen bg-gradient-to-br from-purple-400 to-indigo-600">
+  <div class="container mx-auto px-4 py-12">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumbs text-sm mb-8 text-white/80">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Bitcoin Artists", bitcoin_contents_path(klass: 'artists') %></li>
+        <li class="text-white"><%= @content.name %></li>
+      </ul>
+    </div>
+
+    <!-- Main Artist Card -->
+    <div class="card bg-base-100 shadow-2xl max-w-4xl mx-auto">
+      <div class="card-body p-8 md:p-12">
+        
+        <!-- Artist Name -->
+        <h1 class="text-4xl font-bold text-center mb-4">
+          <%= @content.name %>
+        </h1>
+        
+        <!-- Style Badge -->
+        <% if @content.style.present? %>
+          <div class="text-center mb-6">
+            <div class="badge badge-lg badge-primary">
+              <%= @content.style %> Artist
+            </div>
+          </div>
+        <% end %>
+        
+        <!-- Bio -->
+        <% if @content.bio.present? %>
+          <p class="text-lg text-center mb-8 text-base-content/90">
+            <%= @content.bio %>
+          </p>
+        <% end %>
+        
+        <!-- Portfolio Link -->
+        <% if @content.portfolio_url.present? %>
+          <div class="text-center mb-6">
+            <%= link_to "View Portfolio →", 
+                        @content.portfolio_url,
+                        target: "_blank",
+                        class: "btn btn-primary" %>
+          </div>
+        <% end %>
+        
+        <!-- Commission Status -->
+        <% if @content.commission_available.present? %>
+          <div class="alert <%= @content.commission_available ? 'alert-success' : 'alert-info' %>">
+            <% if @content.commission_available %>
+              <%= heroicon "check-circle", variant: :outline, class: "w-6 h-6" %>
+              <span>Currently accepting commissions</span>
+            <% else %>
+              <%= heroicon "information-circle", variant: :outline, class: "w-6 h-6" %>
+              <span>Not currently accepting commissions</span>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <!-- Stats -->
+        <div class="stats shadow mt-8">
+          <div class="stat">
+            <div class="stat-title">Profile Views</div>
+            <div class="stat-value"><%= number_with_delimiter(@content.impressions_count) %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Related Artists -->
+    <% if @related.any? %>
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Discover More Artists</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @related.each do |artist| %>
+            <div class="card bg-base-100/90 backdrop-blur shadow-xl hover:shadow-2xl transition-shadow">
+              <div class="card-body p-6">
+                <h3 class="card-title"><%= artist.name %></h3>
+                <% if artist.style.present? %>
+                  <div class="badge badge-outline"><%= artist.style %></div>
+                <% end %>
+                <p class="text-sm text-base-content/70 mt-2">
+                  <%= artist.bio.try(:truncate, 80) %>
+                </p>
+                <div class="card-actions justify-end mt-4">
+                  <%= link_to "View Profile →",
+                              bitcoin_content_path(klass: 'artists', slug: artist.slug),
+                              class: "btn btn-sm btn-ghost" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

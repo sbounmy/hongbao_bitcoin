@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <%# Primary Meta Tags %>
-    <title><%= t('.meta.title') %></title>
+    <title><%= content_for?(:title) ? yield(:title) : t('.meta.title') %></title>
     <meta name="title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
     <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : t('.meta.keywords') %>">
@@ -42,7 +42,7 @@
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
     <%= render "shared/plausible" %>
 
-    <%= theme_css(current_theme) %>
+    <%# theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
     <%= csp_meta_tag %>
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>

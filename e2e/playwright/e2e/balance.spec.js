@@ -55,7 +55,7 @@ test.describe('Balance', () => {
 
   test('user cant check transfer with invalid mnemonic for given address', async ({ page }) => {
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
-    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
+    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
     await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
@@ -69,7 +69,7 @@ test.describe('Balance', () => {
     // cPYpAjGY3GK1jTfGSVBoe6kS1hvRAY87vDbj2ZSbpgJA2inGHwfY
     await appVcrEjectCassette();
     await appVcrInsertCassette('balance_0', { allow_playback_repeats: true })
-    await page.goto('/hong_baos/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p?testnet=true');
+    await page.goto('/hong_baos/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p');
     await expect(page.locator('body')).toContainText('₿0', { timeout: 10_000 });
     await expect(page.getByRole('button', { name: "Next →" })).toBeDisabled();
   });
