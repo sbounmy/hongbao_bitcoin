@@ -69,7 +69,7 @@ Content::Quote.find_each do |quote|
 end if fixtures.include?('contents')
 
 Content::Product.find_each do |product|
-  attach(product, :slug, :image, [ 'contents', 'products' ])
+  attach(product, :slug, :image, [ 'contents', 'products' ], format: 'webp')
   product.save!
 end if fixtures.include?('contents')
 
