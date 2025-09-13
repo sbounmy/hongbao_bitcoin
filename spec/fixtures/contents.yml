@@ -112,7 +112,7 @@ product_etsy_stickers:
 product_hongbao_henry_ford:
   type: Content::Product
   parent: quote_henry_ford
-  slug: hongbao-henry-ford-envelope-set
+  slug: hongbao-henry-ford-energy-currency-stops-wars
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
@@ -124,7 +124,7 @@ product_hongbao_henry_ford:
 product_hongbao_satoshi:
   type: Content::Product
   parent: quote_satoshi
-  slug: hongbao-satoshi-nakamoto-1
+  slug: hongbao-satoshi-nakamoto-it-might-make-sense-just-to-get-some-in-case-it-catches-on
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
@@ -136,7 +136,7 @@ product_hongbao_satoshi:
 product_hongbao_andreas:
   type: Content::Product
   parent: quote_andreas
-  slug: hongbao-andreas-antonopoulos-envelope-set
+  slug: hongbao-andreas-antonopoulos-not-your-keys
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
@@ -148,7 +148,7 @@ product_hongbao_andreas:
 product_hongbao_saylor:
   type: Content::Product
   parent: quote_saylor
-  slug: hongbao-michael-saylor-envelope-set
+  slug: hongbao-michael-saylor-fix-the-money
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
@@ -160,7 +160,7 @@ product_hongbao_saylor:
 product_hongbao_bitcoiners:
   type: Content::Product
   parent: quote_bitcoiners
-  slug: hongbao-bitcoiners-envelope-set
+  slug: hongbao-bitcoiners-dont-trust-verify
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
@@ -172,7 +172,7 @@ product_hongbao_bitcoiners:
 product_hongbao_jack_mallers:
   type: Content::Product
   parent: quote_jack_mallers
-  slug: hongbao-jack-mallers-envelope-set
+  slug: hongbao-jack-mallers-no-man-should-work
   published_at: <%= 1.day.ago %>
   position: 1
   metadata:
