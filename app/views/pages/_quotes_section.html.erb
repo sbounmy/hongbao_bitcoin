@@ -53,7 +53,7 @@
 
         <!-- Quote Thumbnails Grid -->
         <div>
-          <div class="grid grid-cols-6 md:grid-cols-3 gap-3">
+          <div class="grid grid-cols-6 lg:grid-cols-3 gap-3">
             <!-- Dynamic Quote Buttons from Database -->
             <% quotes.each do |quote| %>
               <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
