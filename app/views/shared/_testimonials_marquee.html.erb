@@ -34,11 +34,11 @@
     %>
 
     <!-- Row 1: Right to Left (longer tweets) -->
-    <div class="marquee-group flex relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
+    <div class="marquee-group flex relative w-full overflow-hidden md:[mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
       <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee-right">
         <% row1_tweet_ids.each do |tweet_id| %>
           <li class="flex-shrink-0 mx-4">
-            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
+            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden md:[mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
               <%= render TweetComponent.new(tweet_id: tweet_id) %>
             </div>
           </li>
@@ -48,7 +48,7 @@
       <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee-right" aria-hidden="true">
         <% row1_tweet_ids.each do |tweet_id| %>
           <li class="flex-shrink-0 mx-4">
-            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
+            <div class="h-[400px] w-[350px] overflow-y-auto overflow-x-hidden md:[mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-50px),transparent_100%)]">
               <%= render TweetComponent.new(tweet_id: tweet_id) %>
             </div>
           </li>
@@ -68,11 +68,11 @@
     %>
 
     <!-- Row 2: Left to Right (shorter tweets) -->
-    <div class="marquee-group flex relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] mt-8">
+    <div class="marquee-group flex relative w-full overflow-hidden md:[mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] mt-8">
       <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee">
         <% row2_tweet_ids.each do |tweet_id| %>
           <li class="flex-shrink-0 mx-4">
-            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
+            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden md:[mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
               <%= render TweetComponent.new(tweet_id: tweet_id) %>
             </div>
           </li>
@@ -82,7 +82,7 @@
       <ul class="flex items-center justify-center md:justify-start flex-shrink-0 animate-marquee" aria-hidden="true" >
         <% row2_tweet_ids.each do |tweet_id| %>
           <li class="flex-shrink-0 mx-4">
-            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden [mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
+            <div class="h-[250px] w-[350px] overflow-y-auto overflow-x-hidden md:[mask-image:_linear-gradient(to_bottom,_black_0,_black_calc(100%-40px),transparent_100%)]">
               <%= render TweetComponent.new(tweet_id: tweet_id) %>
             </div>
           </li>
