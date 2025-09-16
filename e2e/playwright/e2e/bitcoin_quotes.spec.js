@@ -146,7 +146,7 @@ test.describe('Individual Quote Page', () => {
     await page.goto('/bitcoin-quotes/henry-ford-energy-currency-stops-wars');
 
     // Test breadcrumb navigation
-    await page.getByRole('link', { name: 'Bitcoin Quotes' }).click();
+    await page.getByRole('link', { name: 'Bitcoin Quotes' }).first().click();
     await expect(page).toHaveURL('/bitcoin-quotes');
 
     // Go back to quote page
