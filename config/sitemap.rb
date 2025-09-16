@@ -36,4 +36,13 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
       add "/blog/#{slug}", changefreq: "weekly", priority: 0.8
     end
   end
+
+  group(filename: :sitemap_contents) do
+    Content::Quote.all.each do |quote|
+      add bitcoin_content_path(klass: "quotes", slug: quote.slug), changefreq: "monthly"
+    end
+    Content::Product.all.each do |quote|
+      add bitcoin_content_path(klass: "products", slug: quote.slug), changefreq: "monthly"
+    end
+  end
 end
