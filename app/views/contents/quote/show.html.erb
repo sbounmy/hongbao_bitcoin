@@ -125,7 +125,7 @@
             <div class="card bg-primary/10 border-2 border-primary shadow-xl hover:shadow-2xl transition-all">
               <figure class="aspect-square bg-white">
                 <% if product.image.attached? %>
-                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-cover" %>
+                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-contain" %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-red-100">
                     <span class="text-4xl"><%= product.icon || '🛍️' %></span>
@@ -137,7 +137,7 @@
                 <h3 class="font-bold text-sm line-clamp-2"><%= product.title %></h3>
                 <div class="flex justify-between items-center mt-2">
                   <span class="font-bold text-lg">$<%= product.price %></span>
-                  <%= link_to product.product_url || "#", class: "btn btn-sm btn-primary" do %>
+                  <%= link_to pricing_path, class: "btn btn-sm btn-primary" do %>
                     Get it
                   <% end %>
                 </div>

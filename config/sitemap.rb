@@ -41,8 +41,5 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
     Content::Quote.all.each do |quote|
       add bitcoin_content_path(klass: "quotes", slug: quote.slug), changefreq: "monthly"
     end
-    Content::Product.all.each do |quote|
-      add bitcoin_content_path(klass: "products", slug: quote.slug), changefreq: "monthly"
-    end
   end
 end
