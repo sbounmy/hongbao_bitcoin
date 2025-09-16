@@ -7,6 +7,56 @@
     author: @content.author,
     quote: @content.text.truncate(100)
   )
+
+  # Set meta tags for SEO and social sharing
+  content_for :title, @page_title
+  content_for :description, @meta_description
+
+  # Determine the best image to use for Open Graph
+  quote_image = if @content.hongbao_products.published.first&.image&.attached?
+    url_for(@content.hongbao_products.published.first.image)
+  elsif @content.avatar.attached?
+    url_for(@content.avatar)
+  else
+    image_url('bill_hongbao.jpg') # fallback to Hong₿ao envelope image
+  end
+
+  content_for :og_image, quote_image
+
+  # Additional meta tags for better image SEO
+  content_for :head do
+%>
+    <meta property="og:image:alt" content="<%= @content.author %> Bitcoin quote: <%= @content.text.truncate(100) %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="<%= @content.author %>">
+
+    <%# Structured Data for Google %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Quotation",
+      "text": "<%= j(@content.text) %>",
+      "author": {
+        "@type": "Person",
+        "name": "<%= j(@content.author) %>"
+      },
+      "image": "<%= image_url(quote_image) %>",
+      "url": "<%= request.original_url %>",
+      "datePublished": "<%= @content.published_at&.iso8601 || @content.created_at.iso8601 %>",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hong₿ao",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "<%= image_url('logo.png') %>"
+        }
+      }
+    }
+    </script>
+<%
+  end
 %>
 
 <div class="min-h-screen bg-base-100">
@@ -24,6 +74,19 @@
 
     <!-- Main Quote Card with Gradient -->
     <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br from-orange-400 to-red-400">
+      <%# Hidden image for SEO - Google will index this %>
+      <% if @content.hongbao_products.published.first&.image&.attached? %>
+        <%= image_tag @content.hongbao_products.published.first.image,
+            alt: "#{@content.author} Bitcoin quote: #{@content.text.truncate(100)} - Hong₿ao envelope",
+            class: "hidden",
+            itemprop: "image" %>
+      <% elsif @content.avatar.attached? %>
+        <%= image_tag @content.avatar,
+            alt: "#{@content.author} - Bitcoin quote author",
+            class: "hidden",
+            itemprop: "image" %>
+      <% end %>
+
       <div class="card-body p-8 md:p-12">
 
         <!-- Author Avatar and Quote -->
@@ -42,17 +105,21 @@
             </div>
           <% end %>
 
-          <!-- Quote Text -->
-          <blockquote class="text-2xl md:text-3xl lg:text-4xl font-serif text-center mb-8 text-white">
-            "<%= @content.text %>"
-          </blockquote>
+          <!-- Quote Text with semantic HTML -->
+          <figure class='flex flex-col' itemscope itemtype="https://schema.org/Quotation">
+            <blockquote class="text-2xl md:text-3xl lg:text-4xl font-serif text-center mb-8 text-white" cite="<%= request.original_url %>">
+              <p itemprop="text">"<%= @content.text %>"</p>
+            </blockquote>
 
-          <!-- Author Info -->
-          <div class="text-center mb-6">
-            <h1 class="text-xl md:text-2xl font-bold text-white">
-              — <%= @content.author %>
-            </h1>
-          </div>
+            <!-- Author Info -->
+            <figcaption class="text-center mb-6">
+              <h1 class="text-xl md:text-2xl font-bold text-white">
+                — <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <span itemprop="name"><%= @content.author %></span>
+                  </span>
+              </h1>
+            </figcaption>
+          </figure>
         </div>
 
         <!-- Share Buttons -->
