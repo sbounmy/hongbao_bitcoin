@@ -159,7 +159,7 @@ RSpec.describe JsonLdComponent, type: :component do
       rendered = render_inline(component).to_html
 
       expect(rendered).to include('"@type": "Organization"')
-      expect(rendered).to include('"name": "Hong₿ao"')
+      expect(rendered).to include('"name": "HongBao"')
       expect(rendered).to include('"logo"')
       expect(rendered).to include('logo')
     end
