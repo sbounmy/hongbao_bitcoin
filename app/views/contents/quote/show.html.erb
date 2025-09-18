@@ -32,29 +32,8 @@
     <meta property="og:type" content="article">
     <meta property="article:author" content="<%= @content.author %>">
 
-    <%# Structured Data for Google %>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Quotation",
-      "text": "<%= j(@content.text) %>",
-      "author": {
-        "@type": "Person",
-        "name": "<%= j(@content.author) %>"
-      },
-      "image": "<%= image_url(quote_image) %>",
-      "url": "<%= request.original_url %>",
-      "datePublished": "<%= @content.published_at&.iso8601 || @content.created_at.iso8601 %>",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Hong₿ao",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "<%= image_url('logo.png') %>"
-        }
-      }
-    }
-    </script>
+    <%# Structured Data for Google using ViewComponent %>
+    <%= render(Contents::Quotes::JsonLdComponent.new(quote: @content)) %>
 <%
   end
 %>
