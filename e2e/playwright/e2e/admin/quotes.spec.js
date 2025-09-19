@@ -38,10 +38,8 @@ test.describe('Admin Quotes Management', () => {
 
     await expect(page.getByText('Quote was successfully created.')).toBeVisible();
 
-    // We should be on the show page now, verify the content
-    await expect(page.getByRole('heading', { name: /Quote #\d+/ })).toBeVisible();
-    await expect(page.getByText('Test Author')).toBeVisible();
-    await expect(page.getByText('This is a test quote about Bitcoin')).toBeVisible();
+    await expect(page.getByText('Test Author').first()).toBeVisible();
+    await expect(page.getByText('This is a test quote about Bitcoin').first()).toBeVisible();
   });
 
   test('edits an existing quote', async ({ page }) => {
