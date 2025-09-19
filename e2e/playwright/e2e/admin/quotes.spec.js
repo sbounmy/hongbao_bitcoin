@@ -28,7 +28,6 @@ test.describe('Admin Quotes Management', () => {
 
     await expect(page.getByRole('heading', { name: 'New Quote' })).toBeVisible();
 
-    await page.getByLabel('Slug').fill('test-quote-slug');
     await page.getByLabel('Position').fill('1');
 
     await page.getByLabel('Author').fill('Test Author');
@@ -38,8 +37,10 @@ test.describe('Admin Quotes Management', () => {
     await page.getByRole('button', { name: 'Create Quote' }).click();
 
     await expect(page.getByText('Quote was successfully created.')).toBeVisible();
-    await page.goto('/bitcoin-quotes/test-quote-slug');
-    await expect(page.getByText('Test Author').first()).toBeVisible();
+
+    // We should be on the show page now, verify the content
+    await expect(page.getByRole('heading', { name: /Quote #\d+/ })).toBeVisible();
+    await expect(page.getByText('Test Author')).toBeVisible();
     await expect(page.getByText('This is a test quote about Bitcoin')).toBeVisible();
   });
 
@@ -50,13 +51,12 @@ test.describe('Admin Quotes Management', () => {
 
     await page.getByLabel('Author').fill('Updated Author');
     await page.getByLabel('Text').fill('This is an updated quote about Bitcoin');
-    await page.getByLabel('Slug').fill('updated-quote-slug');
 
 
     await page.getByRole('button', { name: 'Update Quote' }).click();
 
     await expect(page.getByText('Quote was successfully updated.')).toBeVisible();
-    await page.goto('/bitcoin-quotes/updated-quote-slug');
+    await page.goto('/bitcoin-quotes/updated-author-this-is-an-updated-quote-about-bitcoin');
     await expect(page.getByText('Updated Author').first()).toBeVisible();
     await expect(page.getByText('This is an updated quote about Bitcoin')).toBeVisible();
 });
