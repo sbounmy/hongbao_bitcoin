@@ -10,7 +10,14 @@ class ContentsController < ApplicationController
   end
 
   def show
-    @content = @content_class.published.find_by!(slug: params[:slug])
+    @content = @content_class.published.friendly.find(params[:slug])
+
+    # Redirect to the current slug if accessing via an old slug for SEO
+    if params[:slug] != @content.slug
+      redirect_to bitcoin_content_path(@content, klass: params[:klass]), status: :moved_permanently
+      return
+    end
+
     @content.increment!(:impressions_count)
     @related = @content_class.published
                              .where.not(id: @content.id)

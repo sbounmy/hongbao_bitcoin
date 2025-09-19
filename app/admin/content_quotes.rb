@@ -6,6 +6,83 @@ ActiveAdmin.register Content::Quote, as: "Quote" do
   action_item :view, only: :show do
     link_to "Preview", bitcoin_content_path(resource, klass: "quotes"), target: "_blank"
   end
+
+  action_item :import, only: :index do
+    link_to "Import CSV", import_csv_admin_quotes_path, class: "button"
+  end
+
+  action_item :export, only: :index do
+    link_to "Export CSV", export_csv_admin_quotes_path(format: :csv), class: "button"
+  end
+
+  collection_action :import_csv, method: :get do
+    render "admin/quotes/import_csv"
+  end
+
+  collection_action :do_import_csv, method: :post do
+    require "csv"
+
+    if params[:file].blank?
+      redirect_to admin_quotes_path, alert: "Please select a CSV file to import"
+      return
+    end
+
+    imported = 0
+    skipped = 0
+    errors = []
+
+    begin
+      CSV.foreach(params[:file].path, headers: true) do |row|
+        author = row["author"]
+        text = row["text"]
+
+        # Check if quote already exists (author and text are in metadata JSON)
+        existing_quote = Content::Quote.where("metadata->>'author' = ? AND metadata->>'text' = ?", author, text).first
+
+        if existing_quote
+          skipped += 1
+          next
+        end
+
+        quote = Content::Quote.new(
+          author: author,
+          text: text,
+          published_at: Date.current
+        )
+
+        if quote.save
+          imported += 1
+        else
+          errors << "#{author} - #{text[0..50]}...: #{quote.errors.full_messages.join(', ')}"
+        end
+      end
+
+      message = "Import completed! Imported: #{imported} quotes, Skipped: #{skipped} duplicates"
+      message += "\nErrors: #{errors.join('; ')}" if errors.any?
+
+      redirect_to admin_quotes_path, notice: message
+    rescue => e
+      redirect_to admin_quotes_path, alert: "Import failed: #{e.message}"
+    end
+  end
+
+  collection_action :export_csv, method: :get do
+    require "csv"
+
+    csv_string = CSV.generate(headers: true) do |csv|
+      csv << [ "author", "text", "published_at", "slug" ]
+
+      Content::Quote.order(:published_at).each do |quote|
+        csv << [ quote.author, quote.text, quote.published_at, quote.slug ]
+      end
+    end
+
+    send_data csv_string,
+              filename: "quotes_export_#{Time.current.strftime('%Y%m%d_%H%M%S')}.csv",
+              type: "text/csv",
+              disposition: "attachment"
+  end
+
   # Customize index page
   index do
     selectable_column

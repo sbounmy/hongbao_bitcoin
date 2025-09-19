@@ -1,6 +1,9 @@
 class Content::Quote < Content
   metadata :author, :text
 
+  # Override parent's friendly_id to use slug_candidates
+  friendly_id :slug_candidates, use: [ :slugged, :history ]
+
   def best_image
     if hongbao_products.published.first&.image&.attached?
       hongbao_products.published.first.image
@@ -11,13 +14,23 @@ class Content::Quote < Content
     end
   end
 
+  # FriendlyId will try these in order until it finds one that's unique
+  def slug_candidates
+    [
+      [ :author, :text ],
+      [ :author, :text, :id ]
+    ]
+  end
+
+  # Override to normalize the text without truncating
+  def normalize_friendly_id(value)
+    value.to_s.parameterize(preserve_case: false)
+  end
+
   protected
 
-  def generate_slug
-    return if slug.present?
-
-    base = "#{author}-#{text}".parameterize
-    self.slug = base.truncate(60, omission: "")
+  def should_generate_new_friendly_id?
+    author_changed? || text_changed? || super
   end
 
   def generate_seo_fields

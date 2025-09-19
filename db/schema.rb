@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_170839) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_19_041137) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -82,6 +82,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_170839) do
     t.index ["slug", "type"], name: "index_contents_on_slug_and_type", unique: true
     t.index ["type", "published_at"], name: "index_contents_on_type_and_published_at"
     t.index ["type"], name: "index_contents_on_type"
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "identities", force: :cascade do |t|

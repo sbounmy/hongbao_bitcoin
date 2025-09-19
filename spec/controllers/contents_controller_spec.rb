@@ -100,6 +100,133 @@ RSpec.describe ContentsController, type: :controller do
       end
     end
 
+    context 'with FriendlyId history and SEO redirects' do
+      it 'redirects from old slug to new slug after text change' do
+        # Create a fresh quote to ensure FriendlyId history is properly initialized
+        quote = Content::Quote.create!(
+          author: "Test Bitcoiner",
+          text: "Don't trust, verify",
+          published_at: Date.current
+        )
+        original_slug = quote.slug
+
+        # Update quote to generate new slug
+        quote.update!(text: "Always verify, never trust")
+        new_slug = quote.slug
+
+        expect(new_slug).not_to eq(original_slug)
+
+        # Access with old slug should redirect to new slug with 301
+        get :show, params: { klass: 'quotes', slug: original_slug }
+
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
+      end
+
+      it 'redirects from old slug to new slug after author change' do
+        # Create a fresh quote to ensure FriendlyId history is properly initialized
+        quote = Content::Quote.create!(
+          author: "Michael Saylor",
+          text: "Fix the money, fix the world",
+          published_at: Date.current
+        )
+        original_slug = quote.slug
+
+        # Update quote to generate new slug
+        quote.update!(author: "Michael J. Saylor")
+        new_slug = quote.slug
+
+        expect(new_slug).not_to eq(original_slug)
+
+        # Access with old slug should redirect to new slug with 301
+        get :show, params: { klass: 'quotes', slug: original_slug }
+
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
+      end
+
+      it 'redirects through multiple slug changes' do
+        # Create a fresh quote to ensure FriendlyId history is properly initialized
+        quote = Content::Quote.create!(
+          author: "Andreas Antonopoulos",
+          text: "Not your keys, not your coins",
+          published_at: Date.current
+        )
+
+        # Store original slug
+        first_slug = quote.slug
+
+        # First update
+        quote.update!(text: "Your keys, your Bitcoin")
+        second_slug = quote.slug
+
+        # Second update
+        quote.update!(text: "Control your keys, control your future")
+        third_slug = quote.slug
+        current_slug = third_slug
+
+        # All previous slugs should redirect to current slug
+        [ first_slug, second_slug ].each do |old_slug|
+          get :show, params: { klass: 'quotes', slug: old_slug }
+          expect(response).to have_http_status(:moved_permanently)
+          expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
+        end
+
+        # Current slug should not redirect
+        get :show, params: { klass: 'quotes', slug: current_slug }
+        expect(response).to have_http_status(:success)
+        expect(response).not_to be_redirect
+      end
+
+      it 'handles redirects for multiple different quotes' do
+        # Create fresh quotes to ensure FriendlyId history is properly initialized
+        quote1 = Content::Quote.create!(
+          author: "Henry Ford",
+          text: "An energy currency can stop wars",
+          published_at: Date.current
+        )
+
+        quote2 = Content::Quote.create!(
+          author: "Jack Mallers",
+          text: "No man should work for what another man can print",
+          published_at: Date.current
+        )
+
+        # Store original slugs
+        original_slug1 = quote1.slug
+        original_slug2 = quote2.slug
+
+        # Update both quotes
+        quote1.update!(text: "Energy money prevents conflicts")
+        quote2.update!(text: "Don't work for printed money")
+
+        # Old slug for quote1 should redirect to quote1's new slug
+        get :show, params: { klass: 'quotes', slug: original_slug1 }
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote1, klass: 'quotes'))
+
+        # Old slug for quote2 should redirect to quote2's new slug
+        get :show, params: { klass: 'quotes', slug: original_slug2 }
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote2, klass: 'quotes'))
+      end
+
+      it 'does not redirect when accessing with current slug' do
+        quote = Content::Quote.create!(
+          author: "Satoshi Nakamoto",
+          text: "If you don't believe it or don't get it",
+          published_at: Date.current
+        )
+
+        # Access with current slug should not redirect
+        get :show, params: { klass: 'quotes', slug: quote.slug }
+
+        expect(response).to have_http_status(:success)
+        expect(response).not_to be_redirect
+        expect(assigns(:content)).to eq(quote)
+      end
+    end
+
     context 'with invalid slug' do
       it 'raises RecordNotFound' do
         expect {

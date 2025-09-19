@@ -1,0 +1,47 @@
+<div class="panel">
+  <h3>Import Quotes from CSV</h3>
+
+  <div class="panel_contents">
+    <%= form_tag do_import_csv_admin_quotes_path, multipart: true, class: "formtastic" do %>
+      <fieldset class="inputs">
+        <ol>
+          <li class="file input">
+            <label class="label" for="file">CSV File</label>
+            <%= file_field_tag :file, accept: ".csv", required: true %>
+            <p class="inline-hints">
+              Upload a CSV file with columns: author, text<br>
+              Example format:<br>
+              <code>author,text</code><br>
+              <code>"Michael Saylor","Fix the Money, Fix the World"</code><br>
+              <em>Note: All quotes will be published with today's date</em>
+            </p>
+          </li>
+        </ol>
+      </fieldset>
+
+      <fieldset class="actions">
+        <ol>
+          <li class="action input_action">
+            <%= submit_tag "Import Quotes", class: "button" %>
+            <%= link_to "Cancel", admin_quotes_path, class: "button cancel" %>
+          </li>
+        </ol>
+      </fieldset>
+    <% end %>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Sample CSV Format</h3>
+  <div class="panel_contents">
+    <pre>author,text
+"Michael Saylor","Fix the Money, Fix the World"
+"Satoshi Nakamoto","It might make sense just to get some in case it catches on"
+"Bitcoiners","Don't trust, verify."</pre>
+
+    <p style="margin-top: 15px;">
+      <strong>Download sample file:</strong>
+      <%= link_to "quotes.csv", "/db/seeds/quotes.csv", download: "quotes_sample.csv" %>
+    </p>
+  </div>
+</div>

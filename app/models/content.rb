@@ -2,7 +2,8 @@ class Content < ApplicationRecord
   include Metadata
   extend FriendlyId
 
-  friendly_id :slug, use: :slugged
+  friendly_id :slug, use: [ :slugged, :history ]
+
   validates :slug, presence: true, uniqueness: true
 
   # Active Storage attachments
