@@ -13,13 +13,7 @@
   content_for :description, @meta_description
 
   # Determine the best image to use for Open Graph
-  quote_image = if @content.hongbao_products.published.first&.image&.attached?
-    url_for(@content.hongbao_products.published.first.image)
-  elsif @content.avatar.attached?
-    url_for(@content.avatar)
-  else
-    image_url('bill_hongbao.jpg') # fallback to Hong₿ao envelope image
-  end
+  quote_image = @content.best_image ? url_for(@content.best_image) : image_url('bill_hongbao.jpg')
 
   content_for :og_image, quote_image
 
@@ -27,10 +21,12 @@
   content_for :head do
 %>
     <meta property="og:image:alt" content="<%= @content.author %> Bitcoin quote: <%= @content.text.truncate(100) %>">
+    <meta name="twitter:image:alt" content="<%= @content.author %> - <%= @content.text.truncate(100) %>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:type" content="article">
     <meta property="article:author" content="<%= @content.author %>">
+    <link rel="canonical" href="<%= bitcoin_content_url(klass: 'quotes', slug: @content.slug) %>">
 
     <%# Structured Data for Google using ViewComponent %>
     <%= render(Contents::Quotes::JsonLdComponent.new(quote: @content)) %>
@@ -54,16 +50,15 @@
     <!-- Main Quote Card with Gradient -->
     <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br from-orange-400 to-red-400">
       <%# Hidden image for SEO - Google will index this %>
-      <% if @content.hongbao_products.published.first&.image&.attached? %>
-        <%= image_tag @content.hongbao_products.published.first.image,
-            alt: "#{@content.author} Bitcoin quote: #{@content.text.truncate(100)} - Hong₿ao envelope",
+      <% if @content.best_image %>
+        <% alt_text = @content.hongbao_products.published.first&.image&.attached? ? 
+                      "#{@content.author} quote: #{@content.text} - Bitcoin quote gift envelope hongbao" :
+                      "#{@content.author} portrait - #{@content.text} Bitcoin quote" %>
+        <%= image_tag @content.best_image,
+            alt: alt_text,
             class: "hidden",
-            itemprop: "image" %>
-      <% elsif @content.avatar.attached? %>
-        <%= image_tag @content.avatar,
-            alt: "#{@content.author} - Bitcoin quote author",
-            class: "hidden",
-            itemprop: "image" %>
+            itemprop: "image",
+            title: "#{@content.author}: #{@content.text}" %>
       <% end %>
 
       <div class="card-body p-8 md:p-12">

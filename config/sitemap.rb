@@ -39,7 +39,22 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
 
   group(filename: :sitemap_contents) do
     Content::Quote.all.each do |quote|
-      add bitcoin_content_path(klass: "quotes", slug: quote.slug), changefreq: "monthly"
+      # Determine the best image for the quote
+      image_url = if quote.best_image
+        Rails.application.routes.url_helpers.url_for(quote.best_image)
+      else
+        "#{SitemapGenerator::Sitemap.default_host}/assets/bill_hongbao.jpg"
+      end
+
+      add bitcoin_content_path(klass: "quotes", slug: quote.slug),
+          changefreq: "monthly",
+          images: [ {
+            loc: image_url,
+            title: "#{quote.author} #{quote.text} - Bitcoin quote gift envelope hongbao",
+            caption: quote.text,
+            geo_location: "Worldwide",
+            license: "https://creativecommons.org/licenses/by-sa/4.0/"
+          } ]
     end
   end
 end

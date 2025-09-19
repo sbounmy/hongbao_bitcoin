@@ -1,6 +1,16 @@
 class Content::Quote < Content
   metadata :author, :text
 
+  def best_image
+    if hongbao_products.published.first&.image&.attached?
+      hongbao_products.published.first.image
+    elsif avatar.attached?
+      avatar
+    else
+      "/assets/bill_hongbao.jpg"
+    end
+  end
+
   protected
 
   def generate_slug
