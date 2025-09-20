@@ -1,6 +1,6 @@
 class SavedHongBaosController < ApplicationController
   before_action :set_saved_hong_bao, only: [ :show, :destroy ]
-  before_action :set_network, only: [ :create, :show ]
+  before_action :set_network, only: [ :create ]
 
   def index
     @saved_hong_baos = current_user.saved_hong_baos.order(gifted_at: :desc)
@@ -21,11 +21,6 @@ class SavedHongBaosController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def show
-    @balance = @saved_hong_bao.balance
-    @transactions = @balance.transactions
   end
 
   def destroy
