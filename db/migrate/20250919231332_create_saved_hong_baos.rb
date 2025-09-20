@@ -13,6 +13,6 @@ class CreateSavedHongBaos < ActiveRecord::Migration[8.0]
     end
 
     add_index :saved_hong_baos, :address
-    add_index :saved_hong_baos, [:user_id, :address], unique: true
+    add_index :saved_hong_baos, [ :user_id, :address ], unique: true
   end
 end
