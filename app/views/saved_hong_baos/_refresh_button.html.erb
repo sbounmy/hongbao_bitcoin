@@ -1,0 +1,14 @@
+<%= button_to refresh_saved_hong_bao_path(saved_hong_bao),
+    method: :post,
+    class: "btn btn-outline btn-sm",
+    disabled: !saved_hong_bao.needs_refresh?,
+    data: { turbo_method: :post } do %>
+  <%= heroicon "arrow-path", variant: :outline, class: "w-4 h-4" %>
+  <% if saved_hong_bao.needs_refresh? %>
+    Refresh
+  <% elsif saved_hong_bao.last_fetched_at %>
+    Updated <%= time_ago_in_words(saved_hong_bao.last_fetched_at) %> ago
+  <% else %>
+    Refreshing...
+  <% end %>
+<% end %>

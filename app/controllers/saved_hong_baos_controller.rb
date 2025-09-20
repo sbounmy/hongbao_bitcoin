@@ -1,11 +1,9 @@
 class SavedHongBaosController < ApplicationController
-  before_action :set_saved_hong_bao, only: [ :show, :destroy ]
+  before_action :set_saved_hong_bao, only: [ :destroy, :refresh ]
   before_action :set_network, only: [ :create ]
 
   def index
     @saved_hong_baos = current_user.saved_hong_baos.order(gifted_at: :desc)
-    @total_balance_btc = @saved_hong_baos.sum(&:btc)
-    @total_balance_usd = @saved_hong_baos.sum(&:usd)
   end
 
   def new
@@ -17,7 +15,8 @@ class SavedHongBaosController < ApplicationController
     @saved_hong_bao = current_user.saved_hong_baos.build(saved_hong_bao_params)
 
     if @saved_hong_bao.save
-      redirect_to saved_hong_baos_path, notice: "Hong Bao saved successfully!"
+      # Model broadcasts automatically via after_create_commit callback
+      redirect_to saved_hong_baos_path, notice: "Hong Bao saved! Fetching balance..."
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,6 +25,11 @@ class SavedHongBaosController < ApplicationController
   def destroy
     @saved_hong_bao.destroy
     redirect_to saved_hong_baos_path, notice: "Hong Bao removed from saved list."
+  end
+
+  def refresh
+    RefreshSavedHongBaoBalanceJob.perform_later(@saved_hong_bao.id)
+    redirect_to @saved_hong_bao, notice: "Balance refresh initiated. Please wait a moment."
   end
 
   def scan

@@ -157,6 +157,98 @@ If the project uses Hotwire:
 - Create Stimulus controllers
 - Keep interactions smooth
 
+### Component-Based Broadcasting Pattern
+
+**ALWAYS** use ViewComponents with model callbacks for Turbo Stream broadcasts:
+
+```ruby
+# ✅ GOOD - Component-based broadcasting in model
+class SavedHongBao < ApplicationRecord
+  after_create_commit :broadcast_prepend_to_user
+  after_update_commit :broadcast_replace_to_user
+  
+  private
+  
+  def broadcast_prepend_to_user
+    broadcast_prepend_to(
+      "user_#{user_id}_saved_hong_baos",
+      target: "saved_hong_baos_table",
+      renderable: SavedHongBaos::ItemComponent.new(saved_hong_bao: self, view_type: :table)
+    )
+  end
+end
+
+# ❌ BAD - Manual Turbo Stream responses in controller
+def create
+  @saved_hong_bao = SavedHongBao.create(params)
+  respond_to do |format|
+    format.turbo_stream do
+      render turbo_stream: turbo_stream.prepend(...)
+    end
+  end
+end
+```
+
+**Component Structure:**
+```ruby
+# app/components/saved_hong_baos/item_component.rb
+module SavedHongBaos
+  class ItemComponent < ApplicationComponent
+    with_collection_parameter :saved_hong_bao  # Required when component name doesn't match parameter
+    
+    def initialize(saved_hong_bao:, view_type: :table)
+      @saved_hong_bao = saved_hong_bao
+      @view_type = view_type
+    end
+    
+    private
+    
+    def loading?
+      # Implement loading state logic
+      saved_hong_bao.last_fetched_at.nil?
+    end
+  end
+end
+```
+
+### ViewComponent Collection Rendering
+
+**ALWAYS** use `with_collection` for rendering multiple components:
+
+**IMPORTANT:** Add `with_collection_parameter` declaration when:
+- The component class name doesn't match the expected parameter name
+- Example: `ItemComponent` expects `saved_hong_bao` parameter, not `item`
+- Without this, ViewComponent won't know how to map collection items
+
+```erb
+# ❌ BAD - Manual iteration
+<% @saved_hong_baos.each do |saved_hong_bao| %>
+  <%= render SavedHongBaos::ItemComponent.new(saved_hong_bao: saved_hong_bao, view_type: :card) %>
+<% end %>
+
+# ✅ GOOD - Collection rendering
+<%= render SavedHongBaos::ItemComponent.with_collection(@saved_hong_baos, view_type: :card) %>
+```
+
+### Hash Value Shorthand
+
+**ALWAYS** use Ruby 3.1+ hash shorthand when variable names match parameter names:
+
+```erb
+# ❌ VERBOSE - Unnecessary repetition
+<%= render SavedHongBaos::ItemComponent.new(saved_hong_bao: saved_hong_bao, view_type: :card) %>
+
+# ✅ CLEAN - Hash shorthand
+<%= render SavedHongBaos::ItemComponent.new(saved_hong_bao:, view_type: :card) %>
+```
+
+This pattern provides:
+- Cleaner separation of concerns
+- Automatic broadcasts on model changes
+- Reusable components
+- Support for loading/skeleton states
+- Consistent rendering across the app
+
 Remember: Views should be clean, semantic, and focused on presentation. Business logic belongs in models or service objects, not in views.
 
 ## Blog Post Guidelines

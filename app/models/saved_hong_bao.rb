@@ -6,46 +6,45 @@ class SavedHongBao < ApplicationRecord
   validates :address, uniqueness: { scope: :user_id, message: "has already been saved" }
   validate :valid_bitcoin_address
 
-  before_create :set_initial_data
-
-  def balance
-    Current.network = Current.network_from_key(address)
-    @balance ||= Balance.new(address: address)
-  end
-
-  def satoshis
-    balance.satoshis
-  end
+  after_create_commit :schedule_balance_refresh
+  after_create_commit :broadcast_prepend_to_user
+  after_update_commit :broadcast_replace_to_user
 
   def btc
-    satoshis.to_f / 100_000_000
+    (current_sats || 0).to_f / 100_000_000
   end
 
   def usd
-    satoshis.to_f / 100_000_000 * Spot.new.to(:usd)
+    btc * (current_spot || 0)
   end
 
-  def withdrawn?
-    satoshis < initial_balance
+  def initial_btc
+    (initial_sats || 0).to_f / 100_000_000
   end
 
-  def untouched?
-    satoshis == initial_balance
+  def initial_usd
+    initial_btc * (initial_spot || 0)
   end
 
   def balance_change
-    satoshis - initial_balance
+    (current_sats || 0) - (initial_sats || 0)
   end
 
   def balance_change_percentage
-    # Calculate percentage based on USD values for more accurate representation
-    return 0 if initial_usd.nil? || initial_usd == 0
+    return 0 if initial_usd == 0
     ((usd_change / initial_usd) * 100).round(2)
   end
 
   def usd_change
-    return 0 if initial_usd.nil?
     usd - initial_usd
+  end
+
+  def withdrawn?
+    current_sats.zero?
+  end
+
+  def untouched?
+    current_sats == initial_sats
   end
 
   def status
@@ -58,7 +57,53 @@ class SavedHongBao < ApplicationRecord
     end
   end
 
+  def needs_refresh?
+    last_fetched_at.nil? || last_fetched_at < 1.hour.ago
+  end
+
+  def schedule_balance_refresh
+    RefreshSavedHongBaoBalanceJob.perform_later(id)
+  end
+
+  def refresh_balance
+    save!
+  end
+
+  # For backward compatibility with views/controllers
+  def balance
+    Current.network = Current.network_from_key(address)
+    @balance ||= Balance.new(address: address)
+  end
+
   private
+
+  def broadcast_prepend_to_user
+    broadcast_prepend_to(
+      "user_#{user_id}_saved_hong_baos",
+      target: "saved_hong_baos_table",
+      renderable: SavedHongBaos::ItemComponent.new(saved_hong_bao: self, view_type: :table)
+    )
+
+    broadcast_prepend_to(
+      "user_#{user_id}_saved_hong_baos",
+      target: "saved_hong_baos_cards",
+      renderable: SavedHongBaos::ItemComponent.new(saved_hong_bao: self, view_type: :card)
+    )
+  end
+
+  def broadcast_replace_to_user
+    broadcast_replace_to(
+      "user_#{user_id}_saved_hong_baos",
+      target: "saved_hong_bao_#{id}",
+      renderable: SavedHongBaos::ItemComponent.new(saved_hong_bao: self, view_type: :table)
+    )
+
+    broadcast_replace_to(
+      "user_#{user_id}_saved_hong_baos",
+      target: "saved_hong_bao_card_#{id}",
+      renderable: SavedHongBaos::ItemComponent.new(saved_hong_bao: self, view_type: :card)
+    )
+  end
 
   def valid_bitcoin_address
     return if address.blank?
@@ -70,25 +115,6 @@ class SavedHongBao < ApplicationRecord
     # - Native SegWit (bc1, tb1)
     unless address.match?(/\A(?:[13][a-km-zA-HJ-NP-Z1-9]{25,34}|[mn2][a-km-zA-HJ-NP-Z1-9]{25,34}|(?:bc|tb)1[a-zA-HJ-NP-Z0-9]{25,39})\z/)
       errors.add(:address, "is not a valid Bitcoin address")
-    end
-  end
-
-  def set_initial_data
-    # Fetch balance and transaction data once during creation
-    balance_obj = Balance.new(address: address)
-
-    # Set initial balance in satoshis
-    self.initial_balance = balance_obj.satoshis
-
-    # Set gifted_at from first transaction timestamp, or current time if no transactions
-    first_transaction = balance_obj.transactions.first
-    self.gifted_at ||= first_transaction&.timestamp
-
-    # Set initial USD value using Spot price at the gifted date
-    if initial_balance > 0 && gifted_at
-      btc_amount = initial_balance.to_f / 100_000_000
-      spot_price = Spot.new(date: gifted_at).to(:usd)
-      self.initial_usd = (btc_amount * spot_price).round(2) if spot_price
     end
   end
 end

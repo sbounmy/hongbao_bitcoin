@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
   resources :saved_hong_baos do
     post :scan, on: :collection
+    post :refresh, on: :member
   end
 
   resources :checkout, only: [ :new, :create, :update ] do

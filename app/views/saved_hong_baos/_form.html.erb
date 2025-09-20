@@ -1,0 +1,33 @@
+<%= form_with model: saved_hong_bao, id: "new_saved_hong_bao" do |form| %>
+  <% if saved_hong_bao.errors.any? %>
+    <div class="alert alert-error mb-6">
+      <div>
+        <h3 class="font-bold">Please fix the following errors:</h3>
+        <ul class="mt-2">
+          <% saved_hong_bao.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-control">
+    <%= form.label :name, "Recipient Name", class: "label" %>
+    <%= form.text_field :name, class: "input input-bordered w-full", required: true, placeholder: "e.g., My Friend Alice" %>
+  </div>
+
+  <div class="form-control mt-4">
+    <%= form.label :address, "Bitcoin Address", class: "label" %>
+    <%= form.text_field :address, class: "input input-bordered w-full font-mono text-sm", required: true, placeholder: "bc1q..." %>
+  </div>
+
+  <div class="form-control mt-4">
+    <%= form.label :notes, "Notes (optional)", class: "label" %>
+    <%= form.text_area :notes, class: "textarea textarea-bordered w-full", rows: 3, placeholder: "Any notes about this Hong Bao..." %>
+  </div>
+
+  <div class="mt-6">
+    <%= form.submit "Save Hong Bao", class: "btn btn-primary w-full" %>
+  </div>
+<% end %>

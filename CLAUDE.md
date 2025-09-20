@@ -78,10 +78,11 @@ yarn watch:css      # Watch and rebuild CSS
 
 ### Important Patterns
 - Use ViewComponents for new UI components instead of partials
-- Turbo Streams for dynamic updates (e.g., `app/views/papers/like.turbo_stream.erb`)
+- Turbo Streams via model callbacks (follow Paper model pattern)
+- Component-based broadcasting for real-time updates
 - Stimulus controllers for JavaScript behavior
 - Admin resources defined in `app/admin/`
-- Background jobs inherit from `ApplicationJob`
+- Background jobs inherit from `ApplicationJob` and only update models (broadcasting happens automatically)
 
 ### Development Notes
 - **Port 3001** is used for development server (not 3000)
@@ -130,6 +131,132 @@ The following specialized agents work together to implement your requests:
 - Prefer clarity over cleverness
 - Write self-documenting code
 - Keep controllers skinny - extract complex logic to concerns, helpers, or service objects
+
+### Real-time Updates & Turbo Streams Best Practices
+
+**Always use the Component-Based Broadcasting Pattern (like Paper model):**
+
+1. **Create ViewComponents for rendering** instead of partials:
+```ruby
+module ModelName
+  class ItemComponent < ApplicationComponent
+    def initialize(model:, view_type: :default)
+      @model = model
+      @view_type = view_type
+    end
+    
+    private
+    
+    def loading?
+      # Define loading state logic
+    end
+  end
+end
+```
+
+2. **Model handles broadcasting via callbacks**:
+```ruby
+class Model < ApplicationRecord
+  after_create_commit :broadcast_prepend
+  after_update_commit :broadcast_replace
+  after_destroy_commit :broadcast_remove
+  
+  private
+  
+  def broadcast_prepend
+    broadcast_prepend_to(
+      "user_#{user_id}_channel",
+      target: "dom_target", 
+      renderable: ModelName::ItemComponent.new(model: self)
+    )
+  end
+  
+  def broadcast_replace
+    broadcast_replace_to(
+      "user_#{user_id}_channel",
+      target: "model_#{id}",
+      renderable: ModelName::ItemComponent.new(model: self)
+    )
+  end
+end
+```
+
+3. **Background jobs just update and save** - no manual broadcasting:
+```ruby
+class UpdateModelJob < ApplicationJob
+  def perform(model_id)
+    model = Model.find(model_id)
+    model.update!(attributes)  # Triggers broadcasts automatically via callbacks
+  end
+end
+```
+
+4. **Controllers stay simple** - no manual Turbo Stream responses:
+```ruby
+def create
+  @model = current_user.models.build(params)
+  if @model.save
+    redirect_to models_path  # Model broadcasts automatically
+  else
+    render :new
+  end
+end
+```
+
+5. **Views use components with collections**:
+```erb
+<%= turbo_stream_from "user_#{current_user.id}_channel" %>
+<div id="dom_target">
+  <%= render ModelName::ItemComponent.with_collection(@models, view_type: :table) %>
+</div>
+```
+
+**ViewComponent Best Practices:**
+- Use `with_collection` for rendering multiple components instead of manual iteration
+- Add `with_collection_parameter` when component name doesn't match the parameter name
+- Use Ruby hash shorthand when variable names match parameter names
+
+```ruby
+# Component must declare collection parameter when name doesn't match
+module SavedHongBaos
+  class ItemComponent < ApplicationComponent
+    with_collection_parameter :saved_hong_bao  # Required since component is "ItemComponent" not "SavedHongBaoComponent"
+    
+    def initialize(saved_hong_bao:, view_type: :table)
+      @saved_hong_bao = saved_hong_bao
+      @view_type = view_type
+    end
+  end
+end
+```
+
+```erb
+# ❌ BAD - Manual iteration
+<% @models.each do |model| %>
+  <%= render ModelName::ItemComponent.new(model: model, view_type: :card) %>
+<% end %>
+
+# ✅ GOOD - Collection rendering
+<%= render ModelName::ItemComponent.with_collection(@models, view_type: :card) %>
+
+# ✅ GOOD - Hash shorthand when names match
+<%= render Papers::ItemComponent.new(paper:, layout:) %>
+```
+
+**Benefits of this approach:**
+- Single component handles all rendering scenarios (table/card/list views)
+- Loading/skeleton states handled elegantly in component
+- Automatic broadcasting via model callbacks
+- No duplicate partials or manual Turbo Stream responses
+- Clean separation of concerns
+- Consistent with existing Paper model pattern
+
+**Anti-patterns to avoid:**
+- ❌ Manual Turbo::StreamsChannel.broadcast_* calls in controllers or jobs
+- ❌ Multiple partial files for the same content
+- ❌ format.turbo_stream responses in controller actions
+- ❌ Broadcasting logic scattered across jobs/controllers
+- ❌ Duplicate rendering logic in partials vs components
 
 ### View Development Best Practices
 

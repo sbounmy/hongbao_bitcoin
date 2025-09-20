@@ -15,6 +15,10 @@ class Spot
     @date = date
   end
 
+  def self.current(currency)
+    new.to(currency)
+  end
+
   def to(currency)
     currency = currency.to_sym.downcase
     raise ArgumentError, "Unsupported currency: #{currency}" unless SUPPORTED_CURRENCIES.include?(currency)

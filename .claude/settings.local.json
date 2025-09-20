@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bundle exec rspec:*)",
+      "Bash(bin/rails:*)",
+      "Bash(bundle exec rails runner:*)",
+      "Bash(npx playwright test:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

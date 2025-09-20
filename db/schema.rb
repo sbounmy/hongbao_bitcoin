@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_231332) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -199,12 +199,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_231332) do
     t.integer "user_id", null: false
     t.string "name", null: false
     t.string "address", null: false
-    t.integer "initial_balance", default: 0
-    t.decimal "initial_usd", precision: 10, scale: 2
+    t.integer "initial_sats", default: 0
+    t.decimal "initial_spot", precision: 10, scale: 2
     t.text "notes"
     t.datetime "gifted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "current_sats", limit: 8
+    t.decimal "current_spot", precision: 10, scale: 2
+    t.datetime "last_fetched_at"
     t.index ["address"], name: "index_saved_hong_baos_on_address"
     t.index ["user_id", "address"], name: "index_saved_hong_baos_on_user_id_and_address", unique: true
     t.index ["user_id"], name: "index_saved_hong_baos_on_user_id"
