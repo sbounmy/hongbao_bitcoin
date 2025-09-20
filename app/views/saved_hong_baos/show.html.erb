@@ -129,7 +129,7 @@
                     <td>
                       <div>
                         <div class="font-bold"><%= tx.timestamp&.strftime("%b %d, %Y") || "Pending" %></div>
-                        <div class="text-sm opacity-50"><%= tx.confirmed_at&.strftime("%H:%M") %></div>
+                        <div class="text-sm opacity-50"><%= tx.timestamp&.strftime("%H:%M") %></div>
                       </div>
                     </td>
                     <td>

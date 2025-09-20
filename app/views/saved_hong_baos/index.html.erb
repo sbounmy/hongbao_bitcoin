@@ -48,7 +48,7 @@
       </div>
 
       <!-- Saved Hong Baos Table/List -->
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto hidden md:block">
         <table class="table table-zebra w-full">
           <thead>
             <tr>
@@ -102,7 +102,7 @@
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <%= link_to saved_hong_bao, class: "btn btn-ghost btn-xs" do %>
+                    <%= link_to hong_bao_path(saved_hong_bao.address), class: "btn btn-ghost btn-xs", target: "_blank" do %>
                       Details
                     <% end %>
                     <%= button_to saved_hong_bao, method: :delete,

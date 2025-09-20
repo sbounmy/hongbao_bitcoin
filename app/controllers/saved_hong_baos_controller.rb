@@ -1,5 +1,6 @@
 class SavedHongBaosController < ApplicationController
   before_action :set_saved_hong_bao, only: [ :show, :destroy ]
+  before_action :set_network, only: [ :create, :show ]
 
   def index
     @saved_hong_baos = current_user.saved_hong_baos.order(created_at: :desc)
@@ -53,5 +54,9 @@ class SavedHongBaosController < ApplicationController
 
   def saved_hong_bao_params
     params.require(:saved_hong_bao).permit(:name, :address, :notes)
+  end
+
+  def set_network
+    Current.network = Current.network_from_key(saved_hong_bao_params[:address])
   end
 end

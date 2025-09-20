@@ -9,6 +9,7 @@ class SavedHongBao < ApplicationRecord
   before_create :set_initial_data
 
   def balance
+    Current.network = Current.network_from_key(address)
     @balance ||= Balance.new(address: address)
   end
 
@@ -17,11 +18,11 @@ class SavedHongBao < ApplicationRecord
   end
 
   def btc
-    balance.btc
+    satoshis.to_f / 100_000_000
   end
 
   def usd
-    balance.usd
+    satoshis.to_f / 100_000_000 * Spot.new.to(:usd)
   end
 
   def withdrawn?

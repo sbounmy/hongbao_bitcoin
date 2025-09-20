@@ -1,0 +1,36 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+hodl:
+  user: satoshi
+  name: HODL HB
+  address: bc1qyus6dre55lulasz5x5xtgsjtapjag54s5paulx
+  notes: "Test wallet with balance tracking"
+  initial_balance: 0.00041171
+  initial_usd: 46.02
+  gifted_at: <%= 3.months.ago %>
+
+withdraw:
+  user: satoshi
+  name: Withdrawn HB
+  address: tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn
+  notes: "Test wallet for tracking"
+  initial_balance: 0.00018949 # 1 BTC
+  initial_usd: 19.18
+  gifted_at: <%= 1.month.ago %>
+
+empty:
+  user: satoshi
+  name: Empty Wallet
+  address: tb1qglvfch5f9tspnqsskyuydpxx7kuy6s38nclqev
+  notes: "No balance wallet"
+  initial_balance: 0
+  initial_usd: 0
+  gifted_at: <%= 1.week.ago %>
+
+with_transactions:
+  user: satoshi
+  name: Made some transactions
+  address: tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0
+  initial_balance: 0.00018829
+  initial_usd: 19.06
+  gifted_at: <%= 1.month.ago %>
