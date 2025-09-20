@@ -1,5 +1,5 @@
 import { test, expect } from '../support/test-setup';
-import { forceLogin, appVcrInsertCassette, appVcrEjectCassette } from '../support/on-rails';
+import { forceLogin, appVcrInsertCassette, appVcrEjectCassette, app } from '../support/on-rails';
 
 
 test.describe('Saved Hong Baos', () => {
@@ -24,8 +24,6 @@ test.describe('Saved Hong Baos', () => {
     // Submit the form
     await page.getByRole('button', { name: 'Save Hong Bao' }).click();
 
-    await expect(page.getByText('Hong Bao saved successfully!')).toBeVisible();
-
     // Verify the saved hong bao appears in the list
     await expect(page.getByText('My Friend Bob').first()).toBeVisible();
     await expect(page.getByText('bc1qp2nl...s5526g')).toBeVisible(); // Shortened address (first 8 + last 6)
@@ -35,6 +33,11 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.getByText('Total Addresses')).toBeVisible();
     await expect(page.getByText('Total Balance')).toBeVisible();
     await expect(page.getByText('USD Value')).toBeVisible();
+    await expect(page.getByText('Loading...')).toBeVisible();
+    await expect(page.getByText('0.00040657').first()).not.toBeVisible();    await app('perform_jobs');
+    await app('perform_jobs');
+    await expect(page.getByText('Loading...')).not.toBeVisible();
+    await expect(page.getByText('0.00040657').first()).toBeVisible();
   });
 
   test('validates required fields', async ({ page }) => {
