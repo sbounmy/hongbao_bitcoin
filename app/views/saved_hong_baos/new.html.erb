@@ -1,0 +1,112 @@
+<%= render "shared/header" %>
+
+<div class="min-h-screen bg-base-100">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-base-content mb-2">Add Hong Bao to Track</h1>
+      <p class="text-lg text-base-content/70">Save a Bitcoin address to monitor its balance</p>
+    </div>
+
+    <%= form_with model: @saved_hong_bao, local: true do |form| %>
+      <% if @saved_hong_bao.errors.any? %>
+        <div class="alert alert-error mb-6">
+          <div>
+            <h3 class="font-bold">Please fix the following errors:</h3>
+            <ul class="mt-2 list-disc list-inside">
+              <% @saved_hong_bao.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="card bg-base-100 border border-base-300 shadow-xl">
+        <div class="card-body">
+          <!-- QR Scanner Option -->
+          <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4 text-base-content">Scan QR Code</h2>
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+              <%= link_to hong_baos_path(scan_for_save: true), class: "btn btn-outline rounded-full" do %>
+                <%= heroicon "qr-code", variant: :outline, class: "w-5 h-5 mr-2" %>
+                Open QR Scanner
+              <% end %>
+              <span class="text-base-content/60">or enter address manually below</span>
+            </div>
+          </div>
+
+          <div class="divider">OR</div>
+
+          <!-- Manual Entry Form -->
+          <div class="space-y-6">
+            <div class="form-control">
+              <%= form.label :address, "Bitcoin Address", class: "label" %>
+              <%= form.text_field :address, 
+                  class: "input input-bordered w-full font-mono text-sm", 
+                  placeholder: "e.g., bc1q..., 1A1zP1..., 3J98t1..." %>
+              <label class="label">
+                <span class="label-text-alt text-base-content/60">Enter a valid Bitcoin address to track</span>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <%= form.label :name, "Recipient Name", class: "label" %>
+              <%= form.text_field :name, 
+                  class: "input input-bordered w-full", 
+                  placeholder: "e.g., John Doe, Mom, Best Friend",
+                  required: true %>
+              <label class="label">
+                <span class="label-text-alt text-base-content/60">A friendly name to identify this address</span>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <%= form.label :notes, "Notes (optional)", class: "label" %>
+              <%= form.text_area :notes, 
+                  class: "textarea textarea-bordered w-full", 
+                  rows: 3,
+                  placeholder: "e.g., Birthday gift 2024, Wedding present..." %>
+              <label class="label">
+                <span class="label-text-alt text-base-content/60">Add any notes about this gift</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="card-actions justify-between mt-8">
+            <%= link_to "Cancel", saved_hong_baos_path, class: "btn btn-ghost rounded-full" %>
+            <%= form.submit "Save Hong Bao", class: "btn btn-primary rounded-full" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Info Box -->
+    <div class="mt-8 card bg-base-200">
+      <div class="card-body">
+        <h3 class="font-semibold text-lg mb-3 flex items-center text-base-content">
+          <%= heroicon "information-circle", variant: :outline, class: "w-5 h-5 mr-2" %>
+          What happens when you save a Hong Bao?
+        </h3>
+        <ul class="space-y-2 text-base-content/70">
+          <li class="flex items-start">
+            <span class="mr-2">•</span>
+            <span>We'll track the Bitcoin balance at this address in real-time</span>
+          </li>
+          <li class="flex items-start">
+            <span class="mr-2">•</span>
+            <span>You'll see if funds have been withdrawn or if the balance increased</span>
+          </li>
+          <li class="flex items-start">
+            <span class="mr-2">•</span>
+            <span>Check transaction history and current value anytime</span>
+          </li>
+          <li class="flex items-start">
+            <span class="mr-2">•</span>
+            <span>Your saved addresses are private to your account</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

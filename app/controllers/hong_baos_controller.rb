@@ -13,7 +13,13 @@ class HongBaosController < ApplicationController
     if result.success?
       hong_bao = result.payload
       session[:private_key] = hong_bao.private_key if hong_bao.private_key.present?
-      redirect_to addr_path(hong_bao.address)
+
+      # Check if we have a redirect_to parameter for saved_hong_baos flow
+      if params[:redirect_to] == new_saved_hong_bao_path
+        redirect_to new_saved_hong_bao_path(address: hong_bao.address)
+      else
+        redirect_to addr_path(hong_bao.address)
+      end
     else
       error_message = result.error.respond_to?(:user_message) ?
                       result.error.user_message :

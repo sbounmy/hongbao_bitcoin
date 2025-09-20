@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :tokens, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :bundles, dependent: :destroy
+  has_many :saved_hong_baos, dependent: :destroy
   has_secure_password
   has_one_attached :avatar
 
