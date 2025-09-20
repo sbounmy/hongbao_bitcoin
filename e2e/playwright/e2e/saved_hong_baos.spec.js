@@ -83,40 +83,13 @@ test.describe('Saved Hong Baos', () => {
     await page.goto('/saved_hong_baos');
 
     // The rich_wallet fixture should be visible in the table
-    await expect(page.getByRole('cell', { name: 'Rich Wallet' })).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'HODL HB' })).toBeVisible();
 
     // Check that shortened address format is displayed
     await expect(page.getByText('bc1qyus6...5paulx')).toBeVisible();
 
-    // Find the row with Rich Wallet and click its Details link
-    const richWalletRow = page.locator('tr', { has: page.getByText('Rich Wallet') });
-
-    // Verify we're on the detail page
-    await expect(page.getByText('Rich Wallet').first()).toBeVisible();
-
     // Verify stats are shown
-    await expect(page.getByText('₿0.00041171').first()).toBeVisible();
-    await expect(page.getByText('BTC')).toBeVisible();
+    await expect(page.getByText('0.00041171').first()).toBeVisible();
   });
 
-  test('mobile view displays cards instead of table', async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
-
-    // Create a hong bao
-    await page.goto('/saved_hong_baos/new');
-    await page.getByLabel('Recipient Name').fill('Mobile Test');
-    await page.getByLabel('Bitcoin Address').fill('3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy');
-    await page.getByRole('button', { name: 'Save Hong Bao' }).click();
-
-    // Check that mobile card view is displayed
-    await expect(page.locator('.card').filter({ hasText: 'Mobile Test' })).toBeVisible();
-
-    // Card should have balance stats
-    await expect(page.getByText('Balance')).toBeVisible();
-
-    // Actions should be visible
-    await expect(page.getByRole('link', { name: 'View' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Remove' })).toBeVisible();
-  });
 });

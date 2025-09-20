@@ -3,7 +3,7 @@ class SavedHongBaosController < ApplicationController
   before_action :set_network, only: [ :create, :show ]
 
   def index
-    @saved_hong_baos = current_user.saved_hong_baos.order(created_at: :desc)
+    @saved_hong_baos = current_user.saved_hong_baos.order(gifted_at: :desc)
     @total_balance_btc = @saved_hong_baos.sum(&:btc)
     @total_balance_usd = @saved_hong_baos.sum(&:usd)
   end
