@@ -25,7 +25,7 @@
     </div>
 
     <%= render QrScannerFormComponent.new(
-          url: search_hong_baos_path,
+          url: search_hong_baos_path(redirect_to: params[:scan_for_save] ? new_saved_hong_bao_path : nil),
           attribute: :scanned_key,
           auto_start: true
         ) %>
@@ -35,7 +35,7 @@
 
     <div class="bg-white/90 rounded-xl p-4">
       <p class="text-sm font-semibold text-gray-700 mb-3">Enter Bitcoin address manually:</p>
-      <%= form_with model: HongBao.new, url: search_hong_baos_path, local: false, data: { turbo: false }, class: "flex flex-col gap-3" do |f| %>
+      <%= form_with model: HongBao.new, url: search_hong_baos_path(redirect_to: params[:scan_for_save] ? new_saved_hong_bao_path : nil), local: false, data: { turbo: false }, class: "flex flex-col gap-3" do |f| %>
         <%= f.text_field :scanned_key,
             placeholder: "bc1q...",
             class: "input input-bordered w-full",

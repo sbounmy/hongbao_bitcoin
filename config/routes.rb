@@ -43,6 +43,10 @@ Rails.application.routes.draw do
 
   resources :tokens, only: [ :index ]
 
+  resources :saved_hong_baos do
+    post :scan, on: :collection
+  end
+
   resources :checkout, only: [ :new, :create, :update ] do
     collection do
       get :success
