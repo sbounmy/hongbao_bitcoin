@@ -40,7 +40,7 @@ class SavedHongBao < ApplicationRecord
   end
 
   def withdrawn?
-    current_sats.zero?
+    current_sats.to_i.zero?
   end
 
   def untouched?
