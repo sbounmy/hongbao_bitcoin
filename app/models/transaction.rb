@@ -144,8 +144,8 @@ class Transaction
   end
 
   def self.calculate_amount_from_blockstream_data(data, address)
-    outputs = data.vout.sum { |vout| vout.scriptpubkey_address == address ? vout.value : 0 }
-    inputs = data.vin.sum { |vin| vin.prevout.scriptpubkey_address == address ? vin.prevout.value : 0 }
+    outputs = data.vout.sum { |vout| vout["scriptpubkey_address"] == address ? vout["value"] : 0 }
+    inputs = data.vin.sum { |vin| vin["prevout"]["scriptpubkey_address"] == address ? vin["prevout"]["value"] : 0 }
     outputs - inputs
   end
 
