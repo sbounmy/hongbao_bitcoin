@@ -15,7 +15,7 @@ class SavedHongBao < ApplicationRecord
   end
 
   def usd
-    btc * (current_spot || 0)
+    (current_spot || 0) * btc
   end
 
   def initial_btc
@@ -75,10 +75,6 @@ class SavedHongBao < ApplicationRecord
     @balance ||= Balance.new(address: address)
   end
 
-  def initial_usd
-    return 0 unless initial_sats.present? && initial_spot.present? && initial_sats > 0 && initial_spot > 0
-    (initial_sats / 100_000_000.0) * initial_spot
-  end
 
   private
 
