@@ -88,11 +88,23 @@ test.describe('Saved Hong Baos', () => {
     // The rich_wallet fixture should be visible in the table
     await expect(page.getByRole('cell', { name: 'HODL HB' })).toBeVisible();
 
-    // Check that shortened address format is displayed
+    // Check that shortened address format is displayed with external link icon
     await expect(page.getByText('bc1qyus6...5paulx')).toBeVisible();
+    
+    // Verify that address links to mempool
+    const addressLink = page.locator('a[href*="mempool.space/address/"]').first();
+    await expect(addressLink).toBeVisible();
 
-    // Verify stats are shown
-    await expect(page.getByText('0.00041171').first()).toBeVisible();
+    // Verify stats are shown with Bitcoin symbol
+    await expect(page.getByText('₿0.00041171').first()).toBeVisible();
+    
+    // Check for status badge
+    await expect(page.locator('.badge').first()).toBeVisible();
+    
+    // Verify action icons are present
+    await expect(page.locator('[title="Last updated:"]').first()).toBeVisible(); // Refresh icon
+    await expect(page.locator('[title="View details"]').first()).toBeVisible(); // Eye icon
+    await expect(page.locator('[title="Remove"]').first()).toBeVisible(); // Trash icon
   });
 
 });

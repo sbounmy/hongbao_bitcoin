@@ -295,10 +295,12 @@ end
 ```
 
 ### Testing
-- RSpec for all tests except user interations.
-- Fixtures for test data
-- Request specs for API endpoints
-- E2E playwright for user interactions
+- **RSpec for unit/integration tests** - Models, services, helpers, etc.
+- **Controller specs** for testing controller logic and responses  
+- **E2E Playwright tests** for user interactions and flows
+- **Do NOT use request specs** - Use controller specs or E2E tests instead
+- **Fixtures** for test data where appropriate
+- **FactoryBot** for generating test objects
 
 ### E2E Testing Best Practices
 
