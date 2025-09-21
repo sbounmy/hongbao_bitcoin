@@ -7,8 +7,7 @@ class SavedHongBaosController < ApplicationController
   end
 
   def new
-    @saved_hong_bao = current_user.saved_hong_baos.build
-    @saved_hong_bao.address = params[:address] if params[:address].present?
+    @saved_hong_bao = current_user.saved_hong_baos.build(address: params[:address])
   end
 
   def create
