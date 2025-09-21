@@ -199,7 +199,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
     t.integer "user_id", null: false
     t.string "name", null: false
     t.string "address", null: false
-    t.integer "initial_sats", default: 0
+    t.integer "initial_sats"
     t.decimal "initial_spot", precision: 10, scale: 2
     t.text "notes"
     t.datetime "gifted_at"
