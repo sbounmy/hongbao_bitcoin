@@ -28,7 +28,7 @@ class SavedHongBaosController < ApplicationController
 
   def refresh
     RefreshSavedHongBaoBalanceJob.perform_later(@saved_hong_bao.id)
-    redirect_to @saved_hong_bao, notice: "Balance refresh initiated. Please wait a moment."
+    redirect_to saved_hong_baos_path, notice: "Balance refresh initiated. Please wait a moment."
   end
 
 

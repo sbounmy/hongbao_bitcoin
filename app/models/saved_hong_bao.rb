@@ -51,7 +51,7 @@ class SavedHongBao < ApplicationRecord
     if withdrawn?
       { icon: "arrow-down", text: "withdrawn", class: "text-error" }
     elsif untouched?
-      { icon: "clock", text: "untouched", class: "text-warning" }
+      { icon: "clock", text: "HODL", class: "text-warning" }
     else
       { icon: "arrow-trending-up", text: "increased", class: "text-success" }
     end
@@ -73,6 +73,11 @@ class SavedHongBao < ApplicationRecord
   def balance
     Current.network = Current.network_from_key(address)
     @balance ||= Balance.new(address: address)
+  end
+
+  def initial_usd
+    return 0 unless initial_sats.present? && initial_spot.present? && initial_sats > 0 && initial_spot > 0
+    (initial_sats / 100_000_000.0) * initial_spot
   end
 
   private

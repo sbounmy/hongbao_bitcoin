@@ -6,30 +6,31 @@
         <div class="skeleton h-4 w-20"></div>
       </td>
       <td>
-        <div class="flex items-center gap-3">
-          <div class="avatar placeholder">
-            <div class="bg-neutral text-neutral-content rounded-full w-12">
-              <span class="text-xl"><%= saved_hong_bao.name[0].upcase %></span>
-            </div>
-          </div>
-          <div>
-            <div class="font-bold"><%= saved_hong_bao.name %></div>
-            <% if saved_hong_bao.notes.present? %>
-              <div class="text-sm opacity-50"><%= truncate(saved_hong_bao.notes, length: 50) %></div>
-            <% end %>
-          </div>
+        <div>
+          <div class="font-bold"><%= saved_hong_bao.name %></div>
+          <% if saved_hong_bao.notes.present? %>
+            <div class="text-sm opacity-50"><%= truncate(saved_hong_bao.notes, length: 50) %></div>
+          <% end %>
         </div>
       </td>
       <td>
-        <div class="font-mono text-xs" title="<%= saved_hong_bao.address %>">
+        <%= link_to "https://mempool.space/address/#{saved_hong_bao.address}",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "font-mono text-xs hover:text-primary inline-flex items-center gap-1",
+            title: saved_hong_bao.address do %>
           <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-        </div>
+          <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50" %>
+        <% end %>
       </td>
       <td>
         <div class="skeleton h-4 w-24"></div>
       </td>
       <td>
         <div class="skeleton h-4 w-20"></div>
+      </td>
+      <td>
+        <div class="skeleton h-4 w-16"></div>
       </td>
       <td>
         <div class="flex gap-2">
@@ -45,48 +46,68 @@
         <div class="font-bold"><%= time_ago_in_words(saved_hong_bao.gifted_at) if saved_hong_bao.gifted_at %> ago</div>
       </td>
       <td>
-        <div class="flex items-center gap-3">
-          <div class="avatar placeholder">
-            <div class="bg-neutral text-neutral-content rounded-full w-12">
-              <span class="text-xl"><%= saved_hong_bao.name[0].upcase %></span>
-            </div>
-          </div>
-          <div>
-            <div class="font-bold"><%= saved_hong_bao.name %></div>
-            <% if saved_hong_bao.notes.present? %>
-              <div class="text-sm opacity-50"><%= truncate(saved_hong_bao.notes, length: 50) %></div>
+        <% status = saved_hong_bao.status %>
+        <div class="badge <%= status[:class] %> badge-sm gap-1">
+          <%= heroicon status[:icon], variant: :outline, class: "w-3 h-3" %>
+          <%= status[:text] %>
+        </div>
+      </td>
+      <td>
+        <div>
+          <div class="font-bold"><%= saved_hong_bao.name %></div>
+          <% if saved_hong_bao.notes.present? %>
+            <div class="text-sm opacity-50"><%= truncate(saved_hong_bao.notes, length: 50) %></div>
+          <% end %>
+        </div>
+      </td>
+      <td>
+        <%= link_to "https://mempool.space/address/#{saved_hong_bao.address}",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "font-mono text-xs hover:text-primary inline-flex items-center gap-1",
+            title: saved_hong_bao.address do %>
+          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
+          <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50" %>
+        <% end %>
+      </td>
+      <td>
+        <div class="font-bold">₿<%= number_with_precision(saved_hong_bao.btc, precision: 8) %></div>
+      </td>
+      <td>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold">$<%= number_with_delimiter(saved_hong_bao.usd.round(2)) %></span>
+            <% if show_percentage_change? %>
+              <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> text-sm font-medium">
+                <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %> <%= saved_hong_bao.balance_change_percentage.round %>%
+              </span>
             <% end %>
           </div>
-        </div>
-      </td>
-      <td>
-        <div class="font-mono text-xs" title="<%= saved_hong_bao.address %>">
-          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-        </div>
-      </td>
-      <td>
-        <div class="font-bold"><%= number_with_precision(saved_hong_bao.btc, precision: 8) %> BTC</div>
-      </td>
-      <td>
-        <div class="flex items-center gap-3">
-          <div class="text-sm opacity-50">$<%= number_with_delimiter(saved_hong_bao.usd.round(2)) %></div>
-          <% if show_percentage_change? %>
-            <div class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> font-semibold">
-              <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %>
-              <%= saved_hong_bao.balance_change_percentage.abs %>%
+          <% if saved_hong_bao.initial_spot.present? && saved_hong_bao.initial_spot > 0 %>
+            <div class="text-xs opacity-60">
+              from $<%= number_with_delimiter(saved_hong_bao.initial_usd.round(2)) %>
             </div>
           <% end %>
         </div>
       </td>
       <td>
-        <div class="flex gap-2">
-          <%= link_to hong_bao_path(saved_hong_bao.address), class: "btn btn-ghost btn-xs", target: "_blank" do %>
-            Details
+        <div class="flex gap-1">
+          <%= button_to refresh_saved_hong_bao_path(saved_hong_bao), method: :post,
+              class: "btn btn-ghost btn-sm btn-square",
+              title: "Last updated: #{saved_hong_bao.last_fetched_at ? time_ago_in_words(saved_hong_bao.last_fetched_at) + ' ago' : 'Never'}" do %>
+            <%= heroicon "arrow-path", variant: :outline, class: "w-4 h-4" %>
+          <% end %>
+          <%= link_to hong_bao_path(saved_hong_bao.address),
+              class: "btn btn-ghost btn-sm btn-square",
+              target: "_blank",
+              title: "View details" do %>
+            <%= heroicon "eye", variant: :outline, class: "w-4 h-4" %>
           <% end %>
           <%= button_to saved_hong_bao, method: :delete,
               data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
-              class: "btn btn-ghost btn-xs text-error" do %>
-            Remove
+              class: "btn btn-ghost btn-sm btn-square text-error",
+              title: "Remove" do %>
+            <%= heroicon "trash", variant: :outline, class: "w-4 h-4" %>
           <% end %>
         </div>
       </td>
@@ -145,7 +166,7 @@
               <div class="stat-title text-xs">Change</div>
               <div class="stat-value text-lg <%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %>">
                 <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %>
-                <%= saved_hong_bao.balance_change_percentage.abs %>%
+                <%= saved_hong_bao.balance_change_percentage.round %>%
               </div>
             </div>
           <% end %>
