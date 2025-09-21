@@ -32,18 +32,6 @@ class SavedHongBaosController < ApplicationController
     redirect_to @saved_hong_bao, notice: "Balance refresh initiated. Please wait a moment."
   end
 
-  def scan
-    result = HongBaos::Scanner.call(params[:scanned_key])
-
-    if result.success?
-      hong_bao = result.payload
-      # Pre-fill the form with scanned address
-      @saved_hong_bao = current_user.saved_hong_baos.build(address: hong_bao.address)
-      render :new
-    else
-      redirect_to new_saved_hong_bao_path, alert: "Invalid QR code. Please try again or enter the address manually."
-    end
-  end
 
   private
 

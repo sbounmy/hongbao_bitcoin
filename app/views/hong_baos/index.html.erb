@@ -25,8 +25,8 @@
     </div>
 
     <%= render QrScannerFormComponent.new(
-          url: search_hong_baos_path(redirect_to: params[:scan_for_save] ? new_saved_hong_bao_path : nil),
-          attribute: :scanned_key,
+          url: search_hong_baos_path,
+          attribute: "hong_bao[scanned_key]",
           auto_start: true
         ) %>
 

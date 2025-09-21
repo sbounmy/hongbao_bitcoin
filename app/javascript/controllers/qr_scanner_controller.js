@@ -10,6 +10,7 @@ export default class extends Controller {
     readerId: String,
     overlayId: String
   }
+  static actions = ["start"]
 
   connect() {
     console.log('QR Scanner Controller connected')
@@ -21,13 +22,29 @@ export default class extends Controller {
       return
     }
     
-    if (!this.videoElem) {
-      this.videoElem = document.createElement('video')
-      this.videoElem.style.width = '100%'
-      this.videoElem.style.height = '100%'
-      this.videoElem.style.objectFit = 'cover'
-      readerElement.appendChild(this.videoElem)
+    // Store the reader element reference
+    this.readerElement = readerElement
+    
+    // Don't initialize or start automatically unless autoStart is true
+    if (this.autoStartValue) {
+      this.initializeScanner()
+      this.start()
     }
+  }
+
+  initializeScanner() {
+    // Clean up any existing video element
+    const existingVideo = this.readerElement.querySelector('video')
+    if (existingVideo) {
+      existingVideo.remove()
+    }
+    
+    // Create fresh video element
+    this.videoElem = document.createElement('video')
+    this.videoElem.style.width = '100%'
+    this.videoElem.style.height = '100%'
+    this.videoElem.style.objectFit = 'cover'
+    this.readerElement.appendChild(this.videoElem)
 
     // Get custom overlay element if provided
     let overlayElement = null
@@ -64,20 +81,30 @@ export default class extends Controller {
         }
       }
     )
-
-    if (this.autoStartValue) {
-      this.start()
-    }
   }
 
   start() {
-    this.scanner.start()
+    console.log('Starting QR scanner')
+    // Initialize scanner if not already done
+    if (!this.scanner) {
+      this.initializeScanner()
+    }
+    if (this.scanner) {
+      this.scanner.start()
+    }
   }
 
   disconnect() {
+    console.log('QR Scanner Controller disconnecting')
     if (this.scanner) {
       this.scanner.stop()
       this.scanner.destroy()
+      this.scanner = null
+    }
+    // Remove video element on disconnect
+    if (this.videoElem) {
+      this.videoElem.remove()
+      this.videoElem = null
     }
   }
 }

@@ -8,42 +8,65 @@
       <p class="text-lg text-base-content/70">Save a Bitcoin address to monitor its balance</p>
     </div>
 
-    <%= form_with model: @saved_hong_bao, local: true do |form| %>
-      <% if @saved_hong_bao.errors.any? %>
-        <div class="alert alert-error mb-6">
-          <div>
-            <h3 class="font-bold">Please fix the following errors:</h3>
-            <ul class="mt-2 list-disc list-inside">
-              <% @saved_hong_bao.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
+    <% if @saved_hong_bao.errors.any? %>
+      <div class="alert alert-error mb-6">
+        <div>
+          <h3 class="font-bold">Please fix the following errors:</h3>
+          <ul class="mt-2 list-disc list-inside">
+            <% @saved_hong_bao.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
-      <% end %>
+      </div>
+    <% end %>
 
-      <div class="card bg-base-100 border border-base-300 shadow-xl">
-        <div class="card-body">
-          <!-- QR Scanner Option -->
-          <div class="mb-6">
-            <h2 class="text-xl font-semibold mb-4 text-base-content">Scan QR Code</h2>
-            <div class="flex flex-col sm:flex-row gap-4 items-center">
-              <%= link_to hong_baos_path(scan_for_save: true), class: "btn btn-outline rounded-full" do %>
-                <%= heroicon "qr-code", variant: :outline, class: "w-5 h-5 mr-2" %>
-                Open QR Scanner
+    <div class="card bg-base-100 border border-base-300 shadow-xl">
+      <div class="card-body">
+        <%= permission_banner(:camera) %>
+
+        <!-- Scanner Container -->
+        <div class="flex flex-col gap-4">
+          <!-- QR Scanner Section -->
+          <div data-controller="reveal qr-scanner-launcher" data-reveal-hidden-class="hidden">
+            <!-- Scanner Trigger Button -->
+            <button type="button" class="btn btn-primary btn-block btn-lg"
+                    data-action="reveal#toggle qr-scanner-launcher#launch">
+              <%= heroicon "camera", variant: :solid, class: "w-5 h-5" %>
+              Scan QR Code
+            </button>
+
+            <!-- Scanner Form (separate from main form) -->
+            <div data-reveal-target="item" data-qr-scanner-launcher-target="scanner" class="hidden">
+              <%= render QrScannerFormComponent.new(
+                    url: search_hong_baos_path,
+                    attribute: "hong_bao[scanned_key]",
+                    auto_start: false,
+                    fullscreen: true,
+                    title: "Scan Hong Bao QR",
+                    redirect_to: new_saved_hong_bao_path
+                  ) do |component| %>
+                <% component.with_header do %>
+                  <%= render "shared/qr_scanner_header" %>
+                <% end %>
               <% end %>
-              <span class="text-base-content/60">or enter address manually below</span>
             </div>
           </div>
 
-          <div class="divider">OR</div>
+          <p class="text-center text-sm text-base-content/60">
+            or enter address manually below
+          </p>
+        </div>
 
-          <!-- Manual Entry Form -->
+        <div class="divider"></div>
+
+        <!-- Manual Entry Form (separate from QR scanner) -->
+        <%= form_with model: @saved_hong_bao, local: true do |form| %>
           <div class="space-y-6">
             <div class="form-control">
               <%= form.label :address, "Bitcoin Address", class: "label" %>
-              <%= form.text_field :address, 
-                  class: "input input-bordered w-full font-mono text-sm", 
+              <%= form.text_field :address,
+                  class: "input input-bordered w-full font-mono text-sm",
                   placeholder: "e.g., bc1q..., 1A1zP1..., 3J98t1..." %>
               <label class="label">
                 <span class="label-text-alt text-base-content/60">Enter a valid Bitcoin address to track</span>
@@ -52,8 +75,8 @@
 
             <div class="form-control">
               <%= form.label :name, "Recipient Name", class: "label" %>
-              <%= form.text_field :name, 
-                  class: "input input-bordered w-full", 
+              <%= form.text_field :name,
+                  class: "input input-bordered w-full",
                   placeholder: "e.g., John Doe, Mom, Best Friend",
                   required: true %>
               <label class="label">
@@ -63,8 +86,8 @@
 
             <div class="form-control">
               <%= form.label :notes, "Notes (optional)", class: "label" %>
-              <%= form.text_area :notes, 
-                  class: "textarea textarea-bordered w-full", 
+              <%= form.text_area :notes,
+                  class: "textarea textarea-bordered w-full",
                   rows: 3,
                   placeholder: "e.g., Birthday gift 2024, Wedding present..." %>
               <label class="label">
@@ -77,9 +100,9 @@
             <%= link_to "Cancel", saved_hong_baos_path, class: "btn btn-ghost rounded-full" %>
             <%= form.submit "Save Hong Bao", class: "btn btn-primary rounded-full" %>
           </div>
-        </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
 
     <!-- Info Box -->
     <div class="mt-8 card bg-base-200">

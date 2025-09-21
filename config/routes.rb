@@ -44,7 +44,6 @@ Rails.application.routes.draw do
   resources :tokens, only: [ :index ]
 
   resources :saved_hong_baos do
-    post :scan, on: :collection
     post :refresh, on: :member
   end
 
