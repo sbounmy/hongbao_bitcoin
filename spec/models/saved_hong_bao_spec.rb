@@ -259,7 +259,7 @@ RSpec.describe SavedHongBao, type: :model do
       it "returns withdrawn status when balance is zero" do
         hong_bao.update!(current_sats: 0)
         status = hong_bao.status
-        expect(status[:text]).to eq("withdrawn")
+        expect(status[:text]).to eq("WITHDRAWN")
         expect(status[:icon]).to eq("arrow-down")
         expect(status[:class]).to eq("text-error")
       end
