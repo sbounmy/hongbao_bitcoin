@@ -76,7 +76,7 @@
       <td>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-semibold">$<%= number_with_delimiter(saved_hong_bao.usd.round(2)) %></span>
+            <span class="font-semibold">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></span>
             <% if show_percentage_change? %>
               <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> text-sm font-medium">
                 <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %> <%= saved_hong_bao.balance_change_percentage.round %>%
@@ -85,7 +85,7 @@
           </div>
           <% if saved_hong_bao.initial_spot.present? && saved_hong_bao.initial_spot > 0 %>
             <div class="text-xs opacity-60">
-              from $<%= number_with_delimiter(saved_hong_bao.initial_usd.round(2)) %>
+              from $<%= number_with_delimiter(saved_hong_bao.initial_usd.round) %>
             </div>
           <% end %>
         </div>
@@ -159,7 +159,7 @@
           <div class="stat px-4 py-2">
             <div class="stat-title text-xs">Balance</div>
             <div class="stat-value text-lg"><%= number_with_precision(saved_hong_bao.btc, precision: 8) %> BTC</div>
-            <div class="stat-desc">$<%= number_with_delimiter(saved_hong_bao.usd.round(2)) %></div>
+            <div class="stat-desc">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></div>
           </div>
           <% if show_percentage_change? %>
             <div class="stat px-4 py-2">
