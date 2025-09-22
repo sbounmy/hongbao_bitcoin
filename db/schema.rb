@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_041137) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -195,6 +195,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_041137) do
     t.index ["name"], name: "index_payment_methods_on_name", unique: true
   end
 
+  create_table "saved_hong_baos", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.string "address", null: false
+    t.integer "initial_sats"
+    t.decimal "initial_spot", precision: 10, scale: 2
+    t.text "notes"
+    t.datetime "gifted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "current_sats", limit: 8
+    t.decimal "current_spot", precision: 10, scale: 2
+    t.datetime "last_fetched_at"
+    t.index ["address"], name: "index_saved_hong_baos_on_address"
+    t.index ["user_id", "address"], name: "index_saved_hong_baos_on_user_id_and_address", unique: true
+    t.index ["user_id"], name: "index_saved_hong_baos_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -262,6 +280,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_041137) do
   add_foreign_key "orders", "users"
   add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "users"
+  add_foreign_key "saved_hong_baos", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tokens", "orders"
   add_foreign_key "tokens", "users"

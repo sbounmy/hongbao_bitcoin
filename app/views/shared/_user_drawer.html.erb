@@ -42,6 +42,13 @@
                 My Orders
             <% end %>
             </li>
+            <li>
+                <%= link_to saved_hong_baos_path, class: "flex items-center gap-2" do %>
+                    <%= heroicon "heart", options: { class: "w-5 h-5" } %>
+                    Saved HongBaos
+                <% end %>
+                </li>
+            <li>
             <%# Add mt-auto to push this list item to the bottom %>
             <li class="mt-auto">
             <%= button_to logout_path, method: :delete, form_class: "flex", class: "btn btn-outline w-full" do %>

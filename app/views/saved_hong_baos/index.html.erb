@@ -1,0 +1,67 @@
+<%= render "shared/header" %>
+
+<%= turbo_stream_from "user_#{current_user.id}_saved_hong_baos" %>
+
+<div class="min-h-screen bg-base-100">
+  <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div id="flash"></div>
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-base-content">Saved Hong Baos</h1>
+        <p class="text-base-content/60 mt-1">Track your gifted Bitcoin addresses</p>
+      </div>
+      <%= link_to new_saved_hong_bao_path, class: "btn btn-primary" do %>
+        <%= heroicon "plus", variant: :outline, class: "w-5 h-5 mr-2" %>
+        Add Hong Bao
+      <% end %>
+    </div>
+
+    <% if @saved_hong_baos.any? %>
+      <%= render SavedHongBaos::StatsComponent.new(saved_hong_baos: @saved_hong_baos) %>
+
+      <!-- Saved Hong Baos Table/List -->
+      <div class="overflow-x-auto hidden md:block">
+        <table class="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Recipient</th>
+              <th>Address</th>
+              <th>Amount</th>
+              <th>Balance</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="saved_hong_baos_table">
+            <%= render SavedHongBaos::ItemComponent.with_collection(@saved_hong_baos, view_type: :table) %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile view - Cards -->
+      <div id="saved_hong_baos_cards" class="grid gap-4 md:hidden mt-8">
+          <%= render SavedHongBaos::ItemComponent.with_collection(@saved_hong_baos, view_type: :card) %>
+      </div>
+
+    <% else %>
+      <!-- Empty State -->
+      <div class="hero min-h-[60vh]">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <%= heroicon "bookmark", variant: :outline, class: "w-24 h-24 mx-auto text-base-content/20 mb-6" %>
+            <h2 class="text-3xl font-bold mb-4">No saved Hong Baos yet</h2>
+            <p class="text-base-content/60 mb-8">
+              Start tracking Bitcoin addresses you've gifted. Monitor if recipients have withdrawn funds and watch their value change over time.
+            </p>
+            <%= link_to new_saved_hong_bao_path, class: "btn btn-primary" do %>
+              <%= heroicon "plus", variant: :outline, class: "w-5 h-5 mr-2" %>
+              Add Your First Hong Bao
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

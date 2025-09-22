@@ -34,6 +34,37 @@ You are an ActiveRecord and database specialist working in the app/models direct
 - Prefer service objects for complex operations
 - Keep callbacks focused on the model's core concerns
 
+### Broadcasting with Turbo Streams
+When implementing real-time updates with Turbo Streams:
+- Use `after_create_commit` and `after_update_commit` callbacks for broadcasts
+- Broadcast using ViewComponents for clean separation
+- Never put Turbo Stream logic in controllers
+
+```ruby
+# Best practice example:
+class Paper < ApplicationRecord
+  after_create_commit :broadcast_prepend_to_collection
+  after_update_commit :broadcast_replace_to_self
+  
+  private
+  
+  def broadcast_prepend_to_collection
+    broadcast_prepend_to(
+      "papers_list",
+      target: "papers",
+      renderable: Papers::ItemComponent.new(paper: self)
+    )
+  end
+  
+  def broadcast_replace_to_self
+    broadcast_replace_to(
+      "paper_#{id}",
+      renderable: Papers::ItemComponent.new(paper: self)
+    )
+  end
+end
+```
+
 ## Migration Guidelines
 
 1. Always include both up and down methods (or use change when appropriate)

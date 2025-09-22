@@ -1,0 +1,31 @@
+<!-- Total Stats -->
+<div class="stats stats-vertical md:stats-horizontal shadow w-full mb-8">
+  <div class="stat">
+    <div class="stat-figure text-primary">
+      <%= heroicon "wallet", variant: :outline, class: "w-8 h-8" %>
+    </div>
+    <div class="stat-title">Total Addresses</div>
+    <div class="stat-value text-primary"><%= total_count %></div>
+    <div class="stat-desc">Tracked wallets</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+      </svg>
+    </div>
+    <div class="stat-title">Total Balance</div>
+    <div class="stat-value text-secondary"><%= number_with_precision(total_balance_btc, precision: 8) %></div>
+    <div class="stat-desc">BTC</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-accent">
+      <%= heroicon "currency-dollar", variant: :outline, class: "w-8 h-8" %>
+    </div>
+    <div class="stat-title">USD Value</div>
+    <div class="stat-value text-accent">$<%= number_with_delimiter(total_balance_usd.round(0)) %></div>
+    <div class="stat-desc">Current value</div>
+  </div>
+</div>

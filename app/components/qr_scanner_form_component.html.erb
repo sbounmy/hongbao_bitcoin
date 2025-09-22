@@ -52,6 +52,10 @@
 
       <%= form.hidden_field attribute,
           data: { qr_scanner_target: "scanValue" } %>
+      
+      <% if redirect_to.present? %>
+        <%= form.hidden_field :redirect_to, value: redirect_to %>
+      <% end %>
     <% end %>
   </div>
 <% else %>
@@ -64,6 +68,10 @@
 
     <%= form.hidden_field attribute,
         data: { qr_scanner_target: "scanValue" } %>
+    
+    <% if redirect_to.present? %>
+      <%= form.hidden_field :redirect_to, value: redirect_to %>
+    <% end %>
 
     <% if content %>
       <%= content %>

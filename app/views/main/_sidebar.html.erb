@@ -41,6 +41,12 @@
           Designer
         <% end %>
       </li>
+      <li>
+        <%= link_to saved_hong_baos_path, class: "text-base #{current_page?(saved_hong_baos_path) ? 'bg-base-300 font-semibold' : ''}" do %>
+          <%= heroicon "bookmark", variant: :outline, class: "w-6 h-6" %>
+          Saved Hong Baos
+        <% end %>
+      </li>
       <div class="flex-grow"></div>
       <ul class='flex flex-col gap-2'>
         <% if authenticated? && current_user %>

@@ -4,18 +4,19 @@ class QrScannerFormComponent < ViewComponent::Base
   renders_one :header
   renders_one :instructions
 
-  def initialize(url:, attribute: :scanned_key, auto_start: true, form_options: {}, fullscreen: false, title: nil)
+  def initialize(url:, attribute: :scanned_key, auto_start: true, form_options: {}, fullscreen: false, title: nil, redirect_to: nil)
     @url = url
     @attribute = attribute
     @auto_start = auto_start
     @form_options = form_options
     @fullscreen = fullscreen
     @title = title || "Scan QR Code"
+    @redirect_to = redirect_to
   end
 
   private
 
-  attr_reader :url, :attribute, :auto_start, :form_options, :fullscreen, :title
+  attr_reader :url, :attribute, :auto_start, :form_options, :fullscreen, :title, :redirect_to
 
   def qr_reader_id
     @qr_reader_id ||= "qr-reader-#{SecureRandom.hex(4)}"

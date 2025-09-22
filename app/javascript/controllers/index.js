@@ -47,6 +47,9 @@ application.register("preview", PreviewController)
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
 
+import QrScannerLauncherController from "./qr_scanner_launcher_controller"
+application.register("qr-scanner-launcher", QrScannerLauncherController)
+
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
 

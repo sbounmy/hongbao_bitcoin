@@ -23,6 +23,10 @@ module Client
       to_s
     end
 
+    def [](key)
+      @attributes[key.to_s]
+    end
+
     def method_missing(name, *args, &block)
       if name.to_s.end_with?("=")
         attribute_name = name.to_s[0...-1]
