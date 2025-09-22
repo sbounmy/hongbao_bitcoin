@@ -40,18 +40,20 @@ class SavedHongBao < ApplicationRecord
   end
 
   def withdrawn?
-    current_sats.to_i.zero?
+    !initial_sats.to_i.zero? && current_sats.to_i.zero?
   end
 
   def untouched?
-    current_sats == initial_sats
+    !initial_sats.to_i.zero? && current_sats == initial_sats
   end
 
   def status
     if withdrawn?
-      { icon: "arrow-down", text: "withdrawn", class: "text-error" }
+      { icon: "arrow-down", text: "WITHDRAWN", class: "text-error" }
     elsif untouched?
       { icon: "hand-thumb-up", text: "HODL", class: "text-warning" }
+    elsif balance_change.zero?
+      { icon: "exclamation-triangle", text: "NO FUNDS", class: "text-error" }
     else
       { icon: "arrow-trending-up", text: "increased", class: "text-success" }
     end

@@ -63,5 +63,22 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
         described_class.new.perform(999999)
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    it 'fails gracefully if address has no transactions', vcr: { cassette_name: "refresh_saved_hong_bao_balance_job_no_transactions" } do
+      saved_hong_bao.update!(address: "bc1q4mk80362m9typergc9rnueyf2u3ml4dn94ykhy", gifted_at: nil)
+
+      expect {
+        described_class.new.perform(saved_hong_bao.id)
+      }.not_to raise_error
+      expect(saved_hong_bao).to have_attributes(
+        initial_sats: nil,
+        initial_spot: 0,
+        current_sats: nil,
+        current_spot: 0,
+        gifted_at: nil,
+        status: { icon: "exclamation-triangle", text: "NO FUNDS", class: "text-error" },
+        last_fetched_at: nil
+      )
+    end
   end
 end
