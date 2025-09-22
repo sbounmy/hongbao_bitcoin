@@ -30,9 +30,9 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.getByText('Birthday gift from 2024')).toBeVisible();
 
     // Check that stats are visible
-    await expect(page.getByText('Total Addresses')).toBeVisible();
-    await expect(page.getByText('Total Balance')).toBeVisible();
-    await expect(page.getByText('USD Value')).toBeVisible();
+    await expect(page.locator('.stat-value').getByText('₿0.00076171')).toBeVisible();
+    await expect(page.locator('.stat-value').first().getByText('5')).toBeVisible();
+    await expect(page.locator('.stat-value').getByText('$72')).toBeVisible();
     await expect(page.getByText('Loading...')).toBeVisible();
     await expect(page.getByText('0.00040657').first()).not.toBeVisible();    await app('perform_jobs');
     await app('perform_jobs');
