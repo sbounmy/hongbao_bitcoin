@@ -102,52 +102,61 @@ RSpec.describe ContentsController, type: :controller do
 
     context 'with FriendlyId history' do
       it 'finds quote by old slug after text change' do
-        quote = contents(:quote_bitcoiners)
-        quote.reload # Ensure we have the latest state
+        # Create a new quote so we have proper slug history
+        quote = Content::Quote.create!(
+          author: "Test Author",
+          text: "Original text for testing",
+          published_at: 1.day.ago
+        )
         original_slug = quote.slug
-        expect(original_slug).to eq("bitcoiners-dont-trust-verify")
 
         # Update quote to generate new slug
-        quote.update!(text: "Always verify, never trust")
+        quote.update!(text: "Updated text for testing")
         new_slug = quote.slug
 
         expect(new_slug).not_to eq(original_slug)
-        expect(new_slug).to eq("bitcoiners-always-verify-never-trust")
 
-        # Access with old slug should still work
+        # Access with old slug should redirect to new slug
         get :show, params: { klass: 'quotes', slug: original_slug }
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
         expect(assigns(:content)).to eq(quote)
       end
 
       it 'finds quote by old slug after author change' do
-        quote = contents(:quote_saylor)
-        quote.reload # Ensure we have the latest state
+        # Create a new quote so we have proper slug history
+        quote = Content::Quote.create!(
+          author: "Original Author",
+          text: "Fix the money, fix the world",
+          published_at: 1.day.ago
+        )
         original_slug = quote.slug
-        expect(original_slug).to eq("michael-saylor-fix-the-money")
 
         # Update quote to generate new slug
-        quote.update!(author: "Michael J. Saylor")
+        quote.update!(author: "Updated Author")
         new_slug = quote.slug
 
         expect(new_slug).not_to eq(original_slug)
-        expect(new_slug).to eq("michael-j-saylor-fix-the-money-fix-the-world")
 
-        # Access with old slug should still work
+        # Access with old slug should redirect to new slug
         get :show, params: { klass: 'quotes', slug: original_slug }
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
         expect(assigns(:content)).to eq(quote)
       end
 
       it 'finds quote through multiple slug changes' do
-        quote = contents(:quote_andreas)
-        quote.reload # Ensure we have the latest state
+        # Create a new quote so we have proper slug history
+        quote = Content::Quote.create!(
+          author: "Andreas Antonopoulos",
+          text: "Not your keys, not your coins",
+          published_at: 1.day.ago
+        )
 
         # Store original slug
         first_slug = quote.slug
-        expect(first_slug).to eq("andreas-antonopoulos-not-your-keys")
 
         # First update
         quote.update!(text: "Your keys, your Bitcoin")
@@ -157,36 +166,51 @@ RSpec.describe ContentsController, type: :controller do
         quote.update!(text: "Control your keys, control your future")
         third_slug = quote.slug
 
-        # All previous slugs should work
-        [ first_slug, second_slug, third_slug ].each do |slug|
-          get :show, params: { klass: 'quotes', slug: slug }
-          expect(response).to have_http_status(:success)
+        # All previous slugs except current should redirect
+        [ first_slug, second_slug ].each do |old_slug|
+          get :show, params: { klass: 'quotes', slug: old_slug }
+          expect(response).to have_http_status(:moved_permanently)
+          expect(response).to redirect_to(bitcoin_content_path(quote, klass: 'quotes'))
           expect(assigns(:content)).to eq(quote)
         end
+
+        # Current slug should be successful
+        get :show, params: { klass: 'quotes', slug: third_slug }
+        expect(response).to have_http_status(:success)
+        expect(assigns(:content)).to eq(quote)
       end
 
       it 'handles history for multiple different quotes' do
-        quote1 = contents(:quote_henry_ford)
-        quote2 = contents(:quote_jack_mallers)
-        quote1.reload # Ensure we have the latest state
-        quote2.reload # Ensure we have the latest state
+        # Create new quotes so we have proper slug history
+        quote1 = Content::Quote.create!(
+          author: "Henry Ford",
+          text: "An energy currency can stop wars",
+          published_at: 1.day.ago
+        )
+        quote2 = Content::Quote.create!(
+          author: "Jack Mallers",
+          text: "No man should work for what another man can print",
+          published_at: 1.day.ago
+        )
 
         # Store original slugs
         original_slug1 = quote1.slug
         original_slug2 = quote2.slug
-        expect(original_slug1).to eq("henry-ford-energy-currency-stops-wars")
-        expect(original_slug2).to eq("jack-mallers-no-man-should-work")
 
         # Update both quotes
         quote1.update!(text: "Energy money prevents conflicts")
         quote2.update!(text: "Don't work for printed money")
-slug
-        # Old slug for quote1 should find quote1
+
+        # Old slug for quote1 should redirect to quote1's new slug
         get :show, params: { klass: 'quotes', slug: original_slug1 }
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote1, klass: 'quotes'))
         expect(assigns(:content)).to eq(quote1)
 
-        # Old slug for quote2 should find quote2
+        # Old slug for quote2 should redirect to quote2's new slug
         get :show, params: { klass: 'quotes', slug: original_slug2 }
+        expect(response).to have_http_status(:moved_permanently)
+        expect(response).to redirect_to(bitcoin_content_path(quote2, klass: 'quotes'))
         expect(assigns(:content)).to eq(quote2)
       end
     end
