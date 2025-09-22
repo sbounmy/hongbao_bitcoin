@@ -25,7 +25,7 @@ RSpec.describe SavedHongBao, type: :model do
     end
 
     it "allows same address for different users" do
-      other_user_hong_bao = SavedHongBao.new(user: users(:two), name: "Test", address: saved_hong_baos(:hodl).address)
+      other_user_hong_bao = SavedHongBao.new(user: users(:two), name: "Test", address: saved_hong_baos(:withdraw).address)
       expect(other_user_hong_bao).to be_valid
     end
 
@@ -267,8 +267,8 @@ RSpec.describe SavedHongBao, type: :model do
       it "returns untouched status when balance hasn't changed" do
         hong_bao.update!(initial_sats: 50000, current_sats: 50000)
         status = hong_bao.status
-        expect(status[:text]).to eq("untouched")
-        expect(status[:icon]).to eq("clock")
+        expect(status[:text]).to eq("HODL")
+        expect(status[:icon]).to eq("hand-thumb-up")
         expect(status[:class]).to eq("text-warning")
       end
 

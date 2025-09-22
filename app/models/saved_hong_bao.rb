@@ -51,7 +51,7 @@ class SavedHongBao < ApplicationRecord
     if withdrawn?
       { icon: "arrow-down", text: "withdrawn", class: "text-error" }
     elsif untouched?
-      { icon: "clock", text: "HODL", class: "text-warning" }
+      { icon: "hand-thumb-up", text: "HODL", class: "text-warning" }
     else
       { icon: "arrow-trending-up", text: "increased", class: "text-success" }
     end
