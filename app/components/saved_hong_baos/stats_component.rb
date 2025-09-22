@@ -37,16 +37,16 @@ module SavedHongBaos
 
     def average_buy_price
       return 0 if saved_hong_baos.empty?
-      
+
       # Calculate weighted average based on initial sats
       total_sats = saved_hong_baos.sum { |hb| hb.initial_sats || 0 }
       return 0 if total_sats.zero?
-      
+
       weighted_sum = saved_hong_baos.sum do |hb|
         next 0 unless hb.initial_sats && hb.initial_sats > 0 && hb.initial_spot
         hb.initial_sats * hb.initial_spot
       end
-      
+
       weighted_sum / total_sats
     end
 
@@ -54,7 +54,7 @@ module SavedHongBaos
       return 0 if saved_hong_baos.empty?
       values = saved_hong_baos.map(&:usd).sort
       mid = values.length / 2
-      
+
       if values.length.odd?
         values[mid]
       else
