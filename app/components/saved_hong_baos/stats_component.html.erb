@@ -16,7 +16,7 @@
       </svg>
     </div>
     <div class="stat-title">Total BTC</div>
-    <div class="stat-value text-secondary"><%= number_with_precision(total_balance_btc, precision: 8) %></div>
+    <div class="stat-value text-secondary">₿<%= number_with_precision(total_balance_btc, precision: 8) %></div>
     <div class="stat-desc">
       Avg buy: $<%= number_with_delimiter(average_buy_price.round) %>
     </div>
