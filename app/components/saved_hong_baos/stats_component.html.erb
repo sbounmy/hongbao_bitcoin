@@ -1,12 +1,12 @@
 <!-- Total Stats -->
-<div class="stats stats-vertical md:stats-horizontal shadow w-full mb-8">
+<div class="stats stats-vertical lg:stats-horizontal shadow w-full mb-8">
   <div class="stat">
     <div class="stat-figure text-primary">
       <%= heroicon "wallet", variant: :outline, class: "w-8 h-8" %>
     </div>
-    <div class="stat-title">Total Addresses</div>
+    <div class="stat-title">Total HongBaos</div>
     <div class="stat-value text-primary"><%= total_count %></div>
-    <div class="stat-desc">Tracked wallets</div>
+    <div class="stat-desc">Median value: $<%= number_with_delimiter(median_value_usd.round) %></div>
   </div>
 
   <div class="stat">
@@ -15,9 +15,11 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
       </svg>
     </div>
-    <div class="stat-title">Total Balance</div>
+    <div class="stat-title">Total BTC</div>
     <div class="stat-value text-secondary"><%= number_with_precision(total_balance_btc, precision: 8) %></div>
-    <div class="stat-desc">BTC</div>
+    <div class="stat-desc">
+      Avg buy: $<%= number_with_delimiter(average_buy_price.round) %>
+    </div>
   </div>
 
   <div class="stat">
@@ -25,7 +27,11 @@
       <%= heroicon "currency-dollar", variant: :outline, class: "w-8 h-8" %>
     </div>
     <div class="stat-title">USD Value</div>
-    <div class="stat-value text-accent">$<%= number_with_delimiter(total_balance_usd.round(0)) %></div>
-    <div class="stat-desc">Current value</div>
+    <div class="stat-value text-accent">$<%= number_with_delimiter(total_balance_usd.round) %></div>
+    <div class="stat-desc <%= average_gain_usd >= 0 ? 'text-success' : 'text-error' %>">
+      <%= average_gain_usd >= 0 ? '↑' : '↓' %>
+      <%= average_gain_usd >= 0 ? '+' : '' %>$<%= number_with_delimiter(average_gain_usd.round) %>
+      (<%= average_gain_percentage >= 0 ? '+' : '' %><%= number_with_precision(average_gain_percentage, precision: 0) %>%)
+    </div>
   </div>
 </div>
