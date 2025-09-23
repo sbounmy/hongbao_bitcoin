@@ -71,7 +71,7 @@
         <% end %>
       </td>
       <td>
-        <div class="font-bold">₿<%= number_with_precision(saved_hong_bao.btc, precision: 8) %></div>
+        <div class="font-bold">₿<%= number_with_precision(saved_hong_bao.initial_btc, precision: 8) %></div>
       </td>
       <td>
         <div>
@@ -158,7 +158,7 @@
         <div class="stats shadow mt-4">
           <div class="stat px-4 py-2">
             <div class="stat-title text-xs">Balance</div>
-            <div class="stat-value text-lg"><%= number_with_precision(saved_hong_bao.btc, precision: 8) %> BTC</div>
+            <div class="stat-value text-lg"><%= number_with_precision(saved_hong_bao.initial_btc, precision: 8) %> BTC</div>
             <div class="stat-desc">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></div>
           </div>
           <% if show_percentage_change? %>
