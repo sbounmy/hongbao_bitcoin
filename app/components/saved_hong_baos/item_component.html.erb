@@ -79,7 +79,7 @@
             <span class="font-semibold">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></span>
             <% if show_percentage_change? %>
               <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> text-sm font-medium">
-                <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %> <%= saved_hong_bao.balance_change_percentage.round %>%
+                <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %><%= saved_hong_bao.balance_change_percentage.round %>%
               </span>
             <% end %>
           </div>
