@@ -7,18 +7,20 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
 
   describe "#perform", vcr: { cassette_name: "refresh_saved_hong_bao_balance_job" } do
     it "updates the saved hong bao with current balance information" do
-      expect {
-        described_class.new.perform(saved_hong_bao.id)
-        saved_hong_bao.reload
-      }.to change { saved_hong_bao.current_sats }.from(nil)
-      expect(saved_hong_bao).to have_attributes(
-        initial_sats: 41171,
-        initial_spot: 0,
-        current_sats: 41171,
-        current_spot: 0.11429127e6,
-        gifted_at: be_within(1.day).of(Time.utc(2025, 6, 22, 03)),
-        last_fetched_at: be_present
-      )
+      Timecop.freeze(Time.utc(2025, 6, 22, 03)) do
+        expect {
+          described_class.new.perform(saved_hong_bao.id)
+          saved_hong_bao.reload
+        }.to change { saved_hong_bao.current_sats }.from(nil)
+        expect(saved_hong_bao).to have_attributes(
+          initial_sats: 41171,
+          initial_spot: 0,
+          current_sats: 41171,
+          current_spot: 0.11429127e6,
+          gifted_at: be_within(1.day).of(Time.utc(2025, 6, 23, 07)),
+          last_fetched_at: be_present
+        )
+      end
     end
 
     it "does not sets initial valus if already set" do
