@@ -49,16 +49,17 @@
 
     <!-- Main Quote Card with Gradient -->
     <div class="card shadow-2xl max-w-4xl mx-auto bg-gradient-to-br from-orange-400 to-red-400">
-      <%# Hidden image for SEO - Google will index this %>
+      <%# SEO image - positioned off-screen but indexable by Google %>
       <% if @content.best_image %>
-        <% alt_text = @content.hongbao_products.published.first&.image&.attached? ? 
+        <% alt_text = @content.hongbao_products.published.first&.image&.attached? ?
                       "#{@content.author} quote: #{@content.text} - Bitcoin quote gift envelope hongbao" :
                       "#{@content.author} portrait - #{@content.text} Bitcoin quote" %>
         <%= image_tag @content.best_image,
             alt: alt_text,
-            class: "hidden",
+            class: "absolute -left-[9999px] w-1 h-1",
             itemprop: "image",
-            title: "#{@content.author}: #{@content.text}" %>
+            title: "#{@content.author}: #{@content.text}",
+            loading: "eager" %>
       <% end %>
 
       <div class="card-body p-8 md:p-12">
@@ -165,8 +166,12 @@
           <% @content.hongbao_products.published.ordered.each do |product| %>
             <div class="card bg-primary/10 border-2 border-primary shadow-xl hover:shadow-2xl transition-all">
               <figure class="aspect-square bg-white">
-                <% if product.image.attached? %>
-                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-contain" %>
+                <% if product.image.attached? && product.parent_id == @content.id %>
+                  <%= image_tag product.image,
+                      alt: "#{@content.author} #{@content.text} -  Bitcoin Quote Gift",
+                      title: "#{@content.text} - #{@content.author} | Quote Bitcoin Gift",
+                      class: "w-full h-full object-contain",
+                      loading: "lazy" %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-red-100">
                     <span class="text-4xl"><%= product.icon || '🛍️' %></span>
@@ -191,7 +196,11 @@
             <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all">
               <figure class="aspect-square bg-white">
                 <% if product.image.attached? %>
-                  <%= image_tag product.image, alt: product.title, class: "w-full h-full object-cover" %>
+                  <%= image_tag product.image,
+                      alt: "#{@content.author} quote: #{@content.text} - #{product.title} from #{product.shop}",
+                      title: "#{@content.text} - #{@content.author} | #{product.title}",
+                      class: "w-full h-full object-cover",
+                      loading: "lazy" %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                     <span class="text-4xl"><%= product.icon || '🛍️' %></span>
