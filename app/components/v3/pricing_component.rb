@@ -11,11 +11,19 @@ class V3::PricingComponent < ApplicationComponent
 
   # Fetch product from url param ?pack=mini|family|maximalist
   def stripe_price_id
-    plans.find { |plan| plan.product.slug == params[:pack] }&.stripe_price_id
+    selected_variant&.stripe_price_id
+  end
+
+  def selected_product
+    plans.find { |plan| plan.product.slug == params[:pack] }&.product
+  end
+
+  def selected_variant
+    selected_product&.variant_for_color(color)
   end
 
   def pack
-    params[:pack] || "mini"
+    params[:pack] || "mini-pack"
   end
 
   def color
@@ -24,15 +32,13 @@ class V3::PricingComponent < ApplicationComponent
 
 
   def media_items
-    image_files + video_files
+    image_files
   end
 
   def image_files
-    folder = image_folder_name
-    path_pattern = "app/assets/images/plans/#{pack}/#{folder}/*"
-    Dir.glob(path_pattern).select { |f| File.file?(f) }.map do |file_path|
-      { type: :image, url: helpers.image_path("plans/#{pack}/#{folder}/#{File.basename(file_path)}"), name: File.basename(file_path) }
-    end
+    selected_variant&.images&.map do |attachment|
+      { type: :image, url: helpers.url_for(attachment), name: attachment.filename.to_s }
+    end || []
   end
 
   def video_files
