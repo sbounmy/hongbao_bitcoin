@@ -111,7 +111,9 @@
 
   <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-12 py-6">
       <%= render V3::PricingComponent.new(title: false) do |component| %>
-        <% component.with_plans(StripeService.fetch_products) %>
+        <% Product.published.ordered.each do |product| %>
+          <% component.with_plan(product: product) %>
+        <% end %>
       <% end %>
   </section>
 

@@ -1,9 +1,9 @@
 <!-- app/components/v3/plan_component.erb -->
 <%# Component is expected to have access to: slug, name, tokens, formatted_price, selected? (method or boolean), default (boolean) %>
-<% radio_id = "plan_radio_#{slug.to_s.parameterize}" %>
+<% radio_id = "plan_radio_#{product.slug.to_s.parameterize}" %>
 
 <div class="relative">
-  <%= radio_button_tag :pack, slug, selected?, id: radio_id, class: "sr-only peer", onchange: "this.closest('form').requestSubmit();" %>
+  <%= radio_button_tag :pack, product.slug, selected?, id: radio_id, class: "sr-only peer", onchange: "this.closest('form').requestSubmit();" %>
 
   <label for="<%= radio_id %>"
          class="w-full label !whitespace-normal text-left p-4 border rounded-lg transition-colors duration-150 ease-in-out
@@ -17,7 +17,7 @@
     <% end %>
     <div class="flex flex-col w-full">
       <div class="flex justify-between items-center w-full">
-        <span class="block font-semibold text-base-content"><%= name %></span>
+        <span class="block font-semibold text-base-content"><%= product.name %></span>
         <span class="font-semibold text-base-content"><%= formatted_price %></span>
       </div>
       <span class="block text-sm text-base-content/70"><%= formatted_description %></span>

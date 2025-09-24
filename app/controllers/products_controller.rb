@@ -1,13 +1,22 @@
 class ProductsController < ApplicationController
+  allow_unauthenticated_access
+
   def index
-    @products = StripeService.fetch_products
+    @products = Product.published.ordered.includes(variants: { images_attachments: :blob })
   end
 
   def show
-    @products = StripeService.fetch_products
-    @product = @products.find { |p| p[:slug] == params[:pack] }
-    @selected_color = params[:color] || "red"
+    @product = Product.published.includes(variants: { images_attachments: :blob }).find_by(slug: params[:pack])
 
-    redirect_to products_path unless @product
+    unless @product
+      redirect_to products_path, alert: "Product not found"
+      return
+    end
+
+    @selected_color = params[:color] || "red"
+    @selected_variant = @product.variant_for_color(@selected_color) || @product.default_variant
+
+    # For compatibility with existing views
+    @products = Product.published.ordered
   end
 end

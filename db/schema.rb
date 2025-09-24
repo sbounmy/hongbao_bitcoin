@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_24_050005) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -138,6 +138,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
+  create_table "option_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "presentation", null: false
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_option_types_on_name", unique: true
+    t.index ["position"], name: "index_option_types_on_position"
+  end
+
+  create_table "option_values", force: :cascade do |t|
+    t.integer "option_type_id", null: false
+    t.string "name", null: false
+    t.string "presentation", null: false
+    t.integer "position", default: 0
+    t.string "hex_color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_type_id", "name"], name: "index_option_values_on_option_type_id_and_name", unique: true
+    t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
+    t.index ["position"], name: "index_option_values_on_position"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
     t.string "payment_provider", null: false
@@ -193,6 +216,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
     t.integer "position"
     t.boolean "no_kyc", default: true
     t.index ["name"], name: "index_payment_methods_on_name", unique: true
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "description"
+    t.text "meta_description"
+    t.string "stripe_product_id"
+    t.json "option_type_ids", default: []
+    t.json "metadata", default: {}
+    t.integer "position", default: 0
+    t.datetime "published_at"
+    t.integer "master_variant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position"], name: "index_products_on_position"
+    t.index ["published_at"], name: "index_products_on_published_at"
+    t.index ["slug"], name: "index_products_on_slug", unique: true
+    t.index ["stripe_product_id"], name: "index_products_on_stripe_product_id", unique: true
   end
 
   create_table "saved_hong_baos", force: :cascade do |t|
@@ -269,6 +311,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "variants", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.string "sku", null: false
+    t.decimal "price", precision: 10, scale: 2
+    t.string "stripe_price_id"
+    t.json "option_value_ids", default: []
+    t.boolean "is_master", default: false
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["is_master"], name: "index_variants_on_is_master"
+    t.index ["position"], name: "index_variants_on_position"
+    t.index ["product_id"], name: "index_variants_on_product_id"
+    t.index ["sku"], name: "index_variants_on_sku", unique: true
+    t.index ["stripe_price_id"], name: "index_variants_on_stripe_price_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bundles", "users"
@@ -277,6 +336,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
   add_foreign_key "line_items", "orders"
+  add_foreign_key "option_values", "option_types"
   add_foreign_key "orders", "users"
   add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "users"
@@ -284,4 +344,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_155356) do
   add_foreign_key "sessions", "users"
   add_foreign_key "tokens", "orders"
   add_foreign_key "tokens", "users"
+  add_foreign_key "variants", "products"
 end

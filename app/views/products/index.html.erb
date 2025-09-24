@@ -32,18 +32,12 @@
     <!-- Products Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <% @products.each do |product| %>
-        <%
-          # Get the first available image for this product
-          default_folder = "001_red"
-          image_path_pattern = Rails.root.join("app/assets/images/plans", product[:slug], default_folder, "*")
-          image_files = Dir.glob(image_path_pattern).select { |f| File.file?(f) && f.match?(/\.(jpg|jpeg|png)$/i) }.sort
-          first_image = image_files.first ? "plans/#{product[:slug]}/#{default_folder}/#{File.basename(image_files.first)}" : nil
-        %>
+        <% default_variant = product.default_variant %>
         <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all">
           <figure class="px-10 pt-10">
-            <% if first_image %>
-              <%= image_tag first_image,
-                  alt: "#{product[:name]} Bitcoin Gift Envelope Pack",
+            <% if default_variant&.images&.any? %>
+              <%= image_tag default_variant.images.first,
+                  alt: "#{product.name} Bitcoin Gift Envelope Pack",
                   class: "rounded-xl" %>
             <% else %>
               <div class="w-full h-64 bg-base-300 rounded-xl flex items-center justify-center">
@@ -52,20 +46,20 @@
             <% end %>
           </figure>
           <div class="card-body items-center text-center">
-            <h2 class="card-title text-2xl"><%= product[:name] %> Pack</h2>
+            <h2 class="card-title text-2xl"><%= product.name %></h2>
             <div class="badge badge-primary badge-lg mb-2">
-              <%= product[:envelopes] %> envelopes
+              <%= product.envelopes_count %> envelopes
             </div>
-            <p class="text-base-content/70"><%= product[:description] %></p>
+            <p class="text-base-content/70"><%= product.description %></p>
             <div class="text-3xl font-bold text-primary mt-4">
-              €<%= product[:price].to_i %>
+              <%= product.display_price %>
             </div>
             <div class="text-sm text-base-content/60">
-              + <%= product[:tokens] %> credits included
+              + <%= product.tokens_count %> credits included
             </div>
             <div class="card-actions mt-6">
               <%= link_to "View Details",
-                  product_path(pack: product[:slug]),
+                  product_path(pack: product.slug),
                   class: "btn btn-primary" %>
             </div>
           </div>

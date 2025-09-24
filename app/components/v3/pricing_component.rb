@@ -11,7 +11,7 @@ class V3::PricingComponent < ApplicationComponent
 
   # Fetch product from url param ?pack=mini|family|maximalist
   def stripe_price_id
-    plans.find { |plan| plan.slug == params[:pack] }&.stripe_price_id
+    plans.find { |plan| plan.product.slug == params[:pack] }&.stripe_price_id
   end
 
   def pack
@@ -69,33 +69,28 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   class V3::PlanComponent < ViewComponent::Base
-    def initialize(name:, tokens:, description:, price:, stripe_product_id:, stripe_price_id:, envelopes:, default: false, slug:)
-      @name = name
-      @tokens = tokens
-      @description = description
-      @price = price
-      @stripe_product_id = stripe_product_id
-      @stripe_price_id = stripe_price_id
-      @envelopes = envelopes
-      @slug = slug
+    attr_reader :product, :default
+
+    def initialize(product:, default: false)
+      @product = product
       @default = default
       super()
     end
 
     def selected?
-      slug == params[:pack]
+      product.slug == params[:pack]
     end
 
     def formatted_price
-      helpers.number_to_currency(price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
+      helpers.number_to_currency(product.price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
     end
 
     def formatted_description
-      "#{packs} packs (#{envelopes} envelopes) + #{tokens} credits"
+      "#{packs} packs (#{product.envelopes_count} envelopes) + #{product.tokens_count} credits"
     end
 
     def price_per_envelope
-      (price.to_f / envelopes).round(2)
+      (product.price.to_f / product.envelopes_count).round(2)
     end
 
     def formatted_price_per_envelope
@@ -103,9 +98,11 @@ class V3::PricingComponent < ApplicationComponent
     end
 
     def packs
-      envelopes / 6
+      product.envelopes_count / 6
     end
 
-    attr_reader :name, :tokens, :description, :price, :default, :stripe_product_id, :stripe_price_id, :envelopes, :slug
+    def stripe_price_id
+      product.master_variant&.stripe_price_id || product.default_variant&.stripe_price_id
+    end
   end
 end
