@@ -1,0 +1,141 @@
+<%
+  # Extract image folder logic from PricingComponent
+  colors = @selected_color.split(",")
+  base_path = Rails.root.join("app/assets/images/plans", @product[:slug])
+  all_folders = Dir.glob(base_path.join("*")).select { |p| File.directory?(p) }.map { |p| File.basename(p) }
+
+  if colors.size > 1
+    permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
+    folder = all_folders.find { |f| permutations.any? { |perm| f.include?(perm) } } || colors.first
+  else
+    folder = all_folders.find { |f| f.end_with?("_#{colors.first}") } || colors.first
+  end
+
+  # Get the first available image from the folder
+  image_path_pattern = Rails.root.join("app/assets/images/plans", @product[:slug], folder, "*")
+  image_files = Dir.glob(image_path_pattern).select { |f| File.file?(f) && f.match?(/\.(jpg|jpeg|png)$/i) }.sort
+  first_image = image_files.first ? "plans/#{@product[:slug]}/#{folder}/#{File.basename(image_files.first)}" : nil
+
+  # Set meta tags for SEO
+  meta_tags_config = {
+    title: "#{@product[:name]} - #{@product[:envelopes]} Bitcoin Gift Envelopes",
+    description: "#{@product[:description]}. Includes #{@product[:tokens]} credits for custom designs. Perfect Bitcoin gift for beginners. Only €#{@product[:price]}.",
+    keywords: "bitcoin gift envelope, crypto red packet, #{@product[:name].downcase} pack, bitcoin hongbao, satoshi quotes, orange pill gift",
+    canonical: product_url(pack: @product[:slug]),
+    og: {
+      type: 'product',
+      price: {
+        amount: @product[:price],
+        currency: 'EUR'
+      }
+    },
+    twitter: {
+      card: 'summary_large_image',
+      label1: 'Price',
+      data1: "€#{@product[:price]}",
+      label2: 'Envelopes',
+      data2: @product[:envelopes]
+    }
+  }
+
+  # Only add og:image if we found an actual image file
+  if first_image
+    meta_tags_config[:og][:image] = image_url(first_image)
+  end
+
+  set_meta_tags(meta_tags_config)
+%>
+
+<% content_for :head do %>
+  <%= render Products::StripeJsonLdComponent.new(product: @product, color: @selected_color) %>
+<% end %>
+
+<div class="min-h-screen bg-base-100">
+  <%= render "shared/header" %>
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs text-sm mb-8">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Bitcoin Envelopes", products_path %></li>
+        <li><%= @product[:name] %> Pack</li>
+      </ul>
+    </div>
+
+    <!-- Product Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-base-content mb-4">
+        <%= @product[:name] %> Pack - Bitcoin Gift Envelopes
+      </h1>
+      <p class="text-xl text-base-content/70">
+        <%= @product[:description] %>
+      </p>
+    </div>
+
+    <!-- Reuse existing pricing component in a turbo frame -->
+    <%= turbo_frame_tag "plan_options", src: root_path(pack: @product[:slug], color: @selected_color), loading: :lazy do %>
+      <div class="text-center py-8">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+    <% end %>
+
+    <!-- SEO Content Section -->
+    <div class="divider my-12"></div>
+
+    <div class="prose max-w-none">
+      <h2>About <%= @product[:name] %> Bitcoin Envelope Pack</h2>
+      <p>
+        The <%= @product[:name] %> Pack is the perfect way to introduce friends and family to Bitcoin.
+        Each pack contains <strong><%= @product[:envelopes] %> beautifully designed red envelopes</strong>,
+        each featuring a unique quote from Satoshi Nakamoto or other Bitcoin pioneers.
+      </p>
+
+      <h3>What's Included:</h3>
+      <ul>
+        <li><strong><%= @product[:envelopes] %> Premium Red Envelopes</strong> - Traditional Hong Bao design with modern Bitcoin theme</li>
+        <li><strong>Paper Bitcoin Wallets</strong> - Each envelope contains a secure paper wallet ready to be funded</li>
+        <li><strong>Famous Bitcoin Quotes</strong> - Educational quotes to inspire recipients</li>
+        <li><strong><%= @product[:tokens] %> Design Credits</strong> - Create custom designs with AI or choose from templates</li>
+        <li><strong>QR Codes</strong> - Easy scanning for checking balance and sweeping funds</li>
+      </ul>
+
+      <h3>Perfect For:</h3>
+      <ul>
+        <li>Chinese New Year celebrations</li>
+        <li>Birthday and wedding gifts</li>
+        <li>Orange-pilling friends and family</li>
+        <li>Educational Bitcoin gifts</li>
+        <li>Corporate gifts and events</li>
+      </ul>
+
+      <h3>How It Works:</h3>
+      <ol>
+        <li>Purchase your <%= @product[:name] %> Pack</li>
+        <li>Receive <%= @product[:envelopes] %> envelopes with unique paper wallets</li>
+        <li>Fund the wallets with any amount of Bitcoin</li>
+        <li>Gift them to friends and family</li>
+        <li>Recipients can check balance and sweep funds using the QR code</li>
+      </ol>
+
+      <div class="alert alert-info mt-8">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <h3 class="font-bold">Free Shipping Worldwide</h3>
+          <div class="text-xs">All orders include free international shipping</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-12">
+      <%= link_to "Buy #{@product[:name]} Pack Now",
+          root_path(pack: @product[:slug], color: @selected_color, anchor: "pricing"),
+          class: "btn btn-primary btn-lg" %>
+
+      <p class="mt-4 text-base-content/70">
+        or <%= link_to "View All Packs", products_path, class: "link link-primary" %>
+      </p>
+    </div>
+  </div>
+</div>
