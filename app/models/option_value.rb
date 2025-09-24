@@ -17,4 +17,27 @@ class OptionValue < ApplicationRecord
   def color?
     option_type.name == "color" && hex_color.present?
   end
+
+  def move_higher
+    return if position <= 0
+    transaction do
+      sibling = self.class.where(option_type_id: option_type_id)
+                          .where("position < ?", position)
+                          .order(position: :desc).first
+      return unless sibling
+      sibling.update!(position: position)
+      update!(position: position - 1)
+    end
+  end
+
+  def move_lower
+    transaction do
+      sibling = self.class.where(option_type_id: option_type_id)
+                          .where("position > ?", position)
+                          .order(position: :asc).first
+      return unless sibling
+      sibling.update!(position: position)
+      update!(position: position + 1)
+    end
+  end
 end

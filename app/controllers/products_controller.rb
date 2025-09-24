@@ -1,22 +1,22 @@
 class ProductsController < ApplicationController
   allow_unauthenticated_access
+  before_action :set_product, only: :show
 
   def index
     @products = Product.published.ordered.includes(variants: { images_attachments: :blob })
   end
 
   def show
-    @product = Product.published.includes(variants: { images_attachments: :blob }).find_by(slug: params[:pack])
-
-    unless @product
-      redirect_to products_path, alert: "Product not found"
-      return
-    end
-
     @selected_color = params[:color] || "red"
     @selected_variant = @product.variant_for_color(@selected_color) || @product.default_variant
+    @products = Product.published.ordered # For compatibility with existing views
+  end
 
-    # For compatibility with existing views
-    @products = Product.published.ordered
+  private
+
+  def set_product
+    @product = Product.published.includes(variants: { images_attachments: :blob }).friendly.find(params[:pack])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to products_path, alert: "Product not found"
   end
 end

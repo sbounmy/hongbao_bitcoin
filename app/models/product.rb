@@ -2,6 +2,9 @@ class Product < ApplicationRecord
   include ArrayColumns
   include Metadata
 
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   array_columns :option_type_ids, only_integer: true
   store_accessor :metadata, :envelopes_count, :tokens_count
 
@@ -9,12 +12,15 @@ class Product < ApplicationRecord
   belongs_to :master_variant, class_name: 'Variant', optional: true
 
   validates :name, presence: true
-  validates :slug, presence: true, uniqueness: true
 
   scope :published, -> { where.not(published_at: nil).where("published_at <= ?", Time.current) }
   scope :ordered, -> { order(:position) }
 
-  before_validation :generate_slug, if: -> { slug.blank? }
+  # SQLite-compatible scope for finding products with specific option type
+  scope :with_option_type, ->(option_type_id) {
+    where("EXISTS (SELECT 1 FROM json_each(option_type_ids) WHERE value = ?)", option_type_id)
+  }
+
   after_create :create_master_variant
 
   def option_types
@@ -56,10 +62,6 @@ class Product < ApplicationRecord
   end
 
   private
-
-  def generate_slug
-    self.slug = name.parameterize if name.present?
-  end
 
   def create_master_variant
     return if master_variant.present?

@@ -12,6 +12,11 @@ class Variant < ApplicationRecord
   scope :non_master, -> { where(is_master: false) }
   scope :ordered, -> { order(:position) }
 
+  # SQLite-compatible scope for finding variants with specific option value
+  scope :with_option_value, ->(option_value_id) {
+    where("EXISTS (SELECT 1 FROM json_each(option_value_ids) WHERE value = ?)", option_value_id)
+  }
+
   delegate :name, :description, to: :product, prefix: true
 
   def option_values
