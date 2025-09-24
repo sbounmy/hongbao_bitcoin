@@ -41,7 +41,7 @@ ActiveAdmin.register Variant do
     f.inputs "Option Values" do
       f.input :option_value_ids, as: :check_boxes,
               collection: OptionValue.includes(:option_type).map { |ov|
-                ["#{ov.option_type.presentation}: #{ov.presentation}", ov.id]
+                [ "#{ov.option_type.presentation}: #{ov.presentation}", ov.id ]
               }
     end
 

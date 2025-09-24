@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   store_accessor :metadata, :envelopes_count, :tokens_count
 
   has_many :variants, -> { order(:position) }, dependent: :destroy
-  belongs_to :master_variant, class_name: 'Variant', optional: true
+  belongs_to :master_variant, class_name: "Variant", optional: true
 
   validates :name, presence: true
 
@@ -33,7 +33,7 @@ class Product < ApplicationRecord
 
   def default_variant
     # Prefer variant with stripe_price_id (regardless of is_master status), then master, then first
-    variants.where.not(stripe_price_id: nil).where.not(stripe_price_id: '').first ||
+    variants.where.not(stripe_price_id: nil).where.not(stripe_price_id: "").first ||
       variants.find_by(is_master: true) ||
       master_variant ||
       variants.first

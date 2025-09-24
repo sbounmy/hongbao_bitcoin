@@ -3,7 +3,7 @@ ActiveAdmin.register Product, as: "ShopProduct" do
 
   permit_params :name, :slug, :description, :meta_description, :stripe_product_id,
                 :position, :published_at, :master_variant_id,
-                metadata: [:envelopes_count, :tokens_count],
+                metadata: [ :envelopes_count, :tokens_count ],
                 option_type_ids: []
 
   index do
@@ -48,7 +48,7 @@ ActiveAdmin.register Product, as: "ShopProduct" do
     end
 
     f.inputs "Option Types" do
-      f.input :option_type_ids, as: :check_boxes, collection: OptionType.all.map { |ot| [ot.presentation, ot.id] }
+      f.input :option_type_ids, as: :check_boxes, collection: OptionType.all.map { |ot| [ ot.presentation, ot.id ] }
     end
 
     f.actions
