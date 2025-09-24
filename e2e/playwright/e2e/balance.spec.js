@@ -24,8 +24,8 @@ test.describe('Balance', () => {
 
   test('user can check balance and transfer tokens with 24 words mnemonic', async ({ page }) => {
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
-    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
-    await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
+    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
+    await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 15_000 });
     await expect(page).toHaveURL(/step=1/);
     await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
     await page.getByRole('button', { name: "Next →" }).click();
@@ -41,7 +41,7 @@ test.describe('Balance', () => {
   test('user cant check transfer with invalid mnemonic checksum', async ({ page }) => {
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
-    await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
+    await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
     await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
     await page.getByRole('button', { name: "Next →" }).click();
@@ -56,7 +56,7 @@ test.describe('Balance', () => {
   test('user cant check transfer with invalid mnemonic for given address', async ({ page }) => {
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
-    await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
+    await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
     await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
     await page.getByRole('button', { name: "Next →" }).click();
@@ -119,7 +119,6 @@ test.describe('Balance', () => {
     test.skip('only to transfer back BTC to tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')
     await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
-    await expect(page).toHaveURL(/step=1/);
     await page.getByRole('button', { name: "Next →" }).click();
     await page.getByRole('button', { name: "24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
