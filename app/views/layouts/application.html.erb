@@ -6,26 +6,28 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <%# Primary Meta Tags %>
-    <title><%= content_for?(:title) ? yield(:title) : t('.meta.title') %></title>
-    <meta name="title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
-    <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : t('.meta.keywords') %>">
-
-    <%# Open Graph / Facebook %>
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
-    <meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
-    <meta property="og:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
-
-
-    <%# Twitter %>
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
-    <meta property="twitter:description" content="<%= t('.meta.description') %>">
-    <meta property="twitter:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
-
-    <%= canonical_tag %>
+    <%# SEO Meta Tags - Using meta-tags gem %>
+    <%= display_meta_tags site: 'Hong₿ao',
+                          reverse: true,
+                          separator: '|',
+                          description: t('.meta.description'),
+                          keywords: t('.meta.keywords'),
+                          canonical: request.original_url,
+                          og: {
+                            site_name: 'Hong₿ao',
+                            type: 'website',
+                            title: :title,
+                            description: :description,
+                            image: content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg'),
+                            url: request.original_url
+                          },
+                          twitter: {
+                            card: 'summary_large_image',
+                            site: '@hongbaobitcoin',
+                            title: :title,
+                            description: :description,
+                            image: :og_image
+                          } %>
 
     <%= yield :head %>
 

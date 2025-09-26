@@ -4,7 +4,11 @@
       "Bash(bundle exec rspec:*)",
       "Bash(bin/rails:*)",
       "Bash(bundle exec rails runner:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "WebSearch",
+      "WebFetch(domain:kirillplatonov.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:spreecommerce.org)"
     ],
     "deny": [],
     "ask": []

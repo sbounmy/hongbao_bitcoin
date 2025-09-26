@@ -129,3 +129,9 @@ gem "canonical-rails", github: "jumph4x/canonical-rails"
 gem "country_select", "~> 11.0"
 
 gem "pagy", "~> 9.4"
+
+# SEO meta tags management
+gem "meta-tags"
+
+gem "shopify_api"
+gem "shopify_graphql"

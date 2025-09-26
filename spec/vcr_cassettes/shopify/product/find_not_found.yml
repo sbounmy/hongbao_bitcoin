@@ -1,0 +1,114 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<SHOPIFY_DOMAIN>/admin/api/2025-07/graphql.json
+    body:
+      encoding: UTF-8
+      string: '{"query":"fragment ProductFields on Product {\n  id\n  handle\n  title\n  description\n  tags\n  productType\n  createdAt\n  updatedAt\n  images(first:
+        10) {\n    edges {\n      node {\n        url\n        altText\n      }\n    }\n  }\n  metafields(first:
+        10) {\n    edges {\n      node {\n        namespace\n        key\n        value\n        type\n      }\n    }\n  }\n}\n\nfragment
+        VariantFields on ProductVariant {\n  id\n  title\n  price\n  sku\n  availableForSale\n  inventoryQuantity\n  selectedOptions
+        {\n    name\n    value\n  }\n}\n\n\nquery($id: ID!) {\n  product(id: $id)
+        {\n    ...ProductFields\n    variants(first: 20) {\n      edges {\n        node
+        {\n          ...VariantFields\n        }\n      }\n    }\n  }\n}\n","variables":{"id":"gid://shopify/Product/nonexistent"}}'
+    headers:
+      User-Agent:
+      - Shopify API Library v14.11.1 | Ruby 3.2.8
+      Accept:
+      - application/json
+      X-Shopify-Access-Token:
+      - "<SHOPIFY_ACCESS_TOKEN>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 26 Sep 2025 09:17:40 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Sorting-Hat-Podid:
+      - '327'
+      X-Sorting-Hat-Shopid:
+      - '92399468872'
+      Vary:
+      - Accept-Encoding
+      Referrer-Policy:
+      - origin-when-cross-origin
+      X-Frame-Options:
+      - DENY
+      X-Shopid:
+      - '92399468872'
+      X-Shardid:
+      - '327'
+      X-Stats-Userid:
+      - ''
+      X-Stats-Apiclientid:
+      - '283790573569'
+      X-Stats-Apipermissionid:
+      - '820564132168'
+      X-Shopify-Api-Version:
+      - 2025-07
+      Content-Language:
+      - en
+      X-Shopify-Api-Deprecated-Reason:
+      - Product.images
+      Strict-Transport-Security:
+      - max-age=7889238
+      X-Request-Id:
+      - 49bad380-0db6-4ebb-bede-9647416dda37-1758878260
+      Server-Timing:
+      - cfRequestDuration;dur=434.000015
+      - ipv6
+      - processing;dur=47, verdict_flag_enabled;desc="count=14";dur=0.911, graphql;desc="admin/query/other",
+        _y;desc="d42a1a78-7f12-4e5f-a77e-a3f4f0f36ae3", _s;desc="b099a247-f49b-4f35-ab60-34364552033d"
+      Content-Security-Policy:
+      - 'default-src ''self'' data: blob: ''unsafe-inline'' ''unsafe-eval'' https://*
+        shopify-pos://*; block-all-mixed-content; child-src ''self'' https://* shopify-pos://*;
+        connect-src ''self'' wss://* https://*; frame-ancestors ''none''; img-src
+        ''self'' data: blob: https:; script-src https://cdn.shopify.com https://cdn.shopifycdn.net
+        https://checkout.pci.shopifyinc.com https://checkout.pci.shopifyinc.com/build/75a428d/card_fields.js
+        https://api.stripe.com https://mpsnare.iesnare.com https://appcenter.intuit.com
+        https://www.paypal.com https://js.braintreegateway.com https://c.paypal.com
+        https://maps.googleapis.com https://www.google-analytics.com https://v.shopify.com
+        ''self'' ''unsafe-inline'' ''unsafe-eval''; upgrade-insecure-requests; report-uri
+        /csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=49bad380-0db6-4ebb-bede-9647416dda37-1758878260;
+        report-to shopify-csp'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Reporting-Endpoints:
+      - shopify-csp="/csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=49bad380-0db6-4ebb-bede-9647416dda37-1758878260"
+      X-Dc:
+      - gcp-europe-west1,gcp-europe-west1,gcp-europe-west1
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=73F3DIaqDKaqp6XLgrptSV1ZuFfDWhSL%2FXzMc4ZYRceao8%2F2Y%2FBKhyRuSiK89mvHhv1jxVtzya3jIivIpeCm9T4fAH%2FSCuFsnfPa5ZJ9aaH7Wb5akMMBYwEIzkHFbfLhP6XiqcbAAMv4y5%2BEmaEmzEW72wTdMWwg"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9851ab682a3e7e32-SIN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"product":null},"extensions":{"cost":{"requestedQueryCost":25,"actualQueryCost":1,"throttleStatus":{"maximumAvailable":2000.0,"currentlyAvailable":1999,"restoreRate":100.0}}}}'
+  recorded_at: Fri, 26 Sep 2025 09:17:40 GMT
+recorded_with: VCR 6.3.1

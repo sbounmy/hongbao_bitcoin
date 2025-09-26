@@ -1,0 +1,106 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<SHOPIFY_DOMAIN>/admin/api/2025-07/graphql.json
+    body:
+      encoding: UTF-8
+      string: '{"query":"query {\n  shop {\n    name\n    email\n    currencyCode\n    primaryDomain
+        {\n      url\n      host\n    }\n    billingAddress {\n      country\n      countryCodeV2\n    }\n  }\n}\n","variables":{}}'
+    headers:
+      User-Agent:
+      - Shopify API Library v14.11.1 | Ruby 3.2.8
+      Accept:
+      - application/json
+      X-Shopify-Access-Token:
+      - "<SHOPIFY_ACCESS_TOKEN>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 26 Sep 2025 04:10:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Sorting-Hat-Podid:
+      - '327'
+      X-Sorting-Hat-Shopid:
+      - '92399468872'
+      Vary:
+      - Accept-Encoding
+      Referrer-Policy:
+      - origin-when-cross-origin
+      X-Frame-Options:
+      - DENY
+      X-Shopid:
+      - '92399468872'
+      X-Shardid:
+      - '327'
+      X-Stats-Userid:
+      - ''
+      X-Stats-Apiclientid:
+      - '283790573569'
+      X-Stats-Apipermissionid:
+      - '820564132168'
+      X-Shopify-Api-Version:
+      - 2025-07
+      Content-Language:
+      - en
+      Strict-Transport-Security:
+      - max-age=7889238
+      X-Request-Id:
+      - 9b54cbf9-c6bf-41a8-9ad5-fcfb38f93b26-1758859807
+      Server-Timing:
+      - cfRequestDuration;dur=98.000050
+      - processing;dur=38, verdict_flag_enabled;desc="count=14";dur=11.731, graphql;desc="admin/query/other",
+        _y;desc="a3ad4ea6-3815-44a0-ba58-8af495aa55a1", _s;desc="f930af2b-7f67-48ae-b723-640b71a74e3f"
+      Content-Security-Policy:
+      - 'default-src ''self'' data: blob: ''unsafe-inline'' ''unsafe-eval'' https://*
+        shopify-pos://*; block-all-mixed-content; child-src ''self'' https://* shopify-pos://*;
+        connect-src ''self'' wss://* https://*; frame-ancestors ''none''; img-src
+        ''self'' data: blob: https:; script-src https://cdn.shopify.com https://cdn.shopifycdn.net
+        https://checkout.pci.shopifyinc.com https://checkout.pci.shopifyinc.com/build/75a428d/card_fields.js
+        https://api.stripe.com https://mpsnare.iesnare.com https://appcenter.intuit.com
+        https://www.paypal.com https://js.braintreegateway.com https://c.paypal.com
+        https://maps.googleapis.com https://www.google-analytics.com https://v.shopify.com
+        ''self'' ''unsafe-inline'' ''unsafe-eval''; upgrade-insecure-requests; report-uri
+        /csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=9b54cbf9-c6bf-41a8-9ad5-fcfb38f93b26-1758859807;
+        report-to shopify-csp'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Reporting-Endpoints:
+      - shopify-csp="/csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=9b54cbf9-c6bf-41a8-9ad5-fcfb38f93b26-1758859807"
+      X-Dc:
+      - gcp-europe-west1,gcp-europe-west1,gcp-europe-west1
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=Y7Mpatq8J5FmW2lT9Zs4SIKWT3KNynXZbziYxm2F0Oya2sz74z%2BmMFEw3w%2FdVNml%2FHlzGM9G49ikQ%2F6xWwe9pYLjdoqUcdkYXGf1U%2BjF5RRXbtykFLzN5RaXczGabJTnxtAeU6P1NnXEEnuk"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 984fe8e1d89ae1c5-MRS
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"shop":{"name":"HongBao test","email":"stephane@hackerhouse.paris","currencyCode":"EUR","primaryDomain":{"url":"https://<SHOPIFY_DOMAIN>","host":"<SHOPIFY_DOMAIN>"},"billingAddress":{"country":"France","countryCodeV2":"FR"}}},"extensions":{"cost":{"requestedQueryCost":2,"actualQueryCost":2,"throttleStatus":{"maximumAvailable":2000.0,"currentlyAvailable":1998,"restoreRate":100.0}}}}'
+  recorded_at: Fri, 26 Sep 2025 04:10:07 GMT
+recorded_with: VCR 6.3.1

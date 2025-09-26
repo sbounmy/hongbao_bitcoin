@@ -12,7 +12,7 @@ class Spot
   attr_accessor :date
 
   def initialize(date: nil)
-    @date = date
+    @date = date.try(:utc)
   end
 
   def self.current(currency)
@@ -36,9 +36,6 @@ class Spot
       response = Net::HTTP.get(build_uri(currency))
       JSON.parse(response).dig("data", "amount")&.to_f
     end
-  rescue StandardError => e
-    Rails.logger.error "Failed to fetch Coinbase #{price_type} price for #{currency}: #{e.message}"
-    nil
   end
 
   def build_uri(currency)

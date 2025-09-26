@@ -37,6 +37,58 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
     end
   end
 
+  group(filename: :sitemap_products) do
+    # Add products index page
+    add products_path, changefreq: "weekly", priority: 0.8
+
+    # Get all products from Shopify
+    begin
+      products = Shopify::Product.all
+      products.each do |product|
+        # Build images array from product images
+        product_images = []
+        if product.images&.any?
+          product.images.first(4).each do |image|
+            product_images << {
+              loc: image.url,
+              title: "#{product.title} Bitcoin Gift Envelope",
+              caption: product.description || "Bitcoin Gift Envelope Pack",
+              geo_location: "Worldwide"
+            }
+          end
+        end
+
+        # Add main product page
+        if product_images.any?
+          add product_path(pack: product.handle),
+              changefreq: "weekly",
+              priority: 0.8,
+              images: product_images
+        else
+          add product_path(pack: product.handle),
+              changefreq: "weekly",
+              priority: 0.8
+        end
+
+        # Add pages for each variant's color option
+        if product.variants&.any?
+          colors_added = Set.new
+          product.variants.each do |variant|
+            color_option = variant.selectedOptions&.find { |opt| opt.name.downcase == 'color' }
+            if color_option && !colors_added.include?(color_option.value.downcase)
+              colors_added.add(color_option.value.downcase)
+              add variant_product_path(pack: product.handle, color: color_option.value.downcase),
+                  changefreq: "weekly",
+                  priority: 0.7
+            end
+          end
+        end
+      end
+    rescue => e
+      Rails.logger.error "Failed to fetch Shopify products for sitemap: #{e.message}"
+    end
+  end
+
   group(filename: :sitemap_contents) do
     Content::Quote.all.each do |quote|
       # Determine the best image for the quote
