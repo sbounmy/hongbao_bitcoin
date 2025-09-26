@@ -41,66 +41,51 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
     # Add products index page
     add products_path, changefreq: "weekly", priority: 0.8
 
-    # Get all published products with their variants
-    Product.published.includes(variants: { images_attachments: :blob }).each do |product|
-      # Build images array from all variants' images
-      product_images = []
-      product.variants.each do |variant|
-        variant.images.each do |image|
-          if Rails.application.routes.url_helpers.respond_to?(:rails_blob_url)
+    # Get all products from Shopify
+    begin
+      products = Shopify::Product.all
+      products.each do |product|
+        # Build images array from product images
+        product_images = []
+        if product.images&.any?
+          product.images.first(4).each do |image|
             product_images << {
-              loc: Rails.application.routes.url_helpers.rails_blob_url(image, host: SitemapGenerator::Sitemap.default_host),
-              title: "#{product.name} - #{variant.options_text} Bitcoin Gift Envelope",
-              caption: product.description,
+              loc: image.url,
+              title: "#{product.title} Bitcoin Gift Envelope",
+              caption: product.description || "Bitcoin Gift Envelope Pack",
               geo_location: "Worldwide"
             }
           end
-          break # Only use first image per variant for sitemap
         end
-      end
 
-      # Add main product page
-      if product_images.any?
-        add product_path(pack: product.slug),
-            changefreq: "weekly",
-            priority: 0.8,
-            images: product_images.first(4) # Limit to 4 images
-      else
-        add product_path(pack: product.slug),
-            changefreq: "weekly",
-            priority: 0.8
-      end
+        # Add main product page
+        if product_images.any?
+          add product_path(pack: product.handle),
+              changefreq: "weekly",
+              priority: 0.8,
+              images: product_images
+        else
+          add product_path(pack: product.handle),
+              changefreq: "weekly",
+              priority: 0.8
+        end
 
-      # Add pages for each variant's color
-      color_type = OptionType.find_by(name: "color")
-      if color_type
-        color_values = OptionValue.where(option_type: color_type)
-        color_values.each do |color_value|
-          variant = product.variant_for_color(color_value.name)
-          if variant
-            variant_images = []
-            if variant.images.any? && Rails.application.routes.url_helpers.respond_to?(:rails_blob_url)
-              variant_images << {
-                loc: Rails.application.routes.url_helpers.rails_blob_url(variant.images.first, host: SitemapGenerator::Sitemap.default_host),
-                title: "#{product.name} - #{color_value.presentation} Bitcoin Gift Envelope",
-                caption: product.description,
-                geo_location: "Worldwide"
-              }
-            end
-
-            if variant_images.any?
-              add variant_product_path(pack: product.slug, color: color_value.name),
-                  changefreq: "weekly",
-                  priority: 0.7,
-                  images: variant_images
-            else
-              add variant_product_path(pack: product.slug, color: color_value.name),
+        # Add pages for each variant's color option
+        if product.variants&.any?
+          colors_added = Set.new
+          product.variants.each do |variant|
+            color_option = variant.selectedOptions&.find { |opt| opt.name.downcase == 'color' }
+            if color_option && !colors_added.include?(color_option.value.downcase)
+              colors_added.add(color_option.value.downcase)
+              add variant_product_path(pack: product.handle, color: color_option.value.downcase),
                   changefreq: "weekly",
                   priority: 0.7
             end
           end
         end
       end
+    rescue => e
+      Rails.logger.error "Failed to fetch Shopify products for sitemap: #{e.message}"
     end
   end
 

@@ -3,7 +3,7 @@
   <section class="max-w-7xl mx-auto flex flex-col items-center gap-8 p-8 justify-center">
 
     <%= render V3::PricingComponent.new(title: false) do |component| %>
-      <% products = Product.published.ordered.includes(variants: { images_attachments: :blob }) %>
+      <% products = Shopify::Product.all %>
       <% products.each do |product| %>
         <% component.with_plan(product: product) %>
       <% end %>

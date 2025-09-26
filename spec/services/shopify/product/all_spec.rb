@@ -26,11 +26,19 @@ RSpec.describe Shopify::Product::All do
       mock_product = OpenStruct.new(
         id: 'gid://shopify/Product/1',
         title: 'Test Product',
-        handle: 'test-product'
+        handle: 'test-product',
+        description: nil,
+        tags: nil,
+        productType: nil,
+        createdAt: nil,
+        updatedAt: nil,
+        images: nil,
+        metafields: nil,
+        variants: nil
       )
 
-      mock_edges = [OpenStruct.new(node: mock_product)]
-      mock_products = OpenStruct.new(edges: mock_edges)
+      mock_edges = [ OpenStruct.new(node: mock_product) ]
+      mock_products = OpenStruct.new(edges: mock_edges, pageInfo: OpenStruct.new(hasNextPage: false))
       mock_data = OpenStruct.new(products: mock_products)
       mock_response = OpenStruct.new(data: mock_data, errors: nil)
 
@@ -38,8 +46,11 @@ RSpec.describe Shopify::Product::All do
 
       result = query_instance.call(limit: 10)
 
-      expect(result.data).to eq([mock_product])
+      # Check the parsed product structure
+      expect(result.data).to be_an(Array)
+      expect(result.data.first.id).to eq('gid://shopify/Product/1')
       expect(result.data.first.title).to eq('Test Product')
+      expect(result.data.first.handle).to eq('test-product')
     end
 
     it 'includes all expected fields in the GraphQL query' do
@@ -63,8 +74,8 @@ RSpec.describe Shopify::Product::All do
     context 'with error response' do
       it 'returns the response with errors' do
         mock_response = OpenStruct.new(
-          data: nil,
-          errors: [OpenStruct.new(message: 'API error')]
+          data: OpenStruct.new(products: OpenStruct.new(edges: nil, pageInfo: OpenStruct.new(hasNextPage: false))),
+          errors: [ OpenStruct.new(message: 'API error') ]
         )
 
         allow(query_instance).to receive(:execute).and_return(mock_response)
@@ -72,13 +83,16 @@ RSpec.describe Shopify::Product::All do
         result = query_instance.call(limit: 10)
 
         expect(result.errors).not_to be_nil
-        expect(result.data).to be_nil
+        expect(result.data).to eq([])
       end
     end
 
     context 'with session management' do
       it 'wraps the query execution in a Shopify session' do
-        mock_response = OpenStruct.new(data: OpenStruct.new(products: OpenStruct.new(edges: [])), errors: nil)
+        mock_response = OpenStruct.new(
+          data: OpenStruct.new(products: OpenStruct.new(edges: [], pageInfo: OpenStruct.new(hasNextPage: false))),
+          errors: nil
+        )
 
         expect(Shopify::Client).to receive(:with_session).and_yield
         allow(query_instance).to receive(:execute).and_return(mock_response)

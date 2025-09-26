@@ -4,49 +4,19 @@ module Shopify
       include ShopifyGraphql::Query
 
       QUERY = <<~GRAPHQL
-        query($first: Int!) {
-          products(first: $first) {
+        #{Fields::FRAGMENT}
+        #{Shopify::Variant::Fields::FRAGMENT}
+
+        query($first: Int!, $cursor: String) {
+          products(first: $first, after: $cursor) {
             edges {
+              cursor
               node {
-                id
-                handle
-                title
-                description
-                tags
-                productType
-                createdAt
-                updatedAt
-                images(first: 10) {
-                  edges {
-                    node {
-                      url
-                      altText
-                    }
-                  }
-                }
+                ...ProductFields
                 variants(first: 20) {
                   edges {
                     node {
-                      id
-                      title
-                      price
-                      sku
-                      availableForSale
-                      inventoryQuantity
-                      selectedOptions {
-                        name
-                        value
-                      }
-                    }
-                  }
-                }
-                metafields(first: 10) {
-                  edges {
-                    node {
-                      namespace
-                      key
-                      value
-                      type
+                      ...VariantFields
                     }
                   }
                 }
@@ -60,16 +30,43 @@ module Shopify
         }
       GRAPHQL
 
-      def call(limit:)
+      def call(limit:, paginate: false)
         Shopify::Client.with_session do
           response = execute(QUERY, first: limit)
+          data = parse_data(response.data.products.edges)
 
-          # Extract just the product nodes from the edges
-          if response.errors.nil?
-            response.data = response.data.products.edges.map(&:node)
+          # Handle pagination if requested
+          if paginate && response.data.products.pageInfo.hasNextPage
+            cursor = response.data.products.pageInfo.endCursor
+
+            while response.data.products.pageInfo.hasNextPage
+              response = execute(QUERY, first: limit, cursor: cursor)
+              data += parse_data(response.data.products.edges)
+              cursor = response.data.products.pageInfo.endCursor
+            end
           end
 
+          response.data = data
           response
+        end
+      end
+
+      private
+
+      def parse_data(edges)
+        return [] if edges.blank?
+
+        edges.compact.map do |edge|
+          product = Fields.parse(edge.node)
+
+          # Parse variants and attach to product
+          if edge.node.variants&.edges.present?
+            product.variants = edge.node.variants.edges.compact.map do |variant_edge|
+              Shopify::Variant::Fields.parse(variant_edge.node)
+            end
+          end
+
+          product
         end
       end
     end

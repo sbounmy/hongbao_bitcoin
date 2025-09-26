@@ -1,0 +1,117 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<SHOPIFY_DOMAIN>/admin/api/2025-07/graphql.json
+    body:
+      encoding: UTF-8
+      string: '{"query":"fragment ProductFields on Product {\n  id\n  handle\n  title\n  description\n  tags\n  productType\n  createdAt\n  updatedAt\n  images(first:
+        10) {\n    edges {\n      node {\n        url\n        altText\n      }\n    }\n  }\n  metafields(first:
+        10) {\n    edges {\n      node {\n        namespace\n        key\n        value\n        type\n      }\n    }\n  }\n}\n\nfragment
+        VariantFields on ProductVariant {\n  id\n  title\n  price\n  sku\n  availableForSale\n  inventoryQuantity\n  selectedOptions
+        {\n    name\n    value\n  }\n}\n\n\nquery($id: ID!) {\n  product(id: $id)
+        {\n    ...ProductFields\n    variants(first: 20) {\n      edges {\n        node
+        {\n          ...VariantFields\n        }\n      }\n    }\n  }\n}\n","variables":{"id":"gid://shopify/Product/9692959244616"}}'
+    headers:
+      User-Agent:
+      - Shopify API Library v14.11.1 | Ruby 3.2.8
+      Accept:
+      - application/json
+      X-Shopify-Access-Token:
+      - "<SHOPIFY_ACCESS_TOKEN>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 26 Sep 2025 09:18:42 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Sorting-Hat-Podid:
+      - '327'
+      X-Sorting-Hat-Shopid:
+      - '92399468872'
+      Vary:
+      - Accept-Encoding
+      Referrer-Policy:
+      - origin-when-cross-origin
+      X-Frame-Options:
+      - DENY
+      X-Shopid:
+      - '92399468872'
+      X-Shardid:
+      - '327'
+      X-Stats-Userid:
+      - ''
+      X-Stats-Apiclientid:
+      - '283790573569'
+      X-Stats-Apipermissionid:
+      - '820564132168'
+      X-Shopify-Api-Version:
+      - 2025-07
+      Content-Language:
+      - en
+      X-Shopify-Api-Deprecated-Reason:
+      - Product.images
+      Strict-Transport-Security:
+      - max-age=7889238
+      X-Request-Id:
+      - 27543b81-2aa4-446b-ba79-1c4573005f07-1758878322
+      Server-Timing:
+      - cfRequestDuration;dur=467.999935
+      - ipv6
+      - processing;dur=75, verdict_flag_enabled;desc="count=19";dur=2.112, graphql;desc="admin/query/other",
+        _y;desc="f9539e41-280a-4033-a85c-0cf41144f46a", _s;desc="11004e33-268c-4235-a794-1f83616eb80c"
+      Content-Security-Policy:
+      - 'default-src ''self'' data: blob: ''unsafe-inline'' ''unsafe-eval'' https://*
+        shopify-pos://*; block-all-mixed-content; child-src ''self'' https://* shopify-pos://*;
+        connect-src ''self'' wss://* https://*; frame-ancestors ''none''; img-src
+        ''self'' data: blob: https:; script-src https://cdn.shopify.com https://cdn.shopifycdn.net
+        https://checkout.pci.shopifyinc.com https://checkout.pci.shopifyinc.com/build/75a428d/card_fields.js
+        https://api.stripe.com https://mpsnare.iesnare.com https://appcenter.intuit.com
+        https://www.paypal.com https://js.braintreegateway.com https://c.paypal.com
+        https://maps.googleapis.com https://www.google-analytics.com https://v.shopify.com
+        ''self'' ''unsafe-inline'' ''unsafe-eval''; upgrade-insecure-requests; report-uri
+        /csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=27543b81-2aa4-446b-ba79-1c4573005f07-1758878322;
+        report-to shopify-csp'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Reporting-Endpoints:
+      - shopify-csp="/csp-report?source%5Baction%5D=query&source%5Bapp%5D=Shopify&source%5Bcontroller%5D=admin%2Fgraphql&source%5Bsection%5D=admin_api&source%5Buuid%5D=27543b81-2aa4-446b-ba79-1c4573005f07-1758878322"
+      X-Dc:
+      - gcp-europe-west1,gcp-europe-west1,gcp-europe-west1
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=tOcmYyYaId9TZQtFWBs1gnqpG0DR8rhlS2yWipwdtzFIsXeRsPbz64VM9Fc3BYPLDjeuS64cooxIKoVO5VGyDw99HX4rfbg5lVxC9aIE7Ouay1iYInzhk%2FGfgGiPyOYrqiEQW4Oh3HR1rtYGa52H6XW53z7kZzrM"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9851aceb5cf1fde6-SIN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"product":{"id":"gid://shopify/Product/9692959244616","handle":"mini-pack","title":"Mini
+        Pack","description":"","tags":[],"productType":"","createdAt":"2025-09-25T14:04:59Z","updatedAt":"2025-09-25T14:49:55Z","images":{"edges":[{"node":{"url":"https://cdn.shopify.com/s/files/1/0923/9946/8872/files/001_red_pack_6.jpg?v=1758872150","altText":""}}]},"metafields":{"edges":[]},"variants":{"edges":[{"node":{"id":"gid://shopify/ProductVariant/51482576486728","title":"Default
+        Title","price":"29.00","sku":null,"availableForSale":false,"inventoryQuantity":0,"selectedOptions":[{"name":"Title","value":"Default
+        Title"}]}}]}}},"extensions":{"cost":{"requestedQueryCost":25,"actualQueryCost":10,"throttleStatus":{"maximumAvailable":2000.0,"currentlyAvailable":1990,"restoreRate":100.0}}}}'
+  recorded_at: Fri, 26 Sep 2025 09:18:42 GMT
+recorded_with: VCR 6.3.1

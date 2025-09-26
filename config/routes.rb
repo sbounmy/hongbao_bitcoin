@@ -72,8 +72,7 @@ Rails.application.routes.draw do
 
   # SEO-friendly product pages for Bitcoin envelopes (must be before generic content routes)
   resources :products, path: "bitcoin-envelopes",
-            only: [ :index, :show ],
-            param: :pack do
+            only: [ :index, :show ] do
     member do
       get ":color", action: :show, as: :variant
     end

@@ -32,12 +32,17 @@
     <!-- Products Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <% @products.each do |product| %>
-        <% default_variant = product.default_variant %>
+        <%
+          # Get first variant for pricing
+          first_variant = product.variants&.first
+          # Get first image from product
+          first_image = product.images&.first
+        %>
         <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all">
           <figure class="px-10 pt-10">
-            <% if default_variant&.images&.any? %>
-              <%= image_tag default_variant.images.first,
-                  alt: "#{product.name} Bitcoin Gift Envelope Pack",
+            <% if first_image %>
+              <%= image_tag first_image.url,
+                  alt: "#{product.title} Bitcoin Gift Envelope Pack",
                   class: "rounded-xl" %>
             <% else %>
               <div class="w-full h-64 bg-base-300 rounded-xl flex items-center justify-center">
@@ -46,20 +51,20 @@
             <% end %>
           </figure>
           <div class="card-body items-center text-center">
-            <h2 class="card-title text-2xl"><%= product.name %></h2>
+            <h2 class="card-title text-2xl"><%= product.title %></h2>
             <div class="badge badge-primary badge-lg mb-2">
-              <%= product.envelopes_count %> envelopes
+              6 envelopes
             </div>
             <p class="text-base-content/70"><%= product.description %></p>
             <div class="text-3xl font-bold text-primary mt-4">
-              <%= product.display_price %>
+              €<%= first_variant&.price&.to_f&.to_i || 0 %>
             </div>
             <div class="text-sm text-base-content/60">
-              + <%= product.tokens_count %> credits included
+              + credits included
             </div>
             <div class="card-actions mt-6">
               <%= link_to "View Details",
-                  product_path(pack: product.slug),
+                  product_path(id: product.id),
                   class: "btn btn-primary" %>
             </div>
           </div>
