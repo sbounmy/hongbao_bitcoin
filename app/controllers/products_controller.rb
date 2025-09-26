@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
     @products = Product.published.ordered # For compatibility with existing views
   end
 
+
   private
 
   def set_product
