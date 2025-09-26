@@ -3,10 +3,6 @@ module Shopify
     class All
       include ShopifyGraphql::Query
 
-      def initialize
-        # Session is managed by Shopify::Client
-      end
-
       QUERY = <<~GRAPHQL
         query($first: Int!) {
           products(first: $first) {

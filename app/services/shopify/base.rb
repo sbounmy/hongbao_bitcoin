@@ -11,6 +11,9 @@ module Shopify
         else
           handle_errors(response)
         end
+      rescue ShopifyGraphql::ConnectionError, ShopifyAPI::Errors::HttpResponseError => e
+        Rails.logger.error "Shopify GraphQL Error: #{e.message}"
+        raise ShopifyError, e.message
       end
 
       def handle_errors(response)

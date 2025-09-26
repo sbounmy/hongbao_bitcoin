@@ -25,6 +25,8 @@ VCR.configure do |config|
   config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_ID>") { Rails.application.credentials.dig(:blockstream, :client_id) }
   config.filter_sensitive_data("<BLOCKSTREAM_CLIENT_SECRET>") { Rails.application.credentials.dig(:blockstream, :client_secret) }
   config.filter_sensitive_data("<BTCPAY_API_KEY>") { Rails.application.credentials.dig(:btcpay, :api_key) }
+  config.filter_sensitive_data("<SHOPIFY_ACCESS_TOKEN>") { Rails.application.credentials.dig(:shopify, :access_token) }
+  config.filter_sensitive_data("<SHOPIFY_DOMAIN>") { Rails.application.credentials.dig(:shopify, :domain) }
 
   # Ignore Stripe checkout session requests as we need to checkout on Stripe's side
   config.ignore_request do |request|
