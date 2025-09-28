@@ -9,11 +9,14 @@ ActiveAdmin.register OptionValue do
     column :option_type
     column :name
     column :presentation
-    column :hex_color do |value|
+    column :color do |value|
       if value.hex_color.present?
-        span style: "background-color: #{value.hex_color}; padding: 2px 10px; color: white; border-radius: 3px;" do
-          value.hex_color
+        div style: "display: flex; align-items: center; gap: 8px;" do
+          span style: "display: inline-block; width: 30px; height: 30px; background-color: #{value.hex_color}; border: 1px solid #ddd; border-radius: 50%;"
+          span value.hex_color
         end
+      else
+        span "-", style: "color: #999;"
       end
     end
     column :position
@@ -33,8 +36,19 @@ ActiveAdmin.register OptionValue do
       f.input :option_type, hint: "The option type this value belongs to"
       f.input :name, hint: "Internal name (e.g., 'red', 'mini')"
       f.input :presentation, hint: "Display name (e.g., 'Red', 'Mini Pack')"
-      f.input :hex_color, hint: "For color values, provide hex code (e.g., #FF0000)",
-              input_html: { type: "color", value: f.object.hex_color || "#000000" }
+
+      # Only show color input for color option types
+      if f.object.option_type&.name == "color" || f.object.new_record?
+        f.input :hex_color,
+                label: "Color",
+                hint: "Select the color for this option value",
+                input_html: {
+                  type: "color",
+                  value: f.object.hex_color || "#000000",
+                  style: "width: 100px; height: 40px; cursor: pointer;"
+                }
+      end
+
       f.input :position
     end
 
@@ -47,13 +61,18 @@ ActiveAdmin.register OptionValue do
       row :option_type
       row :name
       row :presentation
-      row :hex_color do |value|
+      row :color do |value|
         if value.hex_color.present?
-          div do
-            span style: "background-color: #{value.hex_color}; display: inline-block; width: 100px; padding: 10px; color: white; text-align: center; border-radius: 3px;" do
-              value.hex_color
+          div style: "display: flex; align-items: center; gap: 12px;" do
+            span style: "display: inline-block; width: 60px; height: 60px; background-color: #{value.hex_color}; border: 2px solid #ddd; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+            div do
+              strong value.hex_color
+              br
+              span value.presentation, style: "color: #666; font-size: 12px;"
             end
           end
+        else
+          span "No color set", style: "color: #999;"
         end
       end
       row :position
@@ -81,8 +100,6 @@ ActiveAdmin.register OptionValue do
         para "No variants are using this option value"
       end
     end
-
-    active_admin_comments
   end
 
   controller do
@@ -102,6 +119,22 @@ ActiveAdmin.register OptionValue do
       option_value.update(position: index)
     end
     redirect_to collection_path, notice: "Option values reordered!"
+  end
+
+  batch_action :set_color, form: -> {
+    {
+      hex_color: {
+        input: :color,
+        label: "Select Color",
+        required: true,
+        input_html: { value: "#000000" }
+      }
+    }
+  } do |ids, inputs|
+    batch_action_collection.find(ids).each do |option_value|
+      option_value.update(hex_color: inputs[:hex_color])
+    end
+    redirect_to collection_path, notice: "Colors updated for #{ids.size} option values!"
   end
 
   member_action :move_up, method: :post do

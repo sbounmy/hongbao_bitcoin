@@ -59,4 +59,28 @@ class Variant < ApplicationRecord
     color_abbr = color_option_value&.name&.upcase || "DEF"
     self.sku = "#{product.slug.upcase}-#{size_abbr}-#{color_abbr}"
   end
+
+  # Get all color option values for this variant
+  def color_option_values
+    option_values.select { |ov| ov.option_type.name == "color" }
+  end
+
+  # Get the display color(s) for the variant
+  def display_colors
+    color_option_values.filter_map(&:hex_color)
+  end
+
+  # Get background style for the variant (inline style for dynamic colors)
+  def background_style
+    colors = display_colors
+    return "background-color: #9ca3af" if colors.empty? # gray-400 fallback
+
+    if colors.size > 1
+      # Split color gradient - display first half one color, second half another
+      "background: linear-gradient(to right, #{colors[0]} 50%, #{colors[1]} 50%)"
+    else
+      # Single color
+      "background-color: #{colors[0]}"
+    end
+  end
 end

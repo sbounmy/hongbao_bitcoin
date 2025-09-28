@@ -77,7 +77,7 @@ ActiveAdmin.register Product, as: "ShopProduct" do
     end
 
     panel "Variants" do
-      table_for product.variants do
+      table_for resource.variants do
         column :id
         column :sku
         column :price do |variant|
@@ -94,8 +94,6 @@ ActiveAdmin.register Product, as: "ShopProduct" do
         end
       end
     end
-
-    active_admin_comments
   end
 
   controller do
@@ -142,6 +140,6 @@ ActiveAdmin.register Product, as: "ShopProduct" do
   end
 
   action_item :duplicate, only: :show do
-    link_to "Duplicate", duplicate_admin_shop_product_path(shop_product), method: :post
+    link_to "Duplicate", duplicate_admin_shop_product_path(resource), method: :post
   end
 end

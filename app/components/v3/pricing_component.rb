@@ -19,15 +19,22 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   def selected_variant
-    selected_product&.variant_for_color(color)
+    return nil unless selected_product
+
+    if params[:variant_id].present?
+      selected_product.variants.find_by(id: params[:variant_id])
+    else
+      selected_product.default_variant
+    end
   end
 
   def pack
-    params[:pack] || "mini-pack"
+    params[:pack] || "mini"
   end
 
   def color
-    params[:color] || "red"
+    # Keep for backwards compatibility with checkout buttons
+    selected_variant&.color_option_value&.name || "red"
   end
 
 

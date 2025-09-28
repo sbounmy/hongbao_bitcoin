@@ -46,12 +46,14 @@ ActiveAdmin.register Variant do
     end
 
     f.inputs "Images" do
-      f.has_many :images_attachments, allow_destroy: true do |a|
-        if a.object.persisted? && a.object.blob
-          a.input :_destroy, as: :boolean, label: "Remove #{a.object.filename}"
-          a.template.content_tag(:li) do
-            a.template.image_tag(a.template.url_for(a.object), style: "max-width: 200px;")
-          end
+      if f.object.persisted? && f.object.images.any?
+        f.template.content_tag(:div, class: "attached-images") do
+          f.template.safe_join(f.object.images.map do |image|
+            f.template.content_tag(:div, style: "display: inline-block; margin: 10px;") do
+              f.template.image_tag(f.template.url_for(image), style: "max-width: 200px;") +
+              f.template.content_tag(:p, image.filename.to_s, style: "text-align: center;")
+            end
+          end)
         end
       end
       f.input :images, as: :file, input_html: { multiple: true }, hint: "Select multiple images to upload"
@@ -95,8 +97,6 @@ ActiveAdmin.register Variant do
         para "No images attached"
       end
     end
-
-    active_admin_comments
   end
 
   controller do
