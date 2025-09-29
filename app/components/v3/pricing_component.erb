@@ -40,11 +40,9 @@
 
             <div class="mb-4">
               <h2 class="text-xl font-semibold text-base-content mb-4">Choose your color(s)</h2>
-              <div class="sm:w-2/3">
-                <% if selected_product %>
-                  <%= render V3::VariantSelectorComponent.new(product: selected_product, current_variant_id: selected_variant&.id) %>
-                <% end %>
-              </div>
+              <% if selected_product %>
+                <%= render V3::VariantSelectorComponent.new(product: selected_product, current_variant_id: selected_variant&.id) %>
+              <% end %>
             </div>
 
           <% end %>

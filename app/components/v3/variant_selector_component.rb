@@ -44,10 +44,9 @@ class V3::VariantSelectorComponent < ApplicationComponent
       base = "block w-16 h-16 rounded-full border-2 shadow-md cursor-pointer flex-shrink-0"
       hover = "hover:scale-110 transition-transform"
       focus = "peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-blue-500"
-      checked = "peer-checked:border-blue-300 peer-checked:ring-2 peer-checked:ring-blue-300"
       selected_state = selected ? "border-blue-300 ring-2 ring-blue-300" : "border-white"
 
-      "#{base} #{hover} #{focus} #{checked} #{selected_state}"
+      "#{base} #{hover} #{focus} #{selected_state}"
     end
 
     def background_style
