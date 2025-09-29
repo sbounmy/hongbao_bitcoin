@@ -50,7 +50,7 @@ module Checkout
             return success(user)
           end
 
-          Rails.logger.info("Creating token for session #{session.id}")
+          Rails.logger.info("Creating #{cs.line_items.data.first.price.product.metadata.tokens} token for session #{session.id}")
           user.tokens.create!(
               quantity: cs.line_items.data.first.price.product.metadata.tokens,
               description: "Tokens purchased from Stripe #{session.payment_intent}",
