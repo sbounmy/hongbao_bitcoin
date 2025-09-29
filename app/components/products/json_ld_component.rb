@@ -35,8 +35,9 @@ module Products
       return [] unless @variant&.images&.any?
 
       # Return up to 3 images for structured data
+      # Use absolute URLs for SEO/Google structured data
       @variant.images.first(3).map do |image|
-        helpers.url_for(image)
+        helpers.rails_blob_url(image, host: helpers.request.base_url)
       end
     end
 
@@ -109,6 +110,5 @@ module Products
         }
       ]
     end
-
   end
 end
