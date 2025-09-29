@@ -42,18 +42,6 @@ class ImportProductsFromStripe < ActiveRecord::Migration[8.0]
       ov.position = 2
     end
 
-    green_value = color_type.option_values.find_or_create_by!(name: "green") do |ov|
-      ov.presentation = "Green"
-      ov.hex_color = "#16A34A"
-      ov.position = 3
-    end
-
-    purple_value = color_type.option_values.find_or_create_by!(name: "purple") do |ov|
-      ov.presentation = "Purple"
-      ov.hex_color = "#9333EA"
-      ov.position = 4
-    end
-
     # Fetch products from Stripe
     begin
       stripe_products = StripeService.fetch_products
@@ -99,29 +87,36 @@ class ImportProductsFromStripe < ActiveRecord::Migration[8.0]
 
       # Color configurations for image folders
       color_configs = [
-        { value: red_value, folder: "001_red", is_master: true },
-        { value: orange_value, folder: "002_orange", is_master: false },
-        { value: green_value, folder: nil, is_master: false },
-        { value: purple_value, folder: nil, is_master: false }
+        { values: [ red_value ], folder: "001_red", is_master: true },
+        { values: [ orange_value ], folder: "002_orange", is_master: false }
       ]
+      if product.slug != "mini"
+        color_configs << { values: [ red_value, orange_value ], folder: "005_split_orange_red", is_master: false }
+      end
 
       # Create variants for each color
       color_configs.each_with_index do |color_config, color_index|
-        sku = "#{stripe_product[:slug].upcase}-#{color_config[:value].name.upcase}"
+        # Build SKU from color values
+        color_names = color_config[:values].map(&:name).join("_")
+        sku = "#{stripe_product[:slug].upcase}-#{size_value.name.upcase}-#{color_names.upcase}"
+
+        # Combine size and color option value IDs
+        option_ids = [size_value.id] + color_config[:values].map(&:id)
 
         # Try to find by SKU first, then by option values
         variant = product.variants.find_by(sku: sku) ||
                   product.variants.find_or_initialize_by(
-                    option_value_ids: [ size_value.id, color_config[:value].id ]
+                    product_id: product.id,
+                    is_master: color_config[:is_master]
                   )
 
         variant.assign_attributes(
           sku: sku,
           price: stripe_product[:price],
-          stripe_price_id: color_config[:is_master] ? stripe_product[:stripe_price_id] : nil,
+          stripe_price_id: stripe_product[:stripe_price_id],
           is_master: color_config[:is_master],
           position: color_index,
-          option_value_ids: [ size_value.id, color_config[:value].id ]
+          option_value_ids: option_ids
         )
 
         variant.save!

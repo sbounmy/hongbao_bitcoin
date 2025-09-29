@@ -13,7 +13,7 @@ class V3::VariantSelectorComponent < ApplicationComponent
     return unless product
 
     # Create an option for each non-master variant
-    product.available_variants.non_master.each do |variant|
+    product.available_variants.each do |variant|
       is_selected = variant.id == current_variant_id
 
       with_option(

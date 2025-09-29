@@ -33,8 +33,7 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   def color
-    # Keep for backwards compatibility with checkout buttons
-    selected_variant&.color_option_value&.name || "red"
+    selected_variant&.color_option_value&.name
   end
 
 
@@ -115,7 +114,7 @@ class V3::PricingComponent < ApplicationComponent
     end
 
     def stripe_price_id
-      product.master_variant&.stripe_price_id || product.default_variant&.stripe_price_id
+      selected_variant&.stripe_price_id
     end
   end
 end
