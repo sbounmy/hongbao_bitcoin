@@ -101,7 +101,7 @@ class ImportProductsFromStripe < ActiveRecord::Migration[8.0]
         sku = "#{stripe_product[:slug].upcase}-#{size_value.name.upcase}-#{color_names.upcase}"
 
         # Combine size and color option value IDs
-        option_ids = [size_value.id] + color_config[:values].map(&:id)
+        option_ids = [ size_value.id ] + color_config[:values].map(&:id)
 
         # Try to find by SKU first, then by option values
         variant = product.variants.find_by(sku: sku) ||
