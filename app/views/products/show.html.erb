@@ -30,7 +30,7 @@
 %>
 
 <% content_for :head do %>
-  <%= render Products::StripeJsonLdComponent.new(
+  <%# render Products::StripeJsonLdComponent.new(
     product: {
       name: @product.name,
       description: @product.description,
@@ -67,11 +67,11 @@
       </p>
     </div>
 
-    <!-- Reuse existing pricing component in a turbo frame -->
-    <%= turbo_frame_tag "plan_options", src: root_path(pack: @product.slug, color: @selected_color), loading: :lazy do %>
-      <div class="text-center py-8">
-        <span class="loading loading-spinner loading-lg"></span>
-      </div>
+    <%= render V3::PricingComponent.new(title: false) do |component| %>
+      <% products = Product.published.ordered.includes(variants: { images_attachments: :blob }) %>
+      <% products.each do |product| %>
+        <% component.with_plan(product: product) %>
+      <% end %>
     <% end %>
 
     <!-- SEO Content Section -->

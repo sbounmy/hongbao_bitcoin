@@ -27,7 +27,7 @@
           <p class="text-base-content/70 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
         </div>
   <!-- app/components/v3/plan_option_component.erb -->
-          <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
+          <%= form_tag helpers.request.path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
 
             <div class="mb-8">
               <h2 class="text-xl font-semibold text-base-content mb-4">How many would you like?</h2>
