@@ -1,9 +1,8 @@
 module Btcpay
   module Btc
     class CheckoutButtonComponent < ::CheckoutButtonComponent
-      def initialize(price_id:, color: nil, classes: nil)
-        @price_id = price_id
-        @color = color
+      def initialize(variant_id:, classes: nil)
+        @variant_id = variant_id
         @classes = classes
         @payment_method = "BTC"
       end

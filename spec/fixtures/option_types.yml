@@ -1,0 +1,11 @@
+---
+size:
+  id: 3
+  name: size
+  presentation: Size
+  position: 1
+color:
+  id: 4
+  name: color
+  presentation: Color
+  position: 2

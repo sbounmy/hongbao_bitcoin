@@ -1,0 +1,91 @@
+---
+mini_red:
+  id: 17
+  product_id: 4
+  sku: MINI-MINI-RED
+  price: !ruby/object:BigDecimal 9:0.29e2
+  stripe_price_id: price_1RsgAeIeDQzQhbSLL3mL94AR
+  is_master: true
+  position: 0
+  option_value_ids:
+  - 8
+  - 11
+mini_orange:
+  id: 18
+  product_id: 4
+  sku: MINI-MINI-ORANGE
+  price: !ruby/object:BigDecimal 9:0.29e2
+  stripe_price_id: price_1RsgAeIeDQzQhbSLL3mL94AR
+  is_master: false
+  position: 1
+  option_value_ids:
+  - 8
+  - 12
+family_red:
+  id: 19
+  product_id: 5
+  sku: FAMILY-FAMILY-RED
+  price: !ruby/object:BigDecimal 9:0.39e2
+  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
+  is_master: true
+  position: 0
+  option_value_ids:
+  - 9
+  - 11
+family_red_orange:
+  id: 20
+  product_id: 5
+  sku: FAMILY-FAMILY-RED_ORANGE
+  price: !ruby/object:BigDecimal 9:0.39e2
+  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
+  is_master: false
+  position: 2
+  option_value_ids:
+  - 9
+  - 11
+  - 12
+maximalist_red:
+  id: 21
+  product_id: 6
+  sku: MAXIMALIST-MAXIMALIST-RED
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
+  is_master: true
+  position: 0
+  option_value_ids:
+  - 10
+  - 11
+maximalist_red_orange:
+  id: 22
+  product_id: 6
+  sku: MAXIMALIST-MAXIMALIST-RED_ORANGE
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
+  is_master: false
+  position: 2
+  option_value_ids:
+  - 10
+  - 11
+  - 12
+family_orange:
+  id: 23
+  product_id: 5
+  sku: FAMILY-FAMILY-ORANGE
+  price: !ruby/object:BigDecimal 9:0.39e2
+  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
+  is_master: false
+  position: 1
+  option_value_ids:
+  - 9
+  - 12
+maximalist_orange:
+  id: 24
+  product_id: 6
+  sku: MAXIMALIST-MAXIMALIST-ORANGE
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
+  is_master: false
+  position: 1
+  option_value_ids:
+  - 10
+  - 12

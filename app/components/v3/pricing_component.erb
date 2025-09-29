@@ -49,18 +49,15 @@
 
           <div class="space-y-2">
             <%= render Stripe::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
 
             <%= render Btcpay::Btc::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
 
             <%= render Btcpay::Lightning::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
           </div>
 

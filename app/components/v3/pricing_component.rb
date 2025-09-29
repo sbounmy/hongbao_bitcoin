@@ -14,6 +14,10 @@ class V3::PricingComponent < ApplicationComponent
     selected_variant&.stripe_price_id
   end
 
+  def selected_variant_id
+    selected_variant&.id
+  end
+
   def selected_product
     plans.find { |plan| plan.product.slug == pack }&.product
   end
