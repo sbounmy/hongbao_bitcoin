@@ -15,17 +15,11 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   def selected_product
-    plans.find { |plan| plan.product.slug == params[:pack] }&.product
+    plans.find { |plan| plan.product.slug == pack }&.product
   end
 
   def selected_variant
-    return nil unless selected_product
-
-    if params[:variant_id].present?
-      selected_product.variants.find_by(id: params[:variant_id])
-    else
-      selected_product.default_variant
-    end
+    selected_product.variants.find_by(id: params[:variant_id]) || selected_product.variants.first
   end
 
   def pack
@@ -90,7 +84,11 @@ class V3::PricingComponent < ApplicationComponent
     end
 
     def selected?
-      product.slug == params[:pack]
+      product.slug == pack
+    end
+
+    def pack
+      params[:pack] || "mini"
     end
 
     def formatted_price
