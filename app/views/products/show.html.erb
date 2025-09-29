@@ -30,17 +30,9 @@
 %>
 
 <% content_for :head do %>
-  <%# render Products::StripeJsonLdComponent.new(
-    product: {
-      name: @product.name,
-      description: @product.description,
-      price: @product.price,
-      slug: @product.slug,
-      envelopes: @product.envelopes_count,
-      tokens: @product.tokens_count,
-      stripe_product_id: @product.stripe_product_id
-    },
-    color: @selected_color
+  <%= render Products::JsonLdComponent.new(
+    product: @product,
+    variant: @selected_variant
   ) %>
 <% end %>
 

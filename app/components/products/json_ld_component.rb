@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Products
-  class StripeJsonLdComponent < ::JsonLdComponent
-    def initialize(product:, color: "red", **options)
-      @product = product # From StripeService.fetch_products
-      @color = color
+  class JsonLdComponent < ::JsonLdComponent
+    def initialize(product:, variant: nil, **options)
+      @product = product # Product model
+      @variant = variant || product.default_variant
       super(**options)
     end
 
@@ -27,25 +27,21 @@ module Products
     end
 
     def product_name
-      "#{@product[:name]} Pack - Bitcoin Gift Envelopes (#{@product[:envelopes]} envelopes)"
+      "#{@product.name} Pack - Bitcoin Gift Envelopes (#{@product.envelopes_count} envelopes)"
     end
 
     def product_images
-      # Generate image URLs for the product
-      folder = image_folder_name
-
-      # Get actual image files from the folder
-      image_path_pattern = Rails.root.join("app/assets/images/plans", @product[:slug], folder, "*")
-      image_files = Dir.glob(image_path_pattern).select { |f| File.file?(f) && f.match?(/\.(jpg|jpeg|png)$/i) }.sort
+      # Get images from the variant's attached images
+      return [] unless @variant&.images&.any?
 
       # Return up to 3 images for structured data
-      image_files.first(3).map do |file_path|
-        helpers.image_url("plans/#{@product[:slug]}/#{folder}/#{File.basename(file_path)}")
+      @variant.images.first(3).map do |image|
+        helpers.url_for(image)
       end
     end
 
     def product_description
-      "#{@product[:description]}. This pack includes #{@product[:envelopes]} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{@product[:tokens]} credits for custom designs."
+      "#{@product.description}. This pack includes #{@product.envelopes_count} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{@product.tokens_count} credits for custom designs."
     end
 
     def brand
@@ -58,10 +54,10 @@ module Products
     def offers
       {
         "@type": "Offer",
-        price: @product[:price],
+        price: @variant&.price || @product.price,
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: helpers.product_url(pack: @product[:slug]),
+        url: helpers.product_url(pack: @product.slug),
         priceValidUntil: 1.year.from_now.iso8601,
         shippingDetails: {
           "@type": "OfferShippingDetails",
@@ -114,20 +110,5 @@ module Products
       ]
     end
 
-    private
-
-    def image_folder_name
-      colors = @color.split(",")
-      base_path = Rails.root.join("app/assets/images/plans", @product[:slug])
-      all_folders = Dir.glob(base_path.join("*")).select { |p| File.directory?(p) }.map { |p| File.basename(p) } rescue []
-
-      if colors.size > 1
-        permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
-        all_folders.find { |folder| permutations.any? { |perm| folder.include?(perm) } } || "001_red"
-      else
-        color_name = colors.first
-        all_folders.find { |folder| folder.end_with?("_#{color_name}") } || "001_red"
-      end
-    end
   end
 end
