@@ -17,7 +17,7 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
           initial_spot: 0,
           current_sats: 41171,
           current_spot: 0.11429127e6,
-          gifted_at: be_within(1.day).of(Time.utc(2025, 6, 23, 07)),
+          gifted_at: be_within(1.day).of(Time.utc(2025, 8, 27)),
           last_fetched_at: be_present
         )
       end

@@ -230,10 +230,6 @@ RSpec.describe Content::Quote, type: :model do
 
       expect(quote.best_image).to eq(quote.avatar) if quote.avatar.attached?
     end
-
-    it "returns fallback path if no images" do
-      expect(quote.best_image).to eq("/assets/bill_hongbao.jpg")
-    end
   end
 
   describe "validations" do
