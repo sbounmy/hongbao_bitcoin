@@ -9,6 +9,6 @@ export default class extends PlacesAutocomplete {
   setAddressComponents(address) {
     super.setAddressComponents(address)
     if (this.hasCountryCodeTarget) this.countryCodeTarget.value = this.place.address_components.find(component => component.types.includes('country')).short_name
-    if (this.hasAddressTarget) this.addressTarget.value = `${address.street_number} ${address.route}`
+    if (this.hasAddressTarget) this.addressTarget.value = `${address.street_number || ''} ${address.route || ''}`
   }
 }
