@@ -70,6 +70,15 @@ Rails.application.routes.draw do
   get "/bitcoin-agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 
+  # SEO-friendly product pages for Bitcoin envelopes (must be before generic content routes)
+  resources :products, path: "bitcoin-envelopes",
+            only: [ :index, :show ],
+            param: :slug do
+    member do
+      get ":color", action: :show, as: :variant
+    end
+  end
+
   # Programmatic SEO routes
   get "/bitcoin-:klass", to: "contents#index", as: :bitcoin_contents
   get "/bitcoin-:klass/:slug", to: "contents#show", as: :bitcoin_content

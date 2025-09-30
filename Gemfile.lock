@@ -397,6 +397,8 @@ GEM
       railties (>= 6.0.0)
       redcarpet (>= 3.0.0)
     matrix (0.4.2)
+    meta-tags (2.22.1)
+      actionpack (>= 6.0.0, < 8.1)
     method_source (1.1.0)
     metrics (0.13.0)
     mime-types (3.7.0)
@@ -735,6 +737,7 @@ DEPENDENCIES
   letter_opener_web
   lograge
   markdown-rails (~> 2.1)
+  meta-tags
   mission_control-jobs
   oauth2
   pagy (~> 9.4)

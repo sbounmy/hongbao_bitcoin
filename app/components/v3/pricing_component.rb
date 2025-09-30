@@ -11,7 +11,19 @@ class V3::PricingComponent < ApplicationComponent
 
   # Fetch product from url param ?pack=mini|family|maximalist
   def stripe_price_id
-    plans.find { |plan| plan.slug == params[:pack] }&.stripe_price_id
+    selected_variant&.stripe_price_id
+  end
+
+  def selected_variant_id
+    selected_variant&.id
+  end
+
+  def selected_product
+    plans.find { |plan| plan.product.slug == pack }&.product
+  end
+
+  def selected_variant
+    selected_product.variants.find_by(id: params[:variant_id]) || selected_product.variants.first
   end
 
   def pack
@@ -19,20 +31,18 @@ class V3::PricingComponent < ApplicationComponent
   end
 
   def color
-    params[:color] || "red"
+    selected_variant&.color_option_value&.name
   end
 
 
   def media_items
-    image_files + video_files
+    image_files
   end
 
   def image_files
-    folder = image_folder_name
-    path_pattern = "app/assets/images/plans/#{pack}/#{folder}/*"
-    Dir.glob(path_pattern).select { |f| File.file?(f) }.map do |file_path|
-      { type: :image, url: helpers.image_path("plans/#{pack}/#{folder}/#{File.basename(file_path)}"), name: File.basename(file_path) }
-    end
+    selected_variant&.images&.map do |attachment|
+      { type: :image, url: helpers.url_for(attachment), name: attachment.filename.to_s }
+    end || []
   end
 
   def video_files
@@ -51,51 +61,33 @@ class V3::PricingComponent < ApplicationComponent
     end
   end
 
-  def image_folder_name
-    colors = color.split(",")
-    base_path = Rails.root.join("app/assets/images/plans", pack)
-    # get a list of all directory names, for example we have ["001_red", "005_split_orange_red"]
-    all_folders = Dir.glob(base_path.join("*")).select { |p| File.directory?(p) }.map { |p| File.basename(p) }
-
-    if colors.size > 1
-      # for split colors, find the folder that contains the right combination.
-      permutations = colors.permutation.map { |p| "split_#{p.join('_')}" }
-      all_folders.find { |folder| permutations.any? { |perm| folder.include?(perm) } } || colors.first
-    else
-      # for single colors, find the folder that ends with the color name.
-      color_name = colors.first
-      all_folders.find { |folder| folder.end_with?("_#{color_name}") } || color_name
-    end
-  end
-
   class V3::PlanComponent < ViewComponent::Base
-    def initialize(name:, tokens:, description:, price:, stripe_product_id:, stripe_price_id:, envelopes:, default: false, slug:)
-      @name = name
-      @tokens = tokens
-      @description = description
-      @price = price
-      @stripe_product_id = stripe_product_id
-      @stripe_price_id = stripe_price_id
-      @envelopes = envelopes
-      @slug = slug
+    attr_reader :product, :default
+
+    def initialize(product:, default: false)
+      @product = product
       @default = default
       super()
     end
 
     def selected?
-      slug == params[:pack]
+      product.slug == pack
+    end
+
+    def pack
+      params[:pack] || "mini"
     end
 
     def formatted_price
-      helpers.number_to_currency(price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
+      helpers.number_to_currency(product.price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
     end
 
     def formatted_description
-      "#{packs} packs (#{envelopes} envelopes) + #{tokens} credits"
+      "#{packs} packs (#{product.envelopes_count} envelopes) + #{product.tokens_count} credits"
     end
 
     def price_per_envelope
-      (price.to_f / envelopes).round(2)
+      (product.price.to_f / product.envelopes_count).round(2)
     end
 
     def formatted_price_per_envelope
@@ -103,9 +95,11 @@ class V3::PricingComponent < ApplicationComponent
     end
 
     def packs
-      envelopes / 6
+      product.envelopes_count / 6
     end
 
-    attr_reader :name, :tokens, :description, :price, :default, :stripe_product_id, :stripe_price_id, :envelopes, :slug
+    def stripe_price_id
+      selected_variant&.stripe_price_id
+    end
   end
 end

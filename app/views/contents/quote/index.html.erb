@@ -1,15 +1,25 @@
 <%
   @page_h1 = 'Bitcoin Quotes'
   @intro_text = 'Explore wisdom about Bitcoin from influential voices throughout history'
+
+  # Set meta tags for SEO
+  set_meta_tags(
+    title: 'Bitcoin Quotes - Wisdom from Bitcoin Pioneers',
+    description: 'Discover inspiring Bitcoin quotes from thought leaders, pioneers, and visionaries. Satoshi Nakamoto, Michael Saylor, and more.',
+    keywords: 'bitcoin quotes, satoshi nakamoto quotes, bitcoin wisdom, cryptocurrency quotes, bitcoin philosophy, orange pill quotes',
+    canonical: bitcoin_contents_path(klass: 'quotes'),
+    og: {
+      title: 'Bitcoin Quotes Collection',
+      description: 'Explore wisdom about Bitcoin from influential voices throughout history',
+      type: 'website'
+    },
+    twitter: {
+      card: 'summary',
+      title: 'Bitcoin Quotes Collection',
+      description: 'Explore wisdom about Bitcoin from influential voices throughout history'
+    }
+  )
 %>
-
-<% content_for :title do %>
-  <%= 'Bitcoin Quotes' %>
-<% end %>
-
-<% content_for :description do %>
-  <%= 'Discover inspiring Bitcoin quotes from thought leaders, pioneers, and visionaries' %>
-<% end %>
 
   <%= render "shared/header" %>
 <div class="container mx-auto px-4 py-8">

@@ -1,0 +1,98 @@
+<% set_meta_tags(
+     title: 'Bitcoin Gift Envelopes - Orange Pill Red Packets',
+     description: 'Premium Bitcoin gift envelopes with paper wallets and Satoshi quotes. Perfect for gifting Bitcoin to friends and family. Each pack includes 6 unique envelopes.',
+     keywords: 'bitcoin gift, crypto envelope, bitcoin red packet, orange pill, hongbao, satoshi quotes, bitcoin wallet',
+     og: {
+       type: 'product.group',
+       image: image_url('og-image.jpg')
+     }
+   ) %>
+
+<div class="min-h-screen bg-base-100">
+  <%= render "shared/header" %>
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs text-sm mb-8">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li>Bitcoin Envelopes</li>
+      </ul>
+    </div>
+
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-base-content mb-4">Bitcoin Gift Envelopes</h1>
+      <p class="text-xl text-base-content/70 max-w-2xl mx-auto">
+        Orange pill your friends and family with beautiful Bitcoin gift envelopes.
+        Each pack contains 6 unique envelopes with famous Satoshi quotes.
+      </p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <% @products.each do |product| %>
+        <% default_variant = product.default_variant %>
+        <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all">
+          <figure class="px-10 pt-10">
+            <% if default_variant&.images&.any? %>
+              <%= image_tag default_variant.images.first,
+                  alt: "#{product.name} Bitcoin Gift Envelope Pack",
+                  class: "rounded-xl" %>
+            <% else %>
+              <div class="w-full h-64 bg-base-300 rounded-xl flex items-center justify-center">
+                <span class="text-base-content/50">Image not available</span>
+              </div>
+            <% end %>
+          </figure>
+          <div class="card-body items-center text-center">
+            <h2 class="card-title text-2xl"><%= product.name %></h2>
+            <div class="badge badge-primary badge-lg mb-2">
+              <%= product.envelopes_count %> envelopes
+            </div>
+            <p class="text-base-content/70"><%= product.description %></p>
+            <div class="text-3xl font-bold text-primary mt-4">
+              <%= product.display_price %>
+            </div>
+            <div class="text-sm text-base-content/60">
+              + <%= product.tokens_count %> credits included
+            </div>
+            <div class="card-actions mt-6">
+              <%= link_to "View Details",
+                  product_path(slug: product.slug),
+                  class: "btn btn-primary" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Features Section -->
+    <div class="divider"></div>
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-base-content mb-4">What's Included</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="text-center">
+        <div class="text-4xl mb-2">🎁</div>
+        <h3 class="font-bold">Beautiful Design</h3>
+        <p class="text-sm text-base-content/70">Premium red envelopes with gold foil</p>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl mb-2">📱</div>
+        <h3 class="font-bold">QR Code Access</h3>
+        <p class="text-sm text-base-content/70">QR code on back for self-custody onboarding</p>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl mb-2">💬</div>
+        <h3 class="font-bold">Satoshi Quotes</h3>
+        <p class="text-sm text-base-content/70">Each envelope has a unique Bitcoin quote</p>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl mb-2">🎨</div>
+        <h3 class="font-bold">Customizable</h3>
+        <p class="text-sm text-base-content/70">Use credits to create custom designs</p>
+      </div>
+    </div>
+  </div>
+</div>

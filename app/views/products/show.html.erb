@@ -1,0 +1,127 @@
+<%
+  # Set meta tags for SEO
+  meta_tags_config = {
+    title: "#{@product.name} - #{@product.envelopes_count} Bitcoin Gift Envelopes",
+    description: "#{@product.description}. Includes #{@product.tokens_count} credits for custom designs. Perfect Bitcoin gift for beginners. Only #{@product.display_price}.",
+    keywords: "bitcoin gift envelope, crypto red packet, #{@product.name.downcase} pack, bitcoin hongbao, satoshi quotes, orange pill gift",
+    canonical: product_url(pack: @product.slug),
+    og: {
+      type: 'product',
+      price: {
+        amount: @product.price,
+        currency: 'EUR'
+      }
+    },
+    twitter: {
+      card: 'summary_large_image',
+      label1: 'Price',
+      data1: @product.display_price,
+      label2: 'Envelopes',
+      data2: @product.envelopes_count
+    }
+  }
+
+  # Add og:image if variant has images
+  if @selected_variant&.images&.any?
+    meta_tags_config[:og][:image] = url_for(@selected_variant.images.first)
+  end
+
+  set_meta_tags(meta_tags_config)
+%>
+
+<% content_for :head do %>
+  <%= render Products::JsonLdComponent.new(
+    product: @product,
+    variant: @selected_variant
+  ) %>
+<% end %>
+
+<div class="min-h-screen bg-base-100">
+  <%= render "shared/header" %>
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs text-sm mb-8">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Bitcoin Envelopes", products_path %></li>
+        <li><%= @product.name %></li>
+      </ul>
+    </div>
+
+    <!-- Product Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-base-content mb-4">
+        <%= @product.name %> - Bitcoin Gift Envelopes
+      </h1>
+      <p class="text-xl text-base-content/70">
+        <%= @product.description %>
+      </p>
+    </div>
+
+    <%= render V3::PricingComponent.new(title: false) do |component| %>
+      <% products = Product.published.ordered.includes(variants: { images_attachments: :blob }) %>
+      <% products.each do |product| %>
+        <% component.with_plan(product: product) %>
+      <% end %>
+    <% end %>
+
+    <!-- SEO Content Section -->
+    <div class="divider my-12"></div>
+
+    <div class="prose max-w-none">
+      <h2>About <%= @product.name %> Bitcoin Envelope Pack</h2>
+      <p>
+        The <%= @product.name %> is the perfect way to introduce friends and family to Bitcoin.
+        Each pack contains <strong><%= @product.envelopes_count %> beautifully designed red envelopes</strong>,
+        each featuring a unique quote from Satoshi Nakamoto or other Bitcoin pioneers.
+      </p>
+
+      <h3>What's Included:</h3>
+      <ul>
+        <li><strong><%= @product.envelopes_count %> Premium Red Envelopes</strong> - Traditional Hong Bao design with modern Bitcoin theme</li>
+        <li><strong>Paper Bitcoin Wallets</strong> - Each envelope contains a secure paper wallet ready to be funded</li>
+        <li><strong>Famous Bitcoin Quotes</strong> - Educational quotes to inspire recipients</li>
+        <li><strong><%= @product.tokens_count %> Design Credits</strong> - Create custom designs with AI or choose from templates</li>
+        <li><strong>QR Codes</strong> - Easy scanning for checking balance and sweeping funds</li>
+      </ul>
+
+      <h3>Perfect For:</h3>
+      <ul>
+        <li>Chinese New Year celebrations</li>
+        <li>Birthday and wedding gifts</li>
+        <li>Orange-pilling friends and family</li>
+        <li>Educational Bitcoin gifts</li>
+        <li>Corporate gifts and events</li>
+      </ul>
+
+      <h3>How It Works:</h3>
+      <ol>
+        <li>Purchase your <%= @product.name %></li>
+        <li>Receive <%= @product.envelopes_count %> envelopes with unique paper wallets</li>
+        <li>Fund the wallets with any amount of Bitcoin</li>
+        <li>Gift them to friends and family</li>
+        <li>Recipients can check balance and sweep funds using the QR code</li>
+      </ol>
+
+      <div class="alert alert-info mt-8">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <h3 class="font-bold">Free Shipping Worldwide</h3>
+          <div class="text-xs">All orders include free international shipping</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-12">
+      <%= link_to "Buy #{@product.name} Now",
+          root_path(pack: @product.slug, color: @selected_color, anchor: "pricing"),
+          class: "btn btn-primary btn-lg" %>
+
+      <p class="mt-4 text-base-content/70">
+        or <%= link_to "View All Packs", products_path, class: "link link-primary" %>
+      </p>
+    </div>
+  </div>
+</div>

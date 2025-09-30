@@ -56,5 +56,5 @@ created:
   current_sats: nil
   initial_spot: nil
   current_spot: nil
-  gifted_at: <%= 3.months.ago %>
+  gifted_at: nil
   last_fetched_at: nil

@@ -3,13 +3,16 @@ module Checkout
     class Create < Checkout::Create
       private
 
-      def provider_specific_call(product)
+      def provider_specific_call(variant)
         # Initialize the BTCPay API client
         client = Client::BtcpayApi.new
         redirect_ref = SecureRandom.hex(16) # unique redirect reference
+        product = variant.product
+        color_names = variant.color_option_values.map(&:name).join(", ")
+
         # Create invoice payload
         invoice_payload = {
-          amount: product[:price].to_s,
+          amount: variant.price.to_s,
           currency: "EUR",
           checkout: {
             speedPolicy: "MediumSpeed",
@@ -20,14 +23,16 @@ module Checkout
           metadata: {
             redirectRef: redirect_ref,
             currency: "EUR",
-            amount: product[:price],
-            color: product[:color],
-            description: product[:description],
-            envelopes: product[:envelopes],
-            tokens: product[:tokens],
-            title: product[:name],
-            itemDesc: "#{@params[:color].capitalize} #{product[:name]} - #{product[:description]}",
-            itemCode: product[:stripe_price_id],
+            amount: variant.price,
+            variant_id: variant.id,
+            product_id: product.id,
+            color: color_names,
+            description: product.description,
+            envelopes: product.envelopes_count,
+            tokens: product.tokens_count,
+            title: product.name,
+            itemDesc: "#{color_names.capitalize} #{product.name} - #{product.description}",
+            itemCode: variant.stripe_price_id || variant.sku,
             physical: "true",
             userId: @current_user&.id, # nil if not logged in
             buyerEmail: @current_user&.email || @params[:buyerEmail],

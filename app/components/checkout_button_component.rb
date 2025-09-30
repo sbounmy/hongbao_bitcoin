@@ -1,8 +1,7 @@
 # Base class for all checkout button components
 class CheckoutButtonComponent < ApplicationComponent
-  def initialize(price_id:, color: nil, classes: nil)
-    @price_id = price_id
-    @color = color
+  def initialize(variant_id:, classes: nil)
+    @variant_id = variant_id
     @classes = classes
   end
 
@@ -30,7 +29,7 @@ class CheckoutButtonComponent < ApplicationComponent
   end
 
   def render?
-    price_id.present?
+    variant_id.present?
   end
 
   def form_method
@@ -43,18 +42,16 @@ class CheckoutButtonComponent < ApplicationComponent
 
   protected
 
-  attr_reader :price_id, :color, :classes
+  attr_reader :variant_id, :classes
 
   def provider_classes
     raise NotImplementedError, "Subclasses must implement provider_classes"
   end
 
   def hidden_fields
-    fields = {
+    {
       provider: provider,
-      price_id: price_id
+      variant_id: variant_id
     }
-    fields[:color] = color if color.present?
-    fields
   end
 end

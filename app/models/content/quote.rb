@@ -9,8 +9,6 @@ class Content::Quote < Content
       hongbao_products.published.first.image
     elsif avatar.attached?
       avatar
-    else
-      "/assets/bill_hongbao.jpg"
     end
   end
 

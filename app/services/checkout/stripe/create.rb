@@ -21,25 +21,27 @@ module Checkout
       ]
 
       private
-      def provider_specific_call(product)
-        session = ::Stripe::Checkout::Session.create(checkout_params(product))
+      def provider_specific_call(variant)
+        session = ::Stripe::Checkout::Session.create(checkout_params(variant))
         success(session)
       end
 
-      def checkout_params(product)
+      def checkout_params(variant)
         p = {
           payment_method_types: [ "card" ],
           shipping_address_collection: {
             allowed_countries: ALLOWED_COUNTRIES
           },
           line_items: [ {
-            price: product[:stripe_price_id],
+            price: variant.stripe_price_id,
             quantity: 1
           } ],
           payment_intent_data: {
             metadata: {
-              colors: @params[:color]
-          }
+              variant_id: variant.id,
+              product_id: variant.product_id,
+              colors: variant.color_option_values.map(&:name).join(",")
+            }
           },
           mode: "payment",
           success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped

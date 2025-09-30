@@ -5,17 +5,15 @@ module Checkout
       @current_user = current_user
       @currency = currency
 
-      # 1. Find the product
-      price_id = @params[:price_id]
-      return failure("Price ID is missing.") unless price_id
+      # 1. Find the variant
+      variant_id = @params[:variant_id]
+      return failure("Variant ID is missing.") unless variant_id
 
-      product = StripeService.fetch_products.find { |p| p[:stripe_price_id] == price_id }
-      product[:color] = @params[:color]
-
-      return failure("Product not found for price ID: #{price_id}") unless product
+      @variant = Variant.find_by(id: variant_id)
+      return failure("Variant not found for ID: #{variant_id}") unless @variant
 
       # 2. Call provider-specific implementation
-      provider_specific_call(product)
+      provider_specific_call(@variant)
     end
   end
 end

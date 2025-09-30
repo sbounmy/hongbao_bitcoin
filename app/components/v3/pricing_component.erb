@@ -27,7 +27,7 @@
           <p class="text-base-content/70 mb-8">Each pack contains 6 envelopes. Each envelope has a different quote. Exclusive to HongBao.</p>
         </div>
   <!-- app/components/v3/plan_option_component.erb -->
-          <%= form_tag helpers.root_path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
+          <%= form_tag helpers.request.path, method: :get, class: "block", data: { turbo_action: "advance" } do %>
 
             <div class="mb-8">
               <h2 class="text-xl font-semibold text-base-content mb-4">How many would you like?</h2>
@@ -40,28 +40,24 @@
 
             <div class="mb-4">
               <h2 class="text-xl font-semibold text-base-content mb-4">Choose your color(s)</h2>
-              <div class="sm:w-2/3">
-                <%# Pass the current pack and color to the selector component %>
-                <%= render V3::ColorSelectorComponent.new(pack: pack, current_color: color) %>
-              </div>
+              <% if selected_product %>
+                <%= render V3::VariantSelectorComponent.new(product: selected_product, current_variant_id: selected_variant&.id) %>
+              <% end %>
             </div>
 
           <% end %>
 
           <div class="space-y-2">
             <%= render Stripe::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
 
             <%= render Btcpay::Btc::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
 
             <%= render Btcpay::Lightning::CheckoutButtonComponent.new(
-              price_id: stripe_price_id,
-              color: color
+              variant_id: selected_variant_id
             ) %>
           </div>
 

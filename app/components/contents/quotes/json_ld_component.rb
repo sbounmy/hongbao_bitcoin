@@ -39,7 +39,7 @@ module Contents
       end
 
       def image
-        @quote.best_image ? helpers.url_for(@quote.best_image) : helpers.image_url("bill_hongbao.jpg")
+        @quote.best_image ? helpers.rails_blob_url(@quote.best_image, host: helpers.request.base_url) : helpers.image_url("bill_hongbao.jpg")
       end
 
       def date_published
