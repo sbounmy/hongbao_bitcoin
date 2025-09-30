@@ -67,7 +67,7 @@ class Variant < ApplicationRecord
 
   # Get the display color(s) for the variant
   def display_colors
-    color_option_values.filter_map(&:hex_color)
+    color_option_values.filter_map(&:color)
   end
 
   # Get background style for the variant (inline style for dynamic colors)

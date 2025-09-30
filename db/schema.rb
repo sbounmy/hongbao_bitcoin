@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_24_050005) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_30_030915) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -153,9 +153,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_24_050005) do
     t.string "name", null: false
     t.string "presentation", null: false
     t.integer "position", default: 0
-    t.string "hex_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "metadata", default: {}
     t.index ["option_type_id", "name"], name: "index_option_values_on_option_type_id_and_name", unique: true
     t.index ["option_type_id"], name: "index_option_values_on_option_type_id"
     t.index ["position"], name: "index_option_values_on_position"

@@ -1,7 +1,7 @@
 ActiveAdmin.register OptionValue do
   menu parent: "E-Commerce", priority: 4
 
-  permit_params :option_type_id, :name, :presentation, :hex_color, :position
+  permit_params :option_type_id, :name, :presentation, :color, :position
 
   index do
     selectable_column
@@ -10,10 +10,10 @@ ActiveAdmin.register OptionValue do
     column :name
     column :presentation
     column :color do |value|
-      if value.hex_color.present?
+      if value.color.present?
         div style: "display: flex; align-items: center; gap: 8px;" do
-          span style: "display: inline-block; width: 30px; height: 30px; background-color: #{value.hex_color}; border: 1px solid #ddd; border-radius: 50%;"
-          span value.hex_color
+          span style: "display: inline-block; width: 30px; height: 30px; background-color: #{value.color}; border: 1px solid #ddd; border-radius: 50%;"
+          span value.color
         end
       else
         span "-", style: "color: #999;"
@@ -39,12 +39,11 @@ ActiveAdmin.register OptionValue do
 
       # Only show color input for color option types
       if f.object.option_type&.name == "color" || f.object.new_record?
-        f.input :hex_color,
-                label: "Color",
+        f.input :color,
                 hint: "Select the color for this option value",
                 input_html: {
                   type: "color",
-                  value: f.object.hex_color || "#000000",
+                  value: f.object.color || "#000000",
                   style: "width: 100px; height: 40px; cursor: pointer;"
                 }
       end
@@ -62,11 +61,11 @@ ActiveAdmin.register OptionValue do
       row :name
       row :presentation
       row :color do |value|
-        if value.hex_color.present?
+        if value.color.present?
           div style: "display: flex; align-items: center; gap: 12px;" do
-            span style: "display: inline-block; width: 60px; height: 60px; background-color: #{value.hex_color}; border: 2px solid #ddd; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+            span style: "display: inline-block; width: 60px; height: 60px; background-color: #{value.color}; border: 2px solid #ddd; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
             div do
-              strong value.hex_color
+              strong value.color
               br
               span value.presentation, style: "color: #666; font-size: 12px;"
             end
@@ -123,7 +122,7 @@ ActiveAdmin.register OptionValue do
 
   batch_action :set_color, form: -> {
     {
-      hex_color: {
+      color: {
         input: :color,
         label: "Select Color",
         required: true,
@@ -132,7 +131,7 @@ ActiveAdmin.register OptionValue do
     }
   } do |ids, inputs|
     batch_action_collection.find(ids).each do |option_value|
-      option_value.update(hex_color: inputs[:hex_color])
+      option_value.update(color: inputs[:color])
     end
     redirect_to collection_path, notice: "Colors updated for #{ids.size} option values!"
   end

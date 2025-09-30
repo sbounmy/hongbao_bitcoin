@@ -4,33 +4,35 @@ size_mini:
   option_type_id: 3
   name: mini
   presentation: Mini
-  hex_color:
+  metadata: {}
   position: 1
 size_family:
   id: 9
   option_type_id: 3
   name: family
   presentation: Family
-  hex_color:
+  metadata: {}
   position: 2
 size_maximalist:
   id: 10
   option_type_id: 3
   name: maximalist
   presentation: Maximalist
-  hex_color:
+  metadata: {}
   position: 3
 color_red:
   id: 11
   option_type_id: 4
   name: red
   presentation: Red
-  hex_color: "#DC2626"
+  metadata:
+    color: "#DC2626"
   position: 1
 color_orange:
   id: 12
   option_type_id: 4
   name: orange
   presentation: Orange
-  hex_color: "#EA580C"
+  metadata:
+    color: "#EA580C"
   position: 2

@@ -1,5 +1,9 @@
 class OptionValue < ApplicationRecord
+  include Metadata
+
   belongs_to :option_type
+
+  metadata :color
 
   validates :name, presence: true, uniqueness: { scope: :option_type_id }
   validates :presentation, presence: true
@@ -15,7 +19,7 @@ class OptionValue < ApplicationRecord
   end
 
   def color?
-    option_type.name == "color" && hex_color.present?
+    option_type.name == "color" && color.present?
   end
 
   def move_higher
