@@ -45,18 +45,34 @@ ActiveAdmin.register Variant do
               }
     end
 
-    f.inputs "Images" do
-      if f.object.persisted? && f.object.images.any?
-        f.template.content_tag(:div, class: "attached-images") do
-          f.template.safe_join(f.object.images.map do |image|
-            f.template.content_tag(:div, style: "display: inline-block; margin: 10px;") do
-              f.template.image_tag(f.template.url_for(image), style: "max-width: 200px;") +
-              f.template.content_tag(:p, image.filename.to_s, style: "text-align: center;")
+    if f.object.persisted? && f.object.images.any?
+      f.inputs "Current Images" do
+        li class: "string input optional stringish" do
+          label "Attached Images", for: "variant_images_display", class: "label"
+          div style: "margin-left: 20%; padding: 10px 0;" do
+            f.object.images.each do |image|
+              span style: "display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; text-align: center; vertical-align: top;" do
+                img src: url_for(image), style: "max-width: 200px; max-height: 200px; display: block; margin-bottom: 10px;"
+                text_node image.filename.to_s
+                br
+                a "Delete",
+                  href: admin_attachment_path(image),
+                  data: {
+                    method: :delete,
+                    confirm: "Are you sure you want to delete this image?",
+                    turbo: false
+                  },
+                  class: "button",
+                  style: "background: #dc2626; color: white; padding: 5px 15px; text-decoration: none; border-radius: 3px; display: inline-block; margin-top: 5px;"
+              end
             end
-          end)
+          end
         end
       end
-      f.input :images, as: :file, input_html: { multiple: true }, hint: "Select multiple images to upload"
+    end
+
+    f.inputs "Add New Images" do
+      f.input :images, as: :file, input_html: { multiple: true }, label: false, hint: "Select multiple images to upload"
     end
 
     f.actions
@@ -101,6 +117,7 @@ ActiveAdmin.register Variant do
 
   controller do
     def update
+      # Handle new image uploads
       if params[:variant][:images].present?
         params[:variant][:images].each do |image|
           resource.images.attach(image)
