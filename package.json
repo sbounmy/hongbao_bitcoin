@@ -82,6 +82,7 @@
     "safe-buffer": "5.2.1",
     "sha.js": "^2.4.12",
     "stimulus-confetti": "^1.0.1",
+    "stimulus-places-autocomplete": "^0.5.0",
     "stimulus-textarea-autogrow": "^4.1.0",
     "stimulus-use": "0.52.3",
     "stream-browserify": "^3.0.0",

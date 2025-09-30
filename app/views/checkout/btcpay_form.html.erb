@@ -1,3 +1,16 @@
+<% content_for :head do %>
+  <script>
+    window.initAutocomplete = function () {
+      const event = new Event("google-maps-callback", {
+        bubbles: true,
+        cancelable: true,
+      })
+      window.dispatchEvent(event)
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.dig(:google_places, :api_key) %>&libraries=places&callback=initAutocomplete" async defer></script>
+<% end %>
+
 <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md w-full space-y-8">
     <div>
@@ -9,7 +22,9 @@
       </p>
     </div>
 
-    <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false }, class: "mt-8 space-y-6" do |form| %>
+    <div data-controller="places-autocomplete"
+         data-action="google-maps-callback@window->places-autocomplete#initAutocomplete">
+      <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false }, class: "mt-8 space-y-6" do |form| %>
       <%= render "shared/error_messages", resource: @errors if @errors %>
 
       <div class="space-y-4">
@@ -31,11 +46,21 @@
         </div>
 
         <div>
-          <%= form.label :buyerAddress1, "Shipping Address Line 1", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.label :buyerAddress1, "Shipping Address", class: "block text-sm font-medium text-gray-700" %>
           <%= form.text_field :buyerAddress1,
               required: true,
               value: params[:buyerAddress1],
+              placeholder: "Start typing your address...",
+              data: {
+                places_autocomplete_target: "address",
+                action: "keydown->places-autocomplete#preventSubmit"
+              },
               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <p class="mt-1 text-sm text-gray-500">Start typing and select from suggestions</p>
+          <%= form.hidden_field :streetNumber, data: { places_autocomplete_target: "streetNumber" } %>
+          <%= form.hidden_field :route, data: { places_autocomplete_target: "route" } %>
+          <%= form.hidden_field :longitude, data: { places_autocomplete_target: "longitude" } %>
+          <%= form.hidden_field :latitude, data: { places_autocomplete_target: "latitude" } %>
         </div>
 
         <div>
@@ -51,6 +76,7 @@
             <%= form.text_field :buyerCity,
                 required: true,
                 value: params[:buyerCity],
+                data: { places_autocomplete_target: "city" },
                 class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
           </div>
 
@@ -58,6 +84,7 @@
             <%= form.label :buyerState, "State/Province", class: "block text-sm font-medium text-gray-700" %>
             <%= form.text_field :buyerState,
                 value: params[:buyerState],
+                data: { places_autocomplete_target: "state" },
                 class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
           </div>
         </div>
@@ -68,6 +95,7 @@
             <%= form.text_field :buyerZip,
                 required: true,
                 value: params[:buyerZip],
+                data: { places_autocomplete_target: "postalCode" },
                 class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
           </div>
 
@@ -76,6 +104,7 @@
             <%= form.country_select :buyerCountry,
                 { selected: params[:buyerCountry] },
                 { required: true,
+                  data: { places_autocomplete_target: "countryCode" },
                   class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
           </div>
         </div>
@@ -89,6 +118,7 @@
         <%= form.submit "Continue to Payment",
             class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
       </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

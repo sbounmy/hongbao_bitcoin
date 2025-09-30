@@ -51,6 +51,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
 
+
     <%# Initialize theme before page loads to prevent FOUC %>
     <script>
       (function() {
