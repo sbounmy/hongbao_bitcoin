@@ -35,11 +35,8 @@
           <% end %>
         </p>
       <% end %>
-      <% if variant.price > 0 && envelopes_count && envelopes_count > 0 %>
-        <p class="text-xs text-gray-400 mt-0.5">
-          €<%= (variant.price.to_f / envelopes_count).round(2) %> per envelope
-        </p>
-      <% end %>
+      <%= render Variants::DescriptionComponent.new(variant:) %>
+
     </div>
 
     <div class="text-sm font-medium text-gray-900">
