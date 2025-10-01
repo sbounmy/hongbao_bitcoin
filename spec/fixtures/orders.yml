@@ -8,6 +8,7 @@ pending_btcpay:
   state: pending
   created_at: <%= 1.hour.ago %>
   updated_at: <%= 1.hour.ago %>
+  phone_number: "+33612345678"
 
 processing_btcpay:
   user: john
@@ -29,7 +30,7 @@ completed_btcpay:
   created_at: <%= 1.day.ago %>
   updated_at: <%= 1.day.ago %>
 
-# Orders for Stripe testing 
+# Orders for Stripe testing
 pending_stripe:
   user: satoshi
   total_amount: 50.0

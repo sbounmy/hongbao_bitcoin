@@ -43,6 +43,9 @@ module Checkout
               colors: variant.color_option_values.map(&:name).join(",")
             }
           },
+          phone_number_collection: {
+            enabled: true
+          },
           mode: "payment",
           success_url: CGI.unescape(success_checkout_index_url(session_id: "{CHECKOUT_SESSION_ID}")), # so {CHECKOUT_SESSION_ID} is not escaped
           cancel_url: cancel_checkout_index_url

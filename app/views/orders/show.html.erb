@@ -36,15 +36,15 @@
             </p>
           </div>
         </div>
-        
+
         <div class="text-right">
           <p class="text-2xl font-bold text-gray-900">
             <%= @order.formatted_total %>
           </p>
           <% if @order.payment_provider_dashboard_url %>
-            <%= link_to "View in #{@order.payment_provider.humanize}", 
-                        @order.payment_provider_dashboard_url, 
-                        target: "_blank", 
+            <%= link_to "View in #{@order.payment_provider.humanize}",
+                        @order.payment_provider_dashboard_url,
+                        target: "_blank",
                         class: "text-sm text-blue-600 hover:text-blue-800" %>
           <% end %>
         </div>
@@ -78,21 +78,61 @@
       </div>
     </div>
 
-    <!-- Shipping Information -->
-    <% if @order.shipping_name.present? %>
       <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Shipping Information</h3>
-        <div class="text-gray-700">
-          <p><strong><%= @order.shipping_name %></strong></p>
-          <p><%= @order.shipping_address_line1 %></p>
-          <% if @order.shipping_address_line2.present? %>
-            <p><%= @order.shipping_address_line2 %></p>
-          <% end %>
-          <p><%= @order.shipping_city %>, <%= @order.shipping_state %> <%= @order.shipping_postal_code %></p>
-          <p><%= @order.shipping_country %></p>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Shipping & Contact Information</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Shipping Address -->
+          <div>
+            <h4 class="font-medium text-gray-900 mb-2">Shipping Address</h4>
+            <div class="text-gray-700 space-y-1">
+              <p class="font-medium"><%= @order.shipping_name %></p>
+              <p><%= @order.shipping_address_line1 %></p>
+              <p><%= @order.shipping_address_line2 %></p>
+              <p>
+                <%= [@order.shipping_city, @order.shipping_state].compact.join(", ") %>
+                <%= @order.shipping_postal_code %>
+              </p>
+              <p><%= @order.shipping_country %></p>
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div>
+            <h4 class="font-medium text-gray-900 mb-2">Contact Information</h4>
+            <div class="text-gray-700 space-y-1">
+              <div class="flex items-center gap-2">
+                <%= heroicon "envelope", variant: :outline, class: "w-4 h-4 text-gray-500" %>
+                <span><%= @order.user.email %></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <%= heroicon "phone", variant: :outline, class: "w-4 h-4 text-gray-500" %>
+                <span><%= @order.phone_number %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Details -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h4 class="font-medium text-gray-900 mb-2">Order Details</h4>
+          <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <span class="text-gray-600">Order ID:</span>
+              <span class="ml-2 font-medium text-gray-900">#<%= @order.id %></span>
+            </div>
+            <div>
+              <span class="text-gray-600">External ID:</span>
+              <span class="ml-2 font-medium text-gray-900 font-mono text-xs"><%= @order.external_id %></span>
+            </div>
+            <% if @order.redirect_ref.present? %>
+              <div>
+                <span class="text-gray-600">Reference:</span>
+                <span class="ml-2 font-medium text-gray-900"><%= @order.redirect_ref %></span>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
-    <% end %>
 
     <!-- Generated Tokens -->
     <% if @order.tokens.any? %>
