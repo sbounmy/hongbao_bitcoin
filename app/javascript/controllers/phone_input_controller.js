@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import intlTelInput from 'intl-tel-input'
 
 export default class extends Controller {
-  static targets = ["input", "countryCode"]
+  static targets = ["input"]
   static values = {
     defaultCountry: String,
     preferredCountries: Array
@@ -40,27 +40,22 @@ export default class extends Controller {
       loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/utils.js"
     })
 
-    // Listen for country changes in the phone input
-    this.inputTarget.addEventListener("countrychange", () => {
-      this.handleCountryChange()
-    })
-
-    // Store initial country code
-    this.handleCountryChange()
+    // Update the input value to always contain the full international number before form submission
+    const form = this.inputTarget.closest('form')
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        // Get the full international number and update the input value
+        const fullNumber = this.iti.getNumber()
+        if (fullNumber) {
+          this.inputTarget.value = fullNumber
+        }
+      })
+    }
   }
 
   disconnect() {
     if (this.iti) {
       this.iti.destroy()
-    }
-  }
-
-  handleCountryChange() {
-    const countryData = this.iti.getSelectedCountryData()
-
-    // Update hidden country code field if it exists
-    if (this.hasCountryCodeTarget) {
-      this.countryCodeTarget.value = countryData.iso2.toUpperCase()
     }
   }
 
@@ -72,5 +67,13 @@ export default class extends Controller {
   // Check if number is valid
   isValid() {
     return this.iti.isValidNumber()
+  }
+
+  // Set a phone number and auto-detect country
+  setNumber(number) {
+    if (number && this.iti) {
+      this.inputTarget.value = number
+      this.iti.setNumber(number)
+    }
   }
 }

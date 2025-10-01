@@ -37,6 +37,7 @@ module Checkout
             userId: @current_user&.id, # nil if not logged in
             buyerEmail: @current_user&.email || @params[:buyerEmail],
             buyerName: @params[:buyerName],
+            buyerPhone: @params[:buyerPhone],
             buyerAddress1: @params[:buyerAddress1],
             buyerAddress2: @params[:buyerAddress2],
             buyerCity: @params[:buyerCity],
