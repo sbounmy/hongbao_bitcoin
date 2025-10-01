@@ -143,6 +143,7 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.waitForTimeout(1_000);
     await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
     await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').click();
     await page.locator('.pac-item:visible').first().click();
     await page.waitForTimeout(1_000);
     await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue de la Paix');
@@ -172,6 +173,7 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.waitForTimeout(1_000);
     await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
     await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').click();
     await page.locator('.pac-item:visible').first().click();
     await page.waitForTimeout(1_000);
     await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue De La Paix');
