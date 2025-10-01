@@ -4,13 +4,15 @@ import { appVcrInsertCassette, appVcrEjectCassette, appGetCredentials } from '..
 test.describe('BTCPay Checkout Flow', () => {
   // Helper function to fill buyer information
   async function fillBuyerInformation(page) {
-    await page.locator('#buyerEmail').fill('test@example.com');
     await page.locator('#buyerName').fill('Satoshi Nakamoto');
+
+    await page.locator('#buyerPhone').fill('+33612345678');
     await page.locator('#buyerAddress1').fill('123 Bitcoin Plaza');
-    await page.locator('#buyerCity').fill('Crypto City');
-    await page.locator('#buyerZip').fill('12345');
-    await page.locator('#buyerCountry').selectOption('Japan');
-    await page.locator('#buyerState').fill('Tokyo');
+    await page.locator('#buyerAddress2').fill('Apartment 21');
+    await page.locator('#buyerCity').fill('Paris');
+    await page.locator('#buyerState').fill('Île-de-France');
+    await page.locator('#buyerZip').fill('75001');
+    await page.locator('#buyerCountry').selectOption('FR');
   }
 
   // Helper function to handle BTCPay payment
@@ -99,7 +101,7 @@ test.describe('BTCPay Checkout Flow', () => {
       await page.getByRole('button', { name: 'Continue to Payment' }).click();
 
       // Gets redirected to third party (btcpay) host
-      await expect(page.url()).toContain(btcpayServerUrl);
+      expect(page.url()).toContain(btcpayServerUrl);
 
       // Handle payment based on method
       await handleBTCPayPayment(page, context, btcpayServerUrl, btcpayCredentials, method);
@@ -118,5 +120,24 @@ test.describe('BTCPay Checkout Flow', () => {
       // Eject the VCR cassette to save the recording
       await appVcrEjectCassette();
     });
+  });
+
+  test('place autocomplete works', async ({ page }) => {
+    await page.goto('/pricing');
+
+    await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
+    await page.locator('button').filter({ hasText: /Buy with Bitcoin/ }).click();
+
+    await page.locator('#buyerAddress1').click();
+    await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
+    await page.waitForTimeout(1_000);
+    await page.locator('.pac-item:visible').first().click();
+    await page.waitForTimeout(1_000);
+    await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue de la Paix');
+    await expect(page.locator('#buyerCity')).toHaveValue('Paris');
+    await expect(page.locator('#buyerState')).toHaveValue('Île-de-France');
+    await expect(page.locator('#buyerZip')).toHaveValue('75001');
+    await expect(page.locator('#buyerCountry')).toHaveValue('FR');
   });
 });
