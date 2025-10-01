@@ -110,6 +110,18 @@
         </div>
       </div>
 
+      <div data-controller="phone-input"
+            data-phone-input-preferred-countries-value='["fr", "us", "gb", "de", "ca", "au"]'
+            data-phone-input-default-country-value="fr">
+        <%= form.label :buyerPhone, "Phone", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.telephone_field :buyerPhone,
+            value: params[:buyerPhone],
+            placeholder: "Enter phone number",
+            data: { phone_input_target: "input" },
+            class: "mt-1 block !w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        <%= form.hidden_field :phoneCountryCode, data: { phone_input_target: "countryCode" } %>
+      </div>
+
       <%= form.hidden_field :provider, value: "btcpay" %>
       <%= form.hidden_field :variant_id, value: params[:variant_id] %>
       <%= form.hidden_field :payment_method, value: params[:payment_method] %>

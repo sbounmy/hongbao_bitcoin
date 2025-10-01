@@ -3555,6 +3555,11 @@ interactjs@^1.10.27:
   dependencies:
     "@interactjs/types" "1.10.27"
 
+intl-tel-input@^25.11.2:
+  version "25.11.2"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-25.11.2.tgz#ab8b12a8d1e1d01a5cf02d5199f971e3e8ef5d3c"
+  integrity sha512-3a9+bbtR6s7E8TjZauqodMz+MRMd31OcUhTJuQOg95lA+viZ53OTU8XzVuyldEE089nMtLhPF1NbRU1ff2Sf7g==
+
 iobuffer@^5.3.2:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/iobuffer/-/iobuffer-5.4.0.tgz#f85dff957fd0579257472f0a4cfe5ed3430e63e1"
