@@ -5,6 +5,8 @@ class CheckoutController < ApplicationController
   def new
     case params[:provider]
     when "btcpay"
+      @variant = Variant.find_by(id: params[:variant_id])
+      @product = @variant&.product
       render :btcpay_form
     else
       redirect_to root_path
