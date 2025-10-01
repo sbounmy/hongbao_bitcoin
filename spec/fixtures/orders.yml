@@ -1,5 +1,4 @@
-# Orders for BTCPay testing
-pending_btcpay:
+pending_btcpay: &default
   user: john
   total_amount: 25.0
   currency: EUR
@@ -9,9 +8,15 @@ pending_btcpay:
   created_at: <%= 1.hour.ago %>
   updated_at: <%= 1.hour.ago %>
   phone_number: "+33612345678"
+  shipping_name: "John Doe"
+  shipping_address_line1: "123 Main St"
+  shipping_city: "Paris"
+  shipping_state: "IDF"
+  shipping_postal_code: "75001"
+  shipping_country: "FR"
 
 processing_btcpay:
-  user: john
+  <<: *default
   total_amount: 25.0
   currency: EUR
   payment_provider: btcpay
@@ -21,7 +26,7 @@ processing_btcpay:
   updated_at: <%= 30.minutes.ago %>
 
 completed_btcpay:
-  user: john
+  <<: *default
   total_amount: 25.0
   currency: EUR
   payment_provider: btcpay
@@ -32,7 +37,9 @@ completed_btcpay:
 
 # Orders for Stripe testing
 pending_stripe:
+  <<: *default
   user: satoshi
+  shipping_name: "Satoshi Nakamoto"
   total_amount: 50.0
   currency: USD
   payment_provider: stripe
@@ -42,7 +49,9 @@ pending_stripe:
   updated_at: <%= 1.hour.ago %>
 
 completed_stripe:
+  <<: *default
   user: satoshi
+  shipping_name: "Satoshi Nakamoto"
   total_amount: 50.0
   currency: USD
   payment_provider: stripe
