@@ -36,7 +36,7 @@ module Checkout
             physical: "true",
             userId: @current_user&.id, # nil if not logged in
             buyerEmail: @current_user&.email || @params[:buyerEmail],
-            buyerName: @params[:buyerName],
+            buyerName: "#{@params[:buyerFirstName]} #{@params[:buyerLastName]}",
             buyerPhone: @params[:buyerPhone],
             buyerAddress1: @params[:buyerAddress1],
             buyerAddress2: @params[:buyerAddress2],

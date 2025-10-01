@@ -4,15 +4,26 @@ import { appVcrInsertCassette, appVcrEjectCassette, appGetCredentials } from '..
 test.describe('BTCPay Checkout Flow', () => {
   // Helper function to fill buyer information
   async function fillBuyerInformation(page) {
-    await page.locator('#buyerName').fill('Satoshi Nakamoto');
+    // Only fill email if it's not readonly (i.e., user is not logged in)
+    const emailField = page.locator('#buyerEmail');
+    const isReadonly = await emailField.getAttribute('readonly');
+    if (isReadonly === null) {
+      await emailField.fill('test@example.com');
+    }
 
-    await page.locator('#buyerPhone').fill('+33612345678');
+    // First and last name
+    await page.locator('#buyerFirstName').fill('Satoshi');
+    await page.locator('#buyerLastName').fill('Nakamoto');
+
+    // Address fields
     await page.locator('#buyerAddress1').fill('123 Bitcoin Plaza');
     await page.locator('#buyerAddress2').fill('Apartment 21');
+    await page.locator('#buyerZip').fill('75001');
     await page.locator('#buyerCity').fill('Paris');
     await page.locator('#buyerState').fill('Île-de-France');
-    await page.locator('#buyerZip').fill('75001');
-    await page.locator('#buyerCountry').selectOption('FR');
+
+    // Phone at the end
+    await page.locator('#buyerPhone').fill('+33612345678');
   }
 
   // Helper function to handle BTCPay payment
@@ -139,5 +150,34 @@ test.describe('BTCPay Checkout Flow', () => {
     await expect(page.locator('#buyerState')).toHaveValue('Île-de-France');
     await expect(page.locator('#buyerZip')).toHaveValue('75001');
     await expect(page.locator('#buyerCountry')).toHaveValue('FR');
+
+    // resets when changing country
+    await page.locator('#buyerCountry').selectOption('US');
+    await expect(page.locator('#buyerAddress1')).toHaveValue('');
+    await expect(page.locator('#buyerCity')).toHaveValue('');
+    await expect(page.locator('#buyerState')).toHaveValue('');
+    await expect(page.locator('#buyerZip')).toHaveValue('');
+    await expect(page.locator('#buyerCountry')).toHaveValue('US');
+  });
+
+  test('places restricts to country', async ({ page }) => {
+    await page.goto('/pricing');
+
+    await page.locator('label').filter({ hasText: /Mini Pack/ }).click();
+    await page.locator('button').filter({ hasText: /Buy with Bitcoin/ }).click();
+
+    await page.locator('#buyerCountry').selectOption('US');
+
+    await page.locator('#buyerAddress1').click();
+    await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
+    await page.waitForTimeout(1_000);
+    await page.locator('.pac-item:visible').first().click();
+    await page.waitForTimeout(1_000);
+    await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue De La Paix');
+    await expect(page.locator('#buyerCity')).toHaveValue('Cloudcroft');
+    await expect(page.locator('#buyerState')).toHaveValue('New Mexico');
+    await expect(page.locator('#buyerZip')).toHaveValue('88317');
+    await expect(page.locator('#buyerCountry')).toHaveValue('US');
   });
 });

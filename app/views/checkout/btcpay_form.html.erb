@@ -22,18 +22,105 @@
       </p>
     </div>
 
-    <div data-controller="places-autocomplete"
-         data-action="google-maps-callback@window->places-autocomplete#initAutocomplete">
+    <div data-controller="places-autocomplete phone-input"
+         data-action="google-maps-callback@window->places-autocomplete#initAutocomplete"
+         data-places-autocomplete-country-value='["<%= params[:buyerCountry] || "FR" %>"]'
+         data-phone-input-preferred-countries-value='["fr", "us", "gb", "de", "ca", "au"]'
+         data-phone-input-default-country-value="<%= (params[:buyerCountry] || "FR").downcase %>">
+
       <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false }, class: "mt-8 space-y-6" do |form| %>
       <%= render "shared/error_messages", resource: @errors if @errors %>
 
       <div class="space-y-4">
         <div>
-          <%= form.label :buyerName, "Full Name", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerName,
+          <%= form.label :buyerCountry, "Country/Region", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.country_select :buyerCountry,
+              { selected: params[:buyerCountry] || "FR" },
+              { required: true,
+                data: {
+                  places_autocomplete_target: "countryCode",
+                  action: "change->places-autocomplete#countryChanged change->phone-input#countryChanged"
+                },
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= form.label :buyerFirstName, "First name", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerFirstName,
+                required: true,
+                value: params[:buyerFirstName],
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+          <div>
+            <%= form.label :buyerLastName, "Last name", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerLastName,
+                required: true,
+                value: params[:buyerLastName],
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.label :buyerAddress1, "Address", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerAddress1,
               required: true,
-              value: params[:buyerName],
+              value: params[:buyerAddress1],
+              placeholder: "Start typing your address...",
+              data: {
+                places_autocomplete_target: "address",
+                action: "keydown->places-autocomplete#preventSubmit"
+              },
               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <%= form.hidden_field :streetNumber, data: { places_autocomplete_target: "streetNumber" } %>
+          <%= form.hidden_field :route, data: { places_autocomplete_target: "route" } %>
+          <%= form.hidden_field :longitude, data: { places_autocomplete_target: "longitude" } %>
+          <%= form.hidden_field :latitude, data: { places_autocomplete_target: "latitude" } %>
+        </div>
+
+        <div>
+          <%= form.label :buyerAddress2, "Apartment, suite, etc. (optional)", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerAddress2,
+              value: params[:buyerAddress2],
+              placeholder: "Apartment or suite number",
+              data: { places_autocomplete_target: "address2" },
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= form.label :buyerZip, "Postal code", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerZip,
+                required: true,
+                value: params[:buyerZip],
+                data: { places_autocomplete_target: "postalCode" },
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+          <div>
+            <%= form.label :buyerCity, "City", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :buyerCity,
+                required: true,
+                value: params[:buyerCity],
+                data: { places_autocomplete_target: "city" },
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.label :buyerState, "State/Province", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :buyerState,
+              value: params[:buyerState],
+              data: { places_autocomplete_target: "state" },
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= form.label :buyerPhone, "Phone", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.telephone_field :buyerPhone,
+              value: params[:buyerPhone],
+              placeholder: "Enter phone number",
+              data: { phone_input_target: "input" },
+              class: "mt-1 block !w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
         </div>
 
         <div>
@@ -45,80 +132,6 @@
               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm #{'bg-gray-100' if authenticated?}" %>
         </div>
 
-        <div>
-          <%= form.label :buyerAddress1, "Shipping Address", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerAddress1,
-              required: true,
-              value: params[:buyerAddress1],
-              placeholder: "Start typing your address...",
-              data: {
-                places_autocomplete_target: "address",
-                action: "keydown->places-autocomplete#preventSubmit"
-              },
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          <p class="mt-1 text-sm text-gray-500">Start typing and select from suggestions</p>
-          <%= form.hidden_field :streetNumber, data: { places_autocomplete_target: "streetNumber" } %>
-          <%= form.hidden_field :route, data: { places_autocomplete_target: "route" } %>
-          <%= form.hidden_field :longitude, data: { places_autocomplete_target: "longitude" } %>
-          <%= form.hidden_field :latitude, data: { places_autocomplete_target: "latitude" } %>
-        </div>
-
-        <div>
-          <%= form.label :buyerAddress2, "Shipping Address Line 2 (optional)", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerAddress2,
-              value: params[:buyerAddress2],
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <%= form.label :buyerCity, "City", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerCity,
-                required: true,
-                value: params[:buyerCity],
-                data: { places_autocomplete_target: "city" },
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          </div>
-
-          <div>
-            <%= form.label :buyerState, "State/Province", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerState,
-                value: params[:buyerState],
-                data: { places_autocomplete_target: "state" },
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <%= form.label :buyerZip, "Postal Code", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerZip,
-                required: true,
-                value: params[:buyerZip],
-                data: { places_autocomplete_target: "postalCode" },
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          </div>
-
-          <div>
-            <%= form.label :buyerCountry, "Country", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.country_select :buyerCountry,
-                { selected: params[:buyerCountry] },
-                { required: true,
-                  data: { places_autocomplete_target: "countryCode" },
-                  class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
-          </div>
-        </div>
-      </div>
-
-      <div data-controller="phone-input"
-            data-phone-input-preferred-countries-value='["fr", "us", "gb", "de", "ca", "au"]'
-            data-phone-input-default-country-value="fr">
-        <%= form.label :buyerPhone, "Phone", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.telephone_field :buyerPhone,
-            value: params[:buyerPhone],
-            placeholder: "Enter phone number",
-            data: { phone_input_target: "input" },
-            class: "mt-1 block !w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
       </div>
 
       <%= form.hidden_field :provider, value: "btcpay" %>

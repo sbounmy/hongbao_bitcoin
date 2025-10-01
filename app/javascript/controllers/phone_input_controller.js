@@ -76,4 +76,19 @@ export default class extends Controller {
       this.iti.setNumber(number)
     }
   }
+
+  // Handle country change from the country select dropdown
+  countryChanged(event) {
+    const newCountry = event.target.value.toLowerCase()
+
+    // Update the default country for intl-tel-input
+    if (this.iti) {
+      // Only update the country if phone field is empty
+      if (!this.inputTarget.value || this.inputTarget.value.trim() === '') {
+        this.iti.setCountry(newCountry)
+      }
+      // If there's a value, user can keep their different country code
+      // but the dropdown will show the new country as an option
+    }
+  }
 }
