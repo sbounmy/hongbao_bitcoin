@@ -206,7 +206,7 @@ GEM
       rexml
     crass (1.0.6)
     csv (3.3.4)
-    cypress-on-rails (1.17.0)
+    cypress-on-rails (1.19.0)
       rack
     database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
@@ -721,7 +721,7 @@ DEPENDENCIES
   chunky_png (~> 1.4)
   claude-on-rails
   country_select (~> 11.0)
-  cypress-on-rails (~> 1.0)
+  cypress-on-rails (~> 1.19)
   database_cleaner-active_record
   debug
   dotenv-rails

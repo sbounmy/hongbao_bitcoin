@@ -53,7 +53,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Playwright on Rails [https://github.com/cypress-io/cypress-on-rails]
-  gem "cypress-on-rails", "~> 1.0"
+  gem "cypress-on-rails", "~> 1.19"
 
   gem "dotenv-rails"
 
