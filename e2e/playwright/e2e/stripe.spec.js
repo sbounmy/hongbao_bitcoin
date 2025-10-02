@@ -35,7 +35,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await page.goto('/orders');
     await page.getByText(/Order \#\d+/).first().click();
-    await expect(page.locator('body')).toContainText('2015550123'); // phone number
+    await expect(page.locator('body')).toContainText('+33651234567'); // phone number
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {
