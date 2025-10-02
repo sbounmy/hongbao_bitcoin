@@ -1,10 +1,18 @@
 <%
   # Set meta tags for SEO
+  # Always use main product URL as canonical, even when viewing variant pages
+  # This prevents duplicate content issues for color variants
+  canonical_url = product_url(slug: @product.slug)
+
+  # Add color to title/description only if viewing a specific variant
+  title_suffix = params[:color] ? " (#{params[:color].capitalize})" : ""
+  description_prefix = @selected_variant&.description ? "#{@selected_variant.description}. " : ""
+
   meta_tags_config = {
-    title: "#{@product.name} - #{@product.envelopes_count} Bitcoin Gift Envelopes",
-    description: "#{@product.description}. Includes #{@product.tokens_count} credits for custom designs. Perfect Bitcoin gift for beginners. Only #{@product.display_price}.",
-    keywords: "bitcoin gift envelope, crypto red packet, #{@product.name.downcase} pack, bitcoin hongbao, satoshi quotes, orange pill gift",
-    canonical: product_url(pack: @product.slug),
+    title: "#{@product.name}#{title_suffix} - #{@product.envelopes_count} Bitcoin Gift Envelopes",
+    description: "#{description_prefix}#{@product.description}. Includes #{@product.tokens_count} credits for custom paper wallets. Perfect Bitcoin gift for beginners. Only #{@product.display_price}.",
+    keywords: "bitcoin gift envelope, crypto red packet, #{@product.name.downcase} pack, bitcoin hongbao, bitcoin ang pao, satoshi quotes, orange pill gift",
+    canonical: canonical_url,  # Always point to main product URL
     og: {
       type: 'product',
       price: {
