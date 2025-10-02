@@ -21,6 +21,7 @@ module Products
         description: product_description,
         brand: brand,
         offers: offers,
+        hasVariant: product_variants,
         aggregateRating: aggregate_rating,
         review: reviews
       }.compact
@@ -31,13 +32,50 @@ module Products
     end
 
     def product_images
-      # Get images from the variant's attached images
-      return [] unless @variant&.images&.any?
+      # Get images from ALL variants to show all color options
+      images = []
+      @product.variants.each do |variant|
+        next unless variant.images.any?
+        variant.images.first(1).each do |image|
+          images << helpers.rails_blob_url(image, host: helpers.request.base_url)
+        end
+      end
 
-      # Return up to 3 images for structured data
-      # Use absolute URLs for SEO/Google structured data
-      @variant.images.first(3).map do |image|
-        helpers.rails_blob_url(image, host: helpers.request.base_url)
+      # Return unique images (up to 6 for good representation)
+      images.uniq.first(6)
+    end
+
+    def product_variants
+      # Generate hasVariant data for all color options
+      # This tells Google about all available variants
+      return nil unless @product.variants.size > 1
+
+      @product.variants.map do |variant|
+        variant_data = {
+          "@type": "Product",
+          name: "#{@product.name} - #{variant.description || variant.options_text}",
+          sku: variant.sku,
+          image: variant.images.any? ? helpers.rails_blob_url(variant.images.first, host: helpers.request.base_url) : nil,
+          offers: {
+            "@type": "Offer",
+            price: variant.price,
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+            url: helpers.variant_product_url(slug: @product.slug, color: variant.color_option_value&.name)
+          }
+        }.compact
+
+        # Add color specification if available
+        if variant.color_option_value
+          variant_data[:color] = variant.color_option_value.presentation
+          variant_data[:additionalProperty] = {
+            "@type": "PropertyValue",
+            name: "Color",
+            value: variant.color_option_value.presentation
+          }
+        end
+
+        variant_data
       end
     end
 

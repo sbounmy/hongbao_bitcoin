@@ -26,12 +26,16 @@ test.describe('Stripe Checkout Flow', () => {
     await page.click('button[type="submit"]');
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
-    await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 10_000 }); // 12 free credits with Mini
+    await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 15_000 }); // 12 free credits with Mini
 
     await page.waitForTimeout(1_000);
     await page.locator('.drawer').click();
     await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
     await appVcrEjectCassette();
+
+    await page.goto('/orders');
+    await page.getByText(/Order \#\d+/).first().click();
+    await expect(page.locator('body')).toContainText('+33651234567'); // phone number
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {

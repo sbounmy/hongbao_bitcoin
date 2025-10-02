@@ -1,0 +1,9 @@
+<div class="flex items-center gap-3 mt-1">
+  <% color_option_values.each do |color_value| %>
+    <div class="flex items-center gap-1">
+      <span class="w-4 h-4 rounded-full border border-gray-300"
+            style="background-color: <%= color_value.color || '#9ca3af' %>"></span>
+      <span class="text-sm text-gray-600">× <%= envelopes_per_color %></span>
+    </div>
+  <% end %>
+</div>

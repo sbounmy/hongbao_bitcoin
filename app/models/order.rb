@@ -29,6 +29,14 @@ class Order < ApplicationRecord
     btcpay: "btcpay"
   }
 
+  validates :phone_number, presence: true
+  validates :shipping_name, presence: true
+  validates :shipping_address_line1, presence: true
+  validates :shipping_city, presence: true
+  validates :shipping_postal_code, presence: true
+  validates :shipping_state, presence: true
+  validates :shipping_country, presence: true
+
   # external_id is the unique identifier for the transaction in the payment gateway
   validates :external_id, presence: true, uniqueness: true
 

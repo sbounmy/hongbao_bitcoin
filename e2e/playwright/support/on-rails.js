@@ -169,6 +169,8 @@ const fillCheckout = async (page) => {
   await page.fill('input[name="shippingAddressLine1"]', '123 Main St');
   await page.fill('input[name="shippingPostalCode"]', '94107');
   await page.fill('input[name="shippingLocality"]', 'San Francisco');
+  await page.selectOption('.PhoneNumberCountryCodeSelect-select', 'FR');
+  await page.fill('input[name="phoneNumber"]', '651234567');
   await page.selectOption('select[name="shippingCountry"]', 'US');
   await page.selectOption('select[name="shippingAdministrativeArea"]', 'CA');
 

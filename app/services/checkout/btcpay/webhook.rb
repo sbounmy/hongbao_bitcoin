@@ -34,6 +34,7 @@ module Checkout
             external_id: invoice_id,
             redirect_ref: metadata["redirectRef"],
             shipping_name: metadata["buyerName"],
+            phone_number: metadata["buyerPhone"],
             shipping_address_line1: metadata["buyerAddress1"],
             shipping_address_line2: metadata["buyerAddress2"],
             shipping_city: metadata["buyerCity"],

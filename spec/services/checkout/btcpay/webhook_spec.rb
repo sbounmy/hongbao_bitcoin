@@ -75,7 +75,8 @@ RSpec.describe Checkout::Btcpay::Webhook do
             "buyerCity" => "Paris",
             "buyerState" => "IDF",
             "buyerZip" => "75001",
-            "buyerCountry" => "FR"
+            "buyerCountry" => "FR",
+            "buyerPhone" => "+33612345678"
           }
         }
       end

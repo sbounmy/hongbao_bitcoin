@@ -1,0 +1,83 @@
+<% if variant && product %>
+  <!-- Product Item -->
+  <div class="flex items-start space-x-4 mb-6">
+    <div class="relative">
+      <% if variant.images.any? %>
+        <%= image_tag url_for(variant.images.first),
+            class: "w-16 h-16 rounded-lg border border-gray-200 object-cover",
+            alt: product.name %>
+      <% else %>
+        <div class="w-16 h-16 rounded-lg border border-gray-200 bg-gray-100 flex items-center justify-center">
+          <%= heroicon "cube", variant: :outline, class: "w-8 h-8 text-gray-400" %>
+        </div>
+      <% end %>
+      <span class="absolute -top-2 -right-2 h-5 w-5 bg-gray-600 text-white text-xs rounded-full flex items-center justify-center">
+        1
+      </span>
+    </div>
+
+    <div class="flex-1">
+      <h3 class="text-sm font-medium text-gray-900">
+        <%= product.name %>
+      </h3>
+      <% envelopes_count = product.metadata["envelopes_count"] || product.envelopes_count %>
+      <% tokens_count = product.metadata["tokens_count"] || product.tokens_count %>
+      <% if envelopes_count || tokens_count %>
+        <p class="text-sm text-gray-500 mt-1">
+          <% if envelopes_count && envelopes_count > 0 %>
+            <%= envelopes_count %> envelope<%= "s" if envelopes_count > 1 %>
+          <% end %>
+          <% if envelopes_count && tokens_count && tokens_count > 0 %>
+            +
+          <% end %>
+          <% if tokens_count && tokens_count > 0 %>
+            <%= tokens_count %> credit<%= "s" if tokens_count > 1 %>
+          <% end %>
+        </p>
+      <% end %>
+      <%= render Variants::DescriptionComponent.new(variant:) %>
+
+    </div>
+
+    <div class="text-sm font-medium text-gray-900">
+      €<%= variant.price %>
+    </div>
+  </div>
+
+  <!-- Price Breakdown -->
+  <div class="space-y-3 border-t pt-4">
+    <div class="flex justify-between text-sm">
+      <span class="text-gray-600">Subtotal</span>
+      <span class="font-medium text-gray-900">€<%= variant.price %></span>
+    </div>
+
+    <div class="flex justify-between text-sm">
+      <span class="text-gray-600">Shipping</span>
+      <span class="font-medium text-gray-900">FREE</span>
+    </div>
+  </div>
+
+  <!-- Total -->
+  <div class="border-t mt-4 pt-4">
+    <div class="flex justify-between">
+      <span class="text-base font-medium text-gray-900">Total</span>
+      <div class="text-right">
+        <span class="text-xs text-gray-500 mr-1">EUR</span>
+        <span class="text-lg font-semibold text-gray-900">€<%= variant.price %></span>
+      </div>
+    </div>
+    <% if variant.price > 0 %>
+      <p class="text-xs text-gray-500 mt-1">
+        Including €<%= (variant.price * 0.2).round(2) %> in taxes
+      </p>
+    <% end %>
+  </div>
+<% else %>
+  <!-- Empty State -->
+  <div class="py-8 text-center">
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+      <%= heroicon "shopping-bag", variant: :outline, class: "w-8 h-8 text-gray-400" %>
+    </div>
+    <p class="text-sm text-gray-500">No items in your order</p>
+  </div>
+<% end %>

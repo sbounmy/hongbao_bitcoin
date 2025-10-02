@@ -1,94 +1,214 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Complete Your Order
-      </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        Please provide your shipping information for Bitcoin payment
-      </p>
+<div class=" bg-gray-50">
+  <!-- Header with Logo -->
+  <header class="border-b border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <%= link_to root_path, class: "flex items-center" do %>
+          <%= image_tag "hongbao-bitcoin.png", alt: "Hongbao", class: "h-10 w-auto" %>
+        <% end %>
+        <nav class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+          <span>Information</span>
+          <%= heroicon "chevron-right", variant: :outline, class: "w-4 h-4" %>
+          <span class="text-gray-900">Shipping</span>
+          <%= heroicon "chevron-right", variant: :outline, class: "w-4 h-4" %>
+          <span>Payment</span>
+        </nav>
+      </div>
     </div>
+  </header>
 
-    <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false }, class: "mt-8 space-y-6" do |form| %>
-      <%= render "shared/error_messages", resource: @errors if @errors %>
+  <div class="max-w-7xl mx-auto">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-x-12">
+      <!-- Main Form Section -->
+      <main class="lg:col-span-7 px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div data-controller="places-autocomplete phone-input"
+             data-action="google-maps-callback@window->places-autocomplete#initAutocomplete"
+             data-places-autocomplete-country-value='["<%= params[:buyerCountry] || "FR" %>"]'
+             data-phone-input-preferred-countries-value='["fr", "us", "gb", "de", "ca", "au"]'
+             data-phone-input-default-country-value="<%= (params[:buyerCountry] || "FR").downcase %>">
 
-      <div class="space-y-4">
-        <div>
-          <%= form.label :buyerName, "Full Name", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerName,
-              required: true,
-              value: params[:buyerName],
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <%= form_with url: checkout_index_path, method: :post, local: true, data: { turbo: false } do |form| %>
+            <%= render "shared/error_messages", resource: @errors if @errors %>
+
+            <!-- Contact Section -->
+            <div class="mb-8">
+              <h2 class="text-lg font-medium text-gray-900 mb-4">Contact</h2>
+              <div class="space-y-4">
+                <div>
+                  <%= form.email_field :buyerEmail,
+                      required: true,
+                      value: current_user&.email || params[:buyerEmail],
+                      readonly: authenticated?,
+                      placeholder: "Email",
+                      class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 #{'bg-gray-100' if authenticated?}" %>
+                </div>
+                <div class="flex items-start">
+                  <%= form.check_box :newsletter, class: "h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded mt-0.5" %>
+                  <%= form.label :newsletter, "Send me crypto news, special offers and reward opportunities", class: "ml-2 block text-sm text-gray-700" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shipping Address Section -->
+            <div class="mb-8">
+              <h2 class="text-lg font-medium text-gray-900 mb-4">Shipping address</h2>
+              <div class="space-y-4">
+                <div>
+                  <%= form.country_select :buyerCountry,
+                      { selected: params[:buyerCountry] || "FR" },
+                      { required: true,
+                        data: {
+                          places_autocomplete_target: "countryCode",
+                          action: "change->places-autocomplete#countryChanged change->phone-input#countryChanged"
+                        },
+                        placeholder: "Country/Region",
+                        class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" } %>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <%= form.text_field :buyerFirstName,
+                        required: true,
+                        value: params[:buyerFirstName],
+                        placeholder: "First name",
+                        class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                  </div>
+                  <div>
+                    <%= form.text_field :buyerLastName,
+                        required: true,
+                        value: params[:buyerLastName],
+                        placeholder: "Last name",
+                        class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= form.text_field :buyerAddress1,
+                      required: true,
+                      value: params[:buyerAddress1],
+                      placeholder: "Address",
+                      data: {
+                        places_autocomplete_target: "address",
+                        action: "keydown->places-autocomplete#preventSubmit"
+                      },
+                      class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                  <%= form.hidden_field :streetNumber, data: { places_autocomplete_target: "streetNumber" } %>
+                  <%= form.hidden_field :route, data: { places_autocomplete_target: "route" } %>
+                  <%= form.hidden_field :longitude, data: { places_autocomplete_target: "longitude" } %>
+                  <%= form.hidden_field :latitude, data: { places_autocomplete_target: "latitude" } %>
+                </div>
+
+                <div>
+                  <%= form.text_field :buyerAddress2,
+                      value: params[:buyerAddress2],
+                      placeholder: "Apartment, suite, etc. (optional)",
+                      data: { places_autocomplete_target: "address2" },
+                      class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <%= form.text_field :buyerZip,
+                        required: true,
+                        value: params[:buyerZip],
+                        placeholder: "Postal code",
+                        data: { places_autocomplete_target: "postalCode" },
+                        class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                  </div>
+                  <div>
+                    <%= form.text_field :buyerCity,
+                        required: true,
+                        value: params[:buyerCity],
+                        placeholder: "City",
+                        data: { places_autocomplete_target: "city" },
+                        class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= form.text_field :buyerState,
+                      value: params[:buyerState],
+                      placeholder: "State/Province",
+                      data: { places_autocomplete_target: "state" },
+                      class: "block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                </div>
+
+                <div>
+                  <%= form.telephone_field :buyerPhone,
+                      value: params[:buyerPhone],
+                      placeholder: "Phone",
+                      data: { phone_input_target: "input" },
+                      class: "block !w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500" %>
+                </div>
+
+                <div class="flex items-start">
+                  <%= form.check_box :save_info, class: "h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded mt-0.5" %>
+                  <%= form.label :save_info, "Save this information for next time", class: "ml-2 block text-sm text-gray-700" %>
+                </div>
+              </div>
+            </div>
+
+            <%= form.hidden_field :provider, value: "btcpay" %>
+            <%= form.hidden_field :variant_id, value: params[:variant_id] %>
+            <%= form.hidden_field :payment_method, value: params[:payment_method] %>
+
+            <div class="flex justify-between items-center">
+              <%= link_to "← Return to cart", root_path, class: "text-orange-600 hover:text-orange-700 text-sm" %>
+              <%= form.submit "Continue to Payment",
+                  class: "px-6 py-3 bg-orange-600 text-white font-medium rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
+            </div>
+          <% end %>
         </div>
+    </main>
 
-        <div>
-          <%= form.label :buyerEmail, "Email", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.email_field :buyerEmail,
-              required: true,
-              value: current_user&.email || params[:buyerEmail],
-              readonly: authenticated?,
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm #{'bg-gray-100' if authenticated?}" %>
-        </div>
+      <!-- Order Summary Sidebar -->
+      <aside class="lg:col-span-5 bg-gray-50 lg:bg-white border-t lg:border-t-0 lg:border-l border-gray-200">
+        <div class="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+          <!-- Mobile Toggle -->
+          <details class="lg:hidden group">
+            <summary class="flex items-center justify-between cursor-pointer list-none">
+              <div class="flex items-center space-x-2">
+                <%= heroicon "shopping-cart", variant: :outline, class: "w-5 h-5 text-gray-500" %>
+                <span class="text-sm font-medium text-gray-900">Show order summary</span>
+                <%= heroicon "chevron-down", variant: :outline, class: "w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" %>
+              </div>
+              <span class="text-lg font-semibold text-gray-900">
+                €<%= @variant&.price || "0.00" %>
+              </span>
+            </summary>
+            <div class="mt-4">
+              <%= render partial: "checkout/order_summary", locals: { variant: @variant, product: @product } %>
+            </div>
+          </details>
 
-        <div>
-          <%= form.label :buyerAddress1, "Shipping Address Line 1", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerAddress1,
-              required: true,
-              value: params[:buyerAddress1],
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-
-        <div>
-          <%= form.label :buyerAddress2, "Shipping Address Line 2 (optional)", class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :buyerAddress2,
-              value: params[:buyerAddress2],
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <%= form.label :buyerCity, "City", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerCity,
-                required: true,
-                value: params[:buyerCity],
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <!-- Desktop Summary (always visible) -->
+          <div class="hidden lg:block">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Order summary</h2>
+            <%= render partial: "checkout/order_summary", locals: { variant: @variant, product: @product } %>
           </div>
-
-          <div>
-            <%= form.label :buyerState, "State/Province", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerState,
-                value: params[:buyerState],
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          </div>
         </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <%= form.label :buyerZip, "Postal Code", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.text_field :buyerZip,
-                required: true,
-                value: params[:buyerZip],
-                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          </div>
-
-          <div>
-            <%= form.label :buyerCountry, "Country", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.country_select :buyerCountry,
-                { selected: params[:buyerCountry] },
-                { required: true,
-                  class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
-          </div>
-        </div>
-      </div>
-
-      <%= form.hidden_field :provider, value: "btcpay" %>
-      <%= form.hidden_field :variant_id, value: params[:variant_id] %>
-      <%= form.hidden_field :payment_method, value: params[:payment_method] %>
-
-      <div>
-        <%= form.submit "Continue to Payment",
-            class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
-      </div>
-    <% end %>
+      </aside>
+    </div>
   </div>
 </div>
+
+<% content_for :head do %>
+  <script>
+    window.initAutocomplete = function () {
+      const event = new Event("google-maps-callback", {
+        bubbles: true,
+        cancelable: true,
+      })
+      window.dispatchEvent(event)
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.dig(:google_places, :api_key) %>&libraries=places&callback=initAutocomplete" async defer></script>
+<% end %>
+
+<% content_for :footer do %>
+    <div class="p-8 flex flex-wrap gap-4 text-sm text-gray-500">
+      <%= link_to "Refund policy", "#", class: "hover:text-gray-700" %>
+      <%= link_to "Privacy policy", "#", class: "hover:text-gray-700" %>
+      <%= link_to "Terms of service", "#", class: "hover:text-gray-700" %>
+    </div>
+<% end %>
