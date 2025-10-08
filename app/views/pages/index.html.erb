@@ -127,76 +127,99 @@
 <%= render "shared/testimonials_marquee" %>
 
 <!-- How It Works Section -->
-<section class="py-24">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="mb-12 flex w-full flex-col text-center md:mb-20">
-      <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">HOW IT WORKS</p>
-      <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
+<section class="py-16 md:py-24 bg-base-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="mb-8 md:mb-12 text-center">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-base-content mb-3">
         Your perfect Bitcoin gift, exactly as you want it.
       </h2>
+      <p class="text-base md:text-lg text-base-content/70">
+        Physical Bitcoin gift is the best way to introduce someone to Bitcoin.
+      </p>
     </div>
-    <div class="flex flex-col lg:flex-row md:items-center gap-6">
-      <!-- Step 1: Buy Envelopes -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
-        <%= card.with_figure do %>
-            <iframe
-              src="https://www.youtube.com/embed/GzUprWHTI9U"
-              class="rounded-t-lg w-full aspect-video"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-        <% end %>
-        <%= card.with_title do %>
-          1. What contains a pack ?
-        <% end %>
-        <%= card.with_body do %>
-          <p>6 premium Bitcoin gift envelopes featuring bitcoin quotes from OGs. A QRCode on the back to educate them about self-custody.</p>
-        <% end %>
-      <% end %>
 
-      <!-- Arrow 1 -->
-      <div class="flex justify-center md:block">
-        <%= heroicon "arrow-down", variant: :outline, class: "h-6 w-6 text-primary lg:-rotate-90" %>
+    <!-- 4 Steps Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      <!-- Step 1: What's in the pack -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+
+            <source src="https://cdn.hongbaob.tc/app/pages/index/buy-envelopes.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
+          Choose your pack
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          From 6, 12, or 24 premium envelopes starting at 29€. Each features Bitcoin quotes and a QR code to get started with Bitcoin.
+        </p>
       </div>
 
-      <!-- Step 2: Customize Design -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
-        <%= card.with_figure do %>
-          <%= image_tag image_url("bill_hongbao.jpg"), alt: "Custom Bitcoin bill", class: "w-full h-48 " %>
-        <% end %>
-        <%= card.with_title do %>
-          2. Prepare your gift
-        <% end %>
-        <%= card.with_body do %>
-          <p>Upload their photo to create a custom Bitcoin note. Top up it with Bitcoin or fiat. Each note is unique to your loved one.</p>
-        <% end %>
-      <% end %>
-
-      <!-- Arrow 2 -->
-      <div class="flex justify-center md:block">
-        <%= heroicon "arrow-down", variant: :outline, class: "h-6 w-6 text-primary lg:-rotate-90" %>
+      <!-- Step 2: Wrap your gift -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/custom-ai-paper-wallet.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
+          Make it personal
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          Personalize Bitcoin notes with AI using photos of your loved ones, or select from user-created designs.
+        </p>
       </div>
 
-      <!-- Step 3: Print & Gift -->
-      <%= render Ui::CardComponent.new(class: "h-full flex-1 max-w-lg mx-auto") do |card| %>
-        <%= card.with_figure do %>
-          <iframe
-            class="rounded-t-lg w-full aspect-video"
-            src="https://www.youtube-nocookie.com/embed/i_tLbmYumVQ?si=okhJyV8ofnhFoz4C&amp;controls=0"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-          </iframe>
-        <% end %>
-        <%= card.with_title do %>
-          3. Watch Them Learn
-        <% end %>
-        <%= card.with_body do %>
-          <p>Recipients scan QR code to check balance and claim Bitcoin with private key. No apps needed. Includes beginner guides on the PDF.</p>
-        <% end %>
-      <% end %>
+      <!-- Step 3: Choose an envelope -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/top-up-bitcoin-fiat-no-kyc.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
+          Top up with Bitcoin or fiat
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          You can send Bitcoin directly to the Bitcoin note or top up with fiat with our partner Mt Pelerin.
+        </p>
+      </div>
+
+      <!-- Step 4: Last minute gift -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/cut-paper-wallet-pdf.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
+          Priting Bitcoin
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          Print at home your PDF Bitcoin note. No account needed.
+        </p>
+      </div>
     </div>
   </div>
 </section>
