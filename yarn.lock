@@ -3555,6 +3555,11 @@ interactjs@^1.10.27:
   dependencies:
     "@interactjs/types" "1.10.27"
 
+intl-tel-input@^25.11.2:
+  version "25.11.2"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-25.11.2.tgz#ab8b12a8d1e1d01a5cf02d5199f971e3e8ef5d3c"
+  integrity sha512-3a9+bbtR6s7E8TjZauqodMz+MRMd31OcUhTJuQOg95lA+viZ53OTU8XzVuyldEE089nMtLhPF1NbRU1ff2Sf7g==
+
 iobuffer@^5.3.2:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/iobuffer/-/iobuffer-5.4.0.tgz#f85dff957fd0579257472f0a4cfe5ed3430e63e1"
@@ -5210,6 +5215,11 @@ stimulus-confetti@^1.0.1:
   integrity sha512-8LZExQpvx5bajwuaCh6TUAfIUgAIjuGowNGOfz7GMZqGXG7S2H9T2h9AyJVJEb9YIJTykiZ8+1h7eq8GgPYxLA==
   dependencies:
     canvas-confetti "^1.6.0"
+
+stimulus-places-autocomplete@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/stimulus-places-autocomplete/-/stimulus-places-autocomplete-0.5.0.tgz#a18603ee629ec0944c4adae6b76b3fed515e1e1a"
+  integrity sha512-9cVHWDXlkewELruJlbkNjLm4izybkOnLKQLUX/5F18ht5Dev+4/p+venaTfcHOkX9lyVj1qDz/SAiAjZnLx7tQ==
 
 stimulus-textarea-autogrow@^4.1.0:
   version "4.1.0"

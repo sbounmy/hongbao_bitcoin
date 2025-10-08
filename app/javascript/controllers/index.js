@@ -56,6 +56,11 @@ application.register("tabs", TabsController)
 import ToggleController from './toggle_controller'
 application.register('toggle', ToggleController)
 
+import PlacesAutocompleteController from './places_autocomplete_controller'
+application.register('places-autocomplete', PlacesAutocompleteController)
+
+import PhoneInputController from './phone_input_controller'
+application.register('phone-input', PhoneInputController)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149
@@ -101,3 +106,6 @@ application.register("confetti", Confetti)
 
 import ZoomImage from '@kanety/stimulus-zoom-image'
 application.register('zoom-image', ZoomImage)
+
+import PlacesAutocomplete from "stimulus-places-autocomplete"
+application.register("stimulus-places-autocomplete", PlacesAutocomplete)

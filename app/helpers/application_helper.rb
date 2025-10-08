@@ -76,6 +76,50 @@ module ApplicationHelper
     end
   end
 
+  def asset_to_base64(asset_name)
+    # Convert static asset files to base64 data URLs
+    # This is used for embedding logo images in offline pages to avoid CORS issues
+
+    # Try app/assets/images directly first
+    asset_path = Rails.root.join("app", "assets", "images", asset_name)
+
+    # If not found, try public/assets (for precompiled assets)
+    unless File.exist?(asset_path)
+      asset_path = Rails.root.join("public", "assets", asset_name)
+    end
+
+    # If still not found, check other asset paths
+    unless File.exist?(asset_path)
+      # Search through all configured asset paths
+      Rails.application.config.assets.paths.each do |path|
+        potential_path = File.join(path, asset_name)
+        if File.exist?(potential_path)
+          asset_path = potential_path
+          break
+        end
+      end
+    end
+
+    # Fallback to regular image_url if file not found
+    return image_url(asset_name) unless File.exist?(asset_path)
+
+    # Read the file and encode to base64
+    file_content = File.read(asset_path, mode: "rb")
+    base64_content = Base64.strict_encode64(file_content)
+
+    # Determine MIME type based on file extension
+    mime_type = case File.extname(asset_name).downcase
+    when ".svg" then "image/svg+xml"
+    when ".png" then "image/png"
+    when ".jpg", ".jpeg" then "image/jpeg"
+    when ".gif" then "image/gif"
+    when ".webp" then "image/webp"
+    else "application/octet-stream"
+    end
+
+    "data:#{mime_type};base64,#{base64_content}"
+  end
+
   def base64_url(attachment)
     # Converts an Active Storage attachment to a Base64 data URL.
     # Returns an empty string if the attachment is not present, not attached,

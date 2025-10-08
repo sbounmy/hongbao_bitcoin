@@ -2,6 +2,8 @@ class CheckoutController < ApplicationController
   allow_unauthenticated_access
   skip_before_action :verify_authenticity_token, only: [ :webhook ]
 
+  before_action :set_variant_and_product, only: [ :new ]
+
   def new
     case params[:provider]
     when "btcpay"
@@ -65,6 +67,11 @@ class CheckoutController < ApplicationController
   end
 
   private
+
+  def set_variant_and_product
+    @variant = Variant.find_by(id: params[:variant_id])
+    @product = @variant&.product
+  end
 
   def set_success_flash_message
     if authenticated?

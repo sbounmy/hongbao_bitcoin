@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <%# SEO Meta Tags - Using meta-tags gem %>
-    <%= display_meta_tags site: 'Hong₿ao',
+    <%= display_meta_tags site: 'HongBao',
+                          title: "Bitcoin gift: Paper Wallet Envelopes for Beginners",
                           reverse: true,
                           separator: '|',
                           description: t('.meta.description'),
@@ -50,6 +50,7 @@
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
+
 
     <%# Initialize theme before page loads to prevent FOUC %>
     <script>

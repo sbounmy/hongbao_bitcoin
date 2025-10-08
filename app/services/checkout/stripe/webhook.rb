@@ -63,11 +63,21 @@ module Checkout
               }
             )
 
+            Rails.logger.info("-----Session #{session.id} #{session.customer_details.inspect} / #{cs.inspect}")
+            shipping_details = cs.collected_information.shipping_details
             order =  user.orders.create!(
               total_amount: cs.amount_total/100.0, # Convert cents to dollars
               currency: cs.currency,
               payment_provider: "stripe",
               external_id: session.payment_intent || session.id,
+              phone_number: session.customer_details.phone,
+              shipping_name: shipping_details.name,
+              shipping_address_line1: shipping_details.address.line1,
+              shipping_address_line2: shipping_details.address.line2,
+              shipping_city: shipping_details.address.city,
+              shipping_state: shipping_details.address.state,
+              shipping_postal_code: shipping_details.address.postal_code,
+              shipping_country: shipping_details.address.country
             )
 
             order.complete! if order.may_complete?
