@@ -75,7 +75,7 @@ test.describe('BTCPay Checkout Flow', () => {
     }
 
     // Close BTCPay tab
-    await btcPayPage.close();
+    // await btcPayPage.close();
 
     // Go back to payment page
     await page.bringToFront();
@@ -89,6 +89,7 @@ test.describe('BTCPay Checkout Flow', () => {
 
   paymentMethods.forEach(({ name, buttonText, cassette, method }) => {
     test(`logged in user can initiate a purchase with BTCPay ${name}`, async ({ page, context }) => {
+      test.skip('wait for testnet to be synced');
       test.setTimeout(180_000); // 3 minutes for payment flow
       const btcpayCredentials = await appGetCredentials('btcpay');
       const btcpayServerUrl = `https://${process.env.BTCPAY_HOST}`;
