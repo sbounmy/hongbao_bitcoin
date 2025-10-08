@@ -175,11 +175,13 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.locator('#buyerAddress1').click();
     await page.waitForTimeout(1_000);
     await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
-    await page.waitForTimeout(1_000);
-    if (await page.locator('.pac-item').first().isHidden()) {
-      await page.locator('#buyerAddress1').click()
-    }
-    await page.locator('.pac-item:visible').first().click();
+
+    // Wait for Google Places autocomplete to appear and be ready
+    await page.waitForSelector('.pac-item', { state: 'visible', timeout: 5000 });
+    await page.waitForTimeout(500); // Let autocomplete stabilize
+
+    // Click the first suggestion
+    await page.locator('.pac-item').first().click({ force: true });
     await page.waitForTimeout(1_000);
     await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue De La Paix');
     await expect(page.locator('#buyerCity')).toHaveValue('Cloudcroft');
