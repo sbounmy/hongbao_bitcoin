@@ -31,26 +31,16 @@ export default class extends Controller {
       autoPlaceholder: "aggressive",
       // Container for dropdown to handle z-index issues
       dropdownContainer: document.body,
-      // Use CDN for utils and load flags with CSS
-      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/utils.js",
       // Use country placeholders if flags don't load
       countrySearch: false,
       i18n: {},
-      // Load flags with CSS from CDN
-      loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/utils.js"
-    })
-
-    // Update the input value to always contain the full international number before form submission
-    const form = this.inputTarget.closest('form')
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        // Get the full international number and update the input value
-        const fullNumber = this.iti.getNumber()
-        if (fullNumber) {
-          this.inputTarget.value = fullNumber
-        }
+      loadUtils: () => import('intl-tel-input/utils'),
+      // Automatically create hidden inputs for full phone number and country code
+      hiddenInput: () => ({
+        phone: "buyerPhoneFull",
+        country: "buyerCountryCode"
       })
-    }
+    })
   }
 
   disconnect() {
@@ -59,10 +49,10 @@ export default class extends Controller {
     }
   }
 
-  // Get the full international number
-  getNumber() {
-    return this.iti.getNumber()
-  }
+  // // Get the full international number
+  // getNumber() {
+  //   return this.iti.getNumber()
+  // }
 
   // Check if number is valid
   isValid() {
