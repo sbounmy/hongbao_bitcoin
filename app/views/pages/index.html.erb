@@ -85,19 +85,108 @@
 
 </div>
 
-<!-- Hongbao and Bitcoin note explanations -->
-<div id="definitions" class="p-6 text-center bg-base-100 border-t border-base-200">
-  <div class="space-y-3 max-w-4xl mx-auto">
-    <div class="flex items-center justify-center gap-2 text-sm md:text-base text-base-content">
-      <span class="font-medium">Hong₿ao</span>
-      <span class="">(红包) • Traditional Chinese red envelopes for gifting money during celebrations</span>
+<section class="py-16 md:py-24 bg-base-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="mb-8 md:mb-12 text-center">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-base-content mb-3">
+        Your perfect Bitcoin gift, exactly as you want it.
+      </h2>
+      <p class="text-base md:text-lg text-base-content/70">
+        Create your Bitcoin gift in less than 5 minutes.
+      </p>
     </div>
-    <div class="flex items-center justify-center gap-2 text-sm md:text-base text-base-content">
-      <span class="font-medium">Bitcoin note</span>
-      <span class="">• A paper wallet styled as currency containing public and cryptographic keys to access Bitcoin funds</span>
+
+    <!-- 4 Steps Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      <!-- Step 1: What's in the pack -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+
+            <source src="https://cdn.hongbaob.tc/app/pages/index/buy-envelopes-red-orange.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2 flex items-center gap-2">
+          <span class="badge badge-lg bg-gradient-to-r from-red-500 to-orange-500 text-white border-0">1</span>
+          Choose your pack
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          6, 12, or 24 premium envelopes starting at 29€. Bitcoiner Quote and QR code to get started.
+        </p>
+      </div>
+
+      <!-- Step 2: Wrap your gift -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/custom-ai-paper-wallet.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2 flex items-center gap-2">
+          <span class="badge badge-lg bg-gradient-to-r from-red-500 to-orange-500 text-white border-0">2</span>
+          Make it personal
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          Personalize Bitcoin notes with AI using photos of your loved ones, or select from user-created designs.
+        </p>
+      </div>
+
+      <!-- Step 3: Choose an envelope -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/top-up-bitcoin-fiat-no-kyc.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2 flex items-center gap-2">
+          <span class="badge badge-lg bg-gradient-to-r from-red-500 to-orange-500 text-white border-0">3</span>
+          Top up with Bitcoin / Fiat
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          You can send Bitcoin directly to the Bitcoin note or top up with fiat with our partner Mt Pelerin.
+        </p>
+      </div>
+
+      <!-- Step 4: Last minute gift -->
+      <div class="flex flex-col">
+        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline>
+            <source src="https://cdn.hongbaob.tc/app/pages/index/cut-paper-wallet-pdf.mp4" type="video/mp4">
+          </video>
+        </div>
+        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2 flex items-center gap-2">
+          <span class="badge badge-lg bg-gradient-to-r from-red-500 to-orange-500 text-white border-0">4</span>
+          Priting Bitcoin
+        </h3>
+        <p class="text-sm md:text-base text-base-content/70">
+          Print at home your PDF Bitcoin note. No account needed.
+        </p>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
+<%= render "shared/testimonials_marquee" %>
 
 <section class="p-8">
   <div class="max-w-6xl mx-auto">
@@ -119,106 +208,6 @@
                 class="w-full h-[800px] border rounded-lg shadow-lg mt-8"
                 title="Hong₿ao Bitcoin Note PDF Preview">
         </iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%= render "shared/testimonials_marquee" %>
-
-<!-- How It Works Section -->
-<section class="py-16 md:py-24 bg-base-100">
-  <div class="max-w-7xl mx-auto px-4">
-    <div class="mb-8 md:mb-12 text-center">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-base-content mb-3">
-        Your perfect Bitcoin gift, exactly as you want it.
-      </h2>
-      <p class="text-base md:text-lg text-base-content/70">
-        Physical Bitcoin gift is the best way to introduce someone to Bitcoin.
-      </p>
-    </div>
-
-    <!-- 4 Steps Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-      <!-- Step 1: What's in the pack -->
-      <div class="flex flex-col">
-        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
-          <video
-            class="w-full h-full object-cover"
-            autoplay
-            loop
-            muted
-            playsinline>
-
-            <source src="https://cdn.hongbaob.tc/app/pages/index/buy-envelopes.mp4" type="video/mp4">
-          </video>
-        </div>
-        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
-          Choose your pack
-        </h3>
-        <p class="text-sm md:text-base text-base-content/70">
-          From 6, 12, or 24 premium envelopes starting at 29€. Each features Bitcoin quotes and a QR code to get started with Bitcoin.
-        </p>
-      </div>
-
-      <!-- Step 2: Wrap your gift -->
-      <div class="flex flex-col">
-        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
-          <video
-            class="w-full h-full object-cover"
-            autoplay
-            loop
-            muted
-            playsinline>
-            <source src="https://cdn.hongbaob.tc/app/pages/index/custom-ai-paper-wallet.mp4" type="video/mp4">
-          </video>
-        </div>
-        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
-          Make it personal
-        </h3>
-        <p class="text-sm md:text-base text-base-content/70">
-          Personalize Bitcoin notes with AI using photos of your loved ones, or select from user-created designs.
-        </p>
-      </div>
-
-      <!-- Step 3: Choose an envelope -->
-      <div class="flex flex-col">
-        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
-          <video
-            class="w-full h-full object-cover"
-            autoplay
-            loop
-            muted
-            playsinline>
-            <source src="https://cdn.hongbaob.tc/app/pages/index/top-up-bitcoin-fiat-no-kyc.mp4" type="video/mp4">
-          </video>
-        </div>
-        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
-          Top up with Bitcoin or fiat
-        </h3>
-        <p class="text-sm md:text-base text-base-content/70">
-          You can send Bitcoin directly to the Bitcoin note or top up with fiat with our partner Mt Pelerin.
-        </p>
-      </div>
-
-      <!-- Step 4: Last minute gift -->
-      <div class="flex flex-col">
-        <div class="relative rounded-2xl overflow-hidden bg-base-200 mb-4 aspect-square">
-          <video
-            class="w-full h-full object-cover"
-            autoplay
-            loop
-            muted
-            playsinline>
-            <source src="https://cdn.hongbaob.tc/app/pages/index/cut-paper-wallet-pdf.mp4" type="video/mp4">
-          </video>
-        </div>
-        <h3 class="text-lg md:text-xl font-semibold text-base-content mb-2">
-          Priting Bitcoin
-        </h3>
-        <p class="text-sm md:text-base text-base-content/70">
-          Print at home your PDF Bitcoin note. No account needed.
-        </p>
       </div>
     </div>
   </div>
