@@ -109,13 +109,13 @@ module ApplicationHelper
 
     # Determine MIME type based on file extension
     mime_type = case File.extname(asset_name).downcase
-                when ".svg" then "image/svg+xml"
-                when ".png" then "image/png"
-                when ".jpg", ".jpeg" then "image/jpeg"
-                when ".gif" then "image/gif"
-                when ".webp" then "image/webp"
-                else "application/octet-stream"
-                end
+    when ".svg" then "image/svg+xml"
+    when ".png" then "image/png"
+    when ".jpg", ".jpeg" then "image/jpeg"
+    when ".gif" then "image/gif"
+    when ".webp" then "image/webp"
+    else "application/octet-stream"
+    end
 
     "data:#{mime_type};base64,#{base64_content}"
   end
