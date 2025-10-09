@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_01_022331) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_133608) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -263,6 +263,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_022331) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "spots", force: :cascade do |t|
+    t.date "date", null: false
+    t.json "prices", default: {}
+    t.datetime "imported_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "price_updated_at", default: {}
+    t.index ["date"], name: "index_spots_on_date", unique: true
   end
 
   create_table "tags", force: :cascade do |t|

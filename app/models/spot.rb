@@ -1,19 +1,16 @@
-require "net/http"
-require "json"
-
-class Spot
-  include ActiveModel::Model
+class Spot < ApplicationRecord
+  validates :date, presence: true, uniqueness: true
 
   COINBASE_BASE_URI = "https://api.coinbase.com/v2/prices"
   CACHE_EXPIRES_IN = 10.minutes
   HISTORICAL_CACHE_EXPIRES_IN = 24.hours
-  SUPPORTED_CURRENCIES = %i[usd eur gbp jpy].freeze
+  SUPPORTED_CURRENCIES = %i[usd eur].freeze
 
-  attr_accessor :date
+  store_accessor :prices, *SUPPORTED_CURRENCIES
 
-  def initialize(date: nil)
-    @date = date.try(:utc)
-  end
+  # def initialize(date: nil)
+  #   @date = date.try(:utc)
+  # end
 
   def self.current(currency)
     new.to(currency)
@@ -24,33 +21,5 @@ class Spot
     raise ArgumentError, "Unsupported currency: #{currency}" unless SUPPORTED_CURRENCIES.include?(currency)
 
     fetch_price(currency)
-  end
-
-  private
-
-  def fetch_price(currency)
-    cache_key = build_cache_key(currency)
-    cache_duration = date ? HISTORICAL_CACHE_EXPIRES_IN : CACHE_EXPIRES_IN
-
-    Rails.cache.fetch(cache_key, expires_in: cache_duration) do
-      response = Net::HTTP.get(build_uri(currency))
-      JSON.parse(response).dig("data", "amount")&.to_f
-    end
-  end
-
-  def build_uri(currency)
-    base_path = "BTC-#{currency.upcase}/spot"
-    query = date ? "?date=#{date.strftime('%Y-%m-%d')}" : ""
-    URI("#{COINBASE_BASE_URI}/#{base_path}#{query}")
-  end
-
-  def build_cache_key(currency)
-    parts = [ "coinbase_btc", currency ]
-    parts << "historical" << date.strftime("%Y-%m-%d") if date
-    parts.join("_")
-  end
-
-  def price_type
-    date ? "historical" : "current"
   end
 end
