@@ -18,7 +18,7 @@
     </h1>
 
     <p class="text-xl md:text-2xl lg:text-3xl text-black/70 mb-8 md:mb-10">
-      Print a <%= link_to "Bitcoin note", "#definitions", class: "underline decoration-dotted underline-offset-4 hover:text-black transition-colors cursor-help", title: "A paper wallet styled as currency containing keys to access Bitcoin", data: { controller: "scroll-to" } %> → Gift it in a <%= link_to "Hong₿ao", "#definitions", class: "underline decoration-dotted underline-offset-4 hover:text-black transition-colors cursor-help", title: "Traditional Chinese red envelopes for gifting money", data: { controller: "scroll-to" } %> → Let them study
+      Turn Bitcoin gifting into a shared Bitcoin journey
     </p>
 
     <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
@@ -336,22 +336,22 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 
       <%= render Ui::CardComponent.new(class: "h-full w-full", figure_position: :bottom) do |card| %>
         <%= card.with_figure do %>
-          <iframe
-            src="https://www.youtube.com/embed/M-Aa_ywI4OA"
-            class="rounded-t-lg w-full aspect-video"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+          <video
+            class="w-full h-full object-cover cursor-pointer"
+            playsinline
+            controls
+            preload="metadata">
+            <source src="https://cdn.hongbaob.tc/app/pages/index/bitcoin-gift-tracker.mp4" type="video/mp4">
+          </video>
         <% end %>
         <%= card.with_title do %>
           <div class="w-full flex gap-2 justify-between">
-            <p>Never Miss a Bitcoin Day</p>
-            <%= link_to "See Bitcoin Calendar", calendar_path, class: "btn btn-xs btn-outline" %>
+            <p>Track Your Bitcoin Gifts</p>
           </div>
         <% end %>
         <%= card.with_body do %>
-          <p>Interactive calendar featuring important Bitcoin dates, halvings, and milestones. Plan your gifts around meaningful events like Bitcoin Pizza Day or Satoshi's birthday. Includes historical context and celebration ideas for each date.</p>
+          <p>Save recipients and watch their Bitcoin grow. See who's still HODLing, track balance changes, and celebrate ATHs
+  together. Turn gifting into a shared Bitcoin journey.</p>
         <% end %>
       <% end %>
     </div>
