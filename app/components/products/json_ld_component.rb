@@ -80,7 +80,7 @@ module Products
     end
 
     def product_description
-      "#{@product.description}. This pack includes #{@product.envelopes_count} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{@product.tokens_count} credits for custom designs."
+      "#{@product.description}. This pack includes #{@product.envelopes_count} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{@product.tokens_count} AI credits for custom designs."
     end
 
     def brand

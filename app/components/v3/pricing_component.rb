@@ -83,7 +83,7 @@ class V3::PricingComponent < ApplicationComponent
     end
 
     def formatted_description
-      "#{packs} packs (#{product.envelopes_count} envelopes) + #{product.tokens_count} credits"
+      "#{packs} packs (#{product.envelopes_count} envelopes) + #{product.tokens_count} AI credits"
     end
 
     def price_per_envelope
