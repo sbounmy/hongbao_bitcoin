@@ -94,6 +94,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.locator('header .badge')).toContainText('490 ₿ao', { timeout: 5_000 }); // purchased Bao + 5 free credits  });
     // Find and click the starter plan
     await page.locator('label').filter({ hasText: /Family Pack/ }).click();
+    await page.waitForTimeout(1_000); // wait for the label to be clicked
     await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
     // await page.getByRole('button', { name: 'Select' }).click();
 
