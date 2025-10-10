@@ -3,7 +3,10 @@ production:
     class: TransactionFeesImportJob
     queue: background
     schedule: every day at 12:00am
-  # periodic_command:
-  #   command: "SoftDeletedRecord.due.delete_all"
-  #   priority: 2
-  #   schedule: at 5am every day
+
+  spots_import_job:
+    class: SpotsImportJob
+    queue: background
+    args: [ currency: 'usd' ]
+    priority: 1
+    schedule: every 3 minutes

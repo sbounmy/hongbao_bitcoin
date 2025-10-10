@@ -132,18 +132,14 @@ RSpec.describe SavedHongBao, type: :model do
 
     describe "#usd" do
       it "returns current balance in USD from cached values" do
-        hong_bao.update!(current_sats: 100000, current_spot: 45000.0)
+        spots(:today).update prices: { usd: 45000 }
+        hong_bao.update!(current_sats: 100000)
         # 100000 sats = 0.001 BTC * 45000 = 45.0 USD
         expect(hong_bao.usd).to eq(45.0)
       end
 
       it "returns 0 when current_sats is nil" do
         hong_bao.update!(current_sats: nil)
-        expect(hong_bao.usd).to eq(0)
-      end
-
-      it "returns 0 when current_spot is nil" do
-        hong_bao.update!(current_spot: nil)
         expect(hong_bao.usd).to eq(0)
       end
     end
@@ -157,7 +153,8 @@ RSpec.describe SavedHongBao, type: :model do
 
     describe "#initial_usd" do
       it "returns initial value in USD" do
-        hong_bao.update!(initial_sats: 100000, initial_spot: 45000.0)
+        spots(:past).update prices: { usd: 45000 }
+        hong_bao.update!(initial_sats: 100000)
         expect(hong_bao.initial_usd).to eq(45.0)
       end
     end
@@ -205,24 +202,24 @@ RSpec.describe SavedHongBao, type: :model do
 
     describe "#usd_change" do
       it "returns the difference between current and initial USD value" do
+        spots(:past).update prices: { usd: 40000 }
+        spots(:today).update prices: { usd: 50000 }
         hong_bao.update!(
           initial_sats: 100000,
-          initial_spot: 40000.0,
           current_sats: 100000,
-          current_spot: 50000.0
         )
         # Same sats but higher price: 0.001 BTC * (50000 - 40000) = 10.0 USD gain
         expect(hong_bao.usd_change).to eq(10.0)
       end
 
       it "returns negative value if USD decreased" do
+        spots(:past).update prices: { usd: 50000 }
+        spots(:today).update prices: { usd: 40000 }
         hong_bao.update!(
           initial_sats: 100000,
-          initial_spot: 50000.0,
           current_sats: 100000,
-          current_spot: 40000.0
         )
-        expect(hong_bao.usd_change).to eq(-10.0)
+        expect(hong_bao.usd_change).to eq(-10)
       end
     end
 
@@ -230,23 +227,20 @@ RSpec.describe SavedHongBao, type: :model do
       it "calculates percentage increase based on USD" do
         hong_bao.update!(
           initial_sats: 100000,
-          initial_spot: 40000.0,
           current_sats: 100000,
-          current_spot: 60000.0
         )
         # 40 USD to 60 USD = 50% increase
-        expect(hong_bao.balance_change_percentage).to eq(50.0)
+        expect(hong_bao.balance_change_percentage).to eq(9900)
       end
 
       it "calculates percentage decrease based on USD" do
+        spots(:today).update prices: { usd: 5 }
         hong_bao.update!(
           initial_sats: 100000,
-          initial_spot: 40000.0,
           current_sats: 100000,
-          current_spot: 30000.0
         )
-        # 40 USD to 30 USD = -25% decrease
-        expect(hong_bao.balance_change_percentage).to eq(-25.0)
+        # 100 USD to 10 000 USD = increase of 9900%
+        expect(hong_bao.balance_change_percentage).to eq(-95)
       end
 
       it "returns 0 if initial_usd was 0" do

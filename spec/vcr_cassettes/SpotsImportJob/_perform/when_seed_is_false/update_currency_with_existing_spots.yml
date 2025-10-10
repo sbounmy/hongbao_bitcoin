@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&limit=10&toTs=1377993600&tsym=usd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - min-api.cryptocompare.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 10 Oct 2025 04:11:36 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Content-Security-Policy:
+      - frame-ancestors 'none'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type, Cookie, Set-Cookie, Authorization
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - public, max-age=610
+      X-Cryptocompare-Cache-Hit:
+      - 'true'
+      X-Cryptocompare-Server-Id:
+      - cc-api-min-v2-20
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Response":"Success","Message":"","HasWarning":false,"Type":100,"RateLimit":{},"Data":{"Aggregated":false,"TimeFrom":1377129600,"TimeTo":1377993600,"Data":[{"time":1377129600,"high":124.49,"low":120.54,"open":123.3,"volumefrom":12815.39,"volumeto":1563933.74,"close":122,"conversionType":"direct","conversionSymbol":""},{"time":1377216000,"high":122,"low":118.44,"open":122,"volumefrom":18231.25,"volumeto":2180668.6,"close":118.51,"conversionType":"direct","conversionSymbol":""},{"time":1377302400,"high":121.39,"low":118.02,"open":118.51,"volumefrom":8370.82,"volumeto":1001638.16,"close":119.6,"conversionType":"direct","conversionSymbol":""},{"time":1377388800,"high":122.99,"low":119.14,"open":119.6,"volumefrom":7101.52,"volumeto":864221.29,"close":122.11,"conversionType":"direct","conversionSymbol":""},{"time":1377475200,"high":122.97,"low":119.92,"open":122.11,"volumefrom":10115.28,"volumeto":1226894.28,"close":120.11,"conversionType":"direct","conversionSymbol":""},{"time":1377561600,"high":133,"low":120,"open":120.11,"volumefrom":52815.73,"volumeto":6753064.35,"close":131.29,"conversionType":"direct","conversionSymbol":""},{"time":1377648000,"high":131.72,"low":128.02,"open":131.29,"volumefrom":11556.09,"volumeto":1498911.33,"close":128.76,"conversionType":"direct","conversionSymbol":""},{"time":1377734400,"high":131.2,"low":128.18,"open":128.76,"volumefrom":7362.92,"volumeto":950327.42,"close":129.3,"conversionType":"direct","conversionSymbol":""},{"time":1377820800,"high":142.76,"low":128.56,"open":129.3,"volumefrom":44989.75,"volumeto":6130666.31,"close":138.03,"conversionType":"direct","conversionSymbol":""},{"time":1377907200,"high":148.7,"low":135.89,"open":138.03,"volumefrom":30617.8,"volumeto":4379539.86,"close":141,"conversionType":"direct","conversionSymbol":""},{"time":1377993600,"high":147.29,"low":141,"open":141,"volumefrom":13933.38,"volumeto":2012831.97,"close":146.01,"conversionType":"direct","conversionSymbol":""}]}}'
+  recorded_at: Sun, 01 Sep 2013 00:00:00 GMT
+- request:
+    method: get
+    uri: https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&limit=10&toTs=1377993600&tsym=eur
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - min-api.cryptocompare.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 10 Oct 2025 04:11:38 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Content-Security-Policy:
+      - frame-ancestors 'none'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type, Cookie, Set-Cookie, Authorization
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - public, max-age=610
+      X-Cryptocompare-Cache-Hit:
+      - 'true'
+      X-Cryptocompare-Server-Id:
+      - cc-api-min-v2-23
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Response":"Success","Message":"","HasWarning":false,"Type":100,"RateLimit":{},"Data":{"Aggregated":false,"TimeFrom":1377129600,"TimeTo":1377993600,"Data":[{"time":1377129600,"high":91.43,"low":89,"open":89.83,"volumefrom":2277.78,"volumeto":204291.81,"close":89.99,"conversionType":"direct","conversionSymbol":""},{"time":1377216000,"high":90,"low":86.78,"open":89.99,"volumefrom":2828.16,"volumeto":248552.99,"close":87.5,"conversionType":"direct","conversionSymbol":""},{"time":1377302400,"high":89.9,"low":86.22,"open":87.5,"volumefrom":1634.13,"volumeto":142230.35,"close":88.3,"conversionType":"direct","conversionSymbol":""},{"time":1377388800,"high":90.21,"low":88,"open":88.3,"volumefrom":914.56,"volumeto":81745.51,"close":89.95,"conversionType":"direct","conversionSymbol":""},{"time":1377475200,"high":89.95,"low":87.68,"open":89.95,"volumefrom":2168.37,"volumeto":191779.38,"close":88.7,"conversionType":"direct","conversionSymbol":""},{"time":1377561600,"high":97.2,"low":88.8,"open":88.7,"volumefrom":8161.35,"volumeto":764115.73,"close":96.25,"conversionType":"direct","conversionSymbol":""},{"time":1377648000,"high":96.8,"low":94.85,"open":96.25,"volumefrom":2381.12,"volumeto":226591.83,"close":95.2,"conversionType":"direct","conversionSymbol":""},{"time":1377734400,"high":96.7,"low":93.97,"open":95.2,"volumefrom":2046.46,"volumeto":193675.81,"close":95.27,"conversionType":"direct","conversionSymbol":""},{"time":1377820800,"high":104.99,"low":94.55,"open":95.27,"volumefrom":8904.46,"volumeto":885592.68,"close":101.36,"conversionType":"direct","conversionSymbol":""},{"time":1377907200,"high":109.75,"low":101.37,"open":101.36,"volumefrom":6079.77,"volumeto":643218.07,"close":105.32,"conversionType":"direct","conversionSymbol":""},{"time":1377993600,"high":109.7,"low":104.88,"open":105.32,"volumefrom":3523.93,"volumeto":377577.31,"close":108.36,"conversionType":"direct","conversionSymbol":""}]}}'
+  recorded_at: Sun, 01 Sep 2013 00:00:00 GMT
+recorded_with: VCR 6.3.1

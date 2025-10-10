@@ -7,8 +7,7 @@ hodl:
   notes: "Test wallet with balance tracking"
   initial_sats: 41171
   current_sats: 41171
-  initial_spot: 111825.00
-  current_spot: 95000.00
+  spot_buy_id: 3
   gifted_at: <%= 3.months.ago %>
   last_fetched_at: <%= 5.minutes.ago %>
 
@@ -19,8 +18,7 @@ withdraw:
   notes: "Test wallet for tracking"
   initial_sats: 18949
   current_sats: 10000
-  initial_spot: 101250.00
-  current_spot: 95000.00
+  spot_buy_id: 3
   gifted_at: <%= 1.month.ago %>
   last_fetched_at: <%= 2.hours.ago %>
 
@@ -31,8 +29,7 @@ empty:
   notes: "No balance wallet"
   initial_sats: 0
   current_sats: 0
-  initial_spot: 0
-  current_spot: 95000.00
+  spot_buy_id: 3
   gifted_at: <%= 1.week.ago %>
   last_fetched_at: <%= 1.day.ago %>
 
@@ -42,8 +39,7 @@ with_transactions:
   address: tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0
   initial_sats: 18829
   current_sats: 25000
-  initial_spot: 101250.00
-  current_spot: 95000.00
+  spot_buy_id: 3
   gifted_at: <%= 1.month.ago %>
   last_fetched_at: <%= 30.minutes.ago %>
 
@@ -54,7 +50,6 @@ created:
   notes: "Test wallet with balance tracking"
   initial_sats: nil
   current_sats: nil
-  initial_spot: nil
-  current_spot: nil
+  spot_buy_id: nil
   gifted_at: nil
   last_fetched_at: nil

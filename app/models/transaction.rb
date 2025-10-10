@@ -53,11 +53,15 @@ class Transaction
   end
 
   def usd
-    (btc * Spot.new(date: timestamp).to(:usd))
+    (btc * (spot&.usd || 0))
   end
 
   def eur
-    (btc * Spot.new(date: timestamp).to(:eur))
+    (btc * (spot&.eur || 0))
+  end
+
+  def spot
+    @spot ||= Spot.find_by(date: timestamp)
   end
 
   def deposit?

@@ -1,56 +1,25 @@
-require "net/http"
-require "json"
+class Spot < ApplicationRecord
+  validates :date, presence: true, uniqueness: true
 
-class Spot
-  include ActiveModel::Model
+  CURRENCIES = %i[usd eur].freeze
 
-  COINBASE_BASE_URI = "https://api.coinbase.com/v2/prices"
-  CACHE_EXPIRES_IN = 10.minutes
-  HISTORICAL_CACHE_EXPIRES_IN = 24.hours
-  SUPPORTED_CURRENCIES = %i[usd eur gbp jpy].freeze
+  scope :currency_exists, lambda { |currency|
+    currency_sym = validate_and_normalize_currency!(currency)
+    where("json_extract(prices, '$.#{currency_sym}') IS NOT NULL")
+  }
 
-  attr_accessor :date
+  scope :current, lambda { |currency|
+    currency_sym = validate_and_normalize_currency!(currency)
+    order(date: :desc).where("json_extract(prices, '$.#{currency_sym}') IS NOT NULL").first
+  }
 
-  def initialize(date: nil)
-    @date = date.try(:utc)
-  end
-
-  def self.current(currency)
-    new.to(currency)
-  end
-
-  def to(currency)
-    currency = currency.to_sym.downcase
-    raise ArgumentError, "Unsupported currency: #{currency}" unless SUPPORTED_CURRENCIES.include?(currency)
-
-    fetch_price(currency)
-  end
+  store_accessor :prices, *CURRENCIES
 
   private
 
-  def fetch_price(currency)
-    cache_key = build_cache_key(currency)
-    cache_duration = date ? HISTORICAL_CACHE_EXPIRES_IN : CACHE_EXPIRES_IN
-
-    Rails.cache.fetch(cache_key, expires_in: cache_duration) do
-      response = Net::HTTP.get(build_uri(currency))
-      JSON.parse(response).dig("data", "amount")&.to_f
-    end
-  end
-
-  def build_uri(currency)
-    base_path = "BTC-#{currency.upcase}/spot"
-    query = date ? "?date=#{date.strftime('%Y-%m-%d')}" : ""
-    URI("#{COINBASE_BASE_URI}/#{base_path}#{query}")
-  end
-
-  def build_cache_key(currency)
-    parts = [ "coinbase_btc", currency ]
-    parts << "historical" << date.strftime("%Y-%m-%d") if date
-    parts.join("_")
-  end
-
-  def price_type
-    date ? "historical" : "current"
+  def self.validate_and_normalize_currency!(currency)
+    currency_sym = currency.to_s.downcase.to_sym
+    raise ArgumentError, "Unsupported currency: #{currency}" unless CURRENCIES.include?(currency_sym)
+    currency_sym
   end
 end

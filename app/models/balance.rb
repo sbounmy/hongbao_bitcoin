@@ -34,7 +34,7 @@ class Balance
   end
 
   def usd
-    (btc * Spot.new.to(:usd)).round(2)
+    (btc * Spot.current(:usd).usd).round(2)
   end
 
   def satoshis

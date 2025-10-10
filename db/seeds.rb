@@ -74,3 +74,5 @@ Content::Product.find_each do |product|
 end if fixtures.include?('contents')
 
 TransactionFeesImportJob.new.perform
+
+SpotsImportJob.new(seed: true).perform
