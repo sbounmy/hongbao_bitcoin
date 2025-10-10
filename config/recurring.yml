@@ -7,6 +7,6 @@ production:
   spots_import_job:
     class: SpotsImportJob
     queue: background
-    args: [ currency: usd ]
+    args: [ currency: 'usd' ]
     priority: 1
     schedule: every 3 minutes
