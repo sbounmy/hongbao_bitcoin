@@ -2,6 +2,8 @@ require 'rails_helper'
 RSpec.describe SpotsImportJob, type: :job, vcr: true do
   describe "#perform" do
     before do
+      SavedHongBao.destroy_all
+      Spot.destroy_all # remove fixtures
       Timecop.freeze(Date.new(2013, 9, 1))
     end
 

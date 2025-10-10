@@ -8,15 +8,15 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
   describe "#perform", vcr: { cassette_name: "refresh_saved_hong_bao_balance_job" } do
     it "updates the saved hong bao with current balance information" do
       Timecop.freeze(Time.utc(2025, 6, 22, 03)) do
+        spots(:past).update date: Time.utc(2025, 8, 27)
         expect {
           described_class.new.perform(saved_hong_bao.id)
           saved_hong_bao.reload
         }.to change { saved_hong_bao.current_sats }.from(nil)
         expect(saved_hong_bao).to have_attributes(
           initial_sats: 41171,
-          initial_spot: 0,
+          spot_buy: spots(:past),
           current_sats: 41171,
-          current_spot: 0.11429127e6,
           gifted_at: be_within(1.day).of(Time.utc(2025, 8, 27)),
           last_fetched_at: be_present
         )
@@ -43,12 +43,6 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
       expect(saved_hong_bao.gifted_at).not_to be_nil
     end
 
-    it "updates current_spot with current market price" do
-      described_class.new.perform(saved_hong_bao.id)
-      saved_hong_bao.reload
-
-      expect(saved_hong_bao.current_spot).to be > 0
-    end
 
     it "updates last_fetched_at timestamp" do
       saved_hong_bao.update!(last_fetched_at: nil)
@@ -74,9 +68,7 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
       }.not_to raise_error
       expect(saved_hong_bao).to have_attributes(
         initial_sats: nil,
-        initial_spot: 0,
         current_sats: nil,
-        current_spot: 0,
         gifted_at: nil,
         status: { icon: "exclamation-triangle", text: "NO FUNDS", class: "text-error" },
         last_fetched_at: nil
