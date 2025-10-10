@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_09_133608) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_10_042759) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -251,7 +251,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_133608) do
     t.integer "current_sats", limit: 8
     t.decimal "current_spot", precision: 10, scale: 2
     t.datetime "last_fetched_at"
+    t.integer "spot_buy_id"
+    t.integer "spot_sell_id"
     t.index ["address"], name: "index_saved_hong_baos_on_address"
+    t.index ["spot_buy_id"], name: "index_saved_hong_baos_on_spot_buy_id"
+    t.index ["spot_sell_id"], name: "index_saved_hong_baos_on_spot_sell_id"
     t.index ["user_id", "address"], name: "index_saved_hong_baos_on_user_id_and_address", unique: true
     t.index ["user_id"], name: "index_saved_hong_baos_on_user_id"
   end
@@ -351,6 +355,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_133608) do
   add_foreign_key "orders", "users"
   add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "users"
+  add_foreign_key "saved_hong_baos", "spots", column: "spot_buy_id"
+  add_foreign_key "saved_hong_baos", "spots", column: "spot_sell_id"
   add_foreign_key "saved_hong_baos", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tokens", "orders"

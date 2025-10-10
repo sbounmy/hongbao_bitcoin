@@ -77,17 +77,13 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="font-semibold">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></span>
-            <% if show_percentage_change? %>
-              <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> text-sm font-medium">
-                <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %><%= saved_hong_bao.balance_change_percentage.round %>%
-              </span>
-            <% end %>
+            <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> text-sm font-medium">
+              <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %><%= saved_hong_bao.balance_change_percentage.round %>%
+            </span>
           </div>
-          <% if saved_hong_bao.initial_spot.present? && saved_hong_bao.initial_spot > 0 %>
-            <div class="text-xs opacity-60">
-              from $<%= number_with_delimiter(saved_hong_bao.initial_usd.round) %>
-            </div>
-          <% end %>
+          <div class="text-xs opacity-60">
+            from $<%= number_with_delimiter(saved_hong_bao.initial_usd.round) %>
+          </div>
         </div>
       </td>
       <td>
@@ -161,15 +157,13 @@
             <div class="stat-value text-lg"><%= number_with_precision(saved_hong_bao.initial_btc, precision: 8) %> BTC</div>
             <div class="stat-desc">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></div>
           </div>
-          <% if show_percentage_change? %>
-            <div class="stat px-4 py-2">
-              <div class="stat-title text-xs">Change</div>
-              <div class="stat-value text-lg <%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %>">
-                <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %>
-                <%= saved_hong_bao.balance_change_percentage.round %>%
-              </div>
+          <div class="stat px-4 py-2">
+            <div class="stat-title text-xs">Change</div>
+            <div class="stat-value text-lg <%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %>">
+              <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %>
+              <%= saved_hong_bao.balance_change_percentage.round %>%
             </div>
-          <% end %>
+          </div>
         </div>
 
         <div class="card-actions justify-end mt-4">

@@ -43,8 +43,8 @@ module SavedHongBaos
       return 0 if total_sats.zero?
 
       weighted_sum = saved_hong_baos.sum do |hb|
-        next 0 unless hb.initial_sats && hb.initial_sats > 0 && hb.initial_spot
-        hb.initial_sats * hb.initial_spot
+        next 0 unless hb.initial_sats && hb.initial_sats > 0 && hb.spot_buy
+        hb.initial_sats * hb.spot_buy.usd
       end
 
       weighted_sum / total_sats

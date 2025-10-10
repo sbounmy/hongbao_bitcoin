@@ -10,12 +10,14 @@ class SavedHongBao < ApplicationRecord
   after_create_commit :broadcast_prepend_to_user
   after_update_commit :broadcast_replace_to_user
 
+  belongs_to :spot_buy, class_name: "Spot", optional: true # set asynchronously
+
   def btc
     (current_sats || 0).to_f / 100_000_000
   end
 
   def usd
-    (current_spot || 0) * btc
+    (Spot.current(:usd).usd || 0) * btc
   end
 
   def initial_btc
@@ -23,7 +25,7 @@ class SavedHongBao < ApplicationRecord
   end
 
   def initial_usd
-    initial_btc * (initial_spot || 0)
+    initial_btc * (spot_buy&.usd || 0)
   end
 
   def balance_change
