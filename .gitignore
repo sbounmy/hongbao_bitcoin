@@ -65,5 +65,6 @@ yarn-error.log
 .claude-on-rails/sessions/
 swarm.log
 
+.claude/settings.local.json
 # Cloudflare R2 Storage
 .wrangler
