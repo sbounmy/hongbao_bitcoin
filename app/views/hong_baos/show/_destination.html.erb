@@ -54,7 +54,7 @@
                 ₿<%= number_with_precision(option[:amount], precision: 8) %>
               </div>
               <div class="text-sm text-white/70">
-                ($<%= number_with_precision(option[:amount] * Spot.current(:usd), precision: 2) %>)
+                ($<%= number_with_precision(option[:amount] * Spot.current(:usd).usd, precision: 2) %>)
               </div>
             </div>
           </div>
