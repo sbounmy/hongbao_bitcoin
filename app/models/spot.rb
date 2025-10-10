@@ -1,12 +1,10 @@
 class Spot < ApplicationRecord
   validates :date, presence: true, uniqueness: true
 
-  COINBASE_BASE_URI = "https://api.coinbase.com/v2/prices"
-  CACHE_EXPIRES_IN = 10.minutes
-  HISTORICAL_CACHE_EXPIRES_IN = 24.hours
-  SUPPORTED_CURRENCIES = %i[usd eur].freeze
+  CURRENCIES = %i[usd eur].freeze
 
-  store_accessor :prices, *SUPPORTED_CURRENCIES
+  scope :currency_exists, ->(currency) { where("json_extract(prices, '$.#{currency}') IS NOT NULL") }
+  store_accessor :prices, *CURRENCIES
 
   # def initialize(date: nil)
   #   @date = date.try(:utc)
