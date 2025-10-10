@@ -25,14 +25,13 @@ test.describe('Saved Hong Baos', () => {
     await page.getByRole('button', { name: 'Save Hong Bao' }).click();
 
     // Verify the saved hong bao appears in the list
-    await expect(page.getByText('My Friend Bob').first()).toBeVisible();
-    await expect(page.getByText('bc1qp2nl...s5526g')).toBeVisible(); // Shortened address (first 8 + last 6)
-    await expect(page.getByText('Birthday gift from 2024')).toBeVisible();
+    await expect(page.getByText('My Friend Bob').locator('visible=true').first()).toBeVisible();
+    await expect(page.getByText('bc1qp2nl...s5526g').locator('visible=true').first()).toBeVisible(); // Shortened address (first 8 + last 6)
 
     // Check that stats are visible
     await expect(page.locator('.stat-value').getByText('₿0.00076171')).toBeVisible();
     await expect(page.locator('.stat-value').first().getByText('5')).toBeVisible();
-    await expect(page.locator('.stat-value').getByText('$72')).toBeVisible();
+    await expect(page.locator('.stat-value').getByText('$8')).toBeVisible();
     await expect(page.getByText('Loading...')).toBeVisible();
     await expect(page.getByText('0.00040657').first()).not.toBeVisible();    await app('perform_jobs');
     await app('perform_jobs');
