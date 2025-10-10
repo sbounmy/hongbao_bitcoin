@@ -103,7 +103,7 @@ export default defineConfig({
   // Only use the webServer for standard, non-parallel runs.
   // The Rake task handles server management for parallel runs.
   webServer: isParallelRun ? undefined : {
-    command: 'APP_PORT=3003 bundle exec foreman start -f Procfile.test',
+    command: 'APP_PORT=3003 STRIPE_CONTEXT_ID=localhost_1 bundle exec foreman start -f Procfile.test',
     port: 3003,
     reuseExistingServer: !process.env.CI,
     timeout: 120000, // 2 minutes for slow Rails boot
