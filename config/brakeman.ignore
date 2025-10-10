@@ -1,6 +1,29 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "640981ff51c937c97a92a26c9410c2d15fb46265b2a2ce759fe0525587b103a1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/spot.rb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "order(:date => :desc).where(\"json_extract(prices, '$.#{validate_and_normalize_currency!(currency)}') IS NOT NULL\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Spot",
+        "method": "current"
+      },
+      "user_input": "validate_and_normalize_currency!(currency)",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "84ad847cf7799ccee48534c80dcb89d1e413fde34c20f6064339e624811e02d9",
@@ -24,13 +47,36 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "b629d4b2920a1b1c6c79cf285250cff0be5da95135206e334d12d225b30568e7",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/spot.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"json_extract(prices, '$.#{validate_and_normalize_currency!(currency)}') IS NOT NULL\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Spot",
+        "method": "currency_exists"
+      },
+      "user_input": "validate_and_normalize_currency!(currency)",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "bd13dfc79c14248bcaf9e89dea489d72af9c91976f0c6af55f72df41c3f5bbad",
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/controllers/contents_controller.rb",
-      "line": 18,
+      "line": 25,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
       "code": "render(action => \"contents/#{params[:klass].singularize.downcase}/show\", {})",
       "render_path": null,
