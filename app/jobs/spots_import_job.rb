@@ -33,8 +33,7 @@ class SpotsImportJob < ApplicationJob
   end
 
   def cursor_date
-    @cursor_date ||= latest_spot&.date
-    @cursor_date ||= Date.today
+    seed ? latest_spot&.date : Date.today
   end
 
   def latest_spot
