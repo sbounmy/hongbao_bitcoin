@@ -22,6 +22,9 @@ application.register("disabled", DisabledController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import HighchartsController from "./highcharts_controller"
+application.register("highcharts", HighchartsController)
+
 import ThemeController from "./theme_controller"
 application.register("theme", ThemeController)
 

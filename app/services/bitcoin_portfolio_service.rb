@@ -13,6 +13,7 @@ class BitcoinPortfolioService
   def call
     {
       btc_prices: btc_price_series,
+      btc_prices_with_markers: btc_price_series_with_markers,
       portfolio: portfolio_series,
       net_deposits: net_deposits_series,
       hong_bao_markers: hong_bao_markers
@@ -27,19 +28,51 @@ class BitcoinPortfolioService
 
     # Start a bit before the earliest hong bao to show context
     # But not more than 365 days ago
-    [(earliest_date - 7.days), 365.days.ago.to_date].max
+    [ (earliest_date - 7.days), 365.days.ago.to_date ].max
   end
 
   def btc_price_series
     spots = Spot.where(date: start_date..end_date)
-                .where("json_extract(prices, '$.#{currency}') IS NOT NULL")
+                .currency_exists(currency)
                 .order(:date)
 
-    Rails.logger.debug "BitcoinPortfolioService - Date range: #{start_date} to #{end_date}"
-    Rails.logger.debug "BitcoinPortfolioService - Found #{spots.count} spots with #{currency} prices"
+    spots.map do |spot|
+      timestamp = spot.date.to_time.to_i * 1000
+      price = spot.prices[currency.to_s].to_f
+      [ timestamp, price ]
+    end
+  end
+
+  def btc_price_series_with_markers
+    spots = Spot.where(date: start_date..end_date)
+                .currency_exists(currency)
+                .order(:date)
 
     spots.map do |spot|
-      [spot.date.to_time.to_i * 1000, spot.prices[currency.to_s].to_f]
+      timestamp = spot.date.to_time.to_i * 1000
+      price = spot.prices[currency.to_s].to_f
+
+      if saved_hong_baos_by_date[spot.date]
+        # For Hong Bao dates, include marker configuration
+        # Use Highcharts point object format
+        {
+          x: timestamp,
+          y: price,
+          marker: {
+            enabled: true,
+            radius: 8,
+            fillColor: "#f7931a",
+            lineWidth: 3,
+            lineColor: "#ffffff",
+            symbol: "url(favicon.svg)",
+            width: 24,
+            height: 24
+          }
+        }
+      else
+        # Regular points - just return array
+        [ timestamp, price ]
+      end
     end
   end
 
@@ -48,7 +81,7 @@ class BitcoinPortfolioService
 
     dates.map do |date|
       value = calculate_portfolio_value_on_date(date)
-      [date.to_time.to_i * 1000, value.round(2)]
+      [ date.to_time.to_i * 1000, value.round(2) ]
     end
   end
 
@@ -64,8 +97,12 @@ class BitcoinPortfolioService
         .sum(&:initial_usd)
 
       cumulative_deposits += deposits_on_date
-      [date.to_time.to_i * 1000, cumulative_deposits.round(2)]
+      [ date.to_time.to_i * 1000, cumulative_deposits.round(2) ]
     end
+  end
+
+  def saved_hong_baos_by_date
+    @hb ||= saved_hong_baos.where.not(gifted_at: nil).group_by { |hb| hb.gifted_at.to_date }
   end
 
   def hong_bao_markers
@@ -102,9 +139,9 @@ class BitcoinPortfolioService
       # This is a simplification - ideally we'd track balance history
       sats = if date == Date.today
                hb.current_sats || hb.initial_sats || 0
-             else
+      else
                hb.initial_sats || 0
-             end
+      end
       sats.to_f / 100_000_000
     end
 

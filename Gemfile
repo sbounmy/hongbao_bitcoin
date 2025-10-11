@@ -132,6 +132,3 @@ gem "pagy", "~> 9.4"
 
 # SEO meta tags management
 gem "meta-tags"
-
-# Charting library
-gem "chartkick"
