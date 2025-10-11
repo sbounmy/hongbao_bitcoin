@@ -88,7 +88,7 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.getByRole('cell', { name: 'HODL HB' })).toBeVisible();
 
     // Check that shortened address format is displayed with external link icon
-    await expect(page.getByText('bc1qyus6...5paulx')).toBeVisible();
+    await expect(page.getByText('bc1qyus6...5paulx').locator('visible=true').first()).toBeVisible();
 
     // Verify that address links to mempool
     const addressLink = page.locator('a[href*="mempool.space/address/"]').first();
