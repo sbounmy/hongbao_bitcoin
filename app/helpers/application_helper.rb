@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include Pagy::Frontend
+  include Chartkick::Helper
 
   # Make Sitepress site accessible
   def site

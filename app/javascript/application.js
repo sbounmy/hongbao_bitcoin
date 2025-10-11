@@ -2,3 +2,10 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 
+// Chartkick and Highcharts setup
+import Chartkick from "chartkick"
+import Highcharts from "highcharts"
+
+Chartkick.use(Highcharts)
+window.Chartkick = Chartkick
+

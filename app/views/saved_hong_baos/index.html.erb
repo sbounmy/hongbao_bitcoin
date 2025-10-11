@@ -20,6 +20,69 @@
     <% if @saved_hong_baos.any? %>
       <%= render SavedHongBaos::StatsComponent.new(saved_hong_baos: @saved_hong_baos) %>
 
+      <!-- Bitcoin Portfolio Chart -->
+      <div class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+          <h2 class="card-title text-2xl font-bold mb-4">Portfolio Performance</h2>
+          <% chart_data = BitcoinPortfolioService.new(@saved_hong_baos).call %>
+
+            <%= line_chart [
+              { name: "Bitcoin Price", data: chart_data[:btc_prices], type: 'line', yAxis: 1, color: '#f7931a', marker: { enabled: false } },
+              { name: "Portfolio Value", data: chart_data[:portfolio], type: 'area', yAxis: 0, color: '#10b981', fillOpacity: 0.2 },
+              { name: "Net Deposits", data: chart_data[:net_deposits], type: 'line', yAxis: 0, color: '#6b7280', dashStyle: 'ShortDash' }
+            ],
+            height: "450px",
+            library: {
+              xAxis: {
+                type: 'datetime'
+              },
+              yAxis: [
+                {
+                  title: { text: "Portfolio Value (USD)" },
+                  labels: { format: '${value:,.0f}' }
+                },
+                {
+                  title: { text: "BTC Price (USD)" },
+                  labels: { format: '${value:,.0f}' },
+                  opposite: true
+                }
+              ],
+              tooltip: {
+                crosshairs: true,
+                shared: true
+              },
+              plotOptions: {
+                line: {
+                  marker: { enabled: false }
+                },
+                area: {
+                  fillOpacity: 0.2,
+                  marker: { enabled: false }
+                }
+              }
+            } %>
+
+          <div class="flex flex-wrap gap-4 mt-4 text-sm text-base-content/70">
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 bg-[#f7931a]"></span>
+              <span>Bitcoin Price</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 bg-success"></span>
+              <span>Portfolio Value</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 border-b-2 border-dashed border-base-content/40"></span>
+              <span>Net Deposits</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-[#f7931a] border-2 border-white"></span>
+              <span>Hong Bao Gifted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Saved Hong Baos Table/List -->
       <div class="overflow-x-auto hidden md:block">
         <table class="table table-zebra w-full">
