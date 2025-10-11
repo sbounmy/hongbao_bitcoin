@@ -33,7 +33,11 @@ class SpotsImportJob < ApplicationJob
   end
 
   def cursor_date
-    seed ? latest_spot&.date : Date.today
+    if seed
+      latest_spot&.date || Date.today
+    else
+      Date.today
+    end
   end
 
   def latest_spot
