@@ -20,20 +20,18 @@ module Charts
     def chart_config
       {
         chart: {
-          type: 'line',
-          height: @height.gsub('px', '').to_i
+          type: "line",
+          height: @height.gsub("px", "").to_i
         },
         xAxis: {
-          type: 'datetime'
+          type: "datetime"
         },
         yAxis: [
           {
-            title: { text: "Portfolio Value (USD)" },
-            labels: { format: '${value:,.0f}' }
+            title: false
           },
           {
-            title: { text: "BTC Price (USD)" },
-            labels: { format: '${value:,.0f}' },
+            title: false,
             opposite: true
           }
         ],
@@ -41,7 +39,7 @@ module Charts
           crosshairs: true,
           shared: true,
           useHTML: true,
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
           borderWidth: 0,
           shadow: false,
           padding: 0
@@ -64,27 +62,27 @@ module Charts
           {
             name: "Bitcoin Price",
             data: @data[:btc_prices_with_markers],
-            type: 'line',
+            type: "line",
             yAxis: 1,
-            color: '#f7931a',
+            color: "#f7931a",
             marker: { enabled: false },
             lineWidth: 2
           },
           {
             name: "Portfolio Value",
             data: @data[:portfolio],
-            type: 'area',
+            type: "area",
             yAxis: 0,
-            color: '#10b981',
+            color: "#10b981",
             fillOpacity: 0.2
           },
           {
             name: "Net Deposits",
             data: @data[:net_deposits],
-            type: 'line',
+            type: "line",
             yAxis: 0,
-            color: '#6b7280',
-            dashStyle: 'ShortDash',
+            color: "#6b7280",
+            dashStyle: "ShortDash",
             lineWidth: 1
           }
         ]

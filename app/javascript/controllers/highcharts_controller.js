@@ -10,6 +10,14 @@ export default class extends Controller {
 
   connect() {
     console.log("Highcharts controller connected")
+
+    // Set global Highcharts options for number abbreviation
+    Highcharts.setOptions({
+      lang: {
+        numericSymbols: ['k', 'M', 'B', 'T']
+      }
+    })
+
     this.initChart()
   }
 
