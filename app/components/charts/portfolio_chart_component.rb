@@ -41,7 +41,10 @@ module Charts
           crosshairs: true,
           shared: true,
           useHTML: true,
-          # formatter: nil  # Will use default formatter which handles mixed data types
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          shadow: false,
+          padding: 0
         },
         plotOptions: {
           series: {

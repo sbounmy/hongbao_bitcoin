@@ -96,10 +96,7 @@ export default class SavedHongBaoTooltipRenderer {
     if (extraData && extraData.length > 0 && template) {
       const extraContainer = container.querySelector('[data-tooltip-extra-container]')
 
-      console.log('Rendering extraData:', extraData)
-
       extraData.forEach((item) => {
-        console.log('Processing item:', item)
         const itemClone = template.content.cloneNode(true)
         const itemWrapper = document.createElement('div')
         itemWrapper.appendChild(itemClone)
@@ -111,12 +108,15 @@ export default class SavedHongBaoTooltipRenderer {
         const titleEl = itemEl.querySelector('[data-extra-title]')
         if (titleEl) titleEl.textContent = item.recipient
 
-        // Subtitle (address)
+        // Subtitle (address) - shortened
         const subtitleEl = itemEl.querySelector('[data-extra-subtitle]')
-        if (subtitleEl) subtitleEl.textContent = item.address
+        if (subtitleEl && item.address) {
+          const shortAddress = `${item.address.substring(0, 8)}...${item.address.substring(item.address.length - 6)}`
+          subtitleEl.textContent = shortAddress
+        }
 
         // Status badge
-        this.renderStatusBadge(itemEl, item.status)
+        this.renderStatusBadge(itemEl, item)
 
         // Value info
         this.renderValueInfo(itemEl, item)
@@ -131,21 +131,30 @@ export default class SavedHongBaoTooltipRenderer {
     }
   }
 
-  renderStatusBadge(container, status) {
+  renderStatusBadge(container, item) {
     const badgeEl = container.querySelector('[data-extra-badge]')
     if (!badgeEl) return
 
-    badgeEl.textContent = status
+    const status = item.status
 
-    // Apply badge styles based on status
-    const badges = {
-      'HODL': 'bg-warning/30 text-warning-content',
-      'WITHDRAWN': 'bg-error/30 text-error-content',
-      'DEFAULT': 'bg-success/30 text-success-content'
+    // For HODL status, show status + percentage
+    if (status === 'HODL' && item.priceChangePercent !== undefined) {
+      const changeSign = item.priceChangePercent >= 0 ? '+' : ''
+      const changeClasses = item.priceChangePercent >= 0 ? 'text-success' : 'text-error'
+      badgeEl.innerHTML = `<span class="bg-warning/20 text-warning text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">HODL</span> <span class="${changeClasses} text-xs font-bold ml-1">${changeSign}${item.priceChangePercent}%</span>`
+    } else {
+      badgeEl.textContent = status
+
+      // Apply badge styles based on status - darker theme friendly
+      const badges = {
+        'HODL': 'bg-warning/20 text-warning',
+        'WITHDRAWN': 'bg-error/20 text-error',
+        'DEFAULT': 'bg-success/20 text-success'
+      }
+
+      const classes = badges[status] || badges['DEFAULT']
+      badgeEl.className = `text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wide ${classes}`
     }
-
-    const classes = badges[status] || badges['DEFAULT']
-    badgeEl.className = `text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${classes}`
   }
 
   renderValueInfo(container, item) {
@@ -154,7 +163,6 @@ export default class SavedHongBaoTooltipRenderer {
 
     if (item.status === 'HODL') {
       const changeClasses = item.priceChangePercent >= 0 ? 'text-success' : 'text-error'
-      const changeSign = item.priceChangePercent >= 0 ? '+' : ''
       const initialValueStr = item.initialValue.toLocaleString('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
@@ -163,9 +171,14 @@ export default class SavedHongBaoTooltipRenderer {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
       })
-      valueInfoEl.innerHTML = `${item.btc.toFixed(8)} BTC <span class="text-base-content/60">($${initialValueStr})</span> → <span class="${changeClasses}">$${currentValueStr} (${changeSign}${item.priceChangePercent}%)</span>`
+      valueInfoEl.innerHTML = `
+        <div class="flex justify-between items-center">
+          <span>₿${item.btc.toFixed(8)}</span>
+          <span class="text-xs"><span class="opacity-50">$${initialValueStr}</span> → <span class="${changeClasses} font-bold">$${currentValueStr}</span></span>
+        </div>
+      `
     } else if (item.status === 'WITHDRAWN') {
-      valueInfoEl.innerHTML = `<span class="text-base-content/60">Withdrew ${item.initialBtc.toFixed(8)} BTC</span>`
+      valueInfoEl.innerHTML = `<span class="opacity-60">Withdrew ${item.initialBtc.toFixed(8)} BTC</span>`
     } else {
       valueInfoEl.innerHTML = `${item.btc.toFixed(8)} BTC`
     }
@@ -173,25 +186,14 @@ export default class SavedHongBaoTooltipRenderer {
 
   renderAvatar(container, avatarUrl) {
     const avatarEl = container.querySelector('[data-extra-avatar]')
-    console.log('renderAvatar called', { avatarEl, avatarUrl })
-
-    if (!avatarEl) {
-      console.error('Avatar element not found')
-      return
-    }
-
-    if (!avatarUrl) {
-      console.error('Avatar URL is missing')
-      return
-    }
+    if (!avatarEl || !avatarUrl) return
 
     // Create an img element with the avatar URL
     const img = document.createElement('img')
     img.src = avatarUrl
-    img.className = 'rounded-full w-7 h-7'
+    img.className = 'rounded-full w-8 h-8'
     img.alt = 'Avatar'
 
     avatarEl.appendChild(img)
-    console.log('Avatar rendered successfully')
   }
 }

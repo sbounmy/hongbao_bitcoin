@@ -87,7 +87,7 @@ class BitcoinPortfolioService
     spot_buy_price = hong_bao.spot_buy&.prices&.dig(currency.to_s).to_f || 0
     current_value = hong_bao.btc * current_btc_price
     initial_value = hong_bao.initial_btc * spot_buy_price
-    price_change_percent = initial_value.zero? ? 0 : ((current_value - initial_value) / initial_value * 100).round(2)
+    price_change_percent = initial_value.zero? ? 0 : ((current_value - initial_value) / initial_value * 100).round
 
     {
       id: hong_bao.id,

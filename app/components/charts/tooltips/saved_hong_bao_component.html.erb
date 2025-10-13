@@ -1,37 +1,37 @@
 <template data-tooltip-template>
-  <div class="p-3 min-w-[280px] max-w-[320px] bg-base-100 rounded-lg shadow-lg">
-    <div class="font-bold text-sm mb-2.5 text-base-content border-b-2 border-base-300 pb-1.5" data-tooltip-date></div>
+  <div class="p-4 min-w-[280px] max-w-[320px] bg-neutral text-neutral-content rounded-xl shadow-xl">
+    <div class="font-bold text-sm mb-3 pb-2 border-b border-neutral-content/20" data-tooltip-date></div>
 
-    <div class="mb-2.5" data-tooltip-points-container></div>
+    <div class="mb-3 space-y-1" data-tooltip-points-container></div>
 
-    <div data-tooltip-extra-section class="mt-2.5 pt-2.5 border-t-2 border-warning">
-      <div data-tooltip-extra-container class="flex flex-col gap-1.5"></div>
+    <div data-tooltip-extra-section class="mt-3 pt-3 border-t border-neutral-content/20 space-y-2 text-white">
+      <div data-tooltip-extra-container class="flex flex-col gap-2"></div>
     </div>
   </div>
 </template>
 
 <template data-tooltip-extra-template>
-  <div class="bg-warning/10 border-l-[3px] border-warning p-1.5 px-2 rounded" data-extra-item>
-    <div class="flex items-center gap-2 mb-0.5">
+  <div class="p-2 rounded-lg bg-neutral-content/5" data-extra-item>
+    <div class="flex items-center gap-3">
       <div data-extra-avatar class="flex-shrink-0"></div>
       <div class="flex-grow min-w-0">
-        <div class="flex items-center justify-between mb-0.5">
-          <div class="font-semibold text-xs text-warning-content" data-extra-title></div>
-          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide" data-extra-badge></span>
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-semibold text-sm" data-extra-title></div>
+          <div class="flex items-center gap-1" data-extra-badge></div>
         </div>
-        <div class="text-[9px] text-base-content/60 mb-1 break-all font-mono leading-tight" data-extra-subtitle></div>
-        <div class="text-[11px] font-semibold text-warning-content" data-extra-value></div>
+        <div class="text-[10px] opacity-60 mb-2 break-all font-mono leading-tight" data-extra-subtitle></div>
+        <div class="text-xs font-semibold" data-extra-value></div>
       </div>
     </div>
   </div>
 </template>
 
 <template data-tooltip-point-template>
-  <div class="flex justify-between items-center py-1 text-xs">
-    <span class="flex items-center gap-1.5 text-base-content/70">
-      <span data-point-bullet class="text-sm">●</span>
+  <div class="flex justify-between items-center py-1.5 text-sm">
+    <span class="flex items-center gap-2 opacity-80">
+      <span data-point-bullet class="text-base">●</span>
       <span data-point-name></span>
     </span>
-    <strong class="text-base-content font-mono">$<span data-point-value></span></strong>
+    <strong class="font-mono">$<span data-point-value></span></strong>
   </div>
 </template>
