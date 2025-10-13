@@ -52,9 +52,8 @@ class BitcoinPortfolioService
       timestamp = spot.date.to_time.to_i * 1000
       price = spot.prices[currency.to_s].to_f
 
-      if saved_hong_baos_by_date[spot.date]
-        # For Hong Bao dates, include marker configuration
-        # Use Highcharts point object format
+      if hong_baos = saved_hong_baos_by_date[spot.date]
+        # For Hong Bao dates, include marker and Hong Bao data
         {
           x: timestamp,
           y: price,
@@ -67,13 +66,34 @@ class BitcoinPortfolioService
             symbol: "url(favicon.svg)",
             width: 24,
             height: 24
-          }
+          },
+          hongBaos: hong_baos.map { |hb| format_hong_bao_data(hb) }
         }
       else
-        # Regular points - just return array
+        # Regular points
         [ timestamp, price ]
       end
     end
+  end
+
+  def format_hong_bao_data(hong_bao)
+    spot_buy_price = hong_bao.spot_buy&.prices&.dig(currency.to_s).to_f || 0
+    current_value = hong_bao.btc * current_btc_price
+    initial_value = hong_bao.initial_btc * spot_buy_price
+    price_change_percent = initial_value.zero? ? 0 : ((current_value - initial_value) / initial_value * 100).round(2)
+
+    {
+      id: hong_bao.id,
+      recipient: hong_bao.name,
+      address: hong_bao.address,
+      initialBtc: hong_bao.initial_btc,
+      btc: hong_bao.btc,
+      spotBuyPrice: spot_buy_price,
+      initialValue: initial_value,
+      currentValue: current_value,
+      priceChangePercent: price_change_percent,
+      status: hong_bao.status[:text]
+    }
   end
 
   def portfolio_series

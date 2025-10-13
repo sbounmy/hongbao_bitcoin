@@ -1,4 +1,5 @@
 <div class="portfolio-chart">
+  <%= render Charts::TooltipComponent.new(date: "", points: [], hong_baos: nil) %>
   <div
     data-controller="highcharts"
     data-highcharts-config-value="<%= chart_config.to_json %>"
