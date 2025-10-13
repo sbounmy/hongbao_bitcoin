@@ -53,21 +53,28 @@ class BitcoinPortfolioService
       price = spot.prices[currency.to_s].to_f
 
       if hong_baos = saved_hong_baos_by_date[spot.date]
-        # For Hong Bao dates, include marker and Hong Bao data
+        # For Hong Bao dates, include marker and extra data
+        # Use first Hong Bao's avatar for the marker
         {
           x: timestamp,
           y: price,
           marker: {
             enabled: true,
-            radius: 8,
-            fillColor: "#f7931a",
-            lineWidth: 3,
+            radius: 100,
+            symbol: "url(#{hong_baos.first.avatar_url})",
+            width: 32,
+            height: 32,
+            lineWidth: 2,
             lineColor: "#ffffff",
-            symbol: "url(favicon.svg)",
-            width: 24,
-            height: 24
+            states: {
+              hover: {
+                enabled: true,
+                lineWidthPlus: 4,
+                lineColor: "#F2A900"
+              }
+            }
           },
-          hongBaos: hong_baos.map { |hb| format_hong_bao_data(hb) }
+          extraData: hong_baos.map { |hb| format_hong_bao_data(hb) }
         }
       else
         # Regular points
@@ -86,6 +93,7 @@ class BitcoinPortfolioService
       id: hong_bao.id,
       recipient: hong_bao.name,
       address: hong_bao.address,
+      avatarUrl: hong_bao.avatar_url,
       initialBtc: hong_bao.initial_btc,
       btc: hong_bao.btc,
       spotBuyPrice: spot_buy_price,
