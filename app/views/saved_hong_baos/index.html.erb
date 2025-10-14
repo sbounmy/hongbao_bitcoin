@@ -24,24 +24,6 @@
       <div class="card bg-base-100 shadow-xl mb-8">
         <div class="card-body">
           <%= render Charts::PortfolioChartComponent.new(saved_hong_baos: @saved_hong_baos, height: "450px") %>
-          <div class="flex flex-wrap gap-4 mt-4 text-sm text-base-content/70">
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 bg-[#f7931a]"></span>
-              <span>Bitcoin Price</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 bg-success"></span>
-              <span>Portfolio Value</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 border-b-2 border-dashed border-base-content/40"></span>
-              <span>Net Deposits</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#f7931a] border-2 border-white"></span>
-              <span>Hong Bao Gifted</span>
-            </div>
-          </div>
         </div>
       </div>
 
