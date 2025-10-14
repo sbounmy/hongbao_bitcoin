@@ -85,7 +85,7 @@
 
 </div>
 
-<section class="py-16 md:py-24 bg-base-100">
+<section class="py-12 md:py-20 bg-base-100">
   <div class="max-w-7xl mx-auto px-4">
     <div class="mb-8 md:mb-12 text-center">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-base-content mb-3">
@@ -194,6 +194,40 @@
     </div>
   </div>
 </section>
+
+<% if @saved_hong_baos.any? %>
+<section class="py-12 md:py-20">
+    <div class="max-w-7xl mx-auto px-4">
+      <!-- Section Header -->
+      <div class="mb-12 flex w-full flex-col text-center">
+        <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
+          Follow their Bitcoin journey
+        </h2>
+        <p class="mt-4 text-xl text-base-content/70">
+          Watch your gifted Bitcoin grow over time and celebrate ATHs together 🎉
+        </p>
+      </div>
+
+      <!-- Mockup Browser -->
+      <div class="mockup-browser border-2 border-base-300 bg-base-100 shadow-2xl">
+        <div class="mockup-browser-toolbar">
+          <div class="input border-base-300 bg-base-200">https://hongbaob.tc/saved_hong_baos</div>
+        </div>
+        <div class="bg-base-100 px-4 py-8">
+          <%= render "saved_hong_baos/portfolio", saved_hong_baos: @saved_hong_baos, readonly: true %>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-12">
+        <%= link_to saved_hong_baos_path, class: "btn btn-primary btn-lg rounded-full" do %>
+          <%= heroicon "chart-bar", variant: :outline, class: "inline-block h-5 w-5 mr-2" %>
+          Track your Bitcoin gifts
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
 
 <%= render "shared/testimonials_marquee" %>
 

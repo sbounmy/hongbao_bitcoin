@@ -18,40 +18,7 @@
     </div>
 
     <% if @saved_hong_baos.any? %>
-      <%= render SavedHongBaos::StatsComponent.new(saved_hong_baos: @saved_hong_baos) %>
-
-      <!-- Bitcoin Portfolio Chart -->
-      <div class="card bg-base-100 shadow-xl mb-8">
-        <div class="card-body">
-          <%= render Charts::PortfolioChartComponent.new(saved_hong_baos: @saved_hong_baos, height: "450px") %>
-        </div>
-      </div>
-
-      <!-- Saved Hong Baos Table/List -->
-      <div class="overflow-x-auto hidden md:block">
-        <table class="table table-zebra w-full">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Recipient</th>
-              <th>Address</th>
-              <th>Amount</th>
-              <th>Balance</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="saved_hong_baos_table">
-            <%= render SavedHongBaos::ItemComponent.with_collection(@saved_hong_baos, view_type: :table) %>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Mobile view - Cards -->
-      <div id="saved_hong_baos_cards" class="grid gap-4 md:hidden mt-8">
-          <%= render SavedHongBaos::ItemComponent.with_collection(@saved_hong_baos, view_type: :card) %>
-      </div>
-
+      <%= render "saved_hong_baos/portfolio", saved_hong_baos: @saved_hong_baos %>
     <% else %>
       <!-- Empty State -->
       <div class="hero min-h-[60vh]">

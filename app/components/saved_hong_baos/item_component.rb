@@ -3,11 +3,12 @@
 module SavedHongBaos
   class ItemComponent < ApplicationComponent
     with_collection_parameter :saved_hong_bao
-    attr_reader :saved_hong_bao, :view_type
+    attr_reader :saved_hong_bao, :view_type, :readonly
 
-    def initialize(saved_hong_bao:, view_type: :table)
+    def initialize(saved_hong_bao:, view_type: :table, readonly: false)
       @saved_hong_bao = saved_hong_bao
       @view_type = view_type
+      @readonly = readonly
       super
     end
 

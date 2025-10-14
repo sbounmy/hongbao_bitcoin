@@ -1,0 +1,53 @@
+<% if saved_hong_baos.any? %>
+  <!-- User Header -->
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-8 h-8 rounded-full">
+      <%= render AvatarComponent.new(user: saved_hong_baos.first.user) %>
+    </div>
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-base-content"><%= saved_hong_baos.first.user.email.split("@").first.capitalize %></span>
+        <%= heroicon "chevron-right", variant: :solid, class: "w-4 h-4 text-base-content/40" %>
+        <span class="text-base-content/60">HongBao gifted</span>
+      </div>
+    </div>
+  </div>
+
+<!-- Bitcoin Portfolio Chart -->
+<div class="card bg-base-100 shadow-xl border-2 border-base-content/10 mb-8">
+  <div class="card-body">
+    <%= render SavedHongBaos::StatsComponent.new(saved_hong_baos:) %>
+
+    <%= render Charts::PortfolioChartComponent.new(saved_hong_baos:, height: "450px") %>
+  </div>
+</div>
+<% end %>
+
+<% readonly ||= false %>
+
+<!-- Saved Hong Baos Table/List -->
+<div class="card shadow-xl border-2 border-base-content/10 overflow-x-auto hidden md:block">
+  <div class='card-body'>
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Recipient</th>
+          <th>Address</th>
+          <th>Amount</th>
+          <th>Balance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="saved_hong_baos_table">
+        <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :table, readonly:) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Mobile view - Cards -->
+<div id="saved_hong_baos_cards" class="grid gap-4 md:hidden mt-8">
+    <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :card, readonly:) %>
+</div>
