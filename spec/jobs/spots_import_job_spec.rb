@@ -10,7 +10,7 @@ RSpec.describe SpotsImportJob, type: :job, vcr: true do
     context "when seed is true" do
       it "imports daily prices until beginning of bitcoin history" do
         expect {
-          described_class.new(seed: true).perform
+          described_class.new.perform("usd", seed: true)
         }.to change { Spot.count }.by(2001)
       end
     end
@@ -29,7 +29,7 @@ RSpec.describe SpotsImportJob, type: :job, vcr: true do
         described_class.new.perform
 
         expect {
-          described_class.new(currency: :eur).perform
+          described_class.new.perform("eur")
         }.to_not change { Spot.count }
 
         expect(Spot.last).to have_attributes(

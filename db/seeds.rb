@@ -75,4 +75,4 @@ end if fixtures.include?('contents')
 
 TransactionFeesImportJob.new.perform
 
-SpotsImportJob.new(seed: true).perform
+SpotsImportJob.new.perform("usd", seed: true)
