@@ -14,12 +14,9 @@ class SpotsImportJob < ApplicationJob
     "BTC-#{currency.upcase}"
   end
 
-  def initialize(currency: :usd, seed: false)
-    @currency = currency
+  def perform(currency = "usd", seed: false)
+    @currency = currency.to_sym
     @seed = seed
-  end
-
-  def perform
     while prices = fetch_price_from_coindesk
       prices["Data"]["Data"].each do |price|
         Spot.find_or_initialize_by(date: Time.at(price["time"]).to_date).tap do |spot|
