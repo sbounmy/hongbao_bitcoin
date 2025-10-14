@@ -20,6 +20,13 @@
     <% if @saved_hong_baos.any? %>
       <%= render SavedHongBaos::StatsComponent.new(saved_hong_baos: @saved_hong_baos) %>
 
+      <!-- Bitcoin Portfolio Chart -->
+      <div class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+          <%= render Charts::PortfolioChartComponent.new(saved_hong_baos: @saved_hong_baos, height: "450px") %>
+        </div>
+      </div>
+
       <!-- Saved Hong Baos Table/List -->
       <div class="overflow-x-auto hidden md:block">
         <table class="table table-zebra w-full">

@@ -1,0 +1,8 @@
+<div class="portfolio-chart">
+  <%= render Charts::Tooltips::SavedHongBaoComponent.new %>
+  <div
+    data-controller="highcharts"
+    data-highcharts-config-value="<%= chart_config.to_json %>"
+    style="height: <%= height %>">
+  </div>
+</div>

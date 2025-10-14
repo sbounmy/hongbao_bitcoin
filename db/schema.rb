@@ -275,7 +275,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_10_042759) do
     t.datetime "imported_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "price_updated_at", default: {}
     t.index ["date"], name: "index_spots_on_date", unique: true
   end
 

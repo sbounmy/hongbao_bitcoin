@@ -101,4 +101,36 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.locator('.badge').first()).toBeVisible();
   });
 
+  test('displays portfolio performance chart with correct data', async ({ page }) => {
+    appVcrInsertCassette('saved_hong_baos_chart');
+
+    // Navigate to saved hong baos page
+    await page.goto('/saved_hong_baos');
+
+    // Wait for chart to be rendered
+    await expect(page.locator('.highcharts-container')).toBeVisible();
+
+    // Check that series legends are visible
+    await expect(page.getByText('Bitcoin Price')).toBeVisible();
+    await expect(page.getByText('HongBao Value')).toBeVisible();
+    await expect(page.getByText('HongBao Spent')).toBeVisible();
+
+    // Verify chart has rendered data (check for SVG elements)
+    const chartSvg = page.locator('.highcharts-container svg');
+    await expect(chartSvg).toBeVisible();
+
+    // Check that chart has series lines
+    await expect(page.locator('.highcharts-series')).toHaveCount(3);
+
+    // Verify avatar markers are rendered on the chart
+    const avatarMarkers = page.locator('.highcharts-markers image.highcharts-point');
+    await expect(avatarMarkers.first()).toBeVisible();
+
+    // Verify the avatar marker has the correct source (DiceBear API)
+    const markerSrc = await avatarMarkers.first().getAttribute('href');
+    expect(markerSrc).toContain('api.dicebear.com');
+
+    appVcrEjectCassette();
+  });
+
 });

@@ -18,3 +18,10 @@ past:
   prices:
     usd: 100
     eur: 80
+
+1_month_ago:
+  id: 4
+  date: <%= 1.month.ago %>
+  prices:
+    usd: 100
+    eur: 80

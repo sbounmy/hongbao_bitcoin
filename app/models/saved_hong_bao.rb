@@ -79,6 +79,9 @@ class SavedHongBao < ApplicationRecord
     @balance ||= Balance.new(address: address)
   end
 
+  def avatar_url
+    "https://api.dicebear.com/9.x/open-peeps/svg?seed=#{ERB::Util.url_encode(name.downcase.strip)}&radius=50"
+  end
 
   private
 
