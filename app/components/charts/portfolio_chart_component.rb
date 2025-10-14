@@ -69,7 +69,7 @@ module Charts
             lineWidth: 2
           },
           {
-            name: "Portfolio Value",
+            name: "HongBao Value",
             data: @data[:portfolio],
             type: "area",
             yAxis: 0,
@@ -77,7 +77,7 @@ module Charts
             fillOpacity: 0.2
           },
           {
-            name: "Net Deposits",
+            name: "HongBao Spent",
             data: @data[:net_deposits],
             type: "line",
             yAxis: 0,

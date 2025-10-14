@@ -23,7 +23,6 @@
       <!-- Bitcoin Portfolio Chart -->
       <div class="card bg-base-100 shadow-xl mb-8">
         <div class="card-body">
-          <h2 class="card-title text-2xl font-bold mb-4">Portfolio Performance</h2>
           <%= render Charts::PortfolioChartComponent.new(saved_hong_baos: @saved_hong_baos, height: "450px") %>
           <div class="flex flex-wrap gap-4 mt-4 text-sm text-base-content/70">
             <div class="flex items-center gap-2">
