@@ -118,7 +118,7 @@ RSpec.describe BitcoinPortfolioService do
       it 'supports EUR currency' do
         result = eur_service.call
         expect(result[:btc_prices]).to include(
-          [eur_spot.date.to_time.to_i * 1000, 36000.0]
+          [ eur_spot.date.to_time.to_i * 1000, 36000.0 ]
         )
       end
     end
