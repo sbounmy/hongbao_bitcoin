@@ -14,7 +14,9 @@
         <%# Drawer Header %>
         <div class="flex items-center justify-between p-4 border-b border-base-300">
             <div class="flex items-center gap-3">
-            <%= render AvatarComponent.new(user: Current.user) %>
+            <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+              <%= render AvatarComponent.new(user: Current.user, class: "w-full h-full") %>
+            </div>
             <div>
                 <div class="font-semibold">
                 <%# Display name or fallback to email %>
@@ -30,6 +32,12 @@
 
         <%# Menu List %>
         <ul class="menu p-4 flex-grow w-full">
+            <li>
+            <%= link_to profile_path, class: "flex items-center gap-2" do %>
+                <%= heroicon "user", options: { class: "w-5 h-5" } %>
+                Edit Profile
+            <% end %>
+            </li>
             <li>
             <%= link_to tokens_path, class: "flex items-center gap-2" do %>
                 <%= heroicon "credit-card", options: { class: "w-5 h-5" } %>

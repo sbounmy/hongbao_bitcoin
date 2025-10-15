@@ -1,8 +1,8 @@
 <% if saved_hong_baos.any? %>
   <!-- User Header -->
   <div class="flex items-center gap-3 mb-6">
-    <div class="w-8 h-8 rounded-full">
-      <%= render AvatarComponent.new(user: saved_hong_baos.first.user) %>
+    <div class="w-8 h-8 rounded-full overflow-hidden">
+      <%= render AvatarComponent.new(user: saved_hong_baos.first.user, class: "w-full h-full object-cover") %>
     </div>
     <div>
       <div class="flex items-center gap-2">

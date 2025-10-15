@@ -3,6 +3,12 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
+/* Custom color variables */
+@theme {
+  --color-bitcoin: #f7931a;
+  --color-hongbao: #991b1b;
+}
+
 /* Override intl-tel-input CSS variables at root level */
 :root {
   --iti-path-flags-1x: url("/intl-tel-input/flags.webp");

@@ -112,6 +112,10 @@ Rails.application.routes.draw do
   get "signup", to: "users#new"
   post "signup", to: "users#create"
 
+  # Profile route
+  get "profile", to: "users#edit"
+  patch "profile", to: "users#update"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

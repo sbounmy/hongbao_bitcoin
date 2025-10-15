@@ -1,0 +1,124 @@
+<%= render "shared/header" %>
+
+<div class="min-h-screen bg-base-100">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <div id="flash">
+      <% if notice %>
+        <div class="alert alert-success mb-4">
+          <%= notice %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-base-content">Edit Profile</h1>
+      <p class="text-base-content/60 mt-1">Update your personal information</p>
+    </div>
+
+    <!-- Profile Form Card -->
+    <div class="card bg-base-100 shadow-xl border-2 border-base-content/10">
+      <div class="card-body">
+        <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
+          <!-- Avatar Upload -->
+          <div class="form-control mb-6">
+            <label class="label">
+              <span class="label-text font-semibold">Profile Picture</span>
+            </label>
+            <div class="flex items-center gap-4">
+              <div class="avatar">
+                <div class="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                  <% if @user.avatar.attached? %>
+                    <%= image_tag @user.avatar, alt: "Current avatar", class: "w-full h-full object-cover" %>
+                  <% else %>
+                    <%= render AvatarComponent.new(user: @user, class: "w-full h-full") %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="flex-1">
+                <%= f.file_field :avatar,
+                    class: "file-input file-input-bordered file-input-primary w-full max-w-xs",
+                    accept: "image/*" %>
+                <label class="label">
+                  <span class="label-text-alt text-base-content/60">
+                    JPG, PNG or GIF (max. 5MB)
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- First Name -->
+          <div class="form-control mb-4">
+            <label class="label">
+              <span class="label-text font-semibold">First Name</span>
+            </label>
+            <%= f.text_field :firstname,
+                class: "input input-bordered w-full",
+                placeholder: "Enter your first name" %>
+            <% if @user.errors[:firstname].any? %>
+              <label class="label">
+                <span class="label-text-alt text-error">
+                  <%= @user.errors[:firstname].first %>
+                </span>
+              </label>
+            <% end %>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-control mb-6">
+            <label class="label">
+              <span class="label-text font-semibold">Last Name</span>
+            </label>
+            <%= f.text_field :lastname,
+                class: "input input-bordered w-full",
+                placeholder: "Enter your last name" %>
+            <% if @user.errors[:lastname].any? %>
+              <label class="label">
+                <span class="label-text-alt text-error">
+                  <%= @user.errors[:lastname].first %>
+                </span>
+              </label>
+            <% end %>
+          </div>
+
+          <!-- Email (Read-only) -->
+          <div class="form-control mb-6">
+            <label class="label">
+              <span class="label-text font-semibold">Email</span>
+            </label>
+            <%= f.email_field :email,
+                class: "input input-bordered w-full",
+                disabled: true %>
+            <label class="label">
+              <span class="label-text-alt text-base-content/60">
+                Email cannot be changed
+              </span>
+            </label>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="card-actions justify-end mt-6 gap-2">
+            <%= link_to "Cancel", :back, class: "btn btn-ghost" %>
+            <%= f.submit "Save Changes", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Additional Settings -->
+    <div class="card bg-base-100 shadow-xl border-2 border-base-content/10 mt-6">
+      <div class="card-body">
+        <h2 class="card-title text-lg mb-2">Account Settings</h2>
+
+        <div class="flex items-center justify-between py-3">
+          <div>
+            <div class="font-semibold">Change Password</div>
+            <div class="text-sm text-base-content/60">Update your password</div>
+          </div>
+          <%= link_to "Change", edit_password_path(token: "placeholder"), class: "btn btn-outline btn-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

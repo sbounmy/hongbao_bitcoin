@@ -81,8 +81,8 @@ module Charts
             data: @data[:net_deposits],
             type: "line",
             yAxis: 0,
-            color: "#6b7280",
-            dashStyle: "ShortDash",
+            color: "#991b1b",
+            dashStyle: "LongDash",
             lineWidth: 1
           }
         ]

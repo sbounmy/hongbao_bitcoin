@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_10_042759) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_15_020951) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -322,6 +322,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_10_042759) do
     t.integer "tokens_sum", default: 0, null: false
     t.string "stripe_customer_id"
     t.boolean "admin", default: false
+    t.string "firstname"
+    t.string "lastname"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
