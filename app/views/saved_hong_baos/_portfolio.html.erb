@@ -1,16 +1,21 @@
 <% if saved_hong_baos.any? %>
   <!-- User Header -->
-  <div class="flex items-center gap-3 mb-6">
-    <div class="w-8 h-8 rounded-full overflow-hidden">
-      <%= render AvatarComponent.new(user: saved_hong_baos.first.user, class: "w-full h-full object-cover") %>
-    </div>
-    <div>
-      <div class="flex items-center gap-2">
-        <span class="font-semibold text-base-content"><%= saved_hong_baos.first.user.email.split("@").first.capitalize %></span>
-        <%= heroicon "chevron-right", variant: :solid, class: "w-4 h-4 text-base-content/40" %>
-        <span class="text-base-content/60">HongBao gifted</span>
+  <div class="flex items-center justify-between gap-3 mb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full overflow-hidden">
+        <%= render AvatarComponent.new(user: saved_hong_baos.first.user, class: "w-full h-full object-cover") %>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-base-content"><%= saved_hong_baos.first.user.email.split("@").first.capitalize %></span>
+          <%= heroicon "chevron-right", variant: :solid, class: "w-4 h-4 text-base-content/40" %>
+          <span class="text-base-content/60">HongBao gifted</span>
+        </div>
       </div>
     </div>
+
+    <!-- Bitcoin Price Display -->
+    <%= render Spots::CurrentComponent.new(vs: 1.day.ago) %>
   </div>
 
 <!-- Bitcoin Portfolio Chart -->

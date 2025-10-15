@@ -1,0 +1,15 @@
+<div class="flex items-center gap-2 bg-base-200 rounded-lg px-3 py-2 tooltip" data-tip="Last updated: <%= last_updated %>">
+  <!-- Bitcoin Icon -->
+  <%= image_tag "bitcoin-64x64.svg", class: "w-8 h-8" %>
+
+  <!-- Price Information -->
+  <div class="flex flex-col">
+    <div class="text-xs font-bold text-base-content">
+      <%= currency_symbol %><%= number_with_delimiter(current_price.round) %>
+    </div>
+    <div class="text-xs font-medium <%= positive_change? ? 'text-success' : 'text-error' %>">
+      <%= positive_change? ? '▲' : '▼' %>
+      <%= price_change_percentage.abs %>%
+    </div>
+  </div>
+</div>
