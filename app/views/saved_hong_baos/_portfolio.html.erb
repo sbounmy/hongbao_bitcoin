@@ -26,24 +26,26 @@
 <% readonly ||= false %>
 
 <!-- Saved Hong Baos Table/List -->
-<div class="card shadow-xl border-2 border-base-content/10 overflow-x-auto hidden md:block">
-  <div class='card-body'>
-    <table class="table table-zebra w-full">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Recipient</th>
-          <th>Address</th>
-          <th>Amount</th>
-          <th>Balance</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="saved_hong_baos_table">
-        <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :table, readonly:) %>
-      </tbody>
-    </table>
+<div class="card shadow-xl border-2 border-base-content/10 hidden md:block">
+  <div class='card-body p-0'>
+    <div class="overflow-x-auto max-h-96 overflow-y-auto">
+      <table class="table table-zebra w-full">
+        <thead class="sticky top-0 bg-base-100 z-10">
+          <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Recipient</th>
+            <th>Address</th>
+            <th>Amount</th>
+            <th>Balance</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="saved_hong_baos_table">
+          <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :table, readonly:) %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
