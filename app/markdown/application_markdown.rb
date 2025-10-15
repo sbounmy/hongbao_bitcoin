@@ -49,6 +49,18 @@ class ApplicationMarkdown < MarkdownRails::Renderer::Rails
     end
   end
 
+  # Override header to add ID attributes for anchor links
+  def header(text, header_level)
+    # Generate slug from text: lowercase, replace spaces with hyphens, keep alphanumeric and hyphens
+    slug = text.downcase
+                .gsub(/[^\w\s-]/, '') # Remove special chars except spaces and hyphens
+                .gsub(/\s+/, '-')     # Replace spaces with hyphens
+                .gsub(/-+/, '-')      # Replace multiple hyphens with single hyphen
+                .gsub(/^-|-$/, '')    # Remove leading/trailing hyphens
+
+    # Redcarpet already handles HTML escaping, so just return the HTML with id
+    "<h#{header_level} id=\"#{slug}\">#{text}</h#{header_level}>"
+  end
 
   private
     # This is provided as an example; there's many more YouTube URLs that this wouldn't catch.
