@@ -3,10 +3,11 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
-/* Custom color variables */
+/* Custom color variables and fonts */
 @theme {
   --color-bitcoin: #f7931a;
   --color-hongbao: #991b1b;
+  --font-handwriting: "Fuzzy Bubbles", cursive;
 }
 
 /* Override intl-tel-input CSS variables at root level */
