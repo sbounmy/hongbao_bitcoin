@@ -2,16 +2,16 @@
 
 <div class="flex items-center justify-between relative overflow-hidden bg-[radial-gradient(circle_at_15%_45%,theme(colors.orange.400/75)_2%,transparent_36%),radial-gradient(ellipse_at_97%_96%,theme(colors.red.400/75)_6%,transparent_20%),radial-gradient(circle_at_19%_87%,theme(colors.red.400/75)_19%,transparent_53%),radial-gradient(circle_at_84%_95%,theme(colors.yellow.400/75)_60%,transparent_86%),radial-gradient(circle_at_50%_39%,theme(colors.yellow.200/75)_35%,transparent_88%)]" style="width: <%= @width -%>px; height: <%= @height -%>px;">
   <!-- Main text content -->
-  <div class="relative pl-64 px-4 pt-10 z-10 mb-10">
+  <div class="relative pl-84 px-4 pt-10 z-10 mb-10">
     <h1 class="text-5xl font-semibold text-black leading-tight mb-4 md:mb-6">
-      Teach Bitcoin with an envelope
+      Satoshis for everyone
     </h1>
 
-    <p class="text-2xl text-black/70 mb-8 md:mb-10">
-      Print a paper wallet → Gift it in a red envelope → Let them study
+    <p class="text-3xl text-black/70 mb-8 md:mb-10">
+      Turn Bitcoin gifting into a shared Bitcoin journey
     </p>
 
-    <div class="flex flex-col md:flex-row items-center justify-stretch md:justify-center gap-4 sm:gap-6">
+    <div class="flex flex-col md:flex-row items-center justify-stretch gap-4 sm:gap-6">
       <%= link_to "#pricing", class: "btn btn-primary rounded-full btn-lg bg-black border-black text-white w-full md:w-auto", data: { controller: "scroll-to", scroll_reveal_behavior_value: "smooth" } do %>
         <%= heroicon "envelope-open", variant: :solid, class: "inline-block h-4 w-4 align-middle mr-1" %>
         <span class="inline-block">Get Envelopes</span>
