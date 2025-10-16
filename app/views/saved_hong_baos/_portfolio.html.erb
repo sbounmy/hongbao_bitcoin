@@ -54,7 +54,15 @@
   </div>
 </div>
 
-<!-- Mobile view - Cards -->
-<div id="saved_hong_baos_cards" class="grid gap-4 md:hidden mt-8">
-    <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :card, readonly:) %>
+<!-- Mobile view - Cards with scrollable container -->
+<div class="card shadow-xl border-2 border-base-content/10 md:hidden mt-4">
+  <div class="card-body p-0">
+    <div class="px-4 py-3 border-b border-base-content/10">
+      <h3 class="font-semibold text-base-content">HongBao Gifted</h3>
+      <p class="text-xs text-base-content/60 mt-1">Swipe up to see all wallets</p>
+    </div>
+    <div id="saved_hong_baos_cards" class="max-h-[50vh] overflow-y-auto p-2 space-y-2">
+      <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :card, readonly:) %>
+    </div>
+  </div>
 </div>

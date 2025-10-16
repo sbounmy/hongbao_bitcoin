@@ -22,8 +22,10 @@
             rel: "noopener noreferrer",
             class: "font-mono text-xs hover:text-primary inline-flex items-center gap-1",
             title: saved_hong_bao.address do %>
-          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-          <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50" %>
+          <span>
+            <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
+            <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50 inline-block" %>
+          </span>
         <% end %>
       </td>
       <td>
@@ -72,8 +74,10 @@
             rel: "noopener noreferrer",
             class: "font-mono text-xs hover:text-primary inline-flex items-center gap-1",
             title: saved_hong_bao.address do %>
-          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-          <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50" %>
+          <span>
+            <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
+            <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-3 h-3 opacity-50 inline-block" %>
+          </span>
         <% end %>
       </td>
       <td>
@@ -95,24 +99,24 @@
       <td>
         <div class="flex gap-1">
           <% unless readonly %>
-            <%= button_to refresh_saved_hong_bao_path(saved_hong_bao), method: :post,
+            <%= button_to(refresh_saved_hong_bao_path(saved_hong_bao), method: :post,
                 class: "btn btn-ghost btn-sm btn-square",
-                title: "Last updated: #{saved_hong_bao.last_fetched_at ? time_ago_in_words(saved_hong_bao.last_fetched_at) + ' ago' : 'Never'}" do %>
-              <%= heroicon "arrow-path", variant: :outline, class: "w-4 h-4" %>
+                title: "Last updated: #{saved_hong_bao.last_fetched_at ? time_ago_in_words(saved_hong_bao.last_fetched_at) + ' ago' : 'Never'}") do %>
+              <span><%= heroicon "arrow-path", variant: :outline, class: "w-4 h-4" %></span>
             <% end %>
           <% end %>
-          <%= link_to hong_bao_path(saved_hong_bao.address),
+          <%= link_to(hong_bao_path(saved_hong_bao.address),
               class: "btn btn-ghost btn-sm btn-square",
               target: "_blank",
-              title: "View details" do %>
-            <%= heroicon "eye", variant: :outline, class: "w-4 h-4" %>
+              title: "View details") do %>
+            <span><%= heroicon "eye", variant: :outline, class: "w-4 h-4" %></span>
           <% end %>
           <% unless readonly %>
-            <%= button_to saved_hong_bao, method: :delete,
+            <%= button_to(saved_hong_bao, method: :delete,
                 data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
                 class: "btn btn-ghost btn-sm btn-square text-error",
-                title: "Remove" do %>
-              <%= heroicon "trash", variant: :outline, class: "w-4 h-4" %>
+                title: "Remove") do %>
+              <span><%= heroicon "trash", variant: :outline, class: "w-4 h-4" %></span>
             <% end %>
           <% end %>
         </div>
@@ -120,72 +124,108 @@
     <% end %>
   </tr>
 <% else %>
-  <!-- Mobile card view -->
-  <div id="saved_hong_bao_card_<%= saved_hong_bao.id %>" class="card bg-base-200 shadow-xl">
-    <div class="card-body">
+  <!-- Mobile card view - Compact design -->
+  <div id="saved_hong_bao_card_<%= saved_hong_bao.id %>" class="card bg-base-100 border border-base-300 shadow-sm">
+    <div class="card-body p-3">
       <% if loading? %>
         <!-- Loading skeleton state -->
-        <div class="flex justify-between items-start">
-          <h2 class="card-title"><%= saved_hong_bao.name %></h2>
-          <div class="skeleton h-6 w-20"></div>
-        </div>
-
-        <p class="font-mono text-xs opacity-60">
-          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-        </p>
-
-        <div class="stats shadow mt-4">
-          <div class="stat px-4 py-2">
-            <div class="stat-title text-xs">Balance</div>
-            <div class="skeleton h-6 w-32"></div>
-            <div class="skeleton h-4 w-20 mt-1"></div>
+        <div class="flex items-center justify-between">
+          <!-- Date skeleton (First) -->
+          <div class="flex-shrink-0 mr-2">
+            <div class="skeleton rounded-lg w-11 h-12"></div>
           </div>
-        </div>
-
-        <div class="card-actions justify-center mt-4">
-          <span class="loading loading-spinner loading-md"></span>
-          <span class="text-sm opacity-60">Fetching balance...</span>
+          <!-- Avatar and name skeleton -->
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <div class="skeleton w-8 h-8 rounded-full"></div>
+            <div class="min-w-0">
+              <div class="skeleton h-4 w-24 mb-1"></div>
+              <div class="skeleton h-3 w-32"></div>
+            </div>
+          </div>
+          <!-- Balance skeleton -->
+          <div class="text-right px-2">
+            <div class="skeleton h-4 w-20 ml-auto mb-1"></div>
+            <div class="skeleton h-3 w-28 ml-auto"></div>
+          </div>
+          <!-- Actions skeleton -->
+          <div class="skeleton h-6 w-10"></div>
         </div>
       <% else %>
         <!-- Loaded state with actual data -->
-        <div class="flex justify-between items-start">
-          <div class="flex items-center gap-3">
-            <%= image_tag saved_hong_bao.avatar_url, class: "w-10 h-10 rounded-full" %>
-            <h2 class="card-title"><%= saved_hong_bao.name %></h2>
+        <div class="flex items-center justify-between">
+          <!-- Date Column (First) -->
+          <div class="flex-shrink-0 text-center mr-2">
+            <% if saved_hong_bao.gifted_at %>
+              <div class="border border-base-300 rounded-lg px-2 py-1">
+                <div class="text-xs text-base-content/70 font-medium uppercase"><%= saved_hong_bao.gifted_at.strftime("%b") %></div>
+                <div class="text-lg font-bold leading-none"><%= saved_hong_bao.gifted_at.strftime("%-d") %></div>
+              </div>
+            <% else %>
+              <div class="border border-base-300 rounded-lg px-2 py-1">
+                <div class="text-xs text-base-content/70 font-medium">-</div>
+                <div class="text-lg font-bold leading-none">-</div>
+              </div>
+            <% end %>
           </div>
-          <% status = saved_hong_bao.status %>
-          <div class="badge <%= status[:class] %> gap-1">
-            <%= heroicon status[:icon], variant: :outline, class: "w-3 h-3" %>
-            <%= status[:text] %>
-          </div>
-        </div>
 
-        <p class="font-mono text-xs opacity-60">
-          <%= saved_hong_bao.address.first(8) %>...<%= saved_hong_bao.address.last(6) %>
-        </p>
-
-        <div class="stats shadow mt-4">
-          <div class="stat px-4 py-2">
-            <div class="stat-title text-xs">Balance</div>
-            <div class="stat-value text-lg"><%= number_with_precision(saved_hong_bao.initial_btc, precision: 8) %> BTC</div>
-            <div class="stat-desc">$<%= number_with_delimiter(saved_hong_bao.usd.round) %></div>
-          </div>
-          <div class="stat px-4 py-2">
-            <div class="stat-title text-xs">Change</div>
-            <div class="stat-value text-lg <%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %>">
-              <%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %>
-              <%= saved_hong_bao.balance_change_percentage.round %>%
+          <!-- Avatar, name, address -->
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <%= image_tag saved_hong_bao.avatar_url, class: "w-8 h-8 rounded-full flex-shrink-0" %>
+            <div class="min-w-0">
+              <div class="font-semibold text-sm truncate"><%= saved_hong_bao.name %></div>
+              <div class="font-mono text-xs text-base-content/60 truncate">
+                <%= saved_hong_bao.address.first(6) %>...<%= saved_hong_bao.address.last(4) %>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="card-actions justify-end mt-4">
-          <%= link_to "View", hong_bao_path(saved_hong_bao.address), class: "btn btn-primary btn-sm", target: "_blank" %>
-          <% unless readonly %>
-            <%= button_to "Remove", saved_hong_bao, method: :delete,
-                data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
-                class: "btn btn-error btn-outline btn-sm" %>
-          <% end %>
+          <!-- Balance and Value Progression -->
+          <div class="text-right px-2">
+            <div class="font-semibold text-sm">₿<%= number_with_precision(saved_hong_bao.initial_btc, precision: 6) %></div>
+            <div class="text-xs text-base-content/70">
+              $<%= number_with_delimiter(saved_hong_bao.initial_usd.round) %> → $<%= number_with_delimiter(saved_hong_bao.usd.round) %>
+              <span class="<%= saved_hong_bao.usd_change > 0 ? 'text-success' : 'text-error' %> font-medium">
+                (<%= saved_hong_bao.usd_change > 0 ? '↑' : '↓' %><%= saved_hong_bao.balance_change_percentage.round %>%)
+              </span>
+            </div>
+          </div>
+
+          <!-- Right side: Status badge and actions -->
+          <div class="flex items-center gap-1">
+            <% status = saved_hong_bao.status %>
+            <div class="badge <%= status[:class] %> badge-sm">
+              <%= heroicon status[:icon], variant: :outline, class: "w-3 h-3" %>
+              <span class="hidden">HODL</span>
+            </div>
+
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-xs btn-square">
+                <%= heroicon "ellipsis-vertical", variant: :solid, class: "w-4 h-4" %>
+              </label>
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-32 z-50 border border-base-300">
+                <li>
+                  <%= link_to hong_bao_path(saved_hong_bao.address), target: "_blank", class: "text-xs" do %>
+                    <span class="flex items-center gap-1">
+                      <%= heroicon "eye", variant: :outline, class: "w-3 h-3" %>
+                      View
+                    </span>
+                  <% end %>
+                </li>
+                <% unless readonly %>
+                  <li>
+                    <%= button_to saved_hong_bao, method: :delete,
+                        data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
+                        class: "text-xs text-error" do %>
+                      <span class="flex items-center gap-1">
+                        <%= heroicon "trash", variant: :outline, class: "w-3 h-3" %>
+                        Remove
+                      </span>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
         </div>
       <% end %>
     </div>
