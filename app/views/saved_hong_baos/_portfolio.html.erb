@@ -47,7 +47,10 @@
           </tr>
         </thead>
         <tbody id="saved_hong_baos_table">
-          <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :table, readonly:) %>
+          <% with_year_separators(saved_hong_baos) do |hong_bao, show_separator, year| %>
+            <%= render "saved_hong_baos/year_separator_row", year: year if show_separator %>
+            <%= render SavedHongBaos::ItemComponent.new(saved_hong_bao: hong_bao, view_type: :table, readonly:) %>
+          <% end %>
         </tbody>
       </table>
     </div>
@@ -62,7 +65,10 @@
       <p class="text-xs text-base-content/60 mt-1">Swipe up to see all wallets</p>
     </div>
     <div id="saved_hong_baos_cards" class="max-h-[50vh] overflow-y-auto p-2 space-y-2">
-      <%= render SavedHongBaos::ItemComponent.with_collection(saved_hong_baos, view_type: :card, readonly:) %>
+      <% with_year_separators(saved_hong_baos) do |hong_bao, show_separator, year| %>
+        <%= render "saved_hong_baos/year_separator", year: year if show_separator %>
+        <%= render SavedHongBaos::ItemComponent.new(saved_hong_bao: hong_bao, view_type: :card, readonly:) %>
+      <% end %>
     </div>
   </div>
 </div>
