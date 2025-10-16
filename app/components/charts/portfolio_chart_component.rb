@@ -85,7 +85,33 @@ module Charts
             dashStyle: "LongDash",
             lineWidth: 1
           }
-        ]
+        ],
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 768  # Mobile breakpoint
+              },
+              chartOptions: {
+                yAxis: [
+                  {
+                    labels: {
+                      enabled: false  # Hide left y-axis labels on mobile
+                    }
+                  },
+                  {
+                    labels: {
+                      enabled: false  # Hide right y-axis labels on mobile
+                    }
+                  }
+                ],
+                legend: {
+                  enabled: false  # Optional: also hide legend on mobile for more space
+                }
+              }
+            }
+          ]
+        }
       }
     end
   end
