@@ -1,34 +1,34 @@
 <!-- Total Stats -->
-<div class="stats stats-vertical md:stats-horizontal w-full mb-8">
-  <div class="stat">
+<div class="stats stats-vertical md:stats-horizontal w-full mb-4 md:mb-8">
+  <div class="stat py-3 px-4 md:py-4 md:px-6">
     <div class="stat-figure text-hongbao">
-      <%= heroicon "wallet", variant: :outline, class: "w-8 h-8" %>
+      <%= heroicon "wallet", variant: :outline, class: "w-5 h-5 md:w-8 md:h-8" %>
     </div>
-    <div class="stat-title">Total HongBaos</div>
-    <div class="stat-value text-hongbao"><%= total_count %></div>
-    <div class="stat-desc">Median value: $<%= number_with_delimiter(median_value_usd.round) %></div>
+    <div class="stat-title text-xs md:text-sm">Total HongBaos</div>
+    <div class="text-2xl md:text-4xl font-bold text-hongbao"><%= total_count %></div>
+    <div class="stat-desc text-xs">Median value: $<%= number_with_delimiter(median_value_usd.round) %></div>
   </div>
 
-  <div class="stat">
+  <div class="stat py-3 px-4 md:py-4 md:px-6">
     <div class="stat-figure text-bitcoin">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 md:w-8 md:h-8 stroke-current">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
       </svg>
     </div>
-    <div class="stat-title">Total BTC</div>
-    <div class="stat-value text-bitcoin">₿<%= number_with_precision(total_balance_btc, precision: 8) %></div>
-    <div class="stat-desc">
+    <div class="stat-title text-xs md:text-sm">Total BTC</div>
+    <div class="text-2xl md:text-4xl font-bold text-bitcoin">₿<%= number_with_precision(total_balance_btc, precision: 6) %></div>
+    <div class="stat-desc text-xs">
       Avg buy: $<%= number_with_delimiter(average_buy_price.round) %>
     </div>
   </div>
 
-  <div class="stat">
+  <div class="stat py-3 px-4 md:py-4 md:px-6">
     <div class="stat-figure text-green-500">
-      <%= heroicon "currency-dollar", variant: :outline, class: "w-8 h-8" %>
+      <%= heroicon "currency-dollar", variant: :outline, class: "w-5 h-5 md:w-8 md:h-8" %>
     </div>
-    <div class="stat-title">USD Value</div>
-    <div class="stat-value text-green-500">$<%= number_with_delimiter(total_balance_usd.round) %></div>
-    <div class="stat-desc <%= average_gain_usd >= 0 ? 'text-success' : 'text-error' %>">
+    <div class="stat-title text-xs md:text-sm">USD Value</div>
+    <div class="text-2xl md:text-4xl font-bold text-green-500">$<%= number_with_delimiter(total_balance_usd.round) %></div>
+    <div class="stat-desc text-xs <%= average_gain_usd >= 0 ? 'text-success' : 'text-error' %>">
       <%= average_gain_usd >= 0 ? '↑' : '↓' %>
       <%= average_gain_usd >= 0 ? '+' : '' %>$<%= number_with_delimiter(average_gain_usd.round) %>
       (<%= average_gain_percentage >= 0 ? '+' : '' %><%= number_with_precision(average_gain_percentage, precision: 0) %>%)
