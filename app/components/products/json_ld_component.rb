@@ -53,7 +53,7 @@ module Products
       @product.variants.map do |variant|
         variant_data = {
           "@type": "Product",
-          name: "#{@product.name} - #{variant.description || variant.options_text}",
+          name: "#{@product.name} - #{variant.product_description || variant.options_text}",
           sku: variant.sku,
           image: variant.images.any? ? helpers.rails_blob_url(variant.images.first, host: helpers.request.base_url) : nil,
           offers: {
