@@ -93,6 +93,9 @@ module Charts
                 maxWidth: 768  # Mobile breakpoint
               },
               chartOptions: {
+                chart: {
+                  height: 300  # Reduced height for mobile (from 450px)
+                },
                 yAxis: [
                   {
                     labels: {
@@ -107,6 +110,14 @@ module Charts
                 ],
                 legend: {
                   enabled: false  # Optional: also hide legend on mobile for more space
+                },
+                plotOptions: {
+                  series: {
+                    marker: {
+                      radius: 3  # Smaller markers on mobile
+                    },
+                    lineWidth: 1  # Thinner lines on mobile
+                  }
                 }
               }
             }
