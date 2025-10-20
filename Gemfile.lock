@@ -340,7 +340,7 @@ GEM
     json (2.13.2)
     jwt (3.1.2)
       base64
-    kamal (2.7.0)
+    kamal (2.8.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -461,7 +461,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
-    ostruct (0.6.2)
+    ostruct (0.6.3)
     pagy (9.4.0)
     parallel (1.27.0)
     parallel_tests (5.3.1)
