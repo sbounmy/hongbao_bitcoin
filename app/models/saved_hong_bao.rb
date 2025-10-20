@@ -10,6 +10,8 @@ class SavedHongBao < ApplicationRecord
   after_create_commit :broadcast_prepend_to_user
   after_update_commit :broadcast_replace_to_user
 
+  scope :order_by_gifted_at, -> { order Arel.sql("COALESCE(gifted_at, created_at) DESC") }
+
   belongs_to :spot_buy, class_name: "Spot", optional: true # set asynchronously
 
   def btc

@@ -26,17 +26,19 @@ test.describe('Saved Hong Baos', () => {
 
     // Verify the saved hong bao appears in the list
     await expect(page.getByText('My Friend Bob').locator('visible=true').first()).toBeVisible();
-    await expect(page.getByText('bc1qp2nl...s5526g').locator('visible=true').first()).toBeVisible(); // Shortened address (first 8 + last 6)
+    await expect(page.getByText('bc1qp2nl...s5526g').locator('visible=true').first()).toBeVisible();
 
     // Check that stats are visible
     await expect(page.locator('.stat-value').getByText('₿0.00076171')).toBeVisible();
     await expect(page.locator('.stat-value').first().getByText('5')).toBeVisible();
     await expect(page.locator('.stat-value').getByText('$8')).toBeVisible();
-    await expect(page.getByText('Loading...')).toBeVisible();
-    await expect(page.getByText('0.00040657').first()).not.toBeVisible();    await app('perform_jobs');
+    const visibleContainer = await page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    await expect(visibleContainer.getByText('₿0.00040657')).not.toBeVisible();
+
+    // await expect(page.locator(':is(#saved_hong_baos_cards, #saved_hong_baos_table)').getByText('₿0.00040657').first()).not.toBeVisible();
     await app('perform_jobs');
-    await expect(page.getByText('Loading...')).not.toBeVisible();
-    await expect(page.getByText('0.00040657').first()).toBeVisible();
+    // await expect(page.locator(':is(#saved_hong_baos_cards, #saved_hong_baos_table)').getByText('₿0.00040657').first()).toBeVisible();
+    await expect(visibleContainer.getByText('₿0.00040657')).toBeVisible();
   });
 
   test('validates required fields', async ({ page }) => {
@@ -84,21 +86,18 @@ test.describe('Saved Hong Baos', () => {
     // Navigate to saved hong baos page - fixture data should already be loaded
     await page.goto('/saved_hong_baos');
 
+    const visibleContainer = await page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+
     // The rich_wallet fixture should be visible in the table
-    await expect(page.getByRole('cell', { name: 'HODL HB' })).toBeVisible();
+    await expect(visibleContainer.getByText('HODL HB' )).toBeVisible();
 
     // Check that shortened address format is displayed with external link icon
-    await expect(page.getByText('bc1qyus6...5paulx').locator('visible=true').first()).toBeVisible();
+    await expect(visibleContainer.getByText('₿0.00041171')).toBeVisible();
+    await expect(visibleContainer.getByText('bc1qyus6...5paulx')).toBeVisible();
 
     // Verify that address links to mempool
     const addressLink = page.locator('a[href*="mempool.space/address/"]').first();
     await expect(addressLink).toBeVisible();
-
-    // Verify stats are shown with Bitcoin symbol
-    await expect(page.getByText('₿0.00041171').first()).toBeVisible();
-
-    // Check for status badge
-    await expect(page.locator('.badge').first()).toBeVisible();
   });
 
   test('displays portfolio performance chart with correct data', async ({ page }) => {

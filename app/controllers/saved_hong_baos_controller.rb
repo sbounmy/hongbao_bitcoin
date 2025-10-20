@@ -3,7 +3,7 @@ class SavedHongBaosController < ApplicationController
   before_action :set_network, only: [ :create ]
 
   def index
-    @saved_hong_baos = current_user.saved_hong_baos.order(gifted_at: :desc)
+    @saved_hong_baos = current_user.saved_hong_baos.order_by_gifted_at
   end
 
   def new
