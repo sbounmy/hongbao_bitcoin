@@ -2,7 +2,7 @@ require "net/http"
 require "json"
 
 class TweetService
-  CACHE_EXPIRY = 1.week
+  CACHE_EXPIRY = 1.month
   SYNDICATION_API_URL = "https://cdn.syndication.twimg.com/tweet-result"
 
   def self.fetch(tweet_id)
