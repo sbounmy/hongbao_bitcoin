@@ -4,11 +4,11 @@ class PlaywrightController < ApplicationController
 
   def force_login
     if params[:email].present?
-      user = User.find_by!(email: params.require(:email))
+      user = User.find_by!(email: params[:email])
     else
       user = User.first!
     end
     start_new_session_for(user)
-    redirect_to URI.parse(params.require(:redirect_to)).path
+    redirect_to params[:redirect_to] || "/"
   end
 end

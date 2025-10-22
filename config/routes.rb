@@ -122,7 +122,7 @@ Rails.application.routes.draw do
 
   if Rails.env.test?
     scope path: "/__e2e__", controller: "playwright" do
-      post "force_login"
+      get "force_login"
     end
   end
 
