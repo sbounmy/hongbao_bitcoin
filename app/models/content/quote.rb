@@ -7,6 +7,7 @@ class Content::Quote < Content
   scope :with_hongbao_product, -> {
      quote_ids = Content::Product.internal.pluck(:parent_id).compact
      Content::Quote.where(id: quote_ids)
+       .includes(hongbao_products: { image_attachment: :blob })
   }
 
   def best_image
