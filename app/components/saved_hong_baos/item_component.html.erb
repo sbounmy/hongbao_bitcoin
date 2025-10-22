@@ -51,8 +51,13 @@
       </td>
     <% else %>
       <!-- Loaded state with actual data -->
-      <td>
-        <div class="font-bold"><%= time_ago_in_words(saved_hong_bao.gifted_at) if saved_hong_bao.gifted_at %> ago</div>
+      <td class="w-fit">
+        <% if saved_hong_bao.gifted_at %>
+          <div class="w-12 h-12 flex flex-col gap-1 items-center justify-center border border-base-300 rounded-lg">
+            <div class="text-[10px] text-base-content/70 font-medium uppercase leading-none"><%= saved_hong_bao.gifted_at.strftime("%b") %></div>
+            <div class="text-base font-bold leading-none"><%= saved_hong_bao.gifted_at.strftime("%-d") %></div>
+          </div>
+        <% end %>
       </td>
       <td>
         <% status = saved_hong_bao.status %>
