@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",
-    "@playwright/test": "1.51.1",
+    "@playwright/test": "1.56.1",
     "@tailwindcss/cli": "^4.1.4",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.13.4",
