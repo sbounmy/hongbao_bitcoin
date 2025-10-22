@@ -146,12 +146,17 @@ class BitcoinPortfolioService
     end.compact
   end
 
+
+  def spots_by_date
+    @spots ||= Spot.where("date >= ? ", start_date).where("date <= ?", end_date).group_by { |s| s.date.to_date }
+  end
+
   def calculate_portfolio_value_on_date(date)
     # Get all Hong Baos that existed on this date
     active_hong_baos = saved_hong_baos.where("gifted_at <= ?", date.end_of_day)
 
     # Get the BTC price for this date
-    spot = Spot.find_by(date: date)
+    spot = spots_by_date[date]&.first
     return 0.0 unless spot && spot.prices[currency.to_s]
 
     btc_price = spot.prices[currency.to_s].to_f
