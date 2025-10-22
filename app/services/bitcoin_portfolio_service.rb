@@ -118,12 +118,7 @@ class BitcoinPortfolioService
     cumulative_deposits = 0.0
 
     dates.map do |date|
-      # Add deposits from Hong Baos gifted up to this date
-      deposits_on_date = saved_hong_baos
-        .where("gifted_at <= ?", date.end_of_day)
-        .where("gifted_at > ?", date.beginning_of_day)
-        .sum(&:initial_usd)
-
+      deposits_on_date = saved_hong_baos_by_date[date]&.sum(&:initial_usd) || 0
       cumulative_deposits += deposits_on_date
       [ date.to_time.to_i * 1000, cumulative_deposits.round(2) ]
     end
