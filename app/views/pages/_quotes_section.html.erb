@@ -1,7 +1,4 @@
 <!-- Envelope Quotes Section -->
-<% hongbao_products = Content::Product.internal %>
-<% quote_ids = hongbao_products.pluck(:parent_id).compact %>
-<% quotes = Content::Quote.where(id: quote_ids).published.limit(6) %>
 <section class="max-w-6xl mx-auto py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex flex-col lg:flex-row gap-12" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">

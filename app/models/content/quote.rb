@@ -4,6 +4,11 @@ class Content::Quote < Content
   # Override parent's friendly_id to use slug_candidates
   friendly_id :slug_candidates, use: [ :slugged, :history ]
 
+  scope :with_hongbao_product, -> {
+     quote_ids = Content::Product.internal.pluck(:parent_id).compact
+     Content::Quote.where(id: quote_ids)
+  }
+
   def best_image
     if hongbao_products.published.first&.image&.attached?
       hongbao_products.published.first.image
