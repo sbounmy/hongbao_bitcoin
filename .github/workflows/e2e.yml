@@ -9,7 +9,7 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.51.1
+    container: mcr.microsoft.com/playwright:v1.56.1
     env:
       HOME: /root
       RAILS_ENV: test
