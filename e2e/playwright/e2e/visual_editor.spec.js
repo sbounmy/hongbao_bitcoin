@@ -22,8 +22,8 @@ test.describe('Visual Editor', () => {
   });
 
   test('switches between front and back views', async ({ page }) => {
-    const frontTab = page.getByRole('button', { name: 'Front' });
-    const backTab = page.getByRole('button', { name: 'Back' });
+    const frontTab = page.locator('.visual-editor-container').getByRole('button', { name: 'Front' });
+    const backTab = page.locator('.visual-editor-container').getByRole('button', { name: 'Back' });
     const frontElement = page.locator('[data-element-type="public_address_qrcode"][data-visual-editor-target="element"]');
     const backElement = page.locator('[data-element-type="private_key_qrcode"][data-visual-editor-target="element"]');
 
