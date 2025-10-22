@@ -1,100 +1,273 @@
 <!-- Envelope Quotes Section -->
-<section class="max-w-6xl mx-auto py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
+<section class="py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200 overflow-hidden">
   <div class="max-w-7xl mx-auto px-4">
-    <div class="flex flex-col lg:flex-row gap-12" data-controller="tabs" data-tabs-default-tab-value="<%= quotes.first&.slug || 'satoshi' %>" data-tabs-active-class="ring-4 ring-primary">
+    <!-- Section Header -->
+    <div class="text-center mb-12 md:mb-16">
+      <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">BITCOIN WISDOM</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        Backed by the <%= image_tag "bitcoin-64x64.svg", class:'inline w-10', alt: 'bitcoin best teachers' -%> best teachers
+      </h2>
+      <p class="text-base-content/70 max-w-2xl mx-auto">
+        Sparkle curiosity and develop a passion for learning Bitcoin
+      </p>
+    </div>
 
-      <!-- Left: Image container that matches right column height -->
-      <div class="lg:flex-1 relative">
-        <!-- Dynamic Product Images from Database -->
-        <% quotes.each_with_index do |quote, index| %>
+    <!-- Arc Display Container -->
+    <div class="relative h-[500px] md:h-[600px]">
+
+      <!-- Desktop: Arc Layout -->
+      <div class="hidden md:flex relative w-full h-full items-end justify-center">
+        <%
+          # Pre-calculate positions for all envelopes in a centered arc
+          total = quotes.size
+          positions = quotes.each_with_index.map do |quote, index|
+            # Center the distribution with more space between middle envelopes
+            x_class = case total
+                      when 6
+                        case index
+                        when 0 then "left-[22%]"
+                        when 1 then "left-[33%]"
+                        when 2 then "left-[44%]"
+                        when 3 then "left-[56%]"
+                        when 4 then "left-[67%]"
+                        when 5 then "left-[78%]"
+                        end
+                      when 7
+                        case index
+                        when 0 then "left-[17%]"
+                        when 1 then "left-[27%]"
+                        when 2 then "left-[37%]"
+                        when 3 then "left-[50%]"
+                        when 4 then "left-[63%]"
+                        when 5 then "left-[73%]"
+                        when 6 then "left-[83%]"
+                        end
+                      else
+                        # Default for other counts - balanced spacing
+                        "left-[#{17 + (index * 66.0 / (total - 1))}%]"
+                      end
+
+            # Create a smoother parabolic arc
+            y_class = case total
+                      when 6
+                        case index
+                        when 0 then "bottom-20"
+                        when 1 then "bottom-32"
+                        when 2 then "bottom-36"
+                        when 3 then "bottom-36"
+                        when 4 then "bottom-32"
+                        when 5 then "bottom-20"
+                        end
+                      when 7
+                        case index
+                        when 0 then "bottom-16"
+                        when 1 then "bottom-28"
+                        when 2 then "bottom-36"
+                        when 3 then "bottom-40"
+                        when 4 then "bottom-36"
+                        when 5 then "bottom-28"
+                        when 6 then "bottom-16"
+                        end
+                      else
+                        # Default parabolic arc
+                        center = (total - 1) / 2.0
+                        distance = (index - center).abs
+                        max_distance = center
+                        height = 40 - (20 * (distance / max_distance) ** 2)
+                        "bottom-[#{height.round}]"
+                      end
+
+            rotate_class = case total
+                           when 6
+                             case index
+                             when 0 then "-rotate-12"
+                             when 1 then "-rotate-6"
+                             when 2 then "-rotate-2"
+                             when 3 then "rotate-2"
+                             when 4 then "rotate-6"
+                             when 5 then "rotate-12"
+                             end
+                           when 7
+                             case index
+                             when 0 then "-rotate-12"
+                             when 1 then "-rotate-8"
+                             when 2 then "-rotate-4"
+                             when 3 then "rotate-0"
+                             when 4 then "rotate-4"
+                             when 5 then "rotate-8"
+                             when 6 then "rotate-12"
+                             end
+                           else
+                             # Default rotation based on position
+                             center = (total - 1) / 2.0
+                             rotation = ((index - center) * 8).round
+                             "rotate-[#{rotation}]"
+                           end
+
+            z_class = case index
+                      when 0, total-1 then "z-10"
+                      when 1, total-2 then "z-20"
+                      when 2, total-3 then "z-30"
+                      else "z-40"
+                      end
+
+            { quote: quote, x_class: x_class, y_class: y_class, rotate_class: rotate_class, z_class: z_class }
+          end
+        %>
+
+        <% positions.each do |pos| %>
+          <% quote = pos[:quote] %>
           <% product = quote.hongbao_products.published.first %>
-          <div data-tabs-target="tab" data-tab-id="<%= quote.slug %>" class="<%= index > 0 ? 'hidden' : '' %>">
-            <% if product&.image&.attached? %>
-              <!-- Show product image -->
-              <%= image_tag product.image,
-                  class: "h-96 w-full lg:h-full object-contain",
-                  alt: "#{quote.author} Bitcoin envelope design" %>
-            <% else %>
-              <!-- Fallback to quote display -->
-              <div class="bg-gradient-to-br from-orange-400 to-red-400 h-full p-1">
-                <div class="bg-base-100 h-full rounded-3xl p-8 md:p-12 flex items-center justify-center">
-                  <div class="text-center space-y-4">
-                    <p class="text-2xl md:text-3xl font-serif italic text-base-content">
-                      "<%= quote.text %>"
-                    </p>
-                    <p class="text-lg text-base-content/70">
-                      — <%= quote.author %>
-                    </p>
+
+          <!-- Envelope -->
+          <div class="absolute <%= pos[:x_class] %> <%= pos[:y_class] %> <%= pos[:z_class] %> -translate-x-1/2 transition-all duration-500 ease-out group hover:z-50 hover:scale-110 hover:-translate-y-10 cursor-pointer">
+
+            <div class="<%= pos[:rotate_class] %> hover:rotate-0 transition-transform duration-500">
+              <!-- Envelope Image -->
+              <div class="relative w-44 lg:w-48 h-full rounded-lg shadow-2xl hover:shadow-3xl transition-shadow duration-300">
+                <% if product&.image&.attached? %>
+                  <%= image_tag product.image,
+                      class: "w-full h-full object-cover rounded-lg",
+                      alt: "#{quote.author} Bitcoin envelope design",
+                      loading: "lazy" %>
+                <% else %>
+                  <!-- Fallback envelope design -->
+                  <div class="w-full h-full rounded-lg bg-gradient-to-br from-red-500 to-red-600 p-4 flex flex-col justify-between">
+                    <!-- Bitcoin Icon at Top -->
+                    <div class="text-yellow-300 text-center">
+                      <%= heroicon "currency-bitcoin", variant: :solid, class: "w-10 h-10 lg:w-12 lg:h-12 mx-auto" %>
+                    </div>
+
+                    <!-- Quote Text in Middle -->
+                    <div class="text-white text-center flex-1 flex items-center">
+                      <div>
+                        <p class="text-xs lg:text-sm font-light mb-2 line-clamp-3 italic px-2">
+                          "<%= quote.text.truncate(80) %>"
+                        </p>
+                        <p class="text-xs uppercase tracking-wider font-medium">
+                          <%= quote.author %>
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- QR Code placeholder at Bottom -->
+                    <div class="text-center">
+                      <div class="bg-white/20 backdrop-blur w-14 h-14 lg:w-16 lg:h-16 mx-auto rounded flex items-center justify-center">
+                        <span class="text-white/80 text-xs">HONGBAO.TC</span>
+                      </div>
+                    </div>
                   </div>
+                <% end %>
+              </div>
+
+              <!-- Author Avatar Below Envelope -->
+              <div class="mt-4 text-center">
+                <% if quote.avatar.attached? %>
+                  <%= image_tag quote.avatar,
+                      class: "w-12 h-12 mx-auto rounded-full border-2 border-white shadow-lg",
+                      alt: quote.author,
+                      loading: "lazy" %>
+                <% else %>
+                  <div class="w-12 h-12 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                    <%= quote.author.first %>
+                  </div>
+                <% end %>
+                <p class="mt-2 text-sm font-medium text-base-content">
+                  <%= quote.author.split.first %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Mobile: Horizontal Scrollable Layout -->
+      <div class="md:hidden">
+        <div class="overflow-x-auto pb-4 -mx-4 px-4 [mask-image:_linear-gradient(to_right,transparent_0,_black_32px,_black_calc(100%-32px),transparent_100%)]">
+          <div class="flex gap-4 w-max px-8">
+            <% quotes.each_with_index do |quote, index| %>
+              <% product = quote.hongbao_products.published.first %>
+
+              <div class="group relative flex-shrink-0 w-40 active:scale-95 transition-transform duration-300 cursor-pointer">
+                <!-- Envelope Image -->
+                <div class="relative w-full rounded-lg shadow-xl active:shadow-2xl">
+                  <% if product&.image&.attached? %>
+                    <%= image_tag product.image,
+                        class: "w-full h-full object-cover rounded-lg",
+                        alt: "#{quote.author} Bitcoin envelope design",
+                        loading: "lazy" %>
+                  <% else %>
+                    <!-- Fallback envelope design -->
+                    <div class="w-full h-full rounded-lg bg-gradient-to-br from-red-500 to-red-600 p-3 flex flex-col justify-between">
+                      <!-- Bitcoin Icon -->
+                      <div class="text-yellow-300 text-center">
+                        <%= heroicon "currency-bitcoin", variant: :solid, class: "w-8 h-8 mx-auto" %>
+                      </div>
+
+                      <!-- Quote Text -->
+                      <div class="text-white text-center flex-1 flex items-center">
+                        <div>
+                          <p class="text-[10px] font-light mb-1 line-clamp-2 italic px-1">
+                            "<%= quote.text.truncate(50) %>"
+                          </p>
+                          <p class="text-[10px] uppercase tracking-wider font-medium">
+                            <%= quote.author.split.last %>
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- QR Code placeholder -->
+                      <div class="text-center">
+                        <div class="bg-white/20 w-10 h-10 mx-auto rounded"></div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Author Avatar Below Envelope -->
+                <div class="mt-2 text-center">
+                  <% if quote.avatar.attached? %>
+                    <%= image_tag quote.avatar,
+                        class: "w-10 h-10 mx-auto rounded-full border border-white shadow",
+                        alt: quote.author,
+                        loading: "lazy" %>
+                  <% else %>
+                    <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white text-xs font-bold shadow">
+                      <%= quote.author.first %>
+                    </div>
+                  <% end %>
+                  <p class="mt-1 text-[11px] font-medium text-base-content">
+                    <%= quote.author.split.first %>
+                  </p>
                 </div>
               </div>
             <% end %>
           </div>
-        <% end %>
+        </div>
 
-        <!-- Background decoration -->
-        <div class="absolute -inset-4 bg-gradient-to-r from-orange-400 to-red-400 rounded-3xl blur-3xl opacity-20 -z-10"></div>
-      </div>
-
-      <!-- Right: Content that determines height -->
-      <div class="lg:flex-1 space-y-8">
-        <div>
-          <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">ENVELOPE BACKS</p>
-          <h2 class="text-3xl md:text-5xl font-extrabold text-base-content mb-4">
-            Quotes that can change a life
-          </h2>
-          <p class="text-lg text-base-content/70">
-            Each envelope features a carefully selected Bitcoin quote from OGs. Marking the beginning of their descent into the Bitcoin rabbit hole.
+        <!-- Scroll Indicator -->
+        <div class="text-center mt-2">
+          <p class="text-xs text-base-content/50">
+            <%= heroicon "arrow-long-right", variant: :outline, class: "inline w-4 h-4 mr-1" %>
+            Swipe to see all <%= quotes.size %> designs
           </p>
         </div>
-
-        <!-- Quote Thumbnails Grid -->
-        <div>
-          <div class="grid grid-cols-6 lg:grid-cols-3 gap-3">
-            <!-- Dynamic Quote Buttons from Database -->
-            <% quotes.each do |quote| %>
-              <button data-tabs-target="btn" data-tab-id="<%= quote.slug %>" data-action="click->tabs#select"
-                      class="group relative aspect-square rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <% if quote.avatar.attached? %>
-                  <!-- Show avatar as background -->
-                  <%= image_tag quote.avatar, class: "absolute inset-0 w-full h-full object-cover", alt: quote.author %>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                <% else %>
-                  <!-- Fallback gradient background -->
-                  <div class="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-400"></div>
-                  <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                <% end %>
-                <div class="absolute inset-0 flex flex-col items-center justify-center p-2">
-                  <% unless quote.avatar.attached? %>
-                    <!-- Only show Bitcoin symbol if no avatar -->
-                    <span class="text-white text-lg mb-1">₿</span>
-                  <% end %>
-                  <p class="text-white font-medium text-xs text-center line-clamp-2 <%= quote.avatar.attached? ? 'absolute bottom-2' : '' %>">
-                    <%= quote.author.split.last(2).join(' ') %>
-                  </p>
-                </div>
-              </button>
-            <% end %>
-
-          </div>
-        </div>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <%= link_to "#pricing",
-              class: "btn btn-primary btn-lg rounded-full" do %>
-            <%= heroicon "sparkles", variant: :solid, class: "w-5 h-5" %>
-            Get Envelopes with Quotes
-          <% end %>
-
-          <%= link_to dashboard_path,
-              class: "btn btn-outline btn-lg rounded-full" do %>
-            <%= heroicon "pencil", variant: :outline, class: "w-5 h-5" %>
-            Create Custom Message
-          <% end %>
-        </div>
-
       </div>
+    </div>
+
+    <!-- CTA Section Below Arc -->
+    <div class="text-center">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "#pricing",
+            class: "btn btn-primary btn-lg rounded-full shadow-lg" do %>
+          <%= heroicon "sparkles", variant: :solid, class: "w-5 h-5" %>
+          Get some now
+        <% end %>
+      </div>
+
+      <p class="mt-6 text-sm text-base-content/60">
+        Each pack includes 6 envelopes • Premium red envelope • Unique quote design
+      </p>
     </div>
   </div>
 </section>
