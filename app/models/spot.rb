@@ -8,12 +8,14 @@ class Spot < ApplicationRecord
     where("json_extract(prices, '$.#{currency_sym}') IS NOT NULL")
   }
 
-  scope :current, lambda { |currency|
-    currency_sym = validate_and_normalize_currency!(currency)
-    order(date: :desc).where("json_extract(prices, '$.#{currency_sym}') IS NOT NULL").first
-  }
-
   store_accessor :prices, *CURRENCIES
+
+  def self.current(currency)
+    Rails.cache.fetch("current_#{currency}", expires_in: 3.minutes) do
+      currency_sym = validate_and_normalize_currency!(currency)
+      order(date: :desc).where("json_extract(prices, '$.#{currency_sym}') IS NOT NULL").first
+    end
+  end
 
   private
 
