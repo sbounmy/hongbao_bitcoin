@@ -19,7 +19,7 @@ module Series
         if spot && spot.prices[currency.to_s]
           price = spot.prices[currency.to_s].to_f
           value = calculate_portfolio_value(active_hong_baos[date] || [], price, date)
-          series << [timestamp, value.round(2)]
+          series << [ timestamp, value.round(2) ]
         end
       end
 
@@ -47,9 +47,9 @@ module Series
         # Use current_sats if we're looking at today, otherwise use initial_sats
         sats = if date == Date.today
                  hb.current_sats || hb.initial_sats || 0
-               else
+        else
                  hb.initial_sats || 0
-               end
+        end
         sats.to_f / 100_000_000
       end
 

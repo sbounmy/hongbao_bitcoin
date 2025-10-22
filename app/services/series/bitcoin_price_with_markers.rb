@@ -22,7 +22,7 @@ module Series
           if hong_baos
             series << build_marker_point(timestamp, price, hong_baos)
           else
-            series << [timestamp, price]
+            series << [ timestamp, price ]
           end
         end
       end

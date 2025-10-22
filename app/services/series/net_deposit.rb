@@ -18,7 +18,7 @@ module Series
         deposits_on_date = hong_baos&.sum(&:initial_usd) || 0
         cumulative_deposits += deposits_on_date
 
-        series << [timestamp, cumulative_deposits.round(2)]
+        series << [ timestamp, cumulative_deposits.round(2) ]
       end
 
       series

@@ -17,7 +17,7 @@ module Series
 
         if spot && spot.prices[currency.to_s]
           price = spot.prices[currency.to_s].to_f
-          series << [timestamp, price]
+          series << [ timestamp, price ]
         end
       end
 
