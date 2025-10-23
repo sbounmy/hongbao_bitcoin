@@ -5,7 +5,7 @@
                 tabindex="0"
                 class="btn btn-ghost btn-circle cursor-pointer">
                 <%= render AvatarComponent.new(user: Current.user) do |avatar| %>
-                    <%= avatar.with_badge(user: Current.user) %>
+                    <%= avatar.with_badge(user: Current.user, link: false) %>
                 <% end %>
         </label>
     <% end %>

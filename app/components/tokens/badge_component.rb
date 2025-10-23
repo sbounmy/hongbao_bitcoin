@@ -2,9 +2,10 @@
 
 module Tokens
   class BadgeComponent < ViewComponent::Base
-    def initialize(user:, **options)
+    def initialize(user:, link: true, **options)
       raise ArgumentError, "user must be present" if user.nil?
       @user = user
+      @link = link
       @options = options
       super
     end
@@ -19,6 +20,6 @@ module Tokens
 
     private
 
-    attr_reader :user, :options
+    attr_reader :user, :options, :link
   end
 end

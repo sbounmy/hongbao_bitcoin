@@ -1,1 +1,3 @@
-<span class="indicator-item badge badge-secondary <%= class_name %>"><%= link_to "#{quantity} ₿ao", tokens_path %></span>
+<span class="indicator-item badge badge-secondary <%= class_name %>">
+  <%= link_to_if link, "#{quantity} ₿ao", tokens_path %>
+</span>
