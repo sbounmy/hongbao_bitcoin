@@ -5,8 +5,9 @@ test.describe('Paper Tags - Featured Section', () => {
   test('should display paper with featured tag in Featured section', async ({ page }) => {
     await page.goto('/dashboard');
 
+    await expect(page.locator('body')).toContainText('Buy traditional red envelopes');
     await page.getByText('Buy traditional red envelopes').click(); // hide this
-    expect(page.locator('#papers > div:nth-child(3)')).toContainText("Pizza Day");
+    await expect(page.locator('#featured')).toContainText("Pizza Day");
   });
 
   test('should not display paper in Featured section after removing featured tag', async ({ page }) => {
@@ -30,6 +31,6 @@ test.describe('Paper Tags - Featured Section', () => {
     await page.goto('/dashboard');
 
     await page.getByText('Buy traditional red envelopes').click(); // hide this
-    expect(page.locator('#papers > div:nth-child(3)')).not.toContainText("Pizza Day");
+    await expect(page.locator('#featured')).not.toContainText("Pizza Day");
   });
 });
