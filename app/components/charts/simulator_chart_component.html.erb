@@ -1,0 +1,24 @@
+<div class="simulator-chart-container">
+  <!-- Include tooltip template -->
+  <%= render Charts::Tooltips::EventHongBaoComponent.new %>
+
+  <!-- Chart container -->
+  <div
+    data-controller="highcharts"
+    data-highcharts-config-value="<%= chart_config.to_json %>"
+    data-highcharts-tooltip-renderer-value="EventHongBaoTooltipRenderer"
+    style="height: <%= height %>; width: 100%;">
+  </div>
+</div>
+
+<style>
+  .simulator-chart-container {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Custom styles for event markers */
+  .highcharts-point {
+    cursor: pointer;
+  }
+</style>

@@ -1,0 +1,140 @@
+<div class="card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title text-2xl font-bold mb-2">
+      Be Their DCA - Bitcoin Gifting Simulator
+    </h2>
+    <p class="text-base-content/70 mb-8">
+      Visualize how regular Bitcoin gifts act as Dollar-Cost Averaging for your loved ones
+    </p>
+
+    <%= form_with url: calculate_bitcoin_gifting_simulator_path,
+                  method: :post,
+                  data: { turbo_frame: "simulator_results" },
+                  class: "space-y-6" do |form| %>
+
+      <!-- Structured sentence-like form -->
+      <div class="bg-base-200 p-6 rounded-lg space-y-4">
+
+        <!-- Event amounts -->
+        <div class="space-y-3">
+          <span class="text-lg font-medium block">If I had gifted Bitcoin on</span>
+
+          <div class="grid gap-2" data-controller="event-selector">
+            <% event_options.each_with_index do |event, index| %>
+              <div class="flex items-center gap-3 p-2 rounded-lg border border-base-300 hover:border-primary transition-colors"
+                   data-event-selector-target="eventRow">
+
+                <!-- Event info - more compact -->
+                <div class="flex-1 flex items-center gap-3">
+                  <span class="text-lg"><%= event[:emoji] %></span>
+                  <div class="flex-1">
+                    <% if event[:key] == :birthday %>
+                      <div class="flex items-center gap-3">
+                        <span class="font-medium text-sm"><%= event[:label] %></span>
+                        <!-- Birthday date picker inline with label -->
+                        <div class="flex items-center gap-1" data-event-selector-target="birthdayFields">
+                          <%= form.select :birthday_month,
+                                          options_for_select(month_options, birthday_month),
+                                          {},
+                                          class: "select select-bordered select-xs" %>
+                          <%= form.select :birthday_day,
+                                          options_for_select(day_options, birthday_day),
+                                          {},
+                                          class: "select select-bordered select-xs" %>
+                        </div>
+                      </div>
+                    <% else %>
+                      <span class="font-medium text-sm"><%= event[:label] %></span>
+                      <div class="text-xs text-base-content/60"><%= event[:description] %></div>
+                    <% end %>
+                  </div>
+                </div>
+
+                <!-- Amount input (always visible) -->
+                <div class="join join-sm">
+                  <%= number_field_tag "event_amounts[#{event[:key]}]",
+                                      event[:value],
+                                      min: 0,
+                                      step: "any",
+                                      class: "input input-bordered input-sm join-item w-20 text-right font-mono",
+                                      placeholder: "0",
+                                      data: { event_type: event[:key] } %>
+                  <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">USD</span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Duration selection -->
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-lg font-medium">For</span>
+          <%= form.select :years,
+                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, years),
+                          {},
+                          class: "select select-bordered" %>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-control">
+        <%= form.submit "Calculate DCA Impact",
+                        class: "btn btn-primary btn-lg w-full" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<script>
+  // Stimulus controller for event selection
+  class EventSelectorController extends Controller {
+    static targets = ["eventRow"]
+
+    connect() {
+      console.log("Event selector connected")
+    }
+
+    applyPreset(event) {
+      const preset = event.target.dataset.preset
+      const presets = {
+        conservative: { amount: 50, years: 3, events: ['christmas', 'new_year'] },
+        moderate: { amount: 100, years: 5, events: ['christmas', 'new_year', 'birthday'] },
+        aggressive: { amount: 250, years: 10, events: ['christmas', 'new_year', 'chinese_new_year', 'birthday'] },
+        maximalist: { amount: 500, years: 15, events: ['christmas', 'new_year', 'chinese_new_year', 'birthday'] }
+      }
+
+      const config = presets[preset]
+      if (!config) return
+
+      // Set years
+      const yearsSelect = document.querySelector('select[name="years"]')
+      if (yearsSelect) yearsSelect.value = config.years
+
+      // Set event amounts - set to preset amount if in the events list, otherwise 0
+      document.querySelectorAll('input[name^="event_amounts"]').forEach(input => {
+        const eventType = input.dataset.eventType
+        if (config.events.includes(eventType)) {
+          input.value = config.amount
+        } else {
+          input.value = 0
+        }
+      })
+    }
+  }
+
+  // Register the controller if Stimulus is available
+  if (typeof Stimulus !== 'undefined') {
+    const application = Stimulus.Application.start()
+    application.register("event-selector", EventSelectorController)
+  } else {
+    // Fallback for non-Stimulus environments
+    document.addEventListener('DOMContentLoaded', () => {
+      const controller = new EventSelectorController()
+      controller.element = document.querySelector('[data-controller="event-selector"]')
+      if (controller.element) {
+        controller.connect()
+      }
+    })
+  }
+</script>

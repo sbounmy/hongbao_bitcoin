@@ -1,0 +1,57 @@
+<template data-event-tooltip-template>
+  <div class="p-4 min-w-[280px] max-w-[320px] bg-neutral text-neutral-content rounded-xl shadow-xl">
+    <div class="font-bold text-sm mb-3 pb-2 border-b border-neutral-content/20" data-tooltip-date></div>
+
+    <div class="mb-3 space-y-1" data-tooltip-points-container></div>
+
+    <div data-tooltip-event-section class="mt-3 pt-3 border-t border-neutral-content/20 space-y-2 text-white">
+      <div data-tooltip-event-container class="flex flex-col gap-2"></div>
+    </div>
+  </div>
+</template>
+
+<template data-event-item-template>
+  <div class="p-2 rounded-lg bg-neutral-content/5" data-event-item>
+    <div class="flex items-center gap-3">
+      <div class="text-3xl flex-shrink-0" data-event-emoji></div>
+      <div class="flex-grow min-w-0">
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-semibold text-sm" data-event-title></div>
+          <div class="flex items-center gap-1">
+            <span class="text-xs opacity-60">Gift:</span>
+            <span class="font-mono text-xs font-bold" data-event-gift-amount></span>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <span class="opacity-60">BTC Price:</span>
+            <span class="font-mono font-semibold" data-event-btc-price></span>
+          </div>
+          <div>
+            <span class="opacity-60">Sats:</span>
+            <span class="font-mono font-semibold" data-event-sats></span>
+          </div>
+        </div>
+        <div class="mt-2 flex items-center justify-between">
+          <div>
+            <span class="text-xs opacity-60">Current Value:</span>
+            <span class="font-mono font-bold text-sm" data-event-current-value></span>
+          </div>
+          <div class="text-right">
+            <span class="badge badge-sm" data-event-change-badge></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-tooltip-point-template>
+  <div class="flex justify-between items-center py-1.5 text-sm">
+    <span class="flex items-center gap-2 opacity-80">
+      <span data-point-bullet class="text-base">●</span>
+      <span data-point-name></span>
+    </span>
+    <strong class="font-mono">$<span data-point-value></span></strong>
+  </div>
+</template>

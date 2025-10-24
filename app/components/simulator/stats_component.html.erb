@@ -1,0 +1,70 @@
+<div class="stats stats-vertical lg:stats-horizontal shadow w-full mb-6">
+  <!-- Total Gifts Given -->
+  <div class="stat">
+    <div class="stat-figure text-primary">
+      <%= heroicon "gift", variant: :solid, class: "w-8 h-8" %>
+    </div>
+    <div class="stat-title">Total Gifts</div>
+    <div class="stat-value text-primary"><%= total_gifts_count %></div>
+    <div class="stat-desc">Bitcoin gifts given</div>
+  </div>
+
+  <!-- Total Amount Gifted -->
+  <div class="stat">
+    <div class="stat-figure text-secondary">
+      <%= heroicon "banknotes", variant: :solid, class: "w-8 h-8" %>
+    </div>
+    <div class="stat-title">Total Gifted</div>
+    <div class="stat-value text-secondary"><%= format_currency(total_gifted_usd) %></div>
+    <div class="stat-desc">USD spent on gifts</div>
+  </div>
+
+  <!-- Bitcoin Accumulated -->
+  <div class="stat">
+    <div class="stat-figure text-warning">
+      <%= heroicon "currency-dollar", variant: :solid, class: "w-8 h-8" %>
+    </div>
+    <div class="stat-title">Bitcoin Accumulated</div>
+    <div class="stat-value text-warning text-2xl"><%= format_bitcoin(total_bitcoin_accumulated) %></div>
+    <div class="stat-desc">Average cost: <%= format_currency(average_cost_basis) %>/BTC</div>
+  </div>
+
+  <!-- Current Portfolio Value -->
+  <div class="stat">
+    <div class="stat-figure <%= gain_loss_class %>">
+      <% if total_gain_loss.positive? %>
+        <%= heroicon "arrow-trending-up", variant: :solid, class: "w-8 h-8" %>
+      <% elsif total_gain_loss.negative? %>
+        <%= heroicon "arrow-trending-down", variant: :solid, class: "w-8 h-8" %>
+      <% else %>
+        <%= heroicon "minus", variant: :solid, class: "w-8 h-8" %>
+      <% end %>
+    </div>
+    <div class="stat-title">Current Value</div>
+    <div class="stat-value <%= gain_loss_class %>">
+      <%= format_currency(current_portfolio_value) %>
+    </div>
+    <div class="stat-desc">
+      <span class="<%= gain_loss_class %>">
+        <%= total_gain_loss.positive? ? "+" : "" %><%= format_currency(total_gain_loss) %>
+      </span>
+      <span class="badge <%= percentage_badge_class %> badge-sm ml-2">
+        <%= percentage_change.positive? ? "+" : "" %><%= percentage_change %>%
+      </span>
+    </div>
+  </div>
+</div>
+
+<% if event_hong_baos.any? %>
+  <div class="alert alert-info mb-6">
+    <%= heroicon "information-circle", variant: :solid, class: "w-6 h-6 flex-shrink-0" %>
+    <div>
+      <h3 class="font-bold">DCA Strategy Impact</h3>
+      <div class="text-xs">
+        By gifting Bitcoin regularly over <%= event_hong_baos.map(&:gifted_at).map(&:year).uniq.size %> years,
+        the recipient has automatically dollar-cost averaged into Bitcoin,
+        reducing volatility risk and building a long-term position.
+      </div>
+    </div>
+  </div>
+<% end %>

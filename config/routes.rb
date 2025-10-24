@@ -47,6 +47,10 @@ Rails.application.routes.draw do
     post :refresh, on: :member
   end
 
+  # Bitcoin Gifting Simulator
+  get "/simulator", to: "simulator#index", as: :bitcoin_gifting_simulator
+  post "/simulator", to: "simulator#calculate", as: :calculate_bitcoin_gifting_simulator
+
   resources :checkout, only: [ :new, :create, :update ] do
     collection do
       get :success

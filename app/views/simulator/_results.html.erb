@@ -1,0 +1,75 @@
+<% if event_hong_baos&.any? %>
+  <!-- Stats Overview -->
+  <%= render Simulator::StatsComponent.new(event_hong_baos: event_hong_baos) %>
+
+  <!-- Chart -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-4 lg:p-6">
+      <%= render Charts::SimulatorChartComponent.new(event_hong_baos: event_hong_baos) %>
+    </div>
+  </div>
+
+  <!-- Event List -->
+  <div class="card bg-base-100 shadow-xl mt-6">
+    <div class="card-body">
+      <h3 class="card-title text-lg mb-4">Gift History</h3>
+      <div class="overflow-x-auto max-h-96">
+        <table class="table table-sm table-pin-rows">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Date</th>
+              <th>Gift Amount</th>
+              <th>BTC Price</th>
+              <th>Sats Received</th>
+              <th>Current Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% event_hong_baos.each do |hong_bao| %>
+              <tr class="hover">
+                <td>
+                  <span class="flex items-center gap-2">
+                    <span class="text-lg"><%= hong_bao.event_emoji %></span>
+                    <span><%= hong_bao.name %></span>
+                  </span>
+                </td>
+                <td><%= hong_bao.gifted_at.strftime("%b %d, %Y") %></td>
+                <td class="font-mono">$<%= number_with_precision(hong_bao.initial_usd, precision: 2) %></td>
+                <td class="font-mono">$<%= number_with_delimiter(hong_bao.spot_buy.usd.round) %></td>
+                <td class="font-mono"><%= number_with_delimiter(hong_bao.initial_sats) %></td>
+                <td>
+                  <% current_value = hong_bao.btc * Spot.current(:usd).usd %>
+                  <% gain_loss = current_value - hong_bao.initial_usd %>
+                  <div class="font-mono">
+                    <div class="font-semibold">
+                      $<%= number_with_precision(current_value, precision: 2) %>
+                    </div>
+                    <div class="text-xs <%= gain_loss.positive? ? 'text-success' : 'text-error' %>">
+                      <%= gain_loss.positive? ? '+' : '' %><%= number_to_percentage((gain_loss / hong_bao.initial_usd) * 100, precision: 1) %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <!-- No results / Error state -->
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex flex-col items-center justify-center py-12 text-center">
+        <%= heroicon "exclamation-triangle", variant: :outline, class: "w-16 h-16 text-warning mb-4" %>
+        <h3 class="text-xl font-semibold text-base-content mb-2">
+          No simulation data available
+        </h3>
+        <p class="text-base-content/70">
+          Please check your input parameters and try again.
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>

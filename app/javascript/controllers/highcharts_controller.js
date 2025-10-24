@@ -1,11 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 import Highcharts from "highcharts"
 import SavedHongBaoTooltipRenderer from "./charts/tooltips/saved_hong_bao_controller"
+import EventHongBaoTooltipRenderer from "./charts/tooltips/event_hong_bao_controller"
 
 export default class extends Controller {
   static values = {
     config: Object,
-    tooltipRenderer: String
+    tooltipRenderer: { type: String, default: "SavedHongBaoTooltipRenderer" },
+    tooltipTemplateSelector: { type: String, default: "[data-tooltip-template]" }
   }
 
   connect() {
@@ -65,16 +67,38 @@ export default class extends Controller {
   }
 
   initTooltipRenderer() {
-    // Get tooltip template
-    const template = this.element.parentElement.querySelector('[data-tooltip-template]')
-    if (!template) {
-      console.error('Tooltip template not found')
+    // Map of available tooltip renderers
+    const renderers = {
+      'SavedHongBaoTooltipRenderer': SavedHongBaoTooltipRenderer,
+      'EventHongBaoTooltipRenderer': EventHongBaoTooltipRenderer
+    }
+
+    // Get the configured renderer class
+    const RendererClass = renderers[this.tooltipRendererValue]
+
+    if (!RendererClass) {
+      console.error(`Tooltip renderer '${this.tooltipRendererValue}' not found`)
       return
     }
 
-    // Initialize renderer (default to SavedHongBaoTooltipRenderer for now)
-    // In the future, this could be configurable via tooltipRendererValue
-    this.tooltipRenderer = new SavedHongBaoTooltipRenderer(template)
+    // Use the configured template selector or default based on renderer type
+    let templateSelector = this.tooltipTemplateSelectorValue
+
+    // If no custom selector provided, use defaults based on renderer
+    if (templateSelector === "[data-tooltip-template]" && this.tooltipRendererValue === 'EventHongBaoTooltipRenderer') {
+      templateSelector = '[data-event-tooltip-template]'
+    }
+
+    const template = this.element.parentElement.querySelector(templateSelector)
+
+    if (!template) {
+      console.error(`Tooltip template not found for selector: ${templateSelector}`)
+      return
+    }
+
+    // Initialize the configured renderer
+    this.tooltipRenderer = new RendererClass(template)
+    console.log(`Initialized ${this.tooltipRendererValue} with template: ${templateSelector}`)
   }
 
   renderTooltip(points, timestamp) {
