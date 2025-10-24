@@ -76,7 +76,7 @@ jobs:
       env:
         GITHUB_RUN_ID: ${{ github.run_id }}
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
