@@ -63,11 +63,21 @@ module Simulator
     end
 
     def format_currency(amount)
-      number_to_currency(amount.abs, unit: "$", separator: ".", delimiter: ",")
+      # Use human format for large numbers (above 10k)
+      if amount.abs >= 10_000
+        "$#{number_to_human(amount.abs, precision: 0, significant: false, units: { thousand: 'k', million: 'M', billion: 'B' })}"
+      else
+        number_to_currency(amount.abs, unit: "$", separator: ".", delimiter: ",", precision: 0)
+      end
+    end
+
+    def format_currency_compact(amount)
+      # Always use human format for compact display
+      "$#{number_to_human(amount.abs, precision: 0, significant: false, units: { thousand: 'k', million: 'M', billion: 'B' })}"
     end
 
     def format_bitcoin(btc)
-      "₿ #{number_with_precision(btc, precision: 8, strip_insignificant_zeros: true)}"
+      "₿#{number_with_precision(btc, precision: 8, strip_insignificant_zeros: true)}"
     end
   end
 end
