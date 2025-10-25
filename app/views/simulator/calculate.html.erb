@@ -1,12 +1,15 @@
 <%= turbo_frame_tag "simulator_results" do %>
-  <% if @event_hong_baos&.any? %>
+  <% if @result.success? && @result.payload[:event_hong_baos]&.any? %>
     <!-- Stats Overview -->
-    <%= render Simulator::StatsComponent.new(event_hong_baos: @event_hong_baos) %>
+    <%= render Simulators::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
 
     <!-- Chart -->
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body p-4 lg:p-6">
-        <%= render Charts::SimulatorChartComponent.new(event_hong_baos: @event_hong_baos) %>
+        <%= render Charts::SimulatorChartComponent.new(
+          event_hong_baos: @result.payload[:event_hong_baos],
+          chart_data: @result.payload[:chart_data]
+        ) %>
       </div>
     </div>
 
@@ -27,7 +30,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @event_hong_baos.each do |hong_bao| %>
+              <% @result.payload[:event_hong_baos].each do |hong_bao| %>
                 <tr>
                   <td>
                     <span class="flex items-center gap-2">
@@ -49,17 +52,32 @@
         </div>
       </div>
     </div>
-  <% else %>
-    <!-- No results / Error state -->
+  <% elsif @result.error? %>
+    <!-- Error state -->
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex flex-col items-center justify-center py-12 text-center">
-          <%= heroicon "exclamation-triangle", variant: :outline, class: "w-16 h-16 text-warning mb-4" %>
+          <%= heroicon "exclamation-triangle", variant: :outline, class: "w-16 h-16 text-error mb-4" %>
           <h3 class="text-xl font-semibold text-base-content mb-2">
-            No simulation data available
+            Error in simulation
           </h3>
           <p class="text-base-content/70">
-            Please check your input parameters and try again.
+            <%= @result.error %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <!-- No results state -->
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <%= heroicon "information-circle", variant: :outline, class: "w-16 h-16 text-info mb-4" %>
+          <h3 class="text-xl font-semibold text-base-content mb-2">
+            No events selected
+          </h3>
+          <p class="text-base-content/70">
+            Please enter at least one gift amount to see your simulation.
           </p>
         </div>
       </div>

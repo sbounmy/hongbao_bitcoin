@@ -4,38 +4,16 @@ module Charts
   class SimulatorChartComponent < ApplicationComponent
     attr_reader :event_hong_baos
 
-    def initialize(event_hong_baos:, height: "450px")
+    def initialize(event_hong_baos:, chart_data: nil, height: "450px")
       @event_hong_baos = event_hong_baos
       @height = height
-      # Generate chart data using our simulator service
-      simulator_service = BitcoinGiftingSimulatorService.new(
-        years: calculate_years_range,
-        average_gift: calculate_average_gift,
-        events: extract_event_types
-      )
-      # We already have the event_hong_baos, just need the chart data
-      @data = simulator_service.send(:generate_chart_data, event_hong_baos)
+      @data = chart_data || {}
     end
 
     private
 
     def height
       @height
-    end
-
-    def calculate_years_range
-      return 1 unless event_hong_baos.any?
-      oldest_year = event_hong_baos.map { |hb| hb.gifted_at.year }.min
-      Date.current.year - oldest_year + 1
-    end
-
-    def calculate_average_gift
-      return 100 unless event_hong_baos.any?
-      (event_hong_baos.sum(&:initial_usd) / event_hong_baos.size.to_f).round(2)
-    end
-
-    def extract_event_types
-      event_hong_baos.map(&:event_type).uniq
     end
 
     def chart_config

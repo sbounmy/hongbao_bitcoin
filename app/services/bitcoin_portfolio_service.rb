@@ -67,7 +67,7 @@ class BitcoinPortfolioService
   end
 
   def build_btc_price_with_markers_series(shared_data)
-    Series::BitcoinPriceWithMarkers.new(
+    Series::BitcoinPriceWithMarkers::SavedHongBao.new(
       saved_hong_baos,
       start_date: start_date,
       end_date: end_date,

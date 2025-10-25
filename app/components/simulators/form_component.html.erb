@@ -9,7 +9,11 @@
 
     <%= form_with url: calculate_bitcoin_gifting_simulator_path,
                   method: :post,
-                  data: { turbo_frame: "simulator_results" },
+                  data: {
+                    turbo_frame: "simulator_results",
+                    controller: "auto-submit",
+                    auto_submit_delay_value: "500"
+                  },
                   class: "space-y-6" do |form| %>
 
       <!-- Structured sentence-like form -->
@@ -20,45 +24,47 @@
           <span class="text-lg font-medium block">If I had gifted Bitcoin on</span>
 
           <div class="grid gap-2" data-controller="event-selector">
-            <% event_options.each_with_index do |event, index| %>
+            <% event_configs.each do |event_key, config| %>
               <div class="flex items-center gap-3 p-2 rounded-lg border border-base-300 hover:border-primary transition-colors"
                    data-event-selector-target="eventRow">
 
                 <!-- Event info - more compact -->
                 <div class="flex-1 flex items-center gap-3">
-                  <span class="text-lg"><%= event[:emoji] %></span>
+                  <span class="text-lg"><%= config[:emoji] %></span>
                   <div class="flex-1">
-                    <% if event[:key] == :birthday %>
+                    <% if event_key == :birthday %>
                       <div class="flex items-center gap-3">
-                        <span class="font-medium text-sm"><%= event[:label] %></span>
+                        <span class="font-medium text-sm"><%= config[:label] %></span>
                         <!-- Birthday date picker inline with label -->
                         <div class="flex items-center gap-1" data-event-selector-target="birthdayFields">
-                          <%= form.select :birthday_month,
-                                          options_for_select(month_options, birthday_month),
+                          <%= form.select "simulator[events_attributes][birthday][month]",
+                                          options_for_select(month_options, event_month(:birthday)),
                                           {},
-                                          class: "select select-bordered select-xs" %>
-                          <%= form.select :birthday_day,
-                                          options_for_select(day_options, birthday_day),
+                                          class: "select select-bordered select-xs",
+                                          data:  { action: 'auto-submit#submit' } %>
+                          <%= form.select "simulator[events_attributes][birthday][day]",
+                                          options_for_select(day_options, event_day(:birthday)),
                                           {},
-                                          class: "select select-bordered select-xs" %>
+                                          class: "select select-bordered select-xs",
+                                          data:  { action: 'auto-submit#submit' } %>
                         </div>
                       </div>
                     <% else %>
-                      <span class="font-medium text-sm"><%= event[:label] %></span>
-                      <div class="text-xs text-base-content/60"><%= event[:description] %></div>
+                      <span class="font-medium text-sm"><%= config[:label] %></span>
+                      <div class="text-xs text-base-content/60"><%= config[:description] %></div>
                     <% end %>
                   </div>
                 </div>
 
                 <!-- Amount input (always visible) -->
                 <div class="join join-sm">
-                  <%= number_field_tag "event_amounts[#{event[:key]}]",
-                                      event[:value],
+                  <%= number_field_tag "simulator[events_attributes][#{event_key}][amount]",
+                                      event_amount(event_key),
                                       min: 0,
                                       step: "any",
                                       class: "input input-bordered input-sm join-item w-20 text-right font-mono",
                                       placeholder: "0",
-                                      data: { event_type: event[:key] } %>
+                                      data: { event_type: event_key, action: 'auto-submit#submit' } %>
                   <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">USD</span>
                 </div>
               </div>
@@ -69,17 +75,12 @@
         <!-- Duration selection -->
         <div class="flex items-center gap-3 flex-wrap">
           <span class="text-lg font-medium">For</span>
-          <%= form.select :years,
-                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, years),
+          <%= form.select "simulator[years]",
+                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, simulator.years),
                           {},
-                          class: "select select-bordered" %>
+                          class: "select select-bordered",
+                          data: { action: 'auto-submit#submit' } %>
         </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="form-control">
-        <%= form.submit "Calculate DCA Impact",
-                        class: "btn btn-primary btn-lg w-full" %>
       </div>
     <% end %>
 

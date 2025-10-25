@@ -29,7 +29,7 @@ module Series
             enabled: true,
             radius: 8,
             symbol: "circle",
-            fillColor: event_color(hb.event_type),
+            fillColor: Simulator.event_color(hb.event_type),
             lineWidth: 2,
             lineColor: "#FFFFFF"
           }
@@ -51,21 +51,6 @@ module Series
       return 0.0 if initial.zero?
 
       ((current_btc_price - initial) / initial * 100).round(2)
-    end
-
-    def event_color(event_type)
-      case event_type
-      when :christmas
-        "#dc2626"       # Red for Christmas
-      when :new_year
-        "#f59e0b"       # Orange for New Year
-      when :chinese_new_year
-        "#ef4444"       # Bright red for Chinese New Year
-      when :birthday
-        "#ec4899"       # Pink for Birthday
-      else
-        "#6b7280"       # Gray for unknown events
-      end
     end
   end
 end
