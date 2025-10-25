@@ -9,9 +9,12 @@ module Simulators
       @birthday_month = params[:birthday_month].to_i if params[:birthday_month].present?
       @birthday_day = params[:birthday_day].to_i if params[:birthday_day].present?
       @currency = params[:currency] || :usd
+      @stats_only = params[:stats_only] || false
 
       event_hong_baos = generate_event_hong_baos
-      chart_data = generate_chart_data(event_hong_baos)
+
+      # Only generate chart data if not in stats_only mode
+      chart_data = @stats_only ? {} : generate_chart_data(event_hong_baos)
 
       success({
         event_hong_baos: event_hong_baos,

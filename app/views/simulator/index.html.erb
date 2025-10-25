@@ -6,38 +6,17 @@
     <% end %>
   </div>
 
+  <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-2">
+    Be Their DCA - Bitcoin Gifting Simulator
+  </h1>
+  <p class="text-xl text-base-content/70 mb-8">
+    Visualize how regular Bitcoin gifts act as Dollar-Cost Averaging for your loved ones
+  </p>
+
   <div class="grid lg:grid-cols-2 gap-8">
     <!-- Left Column: Form -->
     <div>
-      <%= render Simulators::FormComponent.new(simulator: @simulator) %>
-
-      <!-- Information Card -->
-      <div class="card bg-base-200 shadow-xl mt-6">
-        <div class="card-body">
-          <h3 class="card-title text-lg">
-            <%= heroicon "information-circle", variant: :solid, class: "w-6 h-6 text-info" %>
-            How it works
-          </h3>
-          <ul class="space-y-2 text-sm text-base-content/80">
-            <li class="flex gap-2">
-              <span class="text-primary">•</span>
-              <span>Adjust the gift amounts for each occasion</span>
-            </li>
-            <li class="flex gap-2">
-              <span class="text-primary">•</span>
-              <span>Select how many years to simulate</span>
-            </li>
-            <li class="flex gap-2">
-              <span class="text-primary">•</span>
-              <span>Set your birthday (or keep Satoshi's)</span>
-            </li>
-            <li class="flex gap-2">
-              <span class="text-primary">•</span>
-              <span>Results update automatically as you change values</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <%= render Simulators::FormComponent.new(simulator: @simulator, stats_only: false) %>
     </div>
 
     <!-- Right Column: Results -->

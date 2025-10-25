@@ -1,13 +1,7 @@
 <div class="card bg-base-100 shadow-xl">
   <div class="card-body">
-    <h2 class="card-title text-2xl font-bold mb-2">
-      Be Their DCA - Bitcoin Gifting Simulator
-    </h2>
-    <p class="text-base-content/70 mb-8">
-      Visualize how regular Bitcoin gifts act as Dollar-Cost Averaging for your loved ones
-    </p>
 
-    <%= form_with url: calculate_bitcoin_gifting_simulator_path,
+    <%= form_with url: simulator_path,
                   method: :post,
                   data: {
                     turbo_frame: "simulator_results",
@@ -15,6 +9,9 @@
                     auto_submit_delay_value: "500"
                   },
                   class: "space-y-6" do |form| %>
+
+      <!-- Hidden field for stats_only mode -->
+      <%= hidden_field_tag :stats_only, stats_only %>
 
       <!-- Structured sentence-like form -->
       <div class="bg-base-200 p-6 rounded-lg space-y-4">
@@ -78,11 +75,14 @@
           <%= form.select "simulator[years]",
                           options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, simulator.years),
                           {},
-                          class: "select select-bordered",
+                          class: "select select-bordered w-full",
                           data: { action: 'auto-submit#submit' } %>
         </div>
       </div>
     <% end %>
 
+    <% if results? %>
+      <%= results %>
+    <% end %>
   </div>
 </div>

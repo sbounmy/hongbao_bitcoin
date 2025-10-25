@@ -48,8 +48,8 @@ Rails.application.routes.draw do
   end
 
   # Bitcoin Gifting Simulator
-  get "/simulator", to: "simulator#index", as: :bitcoin_gifting_simulator
-  post "/simulator", to: "simulator#calculate", as: :calculate_bitcoin_gifting_simulator
+  get "/simulator", to: "simulator#index"
+  post "/simulator", to: "simulator#calculate"
 
   resources :checkout, only: [ :new, :create, :update ] do
     collection do

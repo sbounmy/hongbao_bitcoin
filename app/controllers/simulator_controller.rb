@@ -10,7 +10,8 @@ class SimulatorController < ApplicationController
 
   def calculate
     @simulator = Simulator.new(simulator_params)
-    @result = Simulators::Create.call(@simulator.to_service_params)
+    stats_only = params[:stats_only] == "true"
+    @result = Simulators::Create.call(@simulator.to_service_params.merge(stats_only: stats_only))
   end
 
   private

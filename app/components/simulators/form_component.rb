@@ -2,13 +2,16 @@
 
 module Simulators
   class FormComponent < ApplicationComponent
-    def initialize(simulator:)
+    renders_one :results
+
+    def initialize(simulator:, stats_only: false)
       @simulator = simulator
+      @stats_only = stats_only
     end
 
     private
 
-    attr_reader :simulator
+    attr_reader :simulator, :stats_only
 
     def event_configs
       Simulator::EVENTS
