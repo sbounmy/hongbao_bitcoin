@@ -22,7 +22,7 @@ class SpotsImportJob < ApplicationJob
         Spot.find_or_initialize_by(date: Time.at(price["time"]).to_date).tap do |spot|
           spot.prices[currency] = price["close"]
           spot.save!
-        end
+        end if !price["close"].zero?
       end
       # stops if not seed or if zero data from coindesk
       break if !seed || prices["Data"]["Data"].any? { |price| price["close"].zero? }
