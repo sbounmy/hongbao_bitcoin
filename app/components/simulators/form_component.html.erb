@@ -58,7 +58,7 @@
                   <%= number_field_tag "simulator[events_attributes][#{event_key}][amount]",
                                       event_amount(event_key),
                                       min: 0,
-                                      step: "any",
+                                      step: "10",
                                       class: "input input-bordered input-sm join-item w-20 text-right font-mono",
                                       placeholder: "0",
                                       data: { event_type: event_key, action: 'auto-submit#submit' } %>
