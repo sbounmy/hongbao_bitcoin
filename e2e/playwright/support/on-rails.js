@@ -181,4 +181,17 @@ const fillCheckout = async (page) => {
   }
 };
 
-export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout }
+// Timecop helper for freezing/unfreezing time in tests
+const timecop = async (dateOrAction) => {
+  if (dateOrAction === 'return' || dateOrAction === 'unfreeze') {
+    return app('timecop', { action: 'return' });
+  } else {
+    return app('timecop', { action: 'freeze', date: dateOrAction });
+  }
+};
+
+timecop.freeze = async (date) => app('timecop', { action: 'freeze', date });
+timecop.return = async () => app('timecop', { action: 'return' });
+timecop.travel = async (date) => app('timecop', { action: 'travel', date });
+
+export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout, timecop }

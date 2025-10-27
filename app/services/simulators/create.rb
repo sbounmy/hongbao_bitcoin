@@ -45,7 +45,7 @@ module Simulators
 
           # Find historical Bitcoin price for this date
           spot = Spot.where(date: date).first || find_nearest_spot(date)
-          next unless spot && spot.prices[@currency.to_s]
+          next unless spot && !spot.prices[@currency.to_s].nil?
 
           # Use custom amount for this event
           gift_amount = @event_amounts[event_key]
