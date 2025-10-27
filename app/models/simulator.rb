@@ -29,7 +29,7 @@ class Simulator
       label: "New Year",
       emoji: "🎊",
       description: "January 1st",
-      default_amount: 88,
+      default_amount: 50,
       color: "#f59e0b",
       calculate_date: ->(year, _opts) { Date.new(year, 1, 1) }
     },
@@ -38,7 +38,7 @@ class Simulator
       label: "Chinese New Year",
       emoji: "🧧",
       description: "Varies by year (lunar calendar)",
-      default_amount: 150,
+      default_amount: 0,
       color: "#ef4444",
       calculate_date: ->(year, _opts) { ChineseNewYearService.for_year(year) }
     },

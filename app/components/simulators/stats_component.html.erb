@@ -32,11 +32,12 @@
   </div>
 
   <!-- Compact Bitcoin amount below -->
-  <div class="flex items-center justify-center gap-3 px-4 py-3 bg-base-200 rounded-lg">
-    <span class="text-sm font-medium text-base-content/70">Total Bitcoin accumulated:</span>
-    <span class="font-mono font-bold text-orange-500 text-lg">
+  <div class="flex items-center justify-center gap-2 px-4 py-3 bg-base-200 rounded-lg">
+    <span class="text-sm font-medium text-base-content/70">Total:</span>
+    <span class="font-bold text-orange-500 text-lg">
       <%= format_bitcoin(total_bitcoin_accumulated) %>
     </span>
+    <span class="text-sm text-base-content/50">since <%= earliest_year %></span>
   </div>
 </div>
 

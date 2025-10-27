@@ -34,7 +34,7 @@ module Simulators
 
     def percentage_change
       return 0 if total_gifted_usd.zero?
-      ((total_gain_loss / total_gifted_usd) * 100).round(2)
+      ((total_gain_loss / total_gifted_usd) * 100).round
     end
 
     def average_cost_basis
@@ -78,6 +78,11 @@ module Simulators
 
     def format_bitcoin(btc)
       "₿#{number_with_precision(btc, precision: 8, strip_insignificant_zeros: true)}"
+    end
+
+    def earliest_year
+      return Date.current.year if event_hong_baos.empty?
+      event_hong_baos.map(&:gifted_at).min.year
     end
   end
 end

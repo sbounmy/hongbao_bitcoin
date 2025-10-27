@@ -1,5 +1,5 @@
-<div class="card bg-base-100 shadow-xl">
-  <div class="card-body">
+<div class="card bg-white text-black shadow-xl">
+  <div class="card-body space-y-2">
 
     <%= form_with url: simulator_path,
                   method: :post,
@@ -14,7 +14,7 @@
       <%= hidden_field_tag :stats_only, stats_only %>
 
       <!-- Structured sentence-like form -->
-      <div class="bg-base-200 p-6 rounded-lg space-y-4">
+      <div class="bg-white rounded-lg space-y-4">
 
         <!-- Event amounts -->
         <div class="space-y-3">
@@ -55,6 +55,7 @@
 
                 <!-- Amount input (always visible) -->
                 <div class="join join-sm">
+                  <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">$</span>
                   <%= number_field_tag "simulator[events_attributes][#{event_key}][amount]",
                                       event_amount(event_key),
                                       min: 0,
@@ -62,7 +63,6 @@
                                       class: "input input-bordered input-sm join-item w-20 text-right font-mono",
                                       placeholder: "0",
                                       data: { event_type: event_key, action: 'auto-submit#submit' } %>
-                  <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">USD</span>
                 </div>
               </div>
             <% end %>

@@ -266,42 +266,55 @@
 <%= render "shared/testimonials_marquee" %>
 
 <!-- Bitcoin Gifting Simulator Section -->
-<section class="py-16 md:py-24 bg-gradient-to-br from-blue-50 via-white to-blue-50">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="grid lg:grid-cols-2 gap-12 items-start">
-      <!-- Left Column: Title, Description, Buttons -->
-      <div>
-        <p class="text-sm font-medium uppercase tracking-wider text-primary mb-3">DCA SIMULATOR</p>
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-base-content mb-4">
-          Bitcoin is the best performing asset
-          of the last decade
-        </h2>
-        <p class="text-xl text-base-content/70 mb-8">
-          Bitcoin is a new kind of currency, a radically new way to transact
-          and store value all around the world.
-          <%= link_to "Learn more", simulator_path, class: "underline font-medium" %>
-        </p>
+<section class="py-16 md:py-24 bg-base-200">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Main card container with gradient background and chart -->
+    <div class="card bg-gradient-to-br from-red-500 via-orange-500 to-amber-500 text-white shadow-2xl relative overflow-hidden">
+      <!-- Chart line background pattern -->
+      <svg class="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none" viewBox="0 0 400 200">
+        <path d="M0 180 Q 50 160 100 140 T 200 100 T 300 50 T 400 20"
+              stroke="white"
+              stroke-width="3"
+              fill="none"/>
+        <path d="M0 180 Q 50 160 100 140 T 200 100 T 300 50 T 400 20 L 400 200 L 0 200 Z"
+              fill="white"
+              opacity="0.1"/>
+      </svg>
 
-        <%= link_to simulator_path, class: "btn btn-outline btn-lg rounded-full" do %>
-          View full simulator
-          <%= heroicon "arrow-right", variant: :outline, class: "inline-block h-5 w-5 ml-2" %>
-        <% end %>
-      </div>
+      <div class="card-body p-8 lg:p-12 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+          <!-- Left Column: Title, Description, Buttons -->
+          <div>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
+              Bitcoin is the best performing asset
+              of the last decade
+            </h2>
+            <p class="text-xl text-white/80 mb-8">
+              Bitcoin is a new kind of currency, a radically new way to transact
+              and store value all around the world.
+              <%= link_to "Learn more", simulator_path, class: "underline font-medium text-white hover:text-white/90" %>
+            </p>
 
-      <!-- Right Column: Form + Stats Below -->
-      <div>
-        <%= render Simulators::FormComponent.new(simulator: @simulator, stats_only: true) do |component| %>
-          <% component.with_results do %>
-            <!-- Stats Results (rendered within form card) -->
-            <%= turbo_frame_tag "simulator_results" do %>
-              <% if @simulator_result&.success? && @simulator_result.payload[:event_hong_baos]&.any? %>
-                <div class="mt-6">
-                  <%= render Simulators::StatsComponent.new(event_hong_baos: @simulator_result.payload[:event_hong_baos]) %>
-                </div>
+            <%= link_to simulator_path, class: "btn btn-outline btn-lg rounded-full border-white text-white hover:bg-white hover:text-red-700" do %>
+              View full simulator
+              <%= heroicon "arrow-right", variant: :outline, class: "inline-block h-5 w-5 ml-2" %>
+            <% end %>
+          </div>
+
+          <!-- Right Column: Form + Stats Below -->
+          <div>
+            <%= render Simulators::FormComponent.new(simulator: @simulator, stats_only: true) do |component| %>
+              <% component.with_results do %>
+                <!-- Stats Results (rendered within form card) -->
+                <%= turbo_frame_tag "simulator_results" do %>
+                  <% if @simulator_result&.success? && @simulator_result.payload[:event_hong_baos]&.any? %>
+                    <%= render Simulators::StatsComponent.new(event_hong_baos: @simulator_result.payload[:event_hong_baos]) %>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
-        <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
