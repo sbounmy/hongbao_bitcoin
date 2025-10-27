@@ -77,9 +77,10 @@ module Simulators
 
     def find_nearest_spot(target_date)
       # Try to find spot within 7 days before or after
+      quoted_date = Spot.connection.quote(target_date.to_s)
       spots = Spot.where(date: (target_date - 7.days)..(target_date + 7.days))
                   .currency_exists(@currency)
-                  .order(Arel.sql("ABS(julianday(date) - julianday('#{target_date}'))"))
+                  .order(Arel.sql("ABS(julianday(date) - julianday(#{quoted_date}))"))
 
       spots.first
     end
