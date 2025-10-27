@@ -27,27 +27,26 @@
 
                 <!-- Event info - more compact -->
                 <div class="flex-1 flex items-center gap-3">
-                  <span class="text-lg"><%= config[:emoji] %></span>
+                  <span class="text-3xl"><%= config[:emoji] %></span>
                   <div class="flex-1">
+                    <span class="font-medium text-sm"><%= config[:label] %></span>
                     <% if event_key == :birthday %>
-                      <div class="flex items-center gap-3">
-                        <span class="font-medium text-sm"><%= config[:label] %></span>
-                        <!-- Birthday date picker inline with label -->
-                        <div class="flex items-center gap-1" data-event-selector-target="birthdayFields">
-                          <%= form.select "simulator[events_attributes][birthday][month]",
-                                          options_for_select(month_options, event_month(:birthday)),
-                                          {},
-                                          class: "select select-bordered select-xs",
-                                          data:  { action: 'auto-submit#submit' } %>
-                          <%= form.select "simulator[events_attributes][birthday][day]",
-                                          options_for_select(day_options, event_day(:birthday)),
-                                          {},
-                                          class: "select select-bordered select-xs",
-                                          data:  { action: 'auto-submit#submit' } %>
-                        </div>
+                      <!-- Birthday date pickers on second line, styled as text -->
+                      <div class="flex items-center gap-2 text-xs text-base-content/60" data-event-selector-target="birthdayFields">
+                        <%= form.select "simulator[events_attributes][birthday][month]",
+                                        options_for_select(month_options, event_month(:birthday)),
+                                        {},
+                                        class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
+                                        style: "background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L2 5h8z'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right center;",
+                                        data: { action: 'auto-submit#submit' } %>
+                        <%= form.select "simulator[events_attributes][birthday][day]",
+                                        options_for_select(day_options, event_day(:birthday)),
+                                        {},
+                                        class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
+                                        style: "background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L2 5h8z'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right center;",
+                                        data: { action: 'auto-submit#submit' } %>
                       </div>
                     <% else %>
-                      <span class="font-medium text-sm"><%= config[:label] %></span>
                       <div class="text-xs text-base-content/60"><%= config[:description] %></div>
                     <% end %>
                   </div>

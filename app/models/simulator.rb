@@ -24,6 +24,18 @@ class Simulator
       color: "#dc2626",
       calculate_date: ->(year, _opts) { Date.new(year, 12, 25) }
     },
+    birthday: {
+      key: :birthday,
+      label: "Birthday",
+      emoji: "🎂",
+      description: "Satoshi's Birthday (April 5th)",
+      default_amount: 100,
+      color: "#ec4899",
+      calculate_date: ->(year, opts) {
+        return nil unless opts[:birthday_month] && opts[:birthday_day]
+        Date.new(year, opts[:birthday_month], opts[:birthday_day])
+      }
+    },
     new_year: {
       key: :new_year,
       label: "New Year",
@@ -41,18 +53,6 @@ class Simulator
       default_amount: 0,
       color: "#ef4444",
       calculate_date: ->(year, _opts) { ChineseNewYearService.for_year(year) }
-    },
-    birthday: {
-      key: :birthday,
-      label: "Birthday",
-      emoji: "🎂",
-      description: "Satoshi's Birthday (April 5th)",
-      default_amount: 100,
-      color: "#ec4899",
-      calculate_date: ->(year, opts) {
-        return nil unless opts[:birthday_month] && opts[:birthday_day]
-        Date.new(year, opts[:birthday_month], opts[:birthday_day])
-      }
     }
   }.freeze
 
