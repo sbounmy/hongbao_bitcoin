@@ -13,6 +13,8 @@ class Simulator
     day: 5
   }.freeze
 
+  DEFAULT_EVENT_COLOR = "#6b7280"
+
   # Merged event configuration with all details
   EVENTS = {
     christmas: {
@@ -150,7 +152,7 @@ class Simulator
   end
 
   def self.event_color(event_key)
-    EVENTS[event_key.to_sym]&.fetch(:color, "#6b7280")
+    EVENTS[event_key.to_sym]&.fetch(:color, DEFAULT_EVENT_COLOR) || DEFAULT_EVENT_COLOR
   end
 
   # Get default parameters for simulator service (legacy compatibility)

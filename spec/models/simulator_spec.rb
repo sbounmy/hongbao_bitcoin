@@ -12,10 +12,10 @@ RSpec.describe Simulator, type: :model do
     it "initializes with default events attributes" do
       simulator = described_class.new
       expect(simulator.events_attributes).to be_present
-      expect(simulator.events_attributes["christmas"]["amount"]).to eq(50)
-      expect(simulator.events_attributes["new_year"]["amount"]).to eq(50)
-      expect(simulator.events_attributes["birthday"]["amount"]).to eq(100)
-      expect(simulator.events_attributes["chinese_new_year"]["amount"]).to eq(0)
+      expect(simulator.events_attributes["christmas"][:amount]).to eq(50)
+      expect(simulator.events_attributes["new_year"][:amount]).to eq(50)
+      expect(simulator.events_attributes["birthday"][:amount]).to eq(100)
+      expect(simulator.events_attributes["chinese_new_year"][:amount]).to eq(0)
     end
 
     it "accepts custom years" do
