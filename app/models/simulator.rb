@@ -33,7 +33,18 @@ class Simulator
       color: "#ec4899",
       calculate_date: ->(year, opts) {
         return nil unless opts[:birthday_month] && opts[:birthday_day]
-        Date.new(year, opts[:birthday_month], opts[:birthday_day])
+
+        month = opts[:birthday_month].to_i
+        day = opts[:birthday_day].to_i
+
+        # Handle invalid dates by capping to the last day of the month
+        begin
+          Date.new(year, month, day)
+        rescue ArgumentError
+          # If the day is invalid for the month, use the last day of that month
+          last_day = Date.new(year, month, -1).day
+          Date.new(year, month, [ day, last_day ].min)
+        end
       }
     },
     new_year: {
@@ -49,7 +60,7 @@ class Simulator
       key: :chinese_new_year,
       label: "Chinese New Year",
       emoji: "🧧",
-      description: "Varies by year (lunar calendar)",
+      description: "Varies (lunar calendar)",
       default_amount: 0,
       color: "#ef4444",
       calculate_date: ->(year, _opts) { ChineseNewYearService.for_year(year) }
