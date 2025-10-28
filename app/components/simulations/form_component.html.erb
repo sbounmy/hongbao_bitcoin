@@ -72,7 +72,7 @@
         <div class="flex items-center gap-3 flex-wrap">
           <span class="text-lg font-medium">For</span>
           <%= form.select "simulation[years]",
-                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, simulation.years),
+                          options_for_select(year_options, simulation.years),
                           {},
                           class: "select select-bordered w-full",
                           data: { action: 'auto-submit#submit' } %>

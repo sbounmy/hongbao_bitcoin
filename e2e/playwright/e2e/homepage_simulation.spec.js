@@ -3,25 +3,19 @@ import { appVcrInsertCassette, appVcrEjectCassette, app, timecop } from '../supp
 
 test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
-  test.beforeEach(async ({ page }) => {
-    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
-
-    // Freeze time before importing spots to ensure consistent date calculations
-    await timecop.freeze('2025-10-27');
-    await app('import_spots');
-    await page.goto('/');
-
-    // Wait for simulation section to be visible
-    await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
-    page.waitForTimeout(30_000)
-  });
-
   test.afterEach(async () => {
     await timecop.return()
     await appVcrEjectCassette();
   });
 
   test('displays the simulation form with default values', async ({ page }) => {
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots', { limit: 365 });
+    await page.goto('/');
+
+    await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
+
     // Check simulation form is visible
     await expect(page.getByText('If I had gifted Bitcoin on')).toBeVisible();
 
@@ -31,7 +25,7 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
     // Check years selector (using label to be specific since there are birthday month/day selectors)
     const yearsSelect = page.locator('select[name="simulation[years]"]');
-    await expect(yearsSelect).toContainText('5 years');
+    await expect(yearsSelect).toContainText('1 year');
 
     const viewFullButton = page.getByRole('link', { name: 'View full simulator' });
     await viewFullButton.click();
@@ -44,8 +38,10 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('displays default stats results', async ({ page }) => {
-    // Wait for stats to load
-    await page.waitForTimeout(1000); // Wait for auto-submit
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots');
+    await page.goto('/');
 
     // Check stats cards are visible
     await expect(page.getByText('I would have gifted')).toBeVisible();
@@ -57,8 +53,10 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('updates stats when changing event amounts', async ({ page }) => {
-    // Wait for initial load
-    await page.waitForTimeout(1000);
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots');
+    await page.goto('/');
 
     // Get initial "I would have gifted" value
     const statsCard = page.getByText('I would have gifted').locator('..');
@@ -78,8 +76,10 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('updates stats when changing birthday date', async ({ page }) => {
-    // Wait for initial load
-    await page.waitForTimeout(1000);
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots');
+    await page.goto('/');
 
     // Find birthday row
     const birthdayRow = page.locator('text=Birthday').locator('..');
@@ -99,8 +99,10 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('handles invalid birthday dates gracefully (April 31st)', async ({ page }) => {
-    // Wait for initial load
-    await page.waitForTimeout(1000);
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots');
+    await page.goto('/');
 
     // Find birthday row
     const birthdayRow = page.locator('text=Birthday').locator('..');
@@ -122,16 +124,18 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('updates stats when changing years duration', async ({ page }) => {
-    // Wait for initial load
-    await page.waitForTimeout(1000);
-    await page.clock.setFixedTime(new Date('2025-10-27T10:30:00'));
+    await appVcrInsertCassette('homepage_simulation_2_years', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots', { limit: 365*2 }); // 2 years
+    await page.goto('/');
+
     // Get initial Bitcoin amount
     const bitcoinText = await page.getByText(/Total:.*/).locator('..').textContent();
     const initialBtc = bitcoinText.match(/₿[\d.]+/)?.[0];
 
-    // Change from 5 years to 10 years
+    // Change from 1 year to 2 years
     const yearsSelect = page.locator('select[name="simulation[years]"]');
-    await yearsSelect.selectOption('10');
+    await yearsSelect.selectOption('2');
 
     // Wait for auto-submit and stats update
     await page.waitForTimeout(1000);
@@ -144,8 +148,10 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
   });
 
   test('can set all events to zero and see appropriate message', async ({ page }) => {
-    // Wait for initial load
-    await page.waitForTimeout(1000);
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
+    await timecop.freeze('2025-10-27');
+    await app('import_spots', { limit: 365 }); // 1 year
+    await page.goto('/');
 
     // Get all amount inputs and set them to 0
     const amountInputs = await page.getByRole('spinbutton', { name: '' }).all();

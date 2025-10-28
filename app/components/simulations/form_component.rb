@@ -25,6 +25,21 @@ module Simulations
       (1..31).map { |day| [ day.to_s.rjust(2, "0"), day ] }
     end
 
+    def year_options
+      # Calculate max years based on oldest spot data
+      oldest_spot_date = Spot.minimum(:date)
+      max_years = if oldest_spot_date
+        (Date.current - oldest_spot_date).to_i / 365
+      else
+        5 # Fallback to 5 years if no spot data
+      end
+
+      # Ensure at least 1 year and cap at reasonable maximum
+      max_years = [ max_years, 1 ].max
+
+      (1..max_years).map { |y| [ y == 1 ? "#{y} year" : "#{y} years", y ] }
+    end
+
     def event_amount(event_key)
       simulation.events_attributes.dig(event_key.to_s, :amount) ||
         Simulation::EVENTS[event_key][:default_amount]

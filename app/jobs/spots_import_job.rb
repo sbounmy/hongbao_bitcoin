@@ -8,15 +8,17 @@ class SpotsImportJob < ApplicationJob
 
   COINDESK_BASE_URI = "https://min-api.cryptocompare.com/data/v2/histoday"
 
-  attr_reader :currency, :seed
+  attr_reader :currency, :seed, :limit
 
   def symbol
     "BTC-#{currency.upcase}"
   end
 
-  def perform(currency = "usd", seed: false)
+  def perform(currency = "usd", seed: false, limit: 10)
     @currency = currency.to_sym
     @seed = seed
+    @limit = seed ? 2000 : limit
+
     while prices = fetch_price_from_coindesk
       prices["Data"]["Data"].each do |price|
         Spot.find_or_initialize_by(date: Time.at(price["time"]).to_date).tap do |spot|
@@ -39,10 +41,6 @@ class SpotsImportJob < ApplicationJob
 
   def latest_spot
     Spot.currency_exists(currency).order(date: :asc).first
-  end
-
-  def limit
-    seed ? 2000 : 10
   end
 
   private
