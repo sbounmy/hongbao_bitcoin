@@ -1,6 +1,6 @@
 <% if event_hong_baos&.any? %>
   <!-- Stats Overview -->
-  <%= render Simulator::StatsComponent.new(event_hong_baos: event_hong_baos) %>
+  <%= render Simulations::StatsComponent.new(event_hong_baos: event_hong_baos) %>
 
   <!-- Chart -->
   <div class="card bg-base-100 shadow-xl">

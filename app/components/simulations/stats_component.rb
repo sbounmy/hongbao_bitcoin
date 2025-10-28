@@ -80,9 +80,29 @@ module Simulations
       "₿#{number_with_precision(btc, precision: 8, strip_insignificant_zeros: true)}"
     end
 
+    def format_percentage_compact(percentage)
+      # Format large percentages in a more readable way
+      abs_pct = percentage.abs
+      if abs_pct >= 1000
+        # Use k/M suffix for large percentages
+        formatted = number_to_human(abs_pct, precision: 0, significant: false, units: { thousand: 'k', million: 'M', billion: 'B' })
+        "#{percentage.positive? ? '+' : '-'}#{formatted}%"
+      else
+        "#{percentage.positive? ? '+' : ''}#{percentage}%"
+      end
+    end
+
     def earliest_year
       return Date.current.year if event_hong_baos.empty?
       event_hong_baos.map(&:gifted_at).min.year
+    end
+
+    def gift_equivalent_for_gifted
+      Simulation.gift_equivalent_for(total_gifted_usd)
+    end
+
+    def gift_equivalent_for_current
+      Simulation.gift_equivalent_for(current_portfolio_value)
     end
   end
 end
