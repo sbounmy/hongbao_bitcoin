@@ -16,7 +16,7 @@
 
       <div class="card-body flex flex-col justify-between relative z-10 min-h-[280px]">
         <div>
-          <h3 class="text-base font-medium opacity-90">I would have gifted</h3>
+          <h3 class="text-base font-bold opacity-90">I would have gifted</h3>
           <% if gift_equivalent_for_gifted %>
             <div class="inline-flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full mt-2">
               <span class="text-base"><%= gift_equivalent_for_gifted[:emoji] %></span>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="mt-auto pt-4">
-          <span class="text-4xl font-bold"><%= format_currency(total_gifted_usd) %></span>
+          <span class="text-5xl font-bold"><%= format_currency(total_gifted_usd) %></span>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
       <div class="card-body flex flex-col justify-between relative z-10 min-h-[280px]">
         <div>
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-medium opacity-90">Worth today</h3>
+            <h3 class="text-base font-bold opacity-90">Worth today</h3>
             <span class="badge badge-outline badge-lg text-white font-bold px-3 py-2">
               <%= format_percentage_compact(percentage_change) %>
             </span>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="mt-auto pt-4">
-          <span class="text-4xl font-bold"><%= format_currency(current_portfolio_value) %></span>
+          <span class="text-5xl font-bold"><%= format_currency(current_portfolio_value) %></span>
         </div>
       </div>
     </div>
