@@ -58,6 +58,8 @@ class TweetComponent < ApplicationComponent
   end
 
   def formatted_tweet_text
+    return "" if tweet_text.nil?
+
     text = tweet_text.dup
 
     # First, convert @mentions and #hashtags to placeholder tokens
