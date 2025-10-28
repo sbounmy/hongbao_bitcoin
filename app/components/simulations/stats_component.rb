@@ -85,7 +85,7 @@ module Simulations
       abs_pct = percentage.abs
       if abs_pct >= 1000
         # Use k/M suffix for large percentages
-        formatted = number_to_human(abs_pct, precision: 0, significant: false, units: { thousand: 'k', million: 'M', billion: 'B' })
+        formatted = number_to_human(abs_pct, precision: 0, significant: false, units: { thousand: "k", million: "M", billion: "B" })
         "#{percentage.positive? ? '+' : '-'}#{formatted}%"
       else
         "#{percentage.positive? ? '+' : ''}#{percentage}%"
