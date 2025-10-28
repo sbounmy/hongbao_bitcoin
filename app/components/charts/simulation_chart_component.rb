@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Charts
-  class SimulatorChartComponent < ApplicationComponent
+  class SimulationChartComponent < ApplicationComponent
     attr_reader :event_hong_baos
 
     def initialize(event_hong_baos:, chart_data: nil, height: "450px")

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Simulator
+class Simulation
   include ActiveModel::Model
   include ActiveModel::Attributes
 
@@ -83,7 +83,7 @@ class Simulator
     keyword_init: true
   ) do
     def user
-      OpenStruct.new(id: 0, email: "simulator@hongbao.tc")
+      OpenStruct.new(id: 0, email: "simulation@hongbao.tc")
     end
 
     def btc
@@ -155,7 +155,7 @@ class Simulator
     EVENTS[event_key.to_sym]&.fetch(:color, DEFAULT_EVENT_COLOR) || DEFAULT_EVENT_COLOR
   end
 
-  # Get default parameters for simulator service (legacy compatibility)
+  # Get default parameters for simulation service (legacy compatibility)
   def self.default_params
     new.to_service_params
   end

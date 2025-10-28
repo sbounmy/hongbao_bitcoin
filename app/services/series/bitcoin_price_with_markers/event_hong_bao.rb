@@ -12,7 +12,7 @@ module Series
           marker: {
             enabled: true,
             radius: 8,
-            fillColor: Simulator.event_color(hong_baos.first.event_type),
+            fillColor: Simulation.event_color(hong_baos.first.event_type),
             symbol: "circle",
             lineWidth: 2,
             lineColor: "#FFFFFF"

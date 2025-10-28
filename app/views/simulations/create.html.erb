@@ -3,16 +3,16 @@
 %>
 <% stats_only = params[:stats_only] == "true" %>
 
-<%= turbo_frame_tag "simulator_results" do %>
+<%= turbo_frame_tag "simulation_results" do %>
   <% if @result.success? && @result.payload[:event_hong_baos]&.any? %>
     <!-- Stats Overview -->
-    <%= render Simulators::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
+    <%= render Simulations::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
 
     <% unless stats_only %>
       <!-- Chart -->
       <div class="card bg-base-100 shadow-xl">
         <div class="card-body p-4 lg:p-6">
-          <%= render Charts::SimulatorChartComponent.new(
+          <%= render Charts::SimulationChartComponent.new(
             event_hong_baos: @result.payload[:event_hong_baos],
             chart_data: @result.payload[:chart_data]
           ) %>

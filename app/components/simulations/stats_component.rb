@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Simulators
+module Simulations
   class StatsComponent < ApplicationComponent
     def initialize(event_hong_baos:)
       @event_hong_baos = event_hong_baos

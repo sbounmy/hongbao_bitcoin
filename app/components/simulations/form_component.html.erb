@@ -1,10 +1,10 @@
 <div class="card bg-white text-black shadow-xl">
   <div class="card-body space-y-2">
 
-    <%= form_with url: simulator_path,
+    <%= form_with url: simulations_path,
                   method: :post,
                   data: {
-                    turbo_frame: "simulator_results",
+                    turbo_frame: "simulation_results",
                     controller: "auto-submit",
                     auto_submit_delay_value: "500"
                   },
@@ -33,13 +33,13 @@
                     <% if event_key == :birthday %>
                       <!-- Birthday date pickers on second line, styled as text -->
                       <div class="flex items-center gap-2 text-xs text-base-content/60" data-event-selector-target="birthdayFields">
-                        <%= form.select "simulator[events_attributes][birthday][month]",
+                        <%= form.select "simulation[events_attributes][birthday][month]",
                                         options_for_select(month_options, event_month(:birthday)),
                                         {},
                                         class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
                                         style: "background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L2 5h8z'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right center;",
                                         data: { action: 'auto-submit#submit' } %>
-                        <%= form.select "simulator[events_attributes][birthday][day]",
+                        <%= form.select "simulation[events_attributes][birthday][day]",
                                         options_for_select(day_options, event_day(:birthday)),
                                         {},
                                         class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
@@ -55,7 +55,7 @@
                 <!-- Amount input (always visible) -->
                 <div class="join join-sm">
                   <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">$</span>
-                  <%= number_field_tag "simulator[events_attributes][#{event_key}][amount]",
+                  <%= number_field_tag "simulation[events_attributes][#{event_key}][amount]",
                                       event_amount(event_key),
                                       min: 0,
                                       step: "10",
@@ -71,8 +71,8 @@
         <!-- Duration selection -->
         <div class="flex items-center gap-3 flex-wrap">
           <span class="text-lg font-medium">For</span>
-          <%= form.select "simulator[years]",
-                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, simulator.years),
+          <%= form.select "simulation[years]",
+                          options_for_select((1..20).map { |y| [y == 1 ? "#{y} year" : "#{y} years", y] }, simulation.years),
                           {},
                           class: "select select-bordered w-full",
                           data: { action: 'auto-submit#submit' } %>

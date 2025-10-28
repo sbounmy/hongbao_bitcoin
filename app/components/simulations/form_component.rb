@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-module Simulators
+module Simulations
   class FormComponent < ApplicationComponent
     renders_one :results
 
-    def initialize(simulator:, stats_only: false)
-      @simulator = simulator
+    def initialize(simulation:, stats_only: false)
+      @simulation = simulation
       @stats_only = stats_only
     end
 
     private
 
-    attr_reader :simulator, :stats_only
+    attr_reader :simulation, :stats_only
 
     def event_configs
-      Simulator::EVENTS
+      Simulation::EVENTS
     end
 
     def month_options
@@ -26,20 +26,20 @@ module Simulators
     end
 
     def event_amount(event_key)
-      simulator.events_attributes.dig(event_key.to_s, :amount) ||
-        Simulator::EVENTS[event_key][:default_amount]
+      simulation.events_attributes.dig(event_key.to_s, :amount) ||
+        Simulation::EVENTS[event_key][:default_amount]
     end
 
     def event_month(event_key)
       return nil unless event_key == :birthday
-      simulator.events_attributes.dig("birthday", :month) ||
-        Simulator::DEFAULT_BIRTHDAY[:month]
+      simulation.events_attributes.dig("birthday", :month) ||
+        Simulation::DEFAULT_BIRTHDAY[:month]
     end
 
     def event_day(event_key)
       return nil unless event_key == :birthday
-      simulator.events_attributes.dig("birthday", :day) ||
-        Simulator::DEFAULT_BIRTHDAY[:day]
+      simulation.events_attributes.dig("birthday", :day) ||
+        Simulation::DEFAULT_BIRTHDAY[:day]
     end
   end
 end

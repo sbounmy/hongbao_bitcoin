@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Simulators
+module Simulations
   class Create < ApplicationService
     def call(params)
       @years = params[:years] || 5
@@ -31,10 +31,10 @@ module Simulators
 
       (start_year..end_year).each do |year|
         @events.each do |event_key|
-          event_config = Simulator.event_config(event_key)
+          event_config = Simulation.event_config(event_key)
           next unless event_config
 
-          date = Simulator.calculate_event_date(
+          date = Simulation.calculate_event_date(
             event_key,
             year,
             birthday_month: @birthday_month,
@@ -57,7 +57,7 @@ module Simulators
           # For current value, use today's price (but we assume HODLing)
           current_value_sats = sats_amount # Assume HODLing (no withdrawals)
 
-          hong_baos << Simulator::EventHongBao.new(
+          hong_baos << Simulation::EventHongBao.new(
             gifted_at: date.to_time,
             initial_sats: sats_amount,
             current_sats: current_value_sats,

@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
-class SimulatorController < ApplicationController
+class SimulationsController < ApplicationController
   allow_unauthenticated_access
 
-  def index
-    @simulator = Simulator.new
-    @result = Simulators::Create.call(@simulator.to_service_params)
+  def new
+    @simulation = Simulation.new
+    @result = Simulations::Create.call(@simulation.to_service_params)
   end
 
-  def calculate
-    @simulator = Simulator.new(simulator_params)
+  def create
+    @simulation = Simulation.new(simulation_params)
     stats_only = params[:stats_only] == "true"
-    @result = Simulators::Create.call(@simulator.to_service_params.merge(stats_only:))
+    @result = Simulations::Create.call(@simulation.to_service_params.merge(stats_only:))
   end
 
   private
 
-  def simulator_params
+  def simulation_params
     # Build dynamic permit structure from EVENTS configuration
     events_permit = {}
-    Simulator::EVENTS.each_key do |event_key|
+    Simulation::EVENTS.each_key do |event_key|
       # Birthday has additional fields for month and day
       events_permit[event_key] = event_key == :birthday ? [ :amount, :month, :day ] : [ :amount ]
     end
 
-    params.require(:simulator).permit(
+    params.require(:simulation).permit(
       :years,
       events_attributes: events_permit
     ).tap do |attrs|

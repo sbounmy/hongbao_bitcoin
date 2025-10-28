@@ -6,8 +6,8 @@ class PagesController < ApplicationController
     @quotes = Content::Quote.with_hongbao_product.with_attached_avatar
 
     # Initialize simulator for the index page
-    @simulator = Simulator.new
-    @simulator_result = Simulators::Create.call(@simulator.to_service_params.merge(stats_only: true))
+    @simulation = Simulation.new
+    @simulation_result = Simulations::Create.call(@simulation.to_service_params.merge(stats_only: true))
   end
 
   def pricing

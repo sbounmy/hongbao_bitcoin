@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Simulator, type: :model do
+RSpec.describe Simulation, type: :model do
   describe "#initialize" do
     it "sets default years" do
       simulator = described_class.new
@@ -201,7 +201,7 @@ RSpec.describe Simulator, type: :model do
 
   describe "EventHongBao" do
     let(:event_hong_bao) do
-      Simulator::EventHongBao.new(
+      Simulation::EventHongBao.new(
         gifted_at: Date.new(2024, 1, 1),
         initial_sats: 100_000,
         current_sats: 150_000,

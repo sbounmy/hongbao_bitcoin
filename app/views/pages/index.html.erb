@@ -292,10 +292,10 @@
             <p class="text-xl text-white/80 mb-8">
               Bitcoin is a new kind of currency, a radically new way to transact
               and store value all around the world.
-              <%= link_to "Learn more", simulator_path, class: "underline font-medium text-white hover:text-white/90" %>
+              <%= link_to "Learn more", new_simulation_path, class: "underline font-medium text-white hover:text-white/90" %>
             </p>
 
-            <%= link_to simulator_path, class: "btn btn-outline btn-lg rounded-full border-white text-white hover:bg-white hover:text-red-700" do %>
+            <%= link_to new_simulation_path, class: "btn btn-outline btn-lg rounded-full border-white text-white hover:bg-white hover:text-red-700" do %>
               View full simulator
               <%= heroicon "arrow-right", variant: :outline, class: "inline-block h-5 w-5 ml-2" %>
             <% end %>
@@ -303,12 +303,12 @@
 
           <!-- Right Column: Form + Stats Below -->
           <div>
-            <%= render Simulators::FormComponent.new(simulator: @simulator, stats_only: true) do |component| %>
+            <%= render Simulations::FormComponent.new(simulation: @simulation, stats_only: true) do |component| %>
               <% component.with_results do %>
                 <!-- Stats Results (rendered within form card) -->
-                <%= turbo_frame_tag "simulator_results" do %>
-                  <% if @simulator_result&.success? && @simulator_result.payload[:event_hong_baos]&.any? %>
-                    <%= render Simulators::StatsComponent.new(event_hong_baos: @simulator_result.payload[:event_hong_baos]) %>
+                <%= turbo_frame_tag "simulation_results" do %>
+                  <% if @simulation_result&.success? && @simulation_result.payload[:event_hong_baos]&.any? %>
+                    <%= render Simulations::StatsComponent.new(event_hong_baos: @simulation_result.payload[:event_hong_baos]) %>
                   <% end %>
                 <% end %>
               <% end %>

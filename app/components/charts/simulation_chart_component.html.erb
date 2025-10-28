@@ -1,4 +1,4 @@
-<div class="simulator-chart-container">
+<div class="simulation-chart-container">
   <!-- Include tooltip template -->
   <%= render Charts::Tooltips::EventHongBaoComponent.new %>
 
@@ -12,13 +12,14 @@
 </div>
 
 <style>
-  .simulator-chart-container {
+  .simulation-chart-container {
     width: 100%;
     position: relative;
   }
 
   /* Custom styles for event markers */
   .highcharts-point {
+    cursor: pointer;
     cursor: pointer;
   }
 </style>

@@ -16,20 +16,20 @@
   <div class="grid lg:grid-cols-2 gap-8">
     <!-- Left Column: Form -->
     <div>
-      <%= render Simulators::FormComponent.new(simulator: @simulator, stats_only: false) %>
+      <%= render Simulations::FormComponent.new(simulation: @simulation, stats_only: false) %>
     </div>
 
     <!-- Right Column: Results -->
     <div>
-      <%= turbo_frame_tag "simulator_results" do %>
+      <%= turbo_frame_tag "simulation_results" do %>
         <% if @result&.success? && @result.payload[:event_hong_baos]&.any? %>
           <!-- Stats Overview -->
-          <%= render Simulators::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
+          <%= render Simulations::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
 
           <!-- Chart -->
           <div class="card bg-base-100 shadow-xl">
             <div class="card-body p-4 lg:p-6">
-              <%= render Charts::SimulatorChartComponent.new(
+              <%= render Charts::SimulationChartComponent.new(
                 event_hong_baos: @result.payload[:event_hong_baos],
                 chart_data: @result.payload[:chart_data]
               ) %>

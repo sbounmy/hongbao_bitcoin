@@ -1,17 +1,17 @@
 import { test, expect } from '../support/test-setup';
 import { appVcrInsertCassette, appVcrEjectCassette, app, timecop } from '../support/on-rails';
 
-test.describe('Homepage Bitcoin Gifting Simulator', () => {
+test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
   test.beforeEach(async ({ page }) => {
-    await appVcrInsertCassette('homepage_simulator', { allow_playback_repeats: true });
+    await appVcrInsertCassette('homepage_simulation', { allow_playback_repeats: true });
 
     // Freeze time before importing spots to ensure consistent date calculations
     await timecop.freeze('2025-10-27');
     await app('import_spots');
     await page.goto('/');
 
-    // Wait for simulator section to be visible
+    // Wait for simulation section to be visible
     await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
   });
 
@@ -20,8 +20,8 @@ test.describe('Homepage Bitcoin Gifting Simulator', () => {
     await appVcrEjectCassette();
   });
 
-  test('displays the simulator form with default values', async ({ page }) => {
-    // Check simulator form is visible
+  test('displays the simulation form with default values', async ({ page }) => {
+    // Check simulation form is visible
     await expect(page.getByText('If I had gifted Bitcoin on')).toBeVisible();
 
     // Check default event amounts are displayed
@@ -29,11 +29,11 @@ test.describe('Homepage Bitcoin Gifting Simulator', () => {
     await expect(christmasInput).toHaveValue('50');
 
     // Check years selector (using label to be specific since there are birthday month/day selectors)
-    const yearsSelect = page.locator('select[name="simulator[years]"]');
+    const yearsSelect = page.locator('select[name="simulation[years]"]');
     await expect(yearsSelect).toContainText('5 years');
 
-    // Check "View full simulator" button exists
-    await expect(page.getByRole('link', { name: 'View full simulator' })).toBeVisible();
+    // Check "View full simulation" button exists
+    await expect(page.getByRole('link', { name: 'View full simulation' })).toBeVisible();
   });
 
   test('displays default stats results', async ({ page }) => {
@@ -123,7 +123,7 @@ test.describe('Homepage Bitcoin Gifting Simulator', () => {
     const initialBtc = bitcoinText.match(/₿[\d.]+/)?.[0];
 
     // Change from 5 years to 10 years
-    const yearsSelect = page.locator('select[name="simulator[years]"]');
+    const yearsSelect = page.locator('select[name="simulation[years]"]');
     await yearsSelect.selectOption('10');
 
     // Wait for auto-submit and stats update
@@ -154,21 +154,21 @@ test.describe('Homepage Bitcoin Gifting Simulator', () => {
     await expect(page.getByText('I would have gifted')).not.toBeVisible();
   });
 
-  test('navigates to full simulator when clicking "View full simulator"', async ({ page }) => {
-    const viewFullButton = page.getByRole('link', { name: 'View full simulator' });
+  test('navigates to full simulation when clicking "View full simulation"', async ({ page }) => {
+    const viewFullButton = page.getByRole('link', { name: 'View full simulation' });
     await viewFullButton.click();
 
-    // Should navigate to /simulator
-    await expect(page).toHaveURL(/\/simulator/);
+    // Should navigate to /simulation
+    await expect(page).toHaveURL(/\/simulation/);
 
-    // Full simulator should show chart and table
+    // Full simulation should show chart and table
     await expect(page.getByText('Gift History')).toBeVisible();
   });
 
-  test('simulator section has proper styling and layout', async ({ page }) => {
+  test('simulation section has proper styling and layout', async ({ page }) => {
     // Check the section has the gradient background
-    const simulatorSection = page.locator('section').filter({ hasText: 'Bitcoin is the best performing asset' });
-    await expect(simulatorSection).toBeVisible();
+    const simulationSection = page.locator('section').filter({ hasText: 'Bitcoin is the best performing asset' });
+    await expect(simulationSection).toBeVisible();
 
     // Check two-column layout exists
     await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();

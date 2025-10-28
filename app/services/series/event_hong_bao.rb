@@ -29,7 +29,7 @@ module Series
             enabled: true,
             radius: 8,
             symbol: "circle",
-            fillColor: Simulator.event_color(hb.event_type),
+            fillColor: Simulation.event_color(hb.event_type),
             lineWidth: 2,
             lineColor: "#FFFFFF"
           }
