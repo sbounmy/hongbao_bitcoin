@@ -91,7 +91,7 @@ test.describe('Event Calendar', () => {
     const childCell = page.locator('.calendar-day-number').filter({ hasText: new RegExp(`^\\s*${today}\\s*$`) }).first();
     const todayCell = page.locator('.calendar-day').filter({
       has: childCell
-    }).first();
+    }).last();
 
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);
