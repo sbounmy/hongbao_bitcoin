@@ -1,112 +1,109 @@
-<div class="container mx-auto px-4 py-8 max-w-7xl">
-  <div class="mb-8">
-    <%= link_to root_path, class: "btn btn-ghost btn-sm gap-2" do %>
-      <%= heroicon "arrow-left", variant: :solid, class: "w-4 h-4" %>
-      Back to Home
-    <% end %>
-  </div>
+<div class="h-screen min-h-[800px] lg:min-h-[1180px] flex flex-col items-center justify-start relative overflow-hidden pb-8">
+  <%= render "shared/header" %>
+  <div class="container mx-auto px-4 py-8 max-w-7xl">
 
-  <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-2">
-    Be Their DCA - Bitcoin Gifting Simulator
-  </h1>
-  <p class="text-xl text-base-content/70 mb-8">
-    Visualize how regular Bitcoin gifts act as Dollar-Cost Averaging for your loved ones
-  </p>
+    <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-2">
+      Be Their DCA - Bitcoin Gifting Simulator
+    </h1>
+    <p class="text-xl text-base-content/70 mb-8">
+      Visualize how regular Bitcoin gifts act as Dollar-Cost Averaging for your loved ones
+    </p>
 
-  <div class="grid lg:grid-cols-2 gap-8">
-    <!-- Left Column: Form -->
-    <div>
-      <%= render Simulations::FormComponent.new(simulation: @simulation, stats_only: false) %>
-    </div>
+    <div class="grid lg:grid-cols-2 gap-8">
+      <!-- Left Column: Form -->
+      <div>
+        <%= render Simulations::FormComponent.new(simulation: @simulation, stats_only: false) %>
+      </div>
 
-    <!-- Right Column: Results -->
-    <div>
-      <%= turbo_frame_tag "simulation_results" do %>
-        <% if @result&.success? && @result.payload[:event_hong_baos]&.any? %>
-          <!-- Stats Overview -->
-          <%= render Simulations::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
+      <!-- Right Column: Results -->
+      <div>
+        <%= turbo_frame_tag "simulation_results" do %>
+          <% if @result&.success? && @result.payload[:event_hong_baos]&.any? %>
+            <!-- Stats Overview -->
+            <%= render Simulations::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
 
-          <!-- Chart -->
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body p-4 lg:p-6">
-              <%= render Charts::SimulationChartComponent.new(
-                event_hong_baos: @result.payload[:event_hong_baos],
-                chart_data: @result.payload[:chart_data]
-              ) %>
+            <!-- Chart -->
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body p-4 lg:p-6">
+                <%= render Charts::SimulationChartComponent.new(
+                  event_hong_baos: @result.payload[:event_hong_baos],
+                  chart_data: @result.payload[:chart_data]
+                ) %>
+              </div>
             </div>
-          </div>
 
-          <!-- Event List -->
-          <div class="card bg-base-100 shadow-xl mt-6">
-            <div class="card-body">
-              <h3 class="card-title text-lg mb-4">Gift History</h3>
-              <div class="overflow-x-auto">
-                <table class="table table-sm">
-                  <thead>
-                    <tr>
-                      <th>Event</th>
-                      <th>Date</th>
-                      <th>Gift Amount</th>
-                      <th>BTC Price</th>
-                      <th>Sats Received</th>
-                      <th>Current Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @result.payload[:event_hong_baos].each do |hong_bao| %>
+            <!-- Event List -->
+            <div class="card bg-base-100 shadow-xl mt-6">
+              <div class="card-body">
+                <h3 class="card-title text-lg mb-4">Gift History</h3>
+                <div class="overflow-x-auto">
+                  <table class="table table-sm">
+                    <thead>
                       <tr>
-                        <td>
-                          <span class="flex items-center gap-2">
-                            <span class="text-lg"><%= hong_bao.event_emoji %></span>
-                            <span><%= hong_bao.name %></span>
-                          </span>
-                        </td>
-                        <td><%= hong_bao.gifted_at.strftime("%b %d, %Y") %></td>
-                        <td class="font-mono">$<%= number_with_precision(hong_bao.initial_usd, precision: 2) %></td>
-                        <td class="font-mono">$<%= number_with_delimiter(hong_bao.spot_buy.usd.round) %></td>
-                        <td class="font-mono"><%= number_with_delimiter(hong_bao.initial_sats) %></td>
-                        <td class="font-mono font-semibold">
-                          $<%= number_with_precision(hong_bao.btc * Spot.current(:usd).usd, precision: 2) %>
-                        </td>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Gift Amount</th>
+                        <th>BTC Price</th>
+                        <th>Sats Received</th>
+                        <th>Current Value</th>
                       </tr>
-                    <% end %>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <% @result.payload[:event_hong_baos].each do |hong_bao| %>
+                        <tr>
+                          <td>
+                            <span class="flex items-center gap-2">
+                              <span class="text-lg"><%= hong_bao.event_emoji %></span>
+                              <span><%= hong_bao.name %></span>
+                            </span>
+                          </td>
+                          <td><%= hong_bao.gifted_at.strftime("%b %d, %Y") %></td>
+                          <td class="font-mono">$<%= number_with_precision(hong_bao.initial_usd, precision: 2) %></td>
+                          <td class="font-mono">$<%= number_with_delimiter(hong_bao.spot_buy.usd.round) %></td>
+                          <td class="font-mono"><%= number_with_delimiter(hong_bao.initial_sats) %></td>
+                          <td class="font-mono font-semibold">
+                            $<%= number_with_precision(hong_bao.btc * Spot.current(:usd).usd, precision: 2) %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
-        <% elsif @result&.error? %>
-          <!-- Error state -->
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-              <div class="flex flex-col items-center justify-center py-12 text-center">
-                <%= heroicon "exclamation-triangle", variant: :outline, class: "w-16 h-16 text-error mb-4" %>
-                <h3 class="text-xl font-semibold text-base-content mb-2">
-                  Error in simulation
-                </h3>
-                <p class="text-base-content/70">
-                  <%= @result.error %>
-                </p>
+          <% elsif @result&.error? %>
+            <!-- Error state -->
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body">
+                <div class="flex flex-col items-center justify-center py-12 text-center">
+                  <%= heroicon "exclamation-triangle", variant: :outline, class: "w-16 h-16 text-error mb-4" %>
+                  <h3 class="text-xl font-semibold text-base-content mb-2">
+                    Error in simulation
+                  </h3>
+                  <p class="text-base-content/70">
+                    <%= @result.error %>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        <% else %>
-          <!-- Loading state while first calculation happens -->
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-              <div class="flex flex-col items-center justify-center py-12 text-center">
-                <%= heroicon "arrow-path", variant: :outline, class: "w-16 h-16 text-base-content/30 mb-4 animate-spin" %>
-                <h3 class="text-xl font-semibold text-base-content/70 mb-2">
-                  Calculating your Bitcoin gifting simulation...
-                </h3>
-                <p class="text-base-content/50">
-                  This will just take a moment
-                </p>
+          <% else %>
+            <!-- Loading state while first calculation happens -->
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body">
+                <div class="flex flex-col items-center justify-center py-12 text-center">
+                  <%= heroicon "arrow-path", variant: :outline, class: "w-16 h-16 text-base-content/30 mb-4 animate-spin" %>
+                  <h3 class="text-xl font-semibold text-base-content/70 mb-2">
+                    Calculating your Bitcoin gifting simulation...
+                  </h3>
+                  <p class="text-base-content/50">
+                    This will just take a moment
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
