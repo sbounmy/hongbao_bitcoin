@@ -32,23 +32,23 @@ class Simulation
     # Mid-range ($2k-$15k)
     { value: 2500, label: "Gaming PC", emoji: "🖥️", image_url: "https://images.unsplash.com/photo-1593640495253-23196b27a87f?w=800&q=80", category: "electronics" },
     { value: 5000, label: "Motorcycle", emoji: "🏍️", image_url: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&q=80", category: "vehicle" },
-    { value: 10000, label: "Toyota", emoji: "🚗", image_url: "https://images.unsplash.com/photo-1697316052164-6b832d49516c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
+    { value: 10_000, label: "Toyota", emoji: "🚗", image_url: "https://images.unsplash.com/photo-1697316052164-6b832d49516c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
 
     # Higher amounts ($20k-$100k)
-    { value: 20000, label: "New Car", emoji: "🚙", image_url: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
-    { value: 40000, label: "Luxury Car", emoji: "🏎️", image_url: "https://images.unsplash.com/photo-1580414155534-369e5234e72f?w=800&q=80", category: "vehicle" },
-    { value: 60000, label: "College Tuition", emoji: "🎓", image_url: "https://images.unsplash.com/photo-1576049519901-ef17971aedc4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "education" },
+    { value: 20_000, label: "Home renovation", emoji: "🚙", image_url: "https://images.unsplash.com/flagged/photo-1573168710465-7f7da9a23a15?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "realestate" },
+    { value: 35_000, label: "Tesla", emoji: "🏎️", image_url: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
+    { value: 60_000, label: "College Tuition", emoji: "🎓", image_url: "https://images.unsplash.com/photo-1576049519901-ef17971aedc4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "education" },
 
     # Life-changing amounts ($100k+)
-    { value: 100000, label: "House Down Payment", emoji: "🏠", image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", category: "realestate" },
-    { value: 200000, label: "Small House", emoji: "🏡", image_url: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80", category: "realestate" },
-    { value: 500000, label: "Family Home", emoji: "🏘️", image_url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80", category: "realestate" },
-    { value: 1000000, label: "Dream House", emoji: "🏰", image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", category: "realestate" },
+    { value: 100_000, label: "House Down Payment", emoji: "🏠", image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", category: "realestate" },
+    { value: 200_000, label: "Small House", emoji: "🏡", image_url: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80", category: "realestate" },
+    { value: 500_000, label: "Family Home", emoji: "🏘️", image_url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80", category: "realestate" },
+    { value: 1_000_000, label: "Dream House", emoji: "🏰", image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", category: "realestate" },
 
     # Ultra-luxury ($5M+)
-    { value: 5000000, label: "Yacht", emoji: "🛥️", image_url: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80", category: "luxury" },
-    { value: 20000000, label: "Private Jet", emoji: "✈️", image_url: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80", category: "luxury" },
-    { value: 50000000, label: "Private Island", emoji: "🏝️", image_url: "https://images.unsplash.com/photo-1516091877740-fde016699f2c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "luxury" }
+    { value: 5_000_000, label: "Yacht", emoji: "🛥️", image_url: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80", category: "luxury" },
+    { value: 20_000_000, label: "Private Jet", emoji: "✈️", image_url: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80", category: "luxury" },
+    { value: 50_000_000, label: "Private Island", emoji: "🏝️", image_url: "https://images.unsplash.com/photo-1516091877740-fde016699f2c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "luxury" }
   ].freeze
 
   # Merged event configuration with all details

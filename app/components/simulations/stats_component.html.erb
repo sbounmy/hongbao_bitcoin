@@ -18,8 +18,9 @@
         <div>
           <h3 class="text-base font-medium opacity-90">I would have gifted</h3>
           <% if gift_equivalent_for_gifted %>
-            <div class="text-sm opacity-90 mt-2">
-              <%= gift_equivalent_for_gifted[:emoji] %> ≈ <%= gift_equivalent_for_gifted[:label] %>
+            <div class="inline-flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full mt-2">
+              <span class="text-base"><%= gift_equivalent_for_gifted[:emoji] %></span>
+              <span class="text-sm font-medium"><%= gift_equivalent_for_gifted[:label] %></span>
             </div>
           <% end %>
         </div>
@@ -52,8 +53,9 @@
             </span>
           </div>
           <% if gift_equivalent_for_current %>
-            <div class="text-sm opacity-90 mt-2">
-              <%= gift_equivalent_for_current[:emoji] %> ≈ <%= gift_equivalent_for_current[:label] %>
+            <div class="inline-flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full mt-2">
+              <span class="text-base"><%= gift_equivalent_for_current[:emoji] %></span>
+              <span class="text-sm font-medium"><%= gift_equivalent_for_current[:label] %></span>
             </div>
           <% end %>
         </div>
