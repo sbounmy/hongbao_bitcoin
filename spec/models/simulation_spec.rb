@@ -231,7 +231,7 @@ RSpec.describe Simulation, type: :model do
     it "provides a simulated user" do
       user = event_hong_bao.user
       expect(user.id).to eq(0)
-      expect(user.email).to eq("simulator@hongbao.tc")
+      expect(user.email).to eq("simulation@hongbao.tc")
     end
   end
 end
