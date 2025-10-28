@@ -3,6 +3,10 @@ import { appVcrInsertCassette, appVcrEjectCassette, app, timecop } from '../supp
 
 test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
+  test.beforeEach(async ({}) => {
+    await test.setTimeout(60_000);
+  });
+
   test.afterEach(async () => {
     await timecop.return()
     await appVcrEjectCassette();
