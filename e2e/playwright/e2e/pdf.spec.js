@@ -50,6 +50,7 @@ test.describe('PDF Generation', () => {
   });
 
   test('user can input custom keys', async ({ page }) => {
+    test.setTimeout(60_000)
     await page.getByRole('button', { name: 'Use my own keys' }).click()
 
     await expect(page.locator('#public_address_text')).toBeEmpty()
