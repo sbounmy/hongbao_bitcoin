@@ -64,8 +64,6 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('[data-canva-item-name-value="publicAddressText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
     await expect(page.locator('[data-canva-item-name-value="privateKeyText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
     await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
-
-    page.getByRole('button', { name: 'Next' })
   });
 
   test('user top up notice for custom keys', async ({ page }) => {
@@ -87,7 +85,7 @@ test.describe('PDF Generation', () => {
     const download = await downloadPromise;
 
     // Verify download started
-    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+    await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
     const nextButton = page.getByRole('button', { name: 'Next' });
     await expect(nextButton).toBeEnabled();
@@ -110,7 +108,7 @@ test.describe('PDF Generation', () => {
     const download = await downloadPromise;
 
     // Verify download started
-    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+    await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
     const nextButton = page.getByRole('button', { name: 'Next' });
     await expect(nextButton).toBeEnabled();
@@ -145,7 +143,7 @@ test.describe('PDF Generation', () => {
       const download = await downloadPromise;
 
       // Verify download started
-      expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+      await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
       const nextButton = offlinePage.getByRole('button', { name: 'Next' });
       await expect(nextButton).toBeEnabled();
       await nextButton.click();
