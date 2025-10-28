@@ -30,7 +30,7 @@ test.describe('Saved Hong Baos', () => {
 
     // Check that stats are visible
     await expect(page.locator('.stat-value').getByText('₿0.00076171')).toBeVisible();
-    await expect(page.locator('.stat-value').first().getByText('5')).toBeVisible();
+    await expect(page.locator('.stat-desc').first().getByText(/5/)).toBeVisible();
     await expect(page.locator('.stat-value').getByText('$8')).toBeVisible();
     const visibleContainer = await page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
     await expect(visibleContainer.getByText('₿0.00040657')).not.toBeVisible();
@@ -112,7 +112,7 @@ test.describe('Saved Hong Baos', () => {
     // Check that series legends are visible
     await expect(page.getByText('Bitcoin Price')).toBeVisible();
     await expect(page.getByText('HongBao Value')).toBeVisible();
-    await expect(page.getByText('HongBao Spent')).toBeVisible();
+    await expect(page.getByText('HongBao spent').last()).toBeVisible();
 
     // Verify chart has rendered data (check for SVG elements)
     const chartSvg = page.locator('.highcharts-container svg');

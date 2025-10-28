@@ -11,6 +11,10 @@ class ApplicationService
     def failure?
       !success?
     end
+
+    def error?
+      !success?
+    end
   end
 
   class << self

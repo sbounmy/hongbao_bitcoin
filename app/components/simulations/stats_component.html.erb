@@ -1,0 +1,79 @@
+<div>
+  <!-- Two main cards grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-3">
+    <!-- Card 1: Hongbao Stats (Red with Gold Gradient) -->
+    <div class="card text-white shadow-xl h-full relative overflow-hidden">
+      <!-- Background image (if available) -->
+      <% if gift_equivalent_for_gifted %>
+        <div class="absolute inset-0 bg-cover bg-center"
+             style="background-image: url('<%= gift_equivalent_for_gifted[:image_url] %>');"></div>
+        <!-- Black overlay to maintain readability -->
+        <div class="absolute inset-0 bg-black/40"></div>
+      <% else %>
+        <!-- Fallback gradient when no gift equivalent -->
+        <div class="absolute inset-0 bg-gradient-to-br from-red-600 via-red-700 to-amber-700"></div>
+      <% end %>
+
+      <div class="card-body flex flex-col justify-between relative z-10 min-h-[280px]">
+        <div>
+          <h3 class="text-base font-bold opacity-90">I would have gifted</h3>
+          <% if gift_equivalent_for_gifted %>
+            <div class="inline-flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full mt-2">
+              <span class="text-base"><%= gift_equivalent_for_gifted[:emoji] %></span>
+              <span class="text-sm font-medium"><%= gift_equivalent_for_gifted[:label] %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-auto pt-4">
+          <span id='gift-value' class="text-5xl font-bold"><%= format_currency(total_gifted_usd) %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Current Value (Bitcoin Orange Background) -->
+    <div class="card text-white shadow-xl h-full relative overflow-hidden">
+      <!-- Background image (if available) -->
+      <% if gift_equivalent_for_current %>
+        <div class="absolute inset-0 bg-cover bg-center"
+             style="background-image: url('<%= gift_equivalent_for_current[:image_url] %>');"></div>
+        <!-- Black overlay to maintain readability -->
+        <div class="absolute inset-0 bg-black/40"></div>
+      <% else %>
+        <!-- Fallback gradient when no gift equivalent -->
+        <div class="absolute inset-0 bg-orange-500"></div>
+      <% end %>
+
+      <div class="card-body flex flex-col justify-between relative z-10 min-h-[280px]">
+        <div>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold opacity-90">Worth today</h3>
+            <span class="badge badge-outline badge-lg text-white font-bold px-3 py-2">
+              <%= format_percentage_compact(percentage_change) %>
+            </span>
+          </div>
+          <% if gift_equivalent_for_current %>
+            <div class="inline-flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full mt-2">
+              <span class="text-base"><%= gift_equivalent_for_current[:emoji] %></span>
+              <span class="text-sm font-medium"><%= gift_equivalent_for_current[:label] %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-auto pt-4">
+          <span id='today-value' class="text-5xl font-bold"><%= format_currency(current_portfolio_value) %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compact Bitcoin amount below -->
+  <div class="flex items-center justify-center gap-2 px-4 py-3 bg-base-200 rounded-lg">
+    <span class="text-sm font-medium text-base-content/70">Total:</span>
+    <span class="font-bold text-orange-500 text-lg">
+      <%= format_bitcoin(total_bitcoin_accumulated) %>
+    </span>
+    <span class="text-sm text-base-content/50">since <%= earliest_year %></span>
+  </div>
+</div>
+

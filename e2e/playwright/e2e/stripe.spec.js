@@ -39,7 +39,6 @@ test.describe('Stripe Checkout Flow', () => {
   });
 
   test('admin user can buy tokens with coupon', async ({ page }) => {
-    test.skip('too flaky wait for stripe mock');
     test.setTimeout(60_000); // 60s for CI
 
     await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });

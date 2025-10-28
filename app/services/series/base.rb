@@ -41,9 +41,17 @@ module Series
     end
 
     def load_hong_baos_by_date
-      saved_hong_baos
-        .where.not(gifted_at: nil)
-        .group_by { |hb| hb.gifted_at.to_date }
+      # Handle both ActiveRecord relations and arrays
+      if saved_hong_baos.respond_to?(:where)
+        saved_hong_baos
+          .where.not(gifted_at: nil)
+          .group_by { |hb| hb.gifted_at.to_date }
+      else
+        # For arrays (like EventHongBao), filter manually
+        saved_hong_baos
+          .select { |hb| hb.gifted_at.present? }
+          .group_by { |hb| hb.gifted_at.to_date }
+      end
     end
 
     def date_range

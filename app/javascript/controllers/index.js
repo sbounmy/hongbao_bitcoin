@@ -112,3 +112,6 @@ application.register('zoom-image', ZoomImage)
 
 import PlacesAutocomplete from "stimulus-places-autocomplete"
 application.register("stimulus-places-autocomplete", PlacesAutocomplete)
+
+import AutoSubmit from '@stimulus-components/auto-submit'
+application.register('auto-submit', AutoSubmit)

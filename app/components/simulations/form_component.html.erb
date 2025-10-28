@@ -1,0 +1,87 @@
+<div class="card bg-white text-black shadow-xl">
+  <div class="card-body space-y-2">
+
+    <%= form_with url: simulations_path,
+                  method: :post,
+                  data: {
+                    turbo_frame: "simulation_results",
+                    controller: "auto-submit",
+                    auto_submit_delay_value: "500"
+                  },
+                  class: "space-y-6" do |form| %>
+
+      <!-- Hidden field for stats_only mode -->
+      <%= hidden_field_tag :stats_only, stats_only %>
+
+      <!-- Structured sentence-like form -->
+      <div class="bg-white rounded-lg space-y-4">
+
+        <!-- Event amounts -->
+        <div class="space-y-3">
+          <span class="text-lg font-medium block">If I had gifted Bitcoin on</span>
+
+          <div class="grid gap-2" data-controller="event-selector">
+            <% event_configs.each do |event_key, config| %>
+              <div class="flex items-center gap-3 p-2 rounded-lg border border-base-300 hover:border-primary transition-colors"
+                   data-event-selector-target="eventRow">
+
+                <!-- Event info - more compact -->
+                <div class="flex-1 flex items-center gap-3">
+                  <span class="text-3xl"><%= config[:emoji] %></span>
+                  <div class="flex-1">
+                    <span class="font-medium text-sm"><%= config[:label] %></span>
+                    <% if event_key == :birthday %>
+                      <!-- Birthday date pickers on second line, styled as text -->
+                      <div class="flex items-center gap-2 text-xs text-base-content/60" data-event-selector-target="birthdayFields">
+                        <%= form.select "simulation[events_attributes][birthday][month]",
+                                        options_for_select(month_options, event_month(:birthday)),
+                                        {},
+                                        class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
+                                        style: "background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L2 5h8z'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right center;",
+                                        data: { action: 'auto-submit#submit' } %>
+                        <%= form.select "simulation[events_attributes][birthday][day]",
+                                        options_for_select(day_options, event_day(:birthday)),
+                                        {},
+                                        class: "appearance-none bg-transparent cursor-pointer hover:text-primary focus:outline-none focus:text-primary pr-4",
+                                        style: "background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L2 5h8z'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right center;",
+                                        data: { action: 'auto-submit#submit' } %>
+                      </div>
+                    <% else %>
+                      <div class="text-xs text-base-content/60"><%= config[:description] %></div>
+                    <% end %>
+                  </div>
+                </div>
+
+                <!-- Amount input (always visible) -->
+                <div class="join join-sm">
+                  <span class="join-item input input-bordered input-sm bg-base-300 px-2 text-xs">$</span>
+                  <%= number_field_tag "simulation[events_attributes][#{event_key}][amount]",
+                                      event_amount(event_key),
+                                      min: 0,
+                                      step: "10",
+                                      class: "input input-bordered input-sm join-item w-20 text-right font-mono",
+                                      placeholder: "0",
+                                      data: { event_type: event_key, action: 'auto-submit#submit' } %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Duration selection -->
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-lg font-medium">For</span>
+          <%= form.select "simulation[years]",
+                          options_for_select(year_options, simulation.years),
+                          {},
+                          class: "select select-bordered w-full",
+                          data: { action: 'auto-submit#submit' } %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if results? %>
+      <%= results %>
+    <% end %>
+  </div>
+</div>

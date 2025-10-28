@@ -28,10 +28,19 @@ module Series
 
     def preload_active_hong_baos_by_date
       active_by_date = {}
-      hong_baos_with_dates = saved_hong_baos
-        .where.not(gifted_at: nil)
-        .order(:gifted_at)
-        .to_a
+
+      # Handle both ActiveRecord relations and arrays
+      hong_baos_with_dates = if saved_hong_baos.respond_to?(:where)
+        saved_hong_baos
+          .where.not(gifted_at: nil)
+          .order(:gifted_at)
+          .to_a
+      else
+        # For arrays (like EventHongBao), filter and sort manually
+        saved_hong_baos
+          .select { |hb| hb.gifted_at.present? }
+          .sort_by(&:gifted_at)
+      end
 
       date_range.each do |date|
         active_by_date[date] = hong_baos_with_dates.select { |hb| hb.gifted_at.to_date <= date }

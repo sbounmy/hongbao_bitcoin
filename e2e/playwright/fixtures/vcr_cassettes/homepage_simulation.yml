@@ -1,0 +1,640 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&limit=365&toTs=1761523200&tsym=usd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - min-api.cryptocompare.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 28 Oct 2025 03:26:05 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Content-Security-Policy:
+      - frame-ancestors 'none'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type, Cookie, Set-Cookie, Authorization
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - public, max-age=610
+      X-Cryptocompare-Cache-Hit:
+      - 'true'
+      X-Cryptocompare-Server-Id:
+      - cc-api-min-v2-21
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Response":"Success","Message":"","HasWarning":false,"Type":100,"RateLimit":{},"Data":{"Aggregated":false,"TimeFrom":1729987200,"TimeTo":1761523200,"Data":[{"time":1729987200,"high":68254.55,"low":66852.5,"open":67014.72,"volumefrom":12105.31,"volumeto":818581011.16,"close":67945.14,"conversionType":"direct","conversionSymbol":""},{"time":1730073600,"high":70241.74,"low":67541,"open":67945.14,"volumefrom":42091.94,"volumeto":2902994091.1,"close":69925.83,"conversionType":"direct","conversionSymbol":""},{"time":1730160000,"high":73612.24,"low":69725.05,"open":69925.83,"volumefrom":58289.36,"volumeto":4194343293.57,"close":72723.67,"conversionType":"direct","conversionSymbol":""},{"time":1730246400,"high":72945.06,"low":71408.4,"open":72723.67,"volumefrom":38392.15,"volumeto":2769522546.26,"close":72331.96,"conversionType":"direct","conversionSymbol":""},{"time":1730332800,"high":72675.24,"low":69585.02,"open":72331.96,"volumefrom":39358.14,"volumeto":2794856636.84,"close":70207.54,"conversionType":"direct","conversionSymbol":""},{"time":1730419200,"high":71616.01,"low":68755.75,"open":70207.54,"volumefrom":49030.12,"volumeto":3429441961.46,"close":69473.41,"conversionType":"direct","conversionSymbol":""},{"time":1730505600,"high":69884.38,"low":69006.88,"open":69473.41,"volumefrom":10811.2,"volumeto":750733288.76,"close":69354.01,"conversionType":"direct","conversionSymbol":""},{"time":1730592000,"high":69364.8,"low":67457.91,"open":69354.01,"volumefrom":29674.18,"volumeto":2028670648.54,"close":68747.04,"conversionType":"direct","conversionSymbol":""},{"time":1730678400,"high":69453.56,"low":66793.64,"open":68747.04,"volumefrom":43141.35,"volumeto":2939056973.62,"close":67811.95,"conversionType":"direct","conversionSymbol":""},{"time":1730764800,"high":70540.03,"low":67432.99,"open":67811.95,"volumefrom":47211.37,"volumeto":3274519976.93,"close":69378.09,"conversionType":"direct","conversionSymbol":""},{"time":1730851200,"high":76482.2,"low":69295.92,"open":69378.09,"volumefrom":116207.84,"volumeto":8601347745.99,"close":75643.57,"conversionType":"direct","conversionSymbol":""},{"time":1730937600,"high":76963.92,"low":74472.09,"open":75643.57,"volumefrom":58490.52,"volumeto":4433063855.56,"close":75922.41,"conversionType":"direct","conversionSymbol":""},{"time":1731024000,"high":77289.29,"low":75656.7,"open":75922.41,"volumefrom":48629.32,"volumeto":3714364388.44,"close":76562.31,"conversionType":"direct","conversionSymbol":""},{"time":1731110400,"high":76949.29,"low":75763.57,"open":76562.31,"volumefrom":15808.47,"volumeto":1208160963.89,"close":76716.41,"conversionType":"direct","conversionSymbol":""},{"time":1731196800,"high":81520.53,"low":76545.66,"open":76716.41,"volumefrom":57715.18,"volumeto":4582398468.87,"close":80429.43,"conversionType":"direct","conversionSymbol":""},{"time":1731283200,"high":89644.7,"low":80283.65,"open":80429.43,"volumefrom":104407.32,"volumeto":8845679630.06,"close":88758.31,"conversionType":"direct","conversionSymbol":""},{"time":1731369600,"high":90006.57,"low":85125.04,"open":88758.31,"volumefrom":117605.91,"volumeto":10326697667.45,"close":88040.54,"conversionType":"direct","conversionSymbol":""},{"time":1731456000,"high":93479.86,"low":86252.86,"open":88040.54,"volumefrom":124766.84,"volumeto":11250681620.25,"close":90498.51,"conversionType":"direct","conversionSymbol":""},{"time":1731542400,"high":91817.29,"low":86679.1,"open":90498.51,"volumefrom":81846.21,"volumeto":7309565757.27,"close":87334.19,"conversionType":"direct","conversionSymbol":""},{"time":1731628800,"high":91897.76,"low":87118.43,"open":87334.19,"volumefrom":71049.87,"volumeto":6353615968.72,"close":91058.92,"conversionType":"direct","conversionSymbol":""},{"time":1731715200,"high":91810.87,"low":90092.82,"open":91058.92,"volumefrom":27488.76,"volumeto":2501576427.85,"close":90630.94,"conversionType":"direct","conversionSymbol":""},{"time":1731801600,"high":91436.45,"low":88728.28,"open":90630.94,"volumefrom":30966.65,"volumeto":2791320512.2,"close":89877.16,"conversionType":"direct","conversionSymbol":""},{"time":1731888000,"high":92649.98,"low":87547.97,"open":89877.16,"volumefrom":66007.84,"volumeto":6006522738.03,"close":90514.83,"conversionType":"direct","conversionSymbol":""},{"time":1731974400,"high":94056.9,"low":90414.27,"open":90514.83,"volumefrom":64909.54,"volumeto":5995386487.48,"close":92418.48,"conversionType":"direct","conversionSymbol":""},{"time":1732060800,"high":95056.1,"low":91612.46,"open":92418.48,"volumefrom":70180.2,"volumeto":6579886464.89,"close":94379.92,"conversionType":"direct","conversionSymbol":""},{"time":1732147200,"high":99056.4,"low":94152.97,"open":94379.92,"volumefrom":89243.49,"volumeto":8678686263.5,"close":98436.25,"conversionType":"direct","conversionSymbol":""},{"time":1732233600,"high":99772.99,"low":97207.77,"open":98436.25,"volumefrom":74286.51,"volumeto":7337283037.5,"close":99010.89,"conversionType":"direct","conversionSymbol":""},{"time":1732320000,"high":99023.88,"low":97219.23,"open":99010.89,"volumefrom":29017.14,"volumeto":2853544178,"close":97765.04,"conversionType":"direct","conversionSymbol":""},{"time":1732406400,"high":98670.34,"low":95781.2,"open":97765.04,"volumefrom":30269.68,"volumeto":2940396079.61,"close":98018.2,"conversionType":"direct","conversionSymbol":""},{"time":1732492800,"high":98974.51,"low":92592.66,"open":98018.2,"volumefrom":68259.16,"volumeto":6533804395.53,"close":93019.38,"conversionType":"direct","conversionSymbol":""},{"time":1732579200,"high":95007.52,"low":90730.54,"open":93019.38,"volumefrom":77087.79,"volumeto":7150066318.55,"close":91903.89,"conversionType":"direct","conversionSymbol":""},{"time":1732665600,"high":97373.56,"low":91757.22,"open":91903.89,"volumefrom":47765.92,"volumeto":4533983270.73,"close":95957.51,"conversionType":"direct","conversionSymbol":""},{"time":1732752000,"high":96672.28,"low":94677.17,"open":95957.51,"volumefrom":24214.5,"volumeto":2311939499.68,"close":95670.41,"conversionType":"direct","conversionSymbol":""},{"time":1732838400,"high":98735.69,"low":95391.39,"open":95670.41,"volumefrom":39884.8,"volumeto":3883366949.57,"close":97510.92,"conversionType":"direct","conversionSymbol":""},{"time":1732924800,"high":97514.26,"low":96137.13,"open":97510.92,"volumefrom":12565.01,"volumeto":1215861238.63,"close":96473.51,"conversionType":"direct","conversionSymbol":""},{"time":1733011200,"high":97896.77,"low":95752.22,"open":96473.51,"volumefrom":17120.23,"volumeto":1659820134.72,"close":97276.47,"conversionType":"direct","conversionSymbol":""},{"time":1733097600,"high":98219.29,"low":94419.96,"open":97276.47,"volumefrom":52454.21,"volumeto":5040855658.82,"close":95859.75,"conversionType":"direct","conversionSymbol":""},{"time":1733184000,"high":96304.02,"low":93590.91,"open":95859.75,"volumefrom":52781.2,"volumeto":5033493735.21,"close":95928.37,"conversionType":"direct","conversionSymbol":""},{"time":1733270400,"high":99226.36,"low":94663.42,"open":95928.37,"volumefrom":59092.55,"volumeto":5727735676.06,"close":98751.87,"conversionType":"direct","conversionSymbol":""},{"time":1733356800,"high":104028.51,"low":91741.97,"open":98751.87,"volumefrom":119875.78,"volumeto":12041439286.7,"close":97053.82,"conversionType":"direct","conversionSymbol":""},{"time":1733443200,"high":102088.57,"low":96427,"open":97053.82,"volumefrom":56899.66,"volumeto":5653979066.29,"close":99897.97,"conversionType":"direct","conversionSymbol":""},{"time":1733529600,"high":100578.8,"low":99025.63,"open":99897.97,"volumefrom":17306.94,"volumeto":1728102575.48,"close":99926.38,"conversionType":"direct","conversionSymbol":""},{"time":1733616000,"high":101430.6,"low":98730.22,"open":99926.38,"volumefrom":17851.82,"volumeto":1785051035.31,"close":101189.81,"conversionType":"direct","conversionSymbol":""},{"time":1733702400,"high":101290.02,"low":94567.01,"open":101189.81,"volumefrom":69981.57,"volumeto":6847958219.35,"close":97338.34,"conversionType":"direct","conversionSymbol":""},{"time":1733788800,"high":98316.66,"low":94284,"open":97338.34,"volumefrom":68661.05,"volumeto":6621616095.14,"close":96657.88,"conversionType":"direct","conversionSymbol":""},{"time":1733875200,"high":101979.09,"low":95730.76,"open":96657.88,"volumefrom":55047.48,"volumeto":5482015399.12,"close":101203.07,"conversionType":"direct","conversionSymbol":""},{"time":1733961600,"high":102598.04,"low":99311.56,"open":101203.07,"volumefrom":47200.64,"volumeto":4765401240.36,"close":100041.98,"conversionType":"direct","conversionSymbol":""},{"time":1734048000,"high":101947.1,"low":99232.64,"open":100041.98,"volumefrom":34639.86,"volumeto":3492131954.88,"close":101429.78,"conversionType":"direct","conversionSymbol":""},{"time":1734134400,"high":102653.76,"low":100606.28,"open":101429.78,"volumefrom":16577.72,"volumeto":1683710017.37,"close":101402.95,"conversionType":"direct","conversionSymbol":""},{"time":1734220800,"high":105140.47,"low":101228.16,"open":101402.95,"volumefrom":24799.66,"volumeto":2557994217.64,"close":104424.54,"conversionType":"direct","conversionSymbol":""},{"time":1734307200,"high":107829.08,"low":103299.75,"open":104424.54,"volumefrom":60439.19,"volumeto":6398449052.08,"close":106089.2,"conversionType":"direct","conversionSymbol":""},{"time":1734393600,"high":108369.13,"low":105308.99,"open":106089.2,"volumefrom":40879.26,"volumeto":4365460605.55,"close":106140.14,"conversionType":"direct","conversionSymbol":""},{"time":1734480000,"high":106502.15,"low":99946.11,"open":106140.14,"volumefrom":75094.41,"volumeto":7727995790.43,"close":100147.26,"conversionType":"direct","conversionSymbol":""},{"time":1734566400,"high":102767.84,"low":95555.55,"open":100147.26,"volumefrom":80969.49,"volumeto":8011759334.63,"close":97381.1,"conversionType":"direct","conversionSymbol":""},{"time":1734652800,"high":98131.87,"low":92144.03,"open":97381.1,"volumefrom":84967.2,"volumeto":8141536426.69,"close":97769.49,"conversionType":"direct","conversionSymbol":""},{"time":1734739200,"high":99529.45,"low":96379.46,"open":97769.49,"volumefrom":29797.52,"volumeto":2907358271.75,"close":97223.39,"conversionType":"direct","conversionSymbol":""},{"time":1734825600,"high":97387.01,"low":94186.04,"open":97223.39,"volumefrom":29661.75,"volumeto":2842280143.72,"close":95098.66,"conversionType":"direct","conversionSymbol":""},{"time":1734912000,"high":96428.13,"low":92378.53,"open":95098.66,"volumefrom":57639.3,"volumeto":5422281368.55,"close":94771.64,"conversionType":"direct","conversionSymbol":""},{"time":1734998400,"high":99439.54,"low":93437.9,"open":94771.64,"volumefrom":40945.61,"volumeto":3967574825.79,"close":98606.93,"conversionType":"direct","conversionSymbol":""},{"time":1735084800,"high":99484.75,"low":97568.85,"open":98606.93,"volumefrom":21801.56,"volumeto":2147049998.69,"close":99356.06,"conversionType":"direct","conversionSymbol":""},{"time":1735171200,"high":99888.75,"low":95098.08,"open":99356.06,"volumefrom":38437.52,"volumeto":3704007593.19,"close":95680.19,"conversionType":"direct","conversionSymbol":""},{"time":1735257600,"high":97351.17,"low":93270.34,"open":95680.19,"volumefrom":47149.3,"volumeto":4479654695.05,"close":94170.09,"conversionType":"direct","conversionSymbol":""},{"time":1735344000,"high":95542.25,"low":94008.53,"open":94170.09,"volumefrom":14159.69,"volumeto":1339743546.48,"close":95140.15,"conversionType":"direct","conversionSymbol":""},{"time":1735430400,"high":95175.67,"low":92850.44,"open":95140.15,"volumefrom":17921.9,"volumeto":1684134735.83,"close":93564.85,"conversionType":"direct","conversionSymbol":""},{"time":1735516800,"high":94910.24,"low":91310.52,"open":93564.85,"volumefrom":56846.06,"volumeto":5287498462.5,"close":92646.21,"conversionType":"direct","conversionSymbol":""},{"time":1735603200,"high":96139.7,"low":91894.97,"open":92646.21,"volumefrom":38897.74,"volumeto":3659994868.24,"close":93391.98,"conversionType":"direct","conversionSymbol":""},{"time":1735689600,"high":94953.5,"low":92728.81,"open":93391.98,"volumefrom":19153.02,"volumeto":1798161467.81,"close":94392.51,"conversionType":"direct","conversionSymbol":""},{"time":1735776000,"high":97766.59,"low":94197.85,"open":94392.51,"volumefrom":38283.3,"volumeto":3693985155.25,"close":96900.96,"conversionType":"direct","conversionSymbol":""},{"time":1735862400,"high":98963.23,"low":96021.74,"open":96900.96,"volumefrom":28427.3,"volumeto":2773288955.93,"close":98135.8,"conversionType":"direct","conversionSymbol":""},{"time":1735948800,"high":98757.16,"low":97522.47,"open":98135.8,"volumefrom":9919.49,"volumeto":972181437.3,"close":98213.69,"conversionType":"direct","conversionSymbol":""},{"time":1736035200,"high":98818.4,"low":97248.4,"open":98213.69,"volumefrom":9872.68,"volumeto":967941540.09,"close":98346.97,"conversionType":"direct","conversionSymbol":""},{"time":1736121600,"high":102530.34,"low":97908.09,"open":98346.97,"volumefrom":46146.96,"volumeto":4654078182.67,"close":102282.2,"conversionType":"direct","conversionSymbol":""},{"time":1736208000,"high":102747.54,"low":96112.95,"open":102282.2,"volumefrom":54319.14,"volumeto":5348079997.25,"close":96942.47,"conversionType":"direct","conversionSymbol":""},{"time":1736294400,"high":97251.53,"low":92488.45,"open":96942.47,"volumefrom":57721.92,"volumeto":5480363249.42,"close":95051.06,"conversionType":"direct","conversionSymbol":""},{"time":1736380800,"high":95345.44,"low":91197.56,"open":95051.06,"volumefrom":50519.28,"volumeto":4696698492.32,"close":92548.12,"conversionType":"direct","conversionSymbol":""},{"time":1736467200,"high":95845.36,"low":92206.53,"open":92548.12,"volumefrom":55479.83,"volumeto":5217667771.49,"close":94710.29,"conversionType":"direct","conversionSymbol":""},{"time":1736553600,"high":94985.54,"low":93826.56,"open":94710.29,"volumefrom":9594.23,"volumeto":905586720.06,"close":94569.95,"conversionType":"direct","conversionSymbol":""},{"time":1736640000,"high":95388.08,"low":93675.7,"open":94569.95,"volumefrom":10865.93,"volumeto":1027482279.92,"close":94505.67,"conversionType":"direct","conversionSymbol":""},{"time":1736726400,"high":95894.16,"low":89153.4,"open":94505.67,"volumefrom":67978.59,"volumeto":6274787648.38,"close":94517.66,"conversionType":"direct","conversionSymbol":""},{"time":1736812800,"high":97357.87,"low":94324.09,"open":94517.66,"volumefrom":44347.27,"volumeto":4263471095.02,"close":96526.87,"conversionType":"direct","conversionSymbol":""},{"time":1736899200,"high":100719.11,"low":96466.75,"open":96526.87,"volumefrom":43167.2,"volumeto":4261664752.23,"close":100510.84,"conversionType":"direct","conversionSymbol":""},{"time":1736985600,"high":100867.35,"low":97275.38,"open":100510.84,"volumefrom":43426.87,"volumeto":4314930790.39,"close":99979.43,"conversionType":"direct","conversionSymbol":""},{"time":1737072000,"high":105926.06,"low":99941.15,"open":99979.43,"volumefrom":54200.85,"volumeto":5613810480,"close":104111.13,"conversionType":"direct","conversionSymbol":""},{"time":1737158400,"high":104927.11,"low":102234.37,"open":104111.13,"volumefrom":25366.61,"volumeto":2633222970.99,"close":104431.52,"conversionType":"direct","conversionSymbol":""},{"time":1737244800,"high":106317.18,"low":99537.53,"open":104431.52,"volumefrom":41597.34,"volumeto":4325905602.1,"close":101212.56,"conversionType":"direct","conversionSymbol":""},{"time":1737331200,"high":109340.21,"low":99449.75,"open":101212.56,"volumefrom":68840.35,"volumeto":7208305685.37,"close":102148.74,"conversionType":"direct","conversionSymbol":""},{"time":1737417600,"high":107252.77,"low":100069.04,"open":102148.74,"volumefrom":84552.76,"volumeto":8798621119.3,"close":106155.61,"conversionType":"direct","conversionSymbol":""},{"time":1737504000,"high":106398.57,"low":103321.48,"open":106155.61,"volumefrom":43996.49,"volumeto":4603973397.2,"close":103669.08,"conversionType":"direct","conversionSymbol":""},{"time":1737590400,"high":106865.3,"low":101221,"open":103669.08,"volumefrom":94063.64,"volumeto":9801561614.73,"close":103933.88,"conversionType":"direct","conversionSymbol":""},{"time":1737676800,"high":107170.86,"low":102751.09,"open":103933.88,"volumefrom":40201.93,"volumeto":4233037157.97,"close":104854.78,"conversionType":"direct","conversionSymbol":""},{"time":1737763200,"high":105282.15,"low":104107.08,"open":104854.78,"volumefrom":11835.64,"volumeto":1239370331.55,"close":104733.15,"conversionType":"direct","conversionSymbol":""},{"time":1737849600,"high":105475.33,"low":102487.8,"open":104733.15,"volumefrom":14118.63,"volumeto":1469434497.98,"close":102576.93,"conversionType":"direct","conversionSymbol":""},{"time":1737936000,"high":103230.24,"low":97712.77,"open":102576.93,"volumefrom":94472.14,"volumeto":9486896779.23,"close":102065.72,"conversionType":"direct","conversionSymbol":""},{"time":1738022400,"high":103787.72,"low":100221.08,"open":102065.72,"volumefrom":44096.37,"volumeto":4510250877.49,"close":101284.47,"conversionType":"direct","conversionSymbol":""},{"time":1738108800,"high":104796.98,"low":101279.83,"open":101284.47,"volumefrom":47080.07,"volumeto":4842279589.43,"close":103742.97,"conversionType":"direct","conversionSymbol":""},{"time":1738195200,"high":106472.04,"low":103297.81,"open":103742.97,"volumefrom":36659.17,"volumeto":3857857706.34,"close":104739.58,"conversionType":"direct","conversionSymbol":""},{"time":1738281600,"high":106101.91,"low":101514.21,"open":104739.58,"volumefrom":42222.31,"volumeto":4378171064.39,"close":102412.41,"conversionType":"direct","conversionSymbol":""},{"time":1738368000,"high":102768.26,"low":100270.22,"open":102412.41,"volumefrom":15691.73,"volumeto":1595801666.26,"close":100619.87,"conversionType":"direct","conversionSymbol":""},{"time":1738454400,"high":101436.9,"low":96158.45,"open":100619.87,"volumefrom":56620.33,"volumeto":5562003741.78,"close":97665.06,"conversionType":"direct","conversionSymbol":""},{"time":1738540800,"high":102575.82,"low":91142.87,"open":97665.06,"volumefrom":119095.77,"volumeto":11504010038.06,"close":101451.28,"conversionType":"direct","conversionSymbol":""},{"time":1738627200,"high":101800.32,"low":95090.81,"open":101451.28,"volumefrom":63348.17,"volumeto":6271562966.61,"close":97794.88,"conversionType":"direct","conversionSymbol":""},{"time":1738713600,"high":99208.65,"low":96175.47,"open":97794.88,"volumefrom":42695.62,"volumeto":4171560523.14,"close":96633.71,"conversionType":"direct","conversionSymbol":""},{"time":1738800000,"high":99180.75,"low":95691.57,"open":96633.71,"volumefrom":44725.1,"volumeto":4349625340.99,"close":96564.27,"conversionType":"direct","conversionSymbol":""},{"time":1738886400,"high":100202.29,"low":95630.04,"open":96564.27,"volumefrom":51939.12,"volumeto":5075285222.44,"close":96532.73,"conversionType":"direct","conversionSymbol":""},{"time":1738972800,"high":96906.35,"low":95685.31,"open":96532.73,"volumefrom":12529.37,"volumeto":1207354073.88,"close":96475.59,"conversionType":"direct","conversionSymbol":""},{"time":1739059200,"high":97340.86,"low":94752.27,"open":96475.59,"volumefrom":18638.48,"volumeto":1791686347.07,"close":96485.6,"conversionType":"direct","conversionSymbol":""},{"time":1739145600,"high":98363.35,"low":95276.7,"open":96485.6,"volumefrom":28119.4,"volumeto":2731410651.57,"close":97458.59,"conversionType":"direct","conversionSymbol":""},{"time":1739232000,"high":98499.44,"low":94852.37,"open":97458.59,"volumefrom":29002.62,"volumeto":2800036234.45,"close":95781.05,"conversionType":"direct","conversionSymbol":""},{"time":1739318400,"high":98127.45,"low":94087.33,"open":95781.05,"volumefrom":40118.73,"volumeto":3853980407.7,"close":97874.61,"conversionType":"direct","conversionSymbol":""},{"time":1739404800,"high":98104.11,"low":95225.08,"open":97874.61,"volumefrom":23246.76,"volumeto":2236344585.75,"close":96632.78,"conversionType":"direct","conversionSymbol":""},{"time":1739491200,"high":98869.28,"low":96282.72,"open":96632.78,"volumefrom":20187.22,"volumeto":1966704817.61,"close":97508.71,"conversionType":"direct","conversionSymbol":""},{"time":1739577600,"high":97979.54,"low":97245.24,"open":97508.71,"volumefrom":5831.48,"volumeto":569120592.04,"close":97596.21,"conversionType":"direct","conversionSymbol":""},{"time":1739664000,"high":97728.27,"low":96069.15,"open":97596.21,"volumefrom":6632.76,"volumeto":643146269.46,"close":96132.69,"conversionType":"direct","conversionSymbol":""},{"time":1739750400,"high":97046.2,"low":95226.61,"open":96132.69,"volumefrom":14565.31,"volumeto":1398128550.67,"close":95790.31,"conversionType":"direct","conversionSymbol":""},{"time":1739836800,"high":96736.69,"low":93361.47,"open":95790.31,"volumefrom":26359.54,"volumeto":2502902525.93,"close":95630.67,"conversionType":"direct","conversionSymbol":""},{"time":1739923200,"high":96885.35,"low":95032.61,"open":95630.67,"volumefrom":17048.51,"volumeto":1637124692.48,"close":96640.99,"conversionType":"direct","conversionSymbol":""},{"time":1740009600,"high":98763.14,"low":96430.11,"open":96640.99,"volumefrom":21068.47,"volumeto":2057024374.7,"close":98345.66,"conversionType":"direct","conversionSymbol":""},{"time":1740096000,"high":99519.21,"low":94775.25,"open":98345.66,"volumefrom":40404.88,"volumeto":3928905117.72,"close":96150.27,"conversionType":"direct","conversionSymbol":""},{"time":1740182400,"high":96973.86,"low":95771.79,"open":96150.27,"volumefrom":11673.75,"volumeto":1126120706.18,"close":96580.46,"conversionType":"direct","conversionSymbol":""},{"time":1740268800,"high":96674.04,"low":95255.75,"open":96580.46,"volumefrom":7473.29,"volumeto":718043733.58,"close":96274.12,"conversionType":"direct","conversionSymbol":""},{"time":1740355200,"high":96514.26,"low":91349.77,"open":96274.12,"volumefrom":31216.13,"volumeto":2945422583.03,"close":91536.97,"conversionType":"direct","conversionSymbol":""},{"time":1740441600,"high":92540.35,"low":85944.14,"open":91536.97,"volumefrom":73085.74,"volumeto":6473414678.86,"close":88609.26,"conversionType":"direct","conversionSymbol":""},{"time":1740528000,"high":89320.19,"low":82199.13,"open":88609.26,"volumefrom":59111.39,"volumeto":5069737664.07,"close":84128.38,"conversionType":"direct","conversionSymbol":""},{"time":1740614400,"high":87008.08,"low":82601.58,"open":84128.38,"volumefrom":46301.47,"volumeto":3929681159.63,"close":84657.34,"conversionType":"direct","conversionSymbol":""},{"time":1740700800,"high":85114.25,"low":78203.72,"open":84657.34,"volumefrom":79539.18,"volumeto":6502539275.13,"close":84322.57,"conversionType":"direct","conversionSymbol":""},{"time":1740787200,"high":86537.62,"low":83798.96,"open":84322.57,"volumefrom":18530.02,"volumeto":1577375765.18,"close":86050.58,"conversionType":"direct","conversionSymbol":""},{"time":1740873600,"high":95106.04,"low":85047.82,"open":86050.58,"volumefrom":48038.07,"volumeto":4350642164.47,"close":94275.76,"conversionType":"direct","conversionSymbol":""},{"time":1740960000,"high":94415.65,"low":85071.66,"open":94275.76,"volumefrom":65233.7,"volumeto":5844734403,"close":86158.95,"conversionType":"direct","conversionSymbol":""},{"time":1741046400,"high":88941.97,"low":81449.43,"open":86158.95,"volumefrom":67017.22,"volumeto":5671376306.72,"close":87255.42,"conversionType":"direct","conversionSymbol":""},{"time":1741132800,"high":91001.98,"low":86341.87,"open":87255.42,"volumefrom":38856.74,"volumeto":3457722668.91,"close":90610.8,"conversionType":"direct","conversionSymbol":""},{"time":1741219200,"high":92808.83,"low":87818.33,"open":90610.8,"volumefrom":38977.52,"volumeto":3512025157.48,"close":89931.91,"conversionType":"direct","conversionSymbol":""},{"time":1741305600,"high":91275.25,"low":84649.25,"open":89931.91,"volumefrom":70464.28,"volumeto":6196139350.73,"close":86766.61,"conversionType":"direct","conversionSymbol":""},{"time":1741392000,"high":86860.89,"low":85206.97,"open":86766.61,"volumefrom":10574.16,"volumeto":910862167.44,"close":86225,"conversionType":"direct","conversionSymbol":""},{"time":1741478400,"high":86509.85,"low":80006.76,"open":86225,"volumefrom":23565.36,"volumeto":1952362587.51,"close":80719.05,"conversionType":"direct","conversionSymbol":""},{"time":1741564800,"high":84037.25,"low":77420.92,"open":80719.05,"volumefrom":54996.98,"volumeto":4414695361.63,"close":78561.62,"conversionType":"direct","conversionSymbol":""},{"time":1741651200,"high":83608.26,"low":76581.52,"open":78561.62,"volumefrom":46456.32,"volumeto":3744822903.84,"close":82919.47,"conversionType":"direct","conversionSymbol":""},{"time":1741737600,"high":84410.29,"low":80596.11,"open":82919.47,"volumefrom":33320.8,"volumeto":2750448405.11,"close":83665.14,"conversionType":"direct","conversionSymbol":""},{"time":1741824000,"high":84307.29,"low":79915.4,"open":83665.14,"volumefrom":25813.81,"volumeto":2112762232.49,"close":81081.43,"conversionType":"direct","conversionSymbol":""},{"time":1741910400,"high":85315.9,"low":80787.81,"open":81081.43,"volumefrom":27692.23,"volumeto":2317052000.16,"close":83995.47,"conversionType":"direct","conversionSymbol":""},{"time":1741996800,"high":84688.82,"low":83628.73,"open":83995.47,"volumefrom":6081.09,"volumeto":512466916.19,"close":84355.92,"conversionType":"direct","conversionSymbol":""},{"time":1742083200,"high":85083.1,"low":81992.19,"open":84355.92,"volumefrom":13119.21,"volumeto":1094031604.62,"close":82572.37,"conversionType":"direct","conversionSymbol":""},{"time":1742169600,"high":84760.98,"low":82442.95,"open":82572.37,"volumefrom":19966.07,"volumeto":1667911609.42,"close":84025.12,"conversionType":"direct","conversionSymbol":""},{"time":1742256000,"high":84039.3,"low":81137.39,"open":84025.12,"volumefrom":20939.97,"volumeto":1721702159.89,"close":82716.74,"conversionType":"direct","conversionSymbol":""},{"time":1742342400,"high":87036.45,"low":82562.03,"open":82716.74,"volumefrom":30764.1,"volumeto":2600942940.47,"close":86878.5,"conversionType":"direct","conversionSymbol":""},{"time":1742428800,"high":87483.4,"low":83611.66,"open":86878.5,"volumefrom":25040.14,"volumeto":2135028136.81,"close":84178.31,"conversionType":"direct","conversionSymbol":""},{"time":1742515200,"high":84798.7,"low":83129.17,"open":84178.31,"volumefrom":15799.47,"volumeto":1326866772.29,"close":84060.48,"conversionType":"direct","conversionSymbol":""},{"time":1742601600,"high":84503.68,"low":83661.65,"open":84060.48,"volumefrom":4784.27,"volumeto":402548876.3,"close":83837.39,"conversionType":"direct","conversionSymbol":""},{"time":1742688000,"high":86126.45,"low":83807.2,"open":83837.39,"volumefrom":7450.59,"volumeto":632787991.66,"close":86091.67,"conversionType":"direct","conversionSymbol":""},{"time":1742774400,"high":88782.52,"low":85546.71,"open":86091.67,"volumefrom":26225.71,"volumeto":2301262365.85,"close":87520.48,"conversionType":"direct","conversionSymbol":""},{"time":1742860800,"high":88575,"low":86325.18,"open":87520.48,"volumefrom":23097.19,"volumeto":2023574450.81,"close":87439.7,"conversionType":"direct","conversionSymbol":""},{"time":1742947200,"high":88297.12,"low":85867.66,"open":87439.7,"volumefrom":19657.36,"volumeto":1711822847.59,"close":86923.95,"conversionType":"direct","conversionSymbol":""},{"time":1743033600,"high":87779.02,"low":85817.84,"open":86923.95,"volumefrom":16968.52,"volumeto":1476492894.46,"close":87218.89,"conversionType":"direct","conversionSymbol":""},{"time":1743120000,"high":87492.39,"low":83544.63,"open":87218.89,"volumefrom":25383.93,"volumeto":2152567384.16,"close":84387.01,"conversionType":"direct","conversionSymbol":""},{"time":1743206400,"high":84583.02,"low":81634.23,"open":84387.01,"volumefrom":11328.65,"volumeto":938834818.34,"close":82625.65,"conversionType":"direct","conversionSymbol":""},{"time":1743292800,"high":83516.72,"low":81563.47,"open":82625.65,"volumefrom":10151.57,"volumeto":839590269.08,"close":82379.51,"conversionType":"direct","conversionSymbol":""},{"time":1743379200,"high":83917.4,"low":81290.13,"open":82379.51,"volumefrom":22937.49,"volumeto":1894666416.64,"close":82539.52,"conversionType":"direct","conversionSymbol":""},{"time":1743465600,"high":85554.98,"low":82419.98,"open":82539.52,"volumefrom":23296.36,"volumeto":1962356062.59,"close":85174.96,"conversionType":"direct","conversionSymbol":""},{"time":1743552000,"high":88505.24,"low":82299.2,"open":85174.96,"volumefrom":41160.08,"volumeto":3519914220.4,"close":82490.58,"conversionType":"direct","conversionSymbol":""},{"time":1743638400,"high":83928.41,"low":81178.57,"open":82490.58,"volumefrom":28340.47,"volumeto":2335462308.44,"close":83158.8,"conversionType":"direct","conversionSymbol":""},{"time":1743724800,"high":84716.02,"low":81648.68,"open":83158.8,"volumefrom":37104.6,"volumeto":3085885741.07,"close":83860.21,"conversionType":"direct","conversionSymbol":""},{"time":1743811200,"high":84230.44,"low":82357.52,"open":83860.21,"volumefrom":7478.68,"volumeto":622496989.4,"close":83503.37,"conversionType":"direct","conversionSymbol":""},{"time":1743897600,"high":83756.1,"low":77079.93,"open":83503.37,"volumefrom":29753.86,"volumeto":2374631982.2,"close":78365.57,"conversionType":"direct","conversionSymbol":""},{"time":1743984000,"high":81172.27,"low":74426.93,"open":78365.57,"volumefrom":71279.71,"volumeto":5546499783.12,"close":79143.06,"conversionType":"direct","conversionSymbol":""},{"time":1744070400,"high":80835.83,"low":76181.24,"open":79143.06,"volumefrom":39397.81,"volumeto":3084760820.88,"close":76255.1,"conversionType":"direct","conversionSymbol":""},{"time":1744156800,"high":83574.06,"low":74569.86,"open":76255.1,"volumefrom":62853.19,"volumeto":4963132858.37,"close":82587.03,"conversionType":"direct","conversionSymbol":""},{"time":1744243200,"high":82710.13,"low":78405.82,"open":82587.03,"volumefrom":31362.13,"volumeto":2526317821.03,"close":79554.96,"conversionType":"direct","conversionSymbol":""},{"time":1744329600,"high":84266.51,"low":78924.27,"open":79554.96,"volumefrom":29349.5,"volumeto":2412186958.4,"close":83386,"conversionType":"direct","conversionSymbol":""},{"time":1744416000,"high":85899.74,"low":82766.93,"open":83386,"volumefrom":14180.76,"volumeto":1196895442.75,"close":85272.12,"conversionType":"direct","conversionSymbol":""},{"time":1744502400,"high":86079.47,"low":83019.76,"open":85272.12,"volumefrom":16310.95,"volumeto":1375187409.37,"close":83730.92,"conversionType":"direct","conversionSymbol":""},{"time":1744588800,"high":85796.21,"low":83667.03,"open":83730.92,"volumefrom":24118.6,"volumeto":2042899221.49,"close":84575.75,"conversionType":"direct","conversionSymbol":""},{"time":1744675200,"high":86473.18,"low":83596.04,"open":84575.75,"volumefrom":18210,"volumeto":1548187876.56,"close":83638.17,"conversionType":"direct","conversionSymbol":""},{"time":1744761600,"high":85485.35,"low":83094.96,"open":83638.17,"volumefrom":22244.37,"volumeto":1871983984.29,"close":84029.4,"conversionType":"direct","conversionSymbol":""},{"time":1744848000,"high":85472.23,"low":83725.98,"open":84029.4,"volumefrom":15229.6,"volumeto":1288802970.79,"close":84943.42,"conversionType":"direct","conversionSymbol":""},{"time":1744934400,"high":85132.75,"low":84287.73,"open":84943.42,"volumefrom":5504.81,"volumeto":465771169.06,"close":84459.96,"conversionType":"direct","conversionSymbol":""},{"time":1745020800,"high":85614.27,"low":84355.7,"open":84459.96,"volumefrom":5342.18,"volumeto":454642234.58,"close":85061.54,"conversionType":"direct","conversionSymbol":""},{"time":1745107200,"high":85302.3,"low":83954.54,"open":85061.54,"volumefrom":5694.47,"volumeto":482671707.92,"close":85167.14,"conversionType":"direct","conversionSymbol":""},{"time":1745193600,"high":88526.3,"low":85132.52,"open":85167.14,"volumefrom":30403,"volumeto":2657452654.45,"close":87515.57,"conversionType":"direct","conversionSymbol":""},{"time":1745280000,"high":93937.07,"low":87084.84,"open":87515.57,"volumefrom":42804.67,"volumeto":3880446944.47,"close":93483.3,"conversionType":"direct","conversionSymbol":""},{"time":1745366400,"high":94656.65,"low":91943.03,"open":93483.3,"volumefrom":32977.9,"volumeto":3081124602.45,"close":93729.23,"conversionType":"direct","conversionSymbol":""},{"time":1745452800,"high":94047.54,"low":91693.21,"open":93729.23,"volumefrom":21490.53,"volumeto":2000861098.9,"close":94022.48,"conversionType":"direct","conversionSymbol":""},{"time":1745539200,"high":95924.19,"low":92883.11,"open":94022.48,"volumefrom":32483.13,"volumeto":3078073390.5,"close":94711.24,"conversionType":"direct","conversionSymbol":""},{"time":1745625600,"high":95258.03,"low":93916.48,"open":94711.24,"volumefrom":7391.42,"volumeto":698471645.53,"close":94663.66,"conversionType":"direct","conversionSymbol":""},{"time":1745712000,"high":95346.43,"low":93671.22,"open":94663.66,"volumefrom":7713.95,"volumeto":726739226.7,"close":93777.44,"conversionType":"direct","conversionSymbol":""},{"time":1745798400,"high":95636.66,"low":92864.35,"open":93777.44,"volumefrom":20417.05,"volumeto":1925071151.02,"close":95035.06,"conversionType":"direct","conversionSymbol":""},{"time":1745884800,"high":95487.2,"low":93780.51,"open":95035.06,"volumefrom":16856.75,"volumeto":1599631635.46,"close":94274.16,"conversionType":"direct","conversionSymbol":""},{"time":1745971200,"high":95250.77,"low":92968.85,"open":94274.16,"volumefrom":21486.05,"volumeto":2024539251.94,"close":94186.14,"conversionType":"direct","conversionSymbol":""},{"time":1746057600,"high":97505.38,"low":94150.92,"open":94186.14,"volumefrom":23665.14,"volumeto":2278228402.24,"close":96519.31,"conversionType":"direct","conversionSymbol":""},{"time":1746144000,"high":97939.99,"low":96386.78,"open":96519.31,"volumefrom":16175.06,"volumeto":1571644595.63,"close":96925.07,"conversionType":"direct","conversionSymbol":""},{"time":1746230400,"high":96963.89,"low":95826,"open":96925.07,"volumefrom":7082.92,"volumeto":682121711.48,"close":95903.14,"conversionType":"direct","conversionSymbol":""},{"time":1746316800,"high":96326.95,"low":94313.27,"open":95903.14,"volumefrom":10960.75,"volumeto":1046015845.6,"close":94394.09,"conversionType":"direct","conversionSymbol":""},{"time":1746403200,"high":95224.21,"low":93694.42,"open":94394.09,"volumefrom":17619.91,"volumeto":1661608010.46,"close":94767.95,"conversionType":"direct","conversionSymbol":""},{"time":1746489600,"high":96911.52,"low":93382.91,"open":94767.95,"volumefrom":18330.26,"volumeto":1735613081.89,"close":96835.87,"conversionType":"direct","conversionSymbol":""},{"time":1746576000,"high":97720.02,"low":95816.56,"open":96835.87,"volumefrom":20000.95,"volumeto":1936285634.4,"close":97052.27,"conversionType":"direct","conversionSymbol":""},{"time":1746662400,"high":104147.97,"low":96905.18,"open":97052.27,"volumefrom":40299.96,"volumeto":4054486165.35,"close":103259,"conversionType":"direct","conversionSymbol":""},{"time":1746748800,"high":104353.74,"low":102332.43,"open":103259,"volumefrom":22760.45,"volumeto":2345592246.87,"close":102982.3,"conversionType":"direct","conversionSymbol":""},{"time":1746835200,"high":104980.23,"low":102830.2,"open":102982.3,"volumefrom":9107.42,"volumeto":944047262.42,"close":104814.08,"conversionType":"direct","conversionSymbol":""},{"time":1746921600,"high":104958.29,"low":103353.87,"open":104814.08,"volumefrom":10980.95,"volumeto":1144137614.49,"close":104124.02,"conversionType":"direct","conversionSymbol":""},{"time":1747008000,"high":105783.35,"low":100723.18,"open":104124.02,"volumefrom":27678.93,"volumeto":2862364942.19,"close":102802.44,"conversionType":"direct","conversionSymbol":""},{"time":1747094400,"high":105015.14,"low":101466.16,"open":102802.44,"volumefrom":20326.97,"volumeto":2105889171.38,"close":104136.59,"conversionType":"direct","conversionSymbol":""},{"time":1747180800,"high":104357.47,"low":102615.68,"open":104136.59,"volumefrom":16577.27,"volumeto":1716689620.72,"close":103543.76,"conversionType":"direct","conversionSymbol":""},{"time":1747267200,"high":104197.65,"low":101407.14,"open":103543.76,"volumefrom":17867.52,"volumeto":1837798016.09,"close":103787.64,"conversionType":"direct","conversionSymbol":""},{"time":1747353600,"high":104594.19,"low":103138.18,"open":103787.64,"volumefrom":14498.25,"volumeto":1506289579.07,"close":103499.6,"conversionType":"direct","conversionSymbol":""},{"time":1747440000,"high":103729.29,"low":102642.39,"open":103499.6,"volumefrom":5830.13,"volumeto":601366594.09,"close":103159.32,"conversionType":"direct","conversionSymbol":""},{"time":1747526400,"high":106670.63,"low":103144.58,"open":103159.32,"volumefrom":12986.86,"volumeto":1361010736.04,"close":106488.62,"conversionType":"direct","conversionSymbol":""},{"time":1747612800,"high":107117.46,"low":102104.37,"open":106488.62,"volumefrom":23756.73,"volumeto":2480463388.93,"close":105618.19,"conversionType":"direct","conversionSymbol":""},{"time":1747699200,"high":107339.72,"low":104220.59,"open":105618.19,"volumefrom":19460.7,"volumeto":2062199314.32,"close":106875.88,"conversionType":"direct","conversionSymbol":""},{"time":1747785600,"high":110778.49,"low":106133.62,"open":106875.88,"volumefrom":38005.12,"volumeto":4104199576.95,"close":109699.86,"conversionType":"direct","conversionSymbol":""},{"time":1747872000,"high":111998.96,"low":109250.4,"open":109699.86,"volumefrom":25391.66,"volumeto":2820234493.39,"close":111722.11,"conversionType":"direct","conversionSymbol":""},{"time":1747958400,"high":111810.26,"low":106807.62,"open":111722.11,"volumefrom":25390.32,"volumeto":2775108378.21,"close":107332.91,"conversionType":"direct","conversionSymbol":""},{"time":1748044800,"high":109512.56,"low":106896.28,"open":107332.91,"volumefrom":8974.86,"volumeto":972112098,"close":107779.46,"conversionType":"direct","conversionSymbol":""},{"time":1748131200,"high":109349.07,"low":106643.02,"open":107779.46,"volumefrom":10033.32,"volumeto":1080850082.19,"close":109041.44,"conversionType":"direct","conversionSymbol":""},{"time":1748217600,"high":110459.23,"low":108718.82,"open":109041.44,"volumefrom":14310.31,"volumeto":1568531304.43,"close":109461.24,"conversionType":"direct","conversionSymbol":""},{"time":1748304000,"high":110802.2,"low":107543.83,"open":109461.24,"volumefrom":22990.09,"volumeto":2520257081.13,"close":108975.95,"conversionType":"direct","conversionSymbol":""},{"time":1748390400,"high":109328.61,"low":106799.94,"open":108975.95,"volumefrom":18610.56,"volumeto":2010518282.08,"close":107821.11,"conversionType":"direct","conversionSymbol":""},{"time":1748476800,"high":108929.95,"low":105327.79,"open":107821.11,"volumefrom":24372.04,"volumeto":2610280801.53,"close":105586.78,"conversionType":"direct","conversionSymbol":""},{"time":1748563200,"high":106348.19,"low":103650.43,"open":105586.78,"volumefrom":23541.73,"volumeto":2473658024.71,"close":104039.27,"conversionType":"direct","conversionSymbol":""},{"time":1748649600,"high":104959.61,"low":103127.75,"open":104039.27,"volumefrom":8552.6,"volumeto":890138427.14,"close":104654.65,"conversionType":"direct","conversionSymbol":""},{"time":1748736000,"high":105924.77,"low":103823.88,"open":104654.65,"volumefrom":7524.76,"volumeto":788781340.28,"close":105702.19,"conversionType":"direct","conversionSymbol":""},{"time":1748822400,"high":105988.22,"low":103708.71,"open":105702.19,"volumefrom":15178.71,"volumeto":1589665625.81,"close":105908.79,"conversionType":"direct","conversionSymbol":""},{"time":1748908800,"high":106888.12,"low":104926.88,"open":105908.79,"volumefrom":15596.95,"volumeto":1652394373.05,"close":105447.66,"conversionType":"direct","conversionSymbol":""},{"time":1748995200,"high":106044.55,"low":104206.69,"open":105447.66,"volumefrom":12621.93,"volumeto":1327155925.5,"close":104746,"conversionType":"direct","conversionSymbol":""},{"time":1749081600,"high":105975.11,"low":100418.61,"open":104746,"volumefrom":27489.96,"volumeto":2835254363.62,"close":101580.61,"conversionType":"direct","conversionSymbol":""},{"time":1749168000,"high":105426.24,"low":101174.97,"open":101580.61,"volumefrom":23040.48,"volumeto":2391698461.05,"close":104392.54,"conversionType":"direct","conversionSymbol":""},{"time":1749254400,"high":105974.42,"low":103976.29,"open":104392.54,"volumefrom":8589.54,"volumeto":903776492.08,"close":105625.23,"conversionType":"direct","conversionSymbol":""},{"time":1749340800,"high":106537.25,"low":105042.03,"open":105625.23,"volumefrom":5871.71,"volumeto":621667329.31,"close":105779.28,"conversionType":"direct","conversionSymbol":""},{"time":1749427200,"high":110543.89,"low":105372.62,"open":105779.28,"volumefrom":17851.91,"volumeto":1927020528.87,"close":110302.12,"conversionType":"direct","conversionSymbol":""},{"time":1749513600,"high":110403.6,"low":108373.44,"open":110302.12,"volumefrom":15646.83,"volumeto":1712252251.27,"close":110296.2,"conversionType":"direct","conversionSymbol":""},{"time":1749600000,"high":110425.64,"low":108096.82,"open":110296.2,"volumefrom":14497.2,"volumeto":1585492756.74,"close":108676.78,"conversionType":"direct","conversionSymbol":""},{"time":1749686400,"high":108843.81,"low":105721.73,"open":108676.78,"volumefrom":18051.35,"volumeto":1937273976.29,"close":105726.04,"conversionType":"direct","conversionSymbol":""},{"time":1749772800,"high":106224.76,"low":102773.14,"open":105726.04,"volumefrom":27266.37,"volumeto":2853509529.91,"close":106121.08,"conversionType":"direct","conversionSymbol":""},{"time":1749859200,"high":106260.08,"low":104386.29,"open":106121.08,"volumefrom":7543.44,"volumeto":792948934.46,"close":105481.13,"conversionType":"direct","conversionSymbol":""},{"time":1749945600,"high":106189.63,"low":104546.11,"open":105481.13,"volumefrom":6583.09,"volumeto":693686973.05,"close":105625.23,"conversionType":"direct","conversionSymbol":""},{"time":1750032000,"high":109014.33,"low":105016.81,"open":105625.23,"volumefrom":17191.01,"volumeto":1846109491.24,"close":106855.39,"conversionType":"direct","conversionSymbol":""},{"time":1750118400,"high":107795.31,"low":103378.64,"open":106855.39,"volumefrom":22652.14,"volumeto":2383744168.87,"close":104598.68,"conversionType":"direct","conversionSymbol":""},{"time":1750204800,"high":105579.84,"low":103547.15,"open":104598.68,"volumefrom":18605.58,"volumeto":1945024806.28,"close":104927.87,"conversionType":"direct","conversionSymbol":""},{"time":1750291200,"high":105264.38,"low":103951.44,"open":104927.87,"volumefrom":9905.95,"volumeto":1036540458.21,"close":104699.72,"conversionType":"direct","conversionSymbol":""},{"time":1750377600,"high":106559.45,"low":102367.77,"open":104699.72,"volumefrom":17700.79,"volumeto":1845670588.12,"close":103313.31,"conversionType":"direct","conversionSymbol":""},{"time":1750464000,"high":104021.01,"low":100925.53,"open":103313.31,"volumefrom":11217.17,"volumeto":1151399558.13,"close":102165.68,"conversionType":"direct","conversionSymbol":""},{"time":1750550400,"high":103430.09,"low":98264.46,"open":102165.68,"volumefrom":30700.21,"volumeto":3086806069.73,"close":101015.42,"conversionType":"direct","conversionSymbol":""},{"time":1750636800,"high":106134.09,"low":99685.07,"open":101015.42,"volumefrom":35198.88,"volumeto":3606601777.41,"close":105423.73,"conversionType":"direct","conversionSymbol":""},{"time":1750723200,"high":106358.78,"low":104710.65,"open":105423.73,"volumefrom":19908.29,"volumeto":2099787246.67,"close":106133.25,"conversionType":"direct","conversionSymbol":""},{"time":1750809600,"high":108196.78,"low":105880.48,"open":106133.25,"volumefrom":19838.91,"volumeto":2128340951.52,"close":107399.88,"conversionType":"direct","conversionSymbol":""},{"time":1750896000,"high":108330.6,"low":106605.5,"open":107399.88,"volumefrom":14664.25,"volumeto":1575810932.89,"close":107012.17,"conversionType":"direct","conversionSymbol":""},{"time":1750982400,"high":107793.99,"low":106421.82,"open":107012.17,"volumefrom":16821.31,"volumeto":1799885723.45,"close":107105.16,"conversionType":"direct","conversionSymbol":""},{"time":1751068800,"high":107591.48,"low":106884.15,"open":107105.16,"volumefrom":3472.45,"volumeto":372614444.73,"close":107346.44,"conversionType":"direct","conversionSymbol":""},{"time":1751155200,"high":108538.36,"low":107233.58,"open":107346.44,"volumefrom":6094.35,"volumeto":657403121.35,"close":108391.87,"conversionType":"direct","conversionSymbol":""},{"time":1751241600,"high":108815.66,"low":106756.38,"open":108391.87,"volumefrom":14220.51,"volumeto":1530756559.33,"close":107169.82,"conversionType":"direct","conversionSymbol":""},{"time":1751328000,"high":107574.08,"low":105295.02,"open":107169.82,"volumefrom":15730.48,"volumeto":1673173144.76,"close":105724.18,"conversionType":"direct","conversionSymbol":""},{"time":1751414400,"high":109818.47,"low":105143.1,"open":105724.18,"volumefrom":19611.45,"volumeto":2124516059.08,"close":108886.62,"conversionType":"direct","conversionSymbol":""},{"time":1751500800,"high":110584.4,"low":108579.56,"open":108886.62,"volumefrom":16647.63,"volumeto":1825182141.8,"close":109638.97,"conversionType":"direct","conversionSymbol":""},{"time":1751587200,"high":109810.02,"low":107283.92,"open":109638.97,"volumefrom":10440.09,"volumeto":1130647600.78,"close":108027.71,"conversionType":"direct","conversionSymbol":""},{"time":1751673600,"high":108444.73,"low":107798.16,"open":108027.71,"volumefrom":3465.16,"volumeto":374668091.72,"close":108244.51,"conversionType":"direct","conversionSymbol":""},{"time":1751760000,"high":109728.96,"low":107846.02,"open":108244.51,"volumefrom":5651.56,"volumeto":614763572.9,"close":109233.93,"conversionType":"direct","conversionSymbol":""},{"time":1751846400,"high":109737.83,"low":107513.97,"open":109233.93,"volumefrom":13350.41,"volumeto":1447160434.07,"close":108277.16,"conversionType":"direct","conversionSymbol":""},{"time":1751932800,"high":109248.31,"low":107445.04,"open":108277.16,"volumefrom":12122.12,"volumeto":1316408874.89,"close":108955.05,"conversionType":"direct","conversionSymbol":""},{"time":1752019200,"high":112077.21,"low":108341.92,"open":108955.05,"volumefrom":19761.34,"volumeto":2177951432.55,"close":111291.7,"conversionType":"direct","conversionSymbol":""},{"time":1752105600,"high":116848.31,"low":110555.52,"open":111291.7,"volumefrom":31905.27,"volumeto":3616719327.76,"close":116023.34,"conversionType":"direct","conversionSymbol":""},{"time":1752192000,"high":118890.32,"low":115236.69,"open":116023.34,"volumefrom":26050.27,"volumeto":3060911543.15,"close":117573.92,"conversionType":"direct","conversionSymbol":""},{"time":1752278400,"high":118239.99,"low":116954.09,"open":117573.92,"volumefrom":7395.67,"volumeto":869899617.34,"close":117468.16,"conversionType":"direct","conversionSymbol":""},{"time":1752364800,"high":119503.56,"low":117264.6,"open":117468.16,"volumefrom":9553.52,"volumeto":1133368267.75,"close":119127.66,"conversionType":"direct","conversionSymbol":""},{"time":1752451200,"high":123220.28,"low":118951.55,"open":119127.66,"volumefrom":31361.7,"volumeto":3784774921.45,"close":119869.01,"conversionType":"direct","conversionSymbol":""},{"time":1752537600,"high":119958.94,"low":115709.64,"open":119869.01,"volumefrom":50123.19,"volumeto":5881848280.87,"close":117777.9,"conversionType":"direct","conversionSymbol":""},{"time":1752624000,"high":120122.22,"low":117043.92,"open":117777.9,"volumefrom":27837.68,"volumeto":3310853209.79,"close":118700.37,"conversionType":"direct","conversionSymbol":""},{"time":1752710400,"high":121020.95,"low":117485.98,"open":118700.37,"volumefrom":25218.52,"volumeto":3000532789.4,"close":119282.74,"conversionType":"direct","conversionSymbol":""},{"time":1752796800,"high":120911.16,"low":116902.92,"open":119282.74,"volumefrom":26111.51,"volumeto":3096339405.33,"close":118025.92,"conversionType":"direct","conversionSymbol":""},{"time":1752883200,"high":118572.53,"low":117339.41,"open":118025.92,"volumefrom":6706.12,"volumeto":791893576.81,"close":117913.27,"conversionType":"direct","conversionSymbol":""},{"time":1752969600,"high":118903.91,"low":116533.22,"open":117913.27,"volumefrom":9166.19,"volumeto":1081488186.29,"close":117328.61,"conversionType":"direct","conversionSymbol":""},{"time":1753056000,"high":119712.2,"low":116581.7,"open":117328.61,"volumefrom":18543.72,"volumeto":2187836280.67,"close":117441.75,"conversionType":"direct","conversionSymbol":""},{"time":1753142400,"high":120298.65,"low":116186.23,"open":117441.75,"volumefrom":21981.53,"volumeto":2607540535.18,"close":120023.5,"conversionType":"direct","conversionSymbol":""},{"time":1753228800,"high":120167.5,"low":117361.89,"open":120023.5,"volumefrom":17163.7,"volumeto":2029832616.05,"close":118808.78,"conversionType":"direct","conversionSymbol":""},{"time":1753315200,"high":119555.88,"low":117214.42,"open":118808.78,"volumefrom":17930.71,"volumeto":2128340080.84,"close":118397.33,"conversionType":"direct","conversionSymbol":""},{"time":1753401600,"high":118523.27,"low":114756.37,"open":118397.33,"volumefrom":47767.94,"volumeto":5546818211.88,"close":117644.11,"conversionType":"direct","conversionSymbol":""},{"time":1753488000,"high":118355.11,"low":117143.68,"open":117644.11,"volumefrom":10959.83,"volumeto":1291296798.52,"close":117971.27,"conversionType":"direct","conversionSymbol":""},{"time":1753574400,"high":119808.28,"low":117872.15,"open":117971.27,"volumefrom":10341.68,"volumeto":1228024808.19,"close":119468.71,"conversionType":"direct","conversionSymbol":""},{"time":1753660800,"high":119835.44,"low":117403.28,"open":119468.71,"volumefrom":18092.6,"volumeto":2142740462.44,"close":118059.92,"conversionType":"direct","conversionSymbol":""},{"time":1753747200,"high":119285.96,"low":116933.73,"open":118059.92,"volumefrom":17580.06,"volumeto":2073820445.19,"close":117942.11,"conversionType":"direct","conversionSymbol":""},{"time":1753833600,"high":118800.1,"low":115769.47,"open":117942.11,"volumefrom":18335.33,"volumeto":2153325010.48,"close":117853.3,"conversionType":"direct","conversionSymbol":""},{"time":1753920000,"high":118927.15,"low":115493.77,"open":117853.3,"volumefrom":16934.89,"volumeto":1991848800.07,"close":115765.36,"conversionType":"direct","conversionSymbol":""},{"time":1754006400,"high":116060.68,"low":112682.82,"open":115765.36,"volumefrom":33588.86,"volumeto":3851719228.71,"close":113263.48,"conversionType":"direct","conversionSymbol":""},{"time":1754092800,"high":114033.98,"low":112006.36,"open":113263.48,"volumefrom":12452.57,"volumeto":1407609649,"close":112546.32,"conversionType":"direct","conversionSymbol":""},{"time":1754179200,"high":114803.51,"low":111925.95,"open":112546.32,"volumefrom":8326.85,"volumeto":947196437.08,"close":114238.83,"conversionType":"direct","conversionSymbol":""},{"time":1754265600,"high":115744.56,"low":114140.41,"open":114238.83,"volumefrom":14470.62,"volumeto":1662390456.96,"close":115065.9,"conversionType":"direct","conversionSymbol":""},{"time":1754352000,"high":115111.39,"low":112629.49,"open":115065.9,"volumefrom":16922.91,"volumeto":1925704360.18,"close":114127.63,"conversionType":"direct","conversionSymbol":""},{"time":1754438400,"high":115748.22,"low":113364.73,"open":114127.63,"volumefrom":14480.66,"volumeto":1659630182.7,"close":115038.45,"conversionType":"direct","conversionSymbol":""},{"time":1754524800,"high":117690.87,"low":114288.63,"open":115038.45,"volumefrom":16359.62,"volumeto":1904030478.64,"close":117522.28,"conversionType":"direct","conversionSymbol":""},{"time":1754611200,"high":117698.38,"low":115895.35,"open":117522.28,"volumefrom":14582.39,"volumeto":1702088353.29,"close":116692.86,"conversionType":"direct","conversionSymbol":""},{"time":1754697600,"high":117940.29,"low":116360.05,"open":116692.86,"volumefrom":7930.51,"volumeto":926558904.04,"close":116501.28,"conversionType":"direct","conversionSymbol":""},{"time":1754784000,"high":119320.76,"low":116496.35,"open":116501.28,"volumefrom":10554.12,"volumeto":1248946431.14,"close":119311.7,"conversionType":"direct","conversionSymbol":""},{"time":1754870400,"high":122309.71,"low":118106.91,"open":119311.7,"volumefrom":25659.91,"volumeto":3086540255.03,"close":118714.58,"conversionType":"direct","conversionSymbol":""},{"time":1754956800,"high":120325.99,"low":118214.28,"open":118714.58,"volumefrom":18213.63,"volumeto":2172908089.75,"close":120128.24,"conversionType":"direct","conversionSymbol":""},{"time":1755043200,"high":123735.38,"low":118948.18,"open":120128.24,"volumefrom":27352.96,"volumeto":3321096939.91,"close":123374.56,"conversionType":"direct","conversionSymbol":""},{"time":1755129600,"high":124532.7,"low":117241.12,"open":123374.56,"volumefrom":35491.88,"volumeto":4249355541.57,"close":118391.59,"conversionType":"direct","conversionSymbol":""},{"time":1755216000,"high":119335.93,"low":116865.92,"open":118391.59,"volumefrom":19724.55,"volumeto":2327158152.31,"close":117440.09,"conversionType":"direct","conversionSymbol":""},{"time":1755302400,"high":118000.57,"low":117242.73,"open":117440.09,"volumefrom":6405.98,"volumeto":753827490.14,"close":117469.52,"conversionType":"direct","conversionSymbol":""},{"time":1755388800,"high":118639.81,"low":117268.69,"open":117469.52,"volumefrom":6706.31,"volumeto":791200441.51,"close":117488,"conversionType":"direct","conversionSymbol":""},{"time":1755475200,"high":117627.66,"low":114716.49,"open":117488,"volumefrom":22732.79,"volumeto":2634618667.75,"close":116292.15,"conversionType":"direct","conversionSymbol":""},{"time":1755561600,"high":116789.95,"low":112738.04,"open":116292.15,"volumefrom":26286.85,"volumeto":3006851749.91,"close":112870.67,"conversionType":"direct","conversionSymbol":""},{"time":1755648000,"high":114642.26,"low":112387.14,"open":112870.67,"volumefrom":22978.24,"volumeto":2610717313.9,"close":114291.37,"conversionType":"direct","conversionSymbol":""},{"time":1755734400,"high":114816.84,"low":111993.84,"open":114291.37,"volumefrom":19947.31,"volumeto":2256735254.8,"close":112491.84,"conversionType":"direct","conversionSymbol":""},{"time":1755820800,"high":117428.1,"low":111675.14,"open":112491.84,"volumefrom":28375.72,"volumeto":3261042644.22,"close":116909.79,"conversionType":"direct","conversionSymbol":""},{"time":1755907200,"high":117003.31,"low":114533.54,"open":116909.79,"volumefrom":8271.23,"volumeto":955311763.7,"close":115391.76,"conversionType":"direct","conversionSymbol":""},{"time":1755993600,"high":115626.28,"low":110860.71,"open":115391.76,"volumefrom":17025.82,"volumeto":1932434686.25,"close":113486.67,"conversionType":"direct","conversionSymbol":""},{"time":1756080000,"high":113648.57,"low":109292.22,"open":113486.67,"volumefrom":33305.33,"volumeto":3708998747.39,"close":110150.15,"conversionType":"direct","conversionSymbol":""},{"time":1756166400,"high":112407.53,"low":108701.29,"open":110150.15,"volumefrom":27215.82,"volumeto":2999152225.36,"close":111805.93,"conversionType":"direct","conversionSymbol":""},{"time":1756252800,"high":112669.11,"low":110381.63,"open":111805.93,"volumefrom":21850.84,"volumeto":2440706983.66,"close":111276.98,"conversionType":"direct","conversionSymbol":""},{"time":1756339200,"high":113487.65,"low":110887.39,"open":111276.98,"volumefrom":16865.13,"volumeto":1898278605.83,"close":112582.21,"conversionType":"direct","conversionSymbol":""},{"time":1756425600,"high":112646.73,"low":107512.41,"open":112582.21,"volumefrom":29122.98,"volumeto":3185827654.7,"close":108393.15,"conversionType":"direct","conversionSymbol":""},{"time":1756512000,"high":108937.23,"low":107381.29,"open":108393.15,"volumefrom":9682.99,"volumeto":1049906247.96,"close":108833.53,"conversionType":"direct","conversionSymbol":""},{"time":1756598400,"high":109510.25,"low":108095.95,"open":108833.53,"volumefrom":9099.54,"volumeto":990157824.59,"close":108273.72,"conversionType":"direct","conversionSymbol":""},{"time":1756684800,"high":109913.29,"low":107271.39,"open":108273.72,"volumefrom":21783.85,"volumeto":2365084072.12,"close":109256.28,"conversionType":"direct","conversionSymbol":""},{"time":1756771200,"high":111796.23,"low":108420.77,"open":109256.28,"volumefrom":27112.92,"volumeto":2993969175.78,"close":111245.94,"conversionType":"direct","conversionSymbol":""},{"time":1756857600,"high":112601.73,"low":110556.54,"open":111245.94,"volumefrom":19087.45,"volumeto":2132239039.57,"close":111751.51,"conversionType":"direct","conversionSymbol":""},{"time":1756944000,"high":112225.93,"low":109345.22,"open":111751.51,"volumefrom":19577.2,"volumeto":2162838407.83,"close":110732.33,"conversionType":"direct","conversionSymbol":""},{"time":1757030400,"high":113400.39,"low":110217.27,"open":110732.33,"volumefrom":28328.28,"volumeto":3163045481.16,"close":110676.99,"conversionType":"direct","conversionSymbol":""},{"time":1757116800,"high":111320.3,"low":110019.89,"open":110676.99,"volumefrom":6640.6,"volumeto":734143439.06,"close":110230.16,"conversionType":"direct","conversionSymbol":""},{"time":1757203200,"high":111607.85,"low":110215.7,"open":110230.16,"volumefrom":6492.41,"volumeto":720954382.33,"close":111143.24,"conversionType":"direct","conversionSymbol":""},{"time":1757289600,"high":112937.76,"low":110628.16,"open":111143.24,"volumefrom":16345.84,"volumeto":1829788896.49,"close":112089.06,"conversionType":"direct","conversionSymbol":""},{"time":1757376000,"high":113293.12,"low":110777.59,"open":112089.06,"volumefrom":18844.58,"volumeto":2108163610.41,"close":111549.14,"conversionType":"direct","conversionSymbol":""},{"time":1757462400,"high":114341.92,"low":110940.58,"open":111549.14,"volumefrom":23523.08,"volumeto":2661952161.9,"close":113988.2,"conversionType":"direct","conversionSymbol":""},{"time":1757548800,"high":115543.74,"low":113457.52,"open":113988.2,"volumefrom":18345.68,"volumeto":2096575532.81,"close":115537.84,"conversionType":"direct","conversionSymbol":""},{"time":1757635200,"high":116816.49,"low":114785.3,"open":115537.84,"volumefrom":20842.83,"volumeto":2412089976.27,"close":116116.26,"conversionType":"direct","conversionSymbol":""},{"time":1757721600,"high":116361.05,"low":115207.42,"open":116116.26,"volumefrom":7083.57,"volumeto":820638135.29,"close":115971.92,"conversionType":"direct","conversionSymbol":""},{"time":1757808000,"high":116227.37,"low":115203.8,"open":115971.92,"volumefrom":7290.45,"volumeto":843593558.49,"close":115351.87,"conversionType":"direct","conversionSymbol":""},{"time":1757894400,"high":116808.07,"low":114427.7,"open":115351.87,"volumefrom":18559.61,"volumeto":2137738674.14,"close":115401.06,"conversionType":"direct","conversionSymbol":""},{"time":1757980800,"high":117006.56,"low":114765.74,"open":115401.06,"volumefrom":16305.16,"volumeto":1890323067.86,"close":116838.31,"conversionType":"direct","conversionSymbol":""},{"time":1758067200,"high":117331.11,"low":114742.84,"open":116838.31,"volumefrom":23702.53,"volumeto":2750924037.55,"close":116488.17,"conversionType":"direct","conversionSymbol":""},{"time":1758153600,"high":117981.11,"low":116134.78,"open":116488.17,"volumefrom":19195.15,"volumeto":2253362090.44,"close":117126.46,"conversionType":"direct","conversionSymbol":""},{"time":1758240000,"high":117510.96,"low":115150.85,"open":117126.46,"volumefrom":16753.48,"volumeto":1947524484.47,"close":115701.97,"conversionType":"direct","conversionSymbol":""},{"time":1758326400,"high":116202.27,"low":115488.37,"open":115701.97,"volumefrom":5995.45,"volumeto":694697640.09,"close":115756.07,"conversionType":"direct","conversionSymbol":""},{"time":1758412800,"high":115900.98,"low":115262.9,"open":115756.07,"volumefrom":5422.99,"volumeto":626782372.11,"close":115299.83,"conversionType":"direct","conversionSymbol":""},{"time":1758499200,"high":115439.04,"low":112027.44,"open":115299.83,"volumefrom":28253.02,"volumeto":3197786129.9,"close":112747.85,"conversionType":"direct","conversionSymbol":""},{"time":1758585600,"high":113372.59,"low":111518.32,"open":112747.85,"volumefrom":18488.69,"volumeto":2080069063.95,"close":112043.66,"conversionType":"direct","conversionSymbol":""},{"time":1758672000,"high":114013.4,"low":111118.7,"open":112043.66,"volumefrom":17597.56,"volumeto":1988342351.86,"close":113360.69,"conversionType":"direct","conversionSymbol":""},{"time":1758758400,"high":113559.7,"low":108664.26,"open":113360.69,"volumefrom":34940.33,"volumeto":3874673081.63,"close":109061.11,"conversionType":"direct","conversionSymbol":""},{"time":1758844800,"high":110387.27,"low":108695.14,"open":109061.11,"volumefrom":27943.91,"volumeto":3057709370.2,"close":109723.94,"conversionType":"direct","conversionSymbol":""},{"time":1758931200,"high":109822.37,"low":109156.33,"open":109723.94,"volumefrom":7105.98,"volumeto":778286679.14,"close":109727.42,"conversionType":"direct","conversionSymbol":""},{"time":1759017600,"high":112406.99,"low":109280.14,"open":109727.42,"volumefrom":11935.68,"volumeto":1316899924.45,"close":112226.65,"conversionType":"direct","conversionSymbol":""},{"time":1759104000,"high":114496.59,"low":111625.37,"open":112226.65,"volumefrom":19529.19,"volumeto":2209223703.69,"close":114407.08,"conversionType":"direct","conversionSymbol":""},{"time":1759190400,"high":114866.53,"low":112727.79,"open":114407.08,"volumefrom":22976.41,"volumeto":2612642606.56,"close":114078.18,"conversionType":"direct","conversionSymbol":""},{"time":1759276800,"high":118722.74,"low":114004.91,"open":114078.18,"volumefrom":28249.14,"volumeto":3288729604.9,"close":118666.73,"conversionType":"direct","conversionSymbol":""},{"time":1759363200,"high":121107.24,"low":118356.65,"open":118666.73,"volumefrom":27985.21,"volumeto":3348607182.92,"close":120630.71,"conversionType":"direct","conversionSymbol":""},{"time":1759449600,"high":123996.37,"low":119348.63,"open":120630.71,"volumefrom":35664.64,"volumeto":4338240508.78,"close":122318.86,"conversionType":"direct","conversionSymbol":""},{"time":1759536000,"high":122898.15,"low":121598.23,"open":122318.86,"volumefrom":9977.25,"volumeto":1218962839.87,"close":122455.39,"conversionType":"direct","conversionSymbol":""},{"time":1759622400,"high":125748.81,"low":122213.36,"open":122455.39,"volumefrom":21834.57,"volumeto":2703677561.24,"close":123535.21,"conversionType":"direct","conversionSymbol":""},{"time":1759708800,"high":126287.29,"low":123143.47,"open":123535.21,"volumefrom":27874.8,"volumeto":3478551798.53,"close":124723,"conversionType":"direct","conversionSymbol":""},{"time":1759795200,"high":125225.23,"low":120661.76,"open":124723,"volumefrom":29039.6,"volumeto":3568433457.82,"close":121414.53,"conversionType":"direct","conversionSymbol":""},{"time":1759881600,"high":124254.95,"low":121116.33,"open":121414.53,"volumefrom":25262.59,"volumeto":3098621661.77,"close":123358.65,"conversionType":"direct","conversionSymbol":""},{"time":1759968000,"high":123818.95,"low":119741.93,"open":123358.65,"volumefrom":26848.29,"volumeto":3266509707.34,"close":121713.94,"conversionType":"direct","conversionSymbol":""},{"time":1760054400,"high":122586.57,"low":105833.75,"open":121713.94,"volumefrom":63865.23,"volumeto":7411664103.33,"close":112998.91,"conversionType":"direct","conversionSymbol":""},{"time":1760140800,"high":113462.03,"low":109711.01,"open":112998.91,"volumefrom":38127.92,"volumeto":4260858251.85,"close":110779.65,"conversionType":"direct","conversionSymbol":""},{"time":1760227200,"high":115849.48,"low":109708.26,"open":110779.65,"volumefrom":36833.57,"volumeto":4154852090.6,"close":115084.73,"conversionType":"direct","conversionSymbol":""},{"time":1760313600,"high":116064.34,"low":113754.71,"open":115084.73,"volumefrom":30207.33,"volumeto":3475980079.05,"close":115279.04,"conversionType":"direct","conversionSymbol":""},{"time":1760400000,"high":115514.54,"low":109983.29,"open":115279.04,"volumefrom":39286.64,"volumeto":4415300609.88,"close":113097.76,"conversionType":"direct","conversionSymbol":""},{"time":1760486400,"high":113679.91,"low":110229.66,"open":113097.76,"volumefrom":30171.93,"volumeto":3370232022.3,"close":110819.47,"conversionType":"direct","conversionSymbol":""},{"time":1760572800,"high":112027.41,"low":107501.51,"open":110819.47,"volumefrom":44973.38,"volumeto":4931780713.35,"close":108212.4,"conversionType":"direct","conversionSymbol":""},{"time":1760659200,"high":109278.91,"low":103552.05,"open":108212.4,"volumefrom":48249.26,"volumeto":5124514044.62,"close":106485.41,"conversionType":"direct","conversionSymbol":""},{"time":1760745600,"high":107544.75,"low":106382.73,"open":106485.41,"volumefrom":11815.48,"volumeto":1263875181.71,"close":107228.76,"conversionType":"direct","conversionSymbol":""},{"time":1760832000,"high":109508.08,"low":106146.21,"open":107228.76,"volumefrom":18116.25,"volumeto":1956837354.37,"close":108701.79,"conversionType":"direct","conversionSymbol":""},{"time":1760918400,"high":111743.25,"low":107486.38,"open":108701.79,"volumefrom":27390.05,"volumeto":3024980668.92,"close":110583.29,"conversionType":"direct","conversionSymbol":""},{"time":1761004800,"high":114069.11,"low":107500.34,"open":110583.29,"volumefrom":40819.23,"volumeto":4507488183.36,"close":108387.11,"conversionType":"direct","conversionSymbol":""},{"time":1761091200,"high":109181.59,"low":106750.91,"open":108387.11,"volumefrom":34388.98,"volumeto":3715585780.1,"close":107604.16,"conversionType":"direct","conversionSymbol":""},{"time":1761177600,"high":111341.37,"low":107527.17,"open":107604.16,"volumefrom":22351.32,"volumeto":2450418378.51,"close":110114.95,"conversionType":"direct","conversionSymbol":""},{"time":1761264000,"high":111967.35,"low":109742.29,"open":110114.95,"volumefrom":19795.99,"volumeto":2193655220.33,"close":111046.29,"conversionType":"direct","conversionSymbol":""},{"time":1761350400,"high":111960.99,"low":110709.35,"open":111046.29,"volumefrom":5949.66,"volumeto":663139261.5,"close":111671.84,"conversionType":"direct","conversionSymbol":""},{"time":1761436800,"high":115420.91,"low":111281.45,"open":111671.84,"volumefrom":13255.98,"volumeto":1502383516.36,"close":114559.89,"conversionType":"direct","conversionSymbol":""},{"time":1761523200,"high":116395.5,"low":113855.65,"open":114559.89,"volumefrom":18980.68,"volumeto":2184835505.2,"close":114115.08,"conversionType":"direct","conversionSymbol":""}]}}'
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1914971769582047470&lang=en&token=4n427dcz4vj
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3325'
+      Etag:
+      - W/"cfd-IKTzL0/DPC1gOcnVPLFIjy480XM"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - a5236ebb65bf6038
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '35'
+      X-Connection-Hash:
+      - 29d105afb819506eab9e6608e3aa8f255784699af179c89f1d0d4393fb7a2df6
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:07 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9827-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621967.812587,VS0,VE230
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MSwicG9zc2libHlfc2Vuc2l0aXZlIjpmYWxzZSwiY3JlYXRlZF9hdCI6IjIwMjUtMDQtMjNUMDk6MTc6MDIuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzAsNjRdLCJlbnRpdGllcyI6eyJoYXNodGFncyI6W10sInVybHMiOlt7ImRpc3BsYXlfdXJsIjoiaG9uZ2Jhb2IudGMiLCJleHBhbmRlZF91cmwiOiJodHRwczovL2hvbmdiYW9iLnRjIiwiaW5kaWNlcyI6WzM5LDYyXSwidXJsIjoiaHR0cHM6Ly90LmNvL0tTUWxDV1cxdk0ifV0sInVzZXJfbWVudGlvbnMiOltdLCJzeW1ib2xzIjpbXSwibWVkaWEiOlt7ImRpc3BsYXlfdXJsIjoicGljLnguY29tL0FwVDZESlBEbDUiLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkxNDk3MTc2OTU4MjA0NzQ3MC9waG90by8xIiwiaW5kaWNlcyI6WzYzLDg2XSwidXJsIjoiaHR0cHM6Ly90LmNvL0FwVDZESlBEbDUifV19LCJpZF9zdHIiOiIxOTE0OTcxNzY5NTgyMDQ3NDcwIiwidGV4dCI6IkZvcmdldCBmbG93ZXJzLiBIZSBnYXZlIG1lIHNvbWUgQlRDIPCfmI3wn5O3IGh0dHBzOi8vdC5jby9LU1FsQ1dXMXZNIGh0dHBzOi8vdC5jby9BcFQ2REpQRGw1IiwidXNlciI6eyJpZF9zdHIiOiI4NDYzNzYyNTI5MTEwOTE3MTIiLCJuYW1lIjoiU2FsbWEgVGFsYmkiLCJzY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSIsImlzX2JsdWVfdmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3NoYXBlIjoiQ2lyY2xlIiwidmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9wcm9maWxlX2ltYWdlcy8xOTQyNTE3MjA2NjQzNzczNDQwL3VOck1HUktQX25vcm1hbC5qcGcifSwiZWRpdF9jb250cm9sIjp7ImVkaXRfdHdlZXRfaWRzIjpbIjE5MTQ5NzE3Njk1ODIwNDc0NzAiXSwiZWRpdGFibGVfdW50aWxfbXNlY3MiOiIxNzQ1NDAzNDIyMDAwIiwiaXNfZWRpdF9lbGlnaWJsZSI6dHJ1ZSwiZWRpdHNfcmVtYWluaW5nIjoiNSJ9LCJtZWRpYURldGFpbHMiOlt7ImRpc3BsYXlfdXJsIjoicGljLnguY29tL0FwVDZESlBEbDUiLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkxNDk3MTc2OTU4MjA0NzQ3MC9waG90by8xIiwiZXh0X21lZGlhX2F2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJBdmFpbGFibGUifSwiaW5kaWNlcyI6WzYzLDg2XSwibWVkaWFfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0dwTllrTW5YWUFBaGZnVC5qcGciLCJvcmlnaW5hbF9pbmZvIjp7ImhlaWdodCI6NzIwLCJ3aWR0aCI6NzIwLCJmb2N1c19yZWN0cyI6W3sieCI6MCwieSI6NjksInciOjcyMCwiaCI6NDAzfSx7IngiOjAsInkiOjAsInciOjcyMCwiaCI6NzIwfSx7IngiOjg4LCJ5IjowLCJ3Ijo2MzIsImgiOjcyMH0seyJ4IjozMDYsInkiOjAsInciOjM2MCwiaCI6NzIwfSx7IngiOjAsInkiOjAsInciOjcyMCwiaCI6NzIwfV19LCJzaXplcyI6eyJsYXJnZSI6eyJoIjo3MjAsInJlc2l6ZSI6ImZpdCIsInciOjcyMH0sIm1lZGl1bSI6eyJoIjo3MjAsInJlc2l6ZSI6ImZpdCIsInciOjcyMH0sInNtYWxsIjp7ImgiOjY4MCwicmVzaXplIjoiZml0IiwidyI6NjgwfSwidGh1bWIiOnsiaCI6MTUwLCJyZXNpemUiOiJjcm9wIiwidyI6MTUwfX0sInR5cGUiOiJwaG90byIsInVybCI6Imh0dHBzOi8vdC5jby9BcFQ2REpQRGw1In0seyJkaXNwbGF5X3VybCI6InBpYy54LmNvbS9BcFQ2REpQRGw1IiwiZXhwYW5kZWRfdXJsIjoiaHR0cHM6Ly94LmNvbS9oaW1lc2FsbWEvc3RhdHVzLzE5MTQ5NzE3Njk1ODIwNDc0NzAvcGhvdG8vMSIsImV4dF9tZWRpYV9hdmFpbGFiaWxpdHkiOnsic3RhdHVzIjoiQXZhaWxhYmxlIn0sImluZGljZXMiOls2Myw4Nl0sIm1lZGlhX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9tZWRpYS9HcE5ZbnlxV0lBQThnMjEuanBnIiwib3JpZ2luYWxfaW5mbyI6eyJoZWlnaHQiOjEwMjQsIndpZHRoIjoxNTM2LCJmb2N1c19yZWN0cyI6W3sieCI6MCwieSI6MCwidyI6MTUzNiwiaCI6ODYwfSx7IngiOjAsInkiOjAsInciOjEwMjQsImgiOjEwMjR9LHsieCI6MCwieSI6MCwidyI6ODk4LCJoIjoxMDI0fSx7IngiOjE2NiwieSI6MCwidyI6NTEyLCJoIjoxMDI0fSx7IngiOjAsInkiOjAsInciOjE1MzYsImgiOjEwMjR9XX0sInNpemVzIjp7ImxhcmdlIjp7ImgiOjEwMjQsInJlc2l6ZSI6ImZpdCIsInciOjE1MzZ9LCJtZWRpdW0iOnsiaCI6ODAwLCJyZXNpemUiOiJmaXQiLCJ3IjoxMjAwfSwic21hbGwiOnsiaCI6NDUzLCJyZXNpemUiOiJmaXQiLCJ3Ijo2ODB9LCJ0aHVtYiI6eyJoIjoxNTAsInJlc2l6ZSI6ImNyb3AiLCJ3IjoxNTB9fSwidHlwZSI6InBob3RvIiwidXJsIjoiaHR0cHM6Ly90LmNvL0FwVDZESlBEbDUifV0sInBob3RvcyI6W3siYmFja2dyb3VuZENvbG9yIjp7InJlZCI6MjA0LCJncmVlbiI6MjE0LCJibHVlIjoyMjF9LCJjcm9wQ2FuZGlkYXRlcyI6W3sieCI6MCwieSI6NjksInciOjcyMCwiaCI6NDAzfSx7IngiOjAsInkiOjAsInciOjcyMCwiaCI6NzIwfSx7IngiOjg4LCJ5IjowLCJ3Ijo2MzIsImgiOjcyMH0seyJ4IjozMDYsInkiOjAsInciOjM2MCwiaCI6NzIwfSx7IngiOjAsInkiOjAsInciOjcyMCwiaCI6NzIwfV0sImV4cGFuZGVkVXJsIjoiaHR0cHM6Ly94LmNvbS9oaW1lc2FsbWEvc3RhdHVzLzE5MTQ5NzE3Njk1ODIwNDc0NzAvcGhvdG8vMSIsInVybCI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9tZWRpYS9HcE5Za01uWFlBQWhmZ1QuanBnIiwid2lkdGgiOjcyMCwiaGVpZ2h0Ijo3MjB9LHsiYmFja2dyb3VuZENvbG9yIjp7InJlZCI6MjA0LCJncmVlbiI6MjE0LCJibHVlIjoyMjF9LCJjcm9wQ2FuZGlkYXRlcyI6W3sieCI6MCwieSI6MCwidyI6MTUzNiwiaCI6ODYwfSx7IngiOjAsInkiOjAsInciOjEwMjQsImgiOjEwMjR9LHsieCI6MCwieSI6MCwidyI6ODk4LCJoIjoxMDI0fSx7IngiOjE2NiwieSI6MCwidyI6NTEyLCJoIjoxMDI0fSx7IngiOjAsInkiOjAsInciOjE1MzYsImgiOjEwMjR9XSwiZXhwYW5kZWRVcmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkxNDk3MTc2OTU4MjA0NzQ3MC9waG90by8xIiwidXJsIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0dwTllueXFXSUFBOGcyMS5qcGciLCJ3aWR0aCI6MTUzNiwiaGVpZ2h0IjoxMDI0fV0sImNvbnZlcnNhdGlvbl9jb3VudCI6MCwibmV3c19hY3Rpb25fdHlwZSI6ImNvbnZlcnNhdGlvbiIsImlzRWRpdGVkIjpmYWxzZSwiaXNTdGFsZUVkaXQiOmZhbHNlfQ==
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1943578237214327268&lang=en&token=4plxipy4i5e
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2453'
+      Etag:
+      - W/"995-AMdEP54dd1WFp/YT1+9bAfzWIVM"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 9e5c86c326e6c347
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '41'
+      X-Connection-Hash:
+      - 1283561fcfb79102088e94b49872086b11daa15ce59277ace41b1d0966f97d71
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:07 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9823-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621967.122346,VS0,VE215
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MywicG9zc2libHlfc2Vuc2l0aXZlIjpmYWxzZSwiY3JlYXRlZF9hdCI6IjIwMjUtMDctMTFUMDc6NDg6NTYuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzAsMjc4XSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W10sInN5bWJvbHMiOltdLCJtZWRpYSI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vUFpIaXpmUmpueiIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vc2JvdW5teS9zdGF0dXMvMTk0MzU3ODIzNzIxNDMyNzI2OC9waG90by8xIiwiaW5kaWNlcyI6WzI3NywzMDBdLCJ1cmwiOiJodHRwczovL3QuY28vUFpIaXpmUmpueiJ9XX0sImlkX3N0ciI6IjE5NDM1NzgyMzcyMTQzMjcyNjgiLCJ0ZXh0IjoiQXQgZnJpZW5kcyBiaXJ0aGRheTog8J+OgVxuXG5CRUZPUkVcblwiU29ycnksIEkgZG9uJ3QgaGF2ZSBhbnkgQml0Y29pbi4gSSBkb24ndCB0aGluayBJIHdpbGwgYnV5IGl0J3MgdG9vIGxhdGUuXCJcblxuQUZURVJcblwiT2sgbm93IEkgaGF2ZSBCaXRjb2luIEkgd2lsbCBxdWl0IG15IGpvYiBhZnRlciBJIHJlYWQgdGhpcyBib29rIPCfmIJcIlxuXG5NeSBvcmFuZ2UgcGlsbCByZWNpcGUgOlxuLSBQcmludCAkMjEgaW4gQlRDXG4tIEEgYm9vayB0aGF0IGlzIGVhc3kgdG8gcmVhZCAyMSBMZcOnb25zIG9yIEFsaWNlIGF1IGh0dHBzOi8vdC5jby9QWkhpemZSam56IiwidXNlciI6eyJpZF9zdHIiOiIzNzA0ODc1NSIsIm5hbWUiOiJTdGVwaGFuZSDigr9vdW5teSIsInNjcmVlbl9uYW1lIjoic2JvdW5teSIsImlzX2JsdWVfdmVyaWZpZWQiOnRydWUsInByb2ZpbGVfaW1hZ2Vfc2hhcGUiOiJDaXJjbGUiLCJ2ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzE5MTAzNzIwMDIxNjM5OTQ2MjQvQTktbWhDVl9fbm9ybWFsLmpwZyJ9LCJlZGl0X2NvbnRyb2wiOnsiZWRpdF90d2VldF9pZHMiOlsiMTk0MzU3ODIzNzIxNDMyNzI2OCJdLCJlZGl0YWJsZV91bnRpbF9tc2VjcyI6IjE3NTIyMjM3MzYwMDAiLCJpc19lZGl0X2VsaWdpYmxlIjp0cnVlLCJlZGl0c19yZW1haW5pbmciOiI1In0sIm1lZGlhRGV0YWlscyI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vUFpIaXpmUmpueiIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vc2JvdW5teS9zdGF0dXMvMTk0MzU3ODIzNzIxNDMyNzI2OC9waG90by8xIiwiZXh0X21lZGlhX2F2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJBdmFpbGFibGUifSwiaW5kaWNlcyI6WzI3NywzMDBdLCJtZWRpYV91cmxfaHR0cHMiOiJodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvR3ZqNTJ4eVdjQUE4ekdNLmpwZyIsIm9yaWdpbmFsX2luZm8iOnsiaGVpZ2h0IjoyNzY0LCJ3aWR0aCI6MjQxMSwiZm9jdXNfcmVjdHMiOlt7IngiOjAsInkiOjE0MTQsInciOjI0MTEsImgiOjEzNTB9LHsieCI6MCwieSI6MzUzLCJ3IjoyNDExLCJoIjoyNDExfSx7IngiOjAsInkiOjE1LCJ3IjoyNDExLCJoIjoyNzQ5fSx7IngiOjEwMjksInkiOjAsInciOjEzODIsImgiOjI3NjR9LHsieCI6MCwieSI6MCwidyI6MjQxMSwiaCI6Mjc2NH1dfSwic2l6ZXMiOnsibGFyZ2UiOnsiaCI6MjA0OCwicmVzaXplIjoiZml0IiwidyI6MTc4Nn0sIm1lZGl1bSI6eyJoIjoxMjAwLCJyZXNpemUiOiJmaXQiLCJ3IjoxMDQ3fSwic21hbGwiOnsiaCI6NjgwLCJyZXNpemUiOiJmaXQiLCJ3Ijo1OTN9LCJ0aHVtYiI6eyJoIjoxNTAsInJlc2l6ZSI6ImNyb3AiLCJ3IjoxNTB9fSwidHlwZSI6InBob3RvIiwidXJsIjoiaHR0cHM6Ly90LmNvL1BaSGl6ZlJqbnoifV0sInBob3RvcyI6W3siYmFja2dyb3VuZENvbG9yIjp7InJlZCI6MjA0LCJncmVlbiI6MjE0LCJibHVlIjoyMjF9LCJjcm9wQ2FuZGlkYXRlcyI6W3sieCI6MCwieSI6MTQxNCwidyI6MjQxMSwiaCI6MTM1MH0seyJ4IjowLCJ5IjozNTMsInciOjI0MTEsImgiOjI0MTF9LHsieCI6MCwieSI6MTUsInciOjI0MTEsImgiOjI3NDl9LHsieCI6MTAyOSwieSI6MCwidyI6MTM4MiwiaCI6Mjc2NH0seyJ4IjowLCJ5IjowLCJ3IjoyNDExLCJoIjoyNzY0fV0sImV4cGFuZGVkVXJsIjoiaHR0cHM6Ly94LmNvbS9zYm91bm15L3N0YXR1cy8xOTQzNTc4MjM3MjE0MzI3MjY4L3Bob3RvLzEiLCJ1cmwiOiJodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvR3ZqNTJ4eVdjQUE4ekdNLmpwZyIsIndpZHRoIjoyNDExLCJoZWlnaHQiOjI3NjR9XSwiY29udmVyc2F0aW9uX2NvdW50IjoxLCJuZXdzX2FjdGlvbl90eXBlIjoiY29udmVyc2F0aW9uIiwiaXNFZGl0ZWQiOmZhbHNlLCJpc1N0YWxlRWRpdCI6ZmFsc2UsIm5vdGVfdHdlZXQiOnsiaWQiOiJUbTkwWlZSM1pXVjBVbVZ6ZFd4MGN6b3hPVFF6TlRjNE1qTTNNVEV6Tmpnek9UWTQifX0=
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1937164001797873711&lang=en&token=4p1s34v3uq6
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2508'
+      Etag:
+      - W/"9cc-BZiSDXgc4GTmROrDqZdD0J7aGEs"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 4526e723e1e80583
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '40'
+      X-Connection-Hash:
+      - 652a3f35c6ec95cc66bb91c308f55e324b00bd7b9f1a4ce97233be776a5e58f4
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:07 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9822-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621967.399360,VS0,VE225
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MTYsInBvc3NpYmx5X3NlbnNpdGl2ZSI6ZmFsc2UsImNyZWF0ZWRfYXQiOiIyMDI1LTA2LTIzVDE1OjAxOjAzLjAwMFoiLCJkaXNwbGF5X3RleHRfcmFuZ2UiOlswLDIyNF0sImVudGl0aWVzIjp7Imhhc2h0YWdzIjpbXSwidXJscyI6W3siZGlzcGxheV91cmwiOiJnZXlzZXIuZnVuZC9wcm9qZWN0L2hvbmdiYeKApiIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8vZ2V5c2VyLmZ1bmQvcHJvamVjdC9ob25nYmFvYnRjP2hlcm89Z2V5c2VycHJvbW90aW9uIiwiaW5kaWNlcyI6WzE5OSwyMjJdLCJ1cmwiOiJodHRwczovL3QuY28vd3JheHUwSUdndSJ9XSwidXNlcl9tZW50aW9ucyI6W10sInN5bWJvbHMiOltdLCJtZWRpYSI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vYnYxdzJLMDg3QyIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vZ2V5c2VyZnVuZC9zdGF0dXMvMTkzNzE2NDAwMTc5Nzg3MzcxMS9waG90by8xIiwiaW5kaWNlcyI6WzIyMywyNDZdLCJ1cmwiOiJodHRwczovL3QuY28vYnYxdzJLMDg3QyJ9XX0sImlkX3N0ciI6IjE5MzcxNjQwMDE3OTc4NzM3MTEiLCJ0ZXh0IjoiSG9uZ+KCv2FvOiBHaWZ0aW5nIEJpdGNvaW4g8J+Hq/Cfh7dcblxuU3RlcGhhbmUgYW5kIFNhbG1hIHF1aXQgYnVybm91dCBhbmQgYnVpbHQgSG9uZ+KCv2FvOiBhIHdheSB0byBnaWZ0IEJpdGNvaW4gbGlrZSBoYW5kaW5nIG92ZXIgdHJlYXN1cmUuIFBhcGVyIHdhbGxldHMsIHBlcnNvbmFsaXplZCB3aXRoIEFJIGFydCwgbm8gYXBwcywgbm8gc3VydmVpbGxhbmNlLiBcblxuaHR0cHM6Ly90LmNvL3dyYXh1MElHZ3UgaHR0cHM6Ly90LmNvL2J2MXcySzA4N0MiLCJ1c2VyIjp7ImlkX3N0ciI6IjE0Mjc3NDI5NTA5NzM0OTMyNTkiLCJuYW1lIjoiR2V5c2VyIOKaoe+4jyIsInNjcmVlbl9uYW1lIjoiZ2V5c2VyZnVuZCIsImlzX2JsdWVfdmVyaWZpZWQiOnRydWUsInByb2ZpbGVfaW1hZ2Vfc2hhcGUiOiJDaXJjbGUiLCJ2ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzE4MjcwMzkxMjQyOTA3MDMzNjAvQzdoYUY2Z0Ffbm9ybWFsLmpwZyJ9LCJlZGl0X2NvbnRyb2wiOnsiZWRpdF90d2VldF9pZHMiOlsiMTkzNzE2NDAwMTc5Nzg3MzcxMSJdLCJlZGl0YWJsZV91bnRpbF9tc2VjcyI6IjE3NTA2OTQ0NjMwMDAiLCJpc19lZGl0X2VsaWdpYmxlIjp0cnVlLCJlZGl0c19yZW1haW5pbmciOiI1In0sIm1lZGlhRGV0YWlscyI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vYnYxdzJLMDg3QyIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vZ2V5c2VyZnVuZC9zdGF0dXMvMTkzNzE2NDAwMTc5Nzg3MzcxMS9waG90by8xIiwiZXh0X21lZGlhX2F2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJBdmFpbGFibGUifSwiaW5kaWNlcyI6WzIyMywyNDZdLCJtZWRpYV91cmxfaHR0cHMiOiJodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvR3VJd1l4V1dVQUF6UGhILmpwZyIsIm9yaWdpbmFsX2luZm8iOnsiaGVpZ2h0IjoxMDI0LCJ3aWR0aCI6MTUzNiwiZm9jdXNfcmVjdHMiOlt7IngiOjAsInkiOjE2NCwidyI6MTUzNiwiaCI6ODYwfSx7IngiOjI1NiwieSI6MCwidyI6MTAyNCwiaCI6MTAyNH0seyJ4IjozMTksInkiOjAsInciOjg5OCwiaCI6MTAyNH0seyJ4Ijo1MTIsInkiOjAsInciOjUxMiwiaCI6MTAyNH0seyJ4IjowLCJ5IjowLCJ3IjoxNTM2LCJoIjoxMDI0fV19LCJzaXplcyI6eyJsYXJnZSI6eyJoIjoxMDI0LCJyZXNpemUiOiJmaXQiLCJ3IjoxNTM2fSwibWVkaXVtIjp7ImgiOjgwMCwicmVzaXplIjoiZml0IiwidyI6MTIwMH0sInNtYWxsIjp7ImgiOjQ1MywicmVzaXplIjoiZml0IiwidyI6NjgwfSwidGh1bWIiOnsiaCI6MTUwLCJyZXNpemUiOiJjcm9wIiwidyI6MTUwfX0sInR5cGUiOiJwaG90byIsInVybCI6Imh0dHBzOi8vdC5jby9idjF3MkswODdDIn1dLCJwaG90b3MiOlt7ImJhY2tncm91bmRDb2xvciI6eyJyZWQiOjIwNCwiZ3JlZW4iOjIxNCwiYmx1ZSI6MjIxfSwiY3JvcENhbmRpZGF0ZXMiOlt7IngiOjAsInkiOjE2NCwidyI6MTUzNiwiaCI6ODYwfSx7IngiOjI1NiwieSI6MCwidyI6MTAyNCwiaCI6MTAyNH0seyJ4IjozMTksInkiOjAsInciOjg5OCwiaCI6MTAyNH0seyJ4Ijo1MTIsInkiOjAsInciOjUxMiwiaCI6MTAyNH0seyJ4IjowLCJ5IjowLCJ3IjoxNTM2LCJoIjoxMDI0fV0sImV4cGFuZGVkVXJsIjoiaHR0cHM6Ly94LmNvbS9nZXlzZXJmdW5kL3N0YXR1cy8xOTM3MTY0MDAxNzk3ODczNzExL3Bob3RvLzEiLCJ1cmwiOiJodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvR3VJd1l4V1dVQUF6UGhILmpwZyIsIndpZHRoIjoxNTM2LCJoZWlnaHQiOjEwMjR9XSwiY29udmVyc2F0aW9uX2NvdW50Ijo2LCJuZXdzX2FjdGlvbl90eXBlIjoiY29udmVyc2F0aW9uIiwiaXNFZGl0ZWQiOmZhbHNlLCJpc1N0YWxlRWRpdCI6ZmFsc2V9
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1953575928413741319&lang=en&token=4qhc8d7ne3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2224'
+      Etag:
+      - W/"8b0-1xZ15ZGR5sVWJvpizsRUH+y39/I"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 60abd9a44c551447
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '40'
+      X-Connection-Hash:
+      - 83bf2f840f982a32f0433a536b8d99cc739cd49cadecb4c4b7758b4043b1cdea
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:07 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9829-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621968.678740,VS0,VE230
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MiwicG9zc2libHlfc2Vuc2l0aXZlIjpmYWxzZSwiY3JlYXRlZF9hdCI6IjIwMjUtMDgtMDdUMjE6NTY6MTEuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzAsNTldLCJlbnRpdGllcyI6eyJoYXNodGFncyI6W10sInVybHMiOltdLCJ1c2VyX21lbnRpb25zIjpbeyJpZF9zdHIiOiIxOTA3Njk0NjU2ODc3NDY5Njk2IiwiaW5kaWNlcyI6WzQ0LDU5XSwibmFtZSI6IkhvbmdiYW9iIiwic2NyZWVuX25hbWUiOiJob25nYmFvYml0Y29pbiJ9XSwic3ltYm9scyI6W10sIm1lZGlhIjpbeyJkaXNwbGF5X3VybCI6InBpYy54LmNvbS9KbVNTRjZicEtFIiwiZXhwYW5kZWRfdXJsIjoiaHR0cHM6Ly94LmNvbS9wb25kZXJpem9yL3N0YXR1cy8xOTUzNTc1OTI4NDEzNzQxMzE5L3Bob3RvLzEiLCJpbmRpY2VzIjpbNjAsODNdLCJ1cmwiOiJodHRwczovL3QuY28vSm1TU0Y2YnBLRSJ9XX0sImlkX3N0ciI6IjE5NTM1NzU5Mjg0MTM3NDEzMTkiLCJ0ZXh0IjoiRm9yIHRoZSB3ZWRkaW5nIG9mIG15IGNvdXNpbiwgSSBnYXZlIHRoZW0gYSBAaG9uZ2Jhb2JpdGNvaW4gaHR0cHM6Ly90LmNvL0ptU1NGNmJwS0UiLCJ1c2VyIjp7ImlkX3N0ciI6IjEzMzYzMTE1NDkwOTU1MjIzMDYiLCJuYW1lIjoiUG9uZGVyaXpvciDwn5C3Iiwic2NyZWVuX25hbWUiOiJwb25kZXJpem9yIiwiaXNfYmx1ZV92ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2Vfc2hhcGUiOiJDaXJjbGUiLCJ2ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzE5NTEyNzUyNzY2Njg3Mzk1ODQvRDlVcHpzUUJfbm9ybWFsLmpwZyJ9LCJlZGl0X2NvbnRyb2wiOnsiZWRpdF90d2VldF9pZHMiOlsiMTk1MzU3NTkyODQxMzc0MTMxOSJdLCJlZGl0YWJsZV91bnRpbF9tc2VjcyI6IjE3NTQ2MDczNzEwMDAiLCJpc19lZGl0X2VsaWdpYmxlIjp0cnVlLCJlZGl0c19yZW1haW5pbmciOiI1In0sIm1lZGlhRGV0YWlscyI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vSm1TU0Y2YnBLRSIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vcG9uZGVyaXpvci9zdGF0dXMvMTk1MzU3NTkyODQxMzc0MTMxOS9waG90by8xIiwiZXh0X21lZGlhX2F2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJBdmFpbGFibGUifSwiaW5kaWNlcyI6WzYwLDgzXSwibWVkaWFfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0d4eC04MG5YUUFBVFNaTi5qcGciLCJvcmlnaW5hbF9pbmZvIjp7ImhlaWdodCI6ODk2LCJ3aWR0aCI6Nzk0LCJmb2N1c19yZWN0cyI6W3sieCI6MCwieSI6MzgxLCJ3Ijo3OTQsImgiOjQ0NX0seyJ4IjowLCJ5IjoxMDIsInciOjc5NCwiaCI6Nzk0fSx7IngiOjAsInkiOjAsInciOjc4NiwiaCI6ODk2fSx7IngiOjY2LCJ5IjowLCJ3Ijo0NDgsImgiOjg5Nn0seyJ4IjowLCJ5IjowLCJ3Ijo3OTQsImgiOjg5Nn1dfSwic2l6ZXMiOnsibGFyZ2UiOnsiaCI6ODk2LCJyZXNpemUiOiJmaXQiLCJ3Ijo3OTR9LCJtZWRpdW0iOnsiaCI6ODk2LCJyZXNpemUiOiJmaXQiLCJ3Ijo3OTR9LCJzbWFsbCI6eyJoIjo2ODAsInJlc2l6ZSI6ImZpdCIsInciOjYwM30sInRodW1iIjp7ImgiOjE1MCwicmVzaXplIjoiY3JvcCIsInciOjE1MH19LCJ0eXBlIjoicGhvdG8iLCJ1cmwiOiJodHRwczovL3QuY28vSm1TU0Y2YnBLRSJ9XSwicGhvdG9zIjpbeyJiYWNrZ3JvdW5kQ29sb3IiOnsicmVkIjoyMDQsImdyZWVuIjoyMTQsImJsdWUiOjIyMX0sImNyb3BDYW5kaWRhdGVzIjpbeyJ4IjowLCJ5IjozODEsInciOjc5NCwiaCI6NDQ1fSx7IngiOjAsInkiOjEwMiwidyI6Nzk0LCJoIjo3OTR9LHsieCI6MCwieSI6MCwidyI6Nzg2LCJoIjo4OTZ9LHsieCI6NjYsInkiOjAsInciOjQ0OCwiaCI6ODk2fSx7IngiOjAsInkiOjAsInciOjc5NCwiaCI6ODk2fV0sImV4cGFuZGVkVXJsIjoiaHR0cHM6Ly94LmNvbS9wb25kZXJpem9yL3N0YXR1cy8xOTUzNTc1OTI4NDEzNzQxMzE5L3Bob3RvLzEiLCJ1cmwiOiJodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvR3h4LTgwblhRQUFUU1pOLmpwZyIsIndpZHRoIjo3OTQsImhlaWdodCI6ODk2fV0sImNvbnZlcnNhdGlvbl9jb3VudCI6MCwibmV3c19hY3Rpb25fdHlwZSI6ImNvbnZlcnNhdGlvbiIsImlzRWRpdGVkIjpmYWxzZSwiaXNTdGFsZUVkaXQiOmZhbHNlfQ==
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1936760123453755629&lang=en&token=4pieqqniid
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3155'
+      Etag:
+      - W/"c53-Bi/l0Mypgb8ITBcZ9zMyq6fvwZk"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 7c226afd74ccf83b
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '64'
+      X-Connection-Hash:
+      - 6a7d20a8e6d960c77ef62aa2d126c029dec122f251ca4c60cf0390d24a36e009
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:08 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9820-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621968.969850,VS0,VE249
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJpbl9yZXBseV90b19zY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSIsImluX3JlcGx5X3RvX3N0YXR1c19pZF9zdHIiOiIxOTM2NzI4MzM5NzY4ODg5ODMyIiwiaW5fcmVwbHlfdG9fdXNlcl9pZF9zdHIiOiI4NDYzNzYyNTI5MTEwOTE3MTIiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MSwiY3JlYXRlZF9hdCI6IjIwMjUtMDYtMjJUMTI6MTY6MTEuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzExLDU2XSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W3siaWRfc3RyIjoiODQ2Mzc2MjUyOTExMDkxNzEyIiwiaW5kaWNlcyI6WzAsMTBdLCJuYW1lIjoiU2FsbWEgVGFsYmkiLCJzY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSJ9XSwic3ltYm9scyI6W119LCJpZF9zdHIiOiIxOTM2NzYwMTIzNDUzNzU1NjI5IiwidGV4dCI6IkBoaW1lc2FsbWEgSSBob3BlIG15IGdyYW5kbWEgZ2l2ZXMgbWUgQlRDIHJlZCBwb2NrZXRzIPCfmIIiLCJ1c2VyIjp7ImlkX3N0ciI6IjU4NjUwMzAzNyIsIm5hbWUiOiJId2FuIENoaW5ZYW5nIiwic2NyZWVuX25hbWUiOiJId2FuQ2hpbllhbmciLCJpc19ibHVlX3ZlcmlmaWVkIjp0cnVlLCJwcm9maWxlX2ltYWdlX3NoYXBlIjoiQ2lyY2xlIiwidmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9wcm9maWxlX2ltYWdlcy8xOTE5Mzc3NDgzNDc0MDcxNTUyL0VyMGp0RHNuX25vcm1hbC5qcGcifSwiZWRpdF9jb250cm9sIjp7ImVkaXRfdHdlZXRfaWRzIjpbIjE5MzY3NjAxMjM0NTM3NTU2MjkiXSwiZWRpdGFibGVfdW50aWxfbXNlY3MiOiIxNzUwNTk4MTcxMDAwIiwiaXNfZWRpdF9lbGlnaWJsZSI6ZmFsc2UsImVkaXRzX3JlbWFpbmluZyI6IjUifSwiY29udmVyc2F0aW9uX2NvdW50IjoxLCJuZXdzX2FjdGlvbl90eXBlIjoiY29udmVyc2F0aW9uIiwicGFyZW50Ijp7ImxhbmciOiJlbiIsInJlcGx5X2NvdW50IjoxLCJyZXR3ZWV0X2NvdW50IjowLCJmYXZvcml0ZV9jb3VudCI6MiwicG9zc2libHlfc2Vuc2l0aXZlIjpmYWxzZSwiY3JlYXRlZF9hdCI6IjIwMjUtMDYtMjJUMTA6MDk6NTMuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzAsMjYwXSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W10sInN5bWJvbHMiOltdLCJtZWRpYSI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vTHBXODJDSDRMRCIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vaGltZXNhbG1hL3N0YXR1cy8xOTM2NzI4MzM5NzY4ODg5ODMyL3Bob3RvLzEiLCJpbmRpY2VzIjpbMjYwLDI4M10sInVybCI6Imh0dHBzOi8vdC5jby9McFc4MkNINExEIn1dfSwiaWRfc3RyIjoiMTkzNjcyODMzOTc2ODg4OTgzMiIsInRleHQiOiJBcyBhIGRldmVsb3Blciwgd2UgYWx3YXlzIHRoaW5rIHRoZSBoYXJkZXN0IHBhcnQgaXMgY29kaW5nIGFuZCBkZWJ1Z2dpbmcsIHdoaWxlIGl0J3Mgbm90IGVhc3kgaSBmb3VuZCB0aGF0IG1ha2luZyBwZW9wbGUga25vdyBhbmQgYWNrbm93bGVkZ2UgeW91ciBwcm9qZWN0IGlzIHF1aXRlIGRpZmZpY3VsdCB0b28gXG5TdGlsbCBpIGJlbGlldmUgaW4gaXQgYW5kIGknbGwgY29udGludWUgbWFraW5nIEJpdGNvaW4gZWFzeSB0byBnaWZ0IHRvIEdyYW5kbWEg8J+YgSBodHRwczovL3QuY28vTHBXODJDSDRMRCIsInVzZXIiOnsiaWRfc3RyIjoiODQ2Mzc2MjUyOTExMDkxNzEyIiwibmFtZSI6IlNhbG1hIFRhbGJpIiwic2NyZWVuX25hbWUiOiJoaW1lc2FsbWEiLCJpc19ibHVlX3ZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV9zaGFwZSI6IkNpcmNsZSIsInZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV91cmxfaHR0cHMiOiJodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMTk0MjUxNzIwNjY0Mzc3MzQ0MC91TnJNR1JLUF9ub3JtYWwuanBnIn0sIm1lZGlhRGV0YWlscyI6W3siZGlzcGxheV91cmwiOiJwaWMueC5jb20vTHBXODJDSDRMRCIsImV4cGFuZGVkX3VybCI6Imh0dHBzOi8veC5jb20vaGltZXNhbG1hL3N0YXR1cy8xOTM2NzI4MzM5NzY4ODg5ODMyL3Bob3RvLzEiLCJleHRfbWVkaWFfYXZhaWxhYmlsaXR5Ijp7InN0YXR1cyI6IkF2YWlsYWJsZSJ9LCJpbmRpY2VzIjpbMjYwLDI4M10sIm1lZGlhX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9tZWRpYS9HdUNrRUlTV01BQS13YVYuanBnIiwib3JpZ2luYWxfaW5mbyI6eyJoZWlnaHQiOjEyODAsIndpZHRoIjoyMjc3LCJmb2N1c19yZWN0cyI6W3sieCI6MCwieSI6NSwidyI6MjI3NywiaCI6MTI3NX0seyJ4Ijo1NTQsInkiOjAsInciOjEyODAsImgiOjEyODB9LHsieCI6NjMzLCJ5IjowLCJ3IjoxMTIzLCJoIjoxMjgwfSx7IngiOjg3NCwieSI6MCwidyI6NjQwLCJoIjoxMjgwfSx7IngiOjAsInkiOjAsInciOjIyNzcsImgiOjEyODB9XX0sInNpemVzIjp7ImxhcmdlIjp7ImgiOjExNTEsInJlc2l6ZSI6ImZpdCIsInciOjIwNDh9LCJtZWRpdW0iOnsiaCI6Njc1LCJyZXNpemUiOiJmaXQiLCJ3IjoxMjAwfSwic21hbGwiOnsiaCI6MzgyLCJyZXNpemUiOiJmaXQiLCJ3Ijo2ODB9LCJ0aHVtYiI6eyJoIjoxNTAsInJlc2l6ZSI6ImNyb3AiLCJ3IjoxNTB9fSwidHlwZSI6InBob3RvIiwidXJsIjoiaHR0cHM6Ly90LmNvL0xwVzgyQ0g0TEQifV0sInBob3RvcyI6W3siYmFja2dyb3VuZENvbG9yIjp7InJlZCI6MjA0LCJncmVlbiI6MjE0LCJibHVlIjoyMjF9LCJjcm9wQ2FuZGlkYXRlcyI6W3sieCI6MCwieSI6NSwidyI6MjI3NywiaCI6MTI3NX0seyJ4Ijo1NTQsInkiOjAsInciOjEyODAsImgiOjEyODB9LHsieCI6NjMzLCJ5IjowLCJ3IjoxMTIzLCJoIjoxMjgwfSx7IngiOjg3NCwieSI6MCwidyI6NjQwLCJoIjoxMjgwfSx7IngiOjAsInkiOjAsInciOjIyNzcsImgiOjEyODB9XSwiZXhwYW5kZWRVcmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkzNjcyODMzOTc2ODg4OTgzMi9waG90by8xIiwidXJsIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0d1Q2tFSVNXTUFBLXdhVi5qcGciLCJ3aWR0aCI6MjI3NywiaGVpZ2h0IjoxMjgwfV19LCJpc0VkaXRlZCI6ZmFsc2UsImlzU3RhbGVFZGl0IjpmYWxzZX0=
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1937208973666709866&lang=en&token=4p1x68ksarj
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4707'
+      Etag:
+      - W/"1263-sWBrlzZ6Lbpnh+R72n12NYYyISc"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 6487c36fbff15291
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '43'
+      X-Connection-Hash:
+      - 51894d292a741c0679dc4fab554e4ed53f3f3eac6fa33586d4e4f2b019b5d7f2
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:08 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9829-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621968.283865,VS0,VE260
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJpbl9yZXBseV90b19zY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSIsImluX3JlcGx5X3RvX3N0YXR1c19pZF9zdHIiOiIxOTM3MjA4MDczMTc4NzY3NzA1IiwiaW5fcmVwbHlfdG9fdXNlcl9pZF9zdHIiOiI4NDYzNzYyNTI5MTEwOTE3MTIiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MiwiY3JlYXRlZF9hdCI6IjIwMjUtMDYtMjNUMTc6NTk6NDUuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzIzLDE1OV0sImVudGl0aWVzIjp7Imhhc2h0YWdzIjpbXSwidXJscyI6W10sInVzZXJfbWVudGlvbnMiOlt7ImlkX3N0ciI6Ijg0NjM3NjI1MjkxMTA5MTcxMiIsImluZGljZXMiOlswLDEwXSwibmFtZSI6IlNhbG1hIFRhbGJpIiwic2NyZWVuX25hbWUiOiJoaW1lc2FsbWEifSx7ImlkX3N0ciI6IjE0Mjc3NDI5NTA5NzM0OTMyNTkiLCJpbmRpY2VzIjpbMTEsMjJdLCJuYW1lIjoiR2V5c2VyIOKaoe+4jyIsInNjcmVlbl9uYW1lIjoiZ2V5c2VyZnVuZCJ9XSwic3ltYm9scyI6W119LCJpZF9zdHIiOiIxOTM3MjA4OTczNjY2NzA5ODY2IiwidGV4dCI6IkBoaW1lc2FsbWEgQGdleXNlcmZ1bmQgeWVzISBsb3ZlIGl0LiBjYW50IHdhaXQgdG8gZ2V0IGEgZmV3IC0gSSBhbHNvIGFtIHByZXR0eSBzdXJlIGEgbG90IG9mIGNvbGxlY3RvcnMgZnJvbSB0aGUgQml0Y29pblRhbGsgZm9ydW1zIHdpbGwgd2FudCBhIGZldyBhcyB3ZWxsLiA6KSIsInVzZXIiOnsiaWRfc3RyIjoiMTI2NjQwMzIzODIyMTQxNDQwMSIsIm5hbWUiOiJNb3Bhck1pbmluZ0xMQyIsInNjcmVlbl9uYW1lIjoiTW9wYXJNaW5pbmciLCJpc19ibHVlX3ZlcmlmaWVkIjp0cnVlLCJwcm9maWxlX2ltYWdlX3NoYXBlIjoiQ2lyY2xlIiwidmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9wcm9maWxlX2ltYWdlcy8xODc5OTkwOTk0NDk1NTE2NjcyL3ltQjctVWQ3X25vcm1hbC5qcGcifSwiZWRpdF9jb250cm9sIjp7ImVkaXRfdHdlZXRfaWRzIjpbIjE5MzcyMDg5NzM2NjY3MDk4NjYiXSwiZWRpdGFibGVfdW50aWxfbXNlY3MiOiIxNzUwNzA1MTg1MDAwIiwiaXNfZWRpdF9lbGlnaWJsZSI6ZmFsc2UsImVkaXRzX3JlbWFpbmluZyI6IjUifSwiY29udmVyc2F0aW9uX2NvdW50IjoxLCJuZXdzX2FjdGlvbl90eXBlIjoiY29udmVyc2F0aW9uIiwicGFyZW50Ijp7ImluX3JlcGx5X3RvX3NjcmVlbl9uYW1lIjoiTW9wYXJNaW5pbmciLCJpbl9yZXBseV90b19zdGF0dXNfaWRfc3RyIjoiMTkzNzIwNjgyMTE0MTMyNDE1MiIsImluX3JlcGx5X3RvX3VzZXJfaWRfc3RyIjoiMTI2NjQwMzIzODIyMTQxNDQwMSIsImxhbmciOiJlbiIsInJlcGx5X2NvdW50IjoxLCJyZXR3ZWV0X2NvdW50IjowLCJmYXZvcml0ZV9jb3VudCI6MiwicG9zc2libHlfc2Vuc2l0aXZlIjpmYWxzZSwiY3JlYXRlZF9hdCI6IjIwMjUtMDYtMjNUMTc6NTY6MTAuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzI1LDQ2XSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W3siaWRfc3RyIjoiMTI2NjQwMzIzODIyMTQxNDQwMSIsImluZGljZXMiOlswLDEyXSwibmFtZSI6Ik1vcGFyTWluaW5nTExDIiwic2NyZWVuX25hbWUiOiJNb3Bhck1pbmluZyJ9LHsiaWRfc3RyIjoiMTQyNzc0Mjk1MDk3MzQ5MzI1OSIsImluZGljZXMiOlsxMywyNF0sIm5hbWUiOiJHZXlzZXIg4pqh77iPIiwic2NyZWVuX25hbWUiOiJnZXlzZXJmdW5kIn1dLCJzeW1ib2xzIjpbXSwibWVkaWEiOlt7ImRpc3BsYXlfdXJsIjoicGljLnguY29tL3FsRnpWYWpvYU0iLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkzNzIwODA3MzE3ODc2NzcwNS92aWRlby8xIiwiaW5kaWNlcyI6WzQ3LDcwXSwidXJsIjoiaHR0cHM6Ly90LmNvL3FsRnpWYWpvYU0ifV19LCJpZF9zdHIiOiIxOTM3MjA4MDczMTc4NzY3NzA1IiwidGV4dCI6IkBNb3Bhck1pbmluZyBAZ2V5c2VyZnVuZCBUaGlzIHRoZSBvdGhlciBkZXNpZ24gaHR0cHM6Ly90LmNvL3FsRnpWYWpvYU0iLCJ1c2VyIjp7ImlkX3N0ciI6Ijg0NjM3NjI1MjkxMTA5MTcxMiIsIm5hbWUiOiJTYWxtYSBUYWxiaSIsInNjcmVlbl9uYW1lIjoiaGltZXNhbG1hIiwiaXNfYmx1ZV92ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2Vfc2hhcGUiOiJDaXJjbGUiLCJ2ZXJpZmllZCI6ZmFsc2UsInByb2ZpbGVfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzE5NDI1MTcyMDY2NDM3NzM0NDAvdU5yTUdSS1Bfbm9ybWFsLmpwZyJ9LCJlZGl0X2NvbnRyb2wiOnsiZWRpdF90d2VldF9pZHMiOlsiMTkzNzIwODA3MzE3ODc2NzcwNSJdLCJlZGl0YWJsZV91bnRpbF9tc2VjcyI6IjE3NTA3MDQ5NzAwMDAiLCJpc19lZGl0X2VsaWdpYmxlIjpmYWxzZSwiZWRpdHNfcmVtYWluaW5nIjoiNSJ9LCJtZWRpYURldGFpbHMiOlt7ImFkZGl0aW9uYWxfbWVkaWFfaW5mbyI6e30sImRpc3BsYXlfdXJsIjoicGljLnguY29tL3FsRnpWYWpvYU0iLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2hpbWVzYWxtYS9zdGF0dXMvMTkzNzIwODA3MzE3ODc2NzcwNS92aWRlby8xIiwiZXh0X21lZGlhX2F2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJBdmFpbGFibGUifSwiaW5kaWNlcyI6WzQ3LDcwXSwibWVkaWFfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL2V4dF90d192aWRlb190aHVtYi8xOTM3MjA4MDIzMDI3NTE5NDg4L3B1L2ltZy9MNzF5Q2RDUTRKRGZ4R3A5LmpwZyIsIm9yaWdpbmFsX2luZm8iOnsiaGVpZ2h0IjoxMjgwLCJ3aWR0aCI6NzIwLCJmb2N1c19yZWN0cyI6W119LCJzaXplcyI6eyJsYXJnZSI6eyJoIjoxMjgwLCJyZXNpemUiOiJmaXQiLCJ3Ijo3MjB9LCJtZWRpdW0iOnsiaCI6MTIwMCwicmVzaXplIjoiZml0IiwidyI6Njc1fSwic21hbGwiOnsiaCI6NjgwLCJyZXNpemUiOiJmaXQiLCJ3IjozODN9LCJ0aHVtYiI6eyJoIjoxNTAsInJlc2l6ZSI6ImNyb3AiLCJ3IjoxNTB9fSwidHlwZSI6InZpZGVvIiwidXJsIjoiaHR0cHM6Ly90LmNvL3FsRnpWYWpvYU0iLCJ2aWRlb19pbmZvIjp7ImFzcGVjdF9yYXRpbyI6WzksMTZdLCJkdXJhdGlvbl9taWxsaXMiOjEzMjMzLCJ2YXJpYW50cyI6W3siY29udGVudF90eXBlIjoiYXBwbGljYXRpb24veC1tcGVnVVJMIiwidXJsIjoiaHR0cHM6Ly92aWRlby50d2ltZy5jb20vZXh0X3R3X3ZpZGVvLzE5MzcyMDgwMjMwMjc1MTk0ODgvcHUvcGwvOHFLd05ZSzBYb0ZBM2tSUy5tM3U4P3RhZz0xMiJ9LHsiYml0cmF0ZSI6NjMyMDAwLCJjb250ZW50X3R5cGUiOiJ2aWRlby9tcDQiLCJ1cmwiOiJodHRwczovL3ZpZGVvLnR3aW1nLmNvbS9leHRfdHdfdmlkZW8vMTkzNzIwODAyMzAyNzUxOTQ4OC9wdS92aWQvYXZjMS8zMjB4NTY4LzZvWnkzMFR1U2JBRzVPMXAubXA0P3RhZz0xMiJ9LHsiYml0cmF0ZSI6OTUwMDAwLCJjb250ZW50X3R5cGUiOiJ2aWRlby9tcDQiLCJ1cmwiOiJodHRwczovL3ZpZGVvLnR3aW1nLmNvbS9leHRfdHdfdmlkZW8vMTkzNzIwODAyMzAyNzUxOTQ4OC9wdS92aWQvYXZjMS80ODB4ODUyL2RPSDJyd25YdmNwMEJaVGQubXA0P3RhZz0xMiJ9LHsiYml0cmF0ZSI6MjE3NjAwMCwiY29udGVudF90eXBlIjoidmlkZW8vbXA0IiwidXJsIjoiaHR0cHM6Ly92aWRlby50d2ltZy5jb20vZXh0X3R3X3ZpZGVvLzE5MzcyMDgwMjMwMjc1MTk0ODgvcHUvdmlkL2F2YzEvNzIweDEyODAvem9vc0pHVkUtc004Ty04Ni5tcDQ/dGFnPTEyIn1dfX1dLCJwaG90b3MiOltdLCJ2aWRlbyI6eyJhc3BlY3RSYXRpbyI6WzksMTZdLCJjb250ZW50VHlwZSI6Im1lZGlhX2VudGl0eSIsImR1cmF0aW9uTXMiOjEzMjMzLCJtZWRpYUF2YWlsYWJpbGl0eSI6eyJzdGF0dXMiOiJhdmFpbGFibGUifSwicG9zdGVyIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL2V4dF90d192aWRlb190aHVtYi8xOTM3MjA4MDIzMDI3NTE5NDg4L3B1L2ltZy9MNzF5Q2RDUTRKRGZ4R3A5LmpwZyIsInZhcmlhbnRzIjpbeyJ0eXBlIjoiYXBwbGljYXRpb24veC1tcGVnVVJMIiwic3JjIjoiaHR0cHM6Ly92aWRlby50d2ltZy5jb20vZXh0X3R3X3ZpZGVvLzE5MzcyMDgwMjMwMjc1MTk0ODgvcHUvcGwvOHFLd05ZSzBYb0ZBM2tSUy5tM3U4P3RhZz0xMiJ9LHsidHlwZSI6InZpZGVvL21wNCIsInNyYyI6Imh0dHBzOi8vdmlkZW8udHdpbWcuY29tL2V4dF90d192aWRlby8xOTM3MjA4MDIzMDI3NTE5NDg4L3B1L3ZpZC9hdmMxLzMyMHg1NjgvNm9aeTMwVHVTYkFHNU8xcC5tcDQ/dGFnPTEyIn0seyJ0eXBlIjoidmlkZW8vbXA0Iiwic3JjIjoiaHR0cHM6Ly92aWRlby50d2ltZy5jb20vZXh0X3R3X3ZpZGVvLzE5MzcyMDgwMjMwMjc1MTk0ODgvcHUvdmlkL2F2YzEvNDgweDg1Mi9kT0gycnduWHZjcDBCWlRkLm1wND90YWc9MTIifSx7InR5cGUiOiJ2aWRlby9tcDQiLCJzcmMiOiJodHRwczovL3ZpZGVvLnR3aW1nLmNvbS9leHRfdHdfdmlkZW8vMTkzNzIwODAyMzAyNzUxOTQ4OC9wdS92aWQvYXZjMS83MjB4MTI4MC96b29zSkdWRS1zTThPLTg2Lm1wND90YWc9MTIifV0sInZpZGVvSWQiOnsidHlwZSI6InR3ZWV0IiwiaWQiOiIxOTM3MjA4MDczMTc4NzY3NzA1In0sInZpZXdDb3VudCI6MH0sImlzRWRpdGVkIjpmYWxzZSwiaXNTdGFsZUVkaXQiOmZhbHNlfSwiaXNFZGl0ZWQiOmZhbHNlLCJpc1N0YWxlRWRpdCI6ZmFsc2V9
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1937165010771542480&lang=en&token=4p1s78r4l4k
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3507'
+      Etag:
+      - W/"db3-thD6T8pyiKRQTdYbFYapfnEAAY0"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - e75cdce7a270dae5
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '52'
+      X-Connection-Hash:
+      - 6a7d20a8e6d960c77ef62aa2d126c029dec122f251ca4c60cf0390d24a36e009
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 28 Oct 2025 03:26:08 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      X-Served-By:
+      - tsa_p, cache-kul9821-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621969.613227,VS0,VE229
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJpbl9yZXBseV90b19zY3JlZW5fbmFtZSI6ImdleXNlcmZ1bmQiLCJpbl9yZXBseV90b19zdGF0dXNfaWRfc3RyIjoiMTkzNzE2NDAwMTc5Nzg3MzcxMSIsImluX3JlcGx5X3RvX3VzZXJfaWRfc3RyIjoiMTQyNzc0Mjk1MDk3MzQ5MzI1OSIsImxhbmciOiJlbiIsImZhdm9yaXRlX2NvdW50IjozLCJjcmVhdGVkX2F0IjoiMjAyNS0wNi0yM1QxNTowNTowNC4wMDBaIiwiZGlzcGxheV90ZXh0X3JhbmdlIjpbMTIsNTVdLCJlbnRpdGllcyI6eyJoYXNodGFncyI6W10sInVybHMiOltdLCJ1c2VyX21lbnRpb25zIjpbeyJpZF9zdHIiOiIxNDI3NzQyOTUwOTczNDkzMjU5IiwiaW5kaWNlcyI6WzAsMTFdLCJuYW1lIjoiR2V5c2VyIOKaoe+4jyIsInNjcmVlbl9uYW1lIjoiZ2V5c2VyZnVuZCJ9XSwic3ltYm9scyI6W119LCJpZF9zdHIiOiIxOTM3MTY1MDEwNzcxNTQyNDgwIiwidGV4dCI6IkBnZXlzZXJmdW5kIE5vIGFwcHMsIG5vIHRyYWNraW5nLCBqdXN0IHB1cmUgc2lnbmFsLiDwn6eh4pqhIiwidXNlciI6eyJpZF9zdHIiOiIxODMwNTM0NzU5ODE1OTk5NDg4IiwibmFtZSI6IlN1bmZsb3dlciDwn4y7Iiwic2NyZWVuX25hbWUiOiJTZmxvd2VyX20iLCJpc19ibHVlX3ZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV9zaGFwZSI6IkNpcmNsZSIsInZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV91cmxfaHR0cHMiOiJodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMTkzNzAzNDgyMjYzMjgwODQ0OS9VeGFzOXUyVF9ub3JtYWwuanBnIn0sImVkaXRfY29udHJvbCI6eyJlZGl0X3R3ZWV0X2lkcyI6WyIxOTM3MTY1MDEwNzcxNTQyNDgwIl0sImVkaXRhYmxlX3VudGlsX21zZWNzIjoiMTc1MDY5NDcwNDAwMCIsImlzX2VkaXRfZWxpZ2libGUiOmZhbHNlLCJlZGl0c19yZW1haW5pbmciOiI1In0sImNvbnZlcnNhdGlvbl9jb3VudCI6MCwibmV3c19hY3Rpb25fdHlwZSI6ImNvbnZlcnNhdGlvbiIsInBhcmVudCI6eyJsYW5nIjoiZW4iLCJyZXBseV9jb3VudCI6NiwicmV0d2VldF9jb3VudCI6MywiZmF2b3JpdGVfY291bnQiOjE2LCJwb3NzaWJseV9zZW5zaXRpdmUiOmZhbHNlLCJjcmVhdGVkX2F0IjoiMjAyNS0wNi0yM1QxNTowMTowMy4wMDBaIiwiZGlzcGxheV90ZXh0X3JhbmdlIjpbMCwyMjRdLCJlbnRpdGllcyI6eyJoYXNodGFncyI6W10sInVybHMiOlt7ImRpc3BsYXlfdXJsIjoiZ2V5c2VyLmZ1bmQvcHJvamVjdC9ob25nYmHigKYiLCJleHBhbmRlZF91cmwiOiJodHRwczovL2dleXNlci5mdW5kL3Byb2plY3QvaG9uZ2Jhb2J0Yz9oZXJvPWdleXNlcnByb21vdGlvbiIsImluZGljZXMiOlsxOTksMjIyXSwidXJsIjoiaHR0cHM6Ly90LmNvL3dyYXh1MElHZ3UifV0sInVzZXJfbWVudGlvbnMiOltdLCJzeW1ib2xzIjpbXSwibWVkaWEiOlt7ImRpc3BsYXlfdXJsIjoicGljLnguY29tL2J2MXcySzA4N0MiLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2dleXNlcmZ1bmQvc3RhdHVzLzE5MzcxNjQwMDE3OTc4NzM3MTEvcGhvdG8vMSIsImluZGljZXMiOlsyMjMsMjQ2XSwidXJsIjoiaHR0cHM6Ly90LmNvL2J2MXcySzA4N0MifV19LCJpZF9zdHIiOiIxOTM3MTY0MDAxNzk3ODczNzExIiwidGV4dCI6Ikhvbmfigr9hbzogR2lmdGluZyBCaXRjb2luIPCfh6vwn4e3XG5cblN0ZXBoYW5lIGFuZCBTYWxtYSBxdWl0IGJ1cm5vdXQgYW5kIGJ1aWx0IEhvbmfigr9hbzogYSB3YXkgdG8gZ2lmdCBCaXRjb2luIGxpa2UgaGFuZGluZyBvdmVyIHRyZWFzdXJlLiBQYXBlciB3YWxsZXRzLCBwZXJzb25hbGl6ZWQgd2l0aCBBSSBhcnQsIG5vIGFwcHMsIG5vIHN1cnZlaWxsYW5jZS4gXG5cbmh0dHBzOi8vdC5jby93cmF4dTBJR2d1IGh0dHBzOi8vdC5jby9idjF3MkswODdDIiwidXNlciI6eyJpZF9zdHIiOiIxNDI3NzQyOTUwOTczNDkzMjU5IiwibmFtZSI6IkdleXNlciDimqHvuI8iLCJzY3JlZW5fbmFtZSI6ImdleXNlcmZ1bmQiLCJpc19ibHVlX3ZlcmlmaWVkIjp0cnVlLCJwcm9maWxlX2ltYWdlX3NoYXBlIjoiQ2lyY2xlIiwidmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9wcm9maWxlX2ltYWdlcy8xODI3MDM5MTI0MjkwNzAzMzYwL0M3aGFGNmdBX25vcm1hbC5qcGcifSwiZWRpdF9jb250cm9sIjp7ImVkaXRfdHdlZXRfaWRzIjpbIjE5MzcxNjQwMDE3OTc4NzM3MTEiXSwiZWRpdGFibGVfdW50aWxfbXNlY3MiOiIxNzUwNjk0NDYzMDAwIiwiaXNfZWRpdF9lbGlnaWJsZSI6dHJ1ZSwiZWRpdHNfcmVtYWluaW5nIjoiNSJ9LCJtZWRpYURldGFpbHMiOlt7ImRpc3BsYXlfdXJsIjoicGljLnguY29tL2J2MXcySzA4N0MiLCJleHBhbmRlZF91cmwiOiJodHRwczovL3guY29tL2dleXNlcmZ1bmQvc3RhdHVzLzE5MzcxNjQwMDE3OTc4NzM3MTEvcGhvdG8vMSIsImV4dF9tZWRpYV9hdmFpbGFiaWxpdHkiOnsic3RhdHVzIjoiQXZhaWxhYmxlIn0sImluZGljZXMiOlsyMjMsMjQ2XSwibWVkaWFfdXJsX2h0dHBzIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0d1SXdZeFdXVUFBelBoSC5qcGciLCJvcmlnaW5hbF9pbmZvIjp7ImhlaWdodCI6MTAyNCwid2lkdGgiOjE1MzYsImZvY3VzX3JlY3RzIjpbeyJ4IjowLCJ5IjoxNjQsInciOjE1MzYsImgiOjg2MH0seyJ4IjoyNTYsInkiOjAsInciOjEwMjQsImgiOjEwMjR9LHsieCI6MzE5LCJ5IjowLCJ3Ijo4OTgsImgiOjEwMjR9LHsieCI6NTEyLCJ5IjowLCJ3Ijo1MTIsImgiOjEwMjR9LHsieCI6MCwieSI6MCwidyI6MTUzNiwiaCI6MTAyNH1dfSwic2l6ZXMiOnsibGFyZ2UiOnsiaCI6MTAyNCwicmVzaXplIjoiZml0IiwidyI6MTUzNn0sIm1lZGl1bSI6eyJoIjo4MDAsInJlc2l6ZSI6ImZpdCIsInciOjEyMDB9LCJzbWFsbCI6eyJoIjo0NTMsInJlc2l6ZSI6ImZpdCIsInciOjY4MH0sInRodW1iIjp7ImgiOjE1MCwicmVzaXplIjoiY3JvcCIsInciOjE1MH19LCJ0eXBlIjoicGhvdG8iLCJ1cmwiOiJodHRwczovL3QuY28vYnYxdzJLMDg3QyJ9XSwicGhvdG9zIjpbeyJiYWNrZ3JvdW5kQ29sb3IiOnsicmVkIjoyMDQsImdyZWVuIjoyMTQsImJsdWUiOjIyMX0sImNyb3BDYW5kaWRhdGVzIjpbeyJ4IjowLCJ5IjoxNjQsInciOjE1MzYsImgiOjg2MH0seyJ4IjoyNTYsInkiOjAsInciOjEwMjQsImgiOjEwMjR9LHsieCI6MzE5LCJ5IjowLCJ3Ijo4OTgsImgiOjEwMjR9LHsieCI6NTEyLCJ5IjowLCJ3Ijo1MTIsImgiOjEwMjR9LHsieCI6MCwieSI6MCwidyI6MTUzNiwiaCI6MTAyNH1dLCJleHBhbmRlZFVybCI6Imh0dHBzOi8veC5jb20vZ2V5c2VyZnVuZC9zdGF0dXMvMTkzNzE2NDAwMTc5Nzg3MzcxMS9waG90by8xIiwidXJsIjoiaHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0d1SXdZeFdXVUFBelBoSC5qcGciLCJ3aWR0aCI6MTUzNiwiaGVpZ2h0IjoxMDI0fV0sImlzRWRpdGVkIjpmYWxzZSwiaXNTdGFsZUVkaXQiOmZhbHNlfSwiaXNFZGl0ZWQiOmZhbHNlLCJpc1N0YWxlRWRpdCI6ZmFsc2V9
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1940712311171522783&lang=en&token=4pcxe3a74cv
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1652'
+      Etag:
+      - W/"674-b3pPnXKBTmtbfhCZ7dueDIWKB8Q"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 10c783b506704190
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '76'
+      X-Connection-Hash:
+      - 76877c651719cad34f2b807e0d22c4629b60f9976efceae5db605d71bbb4b3f2
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:09 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9823-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621969.895803,VS0,VE250
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfX3R5cGVuYW1lIjoiVHdlZXQiLCJpbl9yZXBseV90b19zY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSIsImluX3JlcGx5X3RvX3N0YXR1c19pZF9zdHIiOiIxOTQwNzEwMzk3OTc3NTQ3MTg1IiwiaW5fcmVwbHlfdG9fdXNlcl9pZF9zdHIiOiI4NDYzNzYyNTI5MTEwOTE3MTIiLCJsYW5nIjoiZW4iLCJmYXZvcml0ZV9jb3VudCI6MSwiY3JlYXRlZF9hdCI6IjIwMjUtMDctMDNUMTA6MDA6NDYuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzExLDQ5XSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W3siaWRfc3RyIjoiODQ2Mzc2MjUyOTExMDkxNzEyIiwiaW5kaWNlcyI6WzAsMTBdLCJuYW1lIjoiU2FsbWEgVGFsYmkiLCJzY3JlZW5fbmFtZSI6ImhpbWVzYWxtYSJ9XSwic3ltYm9scyI6W119LCJpZF9zdHIiOiIxOTQwNzEyMzExMTcxNTIyNzgzIiwidGV4dCI6IkBoaW1lc2FsbWEgQmVzdCB3YXkgdG8gY29udmVydCB0aGUgZmlhdCBoZWF0aGVucy4iLCJ1c2VyIjp7ImlkX3N0ciI6IjczODYxOTA0MDk4MjE0NzA3MiIsIm5hbWUiOiJUaGUgUGFyYWxsYXggR3JvdXAiLCJzY3JlZW5fbmFtZSI6IlBhcmFfbGxheF9Hcm91cCIsImlzX2JsdWVfdmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3NoYXBlIjoiQ2lyY2xlIiwidmVyaWZpZWQiOmZhbHNlLCJwcm9maWxlX2ltYWdlX3VybF9odHRwcyI6Imh0dHBzOi8vcGJzLnR3aW1nLmNvbS9wcm9maWxlX2ltYWdlcy8xNTk5NjQzOTA4MDQ0Mzk0NDk5L2RlWkpxNC1pX25vcm1hbC5qcGcifSwiZWRpdF9jb250cm9sIjp7ImVkaXRfdHdlZXRfaWRzIjpbIjE5NDA3MTIzMTExNzE1MjI3ODMiXSwiZWRpdGFibGVfdW50aWxfbXNlY3MiOiIxNzUxNTQwNDQ2MDAwIiwiaXNfZWRpdF9lbGlnaWJsZSI6ZmFsc2UsImVkaXRzX3JlbWFpbmluZyI6IjUifSwiY29udmVyc2F0aW9uX2NvdW50IjowLCJuZXdzX2FjdGlvbl90eXBlIjoiY29udmVyc2F0aW9uIiwicGFyZW50Ijp7ImxhbmciOiJlbiIsInJlcGx5X2NvdW50IjoxLCJyZXR3ZWV0X2NvdW50IjowLCJmYXZvcml0ZV9jb3VudCI6MSwiY3JlYXRlZF9hdCI6IjIwMjUtMDctMDNUMDk6NTM6MTAuMDAwWiIsImRpc3BsYXlfdGV4dF9yYW5nZSI6WzAsMTA1XSwiZW50aXRpZXMiOnsiaGFzaHRhZ3MiOltdLCJ1cmxzIjpbXSwidXNlcl9tZW50aW9ucyI6W10sInN5bWJvbHMiOltdfSwiaWRfc3RyIjoiMTk0MDcxMDM5Nzk3NzU0NzE4NSIsInRleHQiOiJBcyBhbiBvcmFuZ2UgcGlsbCwgd2Ugc2hvdWxkIG5vcm1hbGl6ZSBnaWZ0aW5nIEJpdGNvaW4gdG8ga2lkcyBhbmQgZnJpZW5kcyBpbnN0ZWFkIG9mIGdlbmVyaWMgcHJlc2VudHMg8J+SiiIsInVzZXIiOnsiaWRfc3RyIjoiODQ2Mzc2MjUyOTExMDkxNzEyIiwibmFtZSI6IlNhbG1hIFRhbGJpIiwic2NyZWVuX25hbWUiOiJoaW1lc2FsbWEiLCJpc19ibHVlX3ZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV9zaGFwZSI6IkNpcmNsZSIsInZlcmlmaWVkIjpmYWxzZSwicHJvZmlsZV9pbWFnZV91cmxfaHR0cHMiOiJodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMTk0MjUxNzIwNjY0Mzc3MzQ0MC91TnJNR1JLUF9ub3JtYWwuanBnIn19LCJpc0VkaXRlZCI6ZmFsc2UsImlzU3RhbGVFZGl0IjpmYWxzZX0=
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+- request:
+    method: get
+    uri: https://cdn.syndication.twimg.com/tweet-result?id=1958230451509936551&lang=en&token=4qvyn9r9zc7
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cdn.syndication.twimg.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '301'
+      Etag:
+      - W/"12d-X9/FEivKccFqlqpOOK75yqgOZlM"
+      Perf:
+      - '7402827104'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Powered-By:
+      - Express
+      Cache-Control:
+      - must-revalidate, max-age=60
+      X-Transaction-Id:
+      - 5bbe946001106770
+      Strict-Transport-Security:
+      - max-age=631138519; includeSubdomains
+      X-Response-Time:
+      - '24'
+      X-Connection-Hash:
+      - 33f023c99dae52b08f6d826b7b0a85934e7c3b9b2c5f6dc26a64dfa5cec3b4a1
+      Access-Control-Allow-Origin:
+      - https://platform.twitter.com
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Date:
+      - Tue, 28 Oct 2025 03:26:09 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - tsa_p, cache-kul9820-KUL
+      X-Cache:
+      - HIT
+      X-Timer:
+      - S1761621969.222005,VS0,VE210
+      Vary:
+      - Accept-Encoding, Accept-Language
+    body:
+      encoding: ASCII-8BIT
+      string: '{"__typename":"TweetTombstone","tombstone":{"text":{"text":"This Post
+        is from a suspended account. Learn more","entities":[{"from_index":39,"to_index":49,"ref":{"__typename":"TimelineUrl","url":"https://help.twitter.com/rules-and-policies/notices-on-twitter","url_type":"ExternalUrl"}}],"rtl":false}}}'
+  recorded_at: Mon, 27 Oct 2025 00:00:00 GMT
+recorded_with: VCR 6.3.1

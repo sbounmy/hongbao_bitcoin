@@ -39,6 +39,7 @@
     "@noble/hashes": "1.6.1",
     "@rails/actioncable": "^8.0.200",
     "@scure/base": "1.2.1",
+    "@stimulus-components/auto-submit": "^6.0.0",
     "@stimulus-components/carousel": "^6.0.0",
     "@stimulus-components/clipboard": "5.0.0",
     "@stimulus-components/content-loader": "5.0.0",

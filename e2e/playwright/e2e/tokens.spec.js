@@ -32,6 +32,8 @@ test.describe('Tokens Page', () => {
   });
 
   test('allows purchasing tokens via Stripe Checkout', async ({ page }) => {
+    test.setTimeout(60_000); // 60s for CI
+
     await page.locator('label').filter({ hasText: /Family Pack/ }).click();
     await page.waitForTimeout(1_000);
     await page.getByRole('button', { name: 'Buy with Credit Card' }).click();

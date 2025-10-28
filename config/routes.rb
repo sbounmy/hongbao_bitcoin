@@ -47,6 +47,9 @@ Rails.application.routes.draw do
     post :refresh, on: :member
   end
 
+  # Bitcoin Gifting Simulation
+  resources :simulations, only: [ :new, :create ]
+
   resources :checkout, only: [ :new, :create, :update ] do
     collection do
       get :success
