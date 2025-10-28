@@ -35,7 +35,7 @@ class Simulation
     { value: 10_000, label: "Toyota", emoji: "🚗", image_url: "https://images.unsplash.com/photo-1697316052164-6b832d49516c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
 
     # Higher amounts ($20k-$100k)
-    { value: 20_000, label: "Home renovation", emoji: "🚙", image_url: "https://images.unsplash.com/flagged/photo-1573168710465-7f7da9a23a15?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "realestate" },
+    { value: 20_000, label: "Home Renovation", emoji: "🏗️", image_url: "https://images.unsplash.com/flagged/photo-1573168710465-7f7da9a23a15?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "realestate" },
     { value: 35_000, label: "Tesla", emoji: "🏎️", image_url: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
     { value: 60_000, label: "College Tuition", emoji: "🎓", image_url: "https://images.unsplash.com/photo-1576049519901-ef17971aedc4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "education" },
 

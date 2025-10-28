@@ -1,14 +1,30 @@
 <!-- Total Stats -->
 <div class="stats stats-vertical md:stats-horizontal w-full mb-4 md:mb-8">
+  <!-- Stat 1: Gift Spent -->
   <div class="stat py-3 px-4 md:py-4 md:px-6">
     <div class="stat-figure text-hongbao">
-      <%= heroicon "wallet", variant: :outline, class: "w-5 h-5 md:w-8 md:h-8" %>
+      <%= heroicon "envelope", variant: :outline, class: "w-5 h-5 md:w-8 md:h-8" %>
     </div>
-    <div class="stat-title text-xs md:text-sm">Total HongBaos</div>
-    <div class="stat-value text-2xl md:text-4xl font-bold text-hongbao"><%= total_count %></div>
-    <div class="stat-desc text-xs">Median value: $<%= number_with_delimiter(median_value_usd.round) %></div>
+    <div class="stat-title text-xs md:text-sm">HongBao spent</div>
+    <div class="stat-value text-2xl md:text-4xl font-bold text-hongbao">$<%= number_with_delimiter(total_initial_usd.round) %></div>
+    <div class="stat-desc text-xs">in total <%= total_count %> hongbao<%= total_count > 1 ? 's' : '' %></div>
   </div>
 
+  <!-- Stat 2: Worth Today -->
+  <div class="stat py-3 px-4 md:py-4 md:px-6">
+    <div class="stat-figure">
+      <div class="badge badge-lg <%= average_gain_percentage >= 0 ? 'badge-success' : 'badge-error' %> font-bold">
+        <%= average_gain_percentage >= 0 ? '+' : '' %><%= number_with_precision(average_gain_percentage, precision: 0) %>%
+      </div>
+    </div>
+    <div class="stat-title text-xs md:text-sm">Worth today</div>
+    <div class="stat-value text-2xl md:text-4xl font-bold text-success">$<%= number_with_delimiter(total_balance_usd.round) %></div>
+    <div class="stat-desc text-xs <%= average_gain_usd >= 0 ? 'text-success' : 'text-error' %>">
+      <%= average_gain_usd >= 0 ? '+' : '' %>$<%= number_with_delimiter(average_gain_usd.round) %> gain
+    </div>
+  </div>
+
+  <!-- Stat 3: Total BTC -->
   <div class="stat py-3 px-4 md:py-4 md:px-6">
     <div class="stat-figure text-bitcoin">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 md:w-8 md:h-8 stroke-current">
@@ -16,22 +32,9 @@
       </svg>
     </div>
     <div class="stat-title text-xs md:text-sm">Total BTC</div>
-    <div class="stat-value text-2xl md:text-4xl font-bold text-bitcoin">₿<%= total_balance_btc %></div>
+    <div class="stat-value text-2xl md:text-4xl font-bold text-bitcoin">₿<%= number_with_precision(total_balance_btc, precision: 8, strip_insignificant_zeros: true) %></div>
     <div class="stat-desc text-xs">
-      Avg buy: $<%= number_with_delimiter(average_buy_price.round) %>
-    </div>
-  </div>
-
-  <div class="stat py-3 px-4 md:py-4 md:px-6">
-    <div class="stat-figure text-green-500">
-      <%= heroicon "currency-dollar", variant: :outline, class: "w-5 h-5 md:w-8 md:h-8" %>
-    </div>
-    <div class="stat-title text-xs md:text-sm">USD Value</div>
-    <div class="stat-value text-2xl md:text-4xl font-bold text-green-500">$<%= number_with_delimiter(total_balance_usd.round) %></div>
-    <div class="stat-desc text-xs <%= average_gain_usd >= 0 ? 'text-success' : 'text-error' %>">
-      <%= average_gain_usd >= 0 ? '↑' : '↓' %>
-      <%= average_gain_usd >= 0 ? '+' : '' %>$<%= number_with_delimiter(average_gain_usd.round) %>
-      (<%= average_gain_percentage >= 0 ? '+' : '' %><%= number_with_precision(average_gain_percentage, precision: 0) %>%)
+      at $<%= number_with_delimiter(average_buy_price.round) %> / BTC
     </div>
   </div>
 </div>
