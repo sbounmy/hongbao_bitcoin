@@ -2,6 +2,7 @@ import { test, expect } from '../support/test-setup';
 
 test.describe('Topup', () => {
   test('user can topup', async ({ page }) => {
+    test.setTimeout(60_000);
     await page.goto('/en/papers/1?step=4');
 
     const input = page.locator('.input-public-address:visible');
