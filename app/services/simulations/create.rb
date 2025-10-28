@@ -25,54 +25,111 @@ module Simulations
     private
 
     def generate_event_hong_baos
-      hong_baos = []
-      end_year = Date.current.year
-      start_year = end_year - @years + 1
+      event_dates = collect_event_dates
+      spots_by_date = preload_spots(event_dates)
+      build_event_hong_baos(spots_by_date)
+    end
 
-      (start_year..end_year).each do |year|
+    def collect_event_dates
+      event_dates = []
+
+      year_range.each do |year|
         @events.each do |event_key|
-          event_config = Simulation.event_config(event_key)
-          next unless event_config
-
-          date = Simulation.calculate_event_date(
-            event_key,
-            year,
-            birthday_month: @birthday_month,
-            birthday_day: @birthday_day
-          )
-          next unless date
-          next if date > Date.current # Don't generate future events
-
-          # Find historical Bitcoin price for this date
-          spot = Spot.where(date: date).first || find_nearest_spot(date)
-          next unless spot && !spot.prices[@currency.to_s].nil?
-
-          # Use custom amount for this event
-          gift_amount = @event_amounts[event_key]
-          next unless gift_amount && gift_amount > 0
-
-          btc_price = spot.prices[@currency.to_s].to_f
-          sats_amount = (gift_amount / btc_price * 100_000_000).to_i
-
-          # For current value, use today's price (but we assume HODLing)
-          current_value_sats = sats_amount # Assume HODLing (no withdrawals)
-
-          hong_baos << Simulation::EventHongBao.new(
-            gifted_at: date.to_time,
-            initial_sats: sats_amount,
-            current_sats: current_value_sats,
-            initial_usd: gift_amount,
-            name: "#{event_config[:label]} #{year}",
-            event_type: event_key,
-            event_emoji: event_config[:emoji],
-            event_color: event_config[:color],
-            spot_buy: spot
-          )
+          date = calculate_valid_event_date(event_key, year)
+          event_dates << date if date
         end
       end
 
-      # Sort by date
+      event_dates
+    end
+
+    def preload_spots(event_dates)
+      return {} if event_dates.empty?
+
+      min_date = event_dates.min - 7.days
+      max_date = event_dates.max + 7.days
+
+      Spot.where(date: min_date..max_date)
+          .currency_exists(@currency)
+          .index_by(&:date)
+    end
+
+    def build_event_hong_baos(spots_by_date)
+      hong_baos = []
+
+      year_range.each do |year|
+        @events.each do |event_key|
+          hong_bao = create_event_hong_bao(event_key, year, spots_by_date)
+          hong_baos << hong_bao if hong_bao
+        end
+      end
+
       hong_baos.sort_by(&:gifted_at)
+    end
+
+    def create_event_hong_bao(event_key, year, spots_by_date)
+      event_config = Simulation.event_config(event_key)
+      return unless event_config
+
+      date = calculate_valid_event_date(event_key, year)
+      return unless date
+
+      spot = find_spot_for_date(date, spots_by_date)
+      return unless spot
+
+      gift_amount = @event_amounts[event_key]
+      return unless gift_amount&.positive?
+
+      build_hong_bao_struct(event_config, date, year, gift_amount, spot)
+    end
+
+    def calculate_valid_event_date(event_key, year)
+      date = Simulation.calculate_event_date(
+        event_key,
+        year,
+        birthday_month: @birthday_month,
+        birthday_day: @birthday_day
+      )
+
+      date if date && date <= Date.current
+    end
+
+    def find_spot_for_date(date, spots_by_date)
+      spot = spots_by_date[date] || find_nearest_spot_from_cache(date, spots_by_date)
+      spot if spot && spot.prices[@currency.to_s].present?
+    end
+
+    def build_hong_bao_struct(event_config, date, year, gift_amount, spot)
+      btc_price = spot.prices[@currency.to_s].to_f
+      sats_amount = (gift_amount / btc_price * 100_000_000).to_i
+
+      Simulation::EventHongBao.new(
+        gifted_at: date.to_time,
+        initial_sats: sats_amount,
+        current_sats: sats_amount, # Assume HODLing (no withdrawals)
+        initial_usd: gift_amount,
+        name: "#{event_config[:label]} #{year}",
+        event_type: event_config[:key],
+        event_emoji: event_config[:emoji],
+        event_color: event_config[:color],
+        spot_buy: spot
+      )
+    end
+
+    def year_range
+      end_year = Date.current.year
+      start_year = end_year - @years + 1
+      (start_year..end_year)
+    end
+
+    def find_nearest_spot_from_cache(target_date, spots_by_date)
+      # Find nearest spot within 7 days before or after from preloaded cache
+      (-7..7).each do |offset|
+        date = target_date + offset.days
+        spot = spots_by_date[date]
+        return spot if spot && !spot.prices[@currency.to_s].nil?
+      end
+      nil
     end
 
     def find_nearest_spot(target_date)
