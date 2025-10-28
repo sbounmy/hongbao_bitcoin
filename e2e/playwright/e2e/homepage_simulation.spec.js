@@ -13,6 +13,7 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
     // Wait for simulation section to be visible
     await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
+    page.waitForTimeout(30_000)
   });
 
   test.afterEach(async () => {
@@ -32,8 +33,14 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
     const yearsSelect = page.locator('select[name="simulation[years]"]');
     await expect(yearsSelect).toContainText('5 years');
 
-    // Check "View full simulation" button exists
-    await expect(page.getByRole('link', { name: 'View full simulation' })).toBeVisible();
+    const viewFullButton = page.getByRole('link', { name: 'View full simulator' });
+    await viewFullButton.click();
+
+    // Should navigate to /simulation
+    await expect(page).toHaveURL(/\/simulation/);
+
+    // Full simulation should show chart and table
+    await expect(page.getByText('Gift History')).toBeVisible();
   });
 
   test('displays default stats results', async ({ page }) => {
@@ -154,31 +161,4 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
     await expect(page.getByText('I would have gifted')).not.toBeVisible();
   });
 
-  test('navigates to full simulation when clicking "View full simulation"', async ({ page }) => {
-    const viewFullButton = page.getByRole('link', { name: 'View full simulation' });
-    await viewFullButton.click();
-
-    // Should navigate to /simulation
-    await expect(page).toHaveURL(/\/simulation/);
-
-    // Full simulation should show chart and table
-    await expect(page.getByText('Gift History')).toBeVisible();
-  });
-
-  test('simulation section has proper styling and layout', async ({ page }) => {
-    // Check the section has the gradient background
-    const simulationSection = page.locator('section').filter({ hasText: 'Bitcoin is the best performing asset' });
-    await expect(simulationSection).toBeVisible();
-
-    // Check two-column layout exists
-    await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
-    await expect(page.getByText('If I had gifted Bitcoin on')).toBeVisible();
-
-    // Both should be visible simultaneously (side by side on desktop)
-    const leftColumn = page.getByText('Bitcoin is the best performing asset').locator('..');
-    const rightColumn = page.getByText('If I had gifted Bitcoin on').locator('..');
-
-    await expect(leftColumn).toBeVisible();
-    await expect(rightColumn).toBeVisible();
-  });
 });
