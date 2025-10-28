@@ -62,9 +62,7 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
     await app('import_spots');
     await page.goto('/');
 
-    // Get initial "I would have gifted" value
-    const statsCard = page.getByText('I would have gifted').locator('..');
-    const initialAmount = await statsCard.locator('.font-bold').first().textContent();
+    const initialAmount = await page.locator('#gift-value').first().textContent();
 
     // Change Christmas amount from 50 to 200
     const christmasInput = page.getByRole('spinbutton', { name: '' }).first();
@@ -75,7 +73,7 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
     await page.waitForTimeout(1000);
 
     // Verify stats have changed
-    const newAmount = await statsCard.locator('.font-bold').first().textContent();
+    const newAmount = await page.locator('#today-value').first().textContent();
     expect(newAmount).not.toBe(initialAmount);
   });
 
