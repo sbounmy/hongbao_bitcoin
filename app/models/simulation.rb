@@ -37,7 +37,8 @@ class Simulation
     # Higher amounts ($20k-$100k)
     { value: 20_000, label: "Home Renovation", emoji: "🏗️", image_url: "https://images.unsplash.com/flagged/photo-1573168710465-7f7da9a23a15?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "realestate" },
     { value: 35_000, label: "Tesla", emoji: "🏎️", image_url: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "vehicle" },
-    { value: 60_000, label: "College Tuition", emoji: "🎓", image_url: "https://images.unsplash.com/photo-1576049519901-ef17971aedc4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "education" },
+    { value: 60_000, label: "Tiny House", emoji: "🛖", image_url: "https://plus.unsplash.com/premium_photo-1686090450574-214118216bdc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "realestate" },
+    { value: 90_000, label: "College Tuition", emoji: "🎓", image_url: "https://images.unsplash.com/photo-1576049519901-ef17971aedc4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=800", category: "education" },
 
     # Life-changing amounts ($100k+)
     { value: 100_000, label: "House Down Payment", emoji: "🏠", image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", category: "realestate" },
