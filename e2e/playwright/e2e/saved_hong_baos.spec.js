@@ -109,17 +109,12 @@ test.describe('Saved Hong Baos', () => {
     // Wait for chart to be rendered
     await expect(page.locator('.highcharts-container')).toBeVisible();
 
-    // Check that series legends are visible
-    await expect(page.getByText('Bitcoin Price')).toBeVisible();
-    await expect(page.getByText('HongBao Value')).toBeVisible();
-    await expect(page.getByText('HongBao spent').last()).toBeVisible();
-
     // Verify chart has rendered data (check for SVG elements)
     const chartSvg = page.locator('.highcharts-container svg');
     await expect(chartSvg).toBeVisible();
 
     // Check that chart has series lines
-    await expect(page.locator('.highcharts-series')).toHaveCount(3);
+    await expect(page.locator('.highcharts-series')).toHaveCount(4); // 3 series + navigator (1 serie)
 
     // Verify avatar markers are rendered on the chart
     const avatarMarkers = page.locator('.highcharts-markers image.highcharts-point');

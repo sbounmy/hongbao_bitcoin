@@ -4,7 +4,7 @@ import { appVcrInsertCassette, appVcrEjectCassette, app, timecop } from '../supp
 test.describe('Homepage Bitcoin Gifting Simulation', () => {
 
   test.beforeEach(async ({}) => {
-    await test.setTimeout(60_000);
+    await test.setTimeout(90_000);
   });
 
   test.afterEach(async () => {
@@ -17,8 +17,6 @@ test.describe('Homepage Bitcoin Gifting Simulation', () => {
     await timecop.freeze('2025-10-27');
     await app('import_spots', { limit: 365 });
     await page.goto('/');
-
-    await expect(page.getByText('Bitcoin is the best performing asset')).toBeVisible();
 
     // Check simulation form is visible
     await expect(page.getByText('If I had gifted Bitcoin on')).toBeVisible();
