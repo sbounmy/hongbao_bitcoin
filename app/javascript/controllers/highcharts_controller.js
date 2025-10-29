@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import Highcharts from "highcharts"
+import Highcharts from "highcharts/highstock"
 import SavedHongBaoTooltipRenderer from "./charts/tooltips/saved_hong_bao_controller"
 import EventHongBaoTooltipRenderer from "./charts/tooltips/event_hong_bao_controller"
 
@@ -7,7 +7,8 @@ export default class extends Controller {
   static values = {
     config: Object,
     tooltipRenderer: { type: String, default: "SavedHongBaoTooltipRenderer" },
-    tooltipTemplateSelector: { type: String, default: "[data-tooltip-template]" }
+    tooltipTemplateSelector: { type: String, default: "[data-tooltip-template]" },
+    useStock: { type: Boolean, default: false }
   }
 
   connect() {
@@ -59,8 +60,14 @@ export default class extends Controller {
     }
 
     try {
-      this.chart = Highcharts.chart(this.element, options)
-      console.log("Chart created successfully")
+      // Use stockChart if useStock is true, otherwise use regular chart
+      if (this.useStockValue) {
+        this.chart = Highcharts.stockChart(this.element, options)
+        console.log("Stock chart created successfully")
+      } else {
+        this.chart = Highcharts.chart(this.element, options)
+        console.log("Chart created successfully")
+      }
     } catch (error) {
       console.error("Error creating chart:", error)
     }

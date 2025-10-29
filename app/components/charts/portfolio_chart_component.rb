@@ -21,14 +21,96 @@ module Charts
       {
         chart: {
           type: "line",
-          height: @height.gsub("px", "").to_i
+          height: (@height.gsub("px", "").to_i + 100)  # Add 100px for navigator
+        },
+        rangeSelector: {
+          selected: 5,  # Default to "All"
+          inputEnabled: false,  # Disable date inputs, use buttons instead
+          buttonTheme: {
+            fill: "none",
+            stroke: "#e5e7eb",
+            "stroke-width": 1,
+            r: 4,
+            padding: 8,
+            style: {
+              color: "#374151",
+              fontWeight: "500"
+            },
+            states: {
+              hover: {
+                fill: "#f3f4f6",
+                style: {
+                  color: "#111827"
+                }
+              },
+              select: {
+                fill: "#10b981",
+                stroke: "#10b981",
+                style: {
+                  color: "#ffffff",
+                  fontWeight: "600"
+                }
+              }
+            }
+          },
+          buttons: [
+            {
+              type: "month",
+              count: 1,
+              text: "1m"
+            },
+            {
+              type: "month",
+              count: 3,
+              text: "3m"
+            },
+            {
+              type: "month",
+              count: 6,
+              text: "6m"
+            },
+            {
+              type: "ytd",
+              text: "YTD"
+            },
+            {
+              type: "year",
+              count: 1,
+              text: "1y"
+            },
+            {
+              type: "all",
+              text: "All"
+            }
+          ]
+        },
+        navigator: {
+          enabled: true,
+          height: 40,
+          maskFill: "rgba(247, 147, 26, 0.2)"  # Bitcoin orange with 20% opacity
+        },
+        scrollbar: {
+          enabled: false
         },
         xAxis: {
-          type: "datetime"
+          type: "datetime",
+          dateTimeLabelFormats: {
+            millisecond: "%H:%M:%S.%L",
+            second: "%H:%M:%S",
+            minute: "%H:%M",
+            hour: "%H:%M",
+            day: "%e %b",
+            week: "%e %b",
+            month: "%b '%y",
+            year: "%Y"
+          }
         },
         yAxis: [
           {
-            title: false
+            title: false,
+            labels: {
+              enabled: false  # Hide left axis labels
+            }
           },
           {
             title: false,
@@ -94,22 +176,10 @@ module Charts
               },
               chartOptions: {
                 chart: {
-                  height: 300  # Reduced height for mobile (from 450px)
+                  height: 350  # Increased from 300px to accommodate navigator
                 },
-                yAxis: [
-                  {
-                    labels: {
-                      enabled: false  # Hide left y-axis labels on mobile
-                    }
-                  },
-                  {
-                    labels: {
-                      enabled: false  # Hide right y-axis labels on mobile
-                    }
-                  }
-                ],
                 legend: {
-                  enabled: false  # Optional: also hide legend on mobile for more space
+                  enabled: false  # Hide legend on mobile for more space
                 },
                 plotOptions: {
                   series: {
