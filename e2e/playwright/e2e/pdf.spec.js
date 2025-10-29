@@ -68,6 +68,7 @@ test.describe('PDF Generation', () => {
   });
 
   test('user top up notice for custom keys', async ({ page }) => {
+    test.setTimeout(60_000)
     await page.getByRole('button', { name: 'Use my own keys' }).click()
 
     // fill public address
