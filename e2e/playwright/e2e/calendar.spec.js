@@ -88,10 +88,8 @@ test.describe('Event Calendar', () => {
     const today = await page.evaluate(() => new Date().getDate().toString());
 
     // Find the cell that contains the date number
-    const childCell = page.locator('.calendar-day-number').filter({ hasText: new RegExp(`^\\s*${today}\\s*$`) }).first();
-    const todayCell = page.locator('.calendar-day').filter({
-      has: childCell
-    }).last();
+    const childCell = await page.locator('.calendar-day-current-month .calendar-day-number').filter({ hasText: new RegExp(`^\\s*${today}\\s*$`) }).first();
+    const todayCell = childCell.locator('../..')
 
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);

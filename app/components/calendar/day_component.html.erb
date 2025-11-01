@@ -1,4 +1,4 @@
-<div class="calendar-day relative rounded-lg min-h-[140px] border <%= border_classes %> <%= opacity_class %> hover:shadow-md transition-shadow overflow-hidden">
+<div class="calendar-day <%= is_current_month? ? 'calendar-day-current-month' : '' %> relative rounded-lg min-h-[140px] border <%= border_classes %> <%= opacity_class %> hover:shadow-md transition-shadow overflow-hidden">
   <% if events.any? && is_current_month? %>
     <% if events.size == 1 %>
       <!-- Single event - full cell -->
