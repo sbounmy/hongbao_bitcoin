@@ -24,7 +24,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await fillCheckout(page);
     await page.click('button[type="submit"]');
-    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header .badge')).toContainText('502 ₿ao', { timeout: 15_000 }); // 12 free credits with Mini
 
@@ -58,7 +58,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByText('Apply').click();
     await fillCheckout(page);
     await page.getByRole('button', { name: 'Complete order' }).click();
-    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
@@ -103,7 +103,7 @@ test.describe('Stripe Checkout Flow', () => {
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await fillCheckout(page);
     await page.click('button[type="submit"]');
-    await expect(page.getByText('Processing...')).toBeVisible();
+    await expect(page.getByText('Processing')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
     await expect(page.locator('header .badge')).toContainText('514 ₿ao', { timeout: 10_000 }); // 24 credits with Family
     await page.waitForTimeout(1_000);
