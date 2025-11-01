@@ -45,7 +45,7 @@ test.describe('Tokens Page', () => {
     await page.waitForTimeout(3000); // Wait for 3 seconds to simulate user filling out the form
     await page.click('button[type="submit"]');
 
-    await page.getByText('Processing...').waitFor({ state: 'hidden' });
+    await page.getByText('Processing').waitFor({ state: 'hidden' });
 
     await page.goto('/tokens');
     // The user starts with 490 (from fixture) and buys 24 tokens
