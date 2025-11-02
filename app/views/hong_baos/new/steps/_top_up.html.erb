@@ -22,7 +22,20 @@
     <%= render "payment_methods/radio_buttons", form:, payment_methods: %>
 
     <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
-      <div class="flex items-center space-x-4 p-8 w-full">
+      <div class="flex flex-col items-center gap-2 p-8 w-full">
+        <%= link_to new_saved_hong_bao_path,
+              target: "_blank",
+              class: "btn btn-outline btn-warning py-3 w-full",
+              data: {
+                controller: "binding",
+                action: "bitcoin:changed@window->binding#attribute",
+                binding_name_value: "publicAddressText",
+                binding_attribute_value: "href",
+                binding_template_value: "#{new_saved_hong_bao_path}?address={publicAddressText}"
+              } do %>
+          Track this HongBao
+          <%= heroicon "arrow-trending-up", variant: :outline, class: "w-5 h-5" %>
+        <% end %>
         <%= render "hong_baos/new/verify_button", current_step: 3, hong_bao: hong_bao %>
       </div>
     </div>
