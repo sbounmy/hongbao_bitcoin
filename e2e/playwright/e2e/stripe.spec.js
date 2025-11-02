@@ -97,6 +97,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
     // await page.getByRole('button', { name: 'Select' }).click();
 
+    await page.waitForTimeout(1_000); // wait for page to load
     // Verify redirect to Stripe Checkout
     await expect(page.url()).toContain('checkout.stripe.com');
 
