@@ -32,6 +32,7 @@ module Series
       # Handle both ActiveRecord relations and arrays
       hong_baos_with_dates = if saved_hong_baos.respond_to?(:where)
         saved_hong_baos
+          .includes(:spot_buy) # Preload associations
           .where.not(gifted_at: nil)
           .order(:gifted_at)
           .to_a
@@ -43,6 +44,8 @@ module Series
       end
 
       date_range.each do |date|
+        # For now, include all hong baos gifted on or before this date
+        # Status filtering will be handled separately later
         active_by_date[date] = hong_baos_with_dates.select { |hb| hb.gifted_at.to_date <= date }
       end
 

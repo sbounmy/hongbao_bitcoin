@@ -1,0 +1,24 @@
+<%= form_with model: saved_hong_bao,
+    url: saved_hong_bao_path(saved_hong_bao),
+    method: :patch,
+    data: {
+      turbo_confirm: confirm_text,
+      turbo_frame: "_top"
+    } do |f| %>
+
+  <%= f.hidden_field :status, value: status %>
+  <%= f.hidden_field :status_changed_at, value: Date.today %>
+
+  <button type="submit" class="text-xs flex items-center gap-1 w-full text-left">
+    <% if status == "hodl" %>
+      <%= heroicon "hand-thumb-up", variant: :outline, class: "w-3 h-3" %>
+      Mark as HODL
+    <% elsif status == "lost" %>
+      <%= heroicon "exclamation-circle", variant: :outline, class: "w-3 h-3" %>
+      Mark as Lost
+    <% elsif status == "withdrawn" %>
+      <%= heroicon "arrow-down", variant: :outline, class: "w-3 h-3" %>
+      Mark as Withdrawn
+    <% end %>
+  </button>
+<% end %>

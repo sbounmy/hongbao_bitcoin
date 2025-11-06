@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_15_020951) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_02_141943) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -253,9 +253,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_020951) do
     t.datetime "last_fetched_at"
     t.integer "spot_buy_id"
     t.integer "spot_sell_id"
+    t.string "status", default: "created", null: false
+    t.datetime "status_changed_at"
     t.index ["address"], name: "index_saved_hong_baos_on_address"
     t.index ["spot_buy_id"], name: "index_saved_hong_baos_on_spot_buy_id"
     t.index ["spot_sell_id"], name: "index_saved_hong_baos_on_spot_sell_id"
+    t.index ["status"], name: "index_saved_hong_baos_on_status"
+    t.index ["status_changed_at"], name: "index_saved_hong_baos_on_status_changed_at"
     t.index ["user_id", "address"], name: "index_saved_hong_baos_on_user_id_and_address", unique: true
     t.index ["user_id"], name: "index_saved_hong_baos_on_user_id"
   end
@@ -275,6 +279,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_020951) do
     t.datetime "imported_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "price_updated_at", default: {}
     t.index ["date"], name: "index_spots_on_date", unique: true
   end
 

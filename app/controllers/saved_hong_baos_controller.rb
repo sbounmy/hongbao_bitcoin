@@ -1,5 +1,6 @@
 class SavedHongBaosController < ApplicationController
-  before_action :set_saved_hong_bao, only: [ :destroy, :refresh ]
+  layout "main"
+  before_action :set_saved_hong_bao, only: [ :destroy, :refresh, :update ]
   before_action :set_network, only: [ :create ]
 
   def index
@@ -31,6 +32,13 @@ class SavedHongBaosController < ApplicationController
     redirect_to saved_hong_baos_path, notice: "Balance refresh initiated. Please wait a moment."
   end
 
+  def update
+    if @saved_hong_bao.update(saved_hong_bao_params)
+      redirect_to saved_hong_baos_path, notice: "Hong Bao updated successfully."
+    else
+      redirect_to saved_hong_baos_path, alert: "Unable to update Hong Bao."
+    end
+  end
 
   private
 
@@ -39,7 +47,7 @@ class SavedHongBaosController < ApplicationController
   end
 
   def saved_hong_bao_params
-    params.require(:saved_hong_bao).permit(:name, :address, :notes)
+    params.require(:saved_hong_bao).permit(:name, :address, :notes, :status, :status_changed_at)
   end
 
   def set_network

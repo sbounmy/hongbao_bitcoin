@@ -60,10 +60,10 @@
         <% end %>
       </td>
       <td>
-        <% status = saved_hong_bao.status %>
-        <div class="badge <%= status[:class] %> badge-sm gap-1">
-          <%= heroicon status[:icon], variant: :outline, class: "w-3 h-3" %>
-          <%= status[:text] %>
+        <% status_info = saved_hong_bao.status_display %>
+        <div class="badge <%= status_info[:class] %> badge-sm gap-1">
+          <%= heroicon status_info[:icon], variant: :outline, class: "w-3 h-3" %>
+          <%= status_info[:text] %>
         </div>
       </td>
       <td>
@@ -120,14 +120,53 @@
               title: "View details") do %>
             <span><%= heroicon "eye", variant: :outline, class: "w-4 h-4" %></span>
           <% end %>
+
+          <!-- Dropdown for more actions -->
           <% unless readonly %>
-            <%= button_to(saved_hong_bao, method: :delete,
-                data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
-                class: "btn btn-ghost btn-sm btn-square text-error",
-                title: "Remove") do %>
-              <span><%= heroicon "trash", variant: :outline, class: "w-4 h-4" %></span>
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-sm btn-square">
+                <%= heroicon "ellipsis-vertical", variant: :solid, class: "w-4 h-4" %>
+              </label>
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-40 z-50 border border-base-300">
+                  <% if saved_hong_bao.may_mark_hodl? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "hodl",
+                          confirm_text: "Mark #{saved_hong_bao.name} as HODL?") %>
+                    </li>
+                  <% end %>
+                  <% if saved_hong_bao.may_mark_lost? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "lost",
+                          confirm_text: "Mark #{saved_hong_bao.name} as lost?") %>
+                    </li>
+                  <% end %>
+                  <% if saved_hong_bao.may_mark_withdrawn? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "withdrawn",
+                          confirm_text: "Mark #{saved_hong_bao.name} as withdrawn?") %>
+                    </li>
+                  <% end %>
+                  <li class="divider"></li>
+                  <li>
+                    <%= button_to(saved_hong_bao, method: :delete,
+                        data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },
+                        class: "text-xs text-error") do %>
+                      <span class="flex items-center gap-1">
+                        <%= heroicon "trash", variant: :outline, class: "w-3 h-3" %>
+                        Remove
+                      </span>
+                    <% end %>
+                  </li>
+                  </ul>
+                </div>
             <% end %>
-          <% end %>
+          </div>
         </div>
       </td>
     <% end %>
@@ -218,9 +257,9 @@
 
           <!-- Right side: Status badge and actions -->
           <div class="flex items-center gap-1">
-            <% status = saved_hong_bao.status %>
-            <div class="badge <%= status[:class] %> badge-sm">
-              <%= heroicon status[:icon], variant: :outline, class: "w-3 h-3" %>
+            <% status_info = saved_hong_bao.status_display %>
+            <div class="badge <%= status_info[:class] %> badge-sm">
+              <%= heroicon status_info[:icon], variant: :outline, class: "w-3 h-3" %>
               <span class="hidden">HODL</span>
             </div>
 
@@ -228,7 +267,7 @@
               <label tabindex="0" class="btn btn-ghost btn-xs btn-square">
                 <%= heroicon "ellipsis-vertical", variant: :solid, class: "w-4 h-4" %>
               </label>
-              <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-32 z-50 border border-base-300">
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-40 z-50 border border-base-300">
                 <li>
                   <%= link_to hong_bao_path(saved_hong_bao.address), target: "_blank", class: "text-xs" do %>
                     <span class="flex items-center gap-1">
@@ -238,6 +277,31 @@
                   <% end %>
                 </li>
                 <% unless readonly %>
+                  <% if saved_hong_bao.may_mark_hodl? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "hodl",
+                          confirm_text: "Mark #{saved_hong_bao.name} as HODL?") %>
+                    </li>
+                  <% end %>
+                  <% if saved_hong_bao.may_mark_lost? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "lost",
+                          confirm_text: "Mark #{saved_hong_bao.name} as lost?") %>
+                    </li>
+                  <% end %>
+                  <% if saved_hong_bao.may_mark_withdrawn? %>
+                    <li>
+                      <%= render SavedHongBaos::StatusFormComponent.new(
+                          saved_hong_bao: saved_hong_bao,
+                          status: "withdrawn",
+                          confirm_text: "Mark #{saved_hong_bao.name} as withdrawn?") %>
+                    </li>
+                  <% end %>
+                  <li class="divider"></li>
                   <li>
                     <%= button_to saved_hong_bao, method: :delete,
                         data: { turbo_confirm: "Remove #{saved_hong_bao.name}?" },

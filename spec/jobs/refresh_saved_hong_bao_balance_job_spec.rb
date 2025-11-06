@@ -66,13 +66,16 @@ RSpec.describe RefreshSavedHongBaoBalanceJob, type: :job do
       expect {
         described_class.new.perform(saved_hong_bao.id)
       }.not_to raise_error
+      saved_hong_bao.reload
       expect(saved_hong_bao).to have_attributes(
         initial_sats: nil,
-        current_sats: nil,
+        current_sats: 0,  # Balance.new returns 0 for addresses with no transactions
         gifted_at: nil,
-        status: { icon: "exclamation-triangle", text: "NO FUNDS", class: "text-error" },
-        last_fetched_at: nil
+        status: "no_funds",
+        last_fetched_at: be_within(2.seconds).of(Time.current)
       )
+      # Verify the display status is correct
+      expect(saved_hong_bao.status_display).to eq({ icon: "exclamation-triangle", text: "NO FUNDS", class: "text-error" })
     end
   end
 end

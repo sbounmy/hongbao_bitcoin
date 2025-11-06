@@ -10,3 +10,8 @@ production:
     args: ["usd", { seed: false }]
     priority: 1
     schedule: every 3 minutes
+
+  refresh_hodl_hong_baos_job:
+    class: RefreshHodlHongBaosJob
+    queue: background
+    schedule: every day at 2:00am

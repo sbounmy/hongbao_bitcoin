@@ -46,7 +46,7 @@ module Series
           initialValue: initial_value,
           currentValue: current_value,
           priceChangePercent: price_change_percent,
-          status: hong_bao.status[:text]
+          status: hong_bao.status_display[:text]
         }
       end
     end

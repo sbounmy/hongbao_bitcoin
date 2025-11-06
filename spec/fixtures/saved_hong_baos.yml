@@ -5,6 +5,7 @@ hodl:
   name: HODL HB
   address: bc1qyus6dre55lulasz5x5xtgsjtapjag54s5paulx
   notes: "Test wallet with balance tracking"
+  status: "hodl"
   initial_sats: 41171
   current_sats: 41171
   spot_buy_id: 3
@@ -16,6 +17,7 @@ withdraw:
   name: Withdrawn HB
   address: tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn
   notes: "Test wallet for tracking"
+  status: "withdrawn"
   initial_sats: 18949
   current_sats: 10000
   spot_buy_id: 3
@@ -27,6 +29,7 @@ empty:
   name: Empty Wallet
   address: tb1qglvfch5f9tspnqsskyuydpxx7kuy6s38nclqev
   notes: "No balance wallet"
+  status: "no_funds"
   initial_sats: 0
   current_sats: 0
   spot_buy_id: 3
@@ -37,6 +40,7 @@ with_transactions:
   user: satoshi
   name: Made some transactions
   address: tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0
+  status: "hodl"
   initial_sats: 18829
   current_sats: 25000
   spot_buy_id: 4
@@ -48,6 +52,7 @@ created:
   name: Created HB
   address: bc1qyus6dre55lulasz5x5xtgsjtapjag54s5paulx
   notes: "Test wallet with balance tracking"
+  status: "created"
   initial_sats: nil
   current_sats: nil
   spot_buy_id: nil

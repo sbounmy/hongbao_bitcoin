@@ -249,29 +249,29 @@ RSpec.describe SavedHongBao, type: :model do
       end
     end
 
-    describe "#status" do
-      it "returns withdrawn status when balance is zero" do
-        hong_bao.update!(current_sats: 0)
-        status = hong_bao.status
+    describe "#status_display" do
+      it "returns withdrawn status display when status is withdrawn" do
+        hong_bao.update!(status: "withdrawn")
+        status = hong_bao.status_display
         expect(status[:text]).to eq("WITHDRAWN")
-        expect(status[:icon]).to eq("arrow-down")
-        expect(status[:class]).to eq("text-error")
+        expect(status[:icon]).to eq("check-circle")
+        expect(status[:class]).to eq("text-success")
       end
 
-      it "returns untouched status when balance hasn't changed" do
-        hong_bao.update!(initial_sats: 50000, current_sats: 50000)
-        status = hong_bao.status
+      it "returns hodl status display when status is hodl" do
+        hong_bao.update!(status: "hodl")
+        status = hong_bao.status_display
         expect(status[:text]).to eq("HODL")
         expect(status[:icon]).to eq("hand-thumb-up")
         expect(status[:class]).to eq("text-warning")
       end
 
-      it "returns increased status when balance has increased" do
-        hong_bao.update!(initial_sats: 50000, current_sats: 75000)
-        status = hong_bao.status
-        expect(status[:text]).to eq("increased")
-        expect(status[:icon]).to eq("arrow-trending-up")
-        expect(status[:class]).to eq("text-success")
+      it "returns lost status display when status is lost" do
+        hong_bao.update!(status: "lost")
+        status = hong_bao.status_display
+        expect(status[:text]).to eq("LOST")
+        expect(status[:icon]).to eq("exclamation-circle")
+        expect(status[:class]).to eq("text-error")
       end
     end
 

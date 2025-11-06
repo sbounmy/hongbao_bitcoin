@@ -11,7 +11,11 @@ class RefreshSavedHongBaoBalanceJob < ApplicationJob
       saved_hong_bao.current_sats = balance.satoshis
       # saved_hong_bao.current_spot = Spot.current(:usd)
       saved_hong_bao.last_fetched_at = Time.current
+
       saved_hong_bao.save!
+
+      # Update status based on balance after saving balance data
+      saved_hong_bao.update_status_based_on_balance
     end
   end
 end
