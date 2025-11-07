@@ -37,7 +37,7 @@ class R2CLI
   def initialize
     @project_root = File.expand_path('..', __dir__)
     @mount_point = File.join(@project_root, 'mounts', 'r2-dev')
-    @symlink_target = File.join(@project_root, 'app', 'content', 'assets', 'blog')
+    @symlink_target = File.join(@project_root, 'public', 'blog-images')
     @symlink_source = File.join(@mount_point, 'blog')
     @log_file = File.join(@project_root, 'log', 'rclone-mount.log')
     @dev_bucket = 'hongbao-development'
@@ -279,7 +279,7 @@ class R2CLI
 
     unless foreground
       puts ""
-      puts Colors.green("Ready! Save images to app/content/assets/blog/")
+      puts Colors.green("Ready! Save images to public/blog-images/")
       puts "They will automatically sync to the R2 development bucket"
       puts ""
       puts "Commands:"

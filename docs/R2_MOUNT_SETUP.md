@@ -213,8 +213,9 @@ If you prefer to mount manually or need to mount without starting the full dev s
    ```
 
 2. **Work on your blog content:**
-   - Save images to `app/content/assets/blog/`
+   - Save images to `public/blog-images/`
    - They automatically sync to R2 development bucket
+   - Images are accessible at `/blog-images/` URL path
    - Access via development CDN URL
 
 3. **When ready for production:**
@@ -246,9 +247,8 @@ When writing articles in `app/content/`, reference images like:
 
 ```
 hongbao/
-├── app/content/
-│   └── assets/
-│       └── blog/          # Symlink to mount (auto-created)
+├── public/
+│   └── blog-images/       # Symlink to mount (auto-created)
 ├── mounts/
 │   └── r2-dev/            # Mount point (auto-created)
 │       └── blog/          # Your blog images appear here
