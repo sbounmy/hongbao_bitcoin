@@ -66,5 +66,10 @@ yarn-error.log
 swarm.log
 
 .claude/settings.local.json
+
 # Cloudflare R2 Storage
 .wrangler
+
+# R2 Mount and rclone
+/mounts/
+/app/content/assets/blog

@@ -1,0 +1,661 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'fileutils'
+
+# Load dotenv gem to read .env file
+begin
+  require 'bundler/setup'
+  require 'dotenv'
+
+  # Load .env file (respects .env.local, .env.development, etc)
+  Dotenv.load(
+    File.expand_path('../.env.local', __dir__),
+    File.expand_path('../.env', __dir__)
+  )
+rescue LoadError
+  # If dotenv is not available, warn the user
+  puts "Warning: dotenv gem not found. Make sure to run 'bundle install'"
+  puts "Attempting to continue with existing environment variables..."
+end
+
+# Colors for output
+class Colors
+  RED = "\033[0;31m"
+  GREEN = "\033[0;32m"
+  YELLOW = "\033[1;33m"
+  BLUE = "\033[0;34m"
+  NC = "\033[0m" # No Color
+
+  def self.red(text);    "#{RED}#{text}#{NC}"; end
+  def self.green(text);  "#{GREEN}#{text}#{NC}"; end
+  def self.yellow(text); "#{YELLOW}#{text}#{NC}"; end
+  def self.blue(text);   "#{BLUE}#{text}#{NC}"; end
+end
+
+# R2 CLI Tool
+class R2CLI
+  def initialize
+    @project_root = File.expand_path('..', __dir__)
+    @mount_point = File.join(@project_root, 'mounts', 'r2-dev')
+    @symlink_target = File.join(@project_root, 'app', 'content', 'assets', 'blog')
+    @symlink_source = File.join(@mount_point, 'blog')
+    @log_file = File.join(@project_root, 'log', 'rclone-mount.log')
+    @dev_bucket = 'hongbao-development'
+    @prod_bucket = 'hongbao-production'
+  end
+
+  def run(args)
+    command = args.shift
+
+    case command
+    when 'install'
+      install_rclone
+    when 'mount'
+      mount(args)
+    when 'unmount', 'umount'
+      unmount
+    when 'status'
+      status
+    when 'test'
+      test_connection
+    when 'list', 'ls'
+      list_files(args[0], args[1])
+    when 'sync'
+      sync_buckets(args)
+    when 'backup'
+      backup_production
+    when 'help', nil
+      show_help
+    else
+      puts Colors.red("Unknown command: #{command}")
+      puts "Run 'bin/r2 help' for usage information"
+      exit 1
+    end
+  end
+
+  private
+
+  def install_rclone
+    puts Colors.yellow("Installing Official rclone for macOS")
+    puts "=" * 35
+    puts "This will install the latest rclone to /usr/local/bin"
+    puts ""
+
+    # Detect architecture
+    arch = `uname -m`.strip
+    rclone_arch = arch == 'arm64' ? 'arm64' : 'amd64'
+    puts "Detected: #{arch == 'arm64' ? 'Apple Silicon (M1/M2/M3)' : 'Intel Mac'}"
+
+    # Check for Homebrew version
+    if system('which brew > /dev/null 2>&1') && system('brew list --formula | grep -q "^rclone$" 2>/dev/null')
+      current_rclone = `which rclone 2>/dev/null`.strip
+      puts Colors.yellow("Note: Homebrew version of rclone found at #{current_rclone}")
+      puts "The official binary will be installed to /usr/local/bin/rclone"
+      puts "The official version will take precedence if /usr/local/bin comes first in PATH"
+      puts ""
+    end
+
+    # Download official binary
+    puts Colors.yellow("Downloading latest official rclone...")
+    download_url = "https://downloads.rclone.org/rclone-current-osx-#{rclone_arch}.zip"
+    puts "URL: #{download_url}"
+
+    Dir.chdir('/tmp') do
+      unless system("curl -L -O '#{download_url}'")
+        puts Colors.red("✗ Failed to download rclone")
+        exit 1
+      end
+
+      # Extract
+      puts Colors.yellow("Installing rclone...")
+      unless system("unzip -q rclone-current-osx-#{rclone_arch}.zip")
+        puts Colors.red("✗ Failed to extract rclone")
+        exit 1
+      end
+
+      # Find extracted directory
+      rclone_dir = Dir.glob("rclone-*-osx-#{rclone_arch}").first
+      unless rclone_dir
+        puts Colors.red("✗ Failed to find extracted rclone directory")
+        exit 1
+      end
+
+      # Install to /usr/local/bin
+      Dir.chdir(rclone_dir) do
+        system('sudo mkdir -p /usr/local/bin')
+        unless system('sudo cp rclone /usr/local/bin/')
+          puts Colors.red("✗ Failed to install rclone")
+          exit 1
+        end
+        system('sudo chmod 755 /usr/local/bin/rclone')
+      end
+
+      # Clean up
+      system("rm -rf '#{rclone_dir}' 'rclone-current-osx-#{rclone_arch}.zip'")
+    end
+
+    # Verify installation
+    puts ""
+    puts Colors.green("✓ Installation complete!")
+    puts ""
+    puts "Installed version:"
+    system('/usr/local/bin/rclone version | head -3')
+    puts ""
+
+    # Check FUSE-T
+    if system('brew list --cask | grep -q "fuse-t" 2>/dev/null')
+      puts Colors.green("✓ FUSE-T is installed (via Homebrew)")
+    elsif File.directory?('/Library/Filesystems/fuse-t.fs')
+      puts Colors.green("✓ FUSE-T is installed")
+    else
+      puts Colors.yellow("⚠ FUSE-T not found")
+      puts "Install with: brew install --cask fuse-t"
+    end
+
+    puts ""
+    puts Colors.green("Ready to use mount!")
+    puts ""
+    puts "Verify the correct rclone is used:"
+    puts "  which rclone     # Should show /usr/local/bin/rclone"
+    puts "  rclone version   # Check the version installed"
+    puts ""
+    puts "If 'which rclone' still shows /opt/homebrew/bin/rclone, you may need to:"
+    puts "  1. Restart your terminal, OR"
+    puts "  2. Run: brew uninstall rclone"
+    puts ""
+    puts "Then try: bin/r2 mount"
+  end
+
+  def mount(args = [])
+    # Check for --foreground flag (used by Procfile.dev)
+    foreground = args.include?('--foreground') || args.include?('-f')
+
+    unless foreground
+      puts Colors.yellow("Hong₿ao R2 Development Mount")
+      puts "=" * 35
+    end
+
+    # Check if rclone is installed
+    unless system('which rclone > /dev/null 2>&1')
+      puts Colors.red("✗ rclone is not installed")
+      puts "Run: bin/r2 install"
+      exit 1
+    end
+
+    # Check if environment variables are set
+    if ENV['RCLONE_CONFIG_R2DEV_ACCESS_KEY_ID'].nil?
+      puts Colors.red("✗ R2 credentials not found")
+      puts "Please set up your .env file with R2 credentials"
+      puts "Copy .env.example to .env and fill in your credentials"
+      exit 1
+    end
+
+    # Create directories
+    FileUtils.mkdir_p(@mount_point)
+    FileUtils.mkdir_p(File.dirname(@log_file))
+    FileUtils.mkdir_p(File.dirname(@symlink_target))
+
+    # Check if already mounted
+    if `mount`.include?(@mount_point)
+      if foreground
+        puts "R2: Already mounted at #{@mount_point}"
+        exit 0
+      else
+        puts Colors.green("✓ Already mounted at #{@mount_point}")
+      end
+    else
+      puts foreground ? "R2: Mounting development bucket..." : "Mounting R2 development bucket..."
+
+      mount_cmd_parts = [
+        'rclone', 'mount', "r2dev:#{@dev_bucket}", @mount_point,
+        '--vfs-cache-mode', 'writes',
+        '--vfs-cache-max-age', '1h',
+        '--vfs-read-chunk-size', '128M',
+        '--vfs-read-ahead', '128M',
+        '--buffer-size', '32M',
+        '--dir-cache-time', '5m',
+        '--poll-interval', '15s',
+        '--no-modtime',
+        '--log-file', @log_file,
+        '--log-level', 'INFO',
+        '--allow-other'
+      ]
+
+      # Add daemon flag only if not in foreground mode
+      mount_cmd_parts.insert(4, '--daemon') unless foreground
+      mount_cmd = mount_cmd_parts.join(' ')
+
+      # Create symlink first (for both foreground and background modes)
+      create_symlink_if_needed(foreground)
+
+      if foreground
+        # In foreground mode, run the command directly (blocking)
+        puts "R2: Mounted at #{@mount_point} (foreground mode, press Ctrl+C to stop)"
+        exec(mount_cmd)  # This replaces the current process
+      else
+        system("#{mount_cmd} 2>/dev/null || true")
+        sleep 2
+
+        if `mount`.include?(@mount_point)
+          puts Colors.green("✓ Successfully mounted R2 development bucket")
+          puts "  Mount point: #{@mount_point}"
+          puts "  Log file: #{@log_file}"
+        else
+          puts Colors.red("✗ Failed to mount R2 bucket")
+          puts "Check the log file: #{@log_file}"
+
+          unless File.exist?('/Library/Filesystems/fuse-t.fs')
+            puts ""
+            puts Colors.yellow("Note: FUSE-T appears to be missing")
+            puts "Install with: brew install --cask fuse-t"
+            puts "You may need to allow it in System Settings > Privacy & Security"
+          end
+          exit 1
+        end
+      end
+    end
+  end
+
+  def create_symlink_if_needed(foreground = false)
+    # Create symlink if needed
+    if File.symlink?(@symlink_target)
+      unless foreground
+        puts Colors.green("✓ Symlink already exists")
+        puts "  #{@symlink_target} -> #{@symlink_source}"
+      end
+    elsif File.directory?(@symlink_target)
+      unless foreground
+        puts Colors.yellow("⚠ Directory exists at #{@symlink_target}")
+        puts "Remove it manually if you want to create the symlink"
+      end
+    else
+      FileUtils.mkdir_p(@symlink_source)
+      FileUtils.ln_s(@symlink_source, @symlink_target)
+      unless foreground
+        puts Colors.green("✓ Created symlink")
+        puts "  #{@symlink_target} -> #{@symlink_source}"
+      end
+    end
+
+    unless foreground
+      puts ""
+      puts Colors.green("Ready! Save images to app/content/assets/blog/")
+      puts "They will automatically sync to the R2 development bucket"
+      puts ""
+      puts "Commands:"
+      puts "  List files:    bin/r2 ls"
+      puts "  Unmount:       bin/r2 unmount"
+      puts "  Check status:  bin/r2 status"
+    end
+  end
+
+  def unmount
+    puts Colors.yellow("Hong₿ao R2 Development Unmount")
+    puts "=" * 35
+
+    unless `mount`.include?(@mount_point)
+      puts Colors.yellow("⚠ Not currently mounted")
+    else
+      puts "Unmounting R2 development bucket..."
+
+      if system("fusermount -u #{@mount_point} 2>/dev/null") ||
+         system("diskutil unmount #{@mount_point} 2>/dev/null") ||
+         system("umount #{@mount_point} 2>/dev/null")
+
+        if `mount`.include?(@mount_point)
+          puts Colors.red("✗ Failed to unmount")
+          puts "You may need to close any applications using files in the mount"
+          puts "Try: lsof | grep '#{@mount_point}' to see what's using it"
+          exit 1
+        else
+          puts Colors.green("✓ Successfully unmounted")
+        end
+      else
+        puts Colors.red("✗ Failed to unmount")
+        exit 1
+      end
+    end
+
+    if File.symlink?(@symlink_target)
+      puts Colors.yellow("Note: Symlink still exists at")
+      puts "  #{@symlink_target}"
+      puts "Remove manually if desired: rm #{@symlink_target}"
+    end
+
+    puts ""
+    puts Colors.green("Done!")
+  end
+
+  def status
+    puts Colors.yellow("Hong₿ao R2 Status")
+    puts "=" * 35
+
+    # Check mount
+    if `mount`.include?(@mount_point)
+      puts Colors.green("✓ R2 development bucket is mounted")
+      puts "  Mount point: #{@mount_point}"
+
+      # Check symlink
+      if File.symlink?(@symlink_target)
+        puts Colors.green("✓ Symlink exists")
+        puts "  #{@symlink_target} -> #{File.readlink(@symlink_target)}"
+      else
+        puts Colors.red("✗ Symlink not found at #{@symlink_target}")
+      end
+
+      # Show some files
+      puts ""
+      puts "Recent files in development bucket:"
+      puts "-" * 35
+      output = `rclone ls r2dev:#{@dev_bucket}/blog --max-depth 2 2>/dev/null | head -10`
+      if output.empty?
+        puts "(empty)"
+      else
+        puts output
+      end
+    else
+      puts Colors.red("✗ R2 development bucket is not mounted")
+      puts "Run: bin/r2 mount"
+    end
+  end
+
+  def test_connection(debug = false)
+    puts Colors.yellow("Testing R2 Connections")
+    puts "=" * 35
+
+    if debug || ARGV.include?('--debug')
+      puts "\nDebug Info:"
+      puts "-" * 35
+      puts "Development config:"
+      puts "  ACCESS_KEY_ID: #{ENV['RCLONE_CONFIG_R2DEV_ACCESS_KEY_ID'] ? '***' + ENV['RCLONE_CONFIG_R2DEV_ACCESS_KEY_ID'][-4..-1] : 'NOT SET'}"
+      puts "  SECRET: #{ENV['RCLONE_CONFIG_R2DEV_SECRET_ACCESS_KEY'] ? '***' + ENV['RCLONE_CONFIG_R2DEV_SECRET_ACCESS_KEY'][-4..-1] : 'NOT SET'}"
+      puts "  ENDPOINT: #{ENV['RCLONE_CONFIG_R2DEV_ENDPOINT'] || 'NOT SET'}"
+      puts "\nProduction config:"
+      puts "  ACCESS_KEY_ID: #{ENV['RCLONE_CONFIG_R2PROD_ACCESS_KEY_ID'] ? '***' + ENV['RCLONE_CONFIG_R2PROD_ACCESS_KEY_ID'][-4..-1] : 'NOT SET'}"
+      puts "  SECRET: #{ENV['RCLONE_CONFIG_R2PROD_SECRET_ACCESS_KEY'] ? '***' + ENV['RCLONE_CONFIG_R2PROD_SECRET_ACCESS_KEY'][-4..-1] : 'NOT SET'}"
+      puts "  ENDPOINT: #{ENV['RCLONE_CONFIG_R2PROD_ENDPOINT'] || 'NOT SET'}"
+      puts "-" * 35
+      puts ""
+    end
+
+    # Test development bucket
+    print "Testing development bucket (r2dev)... "
+    cmd = "rclone ls r2dev:#{@dev_bucket} --max-depth 0"
+
+    if debug || ARGV.include?('--debug')
+      puts "\nRunning: #{cmd}"
+      result = system(cmd)
+    else
+      result = system("#{cmd} >/dev/null 2>&1")
+    end
+
+    if result
+      puts Colors.green("✓ Connected")
+    else
+      puts Colors.red("✗ Failed")
+      puts "Check your RCLONE_CONFIG_R2DEV_* environment variables in .env"
+      if !debug && !ARGV.include?('--debug')
+        puts "Run 'bin/r2 test --debug' for more details"
+      end
+    end
+
+    # Test production bucket
+    print "Testing production bucket (r2prod)... "
+    cmd = "rclone ls r2prod:#{@prod_bucket} --max-depth 0"
+
+    if debug || ARGV.include?('--debug')
+      puts "\nRunning: #{cmd}"
+      result = system(cmd)
+    else
+      result = system("#{cmd} >/dev/null 2>&1")
+    end
+
+    if result
+      puts Colors.green("✓ Connected")
+    else
+      puts Colors.red("✗ Failed")
+      puts "Check your RCLONE_CONFIG_R2PROD_* environment variables in .env"
+      if !debug && !ARGV.include?('--debug')
+        puts "Run 'bin/r2 test --debug' for more details"
+      end
+    end
+  end
+
+  def list_files(env = 'dev', path = 'blog')
+    env ||= 'dev'
+    path ||= 'blog'
+
+    remote = env == 'prod' ? 'r2prod' : 'r2dev'
+    bucket = env == 'prod' ? @prod_bucket : @dev_bucket
+
+    puts Colors.yellow("Files in #{remote}:#{bucket}/#{path}")
+    puts "=" * 50
+
+    output = `rclone ls #{remote}:#{bucket}/#{path} 2>/dev/null`
+
+    if output.empty?
+      puts "(empty or path not found)"
+    else
+      lines = output.split("\n")
+      total_size = 0
+
+      lines.each do |line|
+        if line =~ /^\s*(\d+)\s+(.+)$/
+          size = $1.to_i
+          file = $2
+          total_size += size
+
+          # Human readable size
+          size_str = if size < 1024
+                       "#{size} B"
+                     elsif size < 1024 * 1024
+                       "#{(size / 1024.0).round(1)} KB"
+                     else
+                       "#{(size / 1024.0 / 1024.0).round(1)} MB"
+                     end
+
+          printf "%8s  %s\n", size_str, file
+        end
+      end
+
+      puts "=" * 50
+      puts "Total: #{lines.size} files, #{(total_size / 1024.0 / 1024.0).round(2)} MB"
+    end
+  end
+
+  def sync_buckets(args)
+    # Parse arguments with flags
+    source = nil
+    destination = nil
+    path = 'blog'
+
+    i = 0
+    while i < args.length
+      case args[i]
+      when '--from', '-f'
+        source = args[i + 1]
+        i += 2
+      when '--to', '-t'
+        destination = args[i + 1]
+        i += 2
+      when '--path', '-p'
+        path = args[i + 1]
+        i += 2
+      else
+        if args[i] && !args[i].start_with?('-')
+          puts Colors.red("✗ Unknown argument: #{args[i]}")
+          puts "Use --from, --to, and optionally --path"
+          puts "Example: bin/r2 sync --from dev --to prod --path blog/2024"
+          exit 1
+        end
+        i += 1
+      end
+    end
+
+    # Require both source and destination
+    unless source && destination
+      puts Colors.red("✗ Both --from and --to are required")
+      puts ""
+      puts "Usage: bin/r2 sync --from SOURCE --to DESTINATION [--path PATH]"
+      puts ""
+      puts "Examples:"
+      puts "  bin/r2 sync --from dev --to prod"
+      puts "  bin/r2 sync --from dev --to prod --path blog/2024"
+      puts "  bin/r2 sync --from prod --to dev  # Restore from production"
+      exit 1
+    end
+
+    # Map environment names to rclone remotes and buckets
+    remotes = {
+      'dev' => { remote: 'r2dev', bucket: @dev_bucket, display: 'DEVELOPMENT' },
+      'prod' => { remote: 'r2prod', bucket: @prod_bucket, display: 'PRODUCTION' },
+      'development' => { remote: 'r2dev', bucket: @dev_bucket, display: 'DEVELOPMENT' },
+      'production' => { remote: 'r2prod', bucket: @prod_bucket, display: 'PRODUCTION' }
+    }
+
+    # Validate environments
+    unless remotes[source]
+      puts Colors.red("✗ Unknown source environment: #{source}")
+      puts "Available: dev, development, prod, production"
+      exit 1
+    end
+
+    unless remotes[destination]
+      puts Colors.red("✗ Unknown destination environment: #{destination}")
+      puts "Available: dev, development, prod, production"
+      exit 1
+    end
+
+    if source == destination
+      puts Colors.red("✗ Source and destination are the same")
+      exit 1
+    end
+
+    source_info = remotes[source]
+    dest_info = remotes[destination]
+
+    # Build full paths
+    source_path = "#{source_info[:remote]}:#{source_info[:bucket]}/#{path}"
+    dest_path = "#{dest_info[:remote]}:#{dest_info[:bucket]}/#{path}"
+
+    # Show sync information
+    puts Colors.yellow("Sync Configuration")
+    puts "=" * 50
+    puts "From: #{source_path} (#{source_info[:display]})"
+    puts "To:   #{dest_path} (#{dest_info[:display]})"
+    puts ""
+
+    # Check if source exists
+    file_count = `rclone ls #{source_path} 2>/dev/null | wc -l`.to_i
+    if file_count == 0
+      puts Colors.red("✗ No files found at source: #{source_path}")
+      puts "Check the path and try again"
+      exit 1
+    end
+
+    # Show preview
+    puts "Files to be synced (#{file_count} total):"
+    puts "-" * 50
+    if file_count > 20
+      system("rclone ls #{source_path} --max-depth 1 2>/dev/null | head -20")
+      puts "... and #{file_count - 20} more files"
+    else
+      system("rclone ls #{source_path} 2>/dev/null")
+    end
+    puts ""
+
+    # Build confirmation phrase
+    confirmation_phrase = "SYNC FROM #{source_info[:display]} TO #{dest_info[:display]}"
+
+    # Warn for production destination
+    if destination == 'prod' || destination == 'production'
+      puts Colors.yellow("⚠ WARNING: This will modify PRODUCTION data!")
+      puts ""
+    end
+
+    puts Colors.yellow("This operation will sync:")
+    puts "  From: #{source_info[:display]} (#{path})"
+    puts "  To:   #{dest_info[:display]} (#{path})"
+    puts ""
+    puts Colors.yellow("To confirm this operation, type exactly:")
+    puts Colors.green("  #{confirmation_phrase}")
+    puts ""
+    print "> "
+    response = STDIN.gets.strip
+
+    if response == confirmation_phrase
+      puts "\n#{Colors.blue('Syncing...')}"
+
+      if system("rclone sync #{source_path} #{dest_path} --progress")
+        puts "\n#{Colors.green("✓ Successfully synced from #{source_info[:display]} to #{dest_info[:display]}")}"
+        if destination == 'prod' || destination == 'production'
+          puts "View at: https://cdn.hongbaob.tc/#{path}/"
+        end
+      else
+        puts "\n#{Colors.red('✗ Sync failed')}"
+        exit 1
+      end
+    else
+      puts Colors.red("\n✗ Confirmation phrase did not match. Operation cancelled.")
+      puts "Expected: #{confirmation_phrase}"
+      puts "You typed: #{response}"
+    end
+  end
+
+  def backup_production
+    timestamp = Time.now.strftime('%Y%m%d_%H%M%S')
+    backup_path = "backups/#{timestamp}"
+
+    puts Colors.yellow("Backing up production bucket")
+    puts "From: r2prod:#{@prod_bucket}/blog"
+    puts "To:   r2prod:#{@prod_bucket}/#{backup_path}"
+    puts ""
+
+    if system("rclone copy r2prod:#{@prod_bucket}/blog r2prod:#{@prod_bucket}/#{backup_path} --progress")
+      puts "\n#{Colors.green("✓ Backup created at: #{backup_path}")}"
+
+      puts "\nExisting backups:"
+      system("rclone ls r2prod:#{@prod_bucket}/backups --max-depth 1 2>/dev/null")
+    else
+      puts "\n#{Colors.red('✗ Backup failed')}"
+      exit 1
+    end
+  end
+
+  def show_help
+    puts Colors.yellow("Hong₿ao R2 Storage Management")
+    puts "=" * 50
+    puts ""
+    puts "Usage: bin/r2 <command> [options]"
+    puts ""
+    puts "Commands:"
+    puts "  #{Colors.green('install')}              Install official rclone binary (for macOS mount support)"
+    puts "  #{Colors.green('mount')}                Mount R2 development bucket"
+    puts "  #{Colors.green('unmount')}              Unmount R2 development bucket"
+    puts "  #{Colors.green('status')}               Check mount status and show recent files"
+    puts "  #{Colors.green('test')} [--debug]       Test R2 connections (use --debug for details)"
+    puts "  #{Colors.green('ls')} [env] [path]      List files (env: dev/prod, default: dev)"
+    puts "  #{Colors.green('sync')} --from SRC --to DST  Sync between buckets (requires confirmation)"
+    puts "  #{Colors.green('backup')}               Backup production bucket"
+    puts "  #{Colors.green('help')}                 Show this help message"
+    puts ""
+    puts "Examples:"
+    puts "  bin/r2 install                  # Install official rclone (first-time setup)"
+    puts "  bin/r2 mount                    # Mount development bucket"
+    puts "  bin/r2 test                     # Test connections"
+    puts "  bin/r2 test --debug             # Test with debug output"
+    puts "  bin/r2 ls                       # List dev bucket files"
+    puts "  bin/r2 ls prod blog/2024        # List prod files in blog/2024"
+    puts "  bin/r2 sync --from dev --to prod        # Sync dev to production"
+    puts "  bin/r2 sync --from prod --to dev        # Restore from production"
+    puts "  bin/r2 sync -f dev -t prod --path blog/2024  # Sync specific path"
+    puts "  bin/r2 backup                   # Backup production before updates"
+    puts ""
+    puts "Configuration:"
+    puts "  Set R2 credentials in .env file"
+    puts "  See .env.example for template"
+  end
+end
+
+# Run the CLI
+R2CLI.new.run(ARGV)
