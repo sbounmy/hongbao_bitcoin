@@ -1,124 +1,209 @@
 <div class="space-y-6">
 
-  <%# Balance Display %>
-  <div class="text-white">
-    <div class="flex justify-center gap-2 mb-2">
-      <h2 class="text-xl text-white/80">
-        <% status = @hong_bao.balance.status %>
-        <% if status[:icon] == :pending %>
-          <div class="inline-flex items-center">
-            <%= heroicon "arrow-path", variant: "solid", class: "animate-spin h-5 w-5 mr-2 text-white" %>
-            Pending
+  <%# Top Card - My Hong Bao with envelope image %>
+  <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6 relative overflow-hidden">
+    <div class="flex items-center justify-between">
+      <div class="flex-1 z-10 relative">
+        <h2 class="text-white/80 text-sm mb-1">My Hong Bao</h2>
+        <% if @hong_bao.balance %>
+          <div class="text-4xl font-bold text-[#FFB636] mb-2">
+            $<%= number_with_delimiter((@hong_bao.balance.usd || 0).round(2)) %>
+          </div>
+          <div class="text-white/70 text-sm">
+            <% first_transaction = @hong_bao.balance.transactions.min_by(&:timestamp) %>
+            <% if first_transaction&.timestamp %>
+              Gifted <%= first_transaction.timestamp.strftime("%B %d, %Y") %>
+            <% else %>
+              Received recently
+            <% end %>
           </div>
         <% else %>
-          <div class="inline-flex gap-2 items-center">
-            <%= heroicon "check", variant: "solid", class: "h-5 w-5 mr-2 text-green-400" %>
-            <span>Confirmed</span>
-            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-2 py-1 text-xs font-medium text-white">
-              <%= pluralize(@hong_bao.balance.confirmations, 'confirmation') %>
-            <% explorer_base_url = Current.testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
-            <a href="<%= "#{explorer_base_url}/address/#{@hong_bao.address}" %>"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="inline-flex items-center hover:text-white transition-colors">
-              <%= heroicon "arrow-top-right-on-square", class: "w-3 h-3" %>
-            </a>
-            </span>
-          </div>
+          <!-- Skeleton loading state -->
+          <div class="skeleton h-10 w-32 mb-2 bg-white/20"></div>
+          <div class="skeleton h-4 w-20 bg-white/20"></div>
         <% end %>
-      </h2>
-    </div>
-
-    <div class="flex items-baseline justify-center">
-      <div class="text-4xl tracking-wider">
-        <%= number_to_bitcoin(@hong_bao.balance.btc, significant_class: "text-4xl font-bold text-[#FFB636]", insignificant_class: "text-2xl text-white/60") %>
       </div>
-    </div>
-    <div class="flex items-baseline justify-center">
-      <div class="text-2xl text-white/60 tracking-wider">
-        (<%= number_to_currency(@hong_bao.balance.usd, precision: 2) %>)
+
+      <!-- Red envelope image - Large, cropped, facing left like Tangem -->
+      <div class="absolute -right-0 -bottom-10 w-42 h-42 transform rotate-x-20 rotate-y-30">
+        <%= image_tag "index/red_front.jpg",
+            class: "w-full h-full object-contain opacity-90",
+            alt: "Hong Bao Envelope" %>
       </div>
     </div>
   </div>
 
-  <%# Transaction History %>
-  <div class="mt-8">
-    <h3 class="text-xl text-white/80 mb-4">Transaction History</h3>
-    <div class="space-y-2">
-      <% if @hong_bao.balance.transactions.any? %>
-        <div class="bg-white/10 rounded-lg overflow-hidden">
-          <% @hong_bao.balance.transactions.each do |tx| %>
-            <div class="p-4 border-b border-white/10 last:border-b-0">
-              <div class="flex items-center justify-between">
-                <%# Left side with icon and address %>
-                <div class="flex items-center gap-4">
-                  <%# Transaction icon %>
-                  <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                    <% if tx.deposit? %>
-                      <%= heroicon "arrow-down", variant: "solid", class: "h-5 w-5 text-green-400" %>
-                    <% else %>
-                      <%= heroicon "arrow-up", variant: "solid", class: "h-5 w-5 text-white" %>
-                    <% end %>
-                  </div>
+  <%# Action Buttons %>
+  <div class="flex gap-3">
+    <!-- Withdraw Button -->
+    <%= render "hong_baos/new/next_button", title: "Withdraw", html_options: { disabled: @hong_bao.balance&.btc&.zero? } %>
 
-                  <div class="flex flex-col">
-                    <%# Address display %>
-                    <div class="text-white/80 font-medium flex gap-2">
-                      <% if tx.deposit? %>
-                        From: <%= link_to hong_bao_path(tx.from_address), target: "_blank", rel: "noopener noreferrer", class: "link link-hover flex items-center gap-1"  do %>
-                        <span><%= tx.pretty_from_address %></span>
-                        <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
-                        <% end %>
-                      <% else %>
-                        To: <%= link_to hong_bao_path(tx.to_address), target: "_blank", rel: "noopener noreferrer", class: "link link-hover flex items-center gap-1"  do %>
-                        <span><%= tx.pretty_to_address %></span>
-                        <%= heroicon "arrow-top-right-on-square", class: "h-4 w-4" %>
-                        <% end %>
-                      <% end %>
-                    </div>
-                    <%# Date and transaction ID %>
-                    <div class="flex items-center gap-2 text-xs text-white/60">
-                      <% if tx.timestamp %>
-                        <span><%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %></span>
-                      <% else %>
-                        <span class="inline-flex items-center gap-1">
-                          <%= heroicon "arrow-path", variant: "mini", class: "animate-spin h-3 w-3" %>
-                          <span>Pending confirmation</span>
-                        </span>
-                      <% end %>
-                      <% explorer_base_url = Current.testnet? ? "https://mempool.space/testnet" : "https://mempool.space" %>
-                      <%= link_to "#{explorer_base_url}/tx/#{tx.id}",
-                          class: "hover:text-white transition-colors",
-                          target: "_blank",
-                          rel: "noopener noreferrer" do %>
-                        <%= heroicon "magnifying-glass", class: "h-4 w-4" %>
-                      <% end %>
-                    </div>
-                  </div>
+
+    <!-- Share Button with Custom Clipboard -->
+    <button class="flex-1 btn btn-sm rounded-full bg-white/10 hover:bg-white/20 text-white border-0"
+            data-controller="clipboard"
+            data-clipboard-success-content-value="Link Copied!"
+            data-action="clipboard#copy">
+      <input type="hidden"
+             data-clipboard-target="source"
+             value="<%= hong_bao_url(@hong_bao.address) %>">
+      <%= heroicon "arrow-up-on-square", class: "w-4 h-4" %>
+      <span data-clipboard-target="button">Share</span>
+    </button>
+
+    <!-- Refresh Button -->
+    <button onclick="window.location.reload()"
+            class="flex-1 btn btn-sm rounded-full bg-white/10 hover:bg-white/20 text-white border-0">
+      <%= heroicon "arrow-path", class: "w-4 h-4" %>
+      Refresh
+    </button>
+  </div>
+
+  <%# Bitcoin Network Card %>
+  <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <!-- Bitcoin Logo -->
+        <div class="w-12 h-12 rounded-full bg-[#FFB636] flex items-center justify-center">
+          <span class="text-2xl font-bold text-[#F04747]">₿</span>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold">Bitcoin</h3>
+          <% if @hong_bao.balance %>
+            <div class="text-white/70 text-sm font-mono">
+              <%= number_with_precision(@hong_bao.balance.btc, precision: 8, strip_insignificant_zeros: true) %> BTC
+            </div>
+          <% else %>
+            <div class="skeleton h-4 w-24 bg-white/20"></div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Balance and Status -->
+      <div class="text-right">
+        <% if @hong_bao.balance %>
+          <div class="text-2xl font-bold text-[#FFB636]">
+            $<%= number_with_delimiter((@hong_bao.balance.usd || 0).round(2)) %>
+          </div>
+          <% status = @hong_bao.balance.status %>
+          <% if status[:icon] == :pending %>
+            <div class="text-yellow-400 text-sm flex items-center justify-end gap-1">
+              <%= heroicon "arrow-path", variant: "solid", class: "animate-spin h-4 w-4" %>
+              Pending
+            </div>
+          <% else %>
+            <div class="text-green-400 text-sm flex items-center justify-end gap-1">
+              <%= heroicon "check-circle", variant: "solid", class: "h-4 w-4" %>
+              <%= @hong_bao.balance.confirmations %> conf
+            </div>
+          <% end %>
+        <% else %>
+          <div class="skeleton h-8 w-24 mb-1 bg-white/20"></div>
+          <div class="skeleton h-4 w-16 bg-white/20"></div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Public Address with Copy -->
+    <div class="border-t border-white/20 pt-4">
+      <div class="text-white/70 text-xs mb-2">Public Address</div>
+      <% if @hong_bao.address %>
+        <%= render ClipboardComponent.new(label: "Copied!") do |clipboard| %>
+          <%= clipboard.with_input do %>
+            <input type="text"
+                   data-clipboard-target="source"
+                   readonly
+                   value="<%= @hong_bao.address %>"
+                   class="input input-sm w-full bg-white/10 border-white/20 text-white font-mono text-xs pr-10">
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="skeleton h-10 w-full bg-white/20"></div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Transaction History %>
+  <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6">
+    <!-- Header -->
+    <div class="p-4 border-b border-white/20">
+      <h3 class="text-white font-semibold">Transaction History</h3>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <% if @hong_bao.balance&.transactions&.any? %>
+        <% @hong_bao.balance.transactions.each do |tx| %>
+          <div class="p-4 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors">
+            <div class="flex items-center justify-between">
+              <!-- Left side -->
+              <div class="flex items-center gap-3">
+                <!-- Icon -->
+                <div class="w-10 h-10 rounded-full <%= tx.deposit? ? 'bg-green-500/20' : 'bg-white/10' %> flex items-center justify-center">
+                  <% if tx.deposit? %>
+                    <%= heroicon "arrow-down", variant: "solid", class: "h-5 w-5 text-green-400" %>
+                  <% else %>
+                    <%= heroicon "arrow-up", variant: "solid", class: "h-5 w-5 text-white" %>
+                  <% end %>
                 </div>
 
-                <%# Right side with amount %>
-                <div class="flex flex-col items-end">
-                  <span class="<%= tx.deposit? ? 'text-green-400' : 'text-white' %> font-mono text-lg">
-                    <%= tx.deposit? ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
-                  </span>
-                  <span class="text-sm text-white/60 ml-2">
-                    (<%= number_to_currency(tx.usd.abs, precision: 2) %>)
-                  </span>
+                <!-- Details -->
+                <div>
+                  <div class="text-white/90 text-sm font-medium flex items-center gap-2">
+                    <% if tx.deposit? %>
+                      From: <%= link_to hong_bao_path(tx.from_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
+                      <span><%= tx.pretty_from_address %></span>
+                      <%= heroicon "arrow-top-right-on-square", class: "h-3 w-3" %>
+                      <% end %>
+                    <% else %>
+                      To: <%= link_to hong_bao_path(tx.to_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
+                      <span><%= tx.pretty_to_address %></span>
+                      <%= heroicon "arrow-top-right-on-square", class: "h-3 w-3" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="text-white/60 text-xs">
+                    <% if tx.timestamp %>
+                      <%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %>
+                    <% else %>
+                      <span class="inline-flex items-center gap-1">
+                        <%= heroicon "arrow-path", variant: "mini", class: "animate-spin h-3 w-3" %>
+                        Pending confirmation
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right side - Amount -->
+              <div class="text-right">
+                <div class="<%= tx.deposit? ? 'text-green-400' : 'text-white' %> font-mono text-sm font-medium">
+                  <%= tx.deposit? ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
+                </div>
+                <div class="text-white/60 text-xs">
+                  (<%= number_to_currency(tx.usd.abs, precision: 2) %>)
                 </div>
               </div>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       <% else %>
-        <div class="text-white/60 text-center py-4">
-          No transactions found
+        <div class="p-8 text-center text-white/60">
+          <% if @hong_bao.balance %>
+            No transactions found
+          <% else %>
+            <div class="space-y-2">
+              <div class="skeleton h-4 w-32 mx-auto bg-white/20"></div>
+              <div class="skeleton h-4 w-24 mx-auto bg-white/20"></div>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>
   </div>
 
-  <div class="flex justify-end">
-    <%= render "hong_baos/new/next_button", html_options: { disabled: @hong_bao.balance.btc.zero? } %>
+  <!-- Hidden next button for withdraw flow -->
+  <div class="hidden">
+    <%= render "hong_baos/new/next_button", html_options: { disabled: @hong_bao.balance&.btc&.zero? } %>
   </div>
 </div>
