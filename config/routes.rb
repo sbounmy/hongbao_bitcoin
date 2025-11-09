@@ -188,6 +188,10 @@ Rails.application.routes.draw do
     "https://www.reddit.com/r/HongBaoBitcoin/"
   end
 
+  direct :mempool do |addr|
+    "https://mempool.space/address/#{addr}"
+  end
+
   # Direct route to generate Gravatar URLs
   # Note: Conventionally, this logic belongs in a helper (e.g., ApplicationHelper).
   direct :gravatar do |email, options = {}|

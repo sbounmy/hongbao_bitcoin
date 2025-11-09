@@ -7,7 +7,7 @@
       <!-- Header and Amount -->
       <div>
         <h2 class="text-white/60 text-xs uppercase tracking-wider mb-2">My Hong Bao</h2>
-        <% if false %>
+        <% if @hong_bao.balance %>
           <% performance_data = HongBaoPerformanceService.new(@hong_bao).call %>
           <% metadata = performance_data[:metadata] %>
 
@@ -28,13 +28,20 @@
             </span>
           </div>
 
-          <div class="text-white/80 text-sm">
-            <% first_transaction = @hong_bao.balance.transactions.min_by(&:timestamp) %>
-            <% if first_transaction&.timestamp %>
-              Gifted <%= first_transaction.timestamp.strftime("%B %d, %Y") %>
-            <% else %>
-              Received recently
-            <% end %>
+          <!-- Compact Info: Gifted Date • Address -->
+          <div class="flex items-center gap-1 text-white/70 text-sm">
+            <span><%= metadata[:gifted_date].strftime("%d %b '%y") %></span>
+            <span class="text-white/40">•</span>
+            <%= link_to "#{@hong_bao.address[0..5]}...#{@hong_bao.address[-6..-1]}", mempool_url(@hong_bao.address), class: 'link-hover font-mono text-xs', target: "_blank" %>
+            <button class="p-1 hover:bg-white/10 rounded transition-colors"
+                    data-controller="clipboard"
+                    data-clipboard-success-content-value="Copied!"
+                    data-action="clipboard#copy">
+              <input type="hidden"
+                     data-clipboard-target="source"
+                     value="<%= @hong_bao.address %>">
+              <%= heroicon "clipboard", variant: :outline, class: "w-4 h-4 text-white/60" %>
+            </button>
           </div>
         <% else %>
           <!-- Skeleton loading state -->
@@ -42,34 +49,16 @@
           <div class="skeleton h-4 w-32 bg-white/20"></div>
         <% end %>
       </div>
-
-      <!-- Public Address -->
-      <div>
-        <label class="text-white/60 text-xs uppercase tracking-wider mb-2 block">Public Address</label>
-        <% if @hong_bao.address %>
-          <%= render ClipboardComponent.new(label: "Copied!") do |clipboard| %>
-            <%= clipboard.with_input do %>
-              <input type="text"
-                     data-clipboard-target="source"
-                     readonly
-                     value="<%= @hong_bao.address %>"
-                     class="input w-full bg-white/10 backdrop-blur-sm border-2 border-white/20 hover:border-[#FFB636]/50 focus:border-[#FFB636] text-white font-mono text-sm py-3 px-4 pr-12 rounded-xl transition-colors">
-            <% end %>
-          <% end %>
-        <% else %>
-          <div class="skeleton h-12 w-full bg-white/20 rounded-xl"></div>
-        <% end %>
-      </div>
     </div>
 
     <!-- Red envelope image - Decorative background -->
     <div class="">
-      <div class="absolute -right-6 -bottom-10 w-68 h-68 -rotate-x-20 rotate-y-15 pointer-events-none">
+      <div class="absolute -right-6 -bottom-15 w-68 h-68 -rotate-x-20 rotate-y-15 pointer-events-none">
         <%= image_tag "index/red_front.jpg",
             class: "w-full h-full object-contain",
             alt: "Hong Bao Envelope" %>
       </div>
-      <div class="absolute right-4 -bottom-15 w-68 h-68 -rotate-x-20 rotate-y-15 pointer-events-none">
+      <div class="absolute right-4 -bottom-20 w-68 h-68 -rotate-x-20 rotate-y-15 pointer-events-none">
         <%= image_tag "index/red_front.jpg",
             class: "w-full h-full object-contain",
             alt: "Hong Bao Envelope" %>
