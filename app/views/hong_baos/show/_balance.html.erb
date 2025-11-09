@@ -122,7 +122,7 @@
   <%# Transaction History %>
   <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6">
     <!-- Header -->
-    <div class="p-4 border-b border-white/20">
+    <div class="p-2 md:p-4 border-b border-white/20">
       <h3 class="text-white font-semibold">Transaction History</h3>
     </div>
 
@@ -130,7 +130,7 @@
     <div>
       <% if @hong_bao.balance&.transactions&.any? %>
         <% @hong_bao.balance.transactions.each do |tx| %>
-          <div class="p-4 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors">
+          <div class="p-2 md:p-4 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors">
             <div class="flex items-center justify-between">
               <!-- Left side -->
               <div class="flex items-center gap-3">
@@ -145,14 +145,14 @@
 
                 <!-- Details -->
                 <div>
-                  <div class="text-white/90 text-sm font-medium flex items-center gap-2">
+                  <div class="text-white/90 text-sm font-medium flex items-center gap-1">
                     <% if tx.deposit? %>
-                      From: <%= link_to hong_bao_path(tx.from_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
+                      <%= link_to hong_bao_path(tx.from_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
                       <span><%= tx.pretty_from_address %></span>
                       <%= heroicon "arrow-top-right-on-square", class: "h-3 w-3" %>
                       <% end %>
                     <% else %>
-                      To: <%= link_to hong_bao_path(tx.to_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
+                      <%= link_to hong_bao_path(tx.to_address), target: "_blank", rel: "noopener noreferrer", class: "hover:text-[#FFB636] transition-colors flex items-center gap-1"  do %>
                       <span><%= tx.pretty_to_address %></span>
                       <%= heroicon "arrow-top-right-on-square", class: "h-3 w-3" %>
                       <% end %>
@@ -160,7 +160,7 @@
                   </div>
                   <div class="text-white/60 text-xs">
                     <% if tx.timestamp %>
-                      <%= tx.timestamp.strftime("%B %d, %Y at %H:%M") %>
+                      <%= tx.timestamp.strftime("%b %d, %y at %H:%M") %>
                     <% else %>
                       <span class="inline-flex items-center gap-1">
                         <%= heroicon "arrow-path", variant: "mini", class: "animate-spin h-3 w-3" %>
@@ -173,7 +173,7 @@
 
               <!-- Right side - Amount -->
               <div class="text-right">
-                <div class="<%= tx.deposit? ? 'text-green-400' : 'text-white' %> font-mono text-sm font-medium">
+                <div class="<%= tx.deposit? ? 'text-green-400' : 'text-white' %> font-mono text-xs md:text-sm font-medium">
                   <%= tx.deposit? ? '+' : '-' %>₿<%= number_with_precision(tx.btc.abs, precision: 8, strip_insignificant_zeros: true) %>
                 </div>
                 <div class="text-white/60 text-xs">
