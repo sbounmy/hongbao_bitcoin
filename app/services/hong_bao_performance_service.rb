@@ -59,7 +59,7 @@ class HongBaoPerformanceService
   def build_hong_bao_value_series
     # REUSE: Series::Portfolio with single hong bao!
     Series::Portfolio.new(
-      [adaptee],  # Single element array
+      [ adaptee ],  # Single element array
       start_date: @start_date,
       end_date: @end_date,
       currency: @currency,
