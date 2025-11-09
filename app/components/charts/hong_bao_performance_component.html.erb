@@ -1,0 +1,30 @@
+<div class="hong-bao-performance-chart">
+  <div
+    data-controller="highcharts"
+    data-highcharts-config-value="<%= chart_config.to_json %>"
+    data-highcharts-use-stock-value="false">
+  </div>
+
+  <!-- Summary stats below chart -->
+  <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+    <div>
+      <div class="text-white/60 text-xs">Initial</div>
+      <div class="text-white font-mono text-sm">
+        <%= number_to_currency(metadata[:original_value]) %>
+      </div>
+    </div>
+    <div>
+      <div class="text-white/60 text-xs">Current</div>
+      <div class="text-[#FFB636] font-mono text-sm">
+        <%= number_to_currency(metadata[:current_value]) %>
+      </div>
+    </div>
+    <div>
+      <div class="text-white/60 text-xs">Gain/Loss</div>
+      <div class="font-mono text-sm <%= metadata[:gain_loss] >= 0 ? 'text-green-400' : 'text-red-400' %>">
+        <%= number_to_currency(metadata[:gain_loss]) %>
+        (<%= number_to_percentage(metadata[:gain_loss_percent], precision: 1) %>)
+      </div>
+    </div>
+  </div>
+</div>

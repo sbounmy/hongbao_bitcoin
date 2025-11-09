@@ -1,19 +1,14 @@
-<div class="flex items-center justify-between px-8 py-4 border-b border-white/10">
-  <h1 class="text-2xl font-bold text-black">Hong₿ao</h1>
-  <div class="flex items-center gap-3">
-    <span class="text-white/60 text-sm"><%= Current.testnet? ? "Testnet" : "Bitcoin" %></span>
-  </div>
-</div>
 
 <% content_for :skip_analytics, true %>
-<%= permission_banner(:camera) %>
 
 <%= content_for :head do %>
   <meta name="csrf-token" content="<%= form_authenticity_token %>">
   <meta name="robots" content="noindex, follow">
 <% end %>
 
-<div class="flex flex-col items-center justify-center min-h-screen bg-[#EDDAC8] p-4">
+<div class="flex flex-col items-center min-h-screen bg-[#EDDAC8]">
+  <%= render "shared/header" %>
+  <%# permission_banner(:camera) %>
   <!-- Red envelope container with gold border -->
   <div class="w-full max-w-3xl">
     <div class="p-8">

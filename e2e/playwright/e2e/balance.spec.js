@@ -27,8 +27,8 @@ test.describe('Balance', () => {
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 15_000 });
     await expect(page).toHaveURL(/step=1/);
-    await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
-    await page.getByRole('button', { name: "Next →" }).click();
+    await expect(page.getByRole('button', { name: "Withdraw" })).toBeEnabled();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await expect(page.getByRole('button', { name: "24 Words" })).toBeVisible();
     await page.getByRole('button', { name: "24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
@@ -43,8 +43,8 @@ test.describe('Balance', () => {
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
     await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
-    await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
-    await page.getByRole('button', { name: "Next →" }).click();
+    await expect(page.getByRole('button', { name: "Withdraw" })).toBeEnabled();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await expect(page.getByRole('button', { name: "24 Words" })).toBeVisible();
     await page.getByRole('button', { name: " 24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
@@ -58,8 +58,8 @@ test.describe('Balance', () => {
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
-    await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
-    await page.getByRole('button', { name: "Next →" }).click();
+    await expect(page.getByRole('button', { name: "Withdraw" })).toBeEnabled();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await expect(page.getByRole('button', { name: "24 Words" })).toBeVisible();
     await page.getByRole('button', { name: " 24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
@@ -71,16 +71,16 @@ test.describe('Balance', () => {
     await appVcrInsertCassette('balance_0', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1qxzc08ky2zh9mhqvss2u4smwlgrs5a36wdugr4p');
     await expect(page.locator('body')).toContainText('₿0', { timeout: 10_000 });
-    await expect(page.getByRole('button', { name: "Next →" })).toBeDisabled();
+    await expect(page.getByRole('button', { name: "Withdraw" })).toBeDisabled();
   });
 
   test('user can check balance and transfer tokens with private key', async ({ page }) => {
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
-    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn?testnet=true');
+    await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
-    await expect(page.getByRole('button', { name: "Next →" })).toBeEnabled();
-    await page.getByRole('button', { name: "Next →" }).click();
+    await expect(page.getByRole('button', { name: "Withdraw" })).toBeEnabled();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await page.locator('#hong_bao_private_key').fill('someprivatekey');
     await expect(page.getByText('Invalid private key format')).toBeVisible();
     await expect(page.getByRole('button', { name: "Continue" })).toBeDisabled();
@@ -101,7 +101,7 @@ test.describe('Balance', () => {
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.0002');
     await expect(page).toHaveURL(/step=1/);
-    await page.getByRole('button', { name: "Next →" }).click();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await page.getByRole('button', { name: "24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
     await fillMnemonic(page, "tilt cinnamon stick voice other pulse print rain broken man frost library chunk element leader side acquire copy code east abandon then dose smooth");
@@ -119,7 +119,7 @@ test.describe('Balance', () => {
     test.skip('only to transfer back BTC to tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')
     await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
-    await page.getByRole('button', { name: "Next →" }).click();
+    await expect(page.getByRole('button', { name: "Withdraw" })).click();
     await page.getByRole('button', { name: "24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
     await fillMnemonic(page, "range crucial fever correct tortoise zero unveil sell inmate robust magic soccer wood estate reunion rival flame usage around tent pony quality client process");
