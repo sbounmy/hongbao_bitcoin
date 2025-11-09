@@ -37,7 +37,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
     f.inputs do
       f.input :position, hint: "Used to order styles in the interface (lower numbers appear first)"
       f.input :name
-      f.input :prompt
+      f.input :prompt, as: :text
       f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
     end
     f.actions

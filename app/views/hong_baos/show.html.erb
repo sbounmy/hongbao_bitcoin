@@ -1,14 +1,16 @@
+
 <% content_for :skip_analytics, true %>
-<%= permission_banner(:camera) %>
 
 <%= content_for :head do %>
   <meta name="csrf-token" content="<%= form_authenticity_token %>">
   <meta name="robots" content="noindex, follow">
 <% end %>
 
-<div class="flex flex-col items-center justify-center min-h-screen bg-[#FFE5E5] p-4">
-  <div class="w-full max-w-xl bg-[#F04747] rounded-xl shadow-2xl overflow-hidden
-              border-4 border-[#FFB636] outline outline-8 outline-[#F04747]">
+<div class="flex flex-col items-center min-h-screen bg-[#EDDAC8]">
+  <%= render "shared/header" %>
+  <%# permission_banner(:camera) %>
+  <!-- Red envelope container with gold border -->
+  <div class="w-full max-w-3xl">
     <div class="p-8">
       <%= render ContentLoaderComponent.new(url: form_hong_bao_path(@hong_bao.address)) %>
     </div>
