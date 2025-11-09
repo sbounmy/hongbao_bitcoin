@@ -184,11 +184,11 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     # ONLY FOR INPUT::THEME TO BE MOVED TO admin/input_themes :todo:
     f.inputs "Theme Details" do
       f.input :name
-      f.input :prompt
-      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(url_for(f.object.image), width: 500) : nil
-      f.input :image_hero, as: :file, hint: f.object.image_hero.attached? ? image_tag(url_for(f.object.image_hero), width: 500) : nil
-      f.input :image_front, as: :file, hint: f.object.image_front.attached? ? image_tag(url_for(f.object.image_front), width: 500) : nil
-      f.input :image_back, as: :file, hint: f.object.image_back.attached? ? image_tag(url_for(f.object.image_back), width: 500) : nil
+      f.input :prompt, as: :text
+      f.input :image, as: :file, hint: (f.object.image.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image), width: 500) : nil
+      f.input :image_hero, as: :file, hint: (f.object.image_hero.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image_hero), width: 500) : nil
+      f.input :image_front, as: :file, hint: (f.object.image_front.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image_front), width: 500) : nil
+      f.input :image_back, as: :file, hint: (f.object.image_back.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image_back), width: 500) : nil
       f.input :slug
       f.input :spotify_path, as: :string, hint: "track/40KNlAhOsMqCmfnbRtQrbx from embed url"
       f.input :ui_name, as: :select, collection: [
