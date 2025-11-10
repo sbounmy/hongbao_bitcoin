@@ -24,7 +24,7 @@
             <div class="flex items-center">
               <%= cuttable_content class: "flex flex-col items-center" do %>
                 <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[70mm] transform-[rotate(180deg)]",
+                        class_name: "w-[140mm] h-[80mm] transform-[rotate(180deg)]",
                         paper:,
                         elements: paper.back_elements,
                         image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
@@ -34,7 +34,7 @@
               <div class="border-t-2 border-dashed border-gray-400">
               </div>
               <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[70mm]",
+                        class_name: "w-[140mm] h-[80mm]",
                         paper:,
                         elements: paper.front_elements,
                         actions: "bitcoin:modeChanged@window->canva#refresh",
