@@ -72,4 +72,7 @@ swarm.log
 
 # R2 Mount and rclone
 /mounts/
-/app/content/assets/blog
+/public/blog-images
+/config/rclone.conf
+*.rclone.conf
+/log/rclone*.log

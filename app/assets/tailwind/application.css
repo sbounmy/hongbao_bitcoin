@@ -3,12 +3,21 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #F04747;
+  --color-secondary: #FFB636;
+}
+
 /* Custom color variables and fonts */
 @theme {
   --color-bitcoin: #f7931a;
-  --color-hongbao: #991b1b;
+  --color-hongbao: #C13838;
   --font-handwriting: "Fuzzy Bubbles", cursive;
 }
+
+
 
 /* Override intl-tel-input CSS variables at root level */
 :root {

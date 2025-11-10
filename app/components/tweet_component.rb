@@ -73,7 +73,7 @@ class TweetComponent < ApplicationComponent
     text = text.gsub(/@(\w+)/) do |match|
       username = $1
       placeholder = "[[MENTION_#{mention_counter}]]"
-      mention_map[placeholder] = "<a href='https://twitter.com/#{username}' target='_blank' rel='noopener' class='text-primary hover:underline'>@#{username}</a>"
+      mention_map[placeholder] = "<a href='https://twitter.com/#{username}' target='_blank' rel='noopener' class='text-[#1d9bf0] hover:underline'>@#{username}</a>"
       mention_counter += 1
       placeholder
     end
@@ -82,7 +82,7 @@ class TweetComponent < ApplicationComponent
     text = text.gsub(/#(\w+)/) do |match|
       hashtag = $1
       placeholder = "[[HASHTAG_#{hashtag_counter}]]"
-      hashtag_map[placeholder] = "<a href='https://twitter.com/hashtag/#{hashtag}' target='_blank' rel='noopener' class='text-primary hover:underline'>##{hashtag}</a>"
+      hashtag_map[placeholder] = "<a href='https://twitter.com/hashtag/#{hashtag}' target='_blank' rel='noopener' class='text-[#1d9bf0] hover:underline'>##{hashtag}</a>"
       hashtag_counter += 1
       placeholder
     end

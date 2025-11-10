@@ -343,6 +343,62 @@ The goal is to write tests that read like user stories and survive refactoring o
 - PR reviews before merging
 - Keep main branch deployable
 
+## Blog Post Writing Style Guide
+
+When writing blog posts for Hong₿ao (in `app/content/pages/blog/`), use Marc Lou's conversational, vulnerability-focused style:
+
+### Core Writing Principles
+
+1. **Personal & Vulnerable**: Start with real personal failures or struggles, not abstract advice
+   - ❌ "Many people find Bitcoin confusing"
+   - ✅ "After 8 years of failed orange-pill attempts, I finally figured it out"
+
+2. **Conversational Tone**: Write like you're talking to a friend over coffee
+   - Use contractions (don't, won't, it's)
+   - Short, punchy sentences mixed with longer ones
+   - Direct questions to the reader
+   - Real dialogue when appropriate
+
+3. **Hook with Relatability**: Open with universal experiences
+   - ✅ "Every Christmas, same story."
+   - ✅ "So... how's Bitcoin doing?" (actual dialogue they've heard)
+
+4. **Show Don't Tell**: Use specific examples and personal anecdotes
+   - ❌ "People don't understand Bitcoin"
+   - ✅ "I used to launch into passionate explanations about monetary policy. Watch their eyes glaze over in real-time."
+
+5. **Direct & Actionable**: Give clear takeaways without fluff
+   - Use bold for key insights: **Stop lecturing. Start gifting.**
+   - Bullet points for quick scanning
+   - Clear section headers that tell a story
+
+6. **Avoid**:
+   - Academic or overly technical language
+   - Excessive praise or superlatives
+   - Corporate speak or marketing jargon
+   - Emojis (unless explicitly requested)
+   - Long theoretical explanations
+
+### Introduction Formula
+
+1. **Hook** - Universal situation or problem (1-2 lines)
+2. **Personal failure** - What you used to do wrong (2-3 lines)
+3. **Turning point** - What changed or what you learned (1 line)
+4. **Promise** - What the reader will get from this article (2-3 lines)
+
+### Example Introduction Pattern
+```markdown
+Every [timeframe], same [problem].
+
+[Actual quotes or dialogue people say]
+
+I used to [wrong approach]. [Specific failure result].
+
+After [time period] of [failures], I finally figured it out: **[key insight]**.
+
+Here's my [specific solution] that actually [specific result] instead of [common failure].
+```
+
 ## Custom Patterns
 
 Add your project-specific patterns and conventions here:

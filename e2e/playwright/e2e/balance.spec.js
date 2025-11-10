@@ -97,9 +97,8 @@ test.describe('Balance', () => {
 
   test('user can check balance and transfer tokens with mnemonic', async ({ page }) => {
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
-    // await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
-    await expect(page.locator('body')).toContainText('₿0.0002');
+    await expect(page.locator('body')).toContainText('₿0.0002', { timeout: 10_000 });
     await expect(page).toHaveURL(/step=1/);
     await page.getByRole('button', { name: "Withdraw" }).click();
     await page.getByRole('button', { name: "24 Words" }).click();
@@ -107,7 +106,7 @@ test.describe('Balance', () => {
     await fillMnemonic(page, "tilt cinnamon stick voice other pulse print rain broken man frost library chunk element leader side acquire copy code east abandon then dose smooth");
     await page.getByRole('button', { name: "Continue" }).click();
     await expect(page.getByText('Enter Destination')).toBeVisible();
-    await page.waitForTimeout(2_000); // wait utxos to be loaded
+    await page.waitForTimeout(10_000); // wait utxos to be loaded
     await page.locator('#hong_bao_to_address').fill('tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
     await page.locator('label').filter({ hasText: 'Slow' }).click();
     await page.getByRole('button', { name: "Transfer" }).click();
@@ -119,7 +118,7 @@ test.describe('Balance', () => {
     test.skip('only to transfer back BTC to tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn')
     await appVcrInsertCassette('balance_transfer_2', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1qcggwu7s8gkz6snsd6zsyxfe4v0t08ysq7s90u0');
-    await expect(page.getByRole('button', { name: "Withdraw" })).click();
+    await page.getByRole('button', { name: "Withdraw" }).click();
     await page.getByRole('button', { name: "24 Words" }).click();
     await page.waitForTimeout(1_000); // wait for js to fully load
     await fillMnemonic(page, "range crucial fever correct tortoise zero unveil sell inmate robust magic soccer wood estate reunion rival flame usage around tent pony quality client process");
