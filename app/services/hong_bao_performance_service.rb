@@ -69,7 +69,7 @@ class HongBaoPerformanceService
 
   def first_transaction_date
     @first_transaction_date ||= begin
-      first_tx = @balance.transactions.min_by(&:timestamp)
+      first_tx = @balance.transactions.min_by { |t| t.timestamp || Date.today }
       first_tx&.timestamp&.to_date || Date.today
     end
   end

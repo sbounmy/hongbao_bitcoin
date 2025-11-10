@@ -1,7 +1,7 @@
 <div class="space-y-6">
 
   <%# Top Card - My Hong Bao with envelope image %>
-  <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-8 relative overflow-hidden flex">
+  <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6 relative overflow-hidden flex">
     <!-- Content Container -->
     <div class="relative z-10 space-y-6">
       <!-- Header and Amount -->
@@ -12,7 +12,7 @@
           <div class="text-2xl md:text-5xl font-bold text-[#FFB636]">
             $<%= number_with_delimiter((@hong_bao.balance.usd || 0).round(2)) %>
           </div>
-          <% if false # Hide performance calculation for now %>
+          <% if @hong_bao.balance&.transactions.any? %>
             <% performance_data = HongBaoPerformanceService.new(@hong_bao).call %>
             <% metadata = performance_data[:metadata] %>
             <div class="text-xl font-semibold <%= metadata[:gain_loss_percent] >= 0 ? 'text-green-400' : 'text-red-400' %>">
@@ -31,6 +31,8 @@
 
         <!-- Compact Info: Address -->
         <div class="flex items-center gap-1 text-white/70 text-sm">
+          <span><%= metadata && metadata[:gifted_date].strftime("%d %b '%y") || "N/A" %></span>
+          <span class="text-white/40">•</span>
           <%= link_to "#{@hong_bao.address[0..5]}...#{@hong_bao.address[-6..-1]}", mempool_url(@hong_bao.address), class: 'link-hover font-mono text-xs', target: "_blank" %>
           <button class="p-1 hover:bg-white/10 rounded transition-colors"
                   data-controller="clipboard"
