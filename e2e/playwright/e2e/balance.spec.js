@@ -54,7 +54,6 @@ test.describe('Balance', () => {
   });
 
   test('user cant check transfer with invalid mnemonic for given address', async ({ page }) => {
-    test.skip('todo fix')
     await appVcrInsertCassette('balance', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00026954', { timeout: 10_000 });
@@ -76,7 +75,6 @@ test.describe('Balance', () => {
   });
 
   test('user can check balance and transfer tokens with private key', async ({ page }) => {
-    test.skip('todo fix')
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.00018709', { timeout: 10_000 });
@@ -98,7 +96,6 @@ test.describe('Balance', () => {
   });
 
   test('user can check balance and transfer tokens with mnemonic', async ({ page }) => {
-    test.skip('todo fix')
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
     // await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true, record: 'all' })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');

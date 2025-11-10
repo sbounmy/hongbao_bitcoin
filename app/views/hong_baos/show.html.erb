@@ -12,7 +12,30 @@
   <!-- Red envelope container with gold border -->
   <div class="w-full max-w-3xl">
     <div class="p-8">
-      <%= render ContentLoaderComponent.new(url: form_hong_bao_path(@hong_bao.address)) %>
+      <%= render ContentLoaderComponent.new(url: form_hong_bao_path(@hong_bao.address)) do %>
+        <div class="space-y-6">
+          <!-- Custom skeleton matching balance card design -->
+          <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-8 relative overflow-hidden">
+            <h2 class="text-white/60 text-xs uppercase tracking-wider mb-2">My Hong Bao</h2>
+            <div class="skeleton h-16 w-48 mb-3 bg-white/20"></div>
+            <div class="skeleton h-6 w-32 mb-3 bg-white/20"></div>
+            <div class="skeleton h-4 w-64 bg-white/20"></div>
+          </div>
+
+          <!-- Action Buttons Skeleton -->
+          <div class="flex gap-3">
+            <div class="skeleton flex-1 h-12 bg-[#FFB636]/30 rounded-xl"></div>
+            <div class="skeleton flex-1 h-12 bg-[#FFB636]/30 rounded-xl"></div>
+            <div class="skeleton flex-1 h-12 bg-[#FFB636]/30 rounded-xl"></div>
+          </div>
+
+          <!-- Transaction History Skeleton -->
+          <div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6">
+            <h3 class="text-white font-semibold mb-4">Transaction History</h3>
+            <div class="skeleton h-4 w-32 mx-auto bg-white/20"></div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
