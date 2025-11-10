@@ -64,34 +64,35 @@
   </div>
 
   <%# Action Buttons %>
-  <div class="flex gap-3">
+  <div class="flex gap-2 sm:gap-3">
     <!-- Withdraw Button -->
     <button type="button"
-            class="flex-1 py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300 disabled:opacity-30"
+            class="flex-1 py-2.5 sm:py-3 px-2 sm:px-6 border-2 border-transparent rounded-xl shadow-lg text-xs sm:text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300 disabled:opacity-30 flex items-center justify-center gap-0.5 sm:gap-1.5"
             data-controller="disabled"
             data-form-target="submitButton"
             data-action="steps#next"
             <%= 'disabled' if @hong_bao.balance&.btc&.zero? %>>
-      Withdraw
+      <%= heroicon "arrow-down", class: "w-4 h-4 sm:w-5 sm:h-5" %>
+      <span>Withdraw</span>
     </button>
 
     <!-- Share Button with Custom Clipboard -->
-    <button class="flex-1 py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300"
+    <button class="flex-1 py-2.5 sm:py-3 px-2 sm:px-6 border-2 border-transparent rounded-xl shadow-lg text-xs sm:text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-0.5 sm:gap-1.5"
             data-controller="clipboard"
             data-clipboard-success-content-value="Link Copied!"
             data-action="clipboard#copy">
       <input type="hidden"
              data-clipboard-target="source"
              value="<%= hong_bao_url(@hong_bao.address) %>">
-      <%= heroicon "arrow-up-on-square", class: "w-4 h-4 inline" %>
+      <%= heroicon "arrow-up-on-square", class: "w-4 h-4 sm:w-5 sm:h-5" %>
       <span data-clipboard-target="button">Share</span>
     </button>
 
     <!-- Refresh Button -->
     <button onclick="window.location.reload()"
-            class="flex-1 py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300">
-      <%= heroicon "arrow-path", class: "w-4 h-4 inline" %>
-      Refresh
+            class="flex-1 py-2.5 sm:py-3 px-2 sm:px-6 border-2 border-transparent rounded-xl shadow-lg text-xs sm:text-base font-medium text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-0.5 sm:gap-1.5">
+      <%= heroicon "arrow-path", class: "w-4 h-4 sm:w-5 sm:h-5" %>
+      <span>Refresh</span>
     </button>
   </div>
 
