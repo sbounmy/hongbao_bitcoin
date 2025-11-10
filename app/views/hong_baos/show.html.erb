@@ -38,4 +38,16 @@
       <% end %>
     </div>
   </div>
+  <!-- Discreet Bitcoin Quote Footer -->
+  <% if @quote %>
+    <div class="text-center mt-6 px-4">
+      <div class="text-[#F04747]/80 text-xs italic max-w-md mx-auto">
+        "<%= @quote.text %>"
+      </div>
+      <div class="text-[#F04747]/60 text-[10px] uppercase tracking-wider mt-1">
+        — <%= @quote.author %>
+      </div>
+    </div>
+  <% end %>
+
 </div>

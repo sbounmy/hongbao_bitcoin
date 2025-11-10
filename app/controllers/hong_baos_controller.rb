@@ -46,6 +46,7 @@ class HongBaosController < ApplicationController
 
     if result.success?
       @hong_bao = result.payload
+      @quote = Content::Quote.published.random.first
     else
       redirect_to hong_baos_path, alert: result.error.user_message
     end

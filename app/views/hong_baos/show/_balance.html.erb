@@ -123,7 +123,7 @@
     </div>
 
     <!-- Content -->
-    <div>
+    <div class="max-h-42 overflow-y-auto">
       <% if @hong_bao.balance&.transactions&.any? %>
         <% @hong_bao.balance.transactions.each do |tx| %>
           <div class="p-2 md:p-4 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors">
@@ -192,10 +192,5 @@
         </div>
       <% end %>
     </div>
-  </div>
-
-  <!-- Hidden next button for withdraw flow -->
-  <div class="hidden">
-    <%= render "hong_baos/new/next_button", html_options: { disabled: @hong_bao.balance&.btc&.zero? } %>
   </div>
 </div>

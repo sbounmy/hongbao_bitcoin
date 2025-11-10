@@ -10,6 +10,8 @@ class Content::Quote < Content
        .includes(hongbao_products: { image_attachment: :blob })
   }
 
+  scope :random, -> { order("RANDOM()") }
+
   def best_image
     if hongbao_products.published.first&.image&.attached?
       hongbao_products.published.first.image
