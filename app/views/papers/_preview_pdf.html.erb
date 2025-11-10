@@ -18,13 +18,13 @@
       <!-- Wrapper to handle scaled dimensions for scrolling -->
       <div data-pdf-target="wrapper" class="mx-auto">
         <!-- This is the actual content that will be rendered to PDF -->
-        <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col justify-between gap-4 shadow-lg origin-top-left">
+        <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col justify-between gap-2 shadow-lg origin-top-left">
           <!-- Main content of the page -->
           <div class="flex flex-col justify-between">
             <div class="flex items-center">
               <%= cuttable_content class: "flex flex-col items-center" do %>
                 <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[80mm] transform-[rotate(180deg)]",
+                        class_name: "w-[150mm] h-[75mm] transform-[rotate(180deg)]",
                         paper:,
                         elements: paper.back_elements,
                         image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
@@ -34,7 +34,7 @@
               <div class="border-t-2 border-dashed border-gray-400">
               </div>
               <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "w-[140mm] h-[80mm]",
+                        class_name: "w-[150mm] h-[75mm]",
                         paper:,
                         elements: paper.front_elements,
                         actions: "bitcoin:modeChanged@window->canva#refresh",
@@ -42,14 +42,14 @@
               %>
             <% end %>
             <div class="relative w-8">
-              <div class="flex justify-start -ml-[180px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
-                <div class="space-y-2">
+              <div class="flex justify-start -ml-[195px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
+                <div class="space-y-1">
                   <div class="flex gap-2">
                     <h2 class="text-2xl font-bold">REMINDER</h2>
                     <span class="text-gray-600">(to be kept by the donor)</span>
                   </div>
 
-                  <div class="space-y-4">
+                  <div class="space-y-2">
                     <p>
                       <span class="font-bold">1.</span> Cut out the Bitcoin paper wallet (left part) and fold it to create your gift.
                     </p>
