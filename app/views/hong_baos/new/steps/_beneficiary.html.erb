@@ -1,7 +1,6 @@
 <div class="flex flex-col h-full max-h-full overflow-hidden px-4 py-2"
-     data-controller='input-validator disabled'
-     data-action='input-validator:error->disabled#add input-validator:success->disabled#remove'
-     data-action="bitcoin:changed@window->binding#attribute"
+     data-controller='password-validator disabled'
+     data-action='password-validator:error->disabled#add password-validator:success->disabled#remove bitcoin:changed@window->binding#attribute'
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
@@ -26,7 +25,7 @@
         <input type="password"
                data-pdf-target="password"
                data-password-visibility-target="input"
-               data-input-validator-target="field"
+               data-password-validator-target="field"
                data-field="pdf-password"
                data-validates-strong-password="true"
                data-validates-length="8,128"
@@ -41,7 +40,7 @@
           </svg>
         </button>
       </div>
-      <div data-input-validator-target="errors"
+      <div data-password-validator-target="errors"
            data-field="pdf-password"
            data-errors-styles-css="font-size: 12px; color: #fff; background-color: rgba(220, 38, 38, 0.9); padding: 4px 8px; border-radius: 4px; margin-top: 4px; display: inline-block;"
            class="text-xs"></div>
