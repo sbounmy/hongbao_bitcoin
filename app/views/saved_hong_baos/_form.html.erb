@@ -1,33 +1,70 @@
-<%= form_with model: saved_hong_bao, id: "new_saved_hong_bao" do |form| %>
-  <% if saved_hong_bao.errors.any? %>
-    <div class="alert alert-error mb-6">
-      <div>
-        <h3 class="font-bold">Please fix the following errors:</h3>
-        <ul class="mt-2">
-          <% saved_hong_bao.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+  <%= render FormErrorsComponent.new(model: ) %>
 
   <div class="form-control">
     <%= form.label :name, "Recipient Name", class: "label" %>
-    <%= form.text_field :name, class: "input input-bordered w-full", required: true, placeholder: "e.g., My Friend Alice" %>
+    <%= form.text_field :name,
+        class: "input input-bordered w-full",
+        required: true,
+        placeholder: "e.g., My Friend Alice" %>
   </div>
 
   <div class="form-control mt-4">
     <%= form.label :address, "Bitcoin Address", class: "label" %>
-    <%= form.text_field :address, class: "input input-bordered w-full font-mono text-sm", required: true, placeholder: "bc1q..." %>
+    <%= form.text_field :address,
+        class: "input input-bordered w-full font-mono text-sm",
+        required: true,
+        disabled: model.persisted?,
+        placeholder: "bc1q..." %>
   </div>
 
   <div class="form-control mt-4">
     <%= form.label :notes, "Notes (optional)", class: "label" %>
-    <%= form.text_area :notes, class: "textarea textarea-bordered w-full", rows: 3, placeholder: "Any notes about this Hong Bao..." %>
+    <%= form.text_area :notes,
+        class: "textarea textarea-bordered w-full",
+        rows: 3,
+        placeholder: "Any notes about this Hong Bao..." %>
   </div>
 
-  <div class="mt-6">
-    <%= form.submit "Save Hong Bao", class: "btn btn-primary w-full" %>
+  <div class="form-control mt-4">
+
+    <% if model.file.attached? %>
+      <div class="bg-base-200 rounded-lg p-3 mb-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="font-semibold text-sm"><%= model.file.filename %></p>
+            <p class="text-xs text-base-content/60">
+              <%= number_to_human_size(model.file.blob.byte_size) %> •
+              <%= model.file.blob.created_at.strftime("%b %d, %Y") %>
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <%= link_to download_saved_hong_bao_path(model),
+                class: "btn btn-sm btn-ghost" do %>
+              <%= heroicon "arrow-down-tray", variant: :outline, class: "w-4 h-4" %>
+            <% end %>
+            <%= tag.button '',
+                type: :submit,
+                form: "delete_file",
+                data: { turbo_confirm: "Remove this file?" },
+                class: "btn btn-sm btn-ghost btn-error" do %>
+              <%= heroicon "trash", variant: :outline, class: "w-4 h-4" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= form.label :file, "Recovery File (optional)", class: "label" %>
+    <%= form.file_field :file, class: "file-input file-input-bordered w-full", accept: ".pdf,.gpg,.asc,.enc" %>
+    <label class="label">
+      <span class="label-text-alt">Maximum file size: 10MB. Supported formats: PDF, GPG, encrypted files</span>
+    </label>
+    <div class="alert alert-warning mb-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <div>
+        <div class="text-sm">If uploading a PDF with private keys, ensure it's password-protected. We are not responsible if your unencrypted PDF gets stolen.</div>
+      </div>
+    </div>
   </div>
-<% end %>

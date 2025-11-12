@@ -11,6 +11,72 @@ RSpec.describe SavedHongBaosController, type: :controller do
     cookies.signed[:session_id] = session_record.id
   end
 
+  describe "POST #create" do
+    context "with file attachment" do
+      it "creates a saved hong bao with file" do
+        file = fixture_file_upload('spec/fixtures/files/test.pdf', 'application/pdf')
+
+        expect {
+          post :create, params: {
+            saved_hong_bao: {
+              name: "Test Hong Bao",
+              address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+              notes: "Test notes",
+              file: file
+            }
+          }
+        }.to change { SavedHongBao.count }.by(1)
+
+        new_hong_bao = SavedHongBao.last
+        expect(new_hong_bao.file.attached?).to be true
+        expect(new_hong_bao.file.filename.to_s).to eq("test.pdf")
+        expect(response).to redirect_to(saved_hong_baos_path)
+      end
+    end
+
+    context "without file attachment" do
+      it "creates a saved hong bao without file" do
+        expect {
+          post :create, params: {
+            saved_hong_bao: {
+              name: "Test Hong Bao",
+              address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+              notes: "Test notes"
+            }
+          }
+        }.to change { SavedHongBao.count }.by(1)
+
+        new_hong_bao = SavedHongBao.last
+        expect(new_hong_bao.file.attached?).to be false
+        expect(response).to redirect_to(saved_hong_baos_path)
+      end
+    end
+  end
+
+  describe "GET #show" do
+    it "displays the saved hong bao details" do
+      # Mock the balance to avoid external API calls
+      allow_any_instance_of(SavedHongBao).to receive(:balance).and_return(
+        double('balance', transactions: [])
+      )
+
+      get :show, params: { id: saved_hong_bao.id }
+
+      expect(response).to be_successful
+      expect(assigns(:saved_hong_bao)).to eq(saved_hong_bao)
+      expect(assigns(:transactions)).to eq([])
+    end
+  end
+
+  describe "GET #edit" do
+    it "renders the edit form" do
+      get :edit, params: { id: saved_hong_bao.id }
+
+      expect(response).to be_successful
+      expect(assigns(:saved_hong_bao)).to eq(saved_hong_bao)
+    end
+  end
+
   describe "PATCH #update" do
     context "when updating status to lost" do
       it "updates the status to lost" do
@@ -44,6 +110,19 @@ RSpec.describe SavedHongBaosController, type: :controller do
 
         saved_hong_bao.reload
         expect(saved_hong_bao.notes).to eq("Updated notes")
+        expect(response).to redirect_to(saved_hong_baos_path)
+        expect(flash[:notice]).to eq("Hong Bao updated successfully.")
+      end
+    end
+
+    context "when updating with file attachment" do
+      it "attaches a file during update" do
+        file = fixture_file_upload('spec/fixtures/files/test.pdf', 'application/pdf')
+
+        patch :update, params: { id: saved_hong_bao.id, saved_hong_bao: { file: file } }
+
+        saved_hong_bao.reload
+        expect(saved_hong_bao.file.attached?).to be true
         expect(response).to redirect_to(saved_hong_baos_path)
         expect(flash[:notice]).to eq("Hong Bao updated successfully.")
       end
@@ -86,6 +165,56 @@ RSpec.describe SavedHongBaosController, type: :controller do
 
       expect(response).to redirect_to(saved_hong_baos_path)
       expect(flash[:notice]).to eq("Hong Bao removed from saved list.")
+    end
+  end
+
+  describe "DELETE #destroy_file" do
+    before do
+      # Attach a file first
+      saved_hong_bao.file.attach(
+        io: StringIO.new("test content"),
+        filename: "test.pdf",
+        content_type: "application/pdf"
+      )
+    end
+
+    it "removes the attached file" do
+      expect(saved_hong_bao.file.attached?).to be true
+
+      delete :destroy_file, params: { id: saved_hong_bao.id }
+
+      saved_hong_bao.reload
+      expect(saved_hong_bao.file.attached?).to be false
+      expect(response).to render_template(:edit)
+      expect(flash[:notice]).to eq("File removed successfully.")
+    end
+  end
+
+  describe "GET #download" do
+    context "when file is attached" do
+      before do
+        saved_hong_bao.file.attach(
+          io: StringIO.new("test content"),
+          filename: "test.pdf",
+          content_type: "application/pdf"
+        )
+      end
+
+      it "redirects to the file download" do
+        get :download, params: { id: saved_hong_bao.id }
+
+        expect(response).to be_redirect
+        expect(response.location).to include("test.pdf")
+      end
+    end
+
+    context "when no file is attached" do
+      it "redirects back with alert" do
+        get :download, params: { id: saved_hong_bao.id }
+
+        expect(response).to redirect_to(saved_hong_baos_path)
+        expect(flash[:alert]).to eq("No file attached.")
+      end
     end
   end
 end

@@ -8,19 +8,6 @@
       <p class="text-lg text-base-content/70">Save a Bitcoin address to monitor its balance</p>
     </div>
 
-    <% if @saved_hong_bao.errors.any? %>
-      <div class="alert alert-error mb-6">
-        <div>
-          <h3 class="font-bold">Please fix the following errors:</h3>
-          <ul class="mt-2 list-disc list-inside">
-            <% @saved_hong_bao.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    <% end %>
-
     <div class="card bg-base-100 border border-base-300 shadow-xl">
       <div class="card-body">
         <%= permission_banner(:camera) %>
@@ -60,45 +47,12 @@
 
         <div class="divider"></div>
 
-        <!-- Manual Entry Form (separate from QR scanner) -->
-        <%= form_with model: @saved_hong_bao, local: true do |form| %>
-          <div class="space-y-6">
-            <div class="form-control">
-              <%= form.label :address, "Bitcoin Address", class: "label" %>
-              <%= form.text_field :address,
-                  class: "input input-bordered w-full font-mono text-sm",
-                  placeholder: "e.g., bc1q..., 1A1zP1..., 3J98t1..." %>
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">Enter a valid Bitcoin address to track</span>
-              </label>
-            </div>
-
-            <div class="form-control">
-              <%= form.label :name, "Recipient Name", class: "label" %>
-              <%= form.text_field :name,
-                  class: "input input-bordered w-full",
-                  placeholder: "e.g., John Doe, Mom, Best Friend",
-                  required: true %>
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">A friendly name to identify this address</span>
-              </label>
-            </div>
-
-            <div class="form-control">
-              <%= form.label :notes, "Notes (optional)", class: "label" %>
-              <%= form.text_area :notes,
-                  class: "textarea textarea-bordered w-full",
-                  rows: 3,
-                  placeholder: "e.g., Birthday gift 2024, Wedding present..." %>
-              <label class="label">
-                <span class="label-text-alt text-base-content/60">Add any notes about this gift</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="card-actions justify-between mt-8">
-            <%= link_to "Cancel", saved_hong_baos_path, class: "btn btn-ghost rounded-full" %>
-            <%= form.submit "Save Hong Bao", class: "btn btn-primary rounded-full" %>
+        <!-- Manual Entry Form using partial -->
+        <%= form_with model: @saved_hong_bao, id: "new_saved_hong_bao" do |form| %>
+          <%= render "form", form:, model: @saved_hong_bao %>
+          <div class="flex gap-4 mt-6">
+            <%= link_to "Cancel", saved_hong_baos_path, class: "btn btn-ghost flex-1" %>
+            <%= form.submit "Save Hong Bao", class: "btn btn-primary flex-1" %>
           </div>
         <% end %>
       </div>

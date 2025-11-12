@@ -2,6 +2,7 @@ class SavedHongBao < ApplicationRecord
   include AASM
 
   belongs_to :user
+  has_one_attached :file
 
   aasm column: "status", whiny_transitions: false do
     state :created, initial: true
@@ -60,6 +61,7 @@ class SavedHongBao < ApplicationRecord
   validates :address, presence: true
   validates :address, uniqueness: { scope: :user_id, message: "has already been saved" }
   validate :valid_bitcoin_address
+  validate :file_size_validation
 
   before_create :set_initial_status_changed_at
   after_create_commit :schedule_balance_refresh
@@ -214,6 +216,14 @@ class SavedHongBao < ApplicationRecord
     # - Native SegWit (bc1, tb1)
     unless address.match?(/\A(?:[13][a-km-zA-HJ-NP-Z1-9]{25,34}|[mn2][a-km-zA-HJ-NP-Z1-9]{25,34}|(?:bc|tb)1[a-zA-HJ-NP-Z0-9]{25,39})\z/)
       errors.add(:address, "is not a valid Bitcoin address")
+    end
+  end
+
+  def file_size_validation
+    return unless file.attached?
+
+    if file.blob.byte_size > 10.megabytes
+      errors.add(:file, "size should be less than 10MB")
     end
   end
 end

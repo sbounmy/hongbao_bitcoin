@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   resources :saved_hong_baos do
     member do
       post :refresh
+      delete :destroy_file
+      get :download
     end
   end
 

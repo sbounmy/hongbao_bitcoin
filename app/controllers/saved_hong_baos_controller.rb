@@ -1,6 +1,6 @@
 class SavedHongBaosController < ApplicationController
   layout "main"
-  before_action :set_saved_hong_bao, only: [ :destroy, :refresh, :update ]
+  before_action :set_saved_hong_bao, only: [:edit, :destroy, :refresh, :update, :destroy_file, :download ]
   before_action :set_network, only: [ :create ]
 
   def index
@@ -22,6 +22,10 @@ class SavedHongBaosController < ApplicationController
     end
   end
 
+  def edit
+    # For turbo frame modal
+  end
+
   def destroy
     @saved_hong_bao.destroy
     redirect_to saved_hong_baos_path, notice: "Hong Bao removed from saved list."
@@ -36,7 +40,21 @@ class SavedHongBaosController < ApplicationController
     if @saved_hong_bao.update(saved_hong_bao_params)
       redirect_to saved_hong_baos_path, notice: "Hong Bao updated successfully."
     else
-      redirect_to saved_hong_baos_path, alert: "Unable to update Hong Bao."
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy_file
+    @saved_hong_bao.file.purge
+    flash.now[:notice] = "File removed successfully."
+    render :edit
+  end
+
+  def download
+    if @saved_hong_bao.file.attached?
+      redirect_to rails_blob_path(@saved_hong_bao.file, disposition: "attachment")
+    else
+      redirect_back fallback_location: saved_hong_baos_path, alert: "No file attached."
     end
   end
 
@@ -47,7 +65,7 @@ class SavedHongBaosController < ApplicationController
   end
 
   def saved_hong_bao_params
-    params.require(:saved_hong_bao).permit(:name, :address, :notes, :status, :status_changed_at)
+    params.require(:saved_hong_bao).permit(:name, :address, :notes, :status, :status_changed_at, :file)
   end
 
   def set_network

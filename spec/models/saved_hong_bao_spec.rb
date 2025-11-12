@@ -75,6 +75,30 @@ RSpec.describe SavedHongBao, type: :model do
         expect(hong_bao.errors[:address]).to include("can't be blank")
       end
     end
+
+    describe "file attachment" do
+      let(:hong_bao) { SavedHongBao.new(user: user, name: "Test", address: valid_address) }
+
+      it "accepts file attachments" do
+        file = fixture_file_upload('spec/fixtures/files/test.pdf', 'application/pdf')
+        hong_bao.file.attach(file)
+        expect(hong_bao).to be_valid
+      end
+
+      it "validates file size" do
+        # Create a large file mock
+        large_file = double('file')
+        allow(large_file).to receive(:blob).and_return(double('blob', byte_size: 11.megabytes))
+        allow(hong_bao).to receive(:file).and_return(double('attachment', attached?: true, blob: double('blob', byte_size: 11.megabytes)))
+
+        expect(hong_bao).not_to be_valid
+        expect(hong_bao.errors[:file]).to include("size should be less than 10MB")
+      end
+
+      it "is valid without a file attachment" do
+        expect(hong_bao).to be_valid
+      end
+    end
   end
 
   describe "callbacks" do
