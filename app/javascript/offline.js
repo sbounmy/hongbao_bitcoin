@@ -53,3 +53,9 @@ application.register("qr-code", QrCodeController)
 
 import StepsController from "./controllers/offline/steps_controller"
 application.register("steps", StepsController)
+
+import PasswordVisibility from "@stimulus-components/password-visibility"
+application.register("password-visibility", PasswordVisibility)
+
+import { InputValidator } from "stimulus-inline-input-validations"
+application.register("input-validator", InputValidator)
