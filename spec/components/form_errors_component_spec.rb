@@ -5,7 +5,7 @@ RSpec.describe FormErrorsComponent, type: :component do
 
   it "renders errors when present" do
     allow(model).to receive(:errors).and_return(
-      double('errors', any?: true, full_messages: ['Name is required', 'Address is invalid'])
+      double('errors', any?: true, full_messages: [ 'Name is required', 'Address is invalid' ])
     )
 
     component = described_class.new(model: model)

@@ -1,6 +1,6 @@
 class SavedHongBaosController < ApplicationController
   layout "main"
-  before_action :set_saved_hong_bao, only: [:edit, :destroy, :refresh, :update, :destroy_file, :download ]
+  before_action :set_saved_hong_bao, only: [ :edit, :destroy, :refresh, :update, :destroy_file, :download ]
   before_action :set_network, only: [ :create ]
 
   def index
