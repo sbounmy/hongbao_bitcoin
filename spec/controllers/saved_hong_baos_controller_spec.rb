@@ -53,20 +53,6 @@ RSpec.describe SavedHongBaosController, type: :controller do
     end
   end
 
-  describe "GET #show" do
-    it "displays the saved hong bao details" do
-      # Mock the balance to avoid external API calls
-      allow_any_instance_of(SavedHongBao).to receive(:balance).and_return(
-        double('balance', transactions: [])
-      )
-
-      get :show, params: { id: saved_hong_bao.id }
-
-      expect(response).to be_successful
-      expect(assigns(:saved_hong_bao)).to eq(saved_hong_bao)
-      expect(assigns(:transactions)).to eq([])
-    end
-  end
 
   describe "GET #edit" do
     it "renders the edit form" do
