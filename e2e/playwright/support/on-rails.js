@@ -1,5 +1,7 @@
 import { expect, request } from '@playwright/test'
 import config from '../../../playwright.config'
+import fs from 'fs'
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 
 const contextPromise = request.newContext({ baseURL: config.use ? config.use.baseURL : 'http://localhost:5017' })
 
@@ -76,7 +78,7 @@ const turboCableConnected = async (page) => {
   }
 }
 
-import fs from 'fs/promises';
+import fsPromises from 'fs/promises';
 import path from 'path';
 import os from 'os';
 import { pathToFileURL } from 'url';
@@ -86,7 +88,7 @@ const savePageAs = async (page, context, callback) => {
   let baseTempDir;
   try {
     // 1. Create a base temporary directory
-    baseTempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'playwright-scrapebase-'));
+    baseTempDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'playwright-scrapebase-'));
     const scraperTargetDirectory = path.join(baseTempDir, 'scraped-site');
 
     // 2. Scrape the page content with assets
@@ -101,7 +103,7 @@ const savePageAs = async (page, context, callback) => {
       // Attempt cleanup even on scrape failure, then re-throw to fail the test
       if (baseTempDir) {
         try {
-          await fs.rm(baseTempDir, { recursive: true, force: true });
+          await fsPromises.rm(baseTempDir, { recursive: true, force: true });
         } catch (cleanupError) {
           console.error('Error during cleanup after scrape failure:', cleanupError);
         }
@@ -128,7 +130,7 @@ const savePageAs = async (page, context, callback) => {
       // Attempt cleanup even on goto failure, then re-throw
       if (baseTempDir) {
         try {
-          await fs.rm(baseTempDir, { recursive: true, force: true });
+          await fsPromises.rm(baseTempDir, { recursive: true, force: true });
         } catch (cleanupError) {
           console.error('Error during cleanup after goto failure:', cleanupError);
         }
@@ -144,7 +146,7 @@ const savePageAs = async (page, context, callback) => {
     // 7. Clean up: remove the temporary directory and its contents
     if (baseTempDir) {
       try {
-        await fs.rm(baseTempDir, { recursive: true, force: true });
+        await fsPromises.rm(baseTempDir, { recursive: true, force: true });
       } catch (e) {
         console.error(`Failed to remove temporary directory ${baseTempDir}:`, e);
       }
@@ -194,4 +196,43 @@ timecop.freeze = async (date) => app('timecop', { action: 'freeze', date });
 timecop.return = async () => app('timecop', { action: 'return' });
 timecop.travel = async (date) => app('timecop', { action: 'travel', date });
 
-export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout, timecop }
+// Helper function to authenticate and read encrypted PDFs
+const authenticatePDF = async (filePath, password) => {
+  try {
+    // Read the PDF file
+    const dataBuffer = fs.readFileSync(filePath);
+
+    // Convert Buffer to Uint8Array for pdfjs-dist
+    const uint8Array = new Uint8Array(dataBuffer);
+
+    // Try to read the PDF with the provided password
+    const pdfDoc = await getDocument({
+      data: uint8Array,
+      password: password
+    }).promise;
+
+    // Extract text from all pages
+    let fullText = '';
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+      const page = await pdfDoc.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + ' ';
+    }
+
+    return {
+      success: true,
+      content: fullText.trim(),
+      numPages: pdfDoc.numPages
+    };
+  } catch (error) {
+    // If password is wrong or any other error occurs
+    return {
+      success: false,
+      content: null,
+      error: error.message
+    };
+  }
+};
+
+export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout, timecop, authenticatePDF, fs }
