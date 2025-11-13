@@ -35,7 +35,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.13",
     "@kanety/stimulus-static-actions": "^1.1.0",
-    "@kanety/stimulus-zoom-image": "https://github.com/kanety/stimulus-zoom-image",
+    "@kanety/stimulus-zoom-image": "^1.1.0",
     "@noble/curves": "1.7.0",
     "@noble/hashes": "1.6.1",
     "@rails/actioncable": "^8.0.200",

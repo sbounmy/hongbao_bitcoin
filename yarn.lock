@@ -1342,9 +1342,10 @@
   resolved "https://registry.npmjs.org/@kanety/stimulus-static-actions/-/stimulus-static-actions-1.1.0.tgz"
   integrity sha512-02cLimz1sOF+4wZJ7XpP+j+CnfuaSo1SKHqlnVXxMLkUDEmfpE27/2g7Qb0+dxwXvNta2H+MI7b2/nvZIit50g==
 
-"@kanety/stimulus-zoom-image@https://github.com/kanety/stimulus-zoom-image":
+"@kanety/stimulus-zoom-image@^1.1.0":
   version "1.1.0"
-  resolved "git+ssh://git@github.com/kanety/stimulus-zoom-image.git#7c1ff73647da0a52bc38e549d52242713825e32b"
+  resolved "https://registry.yarnpkg.com/@kanety/stimulus-zoom-image/-/stimulus-zoom-image-1.1.0.tgz#7e2365dec53a034087c3823a3bafb34a1ac1013c"
+  integrity sha512-CBvHYHo1KzrHcQUUPgQJB/vqY/r1myOyvIQ8UI75LEtb/UCjuRaGb9QLq7nvUht0UYyr8C+F+sebcKxtCy2etw==
 
 "@kurkle/color@^0.3.0":
   version "0.3.4"
