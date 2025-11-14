@@ -1,9 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import html2canvas from 'html2canvas-pro'
-import { jsPDF } from 'jspdf'
+import PDFDocument from 'pdfkit/js/pdfkit.standalone'
+import blobStream from 'blob-stream'
 
 export default class extends Controller {
-  static targets = ["content", "viewport", "zoomDisplay", "wrapper"]
+  static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password"]
   static values = { 
     zoom: { type: Number, default: 0.8 },
     minZoom: { type: Number, default: 0.3 },
@@ -173,6 +174,7 @@ export default class extends Controller {
     )
   }
 
+
   async download(event) {
     event.preventDefault()
 
@@ -189,40 +191,82 @@ export default class extends Controller {
         scrollY: -window.scrollY
       })
 
-      // Create PDF with A4 dimensions
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
+      // Get password if available
+      const password = this.hasPasswordTarget ? this.passwordTarget.value : ''
+
+      // Create PDFKit document options
+      const docOptions = {
+        size: 'A4',
+        margin: 0
+      }
+
+      // Add AES-256 encryption if password is provided
+      if (password) {
+        // PDFKit uses AES-256 when pdfVersion is 1.7ext3
+        docOptions.pdfVersion = '1.7ext3'
+        docOptions.userPassword = password
+        docOptions.ownerPassword = password
+        docOptions.permissions = {
+          printing: 'highResolution',
+          modifying: true,
+          copying: true,
+          annotating: true,
+          fillingForms: true,
+          contentAccessibility: true,
+          documentAssembly: true
+        }
+      }
+
+      // Create PDF document
+      const doc = new PDFDocument(docOptions)
+      const stream = doc.pipe(blobStream())
+
+      // Calculate dimensions to fit A4 (595.28 x 841.89 points)
+      const pageWidth = 595.28
+      const pageHeight = 841.89
+      const imgAspectRatio = canvas.width / canvas.height
+      const pageAspectRatio = pageWidth / pageHeight
+
+      let imgWidth, imgHeight
+      if (imgAspectRatio > pageAspectRatio) {
+        // Image is wider than page
+        imgWidth = pageWidth
+        imgHeight = pageWidth / imgAspectRatio
+      } else {
+        // Image is taller than page
+        imgHeight = pageHeight
+        imgWidth = pageHeight * imgAspectRatio
+      }
+
+      // Convert canvas to data URL
+      const imgData = canvas.toDataURL('image/jpeg', 0.7)
+
+      // Add image to PDF
+      doc.image(imgData, 0, 0, {
+        width: imgWidth,
+        height: imgHeight
       })
 
-      // Calculate dimensions to fit A4
-      const imgWidth = 210 // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      // Finalize the PDF
+      doc.end()
 
-      // Use JPEG format and specify quality (0.0 to 1.0)
-      // Lower quality means smaller file size but potentially worse image appearance.
-      const imgData = canvas.toDataURL('image/jpeg', 0.7); // Adjust 0.7 as needed
+      // Handle the blob when ready
+      stream.on('finish', () => {
+        const blob = stream.toBlob('application/pdf')
+        const filename = `${this.element.dataset.pdfFilenameValue}.pdf`
 
-      // Add the image to PDF
-      pdf.addImage(
-        imgData,
-        'JPEG',
-        0,
-        0,
-        imgWidth,
-        imgHeight,
-        undefined,
-        'FAST'
-      )
+        // Create download link
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = filename
+        link.click()
 
-      const filename = `${this.element.dataset.pdfFilenameValue}.pdf`;
+        // Clean up
+        setTimeout(() => URL.revokeObjectURL(link.href), 100)
 
-      // Save the PDF
-      pdf.save(filename)
-
-      // Dispatch event on successful download
-      this.dispatch("downloaded", { detail: { filename } })
+        // Dispatch event on successful download
+        this.dispatch("downloaded", { detail: { filename } })
+      })
 
     } catch (error) {
       console.error("PDF generation failed:", error)

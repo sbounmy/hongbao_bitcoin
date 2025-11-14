@@ -1,5 +1,6 @@
 <div class="flex flex-col h-full max-h-full overflow-hidden px-4 py-2"
-     data-action="bitcoin:changed@window->binding#attribute"
+     data-controller='disabled'
+     data-action='password-meter:valid@window->disabled#remove password-meter:invalid@window->disabled#add bitcoin:changed@window->binding#attribute'
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
@@ -17,13 +18,43 @@
     <p class="label">Beginner : QRCode goes to hongbaob.tc for easy access</p>
   </fieldset>
 
+  <fieldset class="fieldset mt-4">
+    <div class="flex items-center justify-between">
+      <legend class="fieldset-legend text-[#FFB636]">Password</legend>
+      <span class="text-xs px-2 py-1 bg-[#FFB636]/20 text-[#FFB636] rounded-full">
+        Recommended for $100+ gift
+      </span>
+    </div>
+    <div class="space-y-2">
+      <%= render PasswordMeterComponent.new(
+        input_id: "pdf-password",
+        name: "pdf_password",
+        placeholder: "8+ chars, uppercase, lowercase, number & symbol",
+        data_targets: { pdf: "password" },
+        show_visibility_toggle: true,
+        min_length: 8,
+        require_uppercase: true,
+        require_lowercase: true,
+        require_numbers: true,
+        require_special: true,
+        show_requirements: false,
+        show_meter: true
+      ) %>
+
+      <div class="text-xs text-white/70 mt-2 space-y-1">
+        <p>⚠️ <strong>Important:</strong> There's no way to password recovery - if lost, PDF won't open!</p>
+        <p>💡 <strong>Tip:</strong> You can skip now and add password protection with your PDF viewer</p>
+      </div>
+    </div>
+  </fieldset>
+
   <div class="sticky bottom-0 rounded-b-3xl z-30 bg-[#F04747] border-t border-[#FFB636]/20">
     <div class="flex flex-col items-center gap-4 w-full">
       <!-- Download PDF Button -->
       <button type="button"
+              data-disabled-target='element'
               class="cursor-pointer w-full py-3 px-4 bg-[#FFB636] rounded-xl shadow-lg text-sm font-medium
-                      text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2"
-              data-paper-pdf-target="downloadButton"
+                      text-black hover:bg-[#FFB636]/90 transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-30"
               data-action="pdf#download">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />

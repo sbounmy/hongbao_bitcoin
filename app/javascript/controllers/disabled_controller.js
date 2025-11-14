@@ -1,12 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+    static targets = ['element']
+
     remove(event) {
-        this.element.disabled = false
+        // Support both target-based and direct controller usage
+        const element = this.hasElementTarget ? this.elementTarget : this.element
+        element.disabled = false
     }
 
     add(event) {
-        this.element.disabled = true
+        // Support both target-based and direct controller usage
+        const element = this.hasElementTarget ? this.elementTarget : this.element
+        element.disabled = true
     }
 }
 

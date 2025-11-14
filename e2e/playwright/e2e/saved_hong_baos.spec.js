@@ -32,7 +32,7 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.locator('.stat-value').getByText('₿0.00076171')).toBeVisible();
     await expect(page.locator('.stat-desc').first().getByText(/5/)).toBeVisible();
     await expect(page.locator('.stat-value').getByText('$8')).toBeVisible();
-    const visibleContainer = await page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
     await expect(visibleContainer.getByText('₿0.00040657')).not.toBeVisible();
 
     // await expect(page.locator(':is(#saved_hong_baos_cards, #saved_hong_baos_table)').getByText('₿0.00040657').first()).not.toBeVisible();
@@ -86,7 +86,7 @@ test.describe('Saved Hong Baos', () => {
     // Navigate to saved hong baos page - fixture data should already be loaded
     await page.goto('/saved_hong_baos');
 
-    const visibleContainer = await page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
 
     // The rich_wallet fixture should be visible in the table
     await expect(visibleContainer.getByText('HODL HB' )).toBeVisible();
@@ -125,6 +125,109 @@ test.describe('Saved Hong Baos', () => {
     expect(markerSrc).toContain('api.dicebear.com');
 
     appVcrEjectCassette();
+  });
+
+  test('can attach a PDF on creation', async ({ page }) => {
+    // Navigate to new saved hong bao form
+    await page.goto('/saved_hong_baos/new');
+
+    // Fill in the form
+    await page.getByLabel('Recipient Name').fill('Test PDF User');
+    await page.getByLabel('Bitcoin Address').fill('bc1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
+    await page.getByLabel('Notes (optional)').fill('Testing PDF attachment');
+
+    // Attach PDF file
+    await page.getByLabel('Recovery File (optional)').setInputFiles('spec/fixtures/files/test.pdf');
+
+    // Submit the form
+    await page.getByRole('button', { name: 'Save Hong Bao' }).click();
+
+    // Verify we're redirected to the saved hong baos page
+    await expect(page).toHaveURL('/saved_hong_baos');
+
+    // Verify the saved hong bao appears with a paperclip icon next to the name
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    await expect(visibleContainer.getByText('Test PDF User')).toBeVisible();
+
+    // Check for paperclip icon next to the name (indicates file is attached)
+    const nameWithPaperclip = visibleContainer.locator('div:has-text("Test PDF User")').locator('xpath=..').first();
+    await expect(nameWithPaperclip.locator('svg').first()).toBeVisible();
+  });
+
+  test('can attach a PDF on edit', async ({ page }) => {
+    // Navigate to saved hong baos page where fixtures are loaded
+    await page.goto('/saved_hong_baos');
+
+    // Find the HODL HB fixture and click edit
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    const hodlRow = visibleContainer.locator('tr:has-text("HODL HB"), div:has-text("HODL HB")').first();
+
+    // Click the edit button (pencil icon)
+    await hodlRow.locator('[title="Edit"]').click();
+
+    // Wait for modal to open
+    await expect(page.locator('dialog[open]')).toBeVisible();
+
+    // Attach PDF file in the modal
+    await page.getByLabel('Recovery File').setInputFiles('spec/fixtures/files/test.pdf');
+
+    // Save changes
+    await page.getByRole('button', { name: 'Save Changes' }).click();
+
+    // Wait for modal to close and page to update
+    await expect(page.locator('dialog[open]')).not.toBeVisible();
+
+    // Verify paperclip icon appears next to HODL HB name
+    await expect(visibleContainer.locator('div:has-text("HODL HB")').locator('svg').first()).toBeVisible();
+  });
+
+  test('can delete a PDF', async ({ page }) => {
+    await page.goto('/saved_hong_baos');
+
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    const withdrawnRow = visibleContainer.locator('tr:has-text("Withdrawn HB"), div:has-text("Withdrawn HB")').first();
+
+    await withdrawnRow.locator('[title="Edit"]').click();
+    await expect(page.locator('dialog[open]')).toBeVisible();
+    await page.getByLabel('Recovery File').setInputFiles('spec/fixtures/files/test.pdf');
+    await page.getByRole('button', { name: 'Save Changes' }).click();
+    await expect(page.locator('dialog[open]')).not.toBeVisible();
+
+    await withdrawnRow.locator('[title="Edit"]').click();
+    await expect(page.locator('dialog[open]')).toBeVisible();
+
+    await expect(page.getByText('test.pdf')).toBeVisible();
+
+    page.on('dialog', dialog => dialog.accept()); // Auto-accept confirmation
+    await page.locator('button:has(svg)').filter({ hasText: '' }).last().click(); // Trash button
+
+    // File info should disappear
+    await expect(page.getByText('test.pdf')).not.toBeVisible();
+
+    // Close modal
+    await page.getByRole('button', { name: 'Cancel' }).click();
+
+    await page.goto('/saved_hong_baos');
+    await expect(visibleContainer.locator('div:has-text("Withdrawn HB")').locator('svg')).not.toBeVisible();
+  });
+
+  test('can download a PDF', async ({ page }) => {
+    await page.goto('/saved_hong_baos');
+
+    const visibleContainer = page.locator('#saved_hong_baos_cards:visible, #saved_hong_baos_table:visible').first();
+    const transactionsRow = visibleContainer.locator('tr:has-text("Made some transactions"), div:has-text("Made some transactions")').first();
+
+    await transactionsRow.locator('[title="Edit"]').click();
+    await expect(page.locator('dialog[open]')).toBeVisible();
+    await page.getByLabel('Recovery File').setInputFiles('spec/fixtures/files/test.pdf');
+    await page.getByRole('button', { name: 'Save Changes' }).click();
+    await expect(page.locator('dialog[open]')).not.toBeVisible();
+
+    const downloadPromise = page.waitForEvent('download');
+    await visibleContainer.locator('div:has-text("Made some transactions")').locator('a:has(svg)').first().click();
+    const download = await downloadPromise;
+
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
   });
 
 });

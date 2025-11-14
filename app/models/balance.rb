@@ -26,7 +26,9 @@ class Balance
   end
 
   def utxos
-    @utxos ||= @blockstream_client.get_address_utxos(address)
+    @utxos ||= Rails.cache.fetch("balance_utxos_#{address}", expires_in: 12.minutes) do
+      @blockstream_client.get_address_utxos(address)
+    end
   end
 
   def btc

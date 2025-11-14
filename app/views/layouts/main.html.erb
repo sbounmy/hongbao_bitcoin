@@ -55,10 +55,17 @@
     <%# render "shared/header" %>
     <%= render "main/sidebar" do %>
       <div class="h-svh">
+        <% if flash.any? %>
+          <div class="container mx-auto px-4 pt-4">
+            <%= render FlashMessagesComponent.new(flash: flash) %>
+          </div>
+        <% end %>
         <%= yield %>
       </div>
     <% end %>
   <% end %>
+
+  <%= turbo_frame_tag "modal"  %>
 
   <!-- After the body tag so icons are loaded even after the page changes on click -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

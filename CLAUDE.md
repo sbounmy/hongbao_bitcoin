@@ -294,9 +294,36 @@ end
 <%= button_to "Submit", "/path", class: "btn btn-primary" %>
 ```
 
+### Common Issues & Solutions
+
+#### Nested Forms Problem
+When a form doesn't submit (particularly Save/Submit buttons don't trigger any action):
+1. **Check for nested forms** - HTML doesn't allow `<form>` elements inside other `<form>` elements
+2. **Common cause**: Using `button_to` inside a `form_with` creates nested forms
+3. **Solution**: Use external form pattern with `form` attribute:
+
+```erb
+<!-- Button inside main form references external form -->
+<%= tag.button '',
+    type: :submit,
+    form: "external_form_id",
+    data: { turbo_confirm: "Confirm?" },
+    class: "btn" do %>
+  Icon/Text
+<% end %>
+
+<!-- External form placed outside main form -->
+<%= form_with(model: @model,
+    url: some_path(@model),
+    method: :delete,
+    id: "external_form_id") %>
+```
+
+This pattern maintains semantic HTML (buttons for actions) while avoiding invalid nested forms.
+
 ### Testing
 - **RSpec for unit/integration tests** - Models, services, helpers, etc.
-- **Controller specs** for testing controller logic and responses  
+- **Controller specs** for testing controller logic and responses
 - **E2E Playwright tests** for user interactions and flows
 - **Do NOT use request specs** - Use controller specs or E2E tests instead
 - **Fixtures** for test data where appropriate

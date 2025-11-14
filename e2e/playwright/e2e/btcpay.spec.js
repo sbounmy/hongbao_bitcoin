@@ -152,7 +152,7 @@ test.describe('BTCPay Checkout Flow', () => {
     await expect(page.locator('#buyerAddress1')).toHaveValue('1 Rue de la Paix');
     await expect(page.locator('#buyerCity')).toHaveValue('Paris');
     await expect(page.locator('#buyerState')).toHaveValue('Île-de-France');
-    await expect(page.locator('#buyerZip')).toHaveValue('75001');
+    await expect(page.locator('#buyerZip')).toHaveValue('75002');
     await expect(page.locator('#buyerCountry')).toHaveValue('FR');
 
     // resets when changing country

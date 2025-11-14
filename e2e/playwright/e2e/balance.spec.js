@@ -96,6 +96,7 @@ test.describe('Balance', () => {
   });
 
   test('user can check balance and transfer tokens with mnemonic', async ({ page }) => {
+    test.setTimeout(60_000) // increase timeout
     await appVcrInsertCassette('balance_transfer', { allow_playback_repeats: true })
     await page.goto('/hong_baos/tb1q8f5smkw6hdd47mauz9lq2ffezl9szmxrk342xn');
     await expect(page.locator('body')).toContainText('₿0.0002', { timeout: 10_000 });

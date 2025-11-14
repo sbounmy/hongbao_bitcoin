@@ -1,0 +1,5 @@
+<div id="flash-messages">
+  <% flash.each do |type, message| %>
+    <%= render FlashComponent.new(type: type, message: message) %>
+  <% end %>
+</div>

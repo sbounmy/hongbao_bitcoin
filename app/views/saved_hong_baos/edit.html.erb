@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "modal" do %>
+  <dialog open class="modal modal-open">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg mb-4">
+        Edit Hong Bao
+      </h3>
+
+      <%= form_with model: @saved_hong_bao, url: saved_hong_bao_path(@saved_hong_bao), method: :patch, data: { turbo_frame: "_top", turbo: true } do |form| %>
+        <%= render "form", form:, model: @saved_hong_bao %>
+
+        <div class="modal-action">
+          <button type="button" class="btn btn-ghost" onclick="this.closest('dialog').close(); this.closest('turbo-frame').innerHTML = '';">Cancel</button>
+          <%= form.submit "Save Changes", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <button type="button" class="modal-backdrop" onclick="this.closest('dialog').close(); this.closest('turbo-frame').innerHTML = '';"></button>
+    <%= form_with(model: @saved_hong_bao, url: destroy_file_saved_hong_bao_path(@saved_hong_bao), method: :delete, id: "delete_file") %>
+  </dialog>
+<% end %>
