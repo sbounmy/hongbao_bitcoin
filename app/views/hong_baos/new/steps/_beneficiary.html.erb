@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full max-h-full overflow-hidden px-4 py-2"
-     data-controller='password-validator disabled'
-     data-action='password-validator:error->disabled#add password-validator:success->disabled#remove bitcoin:changed@window->binding#attribute'
+     data-controller='disabled'
+     data-action='password-meter:valid@window->disabled#remove password-meter:invalid@window->disabled#add bitcoin:changed@window->binding#attribute'
      data-steps-target="content"
      data-steps-index="<%= local_assigns[:index] || 2 %>">
 
@@ -19,34 +19,32 @@
   </fieldset>
 
   <fieldset class="fieldset mt-4">
-    <legend class="fieldset-legend text-[#FFB636]">Password (Highly Recommended)</legend>
-    <div class="space-y-2" data-controller="password-visibility">
-      <div class="relative">
-        <input type="password"
-               data-pdf-target="password"
-               data-password-visibility-target="input"
-               data-password-validator-target="field"
-               data-field="pdf-password"
-               data-validates-strong-password="true"
-               data-validates-length="8,128"
-               placeholder="Enter strong password (min 8 chars)"
-               class="input input-bordered w-full pr-10 text-white placeholder-white/50 bg-[#F04747]/50 border-[#FFB636]/30">
-        <button type="button"
-                data-action="password-visibility#toggle"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-          </svg>
-        </button>
+    <div class="flex items-center justify-between">
+      <legend class="fieldset-legend text-[#FFB636]">Password</legend>
+      <span class="text-xs px-2 py-1 bg-[#FFB636]/20 text-[#FFB636] rounded-full">
+        Recommended for $100+ gift
+      </span>
+    </div>
+    <div class="space-y-2">
+      <%= render PasswordMeterComponent.new(
+        input_id: "pdf-password",
+        name: "pdf_password",
+        placeholder: "8+ chars, uppercase, lowercase, number & symbol",
+        data_targets: { pdf: "password" },
+        show_visibility_toggle: true,
+        min_length: 8,
+        require_uppercase: true,
+        require_lowercase: true,
+        require_numbers: true,
+        require_special: true,
+        show_requirements: false,
+        show_meter: true
+      ) %>
+
+      <div class="text-xs text-white/70 mt-2 space-y-1">
+        <p>⚠️ <strong>Important:</strong> There's no way to password recovery - if lost, PDF won't open!</p>
+        <p>💡 <strong>Tip:</strong> You can skip now and add password protection with your PDF viewer</p>
       </div>
-      <div data-password-validator-target="errors"
-           data-field="pdf-password"
-           data-errors-styles-css="font-size: 12px; color: #fff; background-color: rgba(220, 38, 38, 0.9); padding: 4px 8px; border-radius: 4px; margin-top: 4px; display: inline-block;"
-           class="text-xs"></div>
-      <p class="text-xs text-white/70">
-        Leave empty to skip password protection. A strong password requires uppercase, lowercase, numbers and special characters.
-      </p>
     </div>
   </fieldset>
 

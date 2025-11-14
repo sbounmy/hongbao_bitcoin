@@ -65,8 +65,8 @@ application.register('places-autocomplete', PlacesAutocompleteController)
 import PhoneInputController from './phone_input_controller'
 application.register('phone-input', PhoneInputController)
 
-import PasswordValidatorController from './password_validator_controller'
-application.register('password-validator', PasswordValidatorController)
+import PasswordMeterController from './password_meter_controller'
+application.register('password-meter', PasswordMeterController)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149

@@ -164,30 +164,37 @@ test.describe('PDF Generation', () => {
       await page.getByRole('button', { name: 'Next' }).click();
     });
 
-    test('cannot setup weak password', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+    test('password can be weak, fair, strong or very strong', async ({ page }) => {
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
-      const errorDisplay = page.locator('[data-password-validator-target="errors"]');
+      const meterText = page.locator('[data-password-meter-target="meterText"]');
+      const meterFill = page.locator('[data-password-meter-target="meterFill"]');
 
-      // Test various weak passwords
-      const weakPasswords = [
-        'short',           // Too short
-        'alllowercase123!', // No uppercase letters
-        'NoNumbers!Pass',   // No numbers
-        'NoSpecial123Pass'  // No special characters
+      // Test various password strengths - all should allow download
+      const passwords = [
+        { password: 'aaaaaa', expectedStrength: 'Weak' },           // Weak: repeated chars, too short
+        { password: 'alllowercase123!', expectedStrength: 'Fair' }, // No uppercase letters
+        { password: 'NoNumbers!Pass', expectedStrength: 'Fair' },   // No numbers
+        { password: 'NoSpecial123Pass', expectedStrength: 'Fair' }, // No special characters
+        { password: 'Strong123!Pass', expectedStrength: 'Very Strong' }, // Strong password
+        { password: 'VeryStrong123!@#Pass', expectedStrength: 'Very Strong' } // Very strong password
       ];
 
-      for (const password of weakPasswords) {
+      for (const { password, expectedStrength } of passwords) {
         await passwordInput.fill(password);
 
         // Wait a bit for validation to trigger
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(200);
 
-        // Verify download button is disabled
-        await expect(downloadButton).toBeDisabled();
+        // Verify password meter shows appropriate strength
+        await expect(meterText).toHaveText(expectedStrength);
 
-        // Verify error messages are visible
-        await expect(errorDisplay).toBeVisible();
+        // Verify meter fill is visible
+        await expect(meterFill).toBeVisible();
+
+        // Verify download button is ENABLED even for weak passwords
+        // Password meter is advisory only - users can download with any strength
+        await expect(downloadButton).toBeEnabled();
 
         // Clear for next test
         await passwordInput.clear();
@@ -195,19 +202,25 @@ test.describe('PDF Generation', () => {
     });
 
     test('can setup strong password', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
-      const errorDisplay = page.locator('[data-password-validator-target="errors"]');
+      const meterText = page.locator('[data-password-meter-target="meterText"]');
+      const meterFill = page.locator('[data-password-meter-target="meterFill"]');
 
       // Test a strong password that meets all requirements
-      const strongPassword = 'StrongP@ss123';
+      const strongPassword = 'StrongP@ss123!';
       await passwordInput.fill(strongPassword);
 
       // Wait for validation to complete
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(200);
 
-      // Verify no errors are shown
-      await expect(errorDisplay).toBeHidden();
+      // Verify password meter shows strong or very strong
+      const strengthText = await meterText.textContent();
+      expect(['Strong', 'Very Strong']).toContain(strengthText);
+
+      // Verify meter fill has appropriate width (should be > 50%)
+      const fillWidth = await meterFill.evaluate(el => el.style.width);
+      expect(parseInt(fillWidth)).toBeGreaterThan(50);
 
       // Verify download button is enabled
       await expect(downloadButton).toBeEnabled();
@@ -226,18 +239,19 @@ test.describe('PDF Generation', () => {
     });
 
     test('empty password field allows unencrypted download', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
+      const meterText = page.locator('[data-password-meter-target="meterText"]');
 
       // First type something then clear to ensure validation runs
       await passwordInput.fill('SomeText');
       await passwordInput.clear();
 
       // Wait for validation
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(200);
 
-      // Button should be enabled for unprotected PDF
-      await expect(downloadButton).toBeEnabled();
+      // Meter should show "Too Short" or similar for empty password
+      await expect(meterText).toHaveText('Weak');
 
       // Test download works without password
       const downloadPromise = page.waitForEvent('download');
@@ -250,13 +264,13 @@ test.describe('PDF Generation', () => {
 
     test('downloaded PDF is encrypted with the correct password', async ({ page }) => {
       // This test verifies that the PDF has AES-256 encryption (PDF 1.7ext3)
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const testPassword = 'TestP@ssw0rd123';
 
       // Set a strong password
       await passwordInput.fill(testPassword);
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(200);
       await expect(downloadButton).toBeEnabled();
 
       // Download the PDF
@@ -300,7 +314,7 @@ test.describe('PDF Generation', () => {
 
     test('can decrypt and read PDF with correct password', async ({ page }) => {
       // This test verifies that we can actually decrypt and read the PDF content with the password
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const testPassword = 'TestP@ssw0rd123';
 
@@ -339,7 +353,7 @@ test.describe('PDF Generation', () => {
 
     test('cannot read PDF with wrong password', async ({ page }) => {
       // This test verifies that the PDF cannot be read with an incorrect password
-      const passwordInput = page.getByPlaceholder('Enter strong password (min 8 chars)');
+      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const correctPassword = 'TestP@ssw0rd123';
       const wrongPassword = 'WrongPassword123!';

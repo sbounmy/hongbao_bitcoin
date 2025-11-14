@@ -5355,10 +5355,6 @@ stimulus-confetti@^1.0.1:
   dependencies:
     canvas-confetti "^1.6.0"
 
-"stimulus-inline-input-validations@https://github.com/sbounmy/stimulus-inline-input-validations#dispatch-validation-event":
-  version "1.2.0"
-  resolved "https://github.com/sbounmy/stimulus-inline-input-validations#0c4c1d773e905b760aa2219a4a5e6c0a644180ae"
-
 stimulus-places-autocomplete@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/stimulus-places-autocomplete/-/stimulus-places-autocomplete-0.5.0.tgz"
