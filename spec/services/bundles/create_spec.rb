@@ -70,6 +70,19 @@ RSpec.describe Bundles::Create do
           service.call(params:, user:)
         end.to have_enqueued_job(ProcessPaperJob).twice
       end
+
+      it 'orders input_items by position (theme, style, image)' do
+        service.call(params:, user:)
+
+        bundle = Bundle.last
+        paper = bundle.papers.first
+
+        ordered_inputs = paper.input_items.map &:input
+
+        expect(ordered_inputs.first).to be_a(Input::Theme)  # Theme first
+        expect(ordered_inputs.second).to be_a(Input::Style) # Style second
+        expect(ordered_inputs.third).to be_a(Input::Image)  # Image third
+      end
     end
 
     context 'when theme is not found' do

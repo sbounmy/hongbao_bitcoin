@@ -1,4 +1,6 @@
 class Input::Theme < Input
+  POSITION = 1
+
   self.renderable = true
 
   CSS_PROPERTIES = [

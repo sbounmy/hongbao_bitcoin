@@ -19,8 +19,10 @@ module Bundles
       Rails.logger.info("Paper created start  #{@bundle.themes.count} || #{@bundle.styles.count} ----")
       theme = @bundle.input_item_theme.input
       @bundle.styles.each do |style|
-        input_items = @bundle.input_items.where(input: [ theme, style, @bundle.images.first ])
-
+        input_items = @bundle.input_items
+          .where(input: [ theme, style, @bundle.images.first ])
+          .joins(:input)
+          .sort_by { |item| item.input.class::POSITION }
 
         paper = Paper.create!(
           name: "#{style.name} #{theme.name}",

@@ -50,7 +50,7 @@ class Paper < ApplicationRecord
   metadata :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
 
   def input_items
-    InputItem.where(id: input_item_ids)
+    InputItem.where(id: input_item_ids).sort_by { |item| item.input.class::POSITION }
   end
 
   def input_items=(input_items)
