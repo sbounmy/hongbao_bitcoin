@@ -1,3 +1,12 @@
+# DEPRECATED: This service is no longer used as of 2025-01-17
+# The new composition-based approach uses Papers::Composition instead
+# of detecting green lines to crop AI-generated images.
+#
+# Old flow: AI generates full image → GapCorrector crops by detecting green line
+# New flow: AI transforms portrait → Papers::Composition composites onto template
+#
+# This file is kept for reference only - do not use in new code.
+
 module Papers
   class GapCorrector < ApplicationService
     def call(binary_data)

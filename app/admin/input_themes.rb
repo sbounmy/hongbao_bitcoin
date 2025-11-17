@@ -1,7 +1,9 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
   menu parent: "Inputs", priority: 1
 
-  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }, ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path,
+    Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" },
+    ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
   remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
@@ -202,6 +204,72 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
       render Admin::VisualEditorComponent.new(form: f, input_base_name: "input_theme[ai]")
+    end
+
+    f.inputs "Portrait Positioning" do
+      para "Configure where the portrait should be positioned on the template (percentages of template dimensions)"
+
+      f.input :portrait_resolution,
+        label: "AI Portrait Resolution",
+        hint: "Size for AI portrait generation (affects quality and aspect ratio)",
+        as: :select,
+        collection: [
+          ["1024x1024 (Square)", "1024x1024"],
+          ["1536x1024 (Landscape)", "1536x1024"],
+          ["1024x1536 (Portrait)", "1024x1536"]
+        ],
+        input_html: {
+          name: "input_theme[ai][portrait][resolution]"
+        },
+        selected: f.object.ai.dig("portrait", "resolution") || "1024x1024"
+
+      f.input :portrait_x,
+        label: "Portrait X Position (%)",
+        hint: "Percentage from left edge (0-100)",
+        input_html: {
+          value: f.object.ai.dig("portrait", "x") || 34,
+          name: "input_theme[ai][portrait][x]",
+          type: "number",
+          min: 0,
+          max: 100,
+          step: 0.1
+        }
+
+      f.input :portrait_y,
+        label: "Portrait Y Position (%)",
+        hint: "Percentage from top edge (0-100)",
+        input_html: {
+          value: f.object.ai.dig("portrait", "y") || 8,
+          name: "input_theme[ai][portrait][y]",
+          type: "number",
+          min: 0,
+          max: 100,
+          step: 0.1
+        }
+
+      f.input :portrait_width,
+        label: "Portrait Width (%)",
+        hint: "Percentage of template width (0-100)",
+        input_html: {
+          value: f.object.ai.dig("portrait", "width") || 18,
+          name: "input_theme[ai][portrait][width]",
+          type: "number",
+          min: 0,
+          max: 100,
+          step: 0.1
+        }
+
+      f.input :portrait_height,
+        label: "Portrait Height (%)",
+        hint: "Percentage of template height (0-100)",
+        input_html: {
+          value: f.object.ai.dig("portrait", "height") || 23,
+          name: "input_theme[ai][portrait][height]",
+          type: "number",
+          min: 0,
+          max: 100,
+          step: 0.1
+        }
     end
 
     # Define hints based on property descriptions

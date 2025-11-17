@@ -42,6 +42,13 @@ ActiveAdmin.register Paper do
         image_tag url_for(paper.image_back), width: 100
       end
     end
+
+    column :image_portrait do |paper|
+      if paper.image_portrait.attached?
+        image_tag url_for(paper.image_portrait), width: 100
+      end
+    end
+
     column :total_tokens
     column :total_costs
 
@@ -49,6 +56,11 @@ ActiveAdmin.register Paper do
       item "Duplicate", duplicate_admin_paper_path(paper_instance),
            method: :post,
            data: { confirm: "Are you sure you want to duplicate this paper and its images?" }
+      if paper_instance.image_portrait.attached?
+        item "Recomposite", recomposite_admin_paper_path(paper_instance),
+             method: :post,
+             data: { confirm: "Regenerate front image using existing portrait?" }
+      end
     end
   end
 
@@ -105,6 +117,14 @@ ActiveAdmin.register Paper do
     link_to "Duplicate Paper", duplicate_admin_paper_path(resource),
             method: :post,
             data: { confirm: "Are you sure you want to duplicate this paper and its images?" }
+  end
+
+  action_item :recomposite, only: :show do
+    if resource.image_portrait.attached?
+      link_to "Recomposite Front Image", recomposite_admin_paper_path(resource),
+              method: :post,
+              data: { confirm: "Regenerate front image using existing portrait and current theme configuration?" }
+    end
   end
 
   form html: { multipart: true } do |f|
@@ -168,6 +188,52 @@ ActiveAdmin.register Paper do
       redirect_to admin_paper_path(new_paper), notice: "Paper was successfully duplicated."
     else
       redirect_to admin_paper_path(original_paper), alert: "Failed to duplicate paper: #{new_paper.errors.full_messages.join(', ')}"
+    end
+  end
+
+  member_action :recomposite, method: :post do
+    require "stringio"
+    require "vips"
+
+    paper = Paper.find(params[:id])
+
+    unless paper.image_portrait.attached?
+      redirect_to admin_paper_path(paper), alert: "No portrait image found. Cannot recomposite."
+      return
+    end
+
+    # Get theme input to access template and portrait config
+    input_items = paper.input_items
+    theme_input = input_items.find { |item| item.input.type == "Input::Theme" }&.input
+
+    unless theme_input
+      redirect_to admin_paper_path(paper), alert: "No theme found. Cannot recomposite."
+      return
+    end
+
+    begin
+      Rails.logger.info "[Admin] Recompositing Paper #{paper.id}"
+
+      # Get portrait blob
+      portrait_blob = paper.image_portrait.download
+
+      # Composite styled portrait onto template
+      composed_image = Papers::Composition.call(
+        template: theme_input.image_front,
+        portrait: portrait_blob,
+        config: theme_input.portrait_config
+      )
+
+      # Attach new composed front image
+      paper.image_front.attach(
+        io: StringIO.new(composed_image),
+        filename: "front_recomposed_#{SecureRandom.hex(4)}.jpg"
+      )
+
+      redirect_to admin_paper_path(paper), notice: "Front image successfully recomposited!"
+    # rescue => e
+    #   Rails.logger.error "[Admin] Recomposite failed: #{e.message}"
+    #   redirect_to admin_paper_path(paper), alert: "Failed to recomposite: #{e.message}"
     end
   end
 end

@@ -10,6 +10,7 @@ class Paper < ApplicationRecord
   has_one_attached :image_front
   has_one_attached :image_back
   has_one_attached :image_full
+  has_one_attached :image_portrait
 
   before_validation :set_default_elements
   after_create_commit :broadcast_prepend

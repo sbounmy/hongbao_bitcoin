@@ -1,4 +1,6 @@
 class Input::Theme < Input
+  POSITION = 1
+
   self.renderable = true
 
   CSS_PROPERTIES = [
@@ -38,7 +40,8 @@ class Input::Theme < Input
     "private_key_text",
     "public_address_qrcode",
     "public_address_text",
-    "mnemonic_text"
+    "mnemonic_text",
+    "portrait"
   ].freeze
 
   AI_ELEMENT_PROPERTIES = [
@@ -46,7 +49,10 @@ class Input::Theme < Input
     "y",
     "size",
     "color",
-    "max_text_width"
+    "max_text_width",
+    "width",
+    "height",
+    "resolution"
   ].freeze
 
   AI_PROPERTIES = AI_ELEMENT_TYPES.index_with { |_type| AI_ELEMENT_PROPERTIES }.freeze
@@ -88,6 +94,13 @@ class Input::Theme < Input
         "size" => 16,
         "color" => "0, 0, 0",
         "max_text_width" => 12
+      },
+      "portrait" => {
+        "x" => 34,              # percentage from left
+        "y" => 8,               # percentage from top
+        "width" => 18,          # percentage of template width
+        "height" => 23,         # percentage of template height
+        "resolution" => "1024x1024"  # AI generation size: 1024x1024, 1536x1024, 1024x1536
       }
     }
   end
@@ -118,5 +131,10 @@ class Input::Theme < Input
   # https://github.com/whatwg/html/issues/9572
   def delete_empty_ui_properties
     ui.delete_if { |key, value| value.blank? || value == "#000000" }
+  end
+
+  # Helper method to get portrait configuration with defaults
+  def portrait_config
+    ai["portrait"] || self.class.default_ai_elements["portrait"]
   end
 end
