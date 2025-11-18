@@ -31,7 +31,11 @@
             class="visual-element absolute border-2 border-dashed border-blue-500 hover:border-solid hover:cursor-move select-none touch-none <%= element_hidden_class(view) %>"
             style="color: <%= element_color(element_type) %>; font-family: Arial, sans-serif;"
           >
-            <% if is_qr?(element_type) %>
+            <% if element_type == "portrait" %>
+              <div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 pointer-events-none flex items-center justify-center font-bold text-white border-2 border-white/30">
+                <%= heroicon "user-circle", class:"h-3/4 w-3/4 text-white/80" %>
+              </div>
+            <% elsif is_qr?(element_type) %>
               <div class="w-full h-full bg-white/60 pointer-events-none flex items-center justify-center font-bold text-blue-700"> <%= heroicon "qr-code", class:"h-full w-full text-black" %></div>
             <% else %>
               <p class="pointer-events-none m-0 p-0 leading-tight whitespace-pre-wrap <%= 'break-all' unless element_type.to_s == 'mnemonic_text' %>"><%= preview_text(element_type) %></p>

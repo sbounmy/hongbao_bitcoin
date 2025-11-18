@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_02_141943) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_18_032042) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -117,7 +117,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_141943) do
   create_table "inputs", force: :cascade do |t|
     t.string "name"
     t.string "type"
-    t.string "prompt"
+    t.text "prompt"
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -279,6 +279,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_02_141943) do
     t.datetime "imported_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "price_updated_at", default: {}
     t.index ["date"], name: "index_spots_on_date", unique: true
   end
 

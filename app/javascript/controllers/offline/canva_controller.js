@@ -77,15 +77,27 @@ export default class extends Controller {
     Object.keys(elements).forEach(name => {
       const element = elements[name]
       const canvaItem = document.createElement('div')
+      const isQrCode = name.endsWith('_qrcode')
+      const isMnemonic = name.startsWith('mnemonic')
+
       canvaItem.dataset.controller = 'canva-item'
       canvaItem.dataset.canvaItemXValue = element.x
       canvaItem.dataset.canvaItemYValue = element.y
       canvaItem.dataset.canvaItemTextValue = element.text
       canvaItem.dataset.canvaItemNameValue = this.camelize(name)
-      canvaItem.dataset.canvaItemTypeValue = name.endsWith('_qrcode') ? 'image' : (name.startsWith('mnemonic') ? 'mnemonic' : 'text')
-      canvaItem.dataset.canvaItemFontSizeValue = element.size
+      canvaItem.dataset.canvaItemTypeValue = isQrCode ? 'image' : (isMnemonic ? 'mnemonic' : 'text')
+
+      // New unified properties: width and height for all elements
+      canvaItem.dataset.canvaItemWidthValue = element.width
+      canvaItem.dataset.canvaItemHeightValue = element.height
+
+      // For text elements, size is the font size
+      // For QR codes, size property shouldn't exist (using width/height instead)
+      if (!isQrCode) {
+        canvaItem.dataset.canvaItemFontSizeValue = element.size
+      }
+
       canvaItem.dataset.canvaItemFontColorValue = element.color
-      canvaItem.dataset.canvaItemMaxTextWidthValue = element.maxTextWidth
       canvaItem.classList.add('canva-item')
       canvaItem.classList.add('generated')
       canvaItem.dataset.canvaTarget = 'canvaItem'

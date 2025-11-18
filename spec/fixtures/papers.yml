@@ -13,44 +13,48 @@ dollar:
       "private_key_qrcode": {
         "x": 82,
         "y": 28.5,
-        "size": 0.09,
-        "color": "#000000",
-        "max_text_width": 0
+        "width": 9,
+        "height": 18,
+        "color": "#000000"
       },
       "private_key_text": {
         "x": 81.5,
         "y": 50,
-        "size": 8,
-        "color": "#000000",
-        "max_text_width": 10
+        "width": 10,
+        "height": 10,
+        "size": 1.8,
+        "color": "#000000"
       },
       "public_address_qrcode": {
         "x": 82,
         "y": 50,
-        "size": 0.09,
-        "color": "",
-        "max_text_width": 0
+        "width": 9,
+        "height": 18,
+        "color": ""
       },
       "public_address_text": {
         "x": 81,
         "y": 70,
-        "size": 8,
-        "color": "#000000",
-        "max_text_width": 12
+        "width": 12,
+        "height": 10,
+        "size": 1.8,
+        "color": "#000000"
       },
       "mnemonic_text": {
         "x": 17,
         "y": 77,
-        "size": 12,
-        "color": "#000000",
-        "max_text_width": 360
+        "width": 360,
+        "height": 15,
+        "size": 1.6,
+        "color": "#000000"
       },
       "custom_text": {
         "x": 0,
         "y": 0,
+        "width": 0,
+        "height": 0,
         "size": 0,
-        "color": "",
-        "max_text_width": 0
+        "color": ""
       }
     }
   input_ids:

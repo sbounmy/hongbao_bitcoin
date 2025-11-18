@@ -8,9 +8,10 @@ export default class extends Controller {
     name: String,
     type: { type: String, default: 'text' },
     imageUrl: String,
-    fontSize: { type: Number, default: 1 },
+    width: { type: Number, default: 30 },      // Percentage of canvas width
+    height: { type: Number, default: 30 },     // Percentage of canvas height
+    fontSize: { type: Number, default: 1 },    // Font size for text elements
     fontColor: { type: String, default: 'black' },
-    maxTextWidth: { type: Number, default: 30 },
     hidden: { type: Boolean, default: false }
   }
 
@@ -28,14 +29,16 @@ export default class extends Controller {
 
     const x = this.canvaController.originalWidth * (this.xValue / 100)
     const y = this.canvaController.originalHeight * (this.yValue / 100)
-    const maxWidthPx = this.canvaController.originalWidth * (this.maxTextWidthValue / 100);
 
     if (this.typeValue === 'text' || this.typeValue === 'mnemonic') {
-      const fontCorrectionFactor = 0.95;
-      // Font size is now a percentage of the canvas width.
-      const fontSizePx = (this.fontSizeValue / 100) * this.canvaController.originalWidth;
-      const scaledFontSize = fontSizePx / fontCorrectionFactor;
-      const lineHeight = scaledFontSize * 1.25;
+      // Width is the max text width in percentage of canvas width
+      const maxWidthPx = this.canvaController.originalWidth * (this.widthValue / 100)
+
+      // Font size is now a percentage of the canvas width
+      const fontCorrectionFactor = 0.95
+      const fontSizePx = (this.fontSizeValue / 100) * this.canvaController.originalWidth
+      const scaledFontSize = fontSizePx / fontCorrectionFactor
+      const lineHeight = scaledFontSize * 1.25
 
       this.ctx.font = `${scaledFontSize}px Arial`
       this.ctx.fillStyle = this.fontColorValue
@@ -47,13 +50,11 @@ export default class extends Controller {
       }
 
     } else if (this.typeValue === 'image') {
-      let imageSize
-      if (this.fontSizeValue > 1) {
-        imageSize = (this.fontSizeValue / 100) * this.canvaController.originalWidth
-      } else {
-        imageSize = this.fontSizeValue * this.canvaController.originalWidth
-      }
-      this.ctx.drawImage(this.imageUrl, x, y, imageSize, imageSize)
+      // For QR codes: always draw as perfect squares
+      // Use width percentage to calculate size relative to canvas width
+      const size = this.canvaController.originalWidth * (this.widthValue / 100)
+      // Draw the QR code as a square
+      this.ctx.drawImage(this.imageUrl, x, y, size, size)
     }
   }
 

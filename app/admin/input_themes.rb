@@ -223,53 +223,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         },
         selected: f.object.ai.dig("portrait", "resolution") || "1024x1024"
 
-      f.input :portrait_x,
-        label: "Portrait X Position (%)",
-        hint: "Percentage from left edge (0-100)",
-        input_html: {
-          value: f.object.ai.dig("portrait", "x") || 34,
-          name: "input_theme[ai][portrait][x]",
-          type: "number",
-          min: 0,
-          max: 100,
-          step: 0.1
-        }
-
-      f.input :portrait_y,
-        label: "Portrait Y Position (%)",
-        hint: "Percentage from top edge (0-100)",
-        input_html: {
-          value: f.object.ai.dig("portrait", "y") || 8,
-          name: "input_theme[ai][portrait][y]",
-          type: "number",
-          min: 0,
-          max: 100,
-          step: 0.1
-        }
-
-      f.input :portrait_width,
-        label: "Portrait Width (%)",
-        hint: "Percentage of template width (0-100)",
-        input_html: {
-          value: f.object.ai.dig("portrait", "width") || 18,
-          name: "input_theme[ai][portrait][width]",
-          type: "number",
-          min: 0,
-          max: 100,
-          step: 0.1
-        }
-
-      f.input :portrait_height,
-        label: "Portrait Height (%)",
-        hint: "Percentage of template height (0-100)",
-        input_html: {
-          value: f.object.ai.dig("portrait", "height") || 23,
-          name: "input_theme[ai][portrait][height]",
-          type: "number",
-          min: 0,
-          max: 100,
-          step: 0.1
-        }
     end
 
     # Define hints based on property descriptions

@@ -40,7 +40,7 @@ class Paper < ApplicationRecord
     custom_text
   ].freeze
 
-  ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
+  ELEMENT_ATTRIBUTES = %i[x y width height color].freeze
 
   # Elements are stored in elements column, not metadata
   store :elements, accessors: ELEMENTS, prefix: true
