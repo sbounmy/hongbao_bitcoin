@@ -98,6 +98,20 @@ ActiveAdmin.register Paper do
         end
       end
 
+      row :image_portrait do |paper|
+        if paper.image_portrait.attached?
+          image_tag url_for(paper.image_portrait), width: 500
+        end
+      end
+
+      # Display Input::Image (original)
+      row :input_image_original do |paper|
+        image_input = paper.input_items.find { |item| item.input.type == "Input::Image" }
+        if image_input&.image&.attached?
+          image_tag url_for(image_input.image), width: 500
+        end
+      end
+
       # Display JSONB elements
       Paper::ELEMENTS.each do |element|
         panel element.titleize do
@@ -236,4 +250,5 @@ ActiveAdmin.register Paper do
     #   redirect_to admin_paper_path(paper), alert: "Failed to recomposite: #{e.message}"
     end
   end
+
 end

@@ -37,16 +37,26 @@ module Papers
         Vips::Image.new_from_file(portrait_path)
       end
 
-      # Smart crop portrait to target dimensions
-      prepared_portrait = portrait_image.thumbnail_image(portrait_width,
-        height: portrait_height,
-        crop: :attention  # Focuses on faces and interesting areas
-      )
+      # Scale portrait to fit within bounding box (no crop, AI already framed it)
+      # Calculate scale to fit within box while maintaining aspect ratio
+      scale_x = portrait_width.to_f / portrait_image.width
+      scale_y = portrait_height.to_f / portrait_image.height
+      scale = [scale_x, scale_y].min  # Use smaller scale to fit within box
+
+      prepared_portrait = portrait_image.resize(scale)
+
+      Rails.logger.info "[Papers::Composition] Scaled portrait: #{prepared_portrait.width}x#{prepared_portrait.height}"
+
+      # Position portrait at bottom of bounding box, centered horizontally
+      final_x = portrait_x + ((portrait_width - prepared_portrait.width) / 2).round
+      final_y = portrait_y + (portrait_height - prepared_portrait.height)  # Bottom aligned
+
+      Rails.logger.info "[Papers::Composition] Final position: (#{final_x}, #{final_y})"
 
       # Composite portrait onto template
       result = template_image.composite(prepared_portrait, :over,
-        x: portrait_x,
-        y: portrait_y
+        x: final_x,
+        y: final_y
       )
 
       # Convert to JPEG buffer with high quality
