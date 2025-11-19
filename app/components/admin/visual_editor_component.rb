@@ -85,6 +85,7 @@ module Admin
         when 'x', 'y' then 30
         when 'width', 'height' then 20
         when 'color' then '0, 0, 0'
+        when 'opacity' then 1.0
         when 'resolution' then '1024x1024'
         else ''
         end

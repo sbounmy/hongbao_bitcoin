@@ -4,15 +4,17 @@ export default class extends Controller {
   static targets = [
     "canvas", "element", "frontImage", "backImage", "frontTab", "backTab",
     "propertiesPanel", "panelTitle", "panelColorInput",
-    "panelColorContainer", "panelWidthContainer", "panelHeightContainer", "panelSizeContainer", "panelWidthLabel",
+    "panelColorContainer", "panelOpacityContainer", "panelWidthContainer", "panelHeightContainer", "panelSizeContainer", "panelWidthLabel",
     "panelHandle", "panelPreviewTextContainer", "panelPreviewTextInput",
-    "panelXInput", "panelYInput", "panelWidthInput", "panelHeightInput", "panelSizeInput",
-    "panelXValueInput", "panelYValueInput", "panelWidthValueInput", "panelHeightValueInput", "panelSizeValueInput",
+    "panelXInput", "panelYInput", "panelWidthInput", "panelHeightInput", "panelSizeInput", "panelOpacityInput",
+    "panelXValueInput", "panelYValueInput", "panelWidthValueInput", "panelHeightValueInput", "panelSizeValueInput", "panelOpacityValueInput",
     "hiddenInput"
   ]
 
   static values = {
-    inputBaseName: String
+    inputBaseName: String,
+    elementTypes: Object,
+    elementTypeMap: Object
   }
 
   connect() {
@@ -50,12 +52,15 @@ export default class extends Controller {
   setupElement(element) {
     const xInput = this.findInputForElement(element, 'x');
     const yInput = this.findInputForElement(element, 'y');
+    const opacityInput = this.findInputForElement(element, 'opacity');
 
     let x = parseFloat(xInput.value || 0);
     let y = parseFloat(yInput.value || 0);
+    let opacity = opacityInput ? parseFloat(opacityInput.value) : 1.0;
 
     element.style.left = `${x}%`;
     element.style.top = `${y}%`;
+    element.style.opacity = opacity;
 
     element.dataset.x = x;
     element.dataset.y = y;
@@ -320,8 +325,10 @@ export default class extends Controller {
     if (!this.selectedElement) return;
 
     const elementType = this.selectedElement.dataset.elementType;
-    const elType = this.getElementType(this.selectedElement);
-    const isShape = elType === 'shape';
+    const elementTypeCategory = this.getElementType(this.selectedElement);
+
+    // Get properties configuration for this element type
+    const availableProperties = this.elementTypesValue[elementTypeCategory]?.properties || [];
 
     this.panelTitleTarget.textContent = elementType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
@@ -339,27 +346,45 @@ export default class extends Controller {
     this.panelWidthInputTarget.value = width;
     this.panelWidthValueInputTarget.value = parseFloat(width).toFixed(1);
 
-    // Optional properties
-    const colorInput = this.findInputForElement(this.selectedElement, 'color');
-    if (colorInput?.value) {
-      this.panelColorInputTarget.value = colorInput.value;
-    }
+    // Show/hide property fields based on element configuration
+    const hasColor = availableProperties.includes('color');
+    const hasOpacity = availableProperties.includes('opacity');
+    const hasHeight = availableProperties.includes('height');
+    const hasSize = availableProperties.includes('size');
 
-    const heightInput = this.findInputForElement(this.selectedElement, 'height');
-    if (isShape && heightInput?.value) {
-      this.panelHeightInputTarget.value = heightInput.value;
-      this.panelHeightValueInputTarget.value = parseFloat(heightInput.value).toFixed(1);
-    }
-
-    if (!isShape) {
-      const textElement = this.selectedElement.querySelector('p');
-      if (textElement) {
-        this.panelPreviewTextInputTarget.value = textElement.textContent || '';
+    // Color
+    this.panelColorContainerTarget.classList.toggle('hidden', !hasColor);
+    if (hasColor) {
+      const colorInput = this.findInputForElement(this.selectedElement, 'color');
+      if (colorInput?.value) {
+        this.panelColorInputTarget.value = colorInput.value;
       }
     }
 
-    // Handle size property for text elements
-    if (!isShape) {
+    // Opacity
+    this.panelOpacityContainerTarget.classList.toggle('hidden', !hasOpacity);
+    console.log('has:...', hasOpacity)
+    if (hasOpacity) {
+      const opacityInput = this.findInputForElement(this.selectedElement, 'opacity');
+      if (opacityInput?.value) {
+        console.log('opacity:', opacityInput)
+        this.panelOpacityInputTarget.value = opacityInput.value;
+        this.panelOpacityValueInputTarget.value = parseFloat(opacityInput.value).toFixed(2);
+      }
+    }
+
+    // Height
+    if (hasHeight) {
+      const heightInput = this.findInputForElement(this.selectedElement, 'height');
+      if (heightInput?.value) {
+        this.panelHeightInputTarget.value = heightInput.value;
+        this.panelHeightValueInputTarget.value = parseFloat(heightInput.value).toFixed(1);
+      }
+    }
+
+    // Size (font size for text)
+    this.panelSizeContainerTarget.classList.toggle('hidden', !hasSize);
+    if (hasSize) {
       const sizeInput = this.findInputForElement(this.selectedElement, 'size');
       if (sizeInput?.value) {
         this.panelSizeInputTarget.value = sizeInput.value;
@@ -367,13 +392,17 @@ export default class extends Controller {
       }
     }
 
-    // Show/hide relevant containers based on element type
-    this.panelColorContainerTarget.classList.toggle('hidden', isShape);
-    this.panelSizeContainerTarget.classList.toggle('hidden', isShape);  // Size only for text
-    this.panelPreviewTextContainerTarget.classList.toggle('hidden', isShape);
+    // Preview text - only show for text elements (elements that have 'size' property)
+    this.panelPreviewTextContainerTarget.classList.toggle('hidden', !hasSize);
+    if (hasSize) {
+      const textElement = this.selectedElement.querySelector('p');
+      if (textElement) {
+        this.panelPreviewTextInputTarget.value = textElement.textContent || '';
+      }
+    }
 
     // Update labels based on element type
-    this.panelWidthLabelTarget.textContent = isShape ? "Width (%)" : "Max Width (%)";
+    this.panelWidthLabelTarget.textContent = hasSize ? "Max Width (%)" : "Width (%)";
   }
 
   updateFromPanel(event) {
@@ -407,6 +436,11 @@ export default class extends Controller {
         break;
       case 'color':
         this.selectedElement.style.color = value;
+        break;
+      case 'opacity':
+        this.selectedElement.style.opacity = value;
+        this.panelOpacityInputTarget.value = value;
+        this.panelOpacityValueInputTarget.value = parseFloat(value).toFixed(2);
         break;
       case 'width':
         this.setElementSize(this.selectedElement);

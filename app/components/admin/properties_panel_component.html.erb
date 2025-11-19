@@ -38,6 +38,17 @@
       <%= color_field_tag nil, nil, data: { visual_editor_target: "panelColorInput", action: "input->visual-editor#updateFromPanel", property: "color" }, class: "input input-bordered w-full" %>
     </div>
 
+    <%# Opacity Input %>
+    <div data-visual-editor-target="panelOpacityContainer" class="form-control">
+      <%= label_tag nil do %>
+        <span class="label-text">Opacity</span>
+      <%end%>
+      <div class="flex items-center space-x-2">
+        <%= range_field_tag nil, nil, min: 0, max: 1, step: 0.05, data: { visual_editor_target: "panelOpacityInput", action: "input->visual-editor#updateFromPanel", property: "opacity" }, class: "range range-primary flex-grow" %>
+        <%= number_field_tag nil, nil, min: 0, max: 1, step: 0.05, data: { visual_editor_target: "panelOpacityValueInput", action: "change->visual-editor#updateFromPanel keydown->visual-editor#preventSubmitOnEnter", property: "opacity" }, class: "input input-bordered w-14 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" %>
+      </div>
+    </div>
+
     <%# Width Input %>
     <div class="form-control">
       <%= label_tag nil do %>
