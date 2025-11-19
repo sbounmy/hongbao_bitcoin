@@ -52,17 +52,17 @@ class Input::Theme < Input
     "size",
     "color",
     "opacity",
-    "resolution",
+    "resolution"
   ].freeze
 
   # Element type definitions for visual editor
   ELEMENT_TYPES = {
     "shape" => {
-      properties: ["x", "y", "width", "height", "color", "opacity"],
+      properties: [ "x", "y", "width", "height", "color", "opacity" ],
       uses_size: false
     },
     "text" => {
-      properties: ["x", "y", "width", "height", "size", "color", "opacity"],
+      properties: [ "x", "y", "width", "height", "size", "color", "opacity" ],
       uses_size: true
     }
   }.freeze
@@ -145,7 +145,7 @@ class Input::Theme < Input
         "height" => 23,         # percentage of template height
         "color" => "",          # Tone color (hex) - empty means no tint
         "opacity" => 0.25,      # Tone opacity (0.0 - 1.0)
-        "resolution" => "1024x1024",  # AI generation size: 1024x1024, 1536x1024, 1024x1536
+        "resolution" => "1024x1024"  # AI generation size: 1024x1024, 1536x1024, 1024x1536
       }
     }
   end

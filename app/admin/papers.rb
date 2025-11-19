@@ -245,10 +245,9 @@ ActiveAdmin.register Paper do
       )
 
       redirect_to admin_paper_path(paper), notice: "Front image successfully recomposited!"
-    # rescue => e
-    #   Rails.logger.error "[Admin] Recomposite failed: #{e.message}"
-    #   redirect_to admin_paper_path(paper), alert: "Failed to recomposite: #{e.message}"
+      # rescue => e
+      #   Rails.logger.error "[Admin] Recomposite failed: #{e.message}"
+      #   redirect_to admin_paper_path(paper), alert: "Failed to recomposite: #{e.message}"
     end
   end
-
 end

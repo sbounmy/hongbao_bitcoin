@@ -23,7 +23,7 @@ module Papers
         model: "gpt-image-1",
         with: { image: portrait_path },
         options: {
-          background: 'transparent',
+          background: "transparent",
           size: @resolution,
           quality: @quality
         }

@@ -27,7 +27,7 @@ class ProcessPaperJob < ApplicationJob
     portrait_resolution = portrait_config["resolution"] || "1024x1024"
 
     # Combine base framing prompt with style prompt
-    full_prompt = [base_config.prompt, prompts.flatten].compact_blank.join(". ")
+    full_prompt = [ base_config.prompt, prompts.flatten ].compact_blank.join(". ")
 
     Rails.logger.info "[ProcessPaperJob] Using prompt: #{full_prompt}"
 

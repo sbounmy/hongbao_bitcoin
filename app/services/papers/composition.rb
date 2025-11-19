@@ -41,7 +41,7 @@ module Papers
       # Calculate scale to fit within box while maintaining aspect ratio
       scale_x = portrait_width.to_f / portrait_image.width
       scale_y = portrait_height.to_f / portrait_image.height
-      scale = [scale_x, scale_y].min  # Use smaller scale to fit within box
+      scale = [ scale_x, scale_y ].min  # Use smaller scale to fit within box
 
       prepared_portrait = portrait_image.resize(scale)
 

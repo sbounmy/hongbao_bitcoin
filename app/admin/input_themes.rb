@@ -214,15 +214,14 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         hint: "Size for AI portrait generation (affects quality and aspect ratio)",
         as: :select,
         collection: [
-          ["1024x1024 (Square)", "1024x1024"],
-          ["1536x1024 (Landscape)", "1536x1024"],
-          ["1024x1536 (Portrait)", "1024x1536"]
+          [ "1024x1024 (Square)", "1024x1024" ],
+          [ "1536x1024 (Landscape)", "1536x1024" ],
+          [ "1024x1536 (Portrait)", "1024x1536" ]
         ],
         input_html: {
           name: "input_theme[ai][portrait][resolution]"
         },
         selected: f.object.ai.dig("portrait", "resolution") || "1024x1024"
-
     end
 
     # Define hints based on property descriptions
