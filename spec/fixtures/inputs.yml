@@ -12,39 +12,67 @@ tunisian_dinar:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 dollar:
   id: 1
   name: "Dollar"
@@ -69,39 +97,67 @@ dollar:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 euro:
   id: 2
   name: "Euro"
@@ -114,39 +170,67 @@ euro:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 monoboly:
   id: 3
   name: "Monoboly"
@@ -159,39 +243,67 @@ monoboly:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 rouble:
   id: 4
   name: "Rouble"
@@ -204,39 +316,67 @@ rouble:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 chinese_yuan:
   id: 5
   name: "Chinese Yuan"
@@ -249,39 +389,67 @@ chinese_yuan:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 indonesian_rupiah:
   id: 14
   name: "Rupiah"
@@ -294,39 +462,67 @@ indonesian_rupiah:
       private_key_qrcode: 
         x: "10"
         y: "37"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: "#000000"
-        max_text_width: ""
       private_key_text: 
         x: "9"
         y: "57"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       public_address_qrcode: 
         x: "22"
         y: "24"
-        size: "9"
+
+        width: "9.0"
+
+        height: "18.0"
+
         color: ""
-        max_text_width: ""
       public_address_text: 
         x: "21"
         y: "55"
-        size: "8"
+
+        width: ""
+
+        height: "10"
+
+        size: "1.8"
+
         color: "#000000"
-        max_text_width: "12"
       mnemonic_text: 
         x: "5"
         y: "50"
-        size: "13"
+
+        width: ""
+
+        height: "15"
+
+        size: "1.6"
+
         color: "#000000"
-        max_text_width: "400"
       custom_text: 
+
         x: ""
+
         y: ""
+
+        width: ""
+
+        height: ""
+
         size: ""
+
         color: ""
-        max_text_width: ""
 ghibli:
   id: 6
   position: 0

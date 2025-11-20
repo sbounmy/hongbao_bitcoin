@@ -14,13 +14,15 @@ module Admin
     delegate :image_back, :image_front, to: :object
 
     def elements_by_view
-      common = common_elements
       if object.is_a?(Input::Theme)
+        # For themes, include all AI element types (including portrait)
         {
-          "front" => [ "public_address_qrcode", "public_address_text" ] & common,
-          "back" => [ "private_key_qrcode", "private_key_text", "mnemonic_text" ] & common
+          "front" => [ "portrait", "public_address_qrcode", "public_address_text" ],
+          "back" => [ "private_key_qrcode", "private_key_text", "mnemonic_text" ]
         }
       elsif object.is_a?(Paper)
+        # For papers, only include elements that exist in both AI_ELEMENT_TYPES and Paper::ELEMENTS
+        common = common_elements
         {
           "front" => object.front_elements.keys.map(&:to_s) & common,
           "back" => object.back_elements.keys.map(&:to_s) & common
@@ -29,11 +31,19 @@ module Admin
     end
 
     def all_ai_element_types
-      common_elements
+      if object.is_a?(Input::Theme)
+        # For themes, include all AI element types (including portrait)
+        Input::Theme::AI_ELEMENT_TYPES
+      else
+        # For papers, only include common elements
+        common_elements
+      end
     end
 
     def all_ai_element_properties
-      Input::Theme::AI_ELEMENT_PROPERTIES & Paper::ELEMENT_ATTRIBUTES.map(&:to_s)
+      # Use all AI properties, not just intersection with Paper
+      # This ensures resolution and other theme-specific properties are included
+      Input::Theme::AI_ELEMENT_PROPERTIES
     end
 
     def element_color(element_type)
@@ -64,7 +74,24 @@ module Admin
     def hidden_input_value(element_type, property)
       source_hash = object.is_a?(Input::Theme) ? object.ai : object.elements
       default_hash = Input::Theme.default_ai_elements
-      source_hash&.dig(element_type, property.to_s) || default_hash.dig(element_type, property.to_s)
+
+      # First try to get from source, then from defaults, then provide a sensible fallback
+      value = source_hash&.dig(element_type, property.to_s) ||
+              default_hash.dig(element_type, property.to_s)
+
+      # If still nil, provide sensible defaults based on property
+      if value.nil?
+        case property.to_s
+        when "x", "y" then 30
+        when "width", "height" then 20
+        when "color" then "0, 0, 0"
+        when "opacity" then 1.0
+        when "resolution" then "1024x1024"
+        else ""
+        end
+      else
+        value
+      end
     end
 
     private

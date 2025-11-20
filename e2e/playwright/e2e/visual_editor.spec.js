@@ -90,9 +90,8 @@ test.describe('Visual Editor', () => {
       await expect(panel).toBeVisible();
 
       await expect(panel.locator('[data-visual-editor-target="panelTitle"]')).toHaveText('Public Address Qrcode');
-      await expect(panel.locator('[data-visual-editor-target="panelSizeContainer"]')).toBeVisible();
-      await expect(panel.locator('[data-visual-editor-target="panelColorContainer"]')).toBeHidden();
-      await expect(panel.locator('[data-visual-editor-target="panelMaxWidthContainer"]')).toBeHidden();
+      await expect(panel.locator('[data-visual-editor-target="panelHeightContainer"]')).toBeVisible();
+      await expect(panel.locator('[data-visual-editor-target="panelWidthContainer"]')).toBeVisible();
       await expect(panel.locator('[data-visual-editor-target="panelPreviewTextContainer"]')).toBeHidden();
     });
 

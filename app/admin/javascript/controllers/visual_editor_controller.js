@@ -4,15 +4,17 @@ export default class extends Controller {
   static targets = [
     "canvas", "element", "frontImage", "backImage", "frontTab", "backTab",
     "propertiesPanel", "panelTitle", "panelColorInput",
-    "panelColorContainer", "panelSizeContainer", "panelMaxWidthContainer", "panelSizeLabel",
+    "panelColorContainer", "panelOpacityContainer", "panelWidthContainer", "panelHeightContainer", "panelSizeContainer", "panelWidthLabel",
     "panelHandle", "panelPreviewTextContainer", "panelPreviewTextInput",
-    "panelXInput", "panelYInput", "panelSizeInput", "panelMaxWidthInput",
-    "panelXValueInput", "panelYValueInput", "panelSizeValueInput", "panelMaxWidthValueInput",
+    "panelXInput", "panelYInput", "panelWidthInput", "panelHeightInput", "panelSizeInput", "panelOpacityInput",
+    "panelXValueInput", "panelYValueInput", "panelWidthValueInput", "panelHeightValueInput", "panelSizeValueInput", "panelOpacityValueInput",
     "hiddenInput"
   ]
-  
+
   static values = {
-    inputBaseName: String
+    inputBaseName: String,
+    elementTypes: Object,
+    elementTypeMap: Object
   }
 
   connect() {
@@ -50,12 +52,15 @@ export default class extends Controller {
   setupElement(element) {
     const xInput = this.findInputForElement(element, 'x');
     const yInput = this.findInputForElement(element, 'y');
+    const opacityInput = this.findInputForElement(element, 'opacity');
 
     let x = parseFloat(xInput.value || 0);
     let y = parseFloat(yInput.value || 0);
+    let opacity = opacityInput ? parseFloat(opacityInput.value) : 1.0;
 
     element.style.left = `${x}%`;
     element.style.top = `${y}%`;
+    element.style.opacity = opacity;
 
     element.dataset.x = x;
     element.dataset.y = y;
@@ -120,16 +125,24 @@ export default class extends Controller {
     });
   }
 
-  
+
   initResizable(element) {
-    const isQr = this.isQrCode(element);
+    const elementName = element.dataset.elementType;
+
+    // Determine aspect ratio behavior from model configuration
+    // This would ideally come from server, but we'll mirror the Ruby constants
+    const aspectRatioConfig = this.getAspectRatioConfig(elementName);
+    const hasFixedRatio = typeof aspectRatioConfig === 'number';
+    const hasShiftKeyRatio = aspectRatioConfig === 'shift_key';
+
     window.Interact(element).resizable({
-      // Only allow vertical resizing for QR codes. Text elements can only be resized horizontally.
-      edges: { left: true, right: true, bottom: isQr, top: isQr },
+      // Shape elements can resize in all directions, text elements can resize in both
+      edges: { left: true, right: true, bottom: true, top: true },
       listeners: {
         move: event => {
           const target = event.target;
 
+          // Update position if element moved during resize
           let x = parseFloat(target.dataset.x) + (event.deltaRect.left * 100 / this.canvas.offsetWidth);
           let y = parseFloat(target.dataset.y) + (event.deltaRect.top * 100 / this.canvas.offsetHeight);
           target.style.left = `${x}%`;
@@ -139,48 +152,110 @@ export default class extends Controller {
           this.updateHiddenInput(target, 'x', x.toFixed(4));
           this.updateHiddenInput(target, 'y', y.toFixed(4));
 
-          if (this.isQrCode(target)) {
-            const widthPercent = event.rect.width * 100 / this.canvas.offsetWidth;
-            this.updateHiddenInput(target, 'size', widthPercent.toFixed(4));
-          } else {
-            const maxWidthInput = this.findInputForElement(target, 'max_text_width');
-            const widthPercent = (event.rect.width / this.canvas.offsetWidth) * 100;
-            this.updateHiddenInput(target, 'max_text_width', widthPercent.toFixed(4));
-          }
+          // Update width and height
+          const widthPercent = event.rect.width * 100 / this.canvas.offsetWidth;
+          const heightPercent = event.rect.height * 100 / this.canvas.offsetHeight;
+
+          this.updateHiddenInput(target, 'width', widthPercent.toFixed(4));
+          this.updateHiddenInput(target, 'height', heightPercent.toFixed(4));
+
           this.setElementSize(target);
           this.updatePanel(); // Refresh panel to show new values
         }
       },
       modifiers: [
         window.Interact.modifiers.restrictEdges({ outer: 'parent' }),
-        this.isQrCode(element) ? window.Interact.modifiers.aspectRatio({ ratio: 1 }) : null
+        // Aspect ratio modifier based on element configuration
+        hasFixedRatio ?
+          window.Interact.modifiers.aspectRatio({ ratio: aspectRatioConfig }) :
+          hasShiftKeyRatio ?
+            window.Interact.modifiers.aspectRatio({ ratio: 'preserve', enabled: false }) :
+            null
       ].filter(Boolean),
       inertia: false
     });
+
+    // Handle Shift key for portrait (shift_key mode)
+    if (hasShiftKeyRatio) {
+      element.addEventListener('mousedown', (e) => {
+        if (e.target !== element) return;
+
+        const updateModifiers = (shiftPressed) => {
+          const interaction = window.Interact(element);
+          const resizable = interaction.resizable();
+          if (resizable && resizable.options && resizable.options.modifiers) {
+            const aspectRatioModifier = resizable.options.modifiers.find(m => m.options && m.options.ratio);
+            if (aspectRatioModifier) {
+              aspectRatioModifier.options.enabled = shiftPressed;
+            }
+          }
+        };
+
+        const handleKeyChange = (e) => {
+          if (e.key === 'Shift') {
+            updateModifiers(e.type === 'keydown');
+          }
+        };
+
+        window.addEventListener('keydown', handleKeyChange);
+        window.addEventListener('keyup', handleKeyChange);
+
+        const cleanup = () => {
+          window.removeEventListener('keydown', handleKeyChange);
+          window.removeEventListener('keyup', handleKeyChange);
+          window.removeEventListener('mouseup', cleanup);
+        };
+        window.addEventListener('mouseup', cleanup);
+      });
+    }
+  }
+
+  // Get aspect ratio configuration for element (mirrors Ruby ELEMENT_ASPECT_RATIOS)
+  getAspectRatioConfig(elementName) {
+    const config = {
+      'private_key_qrcode': 1.0,
+      'public_address_qrcode': 1.0,
+      'portrait': 'shift_key',
+      'private_key_text': null,
+      'public_address_text': null,
+      'mnemonic_text': null
+    };
+    return config[elementName] || null;
   }
 
   setElementSize(element) {
-    const sizeInput = this.findInputForElement(element, 'size');
-    if (!sizeInput) return;
+    const widthInput = this.findInputForElement(element, 'width');
+    if (!widthInput) return;
 
-    const size = parseFloat(sizeInput.value || 10);
+    const widthPercent = parseFloat(widthInput.value || 10);
+    element.style.width = `${widthPercent}%`;
 
-    if (this.isQrCode(element)) {
-      element.style.width = `${size}%`;
-      const elementWidthPixels = this.canvas.offsetWidth * (size / 100);
-      element.style.height = `${elementWidthPixels}px`;
+    const elementType = this.getElementType(element);
+
+    if (elementType === 'shape') {
+      // Shape elements: width and height control dimensions
+      const heightInput = this.findInputForElement(element, 'height');
+      const heightPercent = parseFloat(heightInput?.value || widthPercent);
+
+      // Calculate height in pixels based on canvas height percentage
+      const heightPixels = this.canvas.offsetHeight * (heightPercent / 100);
+      element.style.height = `${heightPixels}px`;
     } else {
-      const maxWidthInput = this.findInputForElement(element, 'max_text_width');
-      const maxWidthPercent = parseFloat(maxWidthInput.value || 30);
-      element.style.width = `${maxWidthPercent}%`;
+      // Text elements: width + height create fixed bounding box, size controls font
+      const heightInput = this.findInputForElement(element, 'height');
+      const heightPercent = parseFloat(heightInput?.value || 10);
+      const heightPixels = this.canvas.offsetHeight * (heightPercent / 100);
+      element.style.height = `${heightPixels}px`;
 
-      // Font size is now a percentage of the canvas width, making it responsive.
-      const fontSizePx = (size / 100) * this.canvas.offsetWidth;
-      element.style.fontSize = `${fontSizePx}px`;
+      // Size property controls font size separately
+      const sizeInput = this.findInputForElement(element, 'size');
+      const sizePercent = parseFloat(sizeInput?.value || 14);
+      const fontSize = (sizePercent / 100) * this.canvas.offsetWidth;
+      element.style.fontSize = `${fontSize}px`;
 
-      element.style.height = 'auto';
-      const calculatedHeight = element.scrollHeight;
-      element.style.height = `${Math.max(calculatedHeight, fontSizePx)}px`;
+      // Text overflow handling
+      element.style.overflow = 'hidden';
+      element.style.textOverflow = 'ellipsis';
     }
   }
 
@@ -199,6 +274,22 @@ export default class extends Controller {
 
   isQrCode(element) {
     return element.dataset.elementType.includes('qrcode');
+  }
+
+  // Get element type (shape or text) based on element name
+  getElementType(element) {
+    const elementName = element.dataset.elementType;
+    // Shape elements: qrcodes and portrait (should maintain aspect ratio with Shift)
+    if (elementName.includes('qrcode') || elementName === 'portrait') {
+      return 'shape';
+    }
+    // Text elements: all text-based elements
+    return 'text';
+  }
+
+  // Check if element supports aspect ratio locking
+  supportsAspectRatio(element) {
+    return this.getElementType(element) === 'shape';
   }
 
   selectElement(event) {
@@ -234,16 +325,17 @@ export default class extends Controller {
     if (!this.selectedElement) return;
 
     const elementType = this.selectedElement.dataset.elementType;
-    const isQr = this.isQrCode(this.selectedElement);
+    const elementTypeCategory = this.getElementType(this.selectedElement);
+
+    // Get properties configuration for this element type
+    const availableProperties = this.elementTypesValue[elementTypeCategory]?.properties || [];
 
     this.panelTitleTarget.textContent = elementType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-    // Get values from hidden inputs
+    // Get values from hidden inputs (defaults provided by hidden_input_value helper)
     const x = this.findInputForElement(this.selectedElement, 'x').value;
     const y = this.findInputForElement(this.selectedElement, 'y').value;
-    const color = this.findInputForElement(this.selectedElement, 'color').value;
-    const size = this.findInputForElement(this.selectedElement, 'size').value;
-    const maxWidth = this.findInputForElement(this.selectedElement, 'max_text_width').value;
+    const width = this.findInputForElement(this.selectedElement, 'width').value;
 
     this.panelXInputTarget.value = x;
     this.panelXValueInputTarget.value = parseFloat(x).toFixed(1);
@@ -251,34 +343,66 @@ export default class extends Controller {
     this.panelYInputTarget.value = y;
     this.panelYValueInputTarget.value = parseFloat(y).toFixed(1);
 
-    this.panelColorInputTarget.value = color;
+    this.panelWidthInputTarget.value = width;
+    this.panelWidthValueInputTarget.value = parseFloat(width).toFixed(1);
 
-    this.panelSizeInputTarget.value = size;
-    this.panelSizeValueInputTarget.value = parseFloat(size).toFixed(isQr ? 1 : 2);
+    // Show/hide property fields based on element configuration
+    const hasColor = availableProperties.includes('color');
+    const hasOpacity = availableProperties.includes('opacity');
+    const hasHeight = availableProperties.includes('height');
+    const hasSize = availableProperties.includes('size');
 
-    this.panelMaxWidthInputTarget.value = maxWidth;
-    this.panelMaxWidthValueInputTarget.value = parseFloat(maxWidth).toFixed(1);
-
-    if (!isQr) {
-      this.panelPreviewTextInputTarget.value = this.selectedElement.querySelector('p').textContent;
+    // Color
+    this.panelColorContainerTarget.classList.toggle('hidden', !hasColor);
+    if (hasColor) {
+      const colorInput = this.findInputForElement(this.selectedElement, 'color');
+      if (colorInput?.value) {
+        this.panelColorInputTarget.value = colorInput.value;
+      }
     }
 
-    // Show/hide relevant containers
-    this.panelMaxWidthContainerTarget.classList.toggle('hidden', isQr);
-    this.panelColorContainerTarget.classList.toggle('hidden', isQr);
-    this.panelPreviewTextContainerTarget.classList.toggle('hidden', isQr);
-
-    if (isQr) {
-      this.panelSizeLabelTarget.textContent = "Size (%)";
-      this.panelSizeInputTarget.min = 1;
-      this.panelSizeInputTarget.max = 50;
-      this.panelSizeInputTarget.step = 0.01;
-    } else {
-      this.panelSizeLabelTarget.textContent = "Font Size (%)";
-      this.panelSizeInputTarget.min = 1;
-      this.panelSizeInputTarget.max = 10;
-      this.panelSizeInputTarget.step = 0.01;
+    // Opacity
+    this.panelOpacityContainerTarget.classList.toggle('hidden', !hasOpacity);
+    console.log('has:...', hasOpacity)
+    if (hasOpacity) {
+      const opacityInput = this.findInputForElement(this.selectedElement, 'opacity');
+      if (opacityInput?.value) {
+        console.log('opacity:', opacityInput)
+        this.panelOpacityInputTarget.value = opacityInput.value;
+        this.panelOpacityValueInputTarget.value = parseFloat(opacityInput.value).toFixed(2);
+      }
     }
+
+    // Height
+    if (hasHeight) {
+      const heightInput = this.findInputForElement(this.selectedElement, 'height');
+      if (heightInput?.value) {
+        this.panelHeightInputTarget.value = heightInput.value;
+        this.panelHeightValueInputTarget.value = parseFloat(heightInput.value).toFixed(1);
+      }
+    }
+
+    // Size (font size for text)
+    this.panelSizeContainerTarget.classList.toggle('hidden', !hasSize);
+    if (hasSize) {
+      const sizeInput = this.findInputForElement(this.selectedElement, 'size');
+      if (sizeInput?.value) {
+        this.panelSizeInputTarget.value = sizeInput.value;
+        this.panelSizeValueInputTarget.value = parseFloat(sizeInput.value).toFixed(1);
+      }
+    }
+
+    // Preview text - only show for text elements (elements that have 'size' property)
+    this.panelPreviewTextContainerTarget.classList.toggle('hidden', !hasSize);
+    if (hasSize) {
+      const textElement = this.selectedElement.querySelector('p');
+      if (textElement) {
+        this.panelPreviewTextInputTarget.value = textElement.textContent || '';
+      }
+    }
+
+    // Update labels based on element type
+    this.panelWidthLabelTarget.textContent = hasSize ? "Max Width (%)" : "Width (%)";
   }
 
   updateFromPanel(event) {
@@ -289,14 +413,8 @@ export default class extends Controller {
     const value = input.value;
 
     if (input.type === 'number' && (value.trim() === '' || isNaN(parseFloat(value)))) {
-      const lastValue = this.findInputForElement(this.selectedElement, property).value;
-      const isQr = this.isQrCode(this.selectedElement);
-
-      if (property === 'size') {
-        input.value = parseFloat(lastValue).toFixed(isQr ? 1 : 2);
-      } else {
-        input.value = parseFloat(lastValue).toFixed(1);
-      }
+      const lastValue = this.findInputForElement(this.selectedElement, property)?.value || '10';
+      input.value = parseFloat(lastValue).toFixed(1);
       return;
     }
 
@@ -319,20 +437,29 @@ export default class extends Controller {
       case 'color':
         this.selectedElement.style.color = value;
         break;
+      case 'opacity':
+        this.selectedElement.style.opacity = value;
+        this.panelOpacityInputTarget.value = value;
+        this.panelOpacityValueInputTarget.value = parseFloat(value).toFixed(2);
+        break;
+      case 'width':
+        this.setElementSize(this.selectedElement);
+        this.panelWidthInputTarget.value = value;
+        this.panelWidthValueInputTarget.value = parseFloat(value).toFixed(1);
+        break;
+      case 'height':
+        this.setElementSize(this.selectedElement);
+        this.panelHeightInputTarget.value = value;
+        this.panelHeightValueInputTarget.value = parseFloat(value).toFixed(1);
+        break;
       case 'size':
         this.setElementSize(this.selectedElement);
-        const isQr = this.isQrCode(this.selectedElement);
         this.panelSizeInputTarget.value = value;
-        this.panelSizeValueInputTarget.value = parseFloat(value).toFixed(isQr ? 1 : 2);
-        break;
-      case 'max_text_width':
-        this.setElementSize(this.selectedElement);
-        this.panelMaxWidthInputTarget.value = value;
-        this.panelMaxWidthValueInputTarget.value = parseFloat(value).toFixed(1);
+        this.panelSizeValueInputTarget.value = parseFloat(value).toFixed(1);
         break;
     }
   }
-  
+
   preventSubmitOnEnter(event) {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -367,8 +494,9 @@ export default class extends Controller {
       const propertiesToReset = {
         x: 30,
         y: 30,
-        size: 30,
-        max_text_width: 30
+        width: 30,
+        height: 30,
+        size: 14
       };
 
       for (const property in propertiesToReset) {
@@ -387,7 +515,7 @@ export default class extends Controller {
       this.updatePanel();
     }
   }
-  
+
   switchView(event) {
     event.preventDefault();
     const tab = event.currentTarget;

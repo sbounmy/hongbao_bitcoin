@@ -10,6 +10,7 @@ class Paper < ApplicationRecord
   has_one_attached :image_front
   has_one_attached :image_back
   has_one_attached :image_full
+  has_one_attached :image_portrait
 
   before_validation :set_default_elements
   after_create_commit :broadcast_prepend
@@ -39,7 +40,7 @@ class Paper < ApplicationRecord
     custom_text
   ].freeze
 
-  ELEMENT_ATTRIBUTES = %i[x y size color max_text_width].freeze
+  ELEMENT_ATTRIBUTES = %i[x y width height color].freeze
 
   # Elements are stored in elements column, not metadata
   store :elements, accessors: ELEMENTS, prefix: true

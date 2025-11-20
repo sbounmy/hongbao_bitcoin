@@ -24,44 +24,48 @@ RSpec.describe Input, type: :model do
           "private_key_qrcode" => {
             "x" => "10",
             "y" => "37",
-            "size" => "9",
-            "color" => "#000000",
-            "max_text_width" => ""
+            "width" => "9.0",
+            "height" => "18.0",
+            "color" => "#000000"
           },
           "private_key_text" => {
             "x" => "9",
             "y" => "57",
-            "size" => "8",
-            "color" => "#000000",
-            "max_text_width" => "12"
+            "width" => "",
+            "height" => "10",
+            "size" => "1.8",
+            "color" => "#000000"
           },
           "public_address_qrcode" => {
             "x" => "22",
             "y" => "24",
-            "size" => "9",
-            "color" => "",
-            "max_text_width" => ""
+            "width" => "9.0",
+            "height" => "18.0",
+            "color" => ""
           },
           "public_address_text" => {
             "x" => "21",
             "y" => "55",
-            "size" => "8",
-            "color" => "#000000",
-            "max_text_width" => "12"
+            "width" => "",
+            "height" => "10",
+            "size" => "1.8",
+            "color" => "#000000"
           },
           "mnemonic_text" => {
             "x" => "5",
             "y" => "50",
-            "size" => "13",
-            "color" => "#000000",
-            "max_text_width" => "400"
+            "width" => "",
+            "height" => "15",
+            "size" => "1.6",
+            "color" => "#000000"
           },
           "custom_text" => {
             "x" => "",
             "y" => "",
+            "width" => "",
+            "height" => "",
             "size" => "",
-            "color" => "",
-            "max_text_width" => ""
+            "color" => ""
           }
         }
       })
@@ -89,47 +93,51 @@ RSpec.describe Input, type: :model do
     it 'is accessible as ai' do
       expect(subject.ai).to include({
         "private_key_qrcode" => {
-          "x" => "10",
-          "y" => "37",
-          "size" => "9",
-          "color" => "#000000",
-          "max_text_width" => ""
-        },
+            "x" => "10",
+            "y" => "37",
+            "width" => "9.0",
+            "height" => "18.0",
+            "color" => "#000000"
+          },
         "private_key_text" => {
-          "x" => "9",
-          "y" => "57",
-          "size" => "8",
-          "color" => "#000000",
-          "max_text_width" => "12"
-        },
+            "x" => "9",
+            "y" => "57",
+            "width" => "",
+            "height" => "10",
+            "size" => "1.8",
+            "color" => "#000000"
+          },
         "public_address_qrcode" => {
-          "x" => "22",
-          "y" => "24",
-          "size" => "9",
-          "color" => "",
-          "max_text_width" => ""
-        },
+            "x" => "22",
+            "y" => "24",
+            "width" => "9.0",
+            "height" => "18.0",
+            "color" => ""
+          },
         "public_address_text" => {
-          "x" => "21",
-          "y" => "55",
-          "size" => "8",
-          "color" => "#000000",
-          "max_text_width" => "12"
-        },
+            "x" => "21",
+            "y" => "55",
+            "width" => "",
+            "height" => "10",
+            "size" => "1.8",
+            "color" => "#000000"
+          },
         "mnemonic_text" => {
-          "x" => "5",
-          "y" => "50",
-          "size" => "13",
-          "color" => "#000000",
-          "max_text_width" => "400"
-        },
+            "x" => "5",
+            "y" => "50",
+            "width" => "",
+            "height" => "15",
+            "size" => "1.6",
+            "color" => "#000000"
+          },
         "custom_text" => {
-          "x" => "",
-          "y" => "",
-          "size" => "",
-          "color" => "",
-          "max_text_width" => ""
-        }
+            "x" => "",
+            "y" => "",
+            "width" => "",
+            "height" => "",
+            "size" => "",
+            "color" => ""
+          }
       })
     end
 
@@ -164,9 +172,9 @@ RSpec.describe Input, type: :model do
         "private_key_qrcode" => {
           "x" => "0.13",
           "y" => "37",
-          "size" => "9",
-          "color" => "#000000",
-          "max_text_width" => ""
+          "width" => "9.0",
+          "height" => "18.0",
+          "color" => "#000000"
         }
       })
     end
