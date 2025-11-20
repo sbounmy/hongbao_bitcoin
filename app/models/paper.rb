@@ -38,6 +38,7 @@ class Paper < ApplicationRecord
     public_address_text
     mnemonic_text
     custom_text
+    portrait
   ].freeze
 
   ELEMENT_ATTRIBUTES = %i[x y width height color].freeze
