@@ -43,7 +43,10 @@ class PapersController < ApplicationController
     @paper = current_user.papers.find(params[:id])
     Papers::Update.call(paper: @paper, theme_id: params[:theme_id])
 
-    redirect_to edit_paper_path(@paper)
+    respond_to do |format|
+      format.turbo_stream { head :ok }  # Broadcasting handles the update
+      format.html { redirect_to edit_paper_path(@paper) }
+    end
   end
 
   def explore

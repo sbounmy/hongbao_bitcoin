@@ -86,6 +86,11 @@ class Paper < ApplicationRecord
     !image_front.attached?
   end
 
+  def broadcast_replace_preview
+    broadcast_replace_to self, target: "paper_#{id}_preview",
+                        renderable: Papers::PreviewComponent.new(paper: self)
+  end
+
   private
 
   def broadcast_prepend
@@ -94,6 +99,7 @@ class Paper < ApplicationRecord
 
   def broadcast_replace
     broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
+    broadcast_replace_preview
   end
 
   def set_default_elements
