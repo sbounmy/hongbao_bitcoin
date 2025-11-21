@@ -1,10 +1,10 @@
 <div class="relative group/card w-full">
 
   <label class="block cursor-pointer">
-    <%= form.fields_for :input_item_theme do |theme_form| %>
-      <%= theme_form.radio_button :input_id, radio.id, { 
-          checked: form.object.input_item_theme&.input_id == radio.id || @iteration.first?, 
-          class: "peer sr-only" 
+    <%= form.fields_for :input_item_style_attributes do |style_form| %>
+      <%= style_form.radio_button :input_id, radio.id, {
+          checked: form.object.input_item_style&.input_id == radio.id || @iteration.first?,
+          class: "peer sr-only"
       } %>
     <% end %>
 

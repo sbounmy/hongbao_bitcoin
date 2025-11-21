@@ -7,6 +7,16 @@ class Paper < ApplicationRecord
 
   belongs_to :user, optional: true
   belongs_to :bundle, optional: true
+
+  has_many :input_items, dependent: :destroy
+  has_many :inputs, through: :input_items, dependent: :destroy
+  has_one :input_item_theme, -> { joins(:input).where(inputs: { type: "Input::Theme" }) }, class_name: "InputItem", dependent: :destroy
+  has_one :input_item_style, -> { joins(:input).where(inputs: { type: "Input::Style" }) }, class_name: "InputItem", dependent: :destroy
+
+  accepts_nested_attributes_for :input_items, allow_destroy: true
+  accepts_nested_attributes_for :input_item_style, allow_destroy: true
+  accepts_nested_attributes_for :input_item_theme, allow_destroy: true
+
   has_one_attached :image_front
   has_one_attached :image_back
   has_one_attached :image_full
@@ -51,25 +61,13 @@ class Paper < ApplicationRecord
   metadata :costs, accessors: [ :input, :output, :total ], suffix: true
   metadata :tokens, accessors: [ :input, :output, :input_text, :input_image, :total ], suffix: true
 
-  def input_items
-    InputItem.where(id: input_item_ids)
-  end
-
-  def input_items=(input_items)
-    self.input_item_ids = input_items.map(&:id)
-    self.input_ids = input_items.map(&:input_id)
-  end
-
-  def inputs
-    Input.where(id: input_ids)
-  end
 
   def theme
-    inputs.find { |i| i.is_a?(Input::Theme) }
+    input_item_theme&.input
   end
 
   def style
-    inputs.find { |i| i.is_a?(Input::Style) }
+    input_item_style&.input
   end
 
   def event
@@ -84,6 +82,10 @@ class Paper < ApplicationRecord
     elements.slice("private_key_qrcode", "private_key_text", "mnemonic_text", "custom_text")
   end
 
+  def processing?
+    !image_front.attached?
+  end
+
   private
 
   def broadcast_prepend
@@ -96,6 +98,6 @@ class Paper < ApplicationRecord
 
   def set_default_elements
     return if elements.present?
-    self.elements = bundle&.theme&.ai || Input::Theme.default_ai_elements
+    self.elements = theme&.ai || Input::Theme.default_ai_elements
   end
 end

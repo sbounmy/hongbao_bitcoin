@@ -1,0 +1,53 @@
+<!-- Instagram-style mobile header -->
+<div class="sticky top-0 z-50 bg-base-100 border-b border-base-300 md:hidden">
+  <div class="flex items-center justify-between h-14 px-4">
+    <!-- Left: Back button -->
+    <div class="flex-shrink-0">
+      <% if back_path %>
+        <%= link_to back_path, class: "inline-flex items-center justify-center w-10 h-10 -ml-2" do %>
+          <%= heroicon "arrow-left", class: "w-6 h-6" %>
+        <% end %>
+      <% else %>
+        <div class="w-10"></div>
+      <% end %>
+    </div>
+
+    <!-- Center: Title -->
+    <div class="flex-1 text-center">
+      <h1 class="text-lg font-semibold truncate px-4"><%= title %></h1>
+    </div>
+
+    <!-- Right: Actions -->
+    <div class="flex-shrink-0">
+      <% if actions.any? %>
+        <div class="flex items-center gap-2">
+          <% actions.each do |action| %>
+            <% if action[:type] == :link %>
+              <%= link_to action[:path], class: "inline-flex items-center justify-center w-10 h-10 -mr-2", **action.fetch(:options, {}) do %>
+                <%= heroicon action[:icon], class: "w-6 h-6" %>
+              <% end %>
+            <% elsif action[:type] == :button %>
+              <%= button_to action[:path], class: "inline-flex items-center justify-center w-10 h-10 -mr-2", **action.fetch(:options, {}) do %>
+                <%= heroicon action[:icon], class: "w-6 h-6" %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="w-10"></div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Desktop fallback: Standard back link -->
+<div class="hidden md:block">
+  <% if back_path %>
+    <div class="absolute top-4 left-4 z-10">
+      <%= link_to back_path, class: "btn btn-ghost btn-sm gap-2" do %>
+        <%= heroicon "arrow-left", class: "w-4 h-4" %>
+        Back
+      <% end %>
+    </div>
+  <% end %>
+</div>

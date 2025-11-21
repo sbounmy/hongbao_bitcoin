@@ -1,7 +1,8 @@
-# Join table to connect Bundle and Inputs
+# Join table to connect Bundle/Paper and Inputs
 class InputItem < ApplicationRecord
   belongs_to :input
-  belongs_to :bundle
+  belongs_to :bundle, optional: true
+  belongs_to :paper, optional: true
   has_one_attached :image # only for input type Image (User uploaded image)
 
   # Example : For Marvel, user can have to specify "Spiderman in purple"

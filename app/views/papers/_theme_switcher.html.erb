@@ -1,0 +1,56 @@
+<!-- Mobile: Horizontal scroll -->
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 md:hidden scrollbar-hide">
+  <% Input::Theme.all.each do |theme| %>
+    <% is_current = paper.theme == theme %>
+
+    <%= button_to paper_path(paper),
+        method: :patch,
+        params: { theme_id: theme.id },
+        data: { turbo_frame: dom_id(paper) },
+        class: "snap-center flex-shrink-0 group" do %>
+
+      <div class="flex flex-col items-center gap-1">
+        <% if theme.image_hero.attached? %>
+          <%= image_tag theme.image_hero,
+              class: "w-20 h-20 rounded-lg object-cover transition-all group-hover:scale-105
+                     #{is_current ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-base-300'}" %>
+        <% else %>
+          <div class="w-20 h-20 rounded-lg bg-base-200 flex items-center justify-center
+                      #{is_current ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-base-300'}">
+            <span class="text-xs text-base-content/50"><%= theme.name %></span>
+          </div>
+        <% end %>
+        <span class="text-xs text-base-content/70"><%= theme.name %></span>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Desktop: Grid -->
+<div class="hidden md:grid md:grid-cols-2 gap-3">
+  <% Input::Theme.all.each do |theme| %>
+    <% is_current = paper.theme == theme %>
+
+    <%= button_to paper_path(paper),
+        method: :patch,
+        params: { theme_id: theme.id },
+        data: { turbo_frame: dom_id(paper) },
+        class: "group" do %>
+
+      <div class="flex flex-col items-center gap-2 p-2 rounded-lg
+                  hover:bg-base-200 transition-colors">
+        <% if theme.image_hero.attached? %>
+          <%= image_tag theme.image_hero,
+              class: "w-full aspect-[3/4] object-cover rounded-lg
+                     #{is_current ? 'ring-2 ring-primary' : ''}" %>
+        <% else %>
+          <div class="w-full aspect-[3/4] rounded-lg bg-base-200 flex items-center justify-center
+                      #{is_current ? 'ring-2 ring-primary' : ''}">
+            <span class="text-sm text-base-content/50"><%= theme.name %></span>
+          </div>
+        <% end %>
+        <span class="text-sm font-medium"><%= theme.name %></span>
+      </div>
+    <% end %>
+  <% end %>
+</div>

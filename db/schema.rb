@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_18_032042) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_19_080924) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -106,12 +106,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_18_032042) do
 
   create_table "input_items", force: :cascade do |t|
     t.integer "input_id", null: false
-    t.integer "bundle_id", null: false
+    t.integer "bundle_id"
     t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "paper_id"
     t.index ["bundle_id"], name: "index_input_items_on_bundle_id"
     t.index ["input_id"], name: "index_input_items_on_input_id"
+    t.index ["paper_id"], name: "index_input_items_on_paper_id"
   end
 
   create_table "inputs", force: :cascade do |t|
@@ -356,6 +358,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_18_032042) do
   add_foreign_key "identities", "users"
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
+  add_foreign_key "input_items", "papers"
   add_foreign_key "line_items", "orders"
   add_foreign_key "option_values", "option_types"
   add_foreign_key "orders", "users"

@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show, :new ] do
+    resources :papers, only: [ :show, :new, :create, :edit, :update ] do
       get :explore, on: :collection
       post :like, on: :member
     end

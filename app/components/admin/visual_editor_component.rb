@@ -31,13 +31,7 @@ module Admin
     end
 
     def all_ai_element_types
-      if object.is_a?(Input::Theme)
-        # For themes, include all AI element types (including portrait)
-        Input::Theme::AI_ELEMENT_TYPES
-      else
-        # For papers, only include common elements
-        common_elements
-      end
+      common_elements
     end
 
     def all_ai_element_properties
@@ -82,12 +76,11 @@ module Admin
       # If still nil, provide sensible defaults based on property
       if value.nil?
         case property.to_s
-        when "x", "y" then 30
-        when "width", "height" then 20
-        when "color" then "0, 0, 0"
-        when "opacity" then 1.0
-        when "resolution" then "1024x1024"
-        else ""
+        when 'x', 'y' then 30
+        when 'width', 'height' then 20
+        when 'color' then '0, 0, 0'
+        when 'resolution' then '1024x1024'
+        else ''
         end
       else
         value
