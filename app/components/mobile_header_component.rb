@@ -1,11 +1,12 @@
 class MobileHeaderComponent < ApplicationComponent
-  def initialize(title:, back_path: nil, actions: [])
+  renders_many :actions, MobileHeader::ActionComponent
+
+  def initialize(title:, back_path: nil)
     @title = title
     @back_path = back_path
-    @actions = actions
   end
 
   private
 
-  attr_reader :title, :back_path, :actions
+  attr_reader :title, :back_path
 end

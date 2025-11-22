@@ -19,18 +19,10 @@
 
     <!-- Right: Actions -->
     <div class="flex-shrink-0">
-      <% if actions.any? %>
+      <% if actions? %>
         <div class="flex items-center gap-2">
           <% actions.each do |action| %>
-            <% if action[:type] == :link %>
-              <%= link_to action[:path], class: "inline-flex items-center justify-center w-10 h-10 -mr-2", **action.fetch(:options, {}) do %>
-                <%= heroicon action[:icon], class: "w-6 h-6" %>
-              <% end %>
-            <% elsif action[:type] == :button %>
-              <%= button_to action[:path], class: "inline-flex items-center justify-center w-10 h-10 -mr-2", **action.fetch(:options, {}) do %>
-                <%= heroicon action[:icon], class: "w-6 h-6" %>
-              <% end %>
-            <% end %>
+            <%= action %>
           <% end %>
         </div>
       <% else %>

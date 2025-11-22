@@ -1,0 +1,9 @@
+<% if button? %>
+  <%= button_to href, link_options.merge(method: method) do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= link_to href, link_options do %>
+    <%= content %>
+  <% end %>
+<% end %>
