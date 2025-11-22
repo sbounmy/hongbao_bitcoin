@@ -12,3 +12,8 @@ image:
   id: 3
   paper_id: 1 #dollar
   input_id: 12
+
+pizza_day_event:
+  id: 4
+  paper_id: 2
+  input_id: 15

@@ -33,7 +33,7 @@ class Paper < ApplicationRecord
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
 
-  scope :with_input, ->(input) { with_any_input_ids(input.id) }
+  scope :with_input, ->(input) { joins(:inputs).where(inputs: { id: input.id }) }
   scope :with_input_type, ->(type) { with_any_input_ids(Input.where(type: type).pluck(:id)) }
   scope :with_themes, -> { with_input_type("Input::Theme") }
   scope :with_events, -> { with_input_type("Input::Event") }
@@ -107,8 +107,7 @@ class Paper < ApplicationRecord
   end
 
   def set_name_from_inputs
-    Rails.logger.info "input ids : #{input_ids.inspect}"
-    return if input_ids_changed?
+    return if input_ids.empty? || !input_ids_changed?
     self.name = "#{style&.name} #{theme&.name}".strip
   end
 end
