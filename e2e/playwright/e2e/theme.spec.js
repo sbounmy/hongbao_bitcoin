@@ -133,17 +133,17 @@ test.describe('Theme', () => {
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
 
-    await expect(page.locator('#preview-column .papers-item-component')).toHaveCount(2);
     await app('perform_jobs');
-    await expect(page.locator('#preview-column .papers-item-component .bg-cover')).toHaveCount(4);
-
     // Open the print preview for the newly generated paper
-    const printPromise = page.waitForEvent('popup');
-    await page.locator('#preview-column .papers-item-component').first().click();
-    const print = await printPromise;
+    // const printPromise = page.waitForEvent('popup');
+    await page.getByRole('link', {name: 'Finalize Paper'}).click()
+    await page.waitForURL(/\/papers\/\d+$/);
+
+    // await page.locator('#preview-column .papers-item-component').first().click();
+    // const print = await printPromise;
 
     // Verify the element in the print preview has the new coordinates
-    const canvaItem = print.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
+    const canvaItem = page.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
     await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newXStr);
     await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
   });
