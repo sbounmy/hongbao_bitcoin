@@ -1,7 +1,7 @@
 module MobileHeader
   class ActionComponent < ApplicationComponent
-    def initialize(content:, href:, method: :get, **options)
-      @content = content
+    def initialize(icon:, href:, method: :get, **options)
+      @icon = icon
       @href = href
       @method = method
       @options = options
@@ -9,7 +9,7 @@ module MobileHeader
 
     private
 
-    attr_reader :content, :href, :method, :options
+    attr_reader :icon, :href, :method, :options
 
     def link_options
       options.merge(

@@ -4,7 +4,7 @@
 <% end %>
 
 <%= render MobileHeaderComponent.new(title: "Choose Theme", back_path: new_paper_path) do |header| %>
-  <% header.with_action(content: heroicon("queue-list", class: "w-6 h-6"), href: papers_path) %>
+  <% header.with_action(icon: heroicon("queue-list", class: "w-6 h-6"), href: papers_path) %>
 <% end %>
 
 <div class="relative flex flex-col h-[calc(100vh-3.5rem)] md:h-screen md:flex-row">
