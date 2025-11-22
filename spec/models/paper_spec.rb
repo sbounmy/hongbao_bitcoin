@@ -13,7 +13,7 @@ RSpec.describe Paper, type: :model do
   end
 
   it 'sets elements from default elements when theme is not set' do
-    # Create a new paper without input_items
+    # Create a new paper without theme
     paper = Paper.new(name: 'Test Paper')
     paper.save!
     expect(paper.elements).to eq(Input::Theme.default_ai_elements)

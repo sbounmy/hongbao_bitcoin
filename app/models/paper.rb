@@ -107,7 +107,7 @@ class Paper < ApplicationRecord
   end
 
   def set_name_from_inputs
-    return if input_ids.empty? || !input_ids_changed?
-    self.name = "#{style&.name} #{theme&.name}".strip
+    _name = "#{style&.name} #{theme&.name}".presence || self.name # fix when no inputs and Paper.new(name: "test")
+    self.name = _name
   end
 end

@@ -221,7 +221,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         input_html: {
           name: "input_theme[ai][portrait][resolution]"
         },
-        selected: f.object.ai.dig("portrait", "resolution") || "1024x1024"
+        selected: f.object&.ai&.dig("portrait", "resolution") || "1024x1024"
     end
 
     # Define hints based on property descriptions
