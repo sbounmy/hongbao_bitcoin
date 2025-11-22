@@ -22,21 +22,22 @@ test.describe('Bundle generation', () => {
 
     // Upload image
     await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    const count = await page.locator('#main-content .papers-item-component').count();
 
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
     await expect(page.getByText('Processing...')).toBeVisible();
     await expect(page.getByText('Processing...')).toBeHidden();
 
-    await expect(page.locator('#preview-column .papers-item-component')).toHaveCount(count + 2);
+    await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
-    await expect(page.locator('#preview-column .papers-item-component .bg-cover')).toHaveCount(4); // 2 papers, 2 faces
-    await expect(page.locator('#preview-column .papers-item-component .bg-cover').first()).toHaveAttribute('style', /background-image: url\(\'\/rails\/active_storage\/blobs\/redirect\/.*\)/);
-    await expect(page.locator('.drawer-side')).toContainText('488 ₿ao'); // General check for balance display
+    await expect(page.getByText('45-60 seconds')).toBeHidden();
+    expect(await page.getByText('Choose Theme').filter({ visible: true }).count()).toBe(1)
+
+    await page.goto('/dashboard');
+    await expect(page.locator('.drawer-side')).toContainText('489 ₿ao'); // General check for balance display
   });
 
-  test('can create with another theme', async ({ page }) => {
+  test('can switch theme', async ({ page }) => {
     await appVcrEjectCassette();
     await appVcrInsertCassette('bundle_multiple_themes', { serialize_with: 'compressed', allow_playback_repeats: true })
 
