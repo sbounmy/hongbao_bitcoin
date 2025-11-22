@@ -1,4 +1,4 @@
-require 'stringio'
+require "stringio"
 
 module Papers
   class Update < ApplicationService

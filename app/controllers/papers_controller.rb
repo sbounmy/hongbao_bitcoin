@@ -75,9 +75,9 @@ class PapersController < ApplicationController
 
   def paper_params
     params.require(:paper).permit(
-      input_item_theme_attributes: [:input_id],
-      input_item_style_attributes: [:input_id],
-      input_items_attributes: [:input_id, :image, :_destroy]
+      input_item_theme_attributes: [ :input_id ],
+      input_item_style_attributes: [ :input_id ],
+      input_items_attributes: [ :input_id, :image, :_destroy ]
     )
   end
 
