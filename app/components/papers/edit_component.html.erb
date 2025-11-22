@@ -13,8 +13,11 @@
         </div>
       </div>
     <% elsif image_url %>
-      <%# Show paper image %>
-      <%= image_tag image_url, class: image_classes, alt: "Paper preview" %>
+      <%# Show paper image with name %>
+      <div class="flex flex-col items-center gap-4">
+        <%= image_tag image_url, class: image_classes, alt: "Paper preview" %>
+        <h2 class="text-xl font-semibold text-base-content"><%= paper.name %></h2>
+      </div>
     <% else %>
       <%# Show placeholder when no image available %>
       <div class="w-96 h-96 bg-base-300 rounded-lg flex items-center justify-center">

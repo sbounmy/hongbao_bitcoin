@@ -32,7 +32,7 @@ module Papers
         # Update back image
         paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
         paper.elements = new_theme.ai
-        paper.save!
+        paper.save!  # Name will be updated automatically by before_save callback
       end
       paper
     end

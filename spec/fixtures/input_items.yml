@@ -1,14 +1,14 @@
 dollar:
   id: 1
-  bundle: dollar
+  paper_id: 1 #dollar
   input_id: 1
 
 ghibli:
   id: 2
-  bundle: dollar
+  paper_id: 1 #dollar
   input_id: 6
 
 image:
   id: 3
-  bundle: dollar
+  paper_id: 1 #dollar
   input_id: 12

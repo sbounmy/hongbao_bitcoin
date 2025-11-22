@@ -27,13 +27,13 @@ euro_theme_front:
   name: image_front
   record_type: Input
   record_id: 2
-  blob: dollar_theme_front_blob
+  blob: euro_theme_front_blob
 
 euro_theme_back:
   name: image_back
   record_type: Input
   record_id: 2
-  blob: dollar_theme_back_blob
+  blob: euro_theme_back_blob
 
 euro_theme_image:
   name: image
@@ -57,3 +57,9 @@ dollar_theme_image:
   record_type: Input
   record_id: 1
   blob: dollar_theme_image_blob
+
+dollar_paper_portrait:
+  name: image_portrait
+  record_type: Paper
+  record_id: 1
+  blob: satoshi_avatar_blob

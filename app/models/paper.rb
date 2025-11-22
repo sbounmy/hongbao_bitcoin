@@ -22,9 +22,9 @@ class Paper < ApplicationRecord
   has_one_attached :image_full
   has_one_attached :image_portrait
 
-  before_validation :set_default_elements
+  before_validation :set_default_elements, :set_name_from_inputs
   after_create_commit :broadcast_prepend
-  after_update_commit :broadcast_replace
+  after_update_commit :broadcast_replace, :broadcast_replace_edit
 
   validates :name, presence: true
   validates :elements, presence: true
@@ -86,12 +86,12 @@ class Paper < ApplicationRecord
     !image_front.attached?
   end
 
-  def broadcast_replace_edit
-    broadcast_replace_to self, target: "edit_paper_#{id}",
-                        renderable: Papers::EditComponent.new(paper: self)
-  end
 
   private
+
+  def broadcast_replace_edit
+    broadcast_replace_to self, target: "edit_paper_#{id}", renderable: Papers::EditComponent.new(paper: self)
+  end
 
   def broadcast_prepend
     broadcast_prepend_to :papers, renderable: Papers::ItemComponent.new(item: self, broadcast: true)
@@ -99,11 +99,16 @@ class Paper < ApplicationRecord
 
   def broadcast_replace
     broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
-    broadcast_replace_edit
   end
 
   def set_default_elements
     return if elements.present?
     self.elements = theme&.ai || Input::Theme.default_ai_elements
+  end
+
+  def set_name_from_inputs
+    Rails.logger.info "input ids : #{input_ids.inspect}"
+    return if input_ids_changed?
+    self.name = "#{style&.name} #{theme&.name}".strip
   end
 end

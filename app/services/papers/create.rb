@@ -12,12 +12,8 @@ module Papers
     private
 
     def create_paper
-      # Add default values for required fields
-      paper_params = @params.merge(
-        name: "Paper #{SecureRandom.hex(4)}",
-      )
-
-      @paper = Paper.create!(user: @user, active: true, public: false, **paper_params)
+      # Create the paper - name will be set automatically by before_save callback
+      @paper = Paper.create!(user: @user, active: true, public: false, **@params)
       ProcessPaperJob.perform_later(@paper.id, quality: @quality)
     end
 

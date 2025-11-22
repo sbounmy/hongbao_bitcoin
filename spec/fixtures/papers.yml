@@ -8,6 +8,7 @@ dollar:
   views_count: 10
   likes_count: 0
   liker_ids: []
+  user: satoshi
   elements: |
     {
       "private_key_qrcode": {
@@ -57,13 +58,6 @@ dollar:
         "color": ""
       }
     }
-  input_ids:
-    - 1 # dollar
-    - 6 # ghibli
-  input_item_ids:
-    - 1 # input_items(:dollar)
-    - 2 # input_items(:ghibli)
-    - 3 # input_items(:image)
 
 pizza_day:
   id: 2
@@ -74,10 +68,4 @@ pizza_day:
   views_count: 5
   likes_count: 2
   liker_ids: [1, 2]
-  input_ids:
-    - 6 # ghibli
-    - 15 # pizza_day
-  input_item_ids:
-    - 2 # input_items(:ghibli)
-    - 3 # input_items(:image)
   tag_ids: [3] # tags(:featured)
