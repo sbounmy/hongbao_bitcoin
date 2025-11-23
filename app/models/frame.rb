@@ -1,31 +1,31 @@
 class Frame
   TYPES = {
-    'landscape' => {
-      dimensions: [150, 75],
-      rotation_front: '',
-      rotation_back: 'transform rotate-180',
-      fold_line: 'border-t-2',
-      layout_direction: 'flex-col',  # Stack vertically for landscape
-      layout_classes: 'items-stretch w-[150mm]'
+    "landscape" => {
+      dimensions: [ 150, 75 ],
+      rotation_front: "",
+      rotation_back: "transform rotate-180",
+      fold_line: "border-t-2",
+      layout_direction: "flex-col",  # Stack vertically for landscape
+      layout_classes: "items-stretch w-[150mm]"
     },
-    'portrait' => {
-      dimensions: [75, 113],  # Maintains 2:3 aspect ratio (1024x1536)
-      rotation_front: '',
-      rotation_back: '',
-      fold_line: 'border-l-2',
-      layout_direction: 'flex-row',  # Stack horizontally for portrait
-      layout_classes: 'items-stretch min-h-[113mm]'  # Ensure full height with correct ratio
+    "portrait" => {
+      dimensions: [ 75, 113 ],  # Maintains 2:3 aspect ratio (1024x1536)
+      rotation_front: "",
+      rotation_back: "",
+      fold_line: "border-l-2",
+      layout_direction: "flex-row",  # Stack horizontally for portrait
+      layout_classes: "items-stretch min-h-[113mm]"  # Ensure full height with correct ratio
     }
   }.freeze
 
   attr_reader :type
 
-  def initialize(type = 'landscape')
+  def initialize(type = "landscape")
     @type = type
   end
 
   def config
-    TYPES[@type] || TYPES['landscape']
+    TYPES[@type] || TYPES["landscape"]
   end
 
   def dimensions
@@ -61,19 +61,19 @@ class Frame
   end
 
   def layout_direction
-    config[:layout_direction] || 'flex-col'
+    config[:layout_direction] || "flex-col"
   end
 
   def layout_classes
-    config[:layout_classes] || 'items-center'
+    config[:layout_classes] || "items-center"
   end
 
   def portrait?
-    @type == 'portrait'
+    @type == "portrait"
   end
 
   def landscape?
-    @type == 'landscape'
+    @type == "landscape"
   end
 
   # Convert mm to pixels for canvas (96 DPI: 1mm ≈ 3.7795 pixels)

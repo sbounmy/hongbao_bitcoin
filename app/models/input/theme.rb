@@ -186,7 +186,7 @@ class Input::Theme < Input
 
   # Override frame getter to provide default value
   def frame
-    super || 'landscape'
+    super || "landscape"
   end
 
   # Frame object for handling paper orientation and dimensions

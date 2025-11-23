@@ -205,8 +205,8 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
               as: :select,
               collection: Frame::TYPES.keys,
               include_blank: false,
-              label: 'Frame Type',
-              hint: 'Landscape: 150x75mm, Portrait: 75x150mm'
+              label: "Frame Type",
+              hint: "Landscape: 150x75mm, Portrait: 75x150mm"
     end
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."

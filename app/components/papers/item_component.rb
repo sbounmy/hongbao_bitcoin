@@ -22,7 +22,7 @@ module Papers
 
     def render_face(image_url:)
       background_url = processing? ? original_image_url : image_url
-      aspect_ratio = item.theme&.aspect_ratio || '150/75'
+      aspect_ratio = item.theme&.aspect_ratio || "150/75"
 
       tag.div class: "w-full aspect-[#{aspect_ratio}] relative rounded-lg overflow-hidden" do
         background_classes = [ "absolute inset-0 bg-cover bg-center" ]
