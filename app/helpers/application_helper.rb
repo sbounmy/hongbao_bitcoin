@@ -30,7 +30,6 @@ module ApplicationHelper
       "border-2",
       "border-dashed",
       "border-gray-400",
-      "inline-block",      # To fit content size
       options[:class]      # Allow additional classes
     ].compact.join(" ")
 

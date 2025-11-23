@@ -2,6 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["container", "canvaItem", "backgroundImage"]
+  static values = {
+    width: Number,   // Canvas width in pixels
+    height: Number   // Canvas height in pixels
+  }
 
   connect() {
     this.initializeCanvas()
@@ -13,9 +17,11 @@ export default class extends Controller {
     const canvas = this.containerTarget
 
     const qualityScale = 3
-    // Store the original dimensions
-    this.originalWidth = canvas.parentElement.offsetWidth
-    this.originalHeight = canvas.parentElement.offsetHeight
+
+    // Use dimensions passed from Rails (already accounting for rotation)
+    // Fall back to parent element dimensions if not provided
+    this.originalWidth = this.widthValue || canvas.parentElement.offsetWidth
+    this.originalHeight = this.heightValue || canvas.parentElement.offsetHeight
 
     // Set the canvas size
     canvas.width = this.originalWidth * qualityScale
