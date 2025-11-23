@@ -4,3 +4,5 @@ satoshi_avatar_blob: <%= ActiveStorage::FixtureSet.blob filename: "satoshi.jpg",
 dollar_theme_image_blob: <%= ActiveStorage::FixtureSet.blob filename: "dollar_theme.jpg", service_name: "test_fixtures" %>
 dollar_theme_front_blob: <%= ActiveStorage::FixtureSet.blob filename: "dollar_front.jpg", service_name: "test_fixtures" %>
 dollar_theme_back_blob: <%= ActiveStorage::FixtureSet.blob filename: "dollar_back.jpg", service_name: "test_fixtures" %>
+euro_theme_front_blob: <%= ActiveStorage::FixtureSet.blob filename: "euro_front.jpg", service_name: "test_fixtures" %>
+euro_theme_back_blob: <%= ActiveStorage::FixtureSet.blob filename: "euro_back.jpg", service_name: "test_fixtures" %>

@@ -4,7 +4,7 @@ class InputsController < ApplicationController
 
   def show
     @input = Input.friendly.find(params[:id])
-    @papers = Paper.with_all_input_ids(@input.id).order(created_at: :desc)
+    @papers = Paper.with_input(@input).order(created_at: :desc)
 
     if @input.renderable
       render "inputs/#{@input.type.split("::").last.downcase.pluralize}/show"

@@ -12,11 +12,7 @@
           <%= input_item_fields.hidden_field :input_id, value: Input::Image.last&.id %>
         <% end %>
         <div class="image-container">
-          <% if form.object.image&.attached? %>
-            <%= image_tag form.object.image, data: { preview_target: "preview" }, class: "image" %>
-          <% else %>
-            <%= image_tag "", data: { preview_target: "preview" }, class: "image" %>
-          <% end %>
+          <%= image_tag "", data: { preview_target: "preview" }, class: "image" %>
         </div>
         <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
       </label>

@@ -160,6 +160,7 @@ class Input::Theme < Input
   metadata :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
   metadata :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
   metadata :spotify, accessors: [ :path ], prefix: true
+  metadata :frame
 
   AI_ELEMENT_TYPES.each do |type|
     store :"ai_#{type}", accessors: AI_ELEMENT_PROPERTIES, prefix: true
@@ -182,4 +183,17 @@ class Input::Theme < Input
   def portrait_config
     ai["portrait"] || self.class.default_ai_elements["portrait"]
   end
+
+  # Override frame getter to provide default value
+  def frame
+    super || "landscape"
+  end
+
+  # Frame object for handling paper orientation and dimensions
+  def frame_object
+    @frame_object ||= Frame.new(frame)
+  end
+
+  delegate :width, :height, :aspect_ratio, :css_classes,
+           :rotation_front, :rotation_back, :fold_line, to: :frame_object
 end

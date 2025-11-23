@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
+  allow_unauthenticated_access only: [ :index, :show, :new, :create, :explore, :update ]
   helper_method :testnet?
   before_action :set_network
 
@@ -20,12 +20,33 @@ class PapersController < ApplicationController
   end
 
   def new
-    @bundle = Bundle.new
-    @bundle.build_input_item_theme(input: Input::Theme.first)
-    @bundle.input_items.build
+    @paper = Paper.new
+    @paper.input_items.build
     @styles = Input::Style.by_position.with_attached_image
     @themes = Input::Theme.by_position.with_attached_image
     @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
+  end
+
+  def create
+    @paper = Papers::Create.call(
+      user: current_user,
+      params: paper_params
+    )
+    redirect_to edit_paper_path(@paper)
+  end
+
+  def edit
+    @paper = current_user.papers.find params[:id]
+  end
+
+  def update
+    @paper = current_user.papers.find(params[:id])
+    Papers::Update.call(paper: @paper, theme_id: params[:theme_id])
+
+    respond_to do |format|
+      format.turbo_stream { head :ok }  # Broadcasting handles the update
+      format.html { redirect_to edit_paper_path(@paper) }
+    end
   end
 
   def explore
@@ -52,6 +73,14 @@ class PapersController < ApplicationController
 
   private
 
+  def paper_params
+    params.require(:paper).permit(
+      input_item_theme_attributes: [ :input_id ],
+      input_item_style_attributes: [ :input_id ],
+      input_items_attributes: [ :input_id, :image, :_destroy ]
+    )
+  end
+
   def paper_scope
     current_user ? current_user.papers : Paper
   end
@@ -71,7 +100,7 @@ class PapersController < ApplicationController
     case action_name
     when "show"
       "offline"
-    when "new", "index", "explore"
+    when "new", "index", "explore", "edit"
       "main"
     else
       "application"

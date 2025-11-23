@@ -8,62 +8,56 @@ dollar:
   views_count: 10
   likes_count: 0
   liker_ids: []
+  user: satoshi
   elements: |
     {
       "private_key_qrcode": {
-        "x": 82,
-        "y": 28.5,
-        "width": 9,
-        "height": 18,
+        "x": "10",
+        "y": "37",
+        "width": "9.0",
+        "height": "18.0",
         "color": "#000000"
       },
       "private_key_text": {
-        "x": 81.5,
-        "y": 50,
-        "width": 10,
-        "height": 10,
-        "size": 1.8,
+        "x": "9",
+        "y": "57",
+        "width": "",
+        "height": "10",
+        "size": "1.8",
         "color": "#000000"
       },
       "public_address_qrcode": {
-        "x": 82,
-        "y": 50,
-        "width": 9,
-        "height": 18,
+        "x": "22",
+        "y": "24",
+        "width": "9.0",
+        "height": "18.0",
         "color": ""
       },
       "public_address_text": {
-        "x": 81,
-        "y": 70,
-        "width": 12,
-        "height": 10,
-        "size": 1.8,
+        "x": "21",
+        "y": "55",
+        "width": "",
+        "height": "10",
+        "size": "1.8",
         "color": "#000000"
       },
       "mnemonic_text": {
-        "x": 17,
-        "y": 77,
-        "width": 360,
-        "height": 15,
-        "size": 1.6,
+        "x": "5",
+        "y": "50",
+        "width": "",
+        "height": "15",
+        "size": "1.6",
         "color": "#000000"
       },
       "custom_text": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0,
-        "size": 0,
+        "x": "",
+        "y": "",
+        "width": "",
+        "height": "",
+        "size": "",
         "color": ""
       }
     }
-  input_ids:
-    - 1 # dollar
-    - 6 # ghibli
-  input_item_ids:
-    - 1 # input_items(:dollar)
-    - 2 # input_items(:ghibli)
-    - 3 # input_items(:image)
 
 pizza_day:
   id: 2
@@ -74,10 +68,4 @@ pizza_day:
   views_count: 5
   likes_count: 2
   liker_ids: [1, 2]
-  input_ids:
-    - 6 # ghibli
-    - 15 # pizza_day
-  input_item_ids:
-    - 2 # input_items(:ghibli)
-    - 3 # input_items(:image)
   tag_ids: [3] # tags(:featured)

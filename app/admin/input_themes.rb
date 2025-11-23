@@ -1,7 +1,7 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
   menu parent: "Inputs", priority: 1
 
-  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path,
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, :frame,
     Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" },
     ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
@@ -157,6 +157,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
       row :name
       row :slug
       row :ui_name
+      row :frame
       row :prompt
       row :image_hero do |theme|
         if theme.image_hero.attached?
@@ -200,6 +201,12 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade",
         "night", "coffee", "winter", "dim", "nord", "sunset"
       ]
+      f.input :frame,
+              as: :select,
+              collection: Frame::TYPES.keys,
+              include_blank: false,
+              label: "Frame Type",
+              hint: "Landscape: 150x75mm, Portrait: 75x150mm"
     end
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
@@ -221,7 +228,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
         input_html: {
           name: "input_theme[ai][portrait][resolution]"
         },
-        selected: f.object.ai.dig("portrait", "resolution") || "1024x1024"
+        selected: f.object&.ai&.dig("portrait", "resolution") || "1024x1024"
     end
 
     # Define hints based on property descriptions
