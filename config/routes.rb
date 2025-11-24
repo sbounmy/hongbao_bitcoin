@@ -31,6 +31,10 @@ Rails.application.routes.draw do
       get :explore, on: :collection
       post :like, on: :member
     end
+
+    # Instructions page for printed inserts
+    get "/instructions", to: "pages#instructions", as: :instructions
+
     root "pages#index"
   end
 

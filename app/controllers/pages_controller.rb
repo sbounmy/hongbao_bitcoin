@@ -13,6 +13,10 @@ class PagesController < ApplicationController
   def pricing
   end
 
+  def instructions
+    render layout: false
+  end
+
   def v2
     # Will be used to list available styles and papers
     @styles = Input::Style.by_position.with_attached_image
