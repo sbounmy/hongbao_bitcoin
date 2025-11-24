@@ -1,5 +1,5 @@
 <!-- Mobile: Horizontal scroll -->
-<div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 md:hidden scrollbar-hide">
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 md:hidden scrollbar-hide">
   <% Input::Theme.all.each do |theme| %>
     <% is_current = paper.theme == theme %>
 
@@ -17,52 +17,55 @@
 
       <div class="flex flex-col items-center gap-1">
         <% if theme.image_hero.attached? %>
-          <%= image_tag theme.image_hero,
-              class: "w-20 h-20 rounded-lg object-cover transition-all group-hover:scale-105
-                     #{is_current ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-base-300'}" %>
+          <% image_tag theme.image_hero,
+              class: "w-16 h-16 rounded-lg object-cover transition-all group-hover:scale-105
+                     #{is_current ? 'ring-2 ring-primary ring-offset-1' : 'hover:ring-1 hover:ring-base-300'}" %>
         <% else %>
-          <div class="w-20 h-20 rounded-lg bg-base-200 flex items-center justify-center
-                      #{is_current ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-base-300'}">
-            <span class="text-xs text-base-content/50"><%= theme.name %></span>
+          <div class="w-16 h-16 rounded-lg bg-base-200 flex items-center justify-center <%= is_current ? 'ring-2 ring-primary ring-offset-1' : 'hover:ring-1 hover:ring-base-300'%>">
+            <span class="text-[10px] text-base-content/50"><%= theme.name %></span>
           </div>
         <% end %>
-        <span class="text-xs text-base-content/70"><%= theme.name %></span>
+        <span class="text-[10px] text-base-content/70 max-w-16 truncate"><%= theme.name %></span>
       </div>
     <% end %>
   <% end %>
 </div>
 
-<!-- Desktop: Grid -->
-<div class="hidden md:grid md:grid-cols-2 gap-3">
-  <% Input::Theme.all.each do |theme| %>
-    <% is_current = paper.theme == theme %>
+<!-- Desktop: Compact grid with scroll -->
+<div class="hidden md:block">
+  <div class="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+    <div class="grid grid-cols-3 gap-2">
+      <% Input::Theme.all.each do |theme| %>
+        <% is_current = paper.theme == theme %>
 
-    <%= button_to paper_path(paper),
-        method: :patch,
-        params: {
-          paper: {
-            input_item_theme_attributes: {
-              id: paper.input_item_theme&.id,
-              input_id: theme.id
-            }
-          }
-        },
-        class: "group" do %>
+        <%= button_to paper_path(paper),
+            method: :patch,
+            params: {
+              paper: {
+                input_item_theme_attributes: {
+                  id: paper.input_item_theme&.id,
+                  input_id: theme.id
+                }
+              }
+            },
+            class: "group" do %>
 
-      <div class="flex flex-col items-center gap-2 p-2 rounded-lg
-                  hover:bg-base-200 transition-colors">
-        <% if theme.image_hero.attached? %>
-          <%= image_tag theme.image_hero,
-              class: "w-full aspect-[3/4] object-cover rounded-lg
-                     #{is_current ? 'ring-2 ring-primary' : ''}" %>
-        <% else %>
-          <div class="w-full aspect-[3/4] rounded-lg bg-base-200 flex items-center justify-center
-                      #{is_current ? 'ring-2 ring-primary' : ''}">
-            <span class="text-sm text-base-content/50"><%= theme.name %></span>
+          <div class="flex flex-col items-center gap-1 p-1.5 rounded-lg
+                      hover:bg-base-200 transition-all duration-200
+                      <%= is_current ? 'bg-primary/10 ring-1 ring-primary' : ''%>">
+            <% if theme.image_hero.attached? %>
+              <%= image_tag theme.image_hero,
+                  class: "w-full aspect-square object-cover rounded-md" %>
+            <% else %>
+              <div class="w-full aspect-square rounded-md bg-base-200 flex items-center justify-center">
+                <span class="text-[10px] text-base-content/50 text-center px-1"><%= theme.name %></span>
+              </div>
+            <% end %>
+            <span class="text-[11px] font-medium text-center w-full truncate px-1
+                        <%= is_current ? 'text-primary' : 'text-base-content/80'%>"><%= theme.name %></span>
           </div>
         <% end %>
-        <span class="text-sm font-medium"><%= theme.name %></span>
-      </div>
-    <% end %>
-  <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
