@@ -400,7 +400,6 @@ GEM
     matrix (0.4.2)
     meta-tags (2.22.1)
       actionpack (>= 6.0.0, < 8.1)
-    method_source (1.1.0)
     metrics (0.13.0)
     mime-types (3.7.0)
       logger
@@ -686,10 +685,10 @@ GEM
     vcr (6.3.1)
       base64
     version_gem (1.1.9)
-    view_component (3.23.2)
-      activesupport (>= 5.2.0, < 8.1)
+    view_component (4.1.1)
+      actionview (>= 7.1.0, < 8.2)
+      activesupport (>= 7.1.0, < 8.2)
       concurrent-ruby (~> 1)
-      method_source (~> 1.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
