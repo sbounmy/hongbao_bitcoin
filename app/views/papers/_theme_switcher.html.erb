@@ -5,7 +5,14 @@
 
     <%= button_to paper_path(paper),
         method: :patch,
-        params: { theme_id: theme.id },
+        params: {
+          paper: {
+            input_item_theme_attributes: {
+              id: paper.input_item_theme&.id,
+              input_id: theme.id
+            }
+          }
+        },
         class: "snap-center flex-shrink-0 group" do %>
 
       <div class="flex flex-col items-center gap-1">
@@ -32,7 +39,14 @@
 
     <%= button_to paper_path(paper),
         method: :patch,
-        params: { theme_id: theme.id },
+        params: {
+          paper: {
+            input_item_theme_attributes: {
+              id: paper.input_item_theme&.id,
+              input_id: theme.id
+            }
+          }
+        },
         class: "group" do %>
 
       <div class="flex flex-col items-center gap-2 p-2 rounded-lg

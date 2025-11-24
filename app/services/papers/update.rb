@@ -2,20 +2,15 @@ require "stringio"
 
 module Papers
   class Update < ApplicationService
-    def call(paper:, theme_id:)
-      # Find new theme
-      new_theme = Input::Theme.find(theme_id)
+    def call(paper:, params:)
+      # Assign attributes without saving (to avoid premature broadcasting)
+      paper.assign_attributes(params)
 
-      # Update paper's theme using the new association
-      if paper.input_item_theme
-        paper.input_item_theme.update!(input: new_theme)
-      else
-        # Create if doesn't exist
-        paper.create_input_item_theme!(input: new_theme)
-      end
+      # Get the updated theme
+      new_theme = paper.theme
 
-      # Only re-compose if portrait is already generated
-      if paper.image_portrait.attached?
+      # Only re-compose if portrait is already generated and theme exists
+      if new_theme && paper.image_portrait.attached?
         # Re-compose with new theme
         composed_image = Papers::Composition.call(
           template: new_theme.image_front,
@@ -32,8 +27,10 @@ module Papers
         # Update back image
         paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
         paper.elements = new_theme.ai
-        paper.save!  # Name will be updated automatically by before_save callback
       end
+
+      # Save once at the end - this triggers the broadcast with all changes
+      paper.save!
       paper
     end
   end

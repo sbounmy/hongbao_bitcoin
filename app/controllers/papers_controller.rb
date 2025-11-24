@@ -41,7 +41,7 @@ class PapersController < ApplicationController
 
   def update
     @paper = current_user.papers.find(params[:id])
-    Papers::Update.call(paper: @paper, theme_id: params[:theme_id])
+    Papers::Update.call(paper: @paper, params: paper_params)
 
     respond_to do |format|
       format.turbo_stream { head :ok }  # Broadcasting handles the update
@@ -75,9 +75,9 @@ class PapersController < ApplicationController
 
   def paper_params
     params.require(:paper).permit(
-      input_item_theme_attributes: [ :input_id ],
-      input_item_style_attributes: [ :input_id ],
-      input_items_attributes: [ :input_id, :image, :_destroy ]
+      input_item_theme_attributes: [ :id, :input_id ],
+      input_item_style_attributes: [ :id, :input_id ],
+      input_items_attributes: [ :id, :input_id, :image, :_destroy ]
     )
   end
 
