@@ -31,7 +31,7 @@ test.describe('Paper creation', () => {
     await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
-    expect(await page.getByText('Choose Theme').filter({ visible: true }).count()).toBe(1)
+    expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1)
 
     await page.goto('/dashboard');
     await expect(page.locator('.drawer-side')).toContainText('489 ₿ao'); // General check for balance display
@@ -40,7 +40,7 @@ test.describe('Paper creation', () => {
   test('can switch theme', async ({ page }) => {
     await page.goto('/papers/1/edit');
     await turboCableConnected(page);
-    expect(await page.getByText('Choose Theme').filter({ visible: true }).count()).toBe(1)
+    expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1)
 
     await page.locator('#edit_paper_1').getByRole('button', { name: 'Euro' }).click()
     await expect(page.getByText('Ghibli Euro')).toBeVisible()
