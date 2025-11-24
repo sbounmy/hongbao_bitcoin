@@ -1,4 +1,6 @@
 class Frame
+  # declare the dimensions in safelist in tailwind.config.js
+  # so tailwind build the classes
   TYPES = {
     "landscape" => {
       dimensions: [ 150, 75 ],
