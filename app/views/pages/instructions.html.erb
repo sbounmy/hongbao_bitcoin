@@ -60,54 +60,21 @@
 
     /* Visual Hero */
     .visual-hero {
-      background: #fafafa;
-      border: 0.1mm solid #e5e5e5;
-      border-radius: 2mm;
-      padding: 3mm;
+      background: white;
       margin: 2mm 0 4mm 0;
       text-align: center;
-      height: 22mm;
+      height: 45mm;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    .visual-content {
-      display: flex;
-      align-items: center;
-      gap: 2mm;
-    }
-
-    .envelope-icon {
-      width: 18mm;
-      height: 14mm;
-      background: white;
-      border: 0.15mm solid #999;
-      border-radius: 1mm;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16pt;
-    }
-
-    .plus {
-      font-size: 10pt;
-      color: #999;
-      margin: 0 1mm;
-    }
-
-    .wallet-icon {
-      width: 22mm;
-      height: 14mm;
-      background: white;
-      border: 0.15mm solid #999;
-      border-radius: 1mm;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14pt;
-      color: #2c2c2c;
-      font-weight: 500;
+    .illustration {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-height: 45mm;
     }
 
     /* Steps */
@@ -145,29 +112,8 @@
       color: #1a1a1a;
     }
 
-    /* Info Box */
-    .info-box {
-      border-top: 0.15mm solid #e5e5e5;
-      border-bottom: 0.15mm solid #e5e5e5;
-      padding: 3mm 0;
-      margin: 4mm 0;
-    }
-
-    .info-title {
-      font-size: 7.5pt;
-      font-weight: 600;
-      color: #1a1a1a;
-      margin-bottom: 1mm;
-    }
-
-    .info-text {
-      font-size: 7pt;
-      color: #666;
-      line-height: 1.4;
-    }
-
     .info-url {
-      font-size: 7.5pt;
+      font-size: 6.5pt;
       font-weight: 500;
       color: #2c2c2c;
       text-decoration: underline;
@@ -176,18 +122,22 @@
     /* Footer */
     .footer {
       margin-top: auto;
-      padding-top: 3mm;
-      font-size: 6pt;
-      color: #999;
+      padding: 1mm 0 1mm 0;
       text-align: center;
       border-top: 0.15mm solid #e5e5e5;
     }
 
-    .footer-logo {
+    .footer-title {
       font-size: 7pt;
       font-weight: 600;
-      color: #2c2c2c;
+      color: #1a1a1a;
       margin-bottom: 0.5mm;
+      letter-spacing: 0.3mm;
+    }
+
+    .footer-text {
+      font-size: 6.5pt;
+      color: #666;
     }
 
     /* Print optimization */
@@ -211,15 +161,7 @@
 
     <!-- Visual Hero -->
     <div class="visual-hero">
-      <div class="visual-content">
-        <div class="envelope-icon">
-          🧧
-        </div>
-        <span class="plus">+</span>
-        <div class="wallet-icon">
-          ₿
-        </div>
-      </div>
+      <%= image_tag "hongbao-illustration.jpg", class: "illustration", alt: "Hong₿ao Bitcoin Gift" %>
     </div>
 
     <!-- Steps -->
@@ -238,44 +180,39 @@
       <div class="step">
         <span class="step-number">2.</span>
         <span class="step-text">
-          <strong>Upload photo</strong> of recipient - AI creates personalized Bitcoin artwork
+          <strong>Create paper wallet</strong> with recipient's photo - select style and theme
         </span>
       </div>
 
       <div class="step">
         <span class="step-number">3.</span>
         <span class="step-text">
-          <strong>Fund wallet</strong> with Bitcoin or buy with card via Mt Pelerin
+          <strong>Fund paper wallet</strong> with credit card or no-KYC: Bitcoin, wire transfer
         </span>
       </div>
 
       <div class="step">
         <span class="step-number">4.</span>
         <span class="step-text">
-          <strong>Print & fold</strong> the PDF at home, fold along center line
+          <strong>Print</strong> with a trusted printer - follow the PDF instructions<br>
+          <span style="color: #666; font-size: 7pt;">⚠️ Anyone with the PDF can steal the funds</span>
         </span>
       </div>
 
       <div class="step">
         <span class="step-number">5.</span>
         <span class="step-text">
-          <strong>Insert in envelope</strong> and gift to your loved one
+          <strong>Insert in envelope</strong> and your Bitcoin gift is ready!
         </span>
-      </div>
-    </div>
-
-    <!-- Support -->
-    <div class="info-box">
-      <div class="info-title">SUPPORT</div>
-      <div class="info-text">
-        Visit <span class="info-url">hongbaob.tc/help</span> or email hello@hongbaob.tc
       </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-      <div class="footer-logo">Hong₿ao</div>
-      Turn Bitcoin into unforgettable gifts
+      <div class="footer-title">SUPPORT</div>
+      <div class="footer-text">
+        Visit <span class="info-url">hongbaob.tc/help</span> • hello@hongbaob.tc
+      </div>
     </div>
   </div>
 </body>
