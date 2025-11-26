@@ -1,0 +1,39 @@
+<div class="bg-base-100 rounded-2xl p-6 border border-base-200">
+  <div class="flex gap-6 items-start">
+    <!-- Small image on the left -->
+    <% if image_url.present? %>
+      <%= link_to link, target: "_blank", rel: "noopener noreferrer", class: "flex-shrink-0" do %>
+        <%= image_tag image_url,
+            class: "w-24 h-24 rounded-lg object-cover hover:opacity-90 transition-opacity",
+            alt: title,
+            loading: "lazy" %>
+      <% end %>
+    <% end %>
+
+    <!-- Content on the right -->
+    <div class="flex-1 min-w-0">
+      <!-- Date and label -->
+      <p class="text-orange-600 text-sm mb-2">
+        <%= formatted_date %> • Latest updates
+      </p>
+
+      <!-- Title -->
+      <h2 class="text-2xl font-bold text-base-content mb-2">
+        <%= link_to title, link,
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "hover:text-primary transition-colors" %>
+      </h2>
+
+      <!-- Description -->
+      <p class="text-base-content/70 mb-4 line-clamp-2">
+        <%= description %>
+      </p>
+
+      <!-- Link to all updates -->
+      <%= link_to "All updates", "https://sbounmy.substack.com",
+          target: "_blank",
+          class: "text-base-content/60 hover:text-base-content text-sm underline-offset-4 hover:underline" %>
+    </div>
+  </div>
+</div>

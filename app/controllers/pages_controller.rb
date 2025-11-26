@@ -4,10 +4,9 @@ class PagesController < ApplicationController
     @users = User.joins(:avatar_attachment).with_attached_avatar.limit(8)
     @saved_hong_baos = (User.find_by(email: "stephane@hackerhouse.paris")&.saved_hong_baos || SavedHongBao.none).order(gifted_at: :desc)
     @quotes = Content::Quote.with_hongbao_product.with_attached_avatar
-
-    # Initialize simulator for the index page
     @simulation = Simulation.new
     @simulation_result = Simulations::Create.call(@simulation.to_service_params.merge(stats_only: true))
+    @latest_newsletter = Substack::Feed.call.first
   end
 
   def pricing

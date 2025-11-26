@@ -470,6 +470,13 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
     </div>
 </section>
 
+<!-- Newsletter Section - Compact with component -->
+<% if @latest_newsletter %>
+  <section class="flex flex-col my-16 max-w-3xl mx-auto px-4">
+    <%= render Substack::FeedComponent.new(newsletter: @latest_newsletter) %>
+  </section>
+<% end %>
+
 <section class="flex flex-col mt-20 my-8 max-w-5xl mx-auto">
     <div class="mb-12 flex w-full flex-col text-center md:mb-20">
       <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
