@@ -9,28 +9,23 @@ module Papers
       # Get the updated theme
       new_theme = paper.theme
 
-      # Only re-compose if portrait is already generated and theme exists
-      if new_theme && paper.image_portrait.attached?
-        # Re-compose with new theme
-        composed_image = Papers::Composition.call(
-          template: new_theme.image_front,
-          portrait: paper.image_portrait.blob.download,
-          config: new_theme.portrait_config
-        )
+      # Re-compose with new theme
+      composed_image = Papers::Composition.call(
+        template: new_theme.image_front,
+        portrait: paper.image_portrait.blob.download,
+        config: new_theme.portrait_config
+      )
 
-        # Update front image
-        paper.image_front.attach(
-          io: StringIO.new(composed_image),
-          filename: "front_#{SecureRandom.hex(4)}.jpg"
-        )
+      # Update front image
+      paper.image_front.attach(
+        io: StringIO.new(composed_image),
+        filename: "front_#{SecureRandom.hex(4)}.jpg"
+      )
 
-        # Update back image
-        paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
-        paper.elements = new_theme.ai
-      end
-
-      # Save once at the end - this triggers the broadcast with all changes
-      paper.save!
+      # Update back image
+      paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
+      paper.elements = new_theme.ai
+      paper.image_front.analyze # save + so attach is sync for broadcast https://stackoverflow.com/questions/61309182/how-to-force-activestorageattachedattach-to-run-synchronously-disable-asyn#comment134359695_65619420
       paper
     end
   end
