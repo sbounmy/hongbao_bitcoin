@@ -25,7 +25,8 @@ module Papers
       # Update back image
       paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
       paper.elements = new_theme.ai
-      paper.image_front.analyze # save + so attach is sync for broadcast https://stackoverflow.com/questions/61309182/how-to-force-activestorageattachedattach-to-run-synchronously-disable-asyn#comment134359695_65619420
+      paper.image_front.analyze # so attach is sync for broadcast https://stackoverflow.com/questions/61309182/how-to-force-activestorageattachedattach-to-run-synchronously-disable-asyn#comment134359695_65619420
+      paper.save!
       paper
     end
   end
