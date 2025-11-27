@@ -445,3 +445,6 @@ Services:
 - Customize agent prompts in `.claude-on-rails/prompts/`
 - Update this file with project-specific conventions
 - The swarm learns from your codebase patterns
+- Switched to URI.open instead of manual Net::HTTP configuration
+  - URI.open uses the system's SSL certificate store and handles CRL properly
+  - This is more Ruby-idiomatic and cleaner (reduced from ~20 lines to 2 lines)
