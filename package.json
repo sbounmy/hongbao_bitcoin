@@ -100,7 +100,7 @@
     "uint8array-tools": "0.0.9",
     "util": "^0.12.5",
     "util-deprecate": "1.0.2",
-    "valibot": "1.0.0-beta.9",
+    "valibot": "1.2.0",
     "varuint-bitcoin": "1.1.2",
     "wif": "5.0.0"
   }
