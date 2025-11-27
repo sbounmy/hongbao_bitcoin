@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>BTCDex | Hong₿ao</title>
+    <meta name="title" content="BTCDex | Hong₿ao">
+    <meta name="description" content="Your Bitcoin Pokedex - Track and manage your Hong Baos">
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <%= stylesheet_link_tag "application", "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+    <%= action_cable_meta_tag %>
+    <%= csp_meta_tag %>
+  </head>
+
+  <body class="bg-[#F04747] min-h-svh">
+    <div class="flex min-h-svh">
+      <%# Compact Sidebar - Desktop only %>
+      <%= render "btcdex/sidebar" %>
+
+      <%# Main Pokedex Content %>
+      <div class="flex-1 flex flex-col min-h-svh">
+        <%# Pokedex Header %>
+        <div class="bg-[#F04747] relative pt-4 md:pt-6 px-4 md:px-6 flex-shrink-0">
+          <%# Top section with buttons %>
+          <div class="flex items-center gap-4 md:gap-6">
+            <%# Large cyan/blue lens with white ring and dark border %>
+            <%= link_to new_hong_bao_path,
+                class: "w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#00BFFF]
+                        flex items-center justify-center
+                        ring-4 ring-white
+                        outline outline-[3px] outline-[#2a2a2a]
+                        hover:scale-105 transition-transform
+                        shadow-lg" do %>
+              <%= image_tag "bitcoin-64x64.svg", class: "w-8 h-8 md:w-10 md:h-10" %>
+            <% end %>
+
+            <%# 4 small filled indicator lights (red, red, yellow, green) %>
+            <div class="flex items-center gap-2 md:gap-3">
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#dc2626] border-2 border-[#7f1d1d] shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#facc15] border-2 border-[#a16207] shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#22c55e] border-2 border-[#166534] shadow-inner"></div>
+            </div>
+
+            <%# Spacer %>
+            <div class="flex-1"></div>
+          </div>
+
+          <%# Angled border line - SVG for smooth continuous joints %>
+          <div class="relative h-14 -mt-3 mb-4" style="overflow: visible;">
+            <svg class="absolute inset-0 w-full h-full" style="overflow: visible;" preserveAspectRatio="xMinYMid meet">
+              <%# Black border (background, thicker) %>
+              <path
+                d="M -18 48 L 90 48 L 115 8 L 2000 8"
+                fill="none"
+                stroke="black"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <%# Dark red fill (foreground, thinner) %>
+              <path
+                d="M -18 48 L 90 48 L 115 8 L 2000 8"
+                fill="none"
+                stroke="#991b1b"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <%# Main Screen Area - Scrollable %>
+        <div class="flex-1 bg-[#F04747] px-4 md:px-6 pb-20 md:pb-6 overflow-hidden">
+          <div class="bg-neutral rounded-2xl border-4 border-[#FFB636] shadow-2xl h-full flex flex-col overflow-hidden">
+            <%# Screen bezel/header %>
+            <div class="bg-neutral-focus/50 rounded-t-xl px-4 py-2 border-b border-[#FFB636]/20 flex-shrink-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                  <span class="text-white/60 text-xs font-mono">BTCDEX v1.0</span>
+                </div>
+                <span class="text-white/40 text-xs">SCAN TO COLLECT</span>
+              </div>
+            </div>
+
+            <%# Scrollable content area %>
+            <div class="flex-1 overflow-y-auto p-4">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+
+        <%# Pokedex Floating Dock (mobile only) %>
+        <%= render Btcdex::DockComponent.new do |dock| %>
+          <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
+          <% dock.with_item(label: "Scan", icon: "qr-code", href: new_hong_bao_path) %>
+          <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= turbo_frame_tag "modal" %>
+  </body>
+</html>

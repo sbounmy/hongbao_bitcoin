@@ -1,0 +1,23 @@
+<%# Empty shell - scrollable content placeholder %>
+<div class="flex flex-col items-center justify-center min-h-full text-center py-8">
+  <div class="space-y-6">
+    <%# Bitcoin icon %>
+    <div class="w-20 h-20 mx-auto rounded-full bg-[#FFB636]/20 flex items-center justify-center">
+      <%= image_tag "bitcoin-64x64.svg", class: "w-12 h-12" %>
+    </div>
+
+    <%# Title %>
+    <div>
+      <h1 class="text-2xl font-bold text-[#FFB636]">BTCDex</h1>
+      <p class="text-white/60 text-sm mt-2">Your Bitcoin Collection</p>
+    </div>
+
+    <%# CTA %>
+    <%= link_to new_hong_bao_path,
+        class: "mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[#FFB636] text-[#F04747]
+                font-semibold rounded-xl hover:bg-[#FFB636]/90 transition-colors" do %>
+      <%= heroicon "qr-code", class: "w-5 h-5" %>
+      <span>Scan Hong Bao</span>
+    <% end %>
+  </div>
+</div>
