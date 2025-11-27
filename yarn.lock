@@ -3147,10 +3147,10 @@ duplexer2@^0.1.2, duplexer2@~0.1.0, duplexer2@~0.1.2:
   dependencies:
     readable-stream "^2.0.2"
 
-ecpair@3.0.0-rc.0:
-  version "3.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/ecpair/-/ecpair-3.0.0-rc.0.tgz#411137d9a43f1d79a656d89715b5dc24c2b76310"
-  integrity sha512-y2CTHgI2MMeYiXd8IFgxgORWR1PpyeUACek4viZm12VcbooWhVnqFEHISO0NAiZKJb7CqXEOz5bnhv/UI0ULzw==
+ecpair@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ecpair/-/ecpair-3.0.0.tgz#7a9c5fcebbefd074b3759fe0a4ee20976ead44ea"
+  integrity sha512-kf4JxjsRQoD4EBzpYjGAcR0t9i/4oAeRPtyCpKvSwyotgkc6oA4E4M0/e+kep7cXe+mgxAvoeh/jdgH9h5+Wxw==
   dependencies:
     uint8array-tools "^0.0.8"
     valibot "^0.37.0"
@@ -5849,15 +5849,10 @@ v8-to-istanbul@^9.0.1:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-valibot@1.2.0:
+valibot@^0.37.0, valibot@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/valibot/-/valibot-1.2.0.tgz#8fc720d9e4082ba16e30a914064a39619b2f1d6f"
   integrity sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==
-
-valibot@^0.37.0:
-  version "0.37.0"
-  resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.37.0.tgz#b71f597a581c716f6546a3b53cefd2829b559c55"
-  integrity sha512-FQz52I8RXgFgOHym3XHYSREbNtkgSjF9prvMFH1nBsRyfL6SfCzoT1GuSDTlbsuPubM7/6Kbw0ZMQb8A+V+VsQ==
 
 varuint-bitcoin@1.1.2, varuint-bitcoin@^1.0.1:
   version "1.1.2"

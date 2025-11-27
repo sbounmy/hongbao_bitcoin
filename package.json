@@ -69,7 +69,7 @@
     "cipher-base": "1.0.6",
     "create-hash": "1.2.0",
     "dijkstrajs": "1.0.3",
-    "ecpair": "3.0.0-rc.0",
+    "ecpair": "^3.0.0",
     "encode-utf8": "1.0.3",
     "events": "^3.3.0",
     "fflate": "0.8.2",
@@ -100,8 +100,10 @@
     "uint8array-tools": "0.0.9",
     "util": "^0.12.5",
     "util-deprecate": "1.0.2",
-    "valibot": "1.2.0",
     "varuint-bitcoin": "1.1.2",
     "wif": "5.0.0"
+  },
+  "resolutions": {
+    "valibot": "^1.2.0"
   }
 }
