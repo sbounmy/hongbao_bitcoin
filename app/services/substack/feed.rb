@@ -30,7 +30,7 @@ module Substack
       end
     rescue => e
       Rails.logger.error "Failed to fetch Substack feed: #{e.message}"
-      [{title: "Error fetching update", description: e.message}]
+      [ { title: "Error fetching update", description: e.message } ]
     end
   end
 end
