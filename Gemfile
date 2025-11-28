@@ -132,3 +132,5 @@ gem "pagy", "~> 9.4"
 
 # SEO meta tags management
 gem "meta-tags"
+
+gem "openssl"

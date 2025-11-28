@@ -462,6 +462,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
+    openssl (3.3.2)
     ostruct (0.6.2)
     pagy (9.4.0)
     parallel (1.27.0)
@@ -744,6 +745,7 @@ DEPENDENCIES
   meta-tags
   mission_control-jobs
   oauth2
+  openssl
   pagy (~> 9.4)
   parallel_tests
   propshaft
