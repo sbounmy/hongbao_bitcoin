@@ -1,0 +1,41 @@
+<% content_for :skip_analytics, true %>
+
+<%= content_for :head do %>
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+  <meta name="robots" content="noindex, follow">
+<% end %>
+
+<%# Content is rendered inside the BTCDex screen area %>
+<%= render ContentLoaderComponent.new(url: form_v3_hong_bao_path(@hong_bao.address)) do %>
+  <%# Pokedex-style skeleton loading %>
+  <div class="space-y-4">
+    <%# Card skeleton %>
+    <div class="bg-base-200 rounded-xl border-2 border-[#FFB636]/30 overflow-hidden">
+      <%# Header skeleton %>
+      <div class="bg-[#FFB636]/50 px-4 py-3 flex justify-between items-center">
+        <div class="skeleton h-5 w-20 bg-neutral/30"></div>
+        <div class="skeleton h-5 w-16 bg-neutral/30 rounded-full"></div>
+      </div>
+      <%# Content skeleton %>
+      <div class="p-4 space-y-4">
+        <%# Image placeholder %>
+        <div class="flex justify-center">
+          <div class="skeleton w-24 h-24 rounded-xl bg-base-300"></div>
+        </div>
+        <%# Stats skeleton %>
+        <div class="space-y-2">
+          <div class="skeleton h-8 w-32 bg-base-300"></div>
+          <div class="skeleton h-5 w-48 bg-base-300"></div>
+          <div class="skeleton h-4 w-40 bg-base-300"></div>
+        </div>
+      </div>
+    </div>
+
+    <%# Action buttons skeleton %>
+    <div class="flex gap-2">
+      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
+      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
+      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
+    </div>
+  </div>
+<% end %>

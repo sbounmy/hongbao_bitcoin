@@ -27,10 +27,10 @@
 
       <%# Main Pokedex Content %>
       <div class="flex-1 flex flex-col min-h-svh">
-        <%# Pokedex Header %>
-        <div class="bg-[#F04747] relative pt-4 md:pt-6 px-4 md:px-6 flex-shrink-0">
+        <%# Pokedex Header - Fixed %>
+        <div class="bg-[#F04747] fixed top-0 left-0 right-0 md:left-16 z-50 pt-4 md:pt-6 px-4 md:px-6">
           <%# Top section with buttons %>
-          <div class="flex items-center gap-4 md:gap-6">
+          <div class="flex items-start gap-4 md:gap-6">
             <%# Large cyan/blue lens with white ring and dark border %>
             <%= link_to new_hong_bao_path,
                 class: "w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#00BFFF]
@@ -54,7 +54,7 @@
           </div>
 
           <%# Angled border line - SVG for smooth continuous joints %>
-          <div class="relative h-14 -mt-3 mb-4" style="overflow: visible;">
+          <div class="relative h-14 -mt-8" style="overflow: visible;">
             <svg class="absolute inset-0 w-full h-full" style="overflow: visible;" preserveAspectRatio="xMinYMid meet">
               <%# Black border (background, thicker) %>
               <path
@@ -78,9 +78,9 @@
           </div>
         </div>
 
-        <%# Main Screen Area - Scrollable %>
-        <div class="flex-1 bg-[#F04747] px-4 md:px-6 pb-20 md:pb-6 overflow-hidden">
-          <div class="bg-neutral rounded-2xl border-4 border-[#FFB636] shadow-2xl h-full flex flex-col overflow-hidden">
+        <%# Main Screen Area - Scrollable (with top padding for fixed header) %>
+        <div class="flex-1 bg-[#F04747] px-4 md:px-6 pb-20 md:pb-6 pt-28 md:pt-38 overflow-hidden">
+          <div class="bg-[#1a1a1a] rounded-2xl shadow-2xl h-full flex flex-col overflow-hidden">
             <%# Screen bezel/header %>
             <div class="bg-neutral-focus/50 rounded-t-xl px-4 py-2 border-b border-[#FFB636]/20 flex-shrink-0">
               <div class="flex items-center justify-between">
@@ -99,10 +99,10 @@
           </div>
         </div>
 
-        <%# Pokedex Floating Dock (mobile only) %>
-        <%= render Btcdex::DockComponent.new do |dock| %>
+        <%# Pokedex D-Pad Dock (mobile only) %>
+        <%= render V3::DockComponent.new do |dock| %>
           <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
-          <% dock.with_item(label: "Scan", icon: "qr-code", href: new_hong_bao_path) %>
+          <% dock.with_item(label: "Scan", icon: "qr-code", href: new_hong_bao_path, primary: true) %>
           <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
         <% end %>
       </div>
