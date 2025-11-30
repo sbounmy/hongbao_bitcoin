@@ -7,35 +7,45 @@
 
 <%# Content is rendered inside the BTCDex screen area %>
 <%= render ContentLoaderComponent.new(url: form_v3_hong_bao_path(@hong_bao.address)) do %>
-  <%# Pokedex-style skeleton loading %>
-  <div class="space-y-4">
-    <%# Card skeleton %>
-    <div class="bg-base-200 rounded-xl border-2 border-[#FFB636]/30 overflow-hidden">
-      <%# Header skeleton %>
-      <div class="bg-[#FFB636]/50 px-4 py-3 flex justify-between items-center">
-        <div class="skeleton h-5 w-20 bg-neutral/30"></div>
-        <div class="skeleton h-5 w-16 bg-neutral/30 rounded-full"></div>
-      </div>
-      <%# Content skeleton %>
-      <div class="p-4 space-y-4">
-        <%# Image placeholder %>
-        <div class="flex justify-center">
-          <div class="skeleton w-24 h-24 rounded-xl bg-base-300"></div>
-        </div>
-        <%# Stats skeleton %>
-        <div class="space-y-2">
-          <div class="skeleton h-8 w-32 bg-base-300"></div>
-          <div class="skeleton h-5 w-48 bg-base-300"></div>
-          <div class="skeleton h-4 w-40 bg-base-300"></div>
-        </div>
-      </div>
+  <%# Pokedex-style skeleton loading - dark theme %>
+  <div class="space-y-6">
+    <%# Main section skeleton %>
+    <div class="space-y-3">
+      <div class="skeleton h-3 w-20 bg-white/10"></div>
+      <div class="skeleton h-12 w-40 bg-white/10"></div>
+      <div class="skeleton h-6 w-32 bg-white/10"></div>
+      <div class="skeleton h-4 w-48 bg-white/10"></div>
     </div>
 
     <%# Action buttons skeleton %>
     <div class="flex gap-2">
-      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
-      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
-      <div class="skeleton flex-1 h-10 bg-[#FFB636]/20 rounded-lg"></div>
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+    </div>
+
+    <%# Divider %>
+    <div class="border-t border-white/10"></div>
+
+    <%# Transaction history skeleton %>
+    <div class="space-y-3">
+      <div class="skeleton h-3 w-32 bg-white/10"></div>
+      <div class="flex items-center gap-3">
+        <div class="skeleton w-10 h-10 rounded-full bg-white/10"></div>
+        <div class="flex-1 space-y-2">
+          <div class="skeleton h-4 w-28 bg-white/10"></div>
+          <div class="skeleton h-3 w-20 bg-white/10"></div>
+        </div>
+        <div class="skeleton h-4 w-24 bg-white/10"></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="skeleton w-10 h-10 rounded-full bg-white/10"></div>
+        <div class="flex-1 space-y-2">
+          <div class="skeleton h-4 w-28 bg-white/10"></div>
+          <div class="skeleton h-3 w-20 bg-white/10"></div>
+        </div>
+        <div class="skeleton h-4 w-24 bg-white/10"></div>
+      </div>
     </div>
   </div>
 <% end %>
