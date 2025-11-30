@@ -1,14 +1,20 @@
-<div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6 space-y-6">
-  <h3 class="text-xl font-bold text-[#FFB636]">Enter Destination</h3>
+<%# BTCDex Style Destination Entry %>
+<div class="bg-base-200 rounded-xl border-2 border-[#FFB636] overflow-hidden"
+     data-controller="bitcoin-address form-wallet"
+     data-form-wallet-bitcoin-outlet="#bitcoin"
+     data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
+     data-bitcoin-address-network-value="<%= Current.network %>">
 
-  <div class="flex flex-col gap-4"
-       data-controller="bitcoin-address form-wallet"
-       data-form-wallet-bitcoin-outlet="#bitcoin"
-       data-action="bitcoin-address:error->form-wallet#error bitcoin-address:success->form-wallet#success"
-       data-bitcoin-address-network-value="<%= Current.network %>">
-    <div>
+  <%# Header %>
+  <div class="bg-[#FFB636] px-4 py-2">
+    <h3 class="font-bold text-neutral">Enter Destination</h3>
+  </div>
+
+  <div class="p-4 space-y-4">
+    <%# Address Input %>
+    <div class="relative">
       <%= form.text_field :to_address,
-          class: "w-full bg-white/10 text-white border-2 border-transparent
+          class: "w-full bg-base-300 text-white border-2 border-transparent
                   focus:border-[#FFB636] rounded-lg py-3 px-4 pr-12
                   placeholder-white/50 focus:outline-none",
           placeholder: "Enter Bitcoin address",
@@ -20,66 +26,66 @@
 
       <button type="button"
               data-action="click->steps#scanQR"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-[#FFB636]
                     transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-        </svg>
+        <%= heroicon "qr-code", variant: :outline, class: "w-6 h-6" %>
       </button>
 
-      <%= error_message_target(controller: "form-wallet") %>
-    </div>
-    <div class="grid grid-cols-3 gap-4">
-      <% TransactionFee.current.priority_options.each do |option| %>
-        <label class="cursor-pointer">
-          <%= form.radio_button :fee_rate,
-              option[:satoshis],
-              class: "hidden peer",
-              checked: option[:default],
-              data: {
-                form_wallet_target: "fee"
-              } %>
-          <div class="p-4 bg-white/10 rounded-lg border-2 border-transparent
-                      peer-checked:border-[#FFB636] peer-checked:bg-white/20
-                      hover:bg-white/20 transition-colors text-white">
-            <div class="flex justify-between mb-2">
-              <span class="font-medium"><%= option[:name] %></span>
-              <span class="px-2 py-1 text-xs bg-white/20 rounded-full">
-                ~<%= time_ago_in_words(option[:minutes].minutes.ago,
-                    scope: 'datetime.distance_in_words.short') %>
-              </span>
-            </div>
-            <div class="space-y-0.5">
-              <div class="text-sm">
-                ₿<%= number_with_precision(option[:amount], precision: 8) %>
-              </div>
-              <div class="text-sm text-white/70">
-                ($<%= number_with_precision(option[:amount] * Spot.current(:usd).usd, precision: 2) %>)
-              </div>
-            </div>
-          </div>
-        </label>
-      <% end %>
+      <div data-bitcoin-address-target="errorMessage"
+           class="text-red-400 text-xs mt-1 hidden">
+        Please enter a valid Bitcoin address.
+      </div>
     </div>
 
+    <%# Fee Selection %>
+    <div class="space-y-2">
+      <span class="text-white/60 text-sm">Network Fee</span>
+      <div class="grid grid-cols-3 gap-2">
+        <% TransactionFee.current.priority_options.each do |option| %>
+          <label class="cursor-pointer">
+            <%= form.radio_button :fee_rate,
+                option[:satoshis],
+                class: "hidden peer",
+                checked: option[:default],
+                data: {
+                  form_wallet_target: "fee"
+                } %>
+            <div class="p-3 bg-base-300 rounded-lg border-2 border-transparent
+                        peer-checked:border-[#FFB636] peer-checked:bg-base-300/80
+                        hover:bg-base-300/80 transition-colors text-white">
+              <div class="text-center space-y-1">
+                <span class="font-medium text-sm block"><%= option[:name] %></span>
+                <span class="text-xs text-white/60 block">
+                  ~<%= time_ago_in_words(option[:minutes].minutes.ago,
+                      scope: 'datetime.distance_in_words.short') %>
+                </span>
+                <div class="text-xs text-[#FFB636]">
+                  $<%= number_with_precision(option[:amount] * Spot.current(:usd).usd, precision: 2) %>
+                </div>
+              </div>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <%# UTXOs Section %>
     <%= render ContentLoaderComponent.new(url: utxos_hong_bao_path(@hong_bao.address, testnet: Current.testnet?), lazy_loading: true) %>
 
-    <div class="flex items-center mt-4 gap-4">
-
-
+    <%# Action Buttons %>
+    <div class="flex gap-2 pt-2">
       <%= render "hong_baos/new/previous_button" %>
 
-
-      <div class="flex-1">
-        <%= button_tag "Transfer",
-        class: "w-full py-3 px-6 border-2 border-transparent rounded-xl shadow-lg text-base font-medium
-               text-[#F04747] bg-[#FFB636] hover:bg-[#FFB636]/90 transition-colors duration-300
-               disabled:opacity-30",
-        data: {
-          action: "form-wallet#transfer",
-          form_wallet_target: "submitButton"
-        } %>
-      </div>
+      <%= button_tag class: "flex-1 bg-[#FFB636] text-neutral py-2 px-4 rounded-lg font-semibold text-sm
+                            hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed
+                            flex items-center justify-center gap-2",
+          data: {
+            action: "form-wallet#transfer",
+            form_wallet_target: "submitButton"
+          } do %>
+        <%= heroicon "paper-airplane", class: "w-4 h-4" %>
+        <span>Transfer</span>
+      <% end %>
     </div>
   </div>
 </div>

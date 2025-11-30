@@ -2,7 +2,7 @@
   <%= form_with(model: @hong_bao,
                 url: hong_bao_path(@hong_bao.address),
                 id: "bitcoin",
-                class: "space-y-6 group",
+                class: "space-y-4",
                 data: {
                   controller: "steps bitcoin",
                   action: "bitcoin:transferSuccess->steps#next",

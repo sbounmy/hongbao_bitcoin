@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <%# Primary Meta Tags %>
-    <title><%= t('.meta.title') %></title>
+    <title><%= content_for?(:title) ? yield(:title) : t('.meta.title') %></title>
     <meta name="title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
     <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : t('.meta.keywords') %>">
@@ -17,7 +17,6 @@
     <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : t('.meta.title') %>">
     <meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : t('.meta.description') %>">
     <meta property="og:image" content="<%= content_for?(:og_image) ? yield(:og_image) : image_url('og-image.jpg') %>">
-
 
     <%# Twitter %>
     <meta property="twitter:card" content="summary_large_image">
@@ -51,24 +50,97 @@
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
-  <%= tag.body(**attributes_from(yield(:body_attributes))) do %>
-    <%# render "shared/header" %>
-    <%= render "main/sidebar" do %>
-      <div class="h-svh">
-        <% if flash.any? %>
-          <div class="container mx-auto px-4 pt-4">
-            <%= render FlashMessagesComponent.new(flash: flash) %>
+  <body class="bg-[#F04747] min-h-svh">
+    <div class="flex min-h-svh">
+      <%# Compact Sidebar - Desktop only %>
+      <%= render "btcdex/sidebar" %>
+
+      <%# Main Pokedex Content %>
+      <div class="flex-1 flex flex-col min-h-svh">
+        <%# Pokedex Header - Fixed %>
+        <div class="bg-[#F04747] fixed top-0 left-0 right-0 md:left-16 z-50 pt-4 md:pt-6 px-4 md:px-6">
+          <%# Top section with buttons %>
+          <div class="flex items-start gap-4 md:gap-6">
+            <%# Large cyan/blue lens with white ring and dark border %>
+            <%= link_to new_hong_bao_path,
+                class: "w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#00BFFF]
+                        flex items-center justify-center
+                        ring-4 ring-white
+                        outline outline-[3px] outline-[#2a2a2a]
+                        hover:scale-105 transition-transform
+                        shadow-lg" do %>
+              <%= image_tag "bitcoin-64x64.svg", class: "w-8 h-8 md:w-10 md:h-10" %>
+            <% end %>
+
+            <%# 4 small filled indicator lights (red, red, yellow, green) %>
+            <div class="flex items-center gap-2 md:gap-3">
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#dc2626] border-2 border-[#7f1d1d] shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#facc15] border-2 border-[#a16207] shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#22c55e] border-2 border-[#166534] shadow-inner"></div>
+            </div>
+
+            <%# Spacer %>
+            <div class="flex-1"></div>
           </div>
+
+          <%# Angled border line - SVG for smooth continuous joints %>
+          <div class="relative h-14 -mt-8" style="overflow: visible;">
+            <svg class="absolute inset-0 w-full h-full" style="overflow: visible;" preserveAspectRatio="xMinYMid meet">
+              <%# Black border (background, thicker) %>
+              <path
+                d="M -18 48 L 90 48 L 115 8 L 2000 8"
+                fill="none"
+                stroke="black"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <%# Dark red fill (foreground, thinner) %>
+              <path
+                d="M -18 48 L 90 48 L 115 8 L 2000 8"
+                fill="none"
+                stroke="#991b1b"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <%# Main Screen Area - Scrollable (with top padding for fixed header) %>
+        <div class="flex-1 bg-[#F04747] px-4 md:px-6 pb-20 md:pb-6 pt-28 md:pt-38 overflow-hidden">
+          <div class="bg-[#1a1a1a] rounded-2xl shadow-2xl h-full flex flex-col overflow-hidden">
+            <%# Screen bezel/header %>
+            <div class="bg-neutral-focus/50 rounded-t-xl px-4 py-2 border-b border-[#FFB636]/20 flex-shrink-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                  <span class="text-white/60 text-xs font-mono">BTCDEX v1.0</span>
+                </div>
+                <span class="text-white/40 text-xs">SCAN TO COLLECT</span>
+              </div>
+            </div>
+
+            <%# Scrollable content area %>
+            <div class="flex-1 overflow-y-auto p-4">
+              <% if flash.any? %>
+                <%= render FlashMessagesComponent.new(flash: flash) %>
+              <% end %>
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+
+        <%# Pokedex D-Pad Dock (mobile only) %>
+        <%= render Btcdex::DockComponent.new do |dock| %>
+          <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
+          <% dock.with_item(label: "Scan", icon: "qr-code", href: new_hong_bao_path, primary: true) %>
+          <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
         <% end %>
-        <%= yield %>
       </div>
-    <% end %>
-  <% end %>
+    </div>
 
-  <%= turbo_frame_tag "modal"  %>
-
-  <!-- After the body tag so icons are loaded even after the page changes on click -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-  <%= content_for?(:footer) ? yield(:footer) : render("main/footer") %>
+    <%= turbo_frame_tag "modal" %>
+  </body>
 </html>

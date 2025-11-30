@@ -1,4 +1,3 @@
-
 <% content_for :skip_analytics, true %>
 
 <%= content_for :head do %>
@@ -6,48 +5,47 @@
   <meta name="robots" content="noindex, follow">
 <% end %>
 
-<div class="flex flex-col items-center min-h-screen bg-[#EDDAC8]">
-  <%= render "shared/header" %>
-  <%# permission_banner(:camera) %>
-  <!-- Red envelope container with gold border -->
-  <div class="w-full max-w-3xl">
-    <div class="p-8">
-      <%= render ContentLoaderComponent.new(url: form_hong_bao_path(@hong_bao.address)) do %>
-        <div class="space-y-6">
-          <!-- Custom skeleton matching balance card design -->
-          <div class="bg-primary backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-secondary outline outline-8 outline-primary p-6 relative overflow-hidden">
-            <h2 class="text-white/60 text-xs uppercase tracking-wider mb-2">My Hong Bao</h2>
-            <div class="skeleton h-16 w-48 mb-3 bg-white/20"></div>
-            <div class="skeleton h-6 w-32 mb-3 bg-white/20"></div>
-            <div class="skeleton h-4 w-64 bg-white/20"></div>
-          </div>
+<%# Content is rendered inside the BTCDex screen area %>
+<%= render ContentLoaderComponent.new(url: form_hong_bao_path(@hong_bao.address)) do %>
+  <%# BTCDex-style skeleton loading - dark theme %>
+  <div class="space-y-6">
+    <%# Main section skeleton %>
+    <div class="space-y-3">
+      <div class="skeleton h-3 w-20 bg-white/10"></div>
+      <div class="skeleton h-12 w-40 bg-white/10"></div>
+      <div class="skeleton h-6 w-32 bg-white/10"></div>
+      <div class="skeleton h-4 w-48 bg-white/10"></div>
+    </div>
 
-          <!-- Action Buttons Skeleton -->
-          <div class="flex gap-3">
-            <div class="skeleton flex-1 h-12 bg-secondary/30 rounded-xl"></div>
-            <div class="skeleton flex-1 h-12 bg-secondary/30 rounded-xl"></div>
-            <div class="skeleton flex-1 h-12 bg-secondary/30 rounded-xl"></div>
-          </div>
+    <%# Action buttons skeleton %>
+    <div class="flex gap-2">
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+      <div class="skeleton flex-1 h-10 bg-white/10 rounded-xl"></div>
+    </div>
 
-          <!-- Transaction History Skeleton -->
-          <div class="bg-primary backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-secondary outline outline-8 outline-primary p-6">
-            <h3 class="text-white font-semibold mb-4">Transaction History</h3>
-            <div class="skeleton h-4 w-full mx-auto bg-white/20"></div>
-          </div>
+    <%# Divider %>
+    <div class="border-t border-white/10"></div>
+
+    <%# Transaction history skeleton %>
+    <div class="space-y-3">
+      <div class="skeleton h-3 w-32 bg-white/10"></div>
+      <div class="flex items-center gap-3">
+        <div class="skeleton w-10 h-10 rounded-full bg-white/10"></div>
+        <div class="flex-1 space-y-2">
+          <div class="skeleton h-4 w-28 bg-white/10"></div>
+          <div class="skeleton h-3 w-20 bg-white/10"></div>
         </div>
-      <% end %>
+        <div class="skeleton h-4 w-24 bg-white/10"></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="skeleton w-10 h-10 rounded-full bg-white/10"></div>
+        <div class="flex-1 space-y-2">
+          <div class="skeleton h-4 w-28 bg-white/10"></div>
+          <div class="skeleton h-3 w-20 bg-white/10"></div>
+        </div>
+        <div class="skeleton h-4 w-24 bg-white/10"></div>
+      </div>
     </div>
   </div>
-  <!-- Discreet Bitcoin Quote Footer -->
-  <% if @quote %>
-    <div class="text-center mt-6 px-4">
-      <div class="text-primary/80 text-xs italic max-w-md mx-auto">
-        "<%= @quote.text %>"
-      </div>
-      <div class="text-primary/60 text-[10px] uppercase tracking-wider mt-1">
-        — <%= @quote.author %>
-      </div>
-    </div>
-  <% end %>
-
-</div>
+<% end %>

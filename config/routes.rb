@@ -111,15 +111,6 @@ Rails.application.routes.draw do
   get "/v2", to: "pages#v2"
   get "/btcdex", to: "btcdex#index"
 
-  # V3 API - BTCDex/Pokedex styled views
-  namespace :v3 do
-    resources :hong_baos, only: [ :show ] do
-      member do
-        get :form
-        get :utxos
-      end
-    end
-  end
   get "/dashboard", to: "papers#index"
   get "/bitcoin-companies", to: "pages#business"
 

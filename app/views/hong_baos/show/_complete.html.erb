@@ -1,17 +1,75 @@
-<div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6 space-y-6 text-center">
-  <h3 class="text-xl font-bold text-[#FFB636]">Transaction Submitted</h3>
+<%# BTCDex Style Transaction Complete %>
+<div class="bg-base-200 rounded-xl border-2 border-[#FFB636] overflow-hidden">
 
-  <div class="text-white space-y-4">
-    <p>Your transaction has been submitted to the network.</p>
-      <%= render "hong_baos/new/previous_button" %>
-    <a href="https://mempool.space/tx/<%# @hong_bao.last_transaction_id %>"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="inline-flex items-center text-[#FFB636] hover:text-[#FFB636]/80 transition-colors">
-      View on Mempool.space
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-      </svg>
-    </a>
+  <%# Header %>
+  <div class="bg-[#FFB636] px-4 py-2">
+    <h3 class="font-bold text-neutral">Transaction Complete</h3>
+  </div>
+
+  <div class="p-4 space-y-4">
+    <%# Success Icon %>
+    <div class="flex justify-center">
+      <div class="w-20 h-20 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center">
+        <%= heroicon "check", variant: :outline, class: "w-10 h-10 text-green-400" %>
+      </div>
+    </div>
+
+    <%# Message %>
+    <div class="text-center space-y-2">
+      <h4 class="text-lg font-bold text-[#FFB636]">Success!</h4>
+      <p class="text-white/70 text-sm">
+        Your transaction has been submitted to the Bitcoin network.
+      </p>
+    </div>
+
+    <%# Transaction Details %>
+    <div class="bg-base-300 rounded-lg p-3 space-y-2">
+      <div class="flex justify-between items-center">
+        <span class="text-white/60 text-sm">Status</span>
+        <span class="badge badge-success gap-1 text-xs">
+          <%= heroicon "signal", variant: :mini, class: "w-3 h-3" %>
+          Broadcasting
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <span class="text-white/60 text-sm">Transaction ID</span>
+        <div class="flex items-center gap-1" data-bitcoin-target="txIdContainer">
+          <span class="text-white/80 font-mono text-xs" data-bitcoin-target="txId">
+            Pending...
+          </span>
+          <button class="p-1 hover:bg-white/10 rounded transition-colors hidden"
+                  data-controller="clipboard"
+                  data-clipboard-success-content-value="Copied!"
+                  data-action="clipboard#copy"
+                  data-bitcoin-target="txCopyBtn">
+            <input type="hidden" data-clipboard-target="source" data-bitcoin-target="txCopySource">
+            <%= heroicon "clipboard", variant: :outline, class: "w-4 h-4 text-white/60" %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <%# Action Buttons %>
+    <div class="flex gap-2 pt-2">
+      <a href="#"
+         target="_blank"
+         rel="noopener noreferrer"
+         data-bitcoin-target="mempoolLink"
+         class="flex-1 py-2 px-3 bg-base-300 text-white font-semibold rounded-lg
+                hover:bg-base-300/80 transition-colors
+                flex items-center justify-center gap-1 text-sm border border-white/10">
+        <%= heroicon "arrow-top-right-on-square", class: "w-4 h-4" %>
+        <span>View on Mempool</span>
+      </a>
+
+      <%= link_to hong_baos_path,
+          class: "flex-1 py-2 px-3 bg-[#FFB636] text-neutral font-semibold rounded-lg
+                 hover:bg-[#FFB636]/90 transition-colors
+                 flex items-center justify-center gap-1 text-sm" do %>
+        <%= heroicon "home", class: "w-4 h-4" %>
+        <span>Done</span>
+      <% end %>
+    </div>
   </div>
 </div>

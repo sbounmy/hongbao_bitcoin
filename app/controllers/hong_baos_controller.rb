@@ -57,6 +57,7 @@ class HongBaosController < ApplicationController
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
     @steps = Step.for_show
+    @quote = Content::Quote.published.random.first
   end
 
   def transfer
@@ -85,7 +86,7 @@ class HongBaosController < ApplicationController
   end
   def set_layout
     if request.format.html?
-      "offline"
+      "main"
     else
       false
     end
