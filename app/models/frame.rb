@@ -11,12 +11,12 @@ class Frame
       layout_classes: "items-stretch w-[150mm]"
     },
     "portrait" => {
-      dimensions: [ 75, 113 ],  # Maintains 2:3 aspect ratio (1024x1536)
+      dimensions: [ 63, 88 ],  # Standard trading card size (2.5" x 3.5")
       rotation_front: "",
       rotation_back: "",
       fold_line: "border-l-2",
       layout_direction: "flex-row",  # Stack horizontally for portrait
-      layout_classes: "items-stretch min-h-[113mm]"  # Ensure full height with correct ratio
+      layout_classes: "items-stretch min-h-[88mm]"  # Ensure full height with correct ratio
     }
   }.freeze
 
