@@ -8,24 +8,24 @@
      data-action="bitcoin-mnemonic:error->form-wallet#error bitcoin-mnemonic:success->form-wallet#successMnemonic">
 
   <%# Section Header %>
-  <h2 class="text-white/50 text-xs uppercase tracking-wider">Verify Ownership</h2>
+  <h2 class="text-base-content/50 text-xs uppercase tracking-wider">Verify Ownership</h2>
 
   <%# Tab Buttons - Segmented Control Style %>
-  <div class="grid grid-cols-2 gap-1 p-1 bg-white/10 rounded-xl">
+  <div class="grid grid-cols-2 gap-1 p-1 bg-base-content/10 rounded-xl">
     <button type="button"
             data-tabs-target="btn"
             data-tab-id="private-key"
             data-action="tabs#select"
-            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-white/70
-                   hover:text-white transition-colors">
+            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-base-content/70
+                   hover:text-base-content transition-colors">
       Private Key
     </button>
     <button type="button"
             data-tabs-target="btn"
             data-tab-id="mnemonic"
             data-action="tabs#select"
-            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-white/70
-                   hover:text-white transition-colors">
+            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-base-content/70
+                   hover:text-base-content transition-colors">
       24 Words
     </button>
   </div>
@@ -43,19 +43,19 @@
     <%# Camera Button %>
     <button type="button"
             data-action="qr-scanner#startScanning"
-            class="w-full py-6 bg-white/10 rounded-xl flex flex-col items-center justify-center gap-2
-                   hover:bg-white/20 transition-colors">
+            class="w-full py-6 bg-base-content/10 rounded-xl flex flex-col items-center justify-center gap-2
+                   hover:bg-base-content/20 transition-colors">
       <%= heroicon "camera", variant: :outline, class: "w-8 h-8 text-secondary" %>
-      <span class="text-white/70 text-sm">Scan QR Code</span>
+      <span class="text-base-content/70 text-sm">Scan QR Code</span>
     </button>
 
-    <div id="qr-reader" class="hidden w-full bg-white/10 rounded-xl overflow-hidden"></div>
+    <div id="qr-reader" class="hidden w-full bg-base-content/10 rounded-xl overflow-hidden"></div>
 
     <div class="relative">
       <%= form.text_field :private_key,
-          class: "w-full bg-white/10 text-white border-2 border-transparent
+          class: "w-full bg-base-content/10 text-base-content border-2 border-transparent
                   focus:border-secondary rounded-xl py-3 px-4 text-sm
-                  placeholder-white/50 focus:outline-none",
+                  placeholder-base-content/50 focus:outline-none",
           placeholder: "Enter private key",
           data: {
             form_wallet_target: "privateKey",
@@ -63,7 +63,7 @@
             action: "input->#{key_controller}#validate"
           } %>
       <div data-<%= key_controller %>-target="errorMessage"
-           class="text-red-400 text-xs mt-1 hidden">
+           class="text-error text-xs mt-1 hidden">
         Please enter a valid private key.
       </div>
     </div>
@@ -83,39 +83,39 @@
         <div id="hong_bao_mnemonic_<%= i %>"
              class="relative word"
              data-controller="word"
-             data-word-valid-class="border-green-500"
-             data-word-invalid-class="border-red-500"
+             data-word-valid-class="border-success"
+             data-word-invalid-class="border-error"
              data-word-bitcoin-mnemonic-outlet=".bitcoin-mnemonic">
-          <span class="absolute left-1.5 top-1/2 -translate-y-1/2 text-white/40 text-xs">
+          <span class="absolute left-1.5 top-1/2 -translate-y-1/2 text-base-content/40 text-xs">
             <%= i + 1 %>.
           </span>
           <input type="text"
                  tabindex="<%= i %>"
                  data-word-target="input"
                  data-action="input->word#validateWord paste->word#fill"
-                 class="w-full bg-white/10 text-white border border-transparent
+                 class="w-full bg-base-content/10 text-base-content border border-transparent
                         focus:border-secondary rounded py-1.5 pl-6 pr-6 text-xs
-                        placeholder-white/30 focus:outline-none"
+                        placeholder-base-content/30 focus:outline-none"
                  placeholder="word">
           <div data-word-target="validIcon"
                class="validation-icon absolute right-1 top-1/2 -translate-y-1/2 hidden">
-            <%= heroicon "check-circle", variant: :mini, class: "w-4 h-4 text-green-500" %>
+            <%= heroicon "check-circle", variant: :mini, class: "w-4 h-4 text-success" %>
           </div>
           <div data-word-target="errorIcon"
                class="validation-icon absolute right-1 top-1/2 -translate-y-1/2 hidden">
-            <%= heroicon "exclamation-triangle", variant: :mini, class: "w-4 h-4 text-yellow-500" %>
+            <%= heroicon "exclamation-triangle", variant: :mini, class: "w-4 h-4 text-warning" %>
           </div>
         </div>
       <% end %>
     </div>
     <div data-bitcoin-mnemonic-target="errorMessage"
-         class="text-red-400 text-xs mt-2 hidden">
+         class="text-error text-xs mt-2 hidden">
       Please enter a valid 24-word mnemonic phrase.
     </div>
   </div>
 
   <%# Divider %>
-  <div class="border-t border-white/10"></div>
+  <div class="border-t border-base-content/10"></div>
 
   <%# Action Buttons %>
   <div class="flex gap-2">

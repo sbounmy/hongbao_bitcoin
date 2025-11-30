@@ -50,30 +50,30 @@
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
-  <body class="bg-[#F04747] min-h-svh">
+  <body class="bg-primary min-h-svh">
     <div class="min-h-svh">
       <%# Main Pokedex Content %>
       <div class="flex flex-col min-h-svh">
         <%# Pokedex Header - Fixed %>
-        <div class="bg-[#F04747] fixed top-0 left-0 right-0 z-50 pt-4 md:pt-6 px-4 md:px-6">
+        <div class="bg-primary fixed top-0 left-0 right-0 z-50 pt-4 md:pt-6 px-4 md:px-6">
           <%# Top section with buttons %>
           <div class="flex items-start gap-4 md:gap-6">
             <%# Large cyan/blue lens with white ring and dark border %>
             <%= link_to new_hong_bao_path,
-                class: "w-14 h-14 md:w-18 md:h-18 rounded-full bg-[#00BFFF]
+                class: "w-14 h-14 md:w-18 md:h-18 rounded-full bg-accent
                         flex items-center justify-center
                         ring-4 ring-white
-                        outline outline-[3px] outline-[#2a2a2a]
+                        outline outline-[3px] outline-base-200
                         hover:scale-105 transition-transform
                         shadow-lg" do %>
               <%= image_tag "bitcoin-64x64.svg", class: "w-8 h-8 md:w-10 md:h-10" %>
             <% end %>
 
-            <%# 4 small filled indicator lights (red, red, yellow, green) %>
+            <%# 3 small filled indicator lights (red, yellow, green) %>
             <div class="flex items-center gap-2 md:gap-3">
-              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#dc2626] border-2 border-[#7f1d1d] shadow-inner"></div>
-              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#facc15] border-2 border-[#a16207] shadow-inner"></div>
-              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#22c55e] border-2 border-[#166534] shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-error border-2 border-error/50 shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-warning border-2 border-warning/50 shadow-inner"></div>
+              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-success border-2 border-success/50 shadow-inner"></div>
             </div>
 
             <%# Spacer %>
@@ -106,21 +106,21 @@
         </div>
 
         <%# Main Screen Area - Scrollable (with top padding for fixed header) %>
-        <div class="flex-1 bg-[#F04747] px-4 md:px-6 pb-20 md:pb-6 pt-28 md:pt-38 overflow-hidden">
+        <div class="flex-1 bg-primary px-4 md:px-6 pb-20 md:pb-6 pt-28 md:pt-38 overflow-hidden">
           <div class="flex h-full">
             <%# Tab Navigation - Desktop only %>
             <%= render "btcdex/tab_nav" %>
 
             <%# Dark screen container %>
-            <div class="bg-[#1a1a1a] rounded-2xl md:rounded-l-none shadow-2xl flex-1 flex flex-col overflow-hidden">
+            <div class="bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 flex flex-col overflow-hidden">
               <%# Screen bezel/header %>
-              <div class="bg-neutral-focus/50 rounded-t-xl md:rounded-tl-none px-4 py-2 border-b border-[#FFB636]/20 flex-shrink-0">
+              <div class="bg-base-200/50 rounded-t-xl md:rounded-tl-none px-4 py-2 border-b border-secondary/20 flex-shrink-0">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                    <span class="text-white/60 text-xs font-mono">BTCDEX v1.0</span>
+                    <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+                    <span class="text-base-content/60 text-xs font-mono">BTCDEX v1.0</span>
                   </div>
-                  <span class="text-white/40 text-xs">SCAN TO COLLECT</span>
+                  <span class="text-base-content/40 text-xs">SCAN TO COLLECT</span>
                 </div>
               </div>
 

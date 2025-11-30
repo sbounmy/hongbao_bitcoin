@@ -6,14 +6,14 @@
      data-bitcoin-address-network-value="<%= Current.network %>">
 
   <%# Section Header %>
-  <h2 class="text-white/50 text-xs uppercase tracking-wider">Enter Destination</h2>
+  <h2 class="text-base-content/50 text-xs uppercase tracking-wider">Enter Destination</h2>
 
   <%# Address Input %>
   <div class="relative">
     <%= form.text_field :to_address,
-        class: "w-full bg-white/10 text-white border-2 border-transparent
+        class: "w-full bg-base-content/10 text-base-content border-2 border-transparent
                 focus:border-secondary rounded-xl py-3 px-4 pr-12 text-sm
-                placeholder-white/50 focus:outline-none",
+                placeholder-base-content/50 focus:outline-none",
         placeholder: "Enter Bitcoin address",
         data: {
           action: "input->bitcoin-address#validate",
@@ -23,20 +23,20 @@
 
     <button type="button"
             data-action="click->steps#scanQR"
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-secondary
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/60 hover:text-secondary
                   transition-colors">
       <%= heroicon "qr-code", variant: :outline, class: "w-6 h-6" %>
     </button>
 
     <div data-bitcoin-address-target="errorMessage"
-         class="text-red-400 text-xs mt-1 hidden">
+         class="text-error text-xs mt-1 hidden">
       Please enter a valid Bitcoin address.
     </div>
   </div>
 
   <%# Fee Selection %>
   <div class="space-y-3">
-    <span class="text-white/50 text-xs uppercase tracking-wider">Network Fee</span>
+    <span class="text-base-content/50 text-xs uppercase tracking-wider">Network Fee</span>
     <div class="grid grid-cols-3 gap-2">
       <% TransactionFee.current.priority_options.each do |option| %>
         <label class="cursor-pointer">
@@ -47,12 +47,12 @@
               data: {
                 form_wallet_target: "fee"
               } %>
-          <div class="p-3 bg-white/10 rounded-xl border-2 border-transparent
-                      peer-checked:border-secondary peer-checked:bg-white/20
-                      hover:bg-white/20 transition-colors text-white">
+          <div class="p-3 bg-base-content/10 rounded-xl border-2 border-transparent
+                      peer-checked:border-secondary peer-checked:bg-base-content/20
+                      hover:bg-base-content/20 transition-colors text-base-content">
             <div class="text-center space-y-1">
               <span class="font-medium text-sm block"><%= option[:name] %></span>
-              <span class="text-xs text-white/60 block">
+              <span class="text-xs text-base-content/60 block">
                 ~<%= time_ago_in_words(option[:minutes].minutes.ago,
                     scope: 'datetime.distance_in_words.short') %>
               </span>
@@ -70,7 +70,7 @@
   <%= render ContentLoaderComponent.new(url: utxos_hong_bao_path(@hong_bao.address, testnet: Current.testnet?), lazy_loading: true) %>
 
   <%# Divider %>
-  <div class="border-t border-white/10"></div>
+  <div class="border-t border-base-content/10"></div>
 
   <%# Action Buttons %>
   <div class="flex gap-2">
