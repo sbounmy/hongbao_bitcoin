@@ -14,7 +14,7 @@
         class: "h-12 flex items-center rounded-l-xl transition-colors
                 w-12 lg:w-auto lg:pr-4
                 justify-center lg:justify-start lg:gap-3
-                #{active ? 'bg-base-100 text-base-content' : 'bg-transparent text-base-content/70 hover:text-base-content'}",
+                #{active ? 'bg-base-100 text-base-content' : 'bg-transparent text-primary-content/70 hover:text-primary-content'}",
         title: item[:label] do %>
       <span class="w-12 flex items-center justify-center shrink-0">
         <%= heroicon item[:icon], variant: :outline, class: "w-6 h-6" %>
@@ -38,14 +38,14 @@
           </div>
         <% end %>
       </span>
-      <span class="hidden lg:block text-sm font-medium text-base-content/70"><%= current_user.handle %></span>
+      <span class="hidden lg:block text-sm font-medium text-primary-content/70"><%= current_user.handle %></span>
     </div>
   <% else %>
     <%= link_to login_path,
         class: "h-12 flex items-center rounded-l-xl transition-colors
                 w-12 lg:w-auto lg:pr-4
                 justify-center lg:justify-start lg:gap-3
-                bg-transparent text-base-content/70 hover:text-base-content",
+                bg-transparent text-primary-content/70 hover:text-primary-content",
         title: "Sign in" do %>
       <span class="w-12 flex items-center justify-center shrink-0">
         <%= heroicon "user", variant: :outline, class: "w-6 h-6" %>

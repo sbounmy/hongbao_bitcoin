@@ -1,12 +1,12 @@
-<div class="overflow-y-auto flex flex-col gap-8 h-full px-4 pt-4 pb-16 md:pb-4">
-  <h3 class="text-xl font-bold">Explore</h3>
-  
+<div class="flex flex-col gap-4 pb-16 md:pb-4">
+  <h3 class="text-xl font-bold text-base-content flex-shrink-0">Explore</h3>
+
   <%= render InfiniteScrollComponent.new(
     collection: Papers::ItemComponent.with_collection(@papers, broadcast: false),
     pagy: @pagy,
     path_method: method(:explore_papers_path),
     container_id: "papers",
     container_classes: "w-full",
-    grid_classes: "columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4"
+    grid_classes: "columns-1 md:columns-2 lg:columns-3 gap-4"
   ) %>
 </div>
