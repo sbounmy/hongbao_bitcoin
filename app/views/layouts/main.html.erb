@@ -106,22 +106,26 @@
         </div>
 
         <%# Main Screen Area - Scrollable (with top padding for fixed header) %>
-        <div class="flex-1 min-h-0 bg-primary px-4 md:px-6 pb-20 md:pb-6 pt-26 md:pt-32 overflow-hidden">
+        <div class="flex-1 min-h-0 bg-primary px-4 md:px-6 <%= content_for?(:footer) ? "pb-4" : "pb-20"-%> md:pb-6 pt-26 md:pt-32 overflow-hidden">
           <div class="flex h-full">
             <%# Tab Navigation - Desktop only %>
             <%= render "btcdex/tab_nav" %>
 
             <%# Dark screen container %>
             <div class="bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 min-h-0 flex flex-col overflow-hidden">
-              <%# Screen bezel/header %>
+              <%# Screen bezel/header - can be customized via content_for(:screen_header) %>
               <div class="bg-base-200/50 rounded-t-xl md:rounded-tl-none px-4 py-2 border-b border-secondary/20 flex-shrink-0">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
-                    <span class="text-base-content/60 text-xs font-mono">BTCDEX v1.0</span>
+                <% if content_for?(:screen_header) %>
+                  <%= yield :screen_header %>
+                <% else %>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+                      <span class="text-base-content/60 text-xs font-mono">BTCDEX v1.0</span>
+                    </div>
+                    <span class="text-base-content/40 text-xs">SCAN TO COLLECT</span>
                   </div>
-                  <span class="text-base-content/40 text-xs">SCAN TO COLLECT</span>
-                </div>
+                <% end %>
               </div>
 
               <%# Scrollable content area %>
@@ -136,10 +140,14 @@
         </div>
 
         <%# Pokedex D-Pad Dock (mobile only) %>
-        <%= render Btcdex::DockComponent.new do |dock| %>
-          <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
-          <% dock.with_item(label: "Scan", icon: "qr-code", href: new_hong_bao_path, primary: true) %>
-          <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
+        <% if content_for?(:footer) %>
+          <%= yield :footer %>
+        <% else %>
+          <%= render Btcdex::DockComponent.new do |dock| %>
+            <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
+            <% dock.with_item(label: "Scan", icon: "qr-code", href: new_paper_path, primary: true) %>
+            <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
+          <% end %>
         <% end %>
       </div>
     </div>
