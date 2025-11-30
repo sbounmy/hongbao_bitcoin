@@ -1,75 +1,74 @@
-<%# BTCDex Style Transaction Complete %>
-<div class="bg-base-200 rounded-xl border-2 border-[#FFB636] overflow-hidden">
+<%# BTCDex Style Transaction Complete - Dark Integrated Design %>
+<div class="space-y-6">
 
-  <%# Header %>
-  <div class="bg-[#FFB636] px-4 py-2">
-    <h3 class="font-bold text-neutral">Transaction Complete</h3>
+  <%# Section Header %>
+  <h2 class="text-white/50 text-xs uppercase tracking-wider">Transaction Complete</h2>
+
+  <%# Success Icon %>
+  <div class="flex justify-center py-4">
+    <div class="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center">
+      <%= heroicon "check", variant: :outline, class: "w-10 h-10 text-green-400" %>
+    </div>
   </div>
 
-  <div class="p-4 space-y-4">
-    <%# Success Icon %>
-    <div class="flex justify-center">
-      <div class="w-20 h-20 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center">
-        <%= heroicon "check", variant: :outline, class: "w-10 h-10 text-green-400" %>
-      </div>
+  <%# Message %>
+  <div class="text-center space-y-2">
+    <h4 class="text-2xl font-bold text-secondary">Success!</h4>
+    <p class="text-white/70 text-sm">
+      Your transaction has been submitted to the Bitcoin network.
+    </p>
+  </div>
+
+  <%# Transaction Details %>
+  <div class="bg-white/10 rounded-xl p-4 space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-white/60 text-sm">Status</span>
+      <span class="badge badge-success gap-1 text-xs">
+        <%= heroicon "signal", variant: :mini, class: "w-3 h-3" %>
+        Broadcasting
+      </span>
     </div>
 
-    <%# Message %>
-    <div class="text-center space-y-2">
-      <h4 class="text-lg font-bold text-[#FFB636]">Success!</h4>
-      <p class="text-white/70 text-sm">
-        Your transaction has been submitted to the Bitcoin network.
-      </p>
-    </div>
-
-    <%# Transaction Details %>
-    <div class="bg-base-300 rounded-lg p-3 space-y-2">
-      <div class="flex justify-between items-center">
-        <span class="text-white/60 text-sm">Status</span>
-        <span class="badge badge-success gap-1 text-xs">
-          <%= heroicon "signal", variant: :mini, class: "w-3 h-3" %>
-          Broadcasting
+    <div class="flex justify-between items-center">
+      <span class="text-white/60 text-sm">Transaction ID</span>
+      <div class="flex items-center gap-1" data-bitcoin-target="txIdContainer">
+        <span class="text-white/80 font-mono text-xs" data-bitcoin-target="txId">
+          Pending...
         </span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="text-white/60 text-sm">Transaction ID</span>
-        <div class="flex items-center gap-1" data-bitcoin-target="txIdContainer">
-          <span class="text-white/80 font-mono text-xs" data-bitcoin-target="txId">
-            Pending...
-          </span>
-          <button class="p-1 hover:bg-white/10 rounded transition-colors hidden"
-                  data-controller="clipboard"
-                  data-clipboard-success-content-value="Copied!"
-                  data-action="clipboard#copy"
-                  data-bitcoin-target="txCopyBtn">
-            <input type="hidden" data-clipboard-target="source" data-bitcoin-target="txCopySource">
-            <%= heroicon "clipboard", variant: :outline, class: "w-4 h-4 text-white/60" %>
-          </button>
-        </div>
+        <button class="p-1 hover:bg-white/10 rounded transition-colors hidden"
+                data-controller="clipboard"
+                data-clipboard-success-content-value="Copied!"
+                data-action="clipboard#copy"
+                data-bitcoin-target="txCopyBtn">
+          <input type="hidden" data-clipboard-target="source" data-bitcoin-target="txCopySource">
+          <%= heroicon "clipboard", variant: :outline, class: "w-4 h-4 text-white/60" %>
+        </button>
       </div>
     </div>
+  </div>
 
-    <%# Action Buttons %>
-    <div class="flex gap-2 pt-2">
-      <a href="#"
-         target="_blank"
-         rel="noopener noreferrer"
-         data-bitcoin-target="mempoolLink"
-         class="flex-1 py-2 px-3 bg-base-300 text-white font-semibold rounded-lg
-                hover:bg-base-300/80 transition-colors
-                flex items-center justify-center gap-1 text-sm border border-white/10">
-        <%= heroicon "arrow-top-right-on-square", class: "w-4 h-4" %>
-        <span>View on Mempool</span>
-      </a>
+  <%# Divider %>
+  <div class="border-t border-white/10"></div>
 
-      <%= link_to hong_baos_path,
-          class: "flex-1 py-2 px-3 bg-[#FFB636] text-neutral font-semibold rounded-lg
-                 hover:bg-[#FFB636]/90 transition-colors
-                 flex items-center justify-center gap-1 text-sm" do %>
-        <%= heroicon "home", class: "w-4 h-4" %>
-        <span>Done</span>
-      <% end %>
-    </div>
+  <%# Action Buttons %>
+  <div class="flex gap-2">
+    <a href="#"
+       target="_blank"
+       rel="noopener noreferrer"
+       data-bitcoin-target="mempoolLink"
+       class="flex-1 py-2.5 px-3 bg-white/10 text-white font-semibold rounded-xl
+              hover:bg-white/20 transition-colors
+              flex items-center justify-center gap-1 text-sm">
+      <%= heroicon "arrow-top-right-on-square", class: "w-4 h-4" %>
+      <span>View on Mempool</span>
+    </a>
+
+    <%= link_to hong_baos_path,
+        class: "flex-1 py-2.5 px-3 bg-secondary text-neutral font-semibold rounded-xl
+               hover:bg-secondary/90 transition-colors
+               flex items-center justify-center gap-1 text-sm" do %>
+      <%= heroicon "home", class: "w-4 h-4" %>
+      <span>Done</span>
+    <% end %>
   </div>
 </div>
