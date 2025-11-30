@@ -3,6 +3,7 @@
 <%= content_for :head do %>
   <meta name="csrf-token" content="<%= form_authenticity_token %>">
   <meta name="robots" content="noindex, follow">
+│ <%= javascript_include_tag "offline", "data-turbo-track": "reload", defer: true %>
 <% end %>
 
 <%# Content is rendered inside the BTCDex screen area %>
