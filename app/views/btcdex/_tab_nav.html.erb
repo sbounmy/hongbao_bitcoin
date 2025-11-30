@@ -1,0 +1,56 @@
+<%# Vertical Tab Navigation - Desktop only, left edge of dark screen %>
+<nav class="hidden md:flex flex-col gap-1">
+  <% nav_items = [
+    { path: dashboard_path, icon: "home", label: "Dashboard" },
+    { path: new_paper_path, icon: "sparkles", label: "Create" },
+    { path: explore_papers_path, icon: "banknotes", label: "Explore" },
+    { path: calendar_path, icon: "calendar-days", label: "Calendar" },
+    { path: saved_hong_baos_path, icon: "bookmark", label: "Saved" }
+  ] %>
+
+  <% nav_items.each do |item| %>
+    <% active = current_page?(item[:path]) %>
+    <%= link_to item[:path],
+        class: "h-12 flex items-center rounded-l-xl transition-colors
+                w-12 lg:w-auto lg:pr-4
+                justify-center lg:justify-start lg:gap-3
+                #{active ? 'bg-[#1a1a1a] text-white' : 'bg-transparent text-white/70 hover:text-white'}",
+        title: item[:label] do %>
+      <span class="w-12 flex items-center justify-center shrink-0">
+        <%= heroicon item[:icon], variant: :outline, class: "w-6 h-6" %>
+      </span>
+      <span class="hidden lg:block text-sm font-medium"><%= item[:label] %></span>
+    <% end %>
+  <% end %>
+
+  <%# Spacer %>
+  <div class="flex-grow"></div>
+
+  <%# User section at bottom %>
+  <% if authenticated? && current_user %>
+    <div class="h-12 flex items-center w-12 lg:w-auto lg:pr-4" title="<%= current_user.handle %>">
+      <span class="w-12 flex items-center justify-center shrink-0">
+        <% if current_user.avatar.attached? %>
+          <%= image_tag url_for(current_user.avatar), class: "w-8 h-8 rounded-full" %>
+        <% else %>
+          <div class="w-8 h-8 rounded-full bg-[#1a1a1a] flex items-center justify-center">
+            <span class="text-white/70 text-sm"><%= current_user.handle.first.upcase %></span>
+          </div>
+        <% end %>
+      </span>
+      <span class="hidden lg:block text-sm font-medium text-white/70"><%= current_user.handle %></span>
+    </div>
+  <% else %>
+    <%= link_to login_path,
+        class: "h-12 flex items-center rounded-l-xl transition-colors
+                w-12 lg:w-auto lg:pr-4
+                justify-center lg:justify-start lg:gap-3
+                bg-transparent text-white/70 hover:text-white",
+        title: "Sign in" do %>
+      <span class="w-12 flex items-center justify-center shrink-0">
+        <%= heroicon "user", variant: :outline, class: "w-6 h-6" %>
+      </span>
+      <span class="hidden lg:block text-sm font-medium">Sign in</span>
+    <% end %>
+  <% end %>
+</nav>
