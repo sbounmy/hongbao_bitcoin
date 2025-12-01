@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Install system dependencies
-      run: apt-get update && apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 build-essential libyaml-dev openssl
+      run: apt-get update && apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 build-essential libyaml-dev libssl-dev
 
     - uses: actions/checkout@v4
       with:
