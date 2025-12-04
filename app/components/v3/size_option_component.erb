@@ -6,15 +6,17 @@
                 hover:border-blue-500 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:outline-none
                 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-blue-500
                 <%= selected ? 'border-blue-500 ring-2 ring-blue-500' : 'border-gray-300' %>">
-    <% if default %>
-      <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-10 pointer-events-none">
-        Plus Populaire
-      </div>
-    <% end %>
     <div class="flex flex-col w-full">
-      <div class="flex justify-between items-center w-full">
+      <div class="flex justify-between items-start w-full gap-2">
         <span class="block font-semibold text-base-content"><%= display_name %></span>
-        <span class="font-semibold text-base-content"><%= formatted_price %></span>
+        <div class="flex items-center gap-2 shrink-0">
+          <% if default %>
+            <span class="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+              Plus Populaire
+            </span>
+          <% end %>
+          <span class="font-semibold text-base-content"><%= formatted_price %></span>
+        </div>
       </div>
       <span class="block text-sm text-base-content/70"><%= formatted_description %></span>
       <span class="block text-xs text-base-content/70 mt-1"><%= formatted_price_per_envelope %> per envelope</span>
