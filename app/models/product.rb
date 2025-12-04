@@ -6,7 +6,6 @@ class Product < ApplicationRecord
   friendly_id :name, use: :slugged
 
   array_columns :option_type_ids, only_integer: true
-  metadata :envelopes_count, :tokens_count
 
   has_many :variants, -> { order(:position) }, dependent: :destroy
   belongs_to :master_variant, class_name: "Variant", optional: true

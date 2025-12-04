@@ -1,46 +1,14 @@
 ---
-mini:
-  id: 4
-  name: Mini Pack
-  slug: mini
-  description: 6 envelopes + 12 credits
-  stripe_product_id: prod_SO9GmhAFidiukT
+envelopes:
+  id: 1
+  name: Envelopes
+  slug: envelopes
+  description: Bitcoin gift envelopes with paper wallets
+  stripe_product_id: prod_envelopes
   position: 0
   published_at: '2025-09-29T03:16:14Z'
-  master_variant_id: 17
-  metadata:
-    envelopes_count: 6
-    tokens_count: 12
-  option_type_ids:
-  - 3
-  - 4
-family:
-  id: 5
-  name: Family Pack
-  slug: family
-  description: 12 envelopes + 24 credits
-  stripe_product_id: prod_SOA4vfEvazoRti
-  position: 1
-  published_at: '2025-09-29T03:16:14Z'
-  master_variant_id: 19
-  metadata:
-    envelopes_count: 12
-    tokens_count: 24
-  option_type_ids:
-  - 3
-  - 4
-maximalist:
-  id: 6
-  name: Maximalist Pack
-  slug: maximalist
-  description: 24 envelopes + 42 credits
-  stripe_product_id: prod_SOA6phfwu0fqTR
-  position: 2
-  published_at: '2025-09-29T03:16:15Z'
-  master_variant_id: 21
-  metadata:
-    envelopes_count: 24
-    tokens_count: 42
+  master_variant_id: 1
+  metadata: {}
   option_type_ids:
   - 3
   - 4

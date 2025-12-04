@@ -63,28 +63,25 @@ class V3::SizeSelectorComponent < ApplicationComponent
     end
 
     def formatted_description
-      case size_value.name
-      when "mini"
-        "1 pack (6 envelopes) + 12 AI credits"
-      when "family"
-        "2 packs (12 envelopes) + 24 AI credits"
-      when "maximalist"
-        "4 packs (24 envelopes) + 42 AI credits"
+      env_count = envelopes_count
+      tok_count = tokens_count
+      if env_count && tok_count
+        "#{env_count} envelopes + #{tok_count} AI credits"
       else
         size_value.presentation
       end
     end
 
     def envelopes_count
-      case size_value.name
-      when "mini" then 6
-      when "family" then 12
-      when "maximalist" then 24
-      else 6
-      end
+      size_value.envelopes_count
+    end
+
+    def tokens_count
+      size_value.tokens_count
     end
 
     def price_per_envelope
+      return 0 unless envelopes_count && envelopes_count > 0
       (variant.price.to_f / envelopes_count).round(2)
     end
 

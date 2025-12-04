@@ -15,7 +15,7 @@ module Variants
     def envelopes_per_color
       return 0 unless color_option_values.any?
 
-      total_envelopes = variant.product.metadata["envelopes_count"] || 0
+      total_envelopes = variant.envelopes_count || 0
       total_envelopes / color_option_values.size
     end
 
