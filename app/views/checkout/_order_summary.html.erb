@@ -18,7 +18,7 @@
 
     <div class="flex-1">
       <h3 class="text-sm font-medium text-gray-900">
-        <%= product.name %>
+        <%= product.name %> - <%= variant.size_option_value&.presentation || "Pack" %>
       </h3>
       <% envelopes_count = product.metadata["envelopes_count"] || product.envelopes_count %>
       <% tokens_count = product.metadata["tokens_count"] || product.tokens_count %>
