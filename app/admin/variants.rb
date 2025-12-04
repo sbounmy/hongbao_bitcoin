@@ -2,7 +2,7 @@ ActiveAdmin.register Variant do
   menu parent: "E-Commerce", priority: 2
 
   permit_params :product_id, :sku, :price, :stripe_price_id, :is_master,
-                :position, :metadata, option_value_ids: []
+                :position, :metadata, option_value_ids: [], images: []
 
   index do
     selectable_column
@@ -111,33 +111,6 @@ ActiveAdmin.register Variant do
         end
       else
         para "No images attached"
-      end
-    end
-  end
-
-  controller do
-    def update
-      # Handle new image uploads
-      if params[:variant][:images].present?
-        params[:variant][:images].each do |image|
-          resource.images.attach(image)
-        end
-      end
-      params[:variant].delete(:images)
-      super
-    end
-
-    def create
-      images = params[:variant].delete(:images)
-      super do |success, failure|
-        success.html do
-          if images.present?
-            images.each do |image|
-              resource.images.attach(image)
-            end
-          end
-          redirect_to admin_variant_path(resource)
-        end
       end
     end
   end

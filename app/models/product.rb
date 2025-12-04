@@ -10,6 +10,7 @@ class Product < ApplicationRecord
 
   has_many :variants, -> { order(:position) }, dependent: :destroy
   belongs_to :master_variant, class_name: "Variant", optional: true
+  has_many_attached :images
 
   validates :name, presence: true
 
@@ -59,6 +60,13 @@ class Product < ApplicationRecord
     return nil unless color_value
 
     variants.find { |v| v.has_option_value?(color_value.id) }
+  end
+
+  # Returns variant images first, then product images (common to all variants)
+  def all_images(variant = nil)
+    variant_images = variant&.images&.to_a || []
+    product_images = images.to_a
+    variant_images + product_images
   end
 
   private

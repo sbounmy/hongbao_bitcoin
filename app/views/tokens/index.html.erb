@@ -7,10 +7,8 @@
     <section id="pricing" class="mb-12">
       <div class="card bg-base-100 shadow-xl border border-base-300">
         <div class="card-body">
-          <%= render(V3::PricingComponent.new) do |component| %>
-            <% Product.published.ordered.each do |product| %>
-              <% component.with_plan(product: product) %>
-            <% end %>
+          <% if @product %>
+            <%= render V3::PricingComponent.new(product: @product) %>
           <% end %>
         </div>
       </div>

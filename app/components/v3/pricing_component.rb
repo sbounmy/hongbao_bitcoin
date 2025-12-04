@@ -1,48 +1,64 @@
 # frozen_string_literal: true
 
 class V3::PricingComponent < ApplicationComponent
-  renders_many :plans, "V3::PlanComponent"
+  attr_reader :product, :title
 
-  attr_reader :title
-
-  def initialize(title: true)
+  def initialize(product:, title: true)
+    super()
+    @product = product
     @title = title
   end
 
-  # Fetch product from url param ?pack=mini|family|maximalist
   def stripe_price_id
     selected_variant&.stripe_price_id
+  end
+
+  # The selected variant - either from URL param or default
+  def selected_variant
+    @selected_variant ||= if params[:variant_id].present?
+      product.variants.find_by(id: params[:variant_id])
+    else
+      # Default to first non-master variant
+      product.variants.find { |v| !v.is_master }
+    end
   end
 
   def selected_variant_id
     selected_variant&.id
   end
 
-  def selected_product
-    plans.find { |plan| plan.product.slug == pack }&.product
+  # Derive size from selected variant
+  def selected_size
+    @selected_size ||= selected_variant&.size_option_value
   end
 
-  def selected_variant
-    selected_product.variants.find_by(id: params[:variant_id]) || selected_product.variants.first
+  def selected_size_id
+    selected_size&.id
   end
 
-  def pack
-    params[:pack] || "mini"
+  # Derive color from selected variant
+  def selected_color
+    @selected_color ||= selected_variant&.color_option_value
+  end
+
+  # Filter variants to only those matching the selected size (for color selector)
+  def variants_for_selected_size
+    product.variants.select { |v| v.size_option_value&.id == selected_size&.id }
   end
 
   def color
     selected_variant&.color_option_value&.name
   end
 
-
   def media_items
-    image_files
+    image_files + video_files
   end
 
   def image_files
-    selected_variant&.images&.map do |attachment|
+    # Use product.all_images to get variant images first, then product images
+    product.all_images(selected_variant).map do |attachment|
       { type: :image, url: helpers.url_for(attachment), name: attachment.filename.to_s }
-    end || []
+    end
   end
 
   def video_files
@@ -50,56 +66,16 @@ class V3::PricingComponent < ApplicationComponent
     return [] unless File.exist?(video_config)
 
     all_videos = YAML.load_file(video_config)
-    plan_videos = all_videos[pack]
+    size_name = selected_size&.name || "mini"
+    plan_videos = all_videos[size_name]
     return [] unless plan_videos
 
-    selected_colors = color.split(",")
+    color_name = color || "red"
+    selected_colors = color_name.split(",")
     videos = selected_colors.flat_map { |c| plan_videos[c] || [] }.compact
 
     videos.map.with_index do |video, idx|
       { type: video["type"].to_sym, url: video["url"], name: "external_#{idx}" }
-    end
-  end
-
-  class V3::PlanComponent < ViewComponent::Base
-    attr_reader :product, :default
-
-    def initialize(product:, default: false)
-      @product = product
-      @default = default
-      super()
-    end
-
-    def selected?
-      product.slug == pack
-    end
-
-    def pack
-      params[:pack] || "mini"
-    end
-
-    def formatted_price
-      helpers.number_to_currency(product.price, unit: "€", format: "%n%u", strip_insignificant_zeros: true)
-    end
-
-    def formatted_description
-      "#{packs} packs (#{product.envelopes_count} envelopes) + #{product.tokens_count} AI credits"
-    end
-
-    def price_per_envelope
-      (product.price.to_f / product.envelopes_count).round(2)
-    end
-
-    def formatted_price_per_envelope
-      helpers.number_to_currency(price_per_envelope, unit: "€", format: "%n%u")
-    end
-
-    def packs
-      product.envelopes_count / 6
-    end
-
-    def stripe_price_id
-      selected_variant&.stripe_price_id
     end
   end
 end
