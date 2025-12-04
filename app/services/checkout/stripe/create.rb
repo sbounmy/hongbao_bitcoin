@@ -33,7 +33,14 @@ module Checkout
             allowed_countries: ALLOWED_COUNTRIES
           },
           line_items: [ {
-            price: variant.stripe_price_id,
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: "#{variant.size_option_value&.presentation || 'HongBao'} Pack",
+                description: "Color: #{variant.color_option_values.map(&:name).join("+")}"
+              },
+              unit_amount: (variant.price * 100).to_i
+            },
             quantity: 1
           } ],
           payment_intent_data: {
