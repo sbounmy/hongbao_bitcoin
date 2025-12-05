@@ -7,9 +7,7 @@
     <section id="pricing" class="mb-12">
       <div class="card bg-base-100 shadow-xl border border-base-300">
         <div class="card-body">
-          <% if @product %>
-            <%= render V3::PricingComponent.new(product: @product) %>
-          <% end %>
+          <%= render V3::PricingComponent.new(product: @product) %>
         </div>
       </div>
     </section>
