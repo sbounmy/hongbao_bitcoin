@@ -27,6 +27,12 @@ module Checkout
       end
 
       def checkout_params(variant)
+        variant_metadata = {
+          variant_id: variant.id,
+          product_id: variant.product_id,
+          colors: variant.color_option_values.map(&:name).join(",")
+        }
+
         p = {
           payment_method_types: [ "card" ],
           shipping_address_collection: {
@@ -43,12 +49,9 @@ module Checkout
             },
             quantity: 1
           } ],
+          metadata: variant_metadata, # Session metadata (works with 100% coupons)
           payment_intent_data: {
-            metadata: {
-              variant_id: variant.id,
-              product_id: variant.product_id,
-              colors: variant.color_option_values.map(&:name).join(",")
-            }
+            metadata: variant_metadata
           },
           phone_number_collection: {
             enabled: true
