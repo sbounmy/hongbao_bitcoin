@@ -67,12 +67,7 @@
       </p>
     </div>
 
-    <%= render V3::PricingComponent.new(title: false) do |component| %>
-      <% products = Product.published.ordered.includes(variants: { images_attachments: :blob }) %>
-      <% products.each do |product| %>
-        <% component.with_plan(product: product) %>
-      <% end %>
-    <% end %>
+    <%= render V3::PricingComponent.new(product: @product, title: false) %>
 
     <!-- SEO Content Section -->
     <div class="divider my-12"></div>

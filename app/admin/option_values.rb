@@ -1,7 +1,7 @@
 ActiveAdmin.register OptionValue do
   menu parent: "E-Commerce", priority: 4
 
-  permit_params :option_type_id, :name, :presentation, :color, :position
+  permit_params :option_type_id, :name, :presentation, :color, :position, :envelopes_count, :tokens_count
 
   index do
     selectable_column
@@ -51,6 +51,16 @@ ActiveAdmin.register OptionValue do
       f.input :position
     end
 
+    # Only show envelopes/tokens count for size option types
+    if f.object.option_type&.name == "size" || f.object.new_record?
+      f.inputs "Pack Contents (Size Options Only)" do
+        f.input :envelopes_count, as: :number, hint: "Number of envelopes in this size pack",
+                input_html: { value: f.object.envelopes_count }
+        f.input :tokens_count, as: :number, hint: "Number of AI credits included",
+                input_html: { value: f.object.tokens_count }
+      end
+    end
+
     f.actions
   end
 
@@ -75,6 +85,12 @@ ActiveAdmin.register OptionValue do
         end
       end
       row :position
+      row :envelopes_count do |value|
+        value.envelopes_count || "-"
+      end
+      row :tokens_count do |value|
+        value.tokens_count || "-"
+      end
       row :created_at
       row :updated_at
     end

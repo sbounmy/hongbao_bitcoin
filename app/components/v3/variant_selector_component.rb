@@ -3,17 +3,20 @@
 class V3::VariantSelectorComponent < ApplicationComponent
   renders_many :options, "V3::VariantOptionComponent"
 
-  attr_reader :product, :current_variant_id
+  attr_reader :product, :current_variant_id, :variants
 
-  def initialize(product:, current_variant_id: nil)
+  def initialize(product:, current_variant_id: nil, variants: nil)
     super()
     @product = product
     @current_variant_id = current_variant_id
+    @variants = variants || product&.available_variants || []
 
     return unless product
 
-    # Create an option for each non-master variant
-    product.available_variants.each do |variant|
+    # Create an option for each variant (filtered if variants param provided)
+    @variants.each do |variant|
+      next if variant.is_master # Skip master variants
+
       is_selected = variant.id == current_variant_id
 
       with_option(

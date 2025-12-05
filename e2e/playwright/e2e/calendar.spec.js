@@ -89,7 +89,7 @@ test.describe('Event Calendar', () => {
 
     // Find the cell that contains the date number
     const childCell = await page.locator('.calendar-day-current-month .calendar-day-number').filter({ hasText: new RegExp(`^\\s*${today}\\s*$`) }).first();
-    const todayCell = childCell.locator('../..')
+    const todayCell = childCell.locator('xpath=ancestor::div[contains(@class, "calendar-day")]').first()
 
     // Today should have the orange border
     await expect(todayCell).toHaveClass(/border-orange-500/);

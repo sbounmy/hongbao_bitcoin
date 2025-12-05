@@ -4,6 +4,7 @@ class OptionValue < ApplicationRecord
   belongs_to :option_type
 
   metadata :color
+  metadata :envelopes_count, :tokens_count
 
   validates :name, presence: true, uniqueness: { scope: :option_type_id }
   validates :presentation, presence: true

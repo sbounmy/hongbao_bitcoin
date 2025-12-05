@@ -6,8 +6,8 @@
   <title>Hong₿ao - Getting Started</title>
   <style>
     @page {
-      size: 80mm 160mm;
-      margin: 0;
+      size: A4;
+      margin: 5mm;
     }
 
     * {
@@ -25,14 +25,26 @@
       font-weight: 400;
     }
 
+    .page-container {
+      width: 210mm;
+      height: 297mm;
+      padding: 5mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5mm;
+      align-content: center;
+      justify-content: center;
+    }
+
     .page {
       width: 80mm;
-      height: 160mm;
+      height: 140mm;
       padding: 5mm;
       display: flex;
       flex-direction: column;
       position: relative;
       background: white;
+      border: 0.5px dashed #ccc;
     }
 
     /* Header - Ultra Minimal */
@@ -61,9 +73,9 @@
     /* Visual Hero */
     .visual-hero {
       background: white;
-      margin: 2mm 0 4mm 0;
+      margin: 2mm 0 3mm 0;
       text-align: center;
-      height: 45mm;
+      height: 30mm;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -74,15 +86,15 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 45mm;
+      max-height: 30mm;
     }
 
     /* Steps */
     .steps {
       display: flex;
       flex-direction: column;
-      gap: 4mm;
-      margin: 5mm 0;
+      gap: 2mm;
+      margin: 3mm 0;
       padding-left: 2mm;
     }
 
@@ -151,69 +163,73 @@
   </style>
 </head>
 <body>
-  <!-- Single Page Instructions for Gifters -->
-  <div class="page">
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">Getting Started</div>
-      <div class="subtitle">Thank you for choosing Hong₿ao</div>
-    </div>
+  <div class="page-container">
+    <% 4.times do %>
+      <!-- Instructions Card -->
+      <div class="page">
+        <!-- Header -->
+        <div class="header">
+          <div class="logo">Getting Started</div>
+          <div class="subtitle">Thank you for choosing Hong₿ao</div>
+        </div>
 
-    <!-- Visual Hero -->
-    <div class="visual-hero">
-      <%= image_tag "hongbao-illustration.jpg", class: "illustration", alt: "Hong₿ao Bitcoin Gift" %>
-    </div>
+        <!-- Visual Hero -->
+        <div class="visual-hero">
+          <%= image_tag "hongbao-illustration.jpg", class: "illustration", alt: "Hong₿ao Bitcoin Gift" %>
+        </div>
 
-    <!-- Steps -->
-    <div class="steps">
-      <div class="step">
-        <span class="step-number">1.</span>
-        <span class="step-text">
-          <strong>Access your account</strong><br>
-          <ul style="color: #666; font-size: 7.5pt; margin-left: 2mm;">
-            <li>Direct purchase: Sign in at hongbaob.tc</li>
-            <li>Amazon/others: Activate at hongbaob.tc/activate</li>
-          </ul>
-        </span>
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1.</span>
+            <span class="step-text">
+              <strong>Access your account</strong><br>
+              <ul style="color: #666; font-size: 7.5pt; margin-left: 2mm;">
+                <li>Direct purchase: Sign in at hongbaob.tc</li>
+                <li>Amazon/others: Activate at hongbaob.tc/activate</li>
+              </ul>
+            </span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">2.</span>
+            <span class="step-text">
+              <strong>Create paper wallet</strong> with recipient's photo - select style and theme
+            </span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">3.</span>
+            <span class="step-text">
+              <strong>Fund paper wallet</strong> with credit card or no-KYC: Bitcoin, wire transfer
+            </span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">4.</span>
+            <span class="step-text">
+              <strong>Print</strong> with a trusted printer - follow the PDF instructions<br>
+              <span style="color: #666; font-size: 7pt;">⚠️ Anyone with the PDF can steal the funds</span>
+            </span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">5.</span>
+            <span class="step-text">
+              <strong>Insert in envelope</strong> and your Bitcoin gift is ready!
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-title">SUPPORT</div>
+          <div class="footer-text">
+            Visit <span class="info-url">hongbaob.tc/help</span> • team@hongbaob.tc
+          </div>
+        </div>
       </div>
-
-      <div class="step">
-        <span class="step-number">2.</span>
-        <span class="step-text">
-          <strong>Create paper wallet</strong> with recipient's photo - select style and theme
-        </span>
-      </div>
-
-      <div class="step">
-        <span class="step-number">3.</span>
-        <span class="step-text">
-          <strong>Fund paper wallet</strong> with credit card or no-KYC: Bitcoin, wire transfer
-        </span>
-      </div>
-
-      <div class="step">
-        <span class="step-number">4.</span>
-        <span class="step-text">
-          <strong>Print</strong> with a trusted printer - follow the PDF instructions<br>
-          <span style="color: #666; font-size: 7pt;">⚠️ Anyone with the PDF can steal the funds</span>
-        </span>
-      </div>
-
-      <div class="step">
-        <span class="step-number">5.</span>
-        <span class="step-text">
-          <strong>Insert in envelope</strong> and your Bitcoin gift is ready!
-        </span>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      <div class="footer-title">SUPPORT</div>
-      <div class="footer-text">
-        Visit <span class="info-url">hongbaob.tc/help</span> • hello@hongbaob.tc
-      </div>
-    </div>
+    <% end %>
   </div>
 </body>
 </html>

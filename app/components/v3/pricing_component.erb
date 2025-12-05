@@ -31,18 +31,16 @@
 
             <div class="mb-8">
               <h2 class="text-xl font-semibold text-base-content mb-4">How many would you like?</h2>
-              <div class="space-y-3">
-                <% plans.each do |plan| %>
-                  <%= plan %>
-                <% end %>
-              </div>
+              <%= render V3::SizeSelectorComponent.new(product: product, selected_variant_id: selected_variant_id) %>
             </div>
 
             <div class="mb-4">
               <h2 class="text-xl font-semibold text-base-content mb-4">Choose your color(s)</h2>
-              <% if selected_product %>
-                <%= render V3::VariantSelectorComponent.new(product: selected_product, current_variant_id: selected_variant&.id) %>
-              <% end %>
+              <%= render V3::VariantSelectorComponent.new(
+                product: product,
+                current_variant_id: selected_variant_id,
+                variants: variants_for_selected_size
+              ) %>
             </div>
 
           <% end %>

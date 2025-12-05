@@ -143,6 +143,12 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.locator('#buyerAddress1').click();
     await page.waitForTimeout(1_000);
     await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
+    // force trigger dropdown on chromium
+    await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').press('ArrowLeft');
+    await page.waitForTimeout(1500);
+    await page.locator('#buyerAddress1').press('ArrowRight');
+
     await page.waitForTimeout(1_000);
     if (await page.locator('.pac-item').first().isHidden()) {
       await page.locator('#buyerAddress1').click()
@@ -175,6 +181,11 @@ test.describe('BTCPay Checkout Flow', () => {
     await page.locator('#buyerAddress1').click();
     await page.waitForTimeout(1_000);
     await page.locator('#buyerAddress1').pressSequentially('1 rue de la paix');
+    // force trigger dropdown on chromium
+    await page.waitForTimeout(1_000);
+    await page.locator('#buyerAddress1').press('ArrowLeft');
+    await page.waitForTimeout(1500);
+    await page.locator('#buyerAddress1').press('ArrowRight');
 
     // Wait for Google Places autocomplete to appear and be ready
     await page.waitForSelector('.pac-item', { state: 'visible', timeout: 5000 });

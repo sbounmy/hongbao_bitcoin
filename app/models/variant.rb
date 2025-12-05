@@ -18,6 +18,7 @@ class Variant < ApplicationRecord
   }
 
   delegate :name, :description, to: :product, prefix: true
+  delegate :envelopes_count, :tokens_count, to: :size_option_value, allow_nil: true
 
   def option_values
     @option_values ||= OptionValue.where(id: option_value_ids).includes(:option_type)

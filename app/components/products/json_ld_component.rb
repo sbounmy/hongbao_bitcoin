@@ -28,7 +28,8 @@ module Products
     end
 
     def product_name
-      "#{@product.name} Pack - Bitcoin Gift Envelopes (#{@product.envelopes_count} envelopes)"
+      envelopes = @variant&.envelopes_count || 6
+      "#{@product.name} Pack - Bitcoin Gift Envelopes (#{envelopes} envelopes)"
     end
 
     def product_images
@@ -80,7 +81,9 @@ module Products
     end
 
     def product_description
-      "#{@product.description}. This pack includes #{@product.envelopes_count} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{@product.tokens_count} AI credits for custom designs."
+      envelopes = @variant&.envelopes_count || 6
+      tokens = @variant&.tokens_count || 12
+      "#{@product.description}. This pack includes #{envelopes} premium Bitcoin gift envelopes with paper wallets and famous Bitcoiners quotes. Perfect for orange-pilling friends and family. Includes #{tokens} AI credits for custom designs."
     end
 
     def brand
