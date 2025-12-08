@@ -15,7 +15,7 @@ test.describe('Paper creation', () => {
   test('user can create a bundle', async ({ page }) => {
     await page.goto('/papers/new');
     await turboCableConnected(page);
-    await expect(page.locator('.drawer-side')).toContainText('490 ₿ao'); // General check for balance display
+    await expect(page.locator('.badge')).toContainText('490 ₿ao'); // General check for balance display
 
      // Select styles
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
@@ -34,7 +34,7 @@ test.describe('Paper creation', () => {
     expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1)
 
     await page.goto('/dashboard');
-    await expect(page.locator('.drawer-side')).toContainText('489 ₿ao'); // General check for balance display
+    await expect(page.locator('.badge')).toContainText('489 ₿ao'); // General check for balance display
   });
 
   test('can switch theme', async ({ page }) => {
