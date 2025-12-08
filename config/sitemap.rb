@@ -46,8 +46,7 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
       # Build comprehensive images array from ALL variants' images
       product_images = []
       product.variants.each do |variant|
-        # Include ALL images from each variant, not just the first
-        variant.images.each_with_index do |image, index|
+        variant.images.each do |image|
           if Rails.application.routes.url_helpers.respond_to?(:rails_blob_url)
             variant_description = variant.options_text
             product_images << {
@@ -60,15 +59,36 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
         end
       end
 
+      # 1. Add main product page
       if product_images.any?
         add product_path(slug: product.slug),
             changefreq: "weekly",
             priority: 0.8,
-            images: product_images # Include ALL images, not just first 4
+            images: product_images
       else
         add product_path(slug: product.slug),
             changefreq: "weekly",
             priority: 0.8
+      end
+
+      # 2. Add individual variant pages for SEO
+      product.variants.non_master.each do |variant|
+        option_param = product.variant_url_param(variant)
+        next if option_param.blank?
+
+        variant_images = variant.images.map do |image|
+          {
+            loc: Rails.application.routes.url_helpers.rails_blob_url(image, host: SitemapGenerator::Sitemap.default_host),
+            title: "#{product.name} #{variant.options_text} - Bitcoin Gift Envelope",
+            caption: "#{product.description}. #{variant.options_text} variant.",
+            geo_location: "Worldwide"
+          }
+        end
+
+        add variant_product_path(slug: product.slug, option: option_param),
+            changefreq: "weekly",
+            priority: 0.7,
+            images: variant_images.presence
       end
     end
   end

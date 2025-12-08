@@ -45,12 +45,18 @@ class Variant < ApplicationRecord
     "€#{price&.to_i || 0}"
   end
 
+  # Generic: get option value by type name
+  def option_value_for(type_name)
+    option_values.find { |ov| ov.option_type.name == type_name.to_s }
+  end
+
+  # Convenience methods delegate to generic
   def color_option_value
-    option_values.find { |ov| ov.option_type.name == "color" }
+    option_value_for(:color)
   end
 
   def size_option_value
-    option_values.find { |ov| ov.option_type.name == "size" }
+    option_value_for(:size)
   end
 
   def generate_sku

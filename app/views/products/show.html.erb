@@ -4,9 +4,9 @@
   # This prevents duplicate content issues for color variants
   canonical_url = product_url(slug: @product.slug)
 
-  # Add color to title/description only if viewing a specific variant
-  title_suffix = params[:color] ? " (#{params[:color].capitalize})" : ""
-  description_prefix = @selected_variant&.description ? "#{@selected_variant.description}. " : ""
+  # Add option to title/description only if viewing a specific variant
+  title_suffix = params[:option] ? " (#{params[:option].capitalize})" : ""
+  description_prefix = @selected_variant&.options_text.presence ? "#{@selected_variant.options_text} variant. " : ""
 
   meta_tags_config = {
     title: "#{@product.name}#{title_suffix} - #{@product.envelopes_count} Bitcoin Gift Envelopes",
@@ -119,7 +119,7 @@
     <!-- CTA Section -->
     <div class="text-center mt-12">
       <%= link_to "Buy #{@product.name} Now",
-          root_path(pack: @product.slug, color: @selected_color, anchor: "pricing"),
+          root_path(pack: @product.slug, color: @selected_option, anchor: "pricing"),
           class: "btn btn-primary btn-lg" %>
 
       <p class="mt-4 text-base-content/70">
