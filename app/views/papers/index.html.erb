@@ -1,47 +1,16 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
 
-  <div class="px-4 text-gray-800">
-    <%= render CollapseComponent.new(id: 'buy-traditional-red-envelopes', open: true) do |component| %>
-      <% component.with_summary do %>
-        <div class="flex items-center justify-between w-full">
-          <div class="flex items-center gap-2">
-            <span class="bg-pink-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">BITCOIN GIFTING</span>
-            <h2 class="text-xl font-serif font-semibold">Buy traditional red envelopes</h2>
-          </div>
-          <div class="flex items-center gap-4">
-            <p class="text-sm text-gray-500 hidden md:block">Free AI credits included</p>
-          </div>
-        </div>
-      <% end %>
-      <div class="flex flex-col lg:flex-row items-center gap-20 px-4">
-        <div class="">
-          <%= image_tag image_url("papers/dimensions.png"), class: "w-full" %>
-        </div>
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
-            <%= heroicon "bolt", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
-            <h3 class="font-semibold text-lg">Striking Design</h3>
-            <p class="text-sm text-gray-400 text-center">A beautiful, collectible Bitcoin design on premium red paper.</p>
-          </div>
-          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
-            <%= heroicon "check-badge", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
-            <h3 class="font-semibold text-lg">Superior Quality</h3>
-            <p class="text-sm text-gray-400 text-center">Thick, durable paper with a luxurious feel, built to last.</p>
-          </div>
-          <div class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl h-full">
-            <%= heroicon "chat-bubble-left-right", variant: :outline, class: "w-10 h-10 text-indigo-400" %>
-            <h3 class="font-semibold text-lg">Inspiring Quotes</h3>
-            <p class="text-sm text-gray-400 text-center">Features one of six different quotes from Bitcoin pioneers.</p>
-          </div>
-        </div>
-      </div>
-      <div class="mt-8 text-center">
-        <%= link_to pricing_path, class: "btn btn-primary rounded-full" do %>
-          <span>Buy now</span>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <%# Upsell banner for envelopes %>
+  <%= link_to pricing_path, class: "group flex items-center mx-4 p-2 pr-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-xl" do %>
+    <div class="w-20 h-16 flex-shrink-0">
+      <%= image_tag "red-main.png", class: "w-full h-full object-contain group-hover:scale-110 transition-transform", alt: "Bitcoin red envelopes" %>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-white font-bold">Premium Bitcoin Envelopes</p>
+      <p class="text-white/70 text-sm truncate">Perfect wrap for your paper wallet gift</p>
+    </div>
+    <%= heroicon "chevron-right", variant: :solid, class: "w-5 h-5 text-white/50 group-hover:text-white flex-shrink-0" %>
+  <% end %>
 
   <section id='papers' class="px-4 flex flex-col md:flex-row gap-4">
     <div>
