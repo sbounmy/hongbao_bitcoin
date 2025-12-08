@@ -65,9 +65,9 @@ export default class extends Controller {
     const activeQrCodeFunction = this.modeValue === 'beginner'
       ? walletInfo.appPublicAddressQrcode
       : walletInfo.publicAddressQrcode;
-    
+
     // Choose logo based on mode
-    const logoUrl = this.modeValue === 'beginner' 
+    const logoUrl = this.modeValue === 'beginner'
       ? this.hongbaoLogoValue
       : this.bitcoinLogoValue;
 
