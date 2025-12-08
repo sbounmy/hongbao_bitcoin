@@ -1,5 +1,5 @@
 <%# Paper selection card with front/back flip animation %>
-<div class="papers-item-component group/paper relative break-inside-avoid mb-4 [contain:layout_paint]" id="<%= dom_id(item) %>">
+<div class="papers-item-component group/paper relative break-inside-avoid mb-4" id="<%= dom_id(item) %>">
   <div class="group-open/paper:ring-secondary group-open/paper:ring-8 relative flex flex-col w-full">
     <%= link_to paper_path(item), target: "_blank", class: "group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all block" do %>
       <div class="relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
