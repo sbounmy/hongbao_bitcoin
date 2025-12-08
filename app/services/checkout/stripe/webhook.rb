@@ -21,7 +21,7 @@ module Checkout
             return success if context_id.present? && !client_reference_id&.start_with?(context_id)
           end
           Rails.logger.info("event: #{event.id} session##{session.id}: #{event.inspect}")
-          cs = ::Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "line_items.data.price.product" ] })
+          cs = ::Stripe::Checkout::Session.retrieve({ id: session.id, expand: [ "line_items", "payment_intent" ] })
           # Find or create user from checkout session email
           user = User.find_by(email: session.customer_details.email)
 
@@ -50,9 +50,16 @@ module Checkout
             return success(user)
           end
 
-          Rails.logger.info("Creating #{cs.line_items.data.first.price.product.metadata.tokens} token for session #{session.id}")
+          # Get variant from session metadata (or payment_intent metadata as fallback)
+          variant_id = cs.metadata&.variant_id || cs.payment_intent&.metadata&.variant_id
+          variant = Variant.find(variant_id.to_i)
+
+          tokens_count = variant&.tokens_count || 0
+          envelopes_count = variant&.envelopes_count || 0
+
+          Rails.logger.info("Creating #{tokens_count} tokens for session #{session.id} (variant_id: #{variant_id})")
           user.tokens.create!(
-              quantity: cs.line_items.data.first.price.product.metadata.tokens,
+              quantity: tokens_count,
               description: "Tokens purchased from Stripe #{session.payment_intent}",
               external_id: session.payment_intent || session.id,
               metadata: {
@@ -65,8 +72,8 @@ module Checkout
 
             Rails.logger.info("-----Session #{session.id} #{session.customer_details.inspect} / #{cs.inspect}")
             shipping_details = cs.collected_information.shipping_details
-            order =  user.orders.create!(
-              total_amount: cs.amount_total/100.0, # Convert cents to dollars
+            order = user.orders.create!(
+              total_amount: cs.amount_total / 100.0, # Convert cents to dollars
               currency: cs.currency,
               payment_provider: "stripe",
               external_id: session.payment_intent || session.id,
@@ -82,16 +89,17 @@ module Checkout
 
             order.complete! if order.may_complete?
 
+            line_item_data = cs.line_items.data.first
             order.line_items.create!(
               quantity: 1,
-              price: cs.amount_total/100.0, # Convert cents to dollars
-              stripe_price_id: cs.line_items.data.first.price.id,
+              price: cs.amount_total / 100.0, # Convert cents to dollars
+              stripe_price_id: line_item_data.price.id,
               metadata: {
-                name: cs.line_items.data.first.price.product.name,
-                tokens: cs.line_items.data.first.price.product.metadata["tokens"],
-                envelopes: cs.line_items.data.first.price.product.metadata["envelopes"],
-                description: cs.line_items.data.first.price.product.description,
-                color: cs.line_items.data.first.price.product.metadata["color"]
+                name: line_item_data.description,
+                tokens: tokens_count,
+                envelopes: envelopes_count,
+                description: line_item_data.description,
+                color: variant&.color_option_values&.map(&:name)&.join(",")
               }
             )
 

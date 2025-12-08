@@ -1,91 +1,112 @@
 ---
+# Master variant
+envelopes_master:
+  id: 1
+  product_id: 1
+  sku: ENVELOPES-MASTER
+  price: !ruby/object:BigDecimal 9:0.0e0
+  stripe_price_id:
+  is_master: true
+  position: 0
+  option_value_ids: []
+
+# Mini size variants
 mini_red:
-  id: 17
-  product_id: 4
-  sku: MINI-MINI-RED
+  id: 2
+  product_id: 1
+  sku: ENVELOPES-MINI-RED
   price: !ruby/object:BigDecimal 9:0.29e2
-  stripe_price_id: price_1RsgAeIeDQzQhbSLL3mL94AR
-  is_master: true
-  position: 0
+  stripe_price_id: price_mini_red
+  is_master: false
+  position: 1
   option_value_ids:
   - 8
   - 11
+
 mini_orange:
-  id: 18
-  product_id: 4
-  sku: MINI-MINI-ORANGE
+  id: 3
+  product_id: 1
+  sku: ENVELOPES-MINI-ORANGE
   price: !ruby/object:BigDecimal 9:0.29e2
-  stripe_price_id: price_1RsgAeIeDQzQhbSLL3mL94AR
+  stripe_price_id: price_mini_orange
   is_master: false
-  position: 1
+  position: 2
   option_value_ids:
   - 8
   - 12
+
+# Family size variants
 family_red:
-  id: 19
-  product_id: 5
-  sku: FAMILY-FAMILY-RED
+  id: 4
+  product_id: 1
+  sku: ENVELOPES-FAMILY-RED
   price: !ruby/object:BigDecimal 9:0.39e2
-  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
-  is_master: true
-  position: 0
+  stripe_price_id: price_family_red
+  is_master: false
+  position: 3
   option_value_ids:
   - 9
   - 11
-family_red_orange:
-  id: 20
-  product_id: 5
-  sku: FAMILY-FAMILY-RED_ORANGE
-  price: !ruby/object:BigDecimal 9:0.39e2
-  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
-  is_master: false
-  position: 2
-  option_value_ids:
-  - 9
-  - 11
-  - 12
-maximalist_red:
-  id: 21
-  product_id: 6
-  sku: MAXIMALIST-MAXIMALIST-RED
-  price: !ruby/object:BigDecimal 9:0.49e2
-  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
-  is_master: true
-  position: 0
-  option_value_ids:
-  - 10
-  - 11
-maximalist_red_orange:
-  id: 22
-  product_id: 6
-  sku: MAXIMALIST-MAXIMALIST-RED_ORANGE
-  price: !ruby/object:BigDecimal 9:0.49e2
-  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
-  is_master: false
-  position: 2
-  option_value_ids:
-  - 10
-  - 11
-  - 12
+
 family_orange:
-  id: 23
-  product_id: 5
-  sku: FAMILY-FAMILY-ORANGE
+  id: 5
+  product_id: 1
+  sku: ENVELOPES-FAMILY-ORANGE
   price: !ruby/object:BigDecimal 9:0.39e2
-  stripe_price_id: price_1RsgEEIeDQzQhbSLp99E7c8T
+  stripe_price_id: price_family_orange
   is_master: false
-  position: 1
+  position: 4
   option_value_ids:
   - 9
   - 12
-maximalist_orange:
-  id: 24
-  product_id: 6
-  sku: MAXIMALIST-MAXIMALIST-ORANGE
-  price: !ruby/object:BigDecimal 9:0.49e2
-  stripe_price_id: price_1RsgF2IeDQzQhbSLtnzFq3QN
+
+family_red_orange:
+  id: 6
+  product_id: 1
+  sku: ENVELOPES-FAMILY-RED-ORANGE
+  price: !ruby/object:BigDecimal 9:0.39e2
+  stripe_price_id: price_family_red_orange
   is_master: false
-  position: 1
+  position: 5
+  option_value_ids:
+  - 9
+  - 11
+  - 12
+
+# Maximalist size variants
+maximalist_red:
+  id: 7
+  product_id: 1
+  sku: ENVELOPES-MAXIMALIST-RED
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_maximalist_red
+  is_master: false
+  position: 6
   option_value_ids:
   - 10
+  - 11
+
+maximalist_orange:
+  id: 8
+  product_id: 1
+  sku: ENVELOPES-MAXIMALIST-ORANGE
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_maximalist_orange
+  is_master: false
+  position: 7
+  option_value_ids:
+  - 10
+  - 12
+
+maximalist_red_orange:
+  id: 9
+  product_id: 1
+  sku: ENVELOPES-MAXIMALIST-RED-ORANGE
+  price: !ruby/object:BigDecimal 9:0.49e2
+  stripe_price_id: price_maximalist_red_orange
+  is_master: false
+  position: 8
+  option_value_ids:
+  - 10
+  - 11
   - 12

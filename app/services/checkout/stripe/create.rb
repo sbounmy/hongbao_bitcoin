@@ -27,21 +27,31 @@ module Checkout
       end
 
       def checkout_params(variant)
+        variant_metadata = {
+          variant_id: variant.id,
+          product_id: variant.product_id,
+          colors: variant.color_option_values.map(&:name).join(",")
+        }
+
         p = {
           payment_method_types: [ "card" ],
           shipping_address_collection: {
             allowed_countries: ALLOWED_COUNTRIES
           },
           line_items: [ {
-            price: variant.stripe_price_id,
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: "#{variant.size_option_value&.presentation || 'HongBao'} Pack",
+                description: "Color: #{variant.color_option_values.map(&:name).join("+")}"
+              },
+              unit_amount: (variant.price * 100).to_i
+            },
             quantity: 1
           } ],
+          metadata: variant_metadata, # Session metadata (works with 100% coupons)
           payment_intent_data: {
-            metadata: {
-              variant_id: variant.id,
-              product_id: variant.product_id,
-              colors: variant.color_option_values.map(&:name).join(",")
-            }
+            metadata: variant_metadata
           },
           phone_number_collection: {
             enabled: true

@@ -7,9 +7,11 @@ class PagesController < ApplicationController
     @simulation = Simulation.new
     @simulation_result = Simulations::Create.call(@simulation.to_service_params.merge(stats_only: true))
     @latest_newsletter = Substack::Feed.call.first
+    @product = Product.published.ordered.includes(variants: { images_attachments: :blob }, images_attachments: :blob).last
   end
 
   def pricing
+    @product = Product.published.ordered.includes(variants: { images_attachments: :blob }, images_attachments: :blob).last
   end
 
   def instructions
@@ -23,5 +25,6 @@ class PagesController < ApplicationController
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
     @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { InstagramService.new.fetch_media }
+    @product = Product.published.ordered.includes(variants: { images_attachments: :blob }, images_attachments: :blob).last
   end
 end

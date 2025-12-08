@@ -19,7 +19,7 @@ test.describe('Stripe Checkout Flow', () => {
 
 
     // Verify redirect to Stripe Checkout
-    await expect(page.url()).toContain('checkout.stripe.com');
+    await page.waitForURL('https://checkout.stripe.com/**');
 
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await fillCheckout(page);
@@ -50,8 +50,9 @@ test.describe('Stripe Checkout Flow', () => {
     await page.locator('label:has-text("Mini Pack")').click();
     await page.getByRole('button', { name: 'Buy with Credit Card' }).click();
 
+
     // Verify redirect to Stripe Checkout
-    await expect(page.url()).toContain('checkout.stripe.com');
+    await page.waitForURL('https://checkout.stripe.com/**');
 
     await expect(page.locator('#promotionCode')).toBeVisible({ timeout: 10_000 });
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
@@ -76,7 +77,7 @@ test.describe('Stripe Checkout Flow', () => {
     await billingButton.click();
 
     await page.waitForURL('https://billing.stripe.com/p/session/**');
-    await page.waitForLoadState('networkidle', { timeout: 120000 }); // 120 seconds timeout
+    // await page.waitForLoadState('networkidle', { timeout: 120000 }); // 120 seconds timeout
 
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
@@ -99,7 +100,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await page.waitForTimeout(1_000); // wait for page to load
     // Verify redirect to Stripe Checkout
-    await expect(page.url()).toContain('checkout.stripe.com');
+    await page.waitForURL('https://checkout.stripe.com/**');
 
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await fillCheckout(page);

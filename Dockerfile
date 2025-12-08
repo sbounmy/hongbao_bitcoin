@@ -36,7 +36,7 @@ FROM base AS build
 
 # Install packages needed ONLY to build gems and JS
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git pkg-config && \
+    apt-get install --no-install-recommends -y build-essential git pkg-config libssl-dev && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g yarn && \

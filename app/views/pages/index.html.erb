@@ -590,11 +590,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
 </section>
 
 <section id="pricing" class="mx-auto max-w-4xl px-8 bg-base-100">
-  <%= render V3::PricingComponent.new(title: false) do |component| %>
-    <% Product.published.ordered.each do |product| %>
-      <% component.with_plan(product: ) %>
-    <% end %>
-  <% end %>
+  <%= render V3::PricingComponent.new(product: @product, title: false) %>
 </section>
 
 <section class="mx-auto px-8 bg-base-100">

@@ -6,15 +6,16 @@ class Product < ApplicationRecord
   friendly_id :name, use: :slugged
 
   array_columns :option_type_ids, only_integer: true
-  metadata :envelopes_count, :tokens_count
 
   has_many :variants, -> { order(:position) }, dependent: :destroy
   belongs_to :master_variant, class_name: "Variant", optional: true
+  has_many_attached :images
 
   validates :name, presence: true
 
   scope :published, -> { where.not(published_at: nil).where("published_at <= ?", Time.current) }
   scope :ordered, -> { order(:position) }
+  scope :with_variants, -> { includes(variants: { images_attachments: :blob }, images_attachments: :blob) }
 
   # SQLite-compatible scope for finding products with specific option type
   scope :with_option_type, ->(option_type_id) {
@@ -50,15 +51,44 @@ class Product < ApplicationRecord
     "€#{price&.to_i || 0}"
   end
 
+  def envelopes_count
+    default_variant&.envelopes_count || 6
+  end
+
+  def tokens_count
+    default_variant&.tokens_count || 12
+  end
+
   def find_variant_by_options(option_value_ids)
     variants.find { |v| v.option_value_ids.sort == option_value_ids.sort }
   end
 
-  def variant_for_color(color_name)
-    color_value = OptionValue.find_by_name_and_type(color_name, "color")
-    return nil unless color_value
+  # Generic: find variant by any option value name (color, size, material, etc.)
+  def find_variant_by_param(option_name)
+    return nil if option_name.blank?
 
-    variants.find { |v| v.has_option_value?(color_value.id) }
+    # Find matching option value across ALL option types
+    option_value = OptionValue.find_by(name: option_name.to_s.downcase)
+    return nil unless option_value
+
+    variants.find { |v| v.has_option_value?(option_value.id) }
+  end
+
+  # URL-friendly identifier for the variant (first distinguishing option)
+  def variant_url_param(variant)
+    variant&.option_values&.first&.name
+  end
+
+  # Keep for backwards compatibility
+  def variant_for_color(color_name)
+    find_variant_by_param(color_name)
+  end
+
+  # Returns variant images first, then product images (common to all variants)
+  def all_images(variant = nil)
+    variant_images = variant&.images&.to_a || []
+    product_images = images.to_a
+    variant_images + product_images
   end
 
   private

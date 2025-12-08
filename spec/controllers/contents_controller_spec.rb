@@ -53,10 +53,10 @@ RSpec.describe ContentsController, type: :controller do
     end
 
     context 'with invalid klass' do
-      it 'raises RecordNotFound for unknown klass' do
+      it 'raises UrlGenerationError for unknown klass (blocked by route constraint)' do
         expect {
           get :index, params: { klass: 'invalid' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }.to raise_error(ActionController::UrlGenerationError)
       end
     end
 
@@ -281,10 +281,10 @@ RSpec.describe ContentsController, type: :controller do
         expect(assigns(:content_class)).to eq(Content::Artist)
       end
 
-      it 'raises error for empty klass' do
+      it 'raises UrlGenerationError for empty klass (blocked by route constraint)' do
         expect {
           get :index, params: { klass: '' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }.to raise_error(ActionController::UrlGenerationError)
       end
     end
   end

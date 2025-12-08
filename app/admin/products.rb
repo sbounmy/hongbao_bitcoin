@@ -3,20 +3,14 @@ ActiveAdmin.register Product, as: "ShopProduct" do
 
   permit_params :name, :slug, :description, :meta_description, :stripe_product_id,
                 :position, :published_at, :master_variant_id,
-                metadata: [ :envelopes_count, :tokens_count ],
-                option_type_ids: []
+                option_type_ids: [],
+                images: []
 
   index do
     selectable_column
     id_column
     column :name
     column :slug
-    column "Envelopes" do |product|
-      product.envelopes_count
-    end
-    column "Tokens" do |product|
-      product.tokens_count
-    end
     column :price do |product|
       number_to_currency(product.price, unit: "€")
     end
@@ -42,13 +36,34 @@ ActiveAdmin.register Product, as: "ShopProduct" do
       f.input :published_at, as: :datetime_picker
     end
 
-    f.inputs "Metadata" do
-      f.input :envelopes_count, input_html: { value: f.object.envelopes_count || 0 }
-      f.input :tokens_count, input_html: { value: f.object.tokens_count || 0 }
-    end
-
     f.inputs "Option Types" do
       f.input :option_type_ids, as: :check_boxes, collection: OptionType.all.map { |ot| [ ot.presentation, ot.id ] }
+    end
+
+    if f.object.persisted? && f.object.images.any?
+      f.inputs "Current Images" do
+        li class: "string input optional stringish" do
+          label "Attached Images", for: "product_images_display", class: "label"
+          div style: "margin-left: 20%; padding: 10px 0;" do
+            f.object.images.each do |image|
+              span style: "display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; text-align: center; vertical-align: top;" do
+                img src: url_for(image), style: "max-width: 200px; max-height: 200px; display: block; margin-bottom: 10px;"
+                text_node image.filename.to_s
+                br
+                a "Delete",
+                  href: admin_attachment_path(image),
+                  data: { method: :delete, confirm: "Are you sure?", turbo: false },
+                  class: "button",
+                  style: "background: #dc2626; color: white; padding: 5px 15px; text-decoration: none; border-radius: 3px; display: inline-block; margin-top: 5px;"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    f.inputs "Add New Images" do
+      f.input :images, as: :file, input_html: { multiple: true }, label: false, hint: "Select multiple images to upload"
     end
 
     f.actions
@@ -62,8 +77,6 @@ ActiveAdmin.register Product, as: "ShopProduct" do
       row :description
       row :meta_description
       row :stripe_product_id
-      row :envelopes_count
-      row :tokens_count
       row :price do |product|
         number_to_currency(product.price, unit: "€")
       end
@@ -99,28 +112,6 @@ ActiveAdmin.register Product, as: "ShopProduct" do
   controller do
     def find_resource
       scoped_collection.friendly.find(params[:id])
-    end
-
-    def update
-      if params[:product][:envelopes_count] || params[:product][:tokens_count]
-        resource.metadata ||= {}
-        resource.metadata["envelopes_count"] = params[:product][:envelopes_count].to_i if params[:product][:envelopes_count]
-        resource.metadata["tokens_count"] = params[:product][:tokens_count].to_i if params[:product][:tokens_count]
-        params[:product].delete(:envelopes_count)
-        params[:product].delete(:tokens_count)
-      end
-      super
-    end
-
-    def create
-      if params[:product][:envelopes_count] || params[:product][:tokens_count]
-        params[:product][:metadata] ||= {}
-        params[:product][:metadata][:envelopes_count] = params[:product][:envelopes_count].to_i if params[:product][:envelopes_count]
-        params[:product][:metadata][:tokens_count] = params[:product][:tokens_count].to_i if params[:product][:tokens_count]
-        params[:product].delete(:envelopes_count)
-        params[:product].delete(:tokens_count)
-      end
-      super
     end
   end
 

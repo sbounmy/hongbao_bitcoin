@@ -81,18 +81,24 @@ Rails.application.routes.draw do
   get "/bitcoin-agenda/:month", to: "inputs/events#index", defaults: { type: "agenda" }, as: :agenda_month,
       constraints: { month: /[a-z]+(?:-\d{4})?/ }
 
-  # SEO-friendly product pages for Bitcoin envelopes (must be before generic content routes)
-  resources :products, path: "bitcoin-envelopes",
-            only: [ :index, :show ],
-            param: :slug do
+  # SEO-friendly product pages (must be before generic content routes)
+  # URL: /bitcoin-gift/:slug/:option (option can be color, size, material, etc.)
+  resources :products, path: "bitcoin-gift", only: [ :index, :show ], param: :slug do
     member do
-      get ":color", action: :show, as: :variant
+      get ":option", action: :show, as: :variant
     end
   end
 
-  # Programmatic SEO routes
-  get "/bitcoin-:klass", to: "contents#index", as: :bitcoin_contents
-  get "/bitcoin-:klass/:slug", to: "contents#show", as: :bitcoin_content
+  # Redirect old URLs (301 for SEO)
+  get "/bitcoin-envelopes", to: redirect("/bitcoin-gift", status: 301)
+  get "/bitcoin-envelopes/:slug", to: redirect("/bitcoin-gift/%{slug}", status: 301)
+  get "/bitcoin-envelopes/:slug/:option", to: redirect("/bitcoin-gift/%{slug}/%{option}", status: 301)
+
+  # Programmatic SEO routes - constrain to known content types only
+  get "/bitcoin-:klass", to: "contents#index", as: :bitcoin_contents,
+      constraints: { klass: /quotes|artists|events|products/ }
+  get "/bitcoin-:klass/:slug", to: "contents#show", as: :bitcoin_content,
+      constraints: { klass: /quotes|artists|events|products/ }
 
   resources :magic_links, only: [ :create ] do
     get :verify, on: :member  # /magic_links/:id/verify

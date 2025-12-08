@@ -1,9 +1,18 @@
-<div class="flex-1 flex flex-col bg-[#2a2a2e] overflow-hidden">
+<div class="flex-1 flex flex-col bg-[#2a2a2e] overflow-hidden" data-controller="reveal">
     <!-- Zoom controls toolbar -->
-    <div class="flex justify-center text-white items-center gap-2 p-2 bg-[#38383d] border-b border-white/10">
-      <button data-action="pdf#zoomOut" class="h-full hover:bg-[#737376] w-8 p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">-</button>
-      <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="h-full w-16 text-sm font-thin hover:bg-[#737376] p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]"></button>
-      <button data-action="pdf#zoomIn" class="h-full w-8 flex p-1 hover:bg-[#737376] justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">+</button>
+    <div class="flex justify-between text-white items-center p-2 bg-[#38383d] border-b border-white/10">
+      <div class="flex-1"></div>
+      <div class="flex gap-1">
+        <button data-action="pdf#zoomOut" class="hover:bg-[#737376] w-8 p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">-</button>
+        <button data-action="pdf#resetZoom" data-pdf-target="zoomDisplay" class="w-16 text-sm font-thin hover:bg-[#737376] p-1 flex justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]"></button>
+        <button data-action="pdf#zoomIn" class="w-8 flex p-1 hover:bg-[#737376] justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">+</button>
+      </div>
+      <div class="flex-1 flex justify-end">
+        <button data-action="reveal#toggle" class="hover:bg-[#737376] px-2 p-1 flex gap-1 justify-center items-center cursor-pointer rounded-sm bg-[#4a4a4f]">
+          <%= heroicon "eye-slash", variant: :mini, class: "w-4 h-4" %>
+          <span class="text-sm">Instructions</span>
+        </button>
+      </div>
     </div>
 
     <!-- Viewport for scrolling -->
@@ -33,7 +42,7 @@
                 %>
 
               <%# Fold Line %>
-              <div class="<%= frame.fold_line %> border-dashed border-gray-400">
+              <div class="<%= frame.fold_line %> border-white">
               </div>
               <%= render 'hong_baos/new/steps/paper_canva',
                         class_name: "#{frame.css_classes} #{frame.rotation_front}",
@@ -44,7 +53,7 @@
                         image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
               %>
             <% end %>
-            <div class="relative w-8">
+            <div class="relative w-8" data-reveal-target="item">
               <div class="flex justify-start -ml-[195px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">
                 <div class="space-y-1">
                   <div class="flex gap-2">
@@ -68,7 +77,9 @@
             </div>
           </div>
         </div>
-        <%= render 'hong_baos/pdf/footer', paper: %>
+        <div data-reveal-target="item">
+          <%= render 'hong_baos/pdf/footer', paper: %>
+        </div>
       </div>
     </div>
   </div>
