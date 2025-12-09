@@ -26,20 +26,23 @@
   <%# Spacer %>
   <div class="flex-grow"></div>
 
-  <%# User section at bottom %>
+  <%# User section at bottom - triggers bottom sheet %>
   <% if authenticated? && current_user %>
-    <div class="h-12 flex items-center w-12 lg:w-auto lg:pr-4" title="<%= current_user.handle %>">
+    <label for="user-bottom-sheet"
+           class="h-12 flex items-center w-12 lg:w-auto lg:pr-4 cursor-pointer
+                  hover:bg-base-100/10 rounded-l-xl transition-colors"
+           title="<%= current_user.handle %>">
       <span class="w-12 flex items-center justify-center shrink-0">
         <% if current_user.avatar.attached? %>
-          <%= image_tag url_for(current_user.avatar), class: "w-8 h-8 rounded-full" %>
+          <%= image_tag url_for(current_user.avatar), class: "w-8 h-8 rounded-full ring-2 ring-white/50" %>
         <% else %>
-          <div class="w-8 h-8 rounded-full bg-base-100 flex items-center justify-center">
+          <div class="w-8 h-8 rounded-full bg-base-100 flex items-center justify-center ring-2 ring-white/50">
             <span class="text-base-content/70 text-sm"><%= current_user.handle.first.upcase %></span>
           </div>
         <% end %>
       </span>
       <span class="hidden lg:block text-sm font-medium text-primary-content/70"><%= current_user.handle %></span>
-    </div>
+    </label>
   <% else %>
     <%= link_to login_path,
         class: "h-12 flex items-center rounded-l-xl transition-colors

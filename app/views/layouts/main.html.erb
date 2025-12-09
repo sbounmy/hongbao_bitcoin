@@ -76,8 +76,10 @@
               <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-success border-2 border-success/50 shadow-inner"></div>
             </div>
 
-            <%# Token balance - only show when authenticated %>
+            <%# Token balance + User avatar - only show when authenticated %>
+            <% if authenticated? %>
               <%= render Tokens::BadgeComponent.new(user: current_user, class_name: "badge-lg") %>
+            <% end %>
 
             <%# Spacer %>
             <div class="flex-1"></div>
@@ -150,11 +152,27 @@
             <% dock.with_item(label: "Home", icon: "home", href: dashboard_path) %>
             <% dock.with_item(label: "Scan", icon: "qr-code", href: new_paper_path, primary: true) %>
             <% dock.with_item(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
+            <% if authenticated? && current_user %>
+              <% dock.with_avatar do %>
+                <label for="user-bottom-sheet" class="cursor-pointer">
+                  <div class="w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/50">
+                    <%= image_tag current_user.avatar.attached? ? current_user.avatar : gravatar_url(current_user.email),
+                        alt: current_user.firstname || current_user.email,
+                        class: "w-full h-full object-cover" %>
+                  </div>
+                </label>
+              <% end %>
+            <% end %>
           <% end %>
         <% end %>
       </div>
     </div>
 
     <%= turbo_frame_tag "modal" %>
+
+    <%# User bottom sheet menu %>
+    <% if authenticated? && current_user %>
+      <%= render Btcdex::BottomSheetComponent.new(id: "user-bottom-sheet", user: current_user) %>
+    <% end %>
   </body>
 </html>
