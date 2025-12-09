@@ -162,6 +162,12 @@
                   </div>
                 </label>
               <% end %>
+            <% else %>
+              <% dock.with_avatar do %>
+                <%= link_to login_path, class: "flex items-center justify-center #{(current_page?(login_path) || current_page?(new_password_path)) ? 'dock-active' : ''}" do %>
+                  <%= heroicon "user", variant: :outline, class: "w-6 h-6 text-white/70" %>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>
