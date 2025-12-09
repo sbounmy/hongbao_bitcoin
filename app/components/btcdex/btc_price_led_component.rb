@@ -27,13 +27,6 @@ module Btcdex
       price_change_percentage >= 0
     end
 
-    def led_color_class
-      positive_change? ? "bg-success border-success/50" : "bg-error border-error/50"
-    end
-
-    def text_color_class
-      positive_change? ? "text-success" : "text-error"
-    end
 
     def formatted_price
       price = current_spot&.usd.to_i || 0

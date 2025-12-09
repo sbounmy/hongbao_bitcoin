@@ -68,12 +68,16 @@
 
             <%# LED indicators %>
             <div class="flex items-center gap-2 md:gap-3">
-              <%# BTC Price LED (first LED) %>
+              <%# BTC Price LED (1st LED) %>
               <%= render Btcdex::BtcPriceLedComponent.new %>
 
-              <%# Placeholder LEDs (future features) %>
-              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-base-300 border-2 border-base-300/50 shadow-inner"></div>
-              <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-base-300 border-2 border-base-300/50 shadow-inner"></div>
+              <%# Transaction Fee LED (2nd LED) %>
+              <%= render Btcdex::TxFeeLedComponent.new %>
+
+              <%# Placeholder LED (3rd - future feature) %>
+              <div class="tooltip tooltip-bottom" data-tip="Coming soon">
+                <div class="w-5 h-5 rounded-full bg-success border-2 border-success/50 shadow-inner"></div>
+              </div>
             </div>
 
             <%# Token balance + User avatar - only show when authenticated %>
