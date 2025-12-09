@@ -17,3 +17,19 @@ pizza_day_event:
   id: 4
   paper_id: 2
   input_id: 15
+
+# None style paper inputs
+none_style_theme:
+  id: 5
+  paper_id: 3
+  input_id: 1  # Dollar theme
+
+none_style_style:
+  id: 6
+  paper_id: 3
+  input_id: 100  # None style (free)
+
+none_style_image:
+  id: 7
+  paper_id: 3
+  input_id: 12  # User upload

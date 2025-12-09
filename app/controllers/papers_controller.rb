@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :create, :explore, :update ]
+  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
   helper_method :testnet?
   before_action :set_network
 

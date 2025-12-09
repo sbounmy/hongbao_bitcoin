@@ -523,6 +523,12 @@ indonesian_rupiah:
         size: ""
 
         color: ""
+none:
+  id: 100
+  position: -1
+  name: None
+  prompt: ""
+  type: "Input::Style"
 ghibli:
   id: 6
   position: 0
