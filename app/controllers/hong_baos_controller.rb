@@ -84,6 +84,7 @@ class HongBaosController < ApplicationController
   def set_network
     Current.network = Current.network_from_key(params[:id] || params[:hong_bao][:scanned_key])
   end
+
   def set_layout
     if request.format.html?
       "main"
