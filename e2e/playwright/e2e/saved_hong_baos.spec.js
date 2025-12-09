@@ -199,7 +199,7 @@ test.describe('Saved Hong Baos', () => {
     await expect(page.getByText('test.pdf')).toBeVisible();
 
     page.on('dialog', dialog => dialog.accept()); // Auto-accept confirmation
-    await page.locator('button:has(svg)').filter({ hasText: '' }).last().click(); // Trash button
+    await page.locator('button[form="delete_file"]').click(); // Trash button
 
     // File info should disappear
     await expect(page.getByText('test.pdf')).not.toBeVisible();
