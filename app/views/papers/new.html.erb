@@ -13,15 +13,15 @@
   </div>
 <% end %>
 
-<div class="flex flex-col h-full md:flex-row" data-controller="toggle">
+<div class="flex flex-col md:flex-row" data-controller="toggle">
   <!-- Column 1: Form -->
-  <div id="form-column" class="flex w-full h-full md:max-w-md flex-col gap-4">
-    <%= form_with(model: @paper, class: "flex flex-col h-full gap-4 py-4", local: false, data: { controller: "disabled" }) do |form| %>
+  <div id="form-column" class="flex w-full md:max-w-md flex-col gap-4 md:sticky md:top-24 md:self-start">
+    <%= form_with(model: @paper, class: "flex flex-col gap-4 py-4", local: false, data: { controller: "disabled" }) do |form| %>
       <!-- Mobile-first: Upload first, then style -->
-      <div class="flex flex-col gap-4 flex-1 px-4 overflow-y-auto">
+      <div class="flex flex-col gap-4 px-4">
 
         <!-- Step 1: Upload -->
-        <div class="relative h-full flex flex-col">
+        <div class="relative flex flex-col">
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg flex gap-2 font-medium text-base-content"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
           </div>
