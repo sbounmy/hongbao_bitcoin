@@ -53,8 +53,9 @@ export default class extends Controller {
       // For QR codes: always draw as perfect squares
       // Use width percentage to calculate size relative to canvas width
       const size = this.canvaController.originalWidth * (this.widthValue / 100)
-      // Draw the QR code as a square
-      this.ctx.drawImage(this.imageUrl, x, y, size, size)
+      const height = this.canvaController.originalHeight * (this.heightValue / 100)
+      // Bottom-align: draw at y + height - size so image bottom aligns with box bottom
+      this.ctx.drawImage(this.imageUrl, x, y + height - size, size, size)
     }
   }
 
