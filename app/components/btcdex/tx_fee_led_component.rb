@@ -42,6 +42,5 @@ module Btcdex
         :high
       end
     end
-
   end
 end
