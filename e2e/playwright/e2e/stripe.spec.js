@@ -52,7 +52,7 @@ test.describe('Stripe Checkout Flow', () => {
 
 
     // Verify redirect to Stripe Checkout
-    await page.waitForURL('https://checkout.stripe.com/**');
+    await page.waitForURL('https://checkout.stripe.com/**', { timeout: 15_000 });
 
     await expect(page.locator('#promotionCode')).toBeVisible({ timeout: 10_000 });
     await page.getByLabel('Add promotion code').pressSequentially('FIAT0');
@@ -61,6 +61,7 @@ test.describe('Stripe Checkout Flow', () => {
     await page.getByRole('button', { name: 'Complete order' }).click();
     await expect(page.getByText('Processing')).toBeVisible();
     await expect(page.url()).toBe(page.url('/'));
+    await page.waitForTimeout(5_000) // wait stripe callback
     await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
     // Navigate to tokens page with relaxed wait condition

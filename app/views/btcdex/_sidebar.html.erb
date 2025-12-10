@@ -1,0 +1,66 @@
+<%# Compact icon-only sidebar for BTCDex - Desktop only %>
+<div class="hidden md:flex flex-col bg-base-200 w-16 min-h-svh items-center py-4 gap-2 border-r border-[#FFB636]/20">
+  <%# Logo %>
+  <%= link_to root_path, class: "mb-4" do %>
+    <%= image_tag "hongbao-bitcoin.png", class: "w-10 h-10" %>
+  <% end %>
+
+  <%# Navigation Icons %>
+  <div class="flex flex-col gap-1">
+    <%= link_to dashboard_path,
+        class: "btn btn-ghost btn-circle tooltip tooltip-right",
+        data: { tip: "Dashboard" } do %>
+      <%= heroicon "home", variant: :outline, class: "w-6 h-6" %>
+    <% end %>
+
+    <%= link_to new_paper_path,
+        class: "btn btn-ghost btn-circle tooltip tooltip-right",
+        data: { tip: "Create" } do %>
+      <%= heroicon "sparkles", variant: :outline, class: "w-6 h-6" %>
+    <% end %>
+
+    <%= link_to explore_papers_path,
+        class: "btn btn-ghost btn-circle tooltip tooltip-right",
+        data: { tip: "Explore" } do %>
+      <%= heroicon "banknotes", variant: :outline, class: "w-6 h-6" %>
+    <% end %>
+
+    <%= link_to calendar_path,
+        class: "btn btn-ghost btn-circle tooltip tooltip-right",
+        data: { tip: "Bitcoin Days" } do %>
+      <%= heroicon "calendar-days", variant: :outline, class: "w-6 h-6" %>
+    <% end %>
+
+    <%= link_to saved_hong_baos_path,
+        class: "btn btn-ghost btn-circle tooltip tooltip-right",
+        data: { tip: "Saved" } do %>
+      <%= heroicon "bookmark", variant: :outline, class: "w-6 h-6" %>
+    <% end %>
+  </div>
+
+  <%# Spacer %>
+  <div class="flex-grow"></div>
+
+  <%# Bottom section - User %>
+  <div class="flex flex-col gap-2">
+    <% if authenticated? && current_user %>
+      <div class="tooltip tooltip-right" data-tip="<%= current_user.handle %>">
+        <% if current_user.avatar.attached? %>
+          <%= image_tag url_for(current_user.avatar), class: "w-10 h-10 rounded-full" %>
+        <% else %>
+          <div class="avatar placeholder">
+            <div class="bg-neutral text-neutral-content rounded-full w-10">
+              <span><%= current_user.handle.first.upcase %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <%= link_to login_path,
+          class: "btn btn-ghost btn-circle tooltip tooltip-right",
+          data: { tip: "Sign in" } do %>
+        <%= heroicon "user", variant: :outline, class: "w-6 h-6" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

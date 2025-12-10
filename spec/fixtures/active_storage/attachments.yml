@@ -63,3 +63,9 @@ dollar_paper_portrait:
   record_type: Paper
   record_id: 1
   blob: satoshi_avatar_blob
+
+none_style_image:
+  name: image
+  record_type: InputItem
+  record_id: 7
+  blob: satoshi_avatar_blob

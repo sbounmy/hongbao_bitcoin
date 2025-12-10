@@ -57,6 +57,7 @@ class HongBaosController < ApplicationController
     @payment_methods = PaymentMethod.active
     @current_step = (params[:step] || 1).to_i
     @steps = Step.for_show
+    @quote = Content::Quote.published.random.first
   end
 
   def transfer
@@ -83,9 +84,10 @@ class HongBaosController < ApplicationController
   def set_network
     Current.network = Current.network_from_key(params[:id] || params[:hong_bao][:scanned_key])
   end
+
   def set_layout
     if request.format.html?
-      "offline"
+      "main"
     else
       false
     end

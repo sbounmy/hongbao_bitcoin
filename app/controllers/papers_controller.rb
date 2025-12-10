@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :create, :explore, :update ]
+  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
   helper_method :testnet?
   before_action :set_network
 
@@ -12,7 +12,7 @@ class PapersController < ApplicationController
 
   def show
     @paper = Paper.find(params[:id])
-    @paper.increment_views!
+    @paper.increment_views!(session)
     @hong_bao = HongBao.new
     @payment_methods = PaymentMethod.active.by_position.with_attached_logo
     @steps = Step.for_new

@@ -13,16 +13,23 @@
                 group-hover/card:border-primary
                 peer-checked:[&>svg]:block">
       <!-- Image Container -->
-      <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+      <div class="relative aspect-square rounded-lg overflow-hidden bg-base-200">
         <% if radio.image.attached? %>
           <%= image_tag radio.image, class: "w-full h-full object-cover" %>
+        <% else %>
+          <div class="w-full h-full flex items-center justify-center text-base-content/40">
+            <%= heroicon "photo", class: "w-12 h-12" %>
+          </div>
+        <% end %>
+        <% if radio.prompt.blank? %>
+          <span class="absolute top-2 right-2 badge badge-success badge-sm font-bold">FREE</span>
         <% end %>
       </div>
       <%= heroicon "check", class: "absolute bg-primary rounded-full p-1 right-2 bottom-15 h-5 hidden" %>
     </div>
 
     <!-- Title -->
-    <h3 class="p-4 text-center peer-checked:text-primary text-sm font-medium text-gray-900 group-hover/card:text-primary transition-colors">
+    <h3 class="p-4 text-center peer-checked:text-primary text-sm font-medium text-base-content group-hover/card:text-primary transition-colors">
       <%= radio.name %>
     </h3>
   </label>

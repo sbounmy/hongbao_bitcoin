@@ -7,7 +7,7 @@
     "@types/node": "^22.13.4",
     "babel-jest": "^29.7.0",
     "concurrently": "^9.2.0",
-    "daisyui": "^5.0.11",
+    "daisyui": "^5.5.8",
     "dotenv": "^17.2.0",
     "esbuild": "^0.25.4",
     "istanbul-reports": "^3.1.7",

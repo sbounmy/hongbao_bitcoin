@@ -1,0 +1,8 @@
+<div class="flex items-center gap-1.5 tooltip tooltip-bottom" data-tip="Transaction Fee (avg)">
+  <div class="w-5 h-5 md:w-6 md:h-6 p-0.5 rounded-full bg-warning border-2 border-warning/50 shadow-inner flex items-center justify-center">
+    <%= heroicon :bolt, variant: :solid, class: 'text-white' %>
+  </div>
+  <span class="text-xs md:text-sm font-mono font-bold text-base-content">
+    <%= formatted_fee %>/tx
+  </span>
+</div>

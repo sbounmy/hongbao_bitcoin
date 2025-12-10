@@ -1,0 +1,81 @@
+<%# Bottom Sheet Modal - iOS style slide up %>
+<input type="checkbox" id="<%= id %>" class="modal-toggle" />
+
+<div class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box rounded-t-3xl sm:rounded-2xl bg-base-200 p-0">
+    <%# Handle bar indicator (mobile) %>
+    <div class="flex justify-center pt-3 sm:hidden">
+      <div class="w-12 h-1.5 bg-base-content/20 rounded-full"></div>
+    </div>
+
+    <%# Header with user info %>
+    <div class="flex items-center justify-between p-4 border-b border-base-300">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+          <%= image_tag user.avatar.attached? ? user.avatar : gravatar_url(user.email),
+              alt: user.firstname || user.email,
+              class: "w-full h-full object-cover" %>
+        </div>
+        <div>
+          <div class="font-semibold text-base-content">
+            <%= user.firstname.presence || user.email %>
+          </div>
+          <div class="text-sm text-base-content/60">
+            <%= user.email if user.firstname.present? %>
+          </div>
+        </div>
+      </div>
+      <%# Close button %>
+      <label for="<%= id %>" class="btn btn-ghost btn-sm btn-circle" aria-label="close sidebar">
+        <%= heroicon "x-mark", options: { class: "w-6 h-6" } %>
+      </label>
+    </div>
+
+    <%# Token balance %>
+    <div class="px-4 py-3 bg-base-300/50">
+      <div class="flex items-center justify-between">
+        <span class="text-base-content/70 text-sm">Token Balance</span>
+        <span class="font-bold text-secondary"><%= user.tokens_sum %> ₿ao</span>
+      </div>
+    </div>
+
+    <%# Menu items %>
+    <ul class="menu p-4 gap-1">
+      <li>
+        <%= link_to profile_path, class: "flex items-center gap-3 rounded-xl" do %>
+          <%= heroicon "user", options: { class: "w-5 h-5" } %>
+          <span>Edit Profile</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to tokens_path, class: "flex items-center gap-3 rounded-xl" do %>
+          <%= heroicon "credit-card", options: { class: "w-5 h-5" } %>
+          <span>Billing & Credits</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to orders_path, class: "flex items-center gap-3 rounded-xl" do %>
+          <%= heroicon "shopping-bag", options: { class: "w-5 h-5" } %>
+          <span>My Orders</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to saved_hong_baos_path, class: "flex items-center gap-3 rounded-xl" do %>
+          <%= heroicon "heart", options: { class: "w-5 h-5" } %>
+          <span>Saved HongBaos</span>
+        <% end %>
+      </li>
+    </ul>
+
+    <%# Logout button %>
+    <div class="p-4 pt-0">
+      <%= button_to logout_path, method: :delete, class: "btn btn-outline w-full gap-2" do %>
+        <%= heroicon "arrow-left-on-rectangle", options: { class: "w-5 h-5" } %>
+        Logout
+      <% end %>
+    </div>
+  </div>
+
+  <%# Backdrop to close %>
+  <label class="modal-backdrop" for="<%= id %>"></label>
+</div>

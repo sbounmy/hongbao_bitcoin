@@ -13,38 +13,50 @@ export default class extends Controller {
   }
 
   initializeCanvas() {
-    // Get the canvas element
     const canvas = this.containerTarget
+    this.qualityScale = 3
 
-    const qualityScale = 3
+    // Store container dimensions for display sizing
+    this.containerWidth = canvas.parentElement.offsetWidth
+    this.containerHeight = canvas.parentElement.offsetHeight
 
-    // Use dimensions passed from Rails (already accounting for rotation)
-    // Fall back to parent element dimensions if not provided
-    this.originalWidth = this.widthValue || canvas.parentElement.offsetWidth
-    this.originalHeight = this.heightValue || canvas.parentElement.offsetHeight
+    // Initialize with fallback dimensions (will be updated when image loads)
+    this.originalWidth = this.widthValue || this.containerWidth
+    this.originalHeight = this.heightValue || this.containerHeight
 
-    // Set the canvas size
-    canvas.width = this.originalWidth * qualityScale
-    canvas.height = this.originalHeight * qualityScale
-
-    // Set the canvas display size through CSS
-    canvas.style.width = `${this.originalWidth}px`
-    canvas.style.height = `${this.originalHeight}px`
-
-    // Get the context and scale it
-    this.ctx = canvas.getContext('2d')
-
-    // Clear any existing transforms
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.ctx.scale(qualityScale, qualityScale)
-    // Enable image smoothing
-    this.ctx.imageSmoothingEnabled = true
-    this.ctx.imageSmoothingQuality = 'high'
+    // Set initial canvas size
+    this.setupCanvasSize(canvas)
 
     // Initial draw if background image exists
     if (this.hasBackgroundImageTarget) {
       this.loadBackgroundImage()
     }
+  }
+
+  setupCanvasSize(canvas) {
+    // Internal resolution uses actual image dimensions for quality
+    canvas.width = this.originalWidth * this.qualityScale
+    canvas.height = this.originalHeight * this.qualityScale
+
+    // Display size fits container while maintaining aspect ratio
+    const aspectRatio = this.originalWidth / this.originalHeight
+    let displayWidth = this.containerWidth
+    let displayHeight = displayWidth / aspectRatio
+
+    // If too tall, constrain by height instead
+    if (displayHeight > this.containerHeight) {
+      displayHeight = this.containerHeight
+      displayWidth = displayHeight * aspectRatio
+    }
+
+    canvas.style.width = `${displayWidth}px`
+    canvas.style.height = `${displayHeight}px`
+
+    this.ctx = canvas.getContext('2d')
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.ctx.scale(this.qualityScale, this.qualityScale)
+    this.ctx.imageSmoothingEnabled = true
+    this.ctx.imageSmoothingQuality = 'high'
   }
 
   loadBackgroundImage() {
@@ -54,6 +66,13 @@ export default class extends Controller {
     img.src = this.backgroundImageTarget.src
     img.onload = (event) => {
       this.backgroundImage = event.target
+
+      // Use actual image dimensions for correct aspect ratio
+      // This matches composition.rb which uses template_image.width/height
+      this.originalWidth = this.backgroundImage.width
+      this.originalHeight = this.backgroundImage.height
+      this.setupCanvasSize(this.containerTarget)
+
       this.dispatch("imageLoaded")
     }
   }

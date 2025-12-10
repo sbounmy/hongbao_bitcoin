@@ -115,6 +115,8 @@ Rails.application.routes.draw do
 
   get "/pricing", to: "pages#pricing"
   get "/v2", to: "pages#v2"
+  get "/btcdex", to: "btcdex#index"
+
   get "/dashboard", to: "papers#index"
   get "/bitcoin-companies", to: "pages#business"
 

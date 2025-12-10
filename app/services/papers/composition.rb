@@ -20,10 +20,10 @@ module Papers
       Rails.logger.info "[Papers::Composition] Template dimensions: #{template_image.width}x#{template_image.height}"
 
       # Calculate pixel positions from percentages
-      portrait_x = (template_image.width * @config["x"].to_i / 100.0).round
-      portrait_y = (template_image.height * @config["y"].to_i / 100.0).round
-      portrait_width = (template_image.width * @config["width"].to_i / 100.0).round
-      portrait_height = (template_image.height * @config["height"].to_i / 100.0).round
+      portrait_x = (template_image.width * @config["x"].to_f / 100.0).round
+      portrait_y = (template_image.height * @config["y"].to_f / 100.0).round
+      portrait_width = (template_image.width * @config["width"].to_f / 100.0).round
+      portrait_height = (template_image.height * @config["height"].to_f / 100.0).round
 
       Rails.logger.info "[Papers::Composition] Portrait position: (#{portrait_x}, #{portrait_y}) size: #{portrait_width}x#{portrait_height}"
 
@@ -49,7 +49,7 @@ module Papers
 
       # Position portrait at bottom of bounding box, centered horizontally
       final_x = portrait_x + ((portrait_width - prepared_portrait.width) / 2).round
-      final_y = portrait_y + (portrait_height - prepared_portrait.height)  # Bottom aligned
+      final_y = portrait_y + (portrait_height - prepared_portrait.height)
 
       Rails.logger.info "[Papers::Composition] Final position: (#{final_x}, #{final_y})"
 

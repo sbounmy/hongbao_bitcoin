@@ -69,3 +69,14 @@ pizza_day:
   likes_count: 2
   liker_ids: [1, 2]
   tag_ids: [3] # tags(:featured)
+
+none_style:
+  id: 3
+  name: "None Dollar"
+  active: true
+  user: satoshi
+  elements: |
+    {
+      "private_key_qrcode": { "x": "10", "y": "37", "width": "9.0", "height": "18.0", "color": "#000000" },
+      "public_address_qrcode": { "x": "22", "y": "24", "width": "9.0", "height": "18.0", "color": "" }
+    }

@@ -1,0 +1,19 @@
+<%# Pokedex Dock - Mobile only %>
+<div class="fixed bottom-0 left-0 right-0 md:hidden z-50">
+  <%# Thin dark border %>
+  <div class="h-0.5 bg-[#2a2a2a]"></div>
+
+  <%# Main dock area - Pokedex red background %>
+  <div class="bg-primary px-6 py-3 flex items-center justify-around">
+    <% items.each do |item| %>
+      <%= link_to item.href,
+          class: "w-12 h-12 rounded-full flex items-center justify-center transition-all
+                 #{item.active? ? 'bg-[#FFB636] text-neutral shadow-lg' : 'bg-[#2a2a2a] text-white/70 hover:bg-[#3a3a3a]'}" do %>
+        <%= heroicon item.icon, variant: item.active? ? :solid : :outline, class: "w-6 h-6" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Bottom safe area for notched phones %>
+  <div class="bg-primary pb-safe"></div>
+</div>

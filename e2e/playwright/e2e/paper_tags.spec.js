@@ -5,8 +5,6 @@ test.describe('Paper Tags - Featured Section', () => {
   test('should display paper with featured tag in Featured section', async ({ page }) => {
     await page.goto('/dashboard');
 
-    await expect(page.locator('body')).toContainText('Buy traditional red envelopes');
-    await page.getByText('Buy traditional red envelopes').click(); // hide this
     await expect(page.locator('#featured')).toContainText("Pizza Day");
   });
 
@@ -30,7 +28,6 @@ test.describe('Paper Tags - Featured Section', () => {
     // Navigate to the public papers page
     await page.goto('/dashboard');
 
-    await page.getByText('Buy traditional red envelopes').click(); // hide this
     await expect(page.locator('#featured')).not.toContainText("Pizza Day");
   });
 });

@@ -1,0 +1,40 @@
+<%# FAB with flower pattern - overlays without pushing layout %>
+<div class="relative w-14 h-14 md:w-18 md:h-18 group" tabindex="0">
+  <%# Main trigger button %>
+  <div class="w-14 h-14 md:w-18 md:h-18 rounded-full bg-accent
+              flex items-center justify-center
+              ring-4 ring-white
+              outline-3 outline-base-200
+              hover:scale-105 transition-transform
+              shadow-lg cursor-pointer relative z-10">
+    <span class="text-4xl md:text-5xl font-bold text-white select-none rotate-[14deg] ml-[2px]">₿</span>
+  </div>
+
+  <%# Flower pattern - dynamically calculated based on number of actions %>
+  <%
+    count = actions.size
+    radius = 65
+    # Quarter circle from 15° to 90° (down-right arc)
+    start_angle = 15
+    end_angle = 90
+    # Calculate spread based on number of items
+    spread = count > 1 ? (end_angle - start_angle) / (count - 1).to_f : 0
+  %>
+  <% actions.each_with_index do |action, index| %>
+    <%
+      angle = count == 1 ? 45 : start_angle + (index * spread)
+      x = (Math.sin(angle * Math::PI / 180) * radius).round
+      y = (Math.cos(angle * Math::PI / 180) * radius).round
+    %>
+    <%= link_to action.href,
+        class: "btn btn-circle btn-sm btn-neutral shadow-xl absolute z-20
+                opacity-0 scale-0 pointer-events-none
+                group-focus:opacity-100 group-focus:scale-100 group-focus:pointer-events-auto
+                group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:pointer-events-auto
+                transition-all duration-200",
+        style: "top: #{y}px; left: #{x}px; transition-delay: #{index * 40}ms;",
+        data: { tip: action.label } do %>
+      <%= heroicon action.icon, class: "w-4 h-4" %>
+    <% end %>
+  <% end %>
+</div>

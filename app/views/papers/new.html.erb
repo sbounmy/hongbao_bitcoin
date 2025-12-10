@@ -3,60 +3,66 @@
   <!-- No dock bar on paper creation -->
 <% end %>
 
-<%= render MobileHeaderComponent.new(title: "Create Paper", back_path: dashboard_path) %>
+<%# Custom screen header with back button and title %>
+<% content_for(:screen_header) do %>
+  <div class="flex items-center gap-3">
+    <%= link_to dashboard_path, class: "text-base-content/60 hover:text-base-content" do %>
+      <%= heroicon "arrow-left", class: "w-5 h-5" %>
+    <% end %>
+    <span class="text-base-content font-medium">Create Paper</span>
+  </div>
+<% end %>
 
-    <div class="flex flex-col h-[calc(100vh-3.5rem)] md:h-full md:flex-row" data-controller="toggle">
-      <!-- Column 1: Form -->
-      <div id="form-column" class="flex w-full h-full md:max-w-md flex-col gap-4">
-        <%= form_with(model: @paper, class: "flex flex-col h-full gap-4 py-4", local: false, data: { controller: "disabled" }) do |form| %>
-          <!-- Mobile-first: Upload first, then style -->
-          <div class="flex flex-col gap-4 flex-1 px-4 overflow-y-auto">
+<div class="flex flex-col h-full md:flex-row" data-controller="toggle">
+  <!-- Column 1: Form -->
+  <div id="form-column" class="flex w-full h-full md:max-w-md flex-col gap-4">
+    <%= form_with(model: @paper, class: "flex flex-col h-full gap-4 py-4", local: false, data: { controller: "disabled" }) do |form| %>
+      <!-- Mobile-first: Upload first, then style -->
+      <div class="flex flex-col gap-4 flex-1 px-4 overflow-y-auto">
 
-            <!-- Step 1: Upload -->
-            <div class="relative h-full flex flex-col">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg flex gap-2 font-medium"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
-              </div>
-              <%= render PictureUploadComponent.new(form: form) %>
-            </div>
-
-            <!-- Step 2: Theme (hidden, will be selected later) -->
-            <%= form.fields_for :input_item_theme_attributes do |theme_form| %>
-              <%= theme_form.hidden_field :input_id, value: @themes.first.id %>
-            <% end %>
-
-            <!-- Step 3: Single Style Selection -->
-            <div class="relative">
-              <h2 class="text-lg flex gap-2 font-medium mb-4"><%= heroicon "sparkles", class: "w-6 h-6" %> Choose Style</h2>
-              <div class='grid gap-2 grid-cols-2 lg:grid-cols-3'>
-                <%= render Styles::RadioComponent.with_collection(@styles, form:) %>
-              </div>
-            </div>
+        <!-- Step 1: Upload -->
+        <div class="relative h-full flex flex-col">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg flex gap-2 font-medium text-base-content"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
           </div>
+          <%= render PictureUploadComponent.new(form: form) %>
+        </div>
 
-          <div class="bg-base-100 border-t border-base-300 p-4">
-            <%= render Papers::CreateButtonComponent.new(form: form) %>
-          </div>
+        <!-- Step 2: Theme (hidden, will be selected later) -->
+        <%= form.fields_for :input_item_theme_attributes do |theme_form| %>
+          <%= theme_form.hidden_field :input_id, value: @themes.first.id %>
         <% end %>
-      </div>
 
-      <!-- Column 2: Splitter -->
-      <div class="split-bar w-1 bg-slate-500 h-full hidden md:block">
-      </div>
-
-      <!-- Column 3: Preview -->
-      <div id="preview-column" class="overflow-y-auto flex-1 p-4 hidden md:flex flex-col">
-        <div class="flex flex-col gap-4 h-full">
-          <div class="flex justify-between items-center">
-            <h2 class="text-lg font-medium">My Papers</h2>
-            <button type="button" class="btn btn-sm md:hidden" data-action="toggle#switch" data-toggle-hide-param="#preview-column" data-toggle-show-param="#form-column">
-              Back
-            </button>
+        <!-- Step 3: Single Style Selection -->
+        <div class="relative">
+          <h2 class="text-lg flex gap-2 font-medium mb-4 text-base-content"><%= heroicon "sparkles", class: "w-6 h-6" %> Choose Style</h2>
+          <div class='grid gap-2 grid-cols-2 md:grid-cols-3'>
+            <%= render Styles::RadioComponent.with_collection(@styles, form:) %>
           </div>
-          <div id="papers" class="flex flex-col gap-2 overflow-y-auto">
-              <%= render Papers::ItemComponent.with_collection(@papers) %>
-          </div>
-          <%= turbo_stream_from :papers %>
         </div>
       </div>
+
+      <div class="bg-base-100 border-t border-base-300 p-4">
+        <%= render Papers::CreateButtonComponent.new(form: form) %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Column 2: Splitter -->
+  <div class="split-bar w-1 bg-base-content/20 h-full hidden md:block">
+  </div>
+
+  <!-- Column 3: Preview -->
+  <div id="preview-column" class="flex-1 min-h-0 p-4 hidden md:flex flex-col">
+    <div class="flex justify-between items-center flex-shrink-0 mb-4">
+      <h2 class="text-lg font-medium text-base-content">My Papers</h2>
+      <button type="button" class="btn btn-sm md:hidden" data-action="toggle#switch" data-toggle-hide-param="#preview-column" data-toggle-show-param="#form-column">
+        Back
+      </button>
     </div>
+    <div id="papers" class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-2">
+        <%= render Papers::ItemComponent.with_collection(@papers) %>
+    </div>
+    <%= turbo_stream_from :papers %>
+  </div>
+</div>

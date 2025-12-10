@@ -1,10 +1,18 @@
-<div class="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="card w-96 bg-base-100 shadow-xl">
-    <div class="card-body">
+<%# Pokedex-style login screen %>
+<div class="flex flex-col items-center justify-center h-full py-8">
+  <%# Login form card %>
+  <div class="w-full max-w-sm">
+    <%= turbo_frame_tag "signup_form", data: { turbo_action: "advance" } do %>
+      <%= render AuthenticationComponent.new(user: @user) %>
+    <% end %>
+  </div>
 
-      <%= turbo_frame_tag "signup_form", data: { turbo_action: "advance" } do %>
-          <%= render AuthenticationComponent.new(user: @user) %>
-      <% end %>
-    </div>
+  <%# Footer text %>
+  <div class="mt-8 text-center text-base-content/40 text-xs hidden">
+    <p>By signing in, you agree to our</p>
+    <p>
+      <%= link_to "Terms of Service", "#", class: "link link-primary" %> &
+      <%= link_to "Privacy Policy", "#", class: "link link-primary" %>
+    </p>
   </div>
 </div>

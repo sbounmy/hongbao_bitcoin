@@ -4,10 +4,38 @@
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "pokedex";
   default: true;
+
+  /* Primary - Red Pokedex shell */
   --color-primary: #F04747;
+  --color-primary-content: #1a1a1a;
+
+  /* Secondary - Yellow/gold accent */
   --color-secondary: #FFB636;
+  --color-secondary-content: #1a1a1a;
+
+  /* Accent - Cyan lens */
+  --color-accent: #00BFFF;
+  --color-accent-content: #ffffff;
+
+  /* Neutral - Dark elements */
+  --color-neutral: #1a1a1a;
+  --color-neutral-content: #ffffff;
+
+  /* Base - Dark screen backgrounds */
+  --color-base-100: #1a1a1a;
+  --color-base-200: #2a2a2a;
+  --color-base-300: #3a3a3a;
+  --color-base-content: #ffffff;
+
+  /* Status colors */
+  --color-success: #22c55e;
+  --color-success-content: #ffffff;
+  --color-warning: #facc15;
+  --color-warning-content: #1a1a1a;
+  --color-error: #dc2626;
+  --color-error-content: #ffffff;
 }
 
 /* Custom color variables and fonts */

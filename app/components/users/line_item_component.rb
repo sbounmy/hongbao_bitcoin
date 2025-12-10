@@ -29,7 +29,7 @@ module Users
 
     def handle
       # NOTE: Assumes a `handle` attribute on the User model.
-      user.handle || user.name.parameterize
+      user.handle || user.firstname.parameterize
     end
   end
 end

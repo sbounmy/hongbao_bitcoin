@@ -1,34 +1,35 @@
-<div class="bg-[#F04747] backdrop-blur-lg rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747] p-6"
+<%# BTCDex Style Private Key Verification - Dark Integrated Design %>
+<div class="space-y-6"
      data-controller="tabs form-wallet"
-     data-tabs-active-class="bg-[#FFB636] text-white"
+     data-tabs-active-class="bg-secondary text-neutral"
      data-tabs-default-tab-value="private-key"
      data-form-wallet-bitcoin-outlet="#bitcoin"
      data-form-wallet-bitcoin-mnemonic-outlet="#bitcoin-mnemonic"
-     data-action="bitcoin-mnemonic:valid->form-wallet#successMnemonic">
+     data-action="bitcoin-mnemonic:error->form-wallet#error bitcoin-mnemonic:valid->form-wallet#successMnemonic">
 
-  <h3 class="text-xl font-bold text-[#FFB636] mb-6">Verify Ownership</h3>
+  <%# Section Header %>
+  <h2 class="text-base-content/50 text-xs uppercase tracking-wider">Verify Ownership</h2>
 
-  <%# Tab Buttons %>
-  <div class="grid grid-cols-2 gap-4 mb-6">
+  <%# Tab Buttons - Segmented Control Style %>
+  <div class="grid grid-cols-2 gap-1 p-1 bg-base-content/10 rounded-xl">
     <button type="button"
             data-tabs-target="btn"
             data-tab-id="private-key"
             data-action="tabs#select"
-            class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
-                   hover:bg-white/20 transition-colors">
+            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-base-content/70
+                   hover:text-base-content transition-colors">
       Private Key
     </button>
     <button type="button"
             data-tabs-target="btn"
             data-tab-id="mnemonic"
             data-action="tabs#select"
-            class="w-full bg-white/10 text-white py-3 px-4 rounded-lg font-medium
-                   hover:bg-white/20 transition-colors">
+            class="py-2.5 px-3 rounded-lg font-semibold text-sm text-base-content/70
+                   hover:text-base-content transition-colors">
       24 Words
     </button>
   </div>
 
-  <%# Determine the controller name based on address format %>
   <% key_controller = @hong_bao.address.start_with?('1', 'm', 'n') ? 'bitcoin-legacy-key' : 'bitcoin-segwit-key' %>
 
   <%# Private Key Tab %>
@@ -38,24 +39,23 @@
        data-<%= key_controller %>-network-value="<%= Current.network %>"
        data-<%= key_controller %>-address-value="<%= @hong_bao.address %>"
        class="space-y-4">
-    <%# Camera Icon Button %>
+
+    <%# Camera Button %>
     <button type="button"
             data-action="qr-scanner#startScanning"
-            class="w-full py-8 bg-white/10 rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-white/20 transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-      <span class="text-white text-sm">Scan QR Code</span>
+            class="w-full py-6 bg-base-content/10 rounded-xl flex flex-col items-center justify-center gap-2
+                   hover:bg-base-content/20 transition-colors">
+      <%= heroicon "camera", variant: :outline, class: "w-8 h-8 text-secondary" %>
+      <span class="text-base-content/70 text-sm">Scan QR Code</span>
     </button>
 
-    <div id="qr-reader" class="hidden w-full bg-white/10 rounded-lg overflow-hidden"></div>
+    <div id="qr-reader" class="hidden w-full bg-base-content/10 rounded-xl overflow-hidden"></div>
 
     <div class="relative">
       <%= form.text_field :private_key,
-          class: "w-full bg-white/10 text-white border-2 border-transparent
-                  focus:border-[#FFB636] rounded-lg py-3 px-4
-                  placeholder-white/50 focus:outline-none",
+          class: "w-full bg-base-content/10 text-base-content border-2 border-transparent
+                  focus:border-secondary rounded-xl py-3 px-4 text-sm
+                  placeholder-base-content/50 focus:outline-none",
           placeholder: "Enter private key",
           data: {
             form_wallet_target: "privateKey",
@@ -63,76 +63,70 @@
             action: "input->#{key_controller}#validate"
           } %>
       <div data-<%= key_controller %>-target="errorMessage"
-           class="text-white/50 text-sm mt-2 hidden w-full">
+           class="text-error text-xs mt-1 hidden">
         Please enter a valid private key.
       </div>
     </div>
   </div>
 
-  <%# Mnemonic Words Tab %>
+  <%# Mnemonic Tab %>
   <div data-tabs-target="tab"
        id="bitcoin-mnemonic"
        data-tab-id="mnemonic"
        data-controller="bitcoin-mnemonic"
        data-action="word:fill->bitcoin-mnemonic#fill bitcoin-mnemonic:initialized->bitcoin#new"
        data-bitcoin-mnemonic-address-value="<%= @hong_bao.address %>"
-       class="hidden bitcoin-mnemonic"
+       class="hidden bitcoin-mnemonic space-y-4"
        data-bitcoin-mnemonic-word-outlet=".word">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5">
       <% 24.times do |i| %>
         <div id="hong_bao_mnemonic_<%= i %>"
-            class="relative word"
+             class="relative word"
              data-controller="word"
-             data-word-valid-class="border-green-500"
-             data-word-invalid-class="border-red-500"
+             data-word-valid-class="border-success"
+             data-word-invalid-class="border-error"
              data-word-bitcoin-mnemonic-outlet=".bitcoin-mnemonic">
-          <span class="absolute left-2 top-1/2 -translate-y-1/2 text-white/50">
+          <span class="absolute left-1.5 top-1/2 -translate-y-1/2 text-base-content/40 text-xs">
             <%= i + 1 %>.
           </span>
           <input type="text"
                  tabindex="<%= i %>"
                  data-word-target="input"
-                 data-action="input->word#validateWord
-                             paste->word#fill"
-                 class="w-full bg-white/10 text-white border-2 border-transparent
-                        focus:border-[#FFB636] rounded-lg py-2 pl-8 pr-8
-                        placeholder-white/50 focus:outline-none text-sm"
+                 data-action="input->word#validateWord paste->word#fill"
+                 class="w-full bg-base-content/10 text-base-content border border-transparent
+                        focus:border-secondary rounded py-1.5 pl-6 pr-6 text-xs
+                        placeholder-base-content/30 focus:outline-none"
                  placeholder="word">
-
-          <%# Valid Icon %>
           <div data-word-target="validIcon"
-               class="validation-icon absolute right-2 top-1/2 -translate-y-1/2 hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
+               class="validation-icon absolute right-1 top-1/2 -translate-y-1/2 hidden">
+            <%= heroicon "check-circle", variant: :mini, class: "w-4 h-4 text-success" %>
           </div>
-
-          <%# Error Icon %>
           <div data-word-target="errorIcon"
-               class="validation-icon absolute right-2 top-1/2 -translate-y-1/2 hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-            </svg>
+               class="validation-icon absolute right-1 top-1/2 -translate-y-1/2 hidden">
+            <%= heroicon "exclamation-triangle", variant: :mini, class: "w-4 h-4 text-warning" %>
           </div>
         </div>
       <% end %>
     </div>
     <div data-bitcoin-mnemonic-target="errorMessage"
-        class="text-white/50 text-sm mt-2 hidden w-full">
+         class="text-error text-xs mt-2 hidden">
       Please enter a valid 24-word mnemonic phrase.
     </div>
   </div>
 
+  <%# Divider %>
+  <div class="border-t border-base-content/10"></div>
 
-  <%# Confirm Button %>
-  <div class="mt-6">
+  <%# Action Buttons %>
+  <div class="flex gap-2">
     <%= render "hong_baos/new/previous_button" %>
 
     <button type="button"
             data-controller="disabled"
             data-action="bitcoin-mnemonic:valid@window->disabled#remove bitcoin-mnemonic:invalid@window->disabled#add steps#next form-wallet#import <%= key_controller %>:valid@window->disabled#remove <%= key_controller %>:invalid@window->disabled#add"
-            class="bg-[#FFB636] text-white py-3 px-4 rounded-lg font-medium
-                   hover:bg-[#FFB636]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex-1 py-2.5 px-4 bg-secondary text-neutral font-semibold rounded-xl
+                   hover:bg-secondary/90 transition-colors disabled:opacity-30
+                   flex items-center justify-center gap-1 text-sm"
             disabled>
       Continue
     </button>

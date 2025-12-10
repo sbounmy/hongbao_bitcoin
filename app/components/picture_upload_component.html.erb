@@ -1,7 +1,7 @@
-<div class="mt-2 flex flex-col justify-between rounded-lg border border-dashed border-gray-900/25 px-6 py-10 flex-1">
-    <div class="mt-4 flex text-sm leading-6 text-gray-600 w-full h-full">
+<div class="mt-2 flex flex-col justify-between rounded-lg border border-dashed border-base-content/25 px-6 py-10 flex-1">
+    <div class="mt-4 flex text-sm leading-6 text-base-content/60 w-full h-full">
       <label data-controller="preview" for="file-upload" class="relative cursor-pointer rounded-md w-full h-full text-center">
-        <%= heroicon "photo", class: "mx-auto h-12 w-12 text-gray-300" %>
+        <%= heroicon "photo", class: "mx-auto h-12 w-12 text-base-content/30" %>
         <%= form.fields_for :input_items do |input_item_fields| %>
           <%= input_item_fields.file_field :image,
               id: "file-upload",
@@ -14,7 +14,7 @@
         <div class="image-container">
           <%= image_tag "", data: { preview_target: "preview" }, class: "image" %>
         </div>
-        <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+        <p class="text-xs leading-5 text-base-content/60">PNG, JPG, GIF up to 10MB</p>
       </label>
   </div>
 </div>

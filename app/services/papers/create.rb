@@ -18,6 +18,7 @@ module Papers
     end
 
     def create_tokens
+      return if @paper.style&.prompt.blank?
       @user.tokens.create(quantity: -1, description: "Paper #{@paper.id} tokens #{@paper.style.name}")
     end
   end
