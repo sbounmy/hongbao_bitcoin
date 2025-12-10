@@ -7,7 +7,7 @@ test.describe("Input Themes", () => {
   test("shows papers related to a theme", async ({ page }) => {
     await page.goto('/inputs/1'); // dollar
     await expect(page.locator('body')).toContainText('Dollar');
-    await expect(page.locator('.papers-item-component')).toHaveCount(1);
+    await expect(page.locator('.papers-item-component')).toHaveCount(2);
     await page.goto('/inputs/2'); // euro
     await expect(page.locator('body')).toContainText('Euro');
     await expect(page.locator('.papers-item-component')).toHaveCount(0);

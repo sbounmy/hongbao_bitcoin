@@ -9,7 +9,7 @@ tunisian_dinar:
     ui:
       name: "bumblebee"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -18,7 +18,7 @@ tunisian_dinar:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -29,7 +29,7 @@ tunisian_dinar:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -38,7 +38,7 @@ tunisian_dinar:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -49,7 +49,7 @@ tunisian_dinar:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -60,7 +60,7 @@ tunisian_dinar:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -94,7 +94,7 @@ dollar:
       color_accent_content: "#112f4e"
       depth: "2"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -103,7 +103,7 @@ dollar:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -114,7 +114,7 @@ dollar:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -123,7 +123,7 @@ dollar:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -134,7 +134,7 @@ dollar:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -145,7 +145,7 @@ dollar:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -167,7 +167,7 @@ euro:
     ui:
       name: "aqua"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -176,7 +176,7 @@ euro:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -187,7 +187,7 @@ euro:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -196,7 +196,7 @@ euro:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -207,7 +207,7 @@ euro:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -218,7 +218,7 @@ euro:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -240,7 +240,7 @@ monoboly:
     ui:
       name: "lofi"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -249,7 +249,7 @@ monoboly:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -260,7 +260,7 @@ monoboly:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -269,7 +269,7 @@ monoboly:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -280,7 +280,7 @@ monoboly:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -291,7 +291,7 @@ monoboly:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -313,7 +313,7 @@ rouble:
     ui:
       name: "emerald"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -322,7 +322,7 @@ rouble:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -333,7 +333,7 @@ rouble:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -342,7 +342,7 @@ rouble:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -353,7 +353,7 @@ rouble:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -364,7 +364,7 @@ rouble:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -386,7 +386,7 @@ chinese_yuan:
     ui:
       name: "valentine"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -395,7 +395,7 @@ chinese_yuan:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -406,7 +406,7 @@ chinese_yuan:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -415,7 +415,7 @@ chinese_yuan:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -426,7 +426,7 @@ chinese_yuan:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -437,7 +437,7 @@ chinese_yuan:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -459,7 +459,7 @@ indonesian_rupiah:
     ui:
       name: "winter"
     ai:
-      private_key_qrcode: 
+      private_key_qrcode:
         x: "10"
         y: "37"
 
@@ -468,7 +468,7 @@ indonesian_rupiah:
         height: "18.0"
 
         color: "#000000"
-      private_key_text: 
+      private_key_text:
         x: "9"
         y: "57"
 
@@ -479,7 +479,7 @@ indonesian_rupiah:
         size: "1.8"
 
         color: "#000000"
-      public_address_qrcode: 
+      public_address_qrcode:
         x: "22"
         y: "24"
 
@@ -488,7 +488,7 @@ indonesian_rupiah:
         height: "18.0"
 
         color: ""
-      public_address_text: 
+      public_address_text:
         x: "21"
         y: "55"
 
@@ -499,7 +499,7 @@ indonesian_rupiah:
         size: "1.8"
 
         color: "#000000"
-      mnemonic_text: 
+      mnemonic_text:
         x: "5"
         y: "50"
 
@@ -510,7 +510,7 @@ indonesian_rupiah:
         size: "1.6"
 
         color: "#000000"
-      custom_text: 
+      custom_text:
 
         x: ""
 
@@ -525,7 +525,7 @@ indonesian_rupiah:
         color: ""
 none:
   id: 100
-  position: -1
+  position: 99
   name: None
   prompt: ""
   type: "Input::Style"
