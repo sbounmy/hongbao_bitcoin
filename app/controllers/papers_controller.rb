@@ -12,7 +12,7 @@ class PapersController < ApplicationController
 
   def show
     @paper = Paper.find(params[:id])
-    @paper.increment_views!
+    @paper.increment_views!(session)
     @hong_bao = HongBao.new
     @payment_methods = PaymentMethod.active.by_position.with_attached_logo
     @steps = Step.for_new
