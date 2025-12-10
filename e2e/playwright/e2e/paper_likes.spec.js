@@ -144,7 +144,6 @@ test.describe('Paper Likes', () => {
 
     // Click on the paper image to view it
     await firstPaper.first().click();
-    await firstPaper.first().click();
 
     // Wait for the new page to open and get the new page object
     const newPage = await newPagePromise;
