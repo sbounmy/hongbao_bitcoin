@@ -2,16 +2,6 @@
 
 module Btcdex
   class FabComponent < ApplicationComponent
-    renders_many :actions, "ActionItem"
-
-    class ActionItem < ApplicationComponent
-      def initialize(label:, icon:, href:)
-        @label = label
-        @icon = icon
-        @href = href
-      end
-
-      attr_reader :label, :icon, :href
-    end
+    # Decorative Pokedex lens - links to home
   end
 end

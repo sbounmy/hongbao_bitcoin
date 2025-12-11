@@ -1,0 +1,37 @@
+<%# D-Pad FAB using DaisyUI fab component %>
+<div class="fab bottom-20 md:bottom-4 fab-flower">
+  <%# Trigger - D-Pad button with 3D effect %>
+  <div tabindex="0" role="button" class="btn btn-circle w-14 h-14 bg-base-200 border-2 border-base-300 shadow-lg p-0">
+    <svg viewBox="0 0 100 100" class="w-10 h-10">
+      <%# Gradient for 3D effect %>
+      <defs>
+        <linearGradient id="dpadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4a4a4a"/>
+          <stop offset="50%" style="stop-color:#3a3a3a"/>
+          <stop offset="100%" style="stop-color:#2a2a2a"/>
+        </linearGradient>
+      </defs>
+      <%# Cross shape %>
+      <path d="M35 0 H65 V35 H100 V65 H65 V100 H35 V65 H0 V35 H35 Z"
+            fill="url(#dpadGradient)" stroke="#1a1a1a" stroke-width="2"/>
+      <%# Inner highlight %>
+      <path d="M38 3 H62 V38 H97 V62 H62 V97 H38 V62 H3 V38 H38 Z"
+            fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <%# Center circle %>
+      <circle cx="50" cy="50" r="12" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="1"/>
+      <circle cx="50" cy="50" r="8" fill="#3a3a3a"/>
+      <%# Directional arrows %>
+      <path d="M50 10 L42 24 H58 Z" fill="#d0d0d0"/>
+      <path d="M50 90 L42 76 H58 Z" fill="#d0d0d0"/>
+      <path d="M10 50 L24 42 V58 Z" fill="#d0d0d0"/>
+      <path d="M90 50 L76 42 V58 Z" fill="#d0d0d0"/>
+    </svg>
+  </div>
+
+  <%# Speed dial buttons %>
+  <% actions.each do |action| %>
+    <%= link_to action.href, class: "btn btn-circle btn-sm btn-neutral shadow-md" do %>
+      <%= heroicon action.icon, class: "w-4 h-4" %>
+    <% end %>
+  <% end %>
+</div>

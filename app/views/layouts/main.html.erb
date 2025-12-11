@@ -58,13 +58,8 @@
         <div class="bg-primary fixed top-0 left-0 right-0 z-50 pt-4 md:pt-6 px-4 md:px-6">
           <%# Top section with buttons %>
           <div class="flex items-start gap-4 md:gap-6">
-            <%# FAB Button (replaces static lens) %>
-            <%= render Btcdex::FabComponent.new do |fab| %>
-              <% fab.with_action(label: "Home", icon: "home", href: dashboard_path) %>
-              <% fab.with_action(label: "Create", icon: "plus", href: new_paper_path) %>
-              <% fab.with_action(label: "Scan", icon: "qr-code", href: hong_baos_path) %>
-              <% fab.with_action(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
-            <% end %>
+            <%# Pokedex lens - decorative, links to home %>
+            <%= render Btcdex::FabComponent.new %>
 
             <%# LED indicators %>
             <div class="flex items-center gap-2 md:gap-3">
@@ -173,6 +168,13 @@
                 <% end %>
               <% end %>
             <% end %>
+          <% end %>
+          <%# D-Pad FAB (mobile only) %>
+          <%= render Btcdex::DpadFabComponent.new do |dpad| %>
+            <% dpad.with_action(label: "Home", icon: "home", href: dashboard_path) %>
+            <% dpad.with_action(label: "Create", icon: "plus", href: new_paper_path) %>
+            <% dpad.with_action(label: "Scan", icon: "qr-code", href: hong_baos_path) %>
+            <% dpad.with_action(label: "Collection", icon: "rectangle-stack", href: explore_papers_path) %>
           <% end %>
         <% end %>
       </div>
