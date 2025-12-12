@@ -15,7 +15,7 @@ module Tokens
     end
 
     def class_name
-      options[:class]
+      options[:class_name]
     end
 
     private
