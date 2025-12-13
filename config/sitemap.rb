@@ -85,10 +85,16 @@ SitemapGenerator::Sitemap.create(filename: :sitemap) do
           }
         end
 
-        add variant_product_path(slug: product.slug, option: option_param),
-            changefreq: "weekly",
-            priority: 0.7,
-            images: variant_images.presence
+        if variant_images.any?
+          add variant_product_path(slug: product.slug, option: option_param),
+              changefreq: "weekly",
+              priority: 0.7,
+              images: variant_images
+        else
+          add variant_product_path(slug: product.slug, option: option_param),
+              changefreq: "weekly",
+              priority: 0.7
+        end
       end
     end
   end
