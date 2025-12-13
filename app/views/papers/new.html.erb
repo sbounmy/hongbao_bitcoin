@@ -1,68 +1,37 @@
-<!-- Suppress dock bar on this page -->
+<%# Suppress dock bar on this page %>
 <% content_for(:footer) do %>
-  <!-- No dock bar on paper creation -->
+  <!-- No dock bar on paper new -->
 <% end %>
 
-<%# Custom screen header with back button and title %>
+<%# Instagram-style header in screen_header slot %>
 <% content_for(:screen_header) do %>
-  <div class="flex items-center gap-3">
-    <%= link_to dashboard_path, class: "text-base-content/60 hover:text-base-content" do %>
-      <%= heroicon "arrow-left", class: "w-5 h-5" %>
-    <% end %>
-    <span class="text-base-content font-medium">Create Paper</span>
-  </div>
+  <%= render "papers/new/header" %>
 <% end %>
 
-<div class="flex flex-col md:flex-row" data-controller="toggle">
-  <!-- Column 1: Form -->
-  <div id="form-column" class="flex w-full md:max-w-md flex-col gap-4 md:sticky md:top-24 md:self-start">
-    <%= form_with(model: @paper, class: "flex flex-col gap-4 py-4", local: false, data: { controller: "disabled" }) do |form| %>
-      <!-- Mobile-first: Upload first, then style -->
-      <div class="flex flex-col gap-4 px-4">
+<%# Instagram-style single-page wizard %>
+<div class="flex flex-col min-h-[calc(100vh-280px)] bg-base-100 rounded-xl overflow-hidden"
+     data-controller="steps preview photo-select"
+     data-steps-current-value="1"
+     data-steps-hidden-class="hidden">
 
-        <!-- Step 1: Upload -->
-        <div class="relative flex flex-col">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg flex gap-2 font-medium text-base-content"><%= heroicon "photo", class: "w-6 h-6" %> Profile picture</h2>
-          </div>
-          <%= render PictureUploadComponent.new(form: form) %>
-        </div>
+  <%= form_with(model: @paper, class: "flex-1 flex flex-col", local: false) do |form| %>
+    <%# Step 1: Photo Picker with Recents/My Papers tabs %>
+    <div data-steps-target="content"
+         data-steps-index="1"
+         class="flex-1 flex flex-col">
+      <%= render "papers/new/steps/photo", form: form, papers: @papers, recent_photos: @recent_photos, pagy: @pagy %>
+    </div>
 
-        <!-- Step 2: Theme (hidden, will be selected later) -->
-        <%= form.fields_for :input_item_theme_attributes do |theme_form| %>
-          <%= theme_form.hidden_field :input_id, value: @themes.first.id %>
-        <% end %>
+    <%# Step 2: Style Selection %>
+    <div data-steps-target="content"
+         data-steps-index="2"
+         class="hidden flex-1 flex flex-col">
+      <%= render "papers/new/steps/style", form: form, styles: @styles %>
+    </div>
 
-        <!-- Step 3: Single Style Selection -->
-        <div class="relative">
-          <h2 class="text-lg flex gap-2 font-medium mb-4 text-base-content"><%= heroicon "sparkles", class: "w-6 h-6" %> Choose Style</h2>
-          <div class='grid gap-2 grid-cols-2 md:grid-cols-3'>
-            <%= render Styles::RadioComponent.with_collection(@styles, form:) %>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-base-100 border-t border-base-300 p-4 sticky bottom-0">
-        <%= render Papers::CreateButtonComponent.new(form: form) %>
-      </div>
+    <%# Hidden theme field (theme selection comes later in flow) %>
+    <%= form.fields_for :input_item_theme_attributes do |theme_form| %>
+      <%= theme_form.hidden_field :input_id, value: @themes.first.id %>
     <% end %>
-  </div>
-
-  <!-- Column 2: Splitter -->
-  <div class="split-bar w-1 bg-base-content/20 h-full hidden md:block">
-  </div>
-
-  <!-- Column 3: Preview -->
-  <div id="preview-column" class="flex-1 min-h-0 p-4 hidden md:flex flex-col">
-    <div class="flex justify-between items-center flex-shrink-0 mb-4">
-      <h2 class="text-lg font-medium text-base-content">My Papers</h2>
-      <button type="button" class="btn btn-sm md:hidden" data-action="toggle#switch" data-toggle-hide-param="#preview-column" data-toggle-show-param="#form-column">
-        Back
-      </button>
-    </div>
-    <div id="papers" class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-2">
-        <%= render Papers::ItemComponent.with_collection(@papers) %>
-    </div>
-    <%= turbo_stream_from :papers %>
-  </div>
+  <% end %>
 </div>

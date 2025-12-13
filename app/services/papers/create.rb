@@ -13,6 +13,7 @@ module Papers
 
     def create_paper
       # Create the paper - name will be set automatically by before_save callback
+      # InputItem handles blob_id via before_validation callback
       @paper = Paper.create!(user: @user, active: true, public: false, **@params)
       ProcessPaperJob.perform_later(@paper.id, quality: @quality)
     end

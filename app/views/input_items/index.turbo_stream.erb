@@ -1,0 +1,17 @@
+<%# Append new photos to the grid %>
+<%= turbo_stream.append "recent-photos-grid" do %>
+  <%= render Papers::RecentPhotoComponent.with_collection(@input_items) %>
+<% end %>
+
+<%# Replace current loader with next page loader (or remove if no more pages) %>
+<%= turbo_stream.replace "input_items_page_#{@pagy.page}" do %>
+  <% if @pagy.next %>
+    <%= turbo_frame_tag "input_items_page_#{@pagy.next}",
+        src: input_items_path(type: params[:type], page: @pagy.next, format: :turbo_stream),
+        loading: :lazy do %>
+      <div class="col-span-4 py-4 text-center">
+        <span class="loading loading-spinner loading-sm text-base-content/30"></span>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

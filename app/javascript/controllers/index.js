@@ -44,6 +44,9 @@ application.register("popup", PopupController)
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
 
+import PhotoSelectController from "./photo_select_controller"
+application.register("photo-select", PhotoSelectController)
+
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
 
@@ -64,6 +67,9 @@ application.register('phone-input', PhoneInputController)
 
 import PasswordMeterController from './password_meter_controller'
 application.register('password-meter', PasswordMeterController)
+
+import StepsController from './offline/steps_controller'
+application.register('steps', StepsController)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149

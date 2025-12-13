@@ -1,0 +1,20 @@
+<%# Instagram-style header: X | Title | Next - rendered inside layout's screen_header slot %>
+<div class="flex items-center justify-between">
+  <%# Close button %>
+  <%= link_to dashboard_path, class: "p-1 text-base-content hover:text-base-content/70 transition-colors" do %>
+    <%= heroicon "x-mark", class: "w-5 h-5" %>
+  <% end %>
+
+  <%# Title %>
+  <span class="font-semibold text-base-content text-sm">New post</span>
+
+  <%# Next button - enabled when photo is selected %>
+  <button type="button"
+          class="font-semibold text-primary text-sm disabled:text-base-content/30 transition-colors"
+          data-controller="disabled"
+          data-action="steps#next preview:selected@window->disabled#remove photo-select:selected@window->disabled#remove"
+          data-disabled-target="element"
+          disabled>
+    Next
+  </button>
+</div>
