@@ -1,7 +1,7 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
 
   <%# Upsell banner for envelopes %>
-  <%= link_to pricing_path, class: "group flex items-center mx-4 p-2 pr-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-xl" do %>
+  <%= link_to pricing_path, class: "group flex items-center p-2 pr-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-xl" do %>
     <div class="w-20 h-16 flex-shrink-0">
       <%= image_tag "red-main.png", class: "w-full h-full object-contain group-hover:scale-110 transition-transform", alt: "Bitcoin red envelopes" %>
     </div>
@@ -12,7 +12,7 @@
     <%= heroicon "chevron-right", variant: :solid, class: "w-5 h-5 text-white/50 group-hover:text-white flex-shrink-0" %>
   <% end %>
 
-  <section id='papers' class="px-4 flex flex-col md:flex-row gap-4">
+  <section id='papers' class="flex flex-col md:flex-row gap-4">
     <div>
       <h3 class="text-xl font-bold">Latest</h3>
       <%= render Papers::LineItemComponent.with_collection(Paper.order(created_at: :desc).limit(5)) %>
