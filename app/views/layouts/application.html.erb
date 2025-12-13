@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html lang="<%= I18n.locale %>" data-theme="bumblebee">
   <head>
     <%# Mobile Viewport Meta Tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -46,26 +46,15 @@
 
     <%# Includes all stylesheet files in app/views/stylesheets %>
     <%= stylesheet_link_tag "application", "tailwind", "data-turbo-track": "reload" %>
+    <%= theme_css(current_theme) %>
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
     <%= render "shared/plausible" %>
 
-    <%# theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
     <%= csp_meta_tag %>
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
-
-
-    <%# Initialize theme before page loads to prevent FOUC %>
-    <script>
-      (function() {
-        const savedTheme = localStorage.getItem('theme');
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        const theme = savedTheme || systemTheme;
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
   </head>
 
   <%= tag.body(**attributes_from(yield(:body_attributes))) do %>

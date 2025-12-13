@@ -25,9 +25,6 @@ application.register("hello", HelloController)
 import HighchartsController from "./highcharts_controller"
 application.register("highcharts", HighchartsController)
 
-import ThemeController from "./theme_controller"
-application.register("theme", ThemeController)
-
 import MnemonicInputController from "./mnemonic_input_controller"
 application.register("mnemonic-input", MnemonicInputController)
 

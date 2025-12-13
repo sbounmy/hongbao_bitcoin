@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "intl-tel-input/build/css/intlTelInput.css";
 @plugin "@tailwindcss/typography";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: bumblebee, pokedex;
+}
 
 @plugin "daisyui/theme" {
   name: "pokedex";
