@@ -13,9 +13,31 @@
         <%= render ProgressBarComponent.new(animated: true, duration: 60, class: "w-full") %>
       </div>
     <% elsif image_url %>
-      <%# Show paper image with name %>
-      <div class="flex flex-col items-center gap-4">
-        <%= image_tag image_url, class: image_classes, alt: "Paper preview" %>
+      <%# Show paper image with front/back toggle %>
+      <div class="flex flex-col items-center gap-4"
+           data-controller="tabs"
+           data-tabs-default-tab-value="front"
+           data-tabs-active-class="tab-active">
+        <%# Toggle tabs using DaisyUI tabs %>
+        <div role="tablist" class="tabs tabs-boxed">
+          <button type="button" role="tab" class="tab"
+                  data-tabs-target="btn"
+                  data-tab-id="front"
+                  data-action="tabs#select">Front</button>
+          <button type="button" role="tab" class="tab"
+                  data-tabs-target="btn"
+                  data-tab-id="back"
+                  data-action="tabs#select">Back</button>
+        </div>
+
+        <%# Images %>
+        <div data-tabs-target="tab" data-tab-id="front">
+          <%= image_tag image_url, class: image_classes, alt: "Paper front" %>
+        </div>
+        <div data-tabs-target="tab" data-tab-id="back" class="hidden">
+          <%= image_tag back_image_url, class: image_classes, alt: "Paper back" %>
+        </div>
+
         <h2 class="text-xl font-semibold text-base-content"><%= paper.name %></h2>
       </div>
     <% else %>

@@ -24,7 +24,7 @@ class Paper < ApplicationRecord
 
   before_validation :set_default_elements, :set_name_from_inputs
   after_create_commit :broadcast_prepend
-  after_update_commit :broadcast_replace, :broadcast_replace_edit
+  after_update_commit :broadcast_replace
 
   validates :name, presence: true
   validates :elements, presence: true
@@ -90,10 +90,6 @@ class Paper < ApplicationRecord
 
 
   private
-
-  def broadcast_replace_edit
-    broadcast_replace_to self, target: "edit_paper_#{id}", renderable: Papers::EditComponent.new(paper: self)
-  end
 
   def broadcast_prepend
     broadcast_prepend_to :papers, renderable: Papers::ItemComponent.new(item: self, broadcast: true)

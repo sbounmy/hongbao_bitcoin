@@ -2,6 +2,7 @@ require "stringio"
 
 module Papers
   class Update < ApplicationService
+
     def call(paper:, params:)
       # Assign attributes without saving (to avoid premature broadcasting)
       paper.assign_attributes(params)
@@ -26,8 +27,17 @@ module Papers
       paper.image_back.attach(new_theme.image_back.blob) if new_theme.image_back.attached?
       paper.elements = new_theme.ai
       paper.image_front.analyze # so attach is sync for broadcast https://stackoverflow.com/questions/61309182/how-to-force-activestorageattachedattach-to-run-synchronously-disable-asyn#comment134359695_65619420
+      paper.image_back.analyze # so attach is sync for broadcast https://stackoverflow.com/questions/61309182/how-to-force-activestorageattachedattach-to-run-synchronously-disable-asyn#comment134359695_65619420
       paper.save!
+      broadcast_replace_edit(paper)
       paper
     end
+
+    private
+
+    def broadcast_replace_edit(paper)
+      paper.broadcast_replace_to paper, target: "edit_paper_#{paper.id}", renderable: Papers::EditComponent.new(paper:)
+    end
+
   end
 end
