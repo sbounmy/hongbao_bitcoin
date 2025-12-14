@@ -45,6 +45,7 @@
     <%= theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
     <%= csp_meta_tag %>
+    <%= csrf_meta_tag %>
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
