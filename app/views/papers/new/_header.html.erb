@@ -1,5 +1,7 @@
-<%# Instagram-style header: X | Title | Next - rendered inside layout's screen_header slot %>
-<div class="flex items-center justify-between">
+<%# Step 1 Header: X | "New post" | Next %>
+<div class="flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="1">
   <%# Close button %>
   <%= link_to dashboard_path, class: "p-1 text-base-content hover:text-base-content/70 transition-colors" do %>
     <%= heroicon "x-mark", class: "w-5 h-5" %>
@@ -15,6 +17,42 @@
           data-action="steps#next preview:selected@window->disabled#remove photo-select:selected@window->disabled#remove"
           data-disabled-target="element"
           disabled>
+    Next
+  </button>
+</div>
+
+<%# Step 2 Header: ← | Photo preview | Next %>
+<div class="hidden flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="2">
+  <%# Back button %>
+  <button type="button"
+          class="p-1 text-base-content hover:text-base-content/70 transition-colors"
+          data-action="steps#previous">
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  </button>
+
+  <%# Photo preview with change option %>
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full overflow-hidden bg-base-200">
+      <%= image_tag "",
+          data: { preview_target: "previewThumb", photo_select_target: "previewThumb" },
+          class: "w-full h-full object-cover",
+          alt: "Your photo" %>
+    </div>
+    <div class="flex flex-col">
+      <span class="font-semibold text-base-content text-sm">Your Photo</span>
+      <button type="button"
+              class="text-primary text-xs text-left"
+              data-action="steps#previous">
+        Change photo
+      </button>
+    </div>
+  </div>
+
+  <%# Next/Submit button %>
+  <button type="submit"
+          class="font-semibold text-primary text-sm disabled:text-base-content/30 transition-colors">
     Next
   </button>
 </div>
