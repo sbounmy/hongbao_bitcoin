@@ -8,6 +8,9 @@ class PapersController < ApplicationController
     @styles = Input::Style.with_attached_image
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
+
+    # Processing papers for current user (generating section)
+    @processing_papers = current_user&.papers&.processing&.recent || Paper.none
   end
 
   def show

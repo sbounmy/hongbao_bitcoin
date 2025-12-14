@@ -1,5 +1,23 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
 
+  <%# Generating Papers Section - only shown if user has processing papers %>
+  <% if @processing_papers.any? %>
+    <section id="generating" class="px-4">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="loading loading-spinner loading-sm text-primary"></span>
+        <h3 class="text-xl font-bold">Generating (<%= @processing_papers.count %>)</h3>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <% @processing_papers.each do |paper| %>
+          <%= turbo_stream_from paper %>
+          <div id="<%= dom_id(paper) %>">
+            <%= render Papers::ItemComponent.new(item: paper) %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
   <%# Upsell banner for envelopes %>
   <%= link_to pricing_path, class: "group flex items-center p-2 pr-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-xl" do %>
     <div class="w-20 h-16 flex-shrink-0">

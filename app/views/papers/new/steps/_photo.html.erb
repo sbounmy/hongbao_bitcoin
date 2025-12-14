@@ -18,7 +18,7 @@
     </div>
 
     <%# Hidden file input for form %>
-    <%= form.fields_for :input_items_attributes, Paper.new.input_items.build do |input_fields| %>
+    <%= form.fields_for :input_items, Paper.new.input_items.build do |input_fields| %>
       <%= input_fields.file_field :image,
           id: "photo-input",
           accept: "image/*",

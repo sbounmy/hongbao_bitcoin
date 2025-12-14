@@ -32,6 +32,8 @@ class Paper < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :processing, -> { left_joins(:image_front_attachment).where(active_storage_attachments: { id: nil }) }
+  scope :completed, -> { joins(:image_front_attachment) }
 
   scope :with_input, ->(input) { joins(:inputs).where(inputs: { id: input.id }) }
   scope :with_input_type, ->(type) { with_any_input_ids(Input.where(type: type).pluck(:id)) }

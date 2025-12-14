@@ -44,6 +44,9 @@ application.register("popup", PopupController)
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
 
+import ProgressController from "./progress_controller"
+application.register("progress", ProgressController)
+
 import PhotoSelectController from "./photo_select_controller"
 application.register("photo-select", PhotoSelectController)
 
