@@ -1,0 +1,16 @@
+<%# Step 4 Header: ← | Step 4/4 | Done %>
+<div class="<%= 'hidden' unless current_step == 4 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="4">
+  <button type="button"
+          class="p-1 text-base-content hover:text-base-content/70 transition-colors"
+          data-action="steps#previous">
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  </button>
+
+  <span class="font-semibold text-base-content text-sm">Step 4 / 4</span>
+
+  <%= link_to dashboard_path, class: "font-semibold text-primary text-sm" do %>
+    Done ✓
+  <% end %>
+</div>

@@ -1,0 +1,18 @@
+<%# Step 2 Header: ← | Step 2/4 | Next %>
+<div class="<%= 'hidden' unless current_step == 2 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="2">
+  <button type="button"
+          class="p-1 text-base-content hover:text-base-content/70 transition-colors"
+          data-action="steps#previous">
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  </button>
+
+  <span class="font-semibold text-base-content text-sm">Step 2 / 4</span>
+
+  <button type="button"
+          class="font-semibold text-primary text-sm"
+          data-action="steps#next">
+    Next →
+  </button>
+</div>

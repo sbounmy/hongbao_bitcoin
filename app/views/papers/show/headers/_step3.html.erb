@@ -1,0 +1,20 @@
+<%# Step 3 Header: ← | Step 3/4 | Next (disabled until download) %>
+<div class="<%= 'hidden' unless current_step == 3 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="3">
+  <button type="button"
+          class="p-1 text-base-content hover:text-base-content/70 transition-colors"
+          data-action="steps#previous">
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  </button>
+
+  <span class="font-semibold text-base-content text-sm">Step 3 / 4</span>
+
+  <button type="button"
+          class="font-semibold text-primary text-sm disabled:opacity-30 disabled:cursor-not-allowed"
+          data-controller="disabled"
+          data-action="steps#next pdf:downloaded@window->disabled#remove"
+          disabled>
+    Next →
+  </button>
+</div>

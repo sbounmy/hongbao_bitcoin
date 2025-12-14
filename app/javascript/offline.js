@@ -51,8 +51,6 @@ application.register("private-key", PrivateKeyController)
 import QrCodeController from "./controllers/offline/qr_code_controller"
 application.register("qr-code", QrCodeController)
 
-import StepsController from "./controllers/offline/steps_controller"
-application.register("steps", StepsController)
 
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)

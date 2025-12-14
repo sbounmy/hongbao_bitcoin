@@ -103,7 +103,6 @@ class PapersController < ApplicationController
     Current.network = testnet? ? :testnet : :mainnet
   end
 
-  private
 
   def set_layout
     case action_name
@@ -111,8 +110,6 @@ class PapersController < ApplicationController
       "offline"
     when "new", "index", "explore", "edit"
       "main"
-    else
-      "application"
     end
   end
 end

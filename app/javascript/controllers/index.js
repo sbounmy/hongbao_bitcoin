@@ -72,7 +72,7 @@ application.register('phone-input', PhoneInputController)
 import PasswordMeterController from './password_meter_controller'
 application.register('password-meter', PasswordMeterController)
 
-import StepsController from './offline/steps_controller'
+import StepsController from './steps_controller'
 application.register('steps', StepsController)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
