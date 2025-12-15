@@ -4,8 +4,7 @@
      data-steps-index="5">
 
   <div class="text-center">
-    <h3 class="font-semibold text-base-content">You're All Set! 🎉</h3>
-    <p class="text-sm text-base-content/60 mt-1">Your Bitcoin gift is ready. Here's what you can do next:</p>
+    <h3 class="font-semibold text-base-content text-lg">All Done!</h3>
   </div>
 
   <%# Track HongBao button %>
@@ -20,7 +19,7 @@
           binding_template_value: "#{new_saved_hong_bao_path}?address={publicAddressText}"
         } do %>
     <%= heroicon "bookmark", class: "w-5 h-5" %>
-    Save & Track This Gift
+    Add to My Hong Baos
   <% end %>
 
   <%# Verify on blockchain %>
@@ -34,23 +33,23 @@
           binding_attribute_value: "href",
           binding_template_value: "https://mempool.space/address/{publicAddressText}"
         } do %>
-    <%= heroicon "magnifying-glass", class: "w-5 h-5" %>
-    Verify on Blockchain
+    <%= heroicon "arrow-top-right-on-square", class: "w-5 h-5" %>
+    View on Mempool
   <% end %>
 
   <%# Tips %>
-  <div class="bg-base-200 rounded-lg p-4 space-y-2 text-sm">
+  <div class="bg-base-200 rounded-lg p-4 space-y-3 text-sm">
     <p class="flex items-start gap-2">
-      <%= heroicon "check-circle", class: "w-5 h-5 text-success shrink-0 mt-0.5" %>
-      <span><strong>Print</strong> the PDF and keep it safe</span>
+      <%= heroicon "printer", class: "w-5 h-5 text-base-content/70 shrink-0 mt-0.5" %>
+      <span><strong>Print</strong> the PDF and gift it</span>
     </p>
     <p class="flex items-start gap-2">
-      <%= heroicon "check-circle", class: "w-5 h-5 text-success shrink-0 mt-0.5" %>
-      <span><strong>Never share</strong> the private key or recovery phrase</span>
+      <%= heroicon "trash", class: "w-5 h-5 text-base-content/70 shrink-0 mt-0.5" %>
+      <span><strong>Delete</strong> the PDF after printing so only the recipient has the keys</span>
     </p>
     <p class="flex items-start gap-2">
-      <%= heroicon "check-circle", class: "w-5 h-5 text-success shrink-0 mt-0.5" %>
-      <span><strong>Gift it!</strong> The recipient can claim anytime</span>
+      <%= heroicon "shield-check", class: "w-5 h-5 text-base-content/70 shrink-0 mt-0.5" %>
+      <span><strong>Never share</strong> the private key or recovery phrase online</span>
     </p>
   </div>
 </div>
