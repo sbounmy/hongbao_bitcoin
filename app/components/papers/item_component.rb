@@ -17,7 +17,7 @@ module Papers
     private
 
     def processing?
-      !item.image_front.attached? || !item.image_back.attached?
+      !item.image_front.attached?
     end
 
     def render_face(image_url:)
