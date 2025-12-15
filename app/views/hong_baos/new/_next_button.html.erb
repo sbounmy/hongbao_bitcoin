@@ -7,5 +7,5 @@
         data-form-target="submitButton"
         data-action="steps#next <%= local_assigns[:html_options]&.dig(:data_action) -%>"
         <%= 'disabled' if local_assigns[:html_options]&.dig(:disabled) %>>
-  <%= local_assigns[:title] || "Next →" %>
+  <%= local_assigns[:title] || "Next" %>
 </button>

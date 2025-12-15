@@ -1,0 +1,51 @@
+<%# Step 3: Download - Password protection + Download PDF %>
+<div class="<%= 'hidden' unless local_assigns[:current_step] == 3 %> flex flex-col gap-4"
+     data-controller='disabled'
+     data-action='password-meter:valid@window->disabled#remove password-meter:invalid@window->disabled#add'
+     data-steps-target="content"
+     data-steps-index="3">
+
+  <%# Password section %>
+  <fieldset class="fieldset">
+    <div class="flex items-center justify-between">
+      <legend class="fieldset-legend text-primary">Password Protection</legend>
+      <span class="text-xs px-2 py-1 bg-warning/20 text-warning rounded-full">
+        Recommended for $100+ gifts
+      </span>
+    </div>
+    <div class="space-y-2">
+      <%= render PasswordMeterComponent.new(
+        input_id: "pdf-password",
+        name: "pdf_password",
+        placeholder: "8+ chars, uppercase, lowercase, number",
+        data_targets: { pdf: "password" },
+        show_visibility_toggle: true,
+        min_length: 8,
+        require_uppercase: true,
+        require_lowercase: true,
+        require_numbers: true,
+        require_special: false,
+        show_requirements: false,
+        show_meter: true
+      ) %>
+
+      <div class="text-xs text-base-content/60 space-y-1">
+        <p>⚠️ <strong>No recovery:</strong> If you forget the password, the PDF cannot be opened.</p>
+        <p>💡 <strong>Tip:</strong> You can skip this and add password protection with your PDF viewer later.</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <%# Download button %>
+  <button type="button"
+          data-disabled-target='element'
+          class="btn btn-warning btn-lg w-full"
+          data-action="pdf#download">
+    <%= heroicon "arrow-down-tray", class: "w-5 h-5" %>
+    Download PDF
+  </button>
+
+  <p class="text-xs text-center text-base-content/50">
+    Print this PDF and keep it safe. The private key gives full access to the funds.
+  </p>
+</div>

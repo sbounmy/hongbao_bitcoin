@@ -1,0 +1,6 @@
+<%# Network badge - compact inline %>
+<% is_mainnet = network.to_s == 'mainnet' %>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium <%= is_mainnet ? 'bg-error/20 text-error' : 'bg-success/20 text-success' %>">
+  <span class="w-1.5 h-1.5 rounded-full <%= is_mainnet ? 'bg-error' : 'bg-success' %> animate-pulse"></span>
+  <%= is_mainnet ? 'MAINNET' : 'TESTNET' %>
+</span>

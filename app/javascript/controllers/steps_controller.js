@@ -11,11 +11,11 @@ export default class extends Controller {
     this.#showCurrent()
   }
 
-  next(event) {
+  next() {
     this.currentValue++
   }
 
-  previous(event) {
+  previous() {
     if (this.currentValue <= 1) return;
     this.currentValue--
   }

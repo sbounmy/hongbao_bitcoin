@@ -12,8 +12,9 @@
 <%= content_for :title, @paper.name if @paper.name.present? %>
 
 <% attributes_for(:screen_attributes, {
+  class: 'relative overflow-hidden',
   data: {
-    controller: 'steps bitcoin pdf',
+    controller: 'steps bitcoin pdf reveal',
     steps_current_value: @current_step.to_s,
     steps_hidden_class: 'hidden',
     bitcoin_auto_generate_value: 'true',
@@ -26,15 +27,16 @@
 }) %>
 
 <% content_for(:screen_header) do %>
-  <%= render "papers/show/headers/step1", paper: @paper, current_step: @current_step %>
-  <%= render "papers/show/headers/step2", paper: @paper, current_step: @current_step %>
-  <%= render "papers/show/headers/step3", paper: @paper, current_step: @current_step %>
-  <%= render "papers/show/headers/step4", paper: @paper, current_step: @current_step %>
+  <%= render "papers/show/headers/review_keys", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/qr_style", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/download", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/fund", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/track", paper: @paper, current_step: @current_step, network: Current.network %>
 <% end %>
 
 <%= turbo_frame_tag "qr_scanner" %>
 
-<%# PDF Preview %>
+<%# PDF Preview - always visible %>
 <div class="min-h-[50vh]">
   <%= render "papers/preview_pdf", paper: @paper %>
 </div>
@@ -44,21 +46,10 @@
   <div class="p-4 max-w-3xl mx-auto max-h-[45vh] overflow-auto">
     <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
 
-    <%= render "hong_baos/new/steps/intro",
-        index: 1,
-        paper: @paper %>
-
-    <%= render "hong_baos/new/steps/print",
-        index: 2,
-        paper: @paper %>
-
-    <%= render "hong_baos/new/steps/beneficiary",
-        index: 3,
-        paper: @paper %>
-
-    <%= render "hong_baos/new/steps/top_up",
-        index: 4,
-        hong_bao: @hong_bao,
-        payment_methods: @payment_methods %>
+    <%= render "papers/show/steps/review_keys", current_step: @current_step, step_index: 1 %>
+    <%= render "papers/show/steps/qr_style", current_step: @current_step, step_index: 2 %>
+    <%= render "papers/show/steps/download", current_step: @current_step, step_index: 3 %>
+    <%= render "papers/show/steps/fund", current_step: @current_step, step_index: 4, hong_bao: @hong_bao, payment_methods: @payment_methods %>
+    <%= render "papers/show/steps/track", current_step: @current_step, step_index: 5 %>
   </div>
 </div>

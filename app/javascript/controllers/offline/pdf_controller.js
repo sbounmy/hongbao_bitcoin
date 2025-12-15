@@ -109,10 +109,11 @@ export default class extends Controller {
   }
 
   updateZoomDisplay() {
-    if (this.hasZoomDisplayTarget) {
-      const percentage = Math.round(this.zoomValue * 100)
-      this.zoomDisplayTarget.textContent = `${percentage}%`
-    }
+    const percentage = Math.round(this.zoomValue * 100)
+    // Update ALL zoomDisplay targets (one per step header)
+    this.zoomDisplayTargets.forEach(target => {
+      target.textContent = `${percentage}%`
+    })
   }
 
    // Handles pinch-to-zoom on laptop trackpads.

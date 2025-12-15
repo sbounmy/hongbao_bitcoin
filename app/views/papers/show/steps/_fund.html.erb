@@ -1,0 +1,23 @@
+<%# Step 4: Fund - Top up options %>
+<div class="<%= 'hidden' unless local_assigns[:current_step] == 4 %> flex flex-col gap-4"
+     data-steps-target="content"
+     data-steps-index="4">
+
+  <div class="text-center">
+    <h3 class="font-semibold text-base-content">Fund Your Gift</h3>
+    <p class="text-sm text-base-content/60 mt-1">Send Bitcoin to this address</p>
+  </div>
+
+  <%# Bitcoin Address Display %>
+  <%= render "shared/bitcoin_address" %>
+
+  <%# Payment Methods %>
+  <%= form_with(model: hong_bao, local: false) do |form| %>
+    <%= render AlertComponent.new(
+      icon: 'information-circle',
+      message: 'Card / Bank Transfer top up might not be available for custom keys.',
+      class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:flex'
+    ) %>
+    <%= render "payment_methods/radio_buttons", form:, payment_methods: %>
+  <% end %>
+</div>
