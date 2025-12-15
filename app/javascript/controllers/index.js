@@ -38,9 +38,6 @@ application.register("mt-pelerin", MtPelerinController)
 import PermissionController from "./permission_controller"
 application.register("permission", PermissionController)
 
-import PopupController from "./popup_controller"
-application.register("popup", PopupController)
-
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
 
