@@ -8,8 +8,21 @@ export default class extends Controller {
   }
 
   connect() {
-    this.initializeCanvas()
-    this.loadBackgroundImage()
+    // Defer initialization until element is visible (has dimensions)
+    this.resizeObserver = new ResizeObserver(() => {
+      const canvas = this.containerTarget
+      if (canvas.parentElement.offsetWidth > 0 && !this.isInitialized) {
+        this.isInitialized = true
+        this.resizeObserver.disconnect()
+        this.initializeCanvas()
+        this.loadBackgroundImage()
+      }
+    })
+    this.resizeObserver.observe(this.element)
+  }
+
+  disconnect() {
+    this.resizeObserver?.disconnect()
   }
 
   initializeCanvas() {
@@ -131,6 +144,8 @@ export default class extends Controller {
   }
 
   clear() {
+    if (!this.ctx) return
+
     this.ctx.clearRect(0, 0, this.originalWidth, this.originalHeight)
     if (this.backgroundImage) {
       this.ctx.drawImage(
@@ -163,6 +178,8 @@ export default class extends Controller {
 
   // Redraw the canvas without any changing data (usually ui mode changed)
   refresh(event) {
+    if (!this.isInitialized) return
+
     this.hide(event.detail.hide)
     this.show(event.detail.show)
     this.clear()
@@ -174,6 +191,8 @@ export default class extends Controller {
 
   // Redraw the canvas with changing data from wallet generation
   redraw(event) {
+    if (!this.isInitialized) return
+
     this.clear()
     this.canvaItemTargets.forEach(item => {
       const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')

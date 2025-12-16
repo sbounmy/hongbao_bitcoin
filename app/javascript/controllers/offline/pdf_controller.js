@@ -5,7 +5,7 @@ import blobStream from 'blob-stream'
 
 export default class extends Controller {
   static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password"]
-  static values = { 
+  static values = {
     zoom: { type: Number, default: 0.8 },
     minZoom: { type: Number, default: 0.3 },
     maxZoom: { type: Number, default: 6.0 },
@@ -17,15 +17,24 @@ export default class extends Controller {
     this.lastZoom = this.zoomValue
     this.pendingCursorPosition = null
     this.initialPinchDistance = 0
-    // Initial zoom setup
-    this.applyZoomTransform()
-    this.updateZoomDisplay()
+
+    // Defer zoom setup until element is visible (has dimensions)
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.contentTarget.offsetWidth > 0 && !this.isInitialized) {
+        this.isInitialized = true
+        this.resizeObserver.disconnect()
+        this.applyZoomTransform()
+        this.updateZoomDisplay()
+      }
+    })
+    this.resizeObserver.observe(this.contentTarget)
   }
 
   disconnect() {
     this.pendingCursorPosition = null
+    this.resizeObserver?.disconnect()
   }
-  
+
   zoomIn() {
     this.zoomValue = Math.min(this.maxZoomValue, this.zoomValue + this.zoomStepValue)
   }
@@ -46,12 +55,12 @@ export default class extends Controller {
 
   updateZoom(cursorX = null, cursorY = null) {
     if (!this.hasContentTarget || !this.hasWrapperTarget || !this.hasViewportTarget) return
-    
+
     const position = this.calculateCursorPosition(cursorX, cursorY)
     this.applyZoomTransform()
     this.adjustScrollForCursor(position, cursorX, cursorY)
     this.updateZoomDisplay()
-    
+
     // Update lastZoom after the zoom has been applied
     this.lastZoom = this.zoomValue
   }
@@ -62,31 +71,31 @@ export default class extends Controller {
     const contentHeight = this.contentTarget.offsetHeight
     const scrollLeft = viewport.scrollLeft
     const scrollTop = viewport.scrollTop
-    
+
     // Default to center if no cursor position
     if (cursorX === null || cursorY === null) {
       return { relativeX: 0.5, relativeY: 0.5, viewportX: 0, viewportY: 0 }
     }
-    
+
     // Get cursor position relative to viewport
     const rect = viewport.getBoundingClientRect()
     const viewportX = cursorX - rect.left
     const viewportY = cursorY - rect.top
-    
+
     // Calculate the point on the content that the cursor is over
     const relativeX = (scrollLeft + viewportX) / (contentWidth * this.lastZoom)
     const relativeY = (scrollTop + viewportY) / (contentHeight * this.lastZoom)
-    
+
     return { relativeX, relativeY, viewportX, viewportY }
   }
 
   applyZoomTransform() {
     const contentWidth = this.contentTarget.offsetWidth
     const contentHeight = this.contentTarget.offsetHeight
-    
+
     // Scale the content from its top-left corner
     this.contentTarget.style.transform = `scale(${this.zoomValue})`
-    
+
     // Resize the wrapper to the new scaled dimensions
     this.wrapperTarget.style.width = `${contentWidth * this.zoomValue}px`
     this.wrapperTarget.style.height = `${contentHeight * this.zoomValue}px`
@@ -94,16 +103,16 @@ export default class extends Controller {
 
   adjustScrollForCursor(position, cursorX, cursorY) {
     if (cursorX === null || cursorY === null) return
-    
+
     const viewport = this.viewportTarget
     const contentWidth = this.contentTarget.offsetWidth
     const contentHeight = this.contentTarget.offsetHeight
     const { relativeX, relativeY, viewportX, viewportY } = position
-    
+
     // Calculate new scroll position to keep the cursor over the same content point
     const newScrollLeft = (relativeX * contentWidth * this.zoomValue) - viewportX
     const newScrollTop = (relativeY * contentHeight * this.zoomValue) - viewportY
-    
+
     viewport.scrollLeft = Math.max(0, newScrollLeft)
     viewport.scrollTop = Math.max(0, newScrollTop)
   }
@@ -120,10 +129,10 @@ export default class extends Controller {
   handleWheel(event) {
     if (event.ctrlKey) {
       event.preventDefault()
-      
+
       // Store cursor position for the value change callback
       this.pendingCursorPosition = { x: event.clientX, y: event.clientY }
-      
+
       const zoomFactor = this.zoomValue * this.wheelZoomSpeedValue;
       let newZoom = this.zoomValue - (event.deltaY * zoomFactor);
 
@@ -152,7 +161,7 @@ export default class extends Controller {
       const touch2 = event.touches[1]
       const centerX = (touch1.clientX + touch2.clientX) / 2
       const centerY = (touch1.clientY + touch2.clientY) / 2
-      
+
       // Store cursor position for the value change callback
       this.pendingCursorPosition = { x: centerX, y: centerY }
 
