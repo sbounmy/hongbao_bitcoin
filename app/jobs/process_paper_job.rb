@@ -90,6 +90,7 @@ class ProcessPaperJob < ApplicationJob
     )
 
     @paper.save!
+    @paper.broadcast_processing_complete
     Rails.logger.info "[ProcessPaperJob] Successfully saved Paper #{@paper.id}"
   end
 

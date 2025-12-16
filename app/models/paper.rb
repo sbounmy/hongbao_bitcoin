@@ -24,7 +24,6 @@ class Paper < ApplicationRecord
 
   before_validation :set_default_elements, :set_name_from_inputs
   after_create_commit :broadcast_prepend
-  after_update_commit :broadcast_replace
 
   validates :name, presence: true
   validates :elements, presence: true
@@ -89,14 +88,19 @@ class Paper < ApplicationRecord
   end
 
 
+  # Called by ProcessPaperJob when processing completes
+  def broadcast_processing_complete
+    # Broadcast ItemComponent for dashboard/list views (targets dom_id: paper_123)
+    broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
+
+    # Broadcast EditComponent for edit page (targets dom_id: edit_paper_123)
+    broadcast_replace_to self, target: "edit_paper_#{id}", renderable: Papers::EditComponent.new(paper: self)
+  end
+
   private
 
   def broadcast_prepend
     broadcast_prepend_to :papers, renderable: Papers::ItemComponent.new(item: self, broadcast: true)
-  end
-
-  def broadcast_replace
-    broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
   end
 
   def set_default_elements
