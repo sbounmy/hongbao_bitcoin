@@ -64,6 +64,18 @@ test.describe('Stripe Checkout Flow', () => {
     await page.waitForTimeout(5_000) // wait stripe callback
     await expect(page.locator('header  .badge')).toContainText('12 ₿ao'); // 12 free credits with Mini
 
+    await appVcrEjectCassette();
+  });
+
+  test('can see billing', async({page}) => {
+    test.setTimeout(60_000); // 60s for CI
+
+    await appVcrInsertCassette('stripe_checkout_coupon', { allow_playback_repeats: true });
+
+    await forceLogin(page, {
+      email: 'satoshi@example.com'
+    });
+
     // Navigate to tokens page with relaxed wait condition
     await page.goto('/tokens', { waitUntil: 'domcontentloaded', timeout: 30000 });
 
@@ -82,6 +94,7 @@ test.describe('Stripe Checkout Flow', () => {
 
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
+
   });
 
   test('logged in user can buy envelopes', async ({ page }) => {

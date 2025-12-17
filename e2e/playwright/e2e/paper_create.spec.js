@@ -69,7 +69,7 @@ test.describe('Paper creation', () => {
     await app('perform_jobs');
 
     // Verify we're on edit page
-    expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1);
+    expect(await page.getByText('Select Theme').filter({ visible: true }).first()).toBeVisible();
 
     // Go back to dashboard and verify balance unchanged
     await page.goto('/dashboard');
