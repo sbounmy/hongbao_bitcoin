@@ -55,4 +55,19 @@
   --iti-path-flags-2x: url("/intl-tel-input/flags@2x.webp");
   --iti-path-globe-1x: url("/intl-tel-input/globe.webp");
   --iti-path-globe-2x: url("/intl-tel-input/globe@2x.webp");
+
+  /* Layout spacing variables for canvas height calculation */
+  --header-offset: 6.5rem;   /* pt-26 - header padding top */
+  --bottom-offset: 1rem;     /* pb-4 - bottom padding */
+  --bezel-height: 2.75rem;   /* ~44px screen bezel header */
+  --content-padding: 1.5rem; /* p-3 × 2 - content area padding */
+  --canvas-offset: calc(var(--header-offset) + var(--bottom-offset) + var(--bezel-height) + var(--content-padding));
+}
+
+/* Desktop: different header/bottom padding */
+@media (min-width: 768px) {
+  :root {
+    --header-offset: 8rem;   /* pt-32 */
+    --bottom-offset: 1.5rem; /* pb-6 */
+  }
 }

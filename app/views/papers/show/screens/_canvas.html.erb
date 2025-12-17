@@ -2,35 +2,35 @@
 <%
   frame = paper.theme&.frame_object || Frame.new
 %>
-<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-full"
+<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
      data-steps-target="content"
      data-steps-index="1">
 
-  <%# Paper Preview - Front & Back stacked, scaled to fit %>
-  <div class="flex-1 flex flex-col bg-base-200 overflow-auto p-4">
-    <div class="flex flex-col items-center gap-6">
-      <%# Front Canvas %>
-      <div class="rounded-lg shadow-xl overflow-hidden">
-        <%= render 'hong_baos/new/steps/paper_canva',
-                class_name: "#{frame.css_classes}",
-                frame: frame,
-                paper: paper,
-                elements: paper.front_elements,
-                actions: "bitcoin:modeChanged@window->canva#refresh",
-                image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
-        %>
-      </div>
+  <%# Paper Preview - Layout adapts to frame orientation %>
+  <%# Portrait: side-by-side with horizontal scroll, cards scaled to fill height %>
+  <%# Landscape: stacked vertically with vertical scroll %>
+  <div class="flex-1 min-h-0 bg-base-200 p-4 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center' : 'flex flex-col gap-6 overflow-y-auto items-center' %>">
+    <%# Front Canvas - fills available height, width from aspect ratio %>
+    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
+      <%= render 'hong_baos/new/steps/paper_canva',
+              class_name: "w-full h-full",
+              frame: frame,
+              paper: paper,
+              elements: paper.front_elements,
+              actions: "bitcoin:modeChanged@window->canva#refresh",
+              image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
+      %>
+    </div>
 
-      <%# Back Canvas %>
-      <div class="rounded-lg shadow-xl overflow-hidden">
-        <%= render 'hong_baos/new/steps/paper_canva',
-                class_name: "#{frame.css_classes}",
-                frame: frame,
-                paper: paper,
-                elements: paper.back_elements,
-                image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-        %>
-      </div>
+    <%# Back Canvas - fills available height, width from aspect ratio %>
+    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
+      <%= render 'hong_baos/new/steps/paper_canva',
+              class_name: "w-full h-full",
+              frame: frame,
+              paper: paper,
+              elements: paper.back_elements,
+              image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
+      %>
     </div>
   </div>
 

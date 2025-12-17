@@ -37,7 +37,7 @@
 <%= render "papers/show/screens/canvas", paper: @paper, current_step: @current_step %>
 
 <%# Screen 2: Finish - Download, Fund, Track %>
-<div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col"
+<div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
      data-steps-target="content"
      data-steps-index="2">
   <%= render "shared/error_messages", resource: @hong_bao if @hong_bao&.errors&.any? %>

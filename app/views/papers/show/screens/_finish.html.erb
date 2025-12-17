@@ -1,8 +1,8 @@
 <%# Screen 2: Finish - Download + Fund + Track %>
 <div class="flex flex-col h-full" data-controller="dialog">
 
-  <%# Scrollable content %>
-  <div class="flex-1 overflow-auto">
+  <%# Scrollable content - fills remaining space %>
+  <div class="flex-1 min-h-0 overflow-auto">
     <%# PDF Preview thumbnail - click to open fullscreen %>
     <div class="bg-base-200 cursor-pointer relative group" data-action="click->dialog#open">
       <%= render "papers/preview_pdf", paper: paper, mode: :thumbnail %>
@@ -83,22 +83,6 @@
         </div>
         <%= heroicon "chevron-right", variant: :mini, class: "w-5 h-5 text-base-content/40" %>
       <% end %>
-    </div>
-
-    <%# Tips %>
-    <div class="mx-4 my-4 bg-base-200 rounded-lg p-4 space-y-2 text-sm">
-      <p class="flex items-start gap-2">
-        <%= heroicon "printer", class: "w-4 h-4 text-base-content/70 shrink-0 mt-0.5" %>
-        <span><strong>Print</strong> and gift the paper wallet</span>
-      </p>
-      <p class="flex items-start gap-2">
-        <%= heroicon "trash", class: "w-4 h-4 text-base-content/70 shrink-0 mt-0.5" %>
-        <span><strong>Delete</strong> the PDF after printing</span>
-      </p>
-      <p class="flex items-start gap-2">
-        <%= heroicon "shield-check", class: "w-4 h-4 text-base-content/70 shrink-0 mt-0.5" %>
-        <span><strong>Never share</strong> the private key online</span>
-      </p>
     </div>
   </div>
 
