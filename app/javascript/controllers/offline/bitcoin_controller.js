@@ -135,8 +135,8 @@ export default class extends Controller {
   }
 
   modeChanged(event) {
-    // Update the internal state based on the toggle.
-    this.modeValue = event.target.checked ? 'maximalist' : 'beginner';
+    // Update the internal state based on the radio button value.
+    this.modeValue = event.target.value;
 
     // Dispatch the 'changed' event. The canva_controller will listen for this
     //    and redraw everything using the new data from the `detail` getter.
