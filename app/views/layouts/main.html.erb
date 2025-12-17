@@ -117,7 +117,7 @@
             <%= render "btcdex/tab_nav" %>
 
             <%# Dark screen container %>
-            <%= tag.div(class: 'bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 min-w-0 flex flex-col', **attributes_from(yield(:screen_attributes))) do %>
+            <%= tag.div(class: 'bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 min-w-0 flex flex-col group', **attributes_from(yield(:screen_attributes))) do %>
               <%# Screen bezel/header - can be customized via content_for(:screen_header) %>
               <div class="bg-base-200 rounded-t-xl md:rounded-tl-none px-4 py-2 border-b border-secondary/20 sticky top-24 md:top-26 z-10">
                 <% if content_for?(:screen_header) %>

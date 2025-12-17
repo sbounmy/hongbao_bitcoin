@@ -1,16 +1,11 @@
 <%# Screen 2: Finish - Download + Fund + Track %>
-<div class="flex flex-col h-full" data-controller="dialog">
+<div class="flex flex-col h-full">
 
   <%# Scrollable content - fills remaining space %>
   <div class="flex-1 min-h-0 overflow-auto">
-    <%# PDF Preview thumbnail - click to open fullscreen %>
-    <div class="bg-base-200 cursor-pointer relative group" data-action="click->dialog#open">
-      <%= render "papers/preview_pdf", paper: paper, mode: :thumbnail %>
-      <%# Expand indicator %>
-      <div class="absolute bottom-6 right-6 bg-black/50 text-white px-3 py-1.5 rounded-full text-sm flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-        <%= heroicon "arrows-pointing-out", variant: :mini, class: "w-4 h-4" %>
-        <span>Expand</span>
-      </div>
+    <%# PDF Preview - click to expand fullscreen %>
+    <div class="bg-base-200 cursor-pointer" data-action="click->pdf#expand">
+      <%= render "papers/preview_pdf", paper: paper %>
     </div>
 
     <%# Instagram-style list items %>
@@ -116,22 +111,4 @@
       <%= render "papers/show/drawers/fund" %>
     <% end %>
   </div>
-
-  <%# Fullscreen PDF Modal %>
-  <dialog data-dialog-target="dialog" class="modal">
-    <div class="modal-box w-full max-w-none h-full max-h-none m-0 p-0 rounded-none bg-[#2a2a2e] flex flex-col cursor-pointer"
-         data-action="click->dialog#close">
-      <%# Close button %>
-      <form method="dialog" class="absolute top-4 right-4 z-10">
-        <button class="btn btn-circle btn-ghost text-white hover:bg-white/20">
-          <%= heroicon "x-mark", class: "w-6 h-6" %>
-        </button>
-      </form>
-      <%# Full PDF preview %>
-      <%= render "papers/preview_pdf", paper: paper, mode: :fullscreen %>
-    </div>
-    <form method="dialog" class="modal-backdrop bg-black/80">
-      <button>close</button>
-    </form>
-  </dialog>
 </div>

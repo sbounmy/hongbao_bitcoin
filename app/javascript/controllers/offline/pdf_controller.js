@@ -4,13 +4,14 @@ import PDFDocument from 'pdfkit/js/pdfkit.standalone'
 import blobStream from 'blob-stream'
 
 export default class extends Controller {
-  static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password"]
+  static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password", "backdrop"]
   static values = {
     zoom: { type: Number, default: 0.8 },
     minZoom: { type: Number, default: 0.3 },
     maxZoom: { type: Number, default: 6.0 },
     zoomStep: { type: Number, default: 0.1 },
-    wheelZoomSpeed: { type: Number, default: 0.01 }
+    wheelZoomSpeed: { type: Number, default: 0.01 },
+    expanded: { type: Boolean, default: false }
   }
 
   connect() {
@@ -184,6 +185,79 @@ export default class extends Controller {
     )
   }
 
+  // Expand/Collapse functionality
+  expand() {
+    this.expandedValue = true
+  }
+
+  collapse() {
+    this.expandedValue = false
+  }
+
+  toggle() {
+    this.expandedValue = !this.expandedValue
+  }
+
+  expandedValueChanged() {
+    if (this.expandedValue) {
+      this.enterFullscreen()
+    } else {
+      this.exitFullscreen()
+    }
+  }
+
+  // Called from viewport click action - only collapse if expanded
+  handleViewportClick(event) {
+    if (this.expandedValue) {
+      event.preventDefault()
+      event.stopPropagation()
+      this.collapse()
+    }
+  }
+
+  enterFullscreen() {
+    // Store original max-height classes to restore later
+    this.originalMaxHeightClasses = []
+    this.viewportTarget.classList.forEach(cls => {
+      if (cls.startsWith('max-h-') || cls.startsWith('md:max-h-')) {
+        this.originalMaxHeightClasses.push(cls)
+      }
+    })
+    // Remove max-height constraints
+    this.originalMaxHeightClasses.forEach(cls => {
+      this.viewportTarget.classList.remove(cls)
+    })
+    // Make viewport fullscreen and centered
+    this.viewportTarget.classList.add(
+      'fixed', 'inset-0', 'z-50',
+      'flex', 'items-center', 'justify-center',
+      'cursor-pointer', 'bg-black/80'
+    )
+    // Escape key listener
+    this.escapeHandler = (e) => {
+      if (e.key === 'Escape') this.collapse()
+    }
+    document.addEventListener('keydown', this.escapeHandler)
+  }
+
+  exitFullscreen() {
+    // Remove fullscreen classes
+    this.viewportTarget.classList.remove(
+      'fixed', 'inset-0', 'z-50',
+      'flex', 'items-center', 'justify-center',
+      'cursor-pointer', 'bg-black/80'
+    )
+    // Restore original max-height classes
+    if (this.originalMaxHeightClasses) {
+      this.originalMaxHeightClasses.forEach(cls => {
+        this.viewportTarget.classList.add(cls)
+      })
+    }
+    // Remove event listeners
+    if (this.escapeHandler) {
+      document.removeEventListener('keydown', this.escapeHandler)
+    }
+  }
 
   async download(event) {
     event.preventDefault()

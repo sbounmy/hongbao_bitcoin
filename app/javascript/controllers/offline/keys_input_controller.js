@@ -35,14 +35,12 @@ export default class extends Controller {
       this.inputTargets.forEach(input => {
         input.readOnly = false
         input.value = this.customCache[input.id] || ""
-        console.log("[keys-input] set input", input.id, "readOnly=false")
       })
     } else {
       // Switching TO generated - cache current values first
       this.inputTargets.forEach(input => {
         this.customCache[input.id] = input.value
         input.readOnly = true
-        console.log("[keys-input] set input", input.id, "readOnly=true")
       })
       // Trigger regenerate (bitcoin_controller listens)
       this.dispatch("generate")

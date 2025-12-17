@@ -1,15 +1,9 @@
-<%
-  # Mode: :thumbnail (default) or :fullscreen
-  mode = local_assigns[:mode] || :thumbnail
-  is_fullscreen = mode == :fullscreen
-  # Responsive: 300px on mobile, 50vh on desktop (keeps other inputs visible); fullscreen fills modal
-  viewport_classes = is_fullscreen ? "flex-1 h-full" : "max-h-[300px] md:max-h-[50vh]"
-%>
 <div class="flex-1 flex flex-col bg-[#2a2a2e]">
-    <!-- Viewport for scrolling -->
+    <!-- Viewport for scrolling - expands to fullscreen via pdf controller -->
     <div data-pdf-target="viewport"
-         class="<%= viewport_classes %> bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
+         class="max-h-[300px] md:max-h-[50vh] bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
          data-action="
+           click->pdf#handleViewportClick
            wheel->pdf#handleWheel
            touchstart->pdf#handleTouchStart
            touchmove->pdf#handleTouchMove

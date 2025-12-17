@@ -135,6 +135,9 @@ export default class extends Controller {
   }
 
   modeChanged(event) {
+    if (event.target.value == 'custom') {
+      this.customWalletValue = true;
+    }
     // Update the internal state based on the radio button value.
     this.modeValue = event.target.value;
 

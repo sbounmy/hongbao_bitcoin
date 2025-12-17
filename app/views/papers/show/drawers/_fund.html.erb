@@ -20,6 +20,11 @@
 
   <%# Tab 1: Buy BTC - Single button opens Mt Pelerin %>
   <div data-tabs-target="tab" data-tab-id="buy" class="flex flex-col gap-4">
+    <%= render AlertComponent.new(
+      icon: 'information-circle',
+      message: 'Card / Bank Transfer top up might not be available for custom keys.',
+      class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:!flex'
+    ) %>
     <%= render BottomSheetComponent.new(id: "mt-pelerin-widget") do |sheet| %>
       <% sheet.with_trigger do %>
         <button type="button" class="btn btn-primary btn-lg w-full">

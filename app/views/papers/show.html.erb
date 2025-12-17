@@ -12,7 +12,7 @@
 <%= content_for :title, @paper.name if @paper.name.present? %>
 
 <% attributes_for(:screen_attributes, {
-  class: 'relative overflow-hidden',
+  class: 'relative overflow-hidden group',
   data: {
     controller: 'steps bitcoin pdf reveal',
     steps_current_value: @current_step.to_s,
