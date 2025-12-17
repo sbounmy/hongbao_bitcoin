@@ -78,7 +78,7 @@ test.describe('Stripe Checkout Flow', () => {
     await billingButton.click();
 
     await page.waitForURL('https://billing.stripe.com/p/session/**');
-    // await page.waitForLoadState('networkidle', { timeout: 120000 }); // 120 seconds timeout
+    await page.waitForLoadState('networkidle', { timeout: 120_000 }); // 120 seconds timeout
 
     await expect(page.locator('body')).toContainText("Invoice history");
     await appVcrEjectCassette();
