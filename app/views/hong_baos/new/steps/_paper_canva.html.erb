@@ -8,7 +8,7 @@
      data-canva-width-value="<%= dimensions[:width] %>"
      data-canva-height-value="<%= dimensions[:height] %>"
      data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
-     class="<%= defined?(class_name) ? class_name : '' %>">
+     class="w-full h-full <%= defined?(class_name) ? class_name : '' %>">
   <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
 

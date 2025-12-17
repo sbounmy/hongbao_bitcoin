@@ -1,0 +1,36 @@
+<%# Style Drawer - QR Code destination %>
+<div class="flex flex-col gap-4">
+  <p class="text-sm text-base-content/70 text-center">
+    Choose where the QR code links to
+  </p>
+
+  <%# Option cards %>
+  <div class="flex flex-col gap-3">
+    <%# Easy Access option %>
+    <label class="card bg-base-200 border-2 border-transparent has-[:checked]:border-primary cursor-pointer transition-all">
+      <div class="card-body p-3 flex-row items-center gap-3">
+        <input type="radio" name="qr_mode" value="beginner" class="radio radio-primary radio-sm" checked data-action="bitcoin#modeChanged" />
+        <div class="flex-1">
+          <h4 class="font-semibold text-sm text-base-content flex items-center gap-2">
+            Easy Access
+            <span class="badge badge-success badge-xs">Recommended</span>
+          </h4>
+          <p class="text-xs text-base-content/60">Links to hongbaob.tc for guided redemption</p>
+        </div>
+        <%= image_tag "hongbao-bitcoin.png", class: "w-6 h-6" %>
+      </div>
+    </label>
+
+    <%# Bitcoin Only option %>
+    <label class="card bg-base-200 border-2 border-transparent has-[:checked]:border-primary cursor-pointer transition-all">
+      <div class="card-body p-3 flex-row items-center gap-3">
+        <input type="radio" name="qr_mode" value="maximalist" class="radio radio-primary radio-sm" data-action="bitcoin#modeChanged" />
+        <div class="flex-1">
+          <h4 class="font-semibold text-sm text-base-content">Bitcoin Only</h4>
+          <p class="text-xs text-base-content/60">Raw Bitcoin address for experienced users</p>
+        </div>
+        <%= image_tag "bitcoin-64x64.svg", class: "w-6 h-6" %>
+      </div>
+    </label>
+  </div>
+</div>

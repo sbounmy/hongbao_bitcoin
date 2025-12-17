@@ -27,29 +27,19 @@
 }) %>
 
 <% content_for(:screen_header) do %>
-  <%= render "papers/show/headers/review_keys", paper: @paper, current_step: @current_step, network: Current.network %>
-  <%= render "papers/show/headers/qr_style", paper: @paper, current_step: @current_step, network: Current.network %>
-  <%= render "papers/show/headers/download", paper: @paper, current_step: @current_step, network: Current.network %>
-  <%= render "papers/show/headers/fund", paper: @paper, current_step: @current_step, network: Current.network %>
-  <%= render "papers/show/headers/track", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/canvas", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
 <% end %>
 
 <%= turbo_frame_tag "qr_scanner" %>
 
-<%# PDF Preview - always visible %>
-<div class="min-h-[50vh]">
-  <%= render "papers/preview_pdf", paper: @paper %>
-</div>
+<%# Screen 1: Canvas - Paper preview with toolbar %>
+<%= render "papers/show/screens/canvas", paper: @paper, current_step: @current_step %>
 
-<%# Step content - sticky within screen container %>
-<div class="sticky bottom-0 bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] rounded-b-2xl -mx-3 -mb-3 z-10">
-  <div class="p-4 max-w-3xl mx-auto max-h-[45vh] overflow-auto">
-    <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
-
-    <%= render "papers/show/steps/review_keys", current_step: @current_step, step_index: 1 %>
-    <%= render "papers/show/steps/qr_style", current_step: @current_step, step_index: 2 %>
-    <%= render "papers/show/steps/download", current_step: @current_step, step_index: 3 %>
-    <%= render "papers/show/steps/fund", current_step: @current_step, step_index: 4, hong_bao: @hong_bao, payment_methods: @payment_methods %>
-    <%= render "papers/show/steps/track", current_step: @current_step, step_index: 5 %>
-  </div>
+<%# Screen 2: Finish - Download, Fund, Track %>
+<div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col"
+     data-steps-target="content"
+     data-steps-index="2">
+  <%= render "shared/error_messages", resource: @hong_bao if @hong_bao&.errors&.any? %>
+  <%= render "papers/show/screens/finish", paper: @paper, current_step: @current_step %>
 </div>

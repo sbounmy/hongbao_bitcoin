@@ -1,7 +1,14 @@
-<div class="flex-1 flex flex-col bg-[#2a2a2e] overflow-hidden">
+<%
+  # Mode: :thumbnail (default) or :fullscreen
+  mode = local_assigns[:mode] || :thumbnail
+  is_fullscreen = mode == :fullscreen
+  # Responsive: 300px on mobile, 50vh on desktop (keeps other inputs visible); fullscreen fills modal
+  viewport_classes = is_fullscreen ? "flex-1 h-full" : "max-h-[300px] md:max-h-[50vh]"
+%>
+<div class="flex-1 flex flex-col bg-[#2a2a2e]">
     <!-- Viewport for scrolling -->
     <div data-pdf-target="viewport"
-         class="flex-1 bg-[#2a2a2e] overflow-auto p-4 w-full mx-auto mb-4"
+         class="<%= viewport_classes %> bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
          data-action="
            wheel->pdf#handleWheel
            touchstart->pdf#handleTouchStart
@@ -17,25 +24,32 @@
             <div class="flex items-center">
               <% frame = paper.theme&.frame_object || Frame.new %>
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
-                <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "#{frame.css_classes} #{frame.rotation_back}",
-                        frame: frame,
-                        paper:,
-                        elements: paper.back_elements,
-                        image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-                %>
+                <%# Back %>
+                <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
+                  <%= render 'hong_baos/new/steps/paper_canva',
+                          class_name: "",
+                          frame: frame,
+                          paper:,
+                          elements: paper.back_elements,
+                          image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
+                  %>
+                </div>
 
               <%# Fold Line %>
               <div class="<%= frame.fold_line %> border-white">
               </div>
-              <%= render 'hong_baos/new/steps/paper_canva',
-                        class_name: "#{frame.css_classes} #{frame.rotation_front}",
-                        frame: frame,
-                        paper:,
-                        elements: paper.front_elements,
-                        actions: "bitcoin:modeChanged@window->canva#refresh",
-                        image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
-              %>
+
+                <%# Front %>
+                <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
+                  <%= render 'hong_baos/new/steps/paper_canva',
+                          class_name: "",
+                          frame: frame,
+                          paper:,
+                          elements: paper.front_elements,
+                          actions: "bitcoin:modeChanged@window->canva#refresh",
+                          image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
+                  %>
+                </div>
             <% end %>
             <div class="relative w-8" data-reveal-target="item">
               <div class="flex justify-start -ml-[195px] transform-[rotate(-90deg)] text-black w-[154mm] py-2">

@@ -1,12 +1,10 @@
-<%# Step 1: Review Keys - Show mnemonic/private key/address %>
-<div class="<%= 'hidden' unless local_assigns[:current_step] == 1 %> flex flex-col gap-2"
-     data-controller="binding keys-input"
+<%# Keys Drawer - Manage Bitcoin keys %>
+<div data-controller="binding keys-input"
      data-action="bitcoin:changed@window->binding#attribute keys-input:generate->bitcoin#generateNewKeys"
-     data-steps-target="content"
-     data-steps-index="1">
+     class="flex flex-col gap-4">
 
   <%# Mode toggle - Generated vs Custom %>
-  <div class="flex justify-center gap-4 mb-2">
+  <div class="flex justify-center gap-4">
     <label class="flex items-center gap-2 cursor-pointer">
       <input type="radio" name="key_mode" value="generated"
              class="radio radio-warning radio-sm"
@@ -22,8 +20,8 @@
     </label>
   </div>
 
-  <%# Mnemonic - compact inline layout like others %>
-  <div class="flex items-start gap-2 px-2 py-1.5 bg-base-200/50 rounded" data-controller="clipboard">
+  <%# Mnemonic %>
+  <div class="flex items-start gap-2 px-2 py-2 bg-base-200 rounded-lg" data-controller="clipboard">
     <span class="text-xs text-base-content/60 shrink-0 w-20 pt-1">Mnemonic</span>
     <textarea name="mnemonic_text"
               id="mnemonic_text"
@@ -48,8 +46,8 @@
     </div>
   </div>
 
-  <%# Private Key - compact inline layout %>
-  <div class="flex items-center gap-2 px-2 py-1.5 bg-base-200/50 rounded" data-controller="clipboard">
+  <%# Private Key %>
+  <div class="flex items-center gap-2 px-2 py-2 bg-base-200 rounded-lg" data-controller="clipboard">
     <span class="text-xs text-base-content/60 shrink-0 w-20">Private Key</span>
     <input type="text"
            name="private_key_text"
@@ -66,8 +64,8 @@
     </button>
   </div>
 
-  <%# Public Address - compact inline layout %>
-  <div class="flex items-center gap-2 px-2 py-1.5 bg-base-200/50 rounded" data-controller="clipboard">
+  <%# Public Address %>
+  <div class="flex items-center gap-2 px-2 py-2 bg-base-200 rounded-lg" data-controller="clipboard">
     <span class="text-xs text-base-content/60 shrink-0 w-20">Address</span>
     <input type="text"
            name="public_address_text"
@@ -83,4 +81,9 @@
       <%= heroicon "clipboard", class: "w-4 h-4" %>
     </button>
   </div>
+
+  <%# Info note %>
+  <p class="text-xs text-base-content/50 text-center">
+    Keys are generated locally in your browser. We never see or store them.
+  </p>
 </div>
