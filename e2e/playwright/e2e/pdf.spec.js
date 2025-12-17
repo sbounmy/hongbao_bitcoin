@@ -10,7 +10,7 @@ const expectGeneratedKeys = async (page) => {
   const mnemonic = await page.locator('#mnemonic_text').inputValue()
   const mnemonicWords = mnemonic.split(' ')
   expect(mnemonicWords).toHaveLength(24)
-  await page.locator('.modal-backdrop:visible').click()
+  await page.getByRole('button', { name: /Done/}).click()
 }
 
 test.describe('PDF Generation', () => {
