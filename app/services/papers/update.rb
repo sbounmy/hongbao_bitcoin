@@ -2,7 +2,6 @@ require "stringio"
 
 module Papers
   class Update < ApplicationService
-
     def call(paper:, params:)
       # Assign attributes without saving (to avoid premature broadcasting)
       paper.assign_attributes(params)
@@ -38,6 +37,5 @@ module Papers
     def broadcast_replace_edit(paper)
       paper.broadcast_replace_to paper, target: "edit_paper_#{paper.id}", renderable: Papers::EditComponent.new(paper:)
     end
-
   end
 end
