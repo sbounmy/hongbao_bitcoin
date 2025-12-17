@@ -17,21 +17,16 @@ test.describe('Paper creation', () => {
     await turboCableConnected(page);
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao'); // General check for balance display
 
-     // Select styles
+    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.getByRole('button', { name: 'Next' }).click();
+
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
-
-    // Upload image
-    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
-
-    await expect(page.getByText('Processing...')).toBeHidden();
-    await page.getByRole('button', { name: 'Generate' }).click();
-    await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.getByText('Processing...')).toBeHidden();
+    await page.getByRole('button', { name: 'Next' }).click();
 
     await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
-    expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1)
+    expect(await page.getByText('Select Theme').filter({ visible: true }).first().count()).toBe(1)
 
     await page.goto('/dashboard');
     await expect(page.locator('.badge')).toContainText('489 ₿ao'); // General check for balance display
@@ -40,10 +35,9 @@ test.describe('Paper creation', () => {
   test('can switch theme', async ({ page }) => {
     await page.goto('/papers/1/edit');
     await turboCableConnected(page);
-    expect(await page.getByText('Select Theme').filter({ visible: true }).count()).toBe(1)
-
-    await page.locator('#edit_paper_1').getByRole('button', { name: 'Euro' }).click()
-    await expect(page.getByText('Ghibli Euro')).toBeVisible()
+    await expect(page.getByText('Dollar').first()).toBeVisible()
+    await page.locator('#edit_paper_1').getByText('Euro', { exact: true }).click();
+    await expect(page.getByText('Ghibli Euro').first()).toBeVisible()
   });
 
   test('creating paper with None style does not deduct tokens', async ({ page }) => {
@@ -53,14 +47,17 @@ test.describe('Paper creation', () => {
     // Check initial balance
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao');
 
+    // Upload image
+    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.getByRole('button', { name: 'Next' }).click();
+
     // Select None style (free) - it should be first and have FREE badge
     await page.getByText('None').filter({ visible: true }).first().click({ force: true });
 
     // Verify FREE badge is visible
     await expect(page.getByText('FREE')).toBeVisible();
 
-    // Upload image
-    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
+
     await expect(page.getByText('Processing...')).toBeHidden();
 
     // Generate paper

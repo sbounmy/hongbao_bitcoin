@@ -24,7 +24,6 @@ class Paper < ApplicationRecord
 
   before_validation :set_default_elements, :set_name_from_inputs
   after_create_commit :broadcast_prepend
-  after_update_commit :broadcast_replace, :broadcast_replace_edit
 
   validates :name, presence: true
   validates :elements, presence: true
@@ -32,6 +31,8 @@ class Paper < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :processing, -> { left_joins(:image_front_attachment).where(active_storage_attachments: { id: nil }) }
+  scope :completed, -> { joins(:image_front_attachment) }
 
   scope :with_input, ->(input) { joins(:inputs).where(inputs: { id: input.id }) }
   scope :with_input_type, ->(type) { with_any_input_ids(Input.where(type: type).pluck(:id)) }
@@ -87,18 +88,19 @@ class Paper < ApplicationRecord
   end
 
 
-  private
+  # Called by ProcessPaperJob when processing completes
+  def broadcast_processing_complete
+    # Broadcast ItemComponent for dashboard/list views (targets dom_id: paper_123)
+    broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
 
-  def broadcast_replace_edit
+    # Broadcast EditComponent for edit page (targets dom_id: edit_paper_123)
     broadcast_replace_to self, target: "edit_paper_#{id}", renderable: Papers::EditComponent.new(paper: self)
   end
 
+  private
+
   def broadcast_prepend
     broadcast_prepend_to :papers, renderable: Papers::ItemComponent.new(item: self, broadcast: true)
-  end
-
-  def broadcast_replace
-    broadcast_replace_to self, renderable: Papers::ItemComponent.new(item: self, broadcast: false)
   end
 
   def set_default_elements

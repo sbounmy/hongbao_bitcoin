@@ -1,0 +1,16 @@
+<%# Screen 1 Header: Canvas %>
+<div class="<%= 'hidden' unless current_step == 1 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="1">
+  <%= link_to edit_paper_path(paper), class: "p-1 text-base-content hover:text-base-content/70 transition-colors" do %>
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  <% end %>
+
+  <div class="flex items-center gap-2">
+    <%= render "papers/show/headers/network_badge", network: network %>
+    <span class="font-semibold text-base-content text-sm">Create Hong₿ao</span>
+  </div>
+
+  <%# Empty spacer for alignment %>
+  <div class="w-6"></div>
+</div>

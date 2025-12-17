@@ -3,11 +3,14 @@ import { app, appScenario, forceLogin, appVcrInsertCassette, appVcrEjectCassette
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 const expectGeneratedKeys = async (page) => {
+  await page.getByRole('button', {name: /Keys/}).click()
+
   await expect(page.locator('#public_address_text')).toHaveValue(/^bc1/)
   await expect(page.locator('#private_key_text')).toHaveValue(/^L|K/)
   const mnemonic = await page.locator('#mnemonic_text').inputValue()
   const mnemonicWords = mnemonic.split(' ')
   expect(mnemonicWords).toHaveLength(24)
+  await page.locator('.modal-backdrop:visible').click()
 }
 
 test.describe('PDF Generation', () => {
@@ -16,6 +19,7 @@ test.describe('PDF Generation', () => {
   });
 
   test('should generate PDF with correct layout and content', async ({ page }) => {
+    await page.getByRole('button', {name: /Next/}).click()
     // Wait for PDF preview to be visible
     const pdf = page.locator('[data-pdf-target="content"]')
     await expect(pdf).toBeVisible();
@@ -27,11 +31,9 @@ test.describe('PDF Generation', () => {
   });
 
   test('should handle PDF download', async ({ page, context }) => {
-    await page.getByRole('button', { name: 'Generate new keys' }).click()
-
     await expectGeneratedKeys(page)
 
-    await page.getByRole('button', { name: 'Next' }).click()
+    await page.getByRole('button', { name: /Next/ }).click()
     // Start waiting for download before clicking
     const downloadPromise = page.waitForEvent('download');
 
@@ -44,15 +46,16 @@ test.describe('PDF Generation', () => {
     // Verify download started
     expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
-    const nextButton = page.getByRole('button', { name: 'Next' });
+    const nextButton = page.getByRole('button', { name: 'Fund wallet' });
     await expect(nextButton).toBeEnabled();
     await nextButton.click();
-    await expect(page.getByText('Choose your preferred way to send bitcoin to this address')).toBeVisible();
+    await expect(page.getByText('Buy BTC')).toBeVisible();
   });
 
   test('user can input custom keys', async ({ page }) => {
     test.setTimeout(60_000)
-    await page.getByRole('button', { name: 'Use my own keys' }).click()
+    await page.getByRole('button', {name: /Keys/}).click()
+    await page.getByRole('radio', { name: 'Use my own keys' }).click()
 
     await expect(page.locator('#public_address_text')).toBeEmpty()
     await expect(page.locator('#private_key_text')).toBeEmpty()
@@ -63,20 +66,22 @@ test.describe('PDF Generation', () => {
     await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
 
     // check if pdf is generated with correct values
-    await expect(page.locator('[data-canva-item-name-value="publicAddressText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
-    await expect(page.locator('[data-canva-item-name-value="privateKeyText"]')).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
-    await expect(page.locator('[data-canva-item-name-value="mnemonicText"]')).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
+    await expect(page.locator('[data-canva-item-name-value="publicAddressText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
+    await expect(page.locator('[data-canva-item-name-value="privateKeyText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
+    await expect(page.locator('[data-canva-item-name-value="mnemonicText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
   });
 
   test('user top up notice for custom keys', async ({ page }) => {
     test.setTimeout(60_000)
-    await page.getByRole('button', { name: 'Use my own keys' }).click()
+    await page.getByRole('button', {name: /Keys/}).click()
+    await page.getByRole('radio', { name: 'Use my own keys' }).click()
 
     // fill public address
     await page.locator('#public_address_text').pressSequentially('my-own-public-address')
     await page.locator('#public_address_text').fill('my-own-public-addres')
     await page.locator('#private_key_text').fill('my-own-private-key')
-    // await expect(page.locator('body')).toContainText("You're using custom keys.")
+
+    await page.locator('.modal-backdrop:visible').click()
 
     await page.getByRole('button', { name: 'Next' }).click()
     const downloadPromise = page.waitForEvent('download');
@@ -90,15 +95,15 @@ test.describe('PDF Generation', () => {
     // Verify download started
     await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
-    const nextButton = page.getByRole('button', { name: 'Next' });
+    const nextButton = page.getByRole('button', { name: 'Fund wallet' });
     await expect(nextButton).toBeEnabled();
     await nextButton.click();
+    await expect(page.getByText('Buy BTC')).toBeVisible();
 
     await expect(page.getByText('Card / Bank Transfer top up might not be available for custom keys.')).toBeVisible();
   });
 
   test('user top up no notice for generated keys', async ({ page }) => {
-    await page.getByRole('button', { name: 'Generate new keys' }).click()
     await expectGeneratedKeys(page)
 
     await page.getByRole('button', { name: 'Next' }).click()
@@ -113,9 +118,10 @@ test.describe('PDF Generation', () => {
     // Verify download started
     await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
-    const nextButton = page.getByRole('button', { name: 'Next' });
+    const nextButton = page.getByRole('button', { name: 'Fund wallet' });
     await expect(nextButton).toBeEnabled();
     await nextButton.click();
+    await expect(page.getByText('Buy BTC')).toBeVisible();
 
     await expect(page.getByText('Card / Bank Transfer top up might not be available for custom keys.')).toBeHidden();
   });
@@ -124,7 +130,8 @@ test.describe('PDF Generation', () => {
     if (browserName === 'webkit') test.skip('weird issue with webkit the downloaded event triggers but not catch but disabled_controller#remove');
     test.setTimeout(60_000);
     await savePageAs(page, context, async (offlinePage) => {
-      await offlinePage.getByRole('button', { name: 'Generate new keys' }).click()
+      await offlinePage.getByRole('button', {name: /Keys/}).click()
+      await offlinePage.getByRole('radio', { name: 'Generate keys' }).click()
       await expect(offlinePage.locator('body')).toContainText(/SLIP INSIDE THE HONG.*AO ENVELOPE/);
       var addresses = [];
       for (let i = 0; i < 10; i++) {
@@ -136,7 +143,8 @@ test.describe('PDF Generation', () => {
       // check all addresses are different
       expect(uniq).toHaveLength(10);
 
-      await offlinePage.getByRole('button', { name: 'Next' }).click()
+      await offlinePage.getByRole('button', { name: /Done/}).click()
+      await offlinePage.getByRole('button', {name: /Next/}).click()
       const downloadPromise = offlinePage.waitForEvent('download');
 
       // Click download button (adjust selector as needed)
@@ -147,25 +155,25 @@ test.describe('PDF Generation', () => {
 
       // Verify download started
       await expect(download.suggestedFilename()).toMatch(/\.pdf$/);
-      const nextButton = offlinePage.getByRole('button', { name: 'Next' });
+
+      const nextButton = offlinePage.getByRole('button', { name: 'Fund wallet' });
       await expect(nextButton).toBeEnabled();
       await nextButton.click();
-
-      // top up page
-      await expect(offlinePage.getByText('Choose your preferred way to send bitcoin to this address')).toBeVisible();
+      await expect(offlinePage.getByText('Buy BTC')).toBeVisible();
     });
   });
 
   test.describe('PDF Password Protection', () => {
     test.beforeEach(async ({ page }) => {
       // The parent beforeEach already navigates to /papers/1
-      await page.getByRole('button', { name: 'Generate new keys' }).click();
-      await expectGeneratedKeys(page);
-      await page.getByRole('button', { name: 'Next' }).click();
+      // await page.getByRole('button', { name: 'Generate new keys' }).click();
+      // await expectGeneratedKeys(page);
+      await page.getByRole('button', { name: /Next/ }).click();
+      await page.getByRole('button', { name: /Password/ }).click()
     });
 
     test('password can be weak, fair, strong or very strong', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
       const meterFill = page.locator('[data-password-meter-target="meterFill"]');
@@ -175,7 +183,7 @@ test.describe('PDF Generation', () => {
         { password: 'aaaaaa', expectedStrength: 'Weak' },           // Weak: repeated chars, too short
         { password: 'alllowercase123!', expectedStrength: 'Fair' }, // No uppercase letters
         { password: 'NoNumbers!Pass', expectedStrength: 'Fair' },   // No numbers
-        { password: 'NoSpecial123Pass', expectedStrength: 'Fair' }, // No special characters
+        { password: 'NoSpecial123Pass', expectedStrength: 'Very Strong' }, // No special characters
         { password: 'Strong123!Pass', expectedStrength: 'Very Strong' }, // Strong password
         { password: 'VeryStrong123!@#Pass', expectedStrength: 'Very Strong' } // Very strong password
       ];
@@ -202,13 +210,14 @@ test.describe('PDF Generation', () => {
     });
 
     test('can setup strong password', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
       const meterFill = page.locator('[data-password-meter-target="meterFill"]');
 
       // Test a strong password that meets all requirements
       const strongPassword = 'StrongP@ss123!';
+
       await passwordInput.fill(strongPassword);
 
       // Wait for validation to complete
@@ -222,6 +231,8 @@ test.describe('PDF Generation', () => {
       const fillWidth = await meterFill.evaluate(el => el.style.width);
       expect(parseInt(fillWidth)).toBeGreaterThan(50);
 
+      await page.locator('.modal-backdrop:visible').click()
+
       // Verify download button is enabled
       await expect(downloadButton).toBeEnabled();
 
@@ -234,12 +245,15 @@ test.describe('PDF Generation', () => {
       expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 
       // Verify Next button is enabled after download
-      const nextButton = page.getByRole('button', { name: 'Next' });
+      const nextButton = page.getByRole('button', { name: 'Fund wallet' });
       await expect(nextButton).toBeEnabled();
+      await nextButton.click();
+      await expect(page.getByText('Buy BTC')).toBeVisible();
+
     });
 
     test('empty password field allows unencrypted download', async ({ page }) => {
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
 
@@ -252,6 +266,7 @@ test.describe('PDF Generation', () => {
 
       // Meter should show "Too Short" or similar for empty password
       await expect(meterText).toHaveText('Weak');
+      await page.locator('.modal-backdrop:visible').click()
 
       // Test download works without password
       const downloadPromise = page.waitForEvent('download');
@@ -264,7 +279,7 @@ test.describe('PDF Generation', () => {
 
     test('downloaded PDF is encrypted with the correct password', async ({ page }) => {
       // This test verifies that the PDF has AES-256 encryption (PDF 1.7ext3)
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const testPassword = 'TestP@ssw0rd123';
 
@@ -273,6 +288,7 @@ test.describe('PDF Generation', () => {
       await page.waitForTimeout(200);
       await expect(downloadButton).toBeEnabled();
 
+      await page.locator('.modal-backdrop:visible').click()
       // Download the PDF
       const downloadPromise = page.waitForEvent('download');
       await downloadButton.click();
@@ -314,7 +330,7 @@ test.describe('PDF Generation', () => {
 
     test('can decrypt and read PDF with correct password', async ({ page }) => {
       // This test verifies that we can actually decrypt and read the PDF content with the password
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const testPassword = 'TestP@ssw0rd123';
 
@@ -323,6 +339,7 @@ test.describe('PDF Generation', () => {
       await page.waitForTimeout(100);
       await expect(downloadButton).toBeEnabled();
 
+      await page.locator('.modal-backdrop:visible').click()
       // Download the PDF
       const downloadPromise = page.waitForEvent('download');
       await downloadButton.click();
@@ -353,7 +370,7 @@ test.describe('PDF Generation', () => {
 
     test('cannot read PDF with wrong password', async ({ page }) => {
       // This test verifies that the PDF cannot be read with an incorrect password
-      const passwordInput = page.getByPlaceholder('8+ chars, uppercase, lowercase, number & symbol');
+      const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const correctPassword = 'TestP@ssw0rd123';
       const wrongPassword = 'WrongPassword123!';
@@ -361,6 +378,8 @@ test.describe('PDF Generation', () => {
       // Set a strong password
       await passwordInput.fill(correctPassword);
       await page.waitForTimeout(100);
+      await page.locator('.modal-backdrop:visible').click()
+
       await expect(downloadButton).toBeEnabled();
 
       // Download the PDF

@@ -1,0 +1,46 @@
+<div data-controller="dialog">
+  <%# Trigger %>
+  <div data-action="click->dialog#open">
+    <%= trigger %>
+  </div>
+
+  <%# Bottom Sheet Modal %>
+  <dialog id="<%= @id %>" data-dialog-target="dialog" class="modal modal-bottom">
+    <div class="modal-box rounded-t-2xl rounded-b-none max-h-[90vh] p-0 flex flex-col">
+      <%# Handle bar %>
+      <div class="flex justify-center pt-3 pb-2 shrink-0">
+        <div class="w-10 h-1 bg-base-content/20 rounded-full"></div>
+      </div>
+
+      <% if footer? %>
+        <%# Content (when using footer) %>
+        <div class="flex-1 overflow-auto">
+          <%= content %>
+        </div>
+
+        <%# Footer %>
+        <%= footer %>
+      <% else %>
+        <%# Header (default) %>
+        <div class="flex items-center justify-between px-4 pb-3 border-b border-base-content/10 shrink-0">
+          <div class="font-semibold text-lg"><%= header %></div>
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost">
+              <%= heroicon "x-mark", class: "w-5 h-5" %>
+            </button>
+          </form>
+        </div>
+
+        <%# Content %>
+        <div class="flex-1 overflow-auto">
+          <%= content %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Backdrop - click to close %>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+</div>

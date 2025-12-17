@@ -1,0 +1,77 @@
+<%# Screen 1: Canvas - Design your paper wallet %>
+<%
+  frame = paper.theme&.frame_object || Frame.new
+%>
+<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+     data-steps-target="content"
+     data-steps-index="1">
+
+  <%# Paper Preview - Layout adapts to frame orientation %>
+  <%# Portrait: side-by-side with horizontal scroll, cards scaled to fill height %>
+  <%# Landscape: stacked vertically with vertical scroll %>
+  <div class="flex-1 min-h-0 bg-base-200 p-4 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center' : 'flex flex-col gap-6 overflow-y-auto items-center' %>">
+    <%# Front Canvas - fills available height, width from aspect ratio %>
+    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
+      <%= render 'hong_baos/new/steps/paper_canva',
+              class_name: "w-full h-full",
+              frame: frame,
+              paper: paper,
+              elements: paper.front_elements,
+              actions: "bitcoin:modeChanged@window->canva#refresh",
+              image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
+      %>
+    </div>
+
+    <%# Back Canvas - fills available height, width from aspect ratio %>
+    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
+      <%= render 'hong_baos/new/steps/paper_canva',
+              class_name: "w-full h-full",
+              frame: frame,
+              paper: paper,
+              elements: paper.back_elements,
+              image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
+      %>
+    </div>
+  </div>
+
+  <%# Bottom Toolbar - Icon buttons %>
+  <div class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
+    <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
+      <%# Keys Button %>
+      <%= render BottomSheetComponent.new(id: "keys-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "key", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">Keys</span>
+          </button>
+        <% end %>
+        <% sheet.with_footer(title: "Bitcoin Keys") %>
+        <div class="p-4">
+          <%= render "papers/show/drawers/keys" %>
+        </div>
+      <% end %>
+
+      <%# QR Destination Button %>
+      <%= render BottomSheetComponent.new(id: "style-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "qr-code", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">QR Destination</span>
+          </button>
+        <% end %>
+        <% sheet.with_footer(title: "QR Code Destination") %>
+        <div class="p-4">
+          <%= render "papers/show/drawers/style" %>
+        </div>
+      <% end %>
+
+      <%# Next Button %>
+      <button type="button"
+              class="btn btn-primary btn-sm gap-1"
+              data-action="steps#next">
+        Next
+        <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,10 @@
-<progress class="<%= classes %>" value="<%= value %>" max="<%= max %>" <%= tag.attributes(options.except(:class)) %>></progress>
+<% if animated? %>
+  <div data-controller="progress"
+       data-progress-duration-value="<%= duration %>"
+       class="w-full bg-base-300 rounded-full h-2 overflow-hidden <%= options[:class] %>">
+    <div data-progress-target="bar"
+         class="h-full bg-primary rounded-full w-0"></div>
+  </div>
+<% else %>
+  <progress class="<%= classes %>" value="<%= value %>" max="<%= max %>" <%= tag.attributes(options.except(:class)) %>></progress>
+<% end %>

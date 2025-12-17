@@ -1,21 +1,43 @@
 <%# Paper edit component with preview and theme switcher %>
-<div id="edit_paper_<%= paper.id %>" class="flex flex-1 flex-col md:flex-row">
+<div id="edit_paper_<%= paper.id %>" class="flex flex-1 flex-col lg:flex-row overflow-hidden">
   <!-- Paper Preview -->
-  <div class="flex-1 bg-base-200 flex items-center justify-center p-4 overflow-hidden">
+  <div class="flex-1 bg-base-200 flex items-center justify-center p-4 overflow-auto">
     <% if processing? %>
-      <%# Show processing state with improved messaging %>
-      <div class="flex flex-col items-center gap-4">
-        <div class="loading loading-spinner loading-lg animate-pulse"></div>
+      <%# Show processing state with progress bar %>
+      <div class="flex flex-col items-center gap-4 w-full max-w-sm">
+        <div class="loading loading-spinner loading-lg"></div>
         <div class="text-center">
           <p class="text-base-content font-medium">Creating your unique design</p>
           <p class="text-base-content/60 text-sm mt-1">This typically takes 45-60 seconds</p>
-          <p class="text-base-content/50 text-xs mt-3">We're generating your custom AI portrait and composing it onto the template</p>
         </div>
+        <%= render ProgressBarComponent.new(animated: true, duration: 60, class: "w-full") %>
       </div>
     <% elsif image_url %>
-      <%# Show paper image with name %>
-      <div class="flex flex-col items-center gap-4">
-        <%= image_tag image_url, class: image_classes, alt: "Paper preview" %>
+      <%# Show paper image with front/back toggle %>
+      <div class="flex flex-col items-center gap-4"
+           data-controller="tabs"
+           data-tabs-default-tab-value="front"
+           data-tabs-active-class="tab-active">
+        <%# Toggle tabs using DaisyUI tabs %>
+        <div role="tablist" class="tabs tabs-boxed">
+          <button type="button" role="tab" class="tab"
+                  data-tabs-target="btn"
+                  data-tab-id="front"
+                  data-action="tabs#select">Front</button>
+          <button type="button" role="tab" class="tab"
+                  data-tabs-target="btn"
+                  data-tab-id="back"
+                  data-action="tabs#select">Back</button>
+        </div>
+
+        <%# Images %>
+        <div data-tabs-target="tab" data-tab-id="front">
+          <%= image_tag image_url, class: image_classes, alt: "Paper front" %>
+        </div>
+        <div data-tabs-target="tab" data-tab-id="back" class="hidden">
+          <%= image_tag back_image_url, class: image_classes, alt: "Paper back" %>
+        </div>
+
         <h2 class="text-xl font-semibold text-base-content"><%= paper.name %></h2>
       </div>
     <% else %>
@@ -28,28 +50,10 @@
 
   <!-- Theme Selector (bottom on mobile, right on desktop) -->
   <% unless processing? %>
-    <div class="border-t md:border-t-0 md:border-l bg-base-100 md:w-80 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <!-- Success message -->
-      <div class="p-3 bg-success/10 border-b border-success/20">
-        <div class="flex items-center gap-2 text-success">
-          <%= heroicon "sparkles", class: "w-4 h-4" %>
-          <p class="text-sm font-medium">Your paper is ready!</p>
-        </div>
-        <p class="text-xs text-base-content/60 mt-0.5">Choose a theme or finalize your design</p>
-      </div>
-
-      <div class="p-3">
+    <div class="border-t lg:border-t-0 lg:border-l bg-base-100 lg:w-80 flex-shrink-0 overflow-y-auto">
+      <div class="p-4">
         <h3 class="font-semibold text-sm mb-3 text-base-content/90">Select Theme</h3>
         <%= render 'papers/theme_switcher', paper: paper %>
-      </div>
-
-      <!-- Actions -->
-      <div class="p-3 border-t">
-        <div class="flex flex-col gap-2">
-          <%= link_to "Finalize Paper", paper_path(paper),
-              class: "btn btn-primary btn-sm w-full",
-              data: { turbo: false } %>
-        </div>
       </div>
     </div>
   <% end %>

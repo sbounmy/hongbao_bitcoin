@@ -38,11 +38,14 @@ application.register("mt-pelerin", MtPelerinController)
 import PermissionController from "./permission_controller"
 application.register("permission", PermissionController)
 
-import PopupController from "./popup_controller"
-application.register("popup", PopupController)
-
 import PreviewController from "./preview_controller"
 application.register("preview", PreviewController)
+
+import ProgressController from "./progress_controller"
+application.register("progress", ProgressController)
+
+import PhotoSelectController from "./photo_select_controller"
+application.register("photo-select", PhotoSelectController)
 
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
@@ -52,6 +55,7 @@ application.register("qr-scanner-launcher", QrScannerLauncherController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
+
 
 import ToggleController from './toggle_controller'
 application.register('toggle', ToggleController)
@@ -64,6 +68,9 @@ application.register('phone-input', PhoneInputController)
 
 import PasswordMeterController from './password_meter_controller'
 application.register('password-meter', PasswordMeterController)
+
+import StepsController from './steps_controller'
+application.register('steps', StepsController)
 
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149

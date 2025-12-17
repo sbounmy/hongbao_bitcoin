@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       post :like, on: :member
     end
 
+    resources :input_items, only: [ :index ]
+
     # Instructions page for printed inserts
     get "/instructions", to: "pages#instructions", as: :instructions
 

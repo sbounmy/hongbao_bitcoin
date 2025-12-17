@@ -17,7 +17,7 @@ module Papers
     private
 
     def processing?
-      !item.image_front.attached? || !item.image_back.attached?
+      !item.image_front.attached?
     end
 
     def render_face(image_url:)
@@ -41,7 +41,7 @@ module Papers
                 tag.div(class: "absolute inset-0 flex items-center justify-center p-4 text-white") do
                   tag.div(class: "flex flex-col items-center gap-2 text-center") do
                     concat(tag.p("Generating paper... this will take approx. 1 minute!", class: "font-medium drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"))
-                    concat(render(ProgressBarComponent.new(class: "w-full")))
+                    concat(render(ProgressBarComponent.new(animated: true, duration: 60, class: "w-full")))
                   end
                 end
               )

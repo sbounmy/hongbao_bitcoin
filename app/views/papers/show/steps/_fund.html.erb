@@ -1,0 +1,77 @@
+<%# Step 4: Fund - Tabs with bottom sheet for Buy %>
+<div class="<%= 'hidden' unless local_assigns[:current_step] == 4 %> flex flex-col gap-4"
+     data-steps-target="content"
+     data-steps-index="4"
+     data-controller="tabs"
+     data-tabs-default-tab-value="buy"
+     data-tabs-active-class="tab-active">
+
+  <%# Tab buttons %>
+  <div role="tablist" class="tabs tabs-boxed bg-base-200">
+    <button type="button" role="tab" class="tab flex-1 gap-1 tab-active"
+            data-tabs-target="btn" data-tab-id="buy" data-action="tabs#select">
+      <%= heroicon "credit-card", variant: :mini, class: "w-4 h-4" %>
+      Buy BTC
+    </button>
+    <button type="button" role="tab" class="tab flex-1 gap-1"
+            data-tabs-target="btn" data-tab-id="send" data-action="tabs#select">
+      <%= heroicon "qr-code", variant: :mini, class: "w-4 h-4" %>
+      Send BTC
+    </button>
+  </div>
+
+  <%# Tab 1: Buy BTC - two buttons for Card and Bank %>
+  <div data-tabs-target="tab" data-tab-id="buy" class="flex flex-col gap-3">
+    <%# Credit Card button %>
+    <%= render BottomSheetComponent.new(id: "buy-btc-card") do |sheet| %>
+      <% sheet.with_trigger do %>
+        <button type="button" class="btn btn-primary btn-lg w-full">
+          <%= heroicon "credit-card", class: "w-5 h-5" %>
+          Credit Card
+        </button>
+      <% end %>
+
+      <% sheet.with_header do %>
+        Buy with Credit Card
+      <% end %>
+
+      <%= render "payment_methods/mt_pelerin_inline", payment_method: "card" %>
+    <% end %>
+
+    <%# Bank Transfer button %>
+    <%= render BottomSheetComponent.new(id: "buy-btc-bank") do |sheet| %>
+      <% sheet.with_trigger do %>
+        <button type="button" class="btn btn-outline btn-lg w-full">
+          <%= heroicon "building-library", class: "w-5 h-5" %>
+          Bank Transfer
+        </button>
+      <% end %>
+
+      <% sheet.with_header do %>
+        Buy with Bank Transfer
+      <% end %>
+
+      <%= render "payment_methods/mt_pelerin_inline", payment_method: "bank" %>
+    <% end %>
+
+    <p class="text-xs text-base-content/50 text-center">
+      Powered by Mt Pelerin •
+      <%= link_to "No KYC up to $1000/day", "https://developers.mtpelerin.com/service-information/identity-verification", target: "_blank", class: "underline hover:text-base-content/70" %>
+    </p>
+  </div>
+
+  <%# Tab 2: Send BTC (QR + Address) - inline %>
+  <div data-tabs-target="tab" data-tab-id="send" class="hidden flex flex-col items-center gap-4">
+    <img data-controller="binding"
+         data-binding-name-value="publicAddressQrcode"
+         data-action="bitcoin:changed@window->binding#src"
+         alt="Bitcoin Payment QR Code"
+         class="w-48 h-48 rounded-lg">
+
+    <%= render "shared/bitcoin_address" %>
+
+    <p class="text-xs text-base-content/50 text-center">
+      Scan QR code or copy address to send Bitcoin
+    </p>
+  </div>
+</div>

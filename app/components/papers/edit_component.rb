@@ -18,6 +18,12 @@ module Papers
       rails_blob_url(paper.image_front)
     end
 
+    def back_image_url
+      return nil unless paper.image_back.attached?
+
+      rails_blob_url(paper.image_back)
+    end
+
     def image_classes
       "max-w-full max-h-full object-contain rounded-lg shadow-2xl"
     end

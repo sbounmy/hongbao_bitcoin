@@ -1,0 +1,39 @@
+<%# Step 2: QR Style - Easy Access vs Bitcoin Only %>
+<div class="<%= 'hidden' unless local_assigns[:current_step] == 2 %> flex flex-col gap-4"
+     data-steps-target="content"
+     data-steps-index="2">
+
+  <div class="text-center">
+    <h3 class="font-semibold text-base-content">Choose the public address QR code destination</h3>
+  </div>
+
+  <%# Option cards %>
+  <div class="flex flex-col gap-3">
+    <%# Easy Access option %>
+    <label class="card bg-base-200 border-2 border-transparent has-[:checked]:border-primary cursor-pointer transition-all">
+      <div class="card-body p-4 flex-row items-center gap-4">
+        <input type="radio" name="qr_mode" value="beginner" class="radio radio-primary" checked data-action="bitcoin#modeChanged" />
+        <div class="flex-1">
+          <h4 class="font-semibold text-base-content flex items-center gap-2">
+            Easy Access
+            <span class="badge badge-success badge-sm">Recommended</span>
+          </h4>
+          <p class="text-sm text-base-content/60">QR code links to hongbaob.tc for guided redemption. Perfect for Bitcoin beginners.</p>
+        </div>
+        <%= image_tag "hongbao-bitcoin.png", class: "w-8 h-8" %>
+      </div>
+    </label>
+
+    <%# Bitcoin Only option %>
+    <label class="card bg-base-200 border-2 border-transparent has-[:checked]:border-primary cursor-pointer transition-all">
+      <div class="card-body p-4 flex-row items-center gap-4">
+        <input type="radio" name="qr_mode" value="maximalist" class="radio radio-primary" data-action="bitcoin#modeChanged" />
+        <div class="flex-1">
+          <h4 class="font-semibold text-base-content">Bitcoin Only</h4>
+          <p class="text-sm text-base-content/60">QR code is the raw Bitcoin address. For experienced users with their own wallet.</p>
+        </div>
+        <%= image_tag "bitcoin-64x64.svg", class: "w-8 h-8" %>
+      </div>
+    </label>
+  </div>
+</div>

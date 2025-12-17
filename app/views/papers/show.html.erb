@@ -1,4 +1,5 @@
 <% content_for :skip_analytics, true %>
+
 <% content_for :head do %>
   <meta name="robots" content="noindex, follow">
 <% end %>
@@ -7,54 +8,38 @@
   <span class="text-white"></span>
 <% end %>
 
-<!-- Right Column - Fixed Form -->
 <%= content_for :og_image, rails_blob_url(@paper.image_front, only_path: false) if @paper.image_front.attached? %>
 <%= content_for :title, @paper.name if @paper.name.present? %>
 
-<div class="w-full h-screen relative">
-  <div class="flex-1 h-full flex flex-col items-center justify-center px-4 py-2 bg-[#F04747] overflow-hidden">
-    <div class="w-full h-full bg-[#FFB636]/5 backdrop-blur-lg
-                rounded-3xl shadow-2xl border-4 border-[#FFB636] outline outline-8 outline-[#F04747]
-                flex flex-col">
-      <%= turbo_frame_tag "qr_scanner" %>
-      <div class="flex flex-col h-full group overflow-hidden"
-           data-controller="steps bitcoin pdf"
-           data-pdf-filename-value=""
-           data-steps-hidden-class="hidden"
-           data-steps-current-value="<%= @current_step %>"
-           data-bitcoin-auto-generate-value="true"
-           data-bitcoin-network-value="<%= Current.network %>"
-           data-bitcoin-custom-wallet-value="false"
-           data-bitcoin-hongbao-logo-value="<%= asset_to_base64('hongbao-bitcoin.png') %>"
-           data-bitcoin-bitcoin-logo-value="<%= asset_to_base64('bitcoin-64x64.svg') %>">
+<% attributes_for(:screen_attributes, {
+  class: 'relative overflow-hidden group',
+  data: {
+    controller: 'steps bitcoin pdf reveal',
+    steps_current_value: @current_step.to_s,
+    steps_hidden_class: 'hidden',
+    bitcoin_auto_generate_value: 'true',
+    bitcoin_network_value: Current.network.to_s,
+    bitcoin_custom_wallet_value: 'false',
+    bitcoin_hongbao_logo_value: asset_to_base64('hongbao-bitcoin.png'),
+    bitcoin_bitcoin_logo_value: asset_to_base64('bitcoin-64x64.svg'),
+    pdf_filename_value: ''
+  }
+}) %>
 
-       <%= render "papers/preview_pdf", paper: @paper %>
+<% content_for(:screen_header) do %>
+  <%= render "papers/show/headers/canvas", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/show/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
+<% end %>
 
-      <div class=' bg-[#F04747]'>
-        <!-- Sticky Progress Steps -->
-        <div class="rounded-t-3xl z-30 border-b border-[#FFB636]/20 px-4 py-2">
-          <%= render "papers/progress_indicator", steps: @steps, current_step: @current_step %>
-          <%= render "shared/error_messages", resource: @hong_bao if @hong_bao.errors.any? %>
-        </div>
+<%= turbo_frame_tag "qr_scanner" %>
 
-        <%= render "hong_baos/new/steps/intro",
-            index: 1,
-            paper: @paper %>
+<%# Screen 1: Canvas - Paper preview with toolbar %>
+<%= render "papers/show/screens/canvas", paper: @paper, current_step: @current_step %>
 
-        <%= render "hong_baos/new/steps/print",
-            index: 2,
-            paper: @paper %>
-
-        <%= render "hong_baos/new/steps/beneficiary",
-            index: 3,
-            paper: @paper %>
-
-        <%= render "hong_baos/new/steps/top_up",
-            index: 4,
-            hong_bao: @hong_bao,
-            payment_methods: @payment_methods %>
-        </div>
-      </div>
-    </div>
-  </div>
+<%# Screen 2: Finish - Download, Fund, Track %>
+<div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+     data-steps-target="content"
+     data-steps-index="2">
+  <%= render "shared/error_messages", resource: @hong_bao if @hong_bao&.errors&.any? %>
+  <%= render "papers/show/screens/finish", paper: @paper, current_step: @current_step %>
 </div>

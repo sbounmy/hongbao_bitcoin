@@ -8,6 +8,9 @@ class PapersController < ApplicationController
     @styles = Input::Style.with_attached_image
     @bundle = Bundle.new
     @bundle.input_items.build(input: Input::Theme.first)
+
+    # Processing papers for current user (generating section)
+    @processing_papers = current_user&.papers&.processing&.recent || Paper.none
   end
 
   def show
@@ -25,6 +28,12 @@ class PapersController < ApplicationController
     @styles = Input::Style.by_position.with_attached_image
     @themes = Input::Theme.by_position.with_attached_image
     @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
+
+    # Recent photos - distinct by checksum (same image content)
+    @pagy, @recent_photos = pagy_countless(
+      InputItem.distinct_images_for(paper_scope),
+      limit: 20
+    )
   end
 
   def create
@@ -77,7 +86,7 @@ class PapersController < ApplicationController
     params.require(:paper).permit(
       input_item_theme_attributes: [ :id, :input_id ],
       input_item_style_attributes: [ :id, :input_id ],
-      input_items_attributes: [ :id, :input_id, :image, :_destroy ]
+      input_items_attributes: [ :id, :input_id, :image, :blob_id, :_destroy ]
     )
   end
 
@@ -94,7 +103,6 @@ class PapersController < ApplicationController
     Current.network = testnet? ? :testnet : :mainnet
   end
 
-  private
 
   def set_layout
     case action_name
@@ -102,8 +110,6 @@ class PapersController < ApplicationController
       "offline"
     when "new", "index", "explore", "edit"
       "main"
-    else
-      "application"
     end
   end
 end

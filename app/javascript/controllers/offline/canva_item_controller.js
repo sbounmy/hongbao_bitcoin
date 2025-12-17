@@ -21,7 +21,11 @@ export default class extends Controller {
         this.element.closest('[data-controller="canva"]'),
         'canva'
       )
-    this.ctx = this.canvaController.ctx
+  }
+
+  // Get ctx dynamically - parent canva may initialize after us
+  get ctx() {
+    return this.canvaController?.ctx
   }
 
   draw() {

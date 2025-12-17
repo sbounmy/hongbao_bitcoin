@@ -1,5 +1,29 @@
 <div class="overflow-y-auto flex flex-col gap-8 h-full pt-4 pb-16 md:pb-4">
 
+  <%# Generating Papers Section - compact collapsible list %>
+  <% if @processing_papers.any? %>
+    <section id="generating" class="px-4">
+      <%= render CollapseComponent.new(id: "generating-papers", open: true) do |c| %>
+        <% c.with_summary do %>
+          <div class="flex items-center gap-2">
+            <span class="loading loading-spinner loading-xs text-primary"></span>
+            <span class="font-semibold">Generating (<%= @processing_papers.count %>)</span>
+          </div>
+        <% end %>
+
+        <div class="flex flex-wrap gap-2 pt-2">
+          <% @processing_papers.each do |paper| %>
+            <%= turbo_stream_from paper %>
+            <div id="<%= dom_id(paper) %>" class="flex items-center gap-2 bg-base-200 rounded-full px-3 py-1.5 text-sm">
+              <span class="loading loading-spinner loading-xs"></span>
+              <span class="truncate max-w-32"><%= paper.name %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+
   <%# Upsell banner for envelopes %>
   <%= link_to pricing_path, class: "group flex items-center p-2 pr-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-xl" do %>
     <div class="w-20 h-16 flex-shrink-0">

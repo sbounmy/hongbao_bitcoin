@@ -1,0 +1,123 @@
+<%# Step 1: Photo Picker with Recents/My Papers tabs %>
+
+<div class='flex flex-col lg:flex-row-reverse flex-1 overflow-auto lg:overflow-visible gap-2'>
+<%# Large preview area - flexible height with contained image %>
+  <div class="flex-1 bg-base-200 relative flex items-center justify-center min-h-[50vh] lg:min-h-[200px] lg:overflow-auto">
+    <%# Preview image (hidden until selected) - contained, not cropped %>
+    <%= image_tag "",
+        data: { preview_target: "preview", photo_select_target: "preview" },
+        class: "max-w-full max-h-full object-contain hidden",
+        alt: "Selected photo" %>
+
+    <%# Placeholder (shown when no image) %>
+    <div data-preview-target="placeholder"
+        data-photo-select-target="placeholder"
+        class="flex flex-col items-center justify-center text-base-content/30">
+      <%= heroicon "photo", class: "w-20 h-20 mb-2" %>
+      <span class="text-sm">Select a photo</span>
+    </div>
+
+    <%# Hidden file input for form %>
+    <%= form.fields_for :input_items, Paper.new.input_items.build do |input_fields| %>
+      <%= input_fields.file_field :image,
+          id: "photo-input",
+          accept: "image/*",
+          class: "sr-only",
+          data: {
+            preview_target: "input",
+            photo_select_target: "input",
+            action: "change->preview#preview"
+          } %>
+      <%= input_fields.hidden_field :input_id, value: Input::Image.last&.id %>
+      <%# Hidden field for reusing existing photo blob %>
+      <%= input_fields.hidden_field :blob_id,
+          data: { photo_select_target: "blobId" } %>
+    <% end %>
+  </div>
+
+  <%# Tabs container - sticky on mobile, scrollable photos section %>
+  <div data-controller="tabs"
+      data-tabs-default-tab-value="recents"
+      data-tabs-active-class="border-b-2 border-base-content text-base-content"
+      class="sticky bottom-0 lg:static flex flex-col lg:flex-1 max-h-[40vh] lg:max-h-full overflow-hidden bg-base-100">
+
+    <%# Tab buttons - sticky %>
+    <div class="flex border-b border-base-300 flex-shrink-0">
+      <button type="button"
+              data-tabs-target="btn"
+              data-tab-id="recents"
+              data-action="tabs#select"
+              class="flex-1 py-2 text-sm font-medium text-base-content/60 transition-colors flex items-center justify-center gap-2">
+        Recents
+        <%= heroicon "chevron-right", class: "w-4 h-4" %>
+      </button>
+      <button type="button"
+              data-tabs-target="btn"
+              data-tab-id="my-papers"
+              data-action="tabs#select"
+              class="flex-1 py-2 text-sm font-medium text-base-content/60 transition-colors">
+        My Papers
+      </button>
+    </div>
+
+    <%# Recents panel: Camera + recent photos grid - scrollable %>
+    <div data-tabs-target="tab" data-tab-id="recents" class="flex-1 overflow-y-auto p-1">
+      <div id="recent-photos-grid" class="grid grid-cols-4 lg:grid-cols-2 gap-0.5">
+        <%# Camera/Upload button %>
+        <label for="photo-input"
+              class="aspect-square bg-base-200 flex flex-col items-center justify-center cursor-pointer hover:bg-base-300 transition-colors">
+          <%= heroicon "camera", class: "w-8 h-8 text-base-content/50" %>
+        </label>
+
+        <%# Recent photos from server %>
+        <%= render Papers::RecentPhotoComponent.with_collection(recent_photos) %>
+      </div>
+
+      <%# Infinite scroll loader %>
+      <% if pagy.next %>
+        <%= turbo_frame_tag "input_items_page_#{pagy.next}",
+            src: input_items_path(type: :image, page: pagy.next, format: :turbo_stream),
+            loading: :lazy do %>
+          <div class="col-span-4 py-4 text-center">
+            <span class="loading loading-spinner loading-sm text-base-content/30"></span>
+          </div>
+        <% end %>
+      <% end %>
+
+      <p class="text-xs text-base-content/50 text-center py-2">
+        <% if recent_photos.any? %>
+          Tap a photo to reuse or camera to upload new
+        <% else %>
+          Tap camera to select a photo
+        <% end %>
+      </p>
+    </div>
+
+    <%# My Papers panel: Generated papers grid - scrollable %>
+    <div data-tabs-target="tab" data-tab-id="my-papers" class="hidden flex-1 overflow-y-auto p-2">
+      <% if papers.any? %>
+        <div class="grid grid-cols-3 gap-2">
+          <% papers.each do |paper| %>
+            <%= link_to edit_paper_path(paper),
+                class: "aspect-square rounded-lg overflow-hidden hover:ring-2 hover:ring-primary transition-all" do %>
+              <% if paper.image_front.attached? %>
+                <%= image_tag paper.image_front, class: "w-full h-full object-cover", loading: "lazy" %>
+              <% else %>
+                <div class="w-full h-full bg-base-300 flex items-center justify-center">
+                  <div class="animate-pulse">
+                    <%= heroicon "photo", class: "w-8 h-8 text-base-content/30" %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="py-8 text-center text-base-content/50">
+          <%= heroicon "document-plus", class: "w-10 h-10 mx-auto mb-2" %>
+          <p class="text-sm">No papers yet</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

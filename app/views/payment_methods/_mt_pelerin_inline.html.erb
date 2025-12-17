@@ -1,0 +1,38 @@
+<%
+  # payment_method can be "card" or "bank"
+  pm_value = local_assigns[:payment_method] == "bank" ? "bank" : "card"
+
+  base_params = {
+    lang: I18n.locale || 'en',
+    tabs: 'buy',
+    tab: 'buy',
+    pm: pm_value,
+    dnet: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+    nets: Rails.env.production? ? 'bitcoin_mainnet' : 'bitcoin_mainnet',
+    bdc: 'BTC',
+    bsc: 'EUR',
+    bsa: 21,
+    ctry: 'FR',
+    mylogo: asset_url('logo.png'),
+    primary: '#F04747',
+    success: '#FFB636',
+    mode: 'dark',
+    type: 'web',
+    _ctkn: Rails.env.production? ? Rails.application.credentials.mt_pelerin.token : 'bec6626e-8913-497d-9835-6e6ae9edb144',
+    rfr: Rails.application.credentials.mt_pelerin.rfr
+  }
+  iframe_src = "https://widget.mtpelerin.com/?#{base_params.to_param}"
+%>
+
+<div data-controller="mt-pelerin"
+     data-action="bitcoin:changed@window->mt-pelerin#update">
+  <iframe
+    data-mt-pelerin-target="iframe"
+    allow="usb; clipboard-write; payment; microphone; camera"
+    loading="lazy"
+    src="<%= iframe_src %>"
+    title="Mt Pelerin exchange widget"
+    class="w-full border-0"
+    style="height: 660px;">
+  </iframe>
+</div>

@@ -125,8 +125,10 @@ test.describe('Theme', () => {
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
     // Navigate to dashboard to generate a new paper with the updated theme
     await page.goto('/papers/new');
+    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.getByRole('button', {name: /Next/}).click()
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
-    await page.locator('#file-upload').setInputFiles('spec/fixtures/files/satoshi.jpg');
+
     await turboCableConnected(page);
     await expect(page.getByText('Processing...')).toBeHidden();
     await page.getByRole('button', { name: 'Generate' }).click();
@@ -136,14 +138,14 @@ test.describe('Theme', () => {
     await app('perform_jobs');
     // Open the print preview for the newly generated paper
     // const printPromise = page.waitForEvent('popup');
-    await page.getByRole('link', {name: 'Finalize Paper'}).click()
+    await page.getByRole('link', {name: /Print/}).click()
     await page.waitForURL(/\/papers\/\d+$/);
 
     // await page.locator('#preview-column .papers-item-component').first().click();
     // const print = await printPromise;
 
     // Verify the element in the print preview has the new coordinates
-    const canvaItem = page.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]');
+    const canvaItem = page.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]').first();
     await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newXStr);
     await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
   });

@@ -45,15 +45,16 @@
     <%= theme_css(current_theme) %>
     <%= action_cable_meta_tag %>
     <%= csp_meta_tag %>
+    <%= csrf_meta_tag %>
     <%# javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= render(AnalyticsComponent.new(renderable: !content_for?(:skip_analytics))) %>
   </head>
 
-  <body class="bg-primary min-h-screen">
-    <div class="min-h-screen">
+  <body class="bg-primary min-h-lvh">
+    <div class="min-h-lvh">
       <%# Main Pokedex Content %>
-      <div class="flex flex-col min-h-screen">
+      <div class="flex flex-col min-h-lvh">
         <%# Pokedex Header - Fixed %>
         <div class="bg-primary fixed top-0 left-0 right-0 z-50 pt-4 md:pt-6 px-4 md:px-6">
           <%# Top section with buttons %>
@@ -116,7 +117,7 @@
             <%= render "btcdex/tab_nav" %>
 
             <%# Dark screen container %>
-            <div class="bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 min-w-0 flex flex-col">
+            <%= tag.div(class: 'bg-base-100 rounded-2xl md:rounded-l-none shadow-2xl flex-1 min-w-0 flex flex-col group', **attributes_from(yield(:screen_attributes))) do %>
               <%# Screen bezel/header - can be customized via content_for(:screen_header) %>
               <div class="bg-base-200 rounded-t-xl md:rounded-tl-none px-4 py-2 border-b border-secondary/20 sticky top-24 md:top-26 z-10">
                 <% if content_for?(:screen_header) %>
@@ -132,14 +133,14 @@
                 <% end %>
               </div>
 
-              <%# Content area - body scrolls now %>
+              <%# Content area - body scrolls %>
               <div class="flex-1 p-3">
                 <% if flash.any? %>
                   <%= render FlashMessagesComponent.new(flash: flash) %>
                 <% end %>
                 <%= yield %>
               </div>
-            </div>
+            <% end %>
           </div>
         </div>
 

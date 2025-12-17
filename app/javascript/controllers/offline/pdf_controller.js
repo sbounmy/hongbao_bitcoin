@@ -4,28 +4,38 @@ import PDFDocument from 'pdfkit/js/pdfkit.standalone'
 import blobStream from 'blob-stream'
 
 export default class extends Controller {
-  static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password"]
-  static values = { 
+  static targets = ["content", "viewport", "zoomDisplay", "wrapper", "password", "backdrop"]
+  static values = {
     zoom: { type: Number, default: 0.8 },
     minZoom: { type: Number, default: 0.3 },
     maxZoom: { type: Number, default: 6.0 },
     zoomStep: { type: Number, default: 0.1 },
-    wheelZoomSpeed: { type: Number, default: 0.01 }
+    wheelZoomSpeed: { type: Number, default: 0.01 },
+    expanded: { type: Boolean, default: false }
   }
 
   connect() {
     this.lastZoom = this.zoomValue
     this.pendingCursorPosition = null
     this.initialPinchDistance = 0
-    // Initial zoom setup
-    this.applyZoomTransform()
-    this.updateZoomDisplay()
+
+    // Defer zoom setup until element is visible (has dimensions)
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.contentTarget.offsetWidth > 0 && !this.isInitialized) {
+        this.isInitialized = true
+        this.resizeObserver.disconnect()
+        this.applyZoomTransform()
+        this.updateZoomDisplay()
+      }
+    })
+    this.resizeObserver.observe(this.contentTarget)
   }
 
   disconnect() {
     this.pendingCursorPosition = null
+    this.resizeObserver?.disconnect()
   }
-  
+
   zoomIn() {
     this.zoomValue = Math.min(this.maxZoomValue, this.zoomValue + this.zoomStepValue)
   }
@@ -46,12 +56,12 @@ export default class extends Controller {
 
   updateZoom(cursorX = null, cursorY = null) {
     if (!this.hasContentTarget || !this.hasWrapperTarget || !this.hasViewportTarget) return
-    
+
     const position = this.calculateCursorPosition(cursorX, cursorY)
     this.applyZoomTransform()
     this.adjustScrollForCursor(position, cursorX, cursorY)
     this.updateZoomDisplay()
-    
+
     // Update lastZoom after the zoom has been applied
     this.lastZoom = this.zoomValue
   }
@@ -62,31 +72,31 @@ export default class extends Controller {
     const contentHeight = this.contentTarget.offsetHeight
     const scrollLeft = viewport.scrollLeft
     const scrollTop = viewport.scrollTop
-    
+
     // Default to center if no cursor position
     if (cursorX === null || cursorY === null) {
       return { relativeX: 0.5, relativeY: 0.5, viewportX: 0, viewportY: 0 }
     }
-    
+
     // Get cursor position relative to viewport
     const rect = viewport.getBoundingClientRect()
     const viewportX = cursorX - rect.left
     const viewportY = cursorY - rect.top
-    
+
     // Calculate the point on the content that the cursor is over
     const relativeX = (scrollLeft + viewportX) / (contentWidth * this.lastZoom)
     const relativeY = (scrollTop + viewportY) / (contentHeight * this.lastZoom)
-    
+
     return { relativeX, relativeY, viewportX, viewportY }
   }
 
   applyZoomTransform() {
     const contentWidth = this.contentTarget.offsetWidth
     const contentHeight = this.contentTarget.offsetHeight
-    
+
     // Scale the content from its top-left corner
     this.contentTarget.style.transform = `scale(${this.zoomValue})`
-    
+
     // Resize the wrapper to the new scaled dimensions
     this.wrapperTarget.style.width = `${contentWidth * this.zoomValue}px`
     this.wrapperTarget.style.height = `${contentHeight * this.zoomValue}px`
@@ -94,35 +104,36 @@ export default class extends Controller {
 
   adjustScrollForCursor(position, cursorX, cursorY) {
     if (cursorX === null || cursorY === null) return
-    
+
     const viewport = this.viewportTarget
     const contentWidth = this.contentTarget.offsetWidth
     const contentHeight = this.contentTarget.offsetHeight
     const { relativeX, relativeY, viewportX, viewportY } = position
-    
+
     // Calculate new scroll position to keep the cursor over the same content point
     const newScrollLeft = (relativeX * contentWidth * this.zoomValue) - viewportX
     const newScrollTop = (relativeY * contentHeight * this.zoomValue) - viewportY
-    
+
     viewport.scrollLeft = Math.max(0, newScrollLeft)
     viewport.scrollTop = Math.max(0, newScrollTop)
   }
 
   updateZoomDisplay() {
-    if (this.hasZoomDisplayTarget) {
-      const percentage = Math.round(this.zoomValue * 100)
-      this.zoomDisplayTarget.textContent = `${percentage}%`
-    }
+    const percentage = Math.round(this.zoomValue * 100)
+    // Update ALL zoomDisplay targets (one per step header)
+    this.zoomDisplayTargets.forEach(target => {
+      target.textContent = `${percentage}%`
+    })
   }
 
    // Handles pinch-to-zoom on laptop trackpads.
   handleWheel(event) {
     if (event.ctrlKey) {
       event.preventDefault()
-      
+
       // Store cursor position for the value change callback
       this.pendingCursorPosition = { x: event.clientX, y: event.clientY }
-      
+
       const zoomFactor = this.zoomValue * this.wheelZoomSpeedValue;
       let newZoom = this.zoomValue - (event.deltaY * zoomFactor);
 
@@ -151,7 +162,7 @@ export default class extends Controller {
       const touch2 = event.touches[1]
       const centerX = (touch1.clientX + touch2.clientX) / 2
       const centerY = (touch1.clientY + touch2.clientY) / 2
-      
+
       // Store cursor position for the value change callback
       this.pendingCursorPosition = { x: centerX, y: centerY }
 
@@ -174,6 +185,79 @@ export default class extends Controller {
     )
   }
 
+  // Expand/Collapse functionality
+  expand() {
+    this.expandedValue = true
+  }
+
+  collapse() {
+    this.expandedValue = false
+  }
+
+  toggle() {
+    this.expandedValue = !this.expandedValue
+  }
+
+  expandedValueChanged() {
+    if (this.expandedValue) {
+      this.enterFullscreen()
+    } else {
+      this.exitFullscreen()
+    }
+  }
+
+  // Called from viewport click action - only collapse if expanded
+  handleViewportClick(event) {
+    if (this.expandedValue) {
+      event.preventDefault()
+      event.stopPropagation()
+      this.collapse()
+    }
+  }
+
+  enterFullscreen() {
+    // Store original max-height classes to restore later
+    this.originalMaxHeightClasses = []
+    this.viewportTarget.classList.forEach(cls => {
+      if (cls.startsWith('max-h-') || cls.startsWith('md:max-h-')) {
+        this.originalMaxHeightClasses.push(cls)
+      }
+    })
+    // Remove max-height constraints
+    this.originalMaxHeightClasses.forEach(cls => {
+      this.viewportTarget.classList.remove(cls)
+    })
+    // Make viewport fullscreen and centered
+    this.viewportTarget.classList.add(
+      'fixed', 'inset-0', 'z-50',
+      'flex', 'items-center', 'justify-center',
+      'cursor-pointer', 'bg-black/80'
+    )
+    // Escape key listener
+    this.escapeHandler = (e) => {
+      if (e.key === 'Escape') this.collapse()
+    }
+    document.addEventListener('keydown', this.escapeHandler)
+  }
+
+  exitFullscreen() {
+    // Remove fullscreen classes
+    this.viewportTarget.classList.remove(
+      'fixed', 'inset-0', 'z-50',
+      'flex', 'items-center', 'justify-center',
+      'cursor-pointer', 'bg-black/80'
+    )
+    // Restore original max-height classes
+    if (this.originalMaxHeightClasses) {
+      this.originalMaxHeightClasses.forEach(cls => {
+        this.viewportTarget.classList.add(cls)
+      })
+    }
+    // Remove event listeners
+    if (this.escapeHandler) {
+      document.removeEventListener('keydown', this.escapeHandler)
+    }
+  }
 
   async download(event) {
     event.preventDefault()
