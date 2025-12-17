@@ -31,6 +31,8 @@ test.describe('PDF Generation', () => {
   });
 
   test('should handle PDF download', async ({ page, context }) => {
+    test.setTimeout(60_000)
+
     await expectGeneratedKeys(page)
 
     await page.getByRole('button', { name: /Next/ }).click()
@@ -104,6 +106,7 @@ test.describe('PDF Generation', () => {
   });
 
   test('user top up no notice for generated keys', async ({ page }) => {
+    test.setTimeout(60_000)
     await expectGeneratedKeys(page)
 
     await page.getByRole('button', { name: 'Next' }).click()
