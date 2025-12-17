@@ -168,6 +168,7 @@ test.describe('PDF Generation', () => {
 
   test.describe('PDF Password Protection', () => {
     test.beforeEach(async ({ page }) => {
+      test.setTimeout(60_000);
       // The parent beforeEach already navigates to /papers/1
       // await page.getByRole('button', { name: 'Generate new keys' }).click();
       // await expectGeneratedKeys(page);
@@ -176,7 +177,6 @@ test.describe('PDF Generation', () => {
     });
 
     test('password can be weak, fair, strong or very strong', async ({ page }) => {
-      test.setTimeout(60_000);
       const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
@@ -214,7 +214,6 @@ test.describe('PDF Generation', () => {
     });
 
     test('can setup strong password', async ({ page }) => {
-      test.setTimeout(60_000);
       const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
@@ -258,7 +257,6 @@ test.describe('PDF Generation', () => {
     });
 
     test('empty password field allows unencrypted download', async ({ page }) => {
-      test.setTimeout(60_000);
       const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
       const meterText = page.locator('[data-password-meter-target="meterText"]');
@@ -284,7 +282,6 @@ test.describe('PDF Generation', () => {
     });
 
     test('downloaded PDF is encrypted with the correct password', async ({ page }) => {
-      test.setTimeout(60_000);
       // This test verifies that the PDF has AES-256 encryption (PDF 1.7ext3)
       const passwordInput = page.getByPlaceholder(/Enter password/);
       const downloadButton = page.getByRole('button', { name: 'Download PDF' });
