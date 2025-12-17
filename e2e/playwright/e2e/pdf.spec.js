@@ -143,7 +143,7 @@ test.describe('PDF Generation', () => {
       // check all addresses are different
       expect(uniq).toHaveLength(10);
 
-      await offlinePage.locator('.modal-backdrop:visible').click()
+      await offlinePage.getByRole('button', { name: /Done/}).click()
       await offlinePage.getByRole('button', {name: /Next/}).click()
       const downloadPromise = offlinePage.waitForEvent('download');
 
