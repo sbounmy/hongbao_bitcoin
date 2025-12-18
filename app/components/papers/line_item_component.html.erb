@@ -1,6 +1,6 @@
 <div class="flex items-center gap-4 p-2 rounded-lg transition-colors hover:bg-white/10">
   <%# Left: Image %>
-  <%= link_to paper_path(paper), target: "_blank", class: "relative flex-shrink-0 w-30 aspect-[170/90] overflow-hidden rounded-md" do %>
+  <%= link_to paper_path(paper), target: "_blank", class: "relative flex-shrink-0 h-20 aspect-[#{frame_aspect_ratio}] overflow-hidden rounded-md" do %>
     <%= image_tag image_front_url, class: "absolute w-full h-full bg-gray-700 object-cover" %>
   <% end %>
 

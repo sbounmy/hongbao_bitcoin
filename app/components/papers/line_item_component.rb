@@ -45,5 +45,9 @@ module Papers
     def views_count
       paper.views_count
     end
+
+    def frame_aspect_ratio
+      paper.theme&.aspect_ratio || "170/90"
+    end
   end
 end
