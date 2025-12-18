@@ -5,6 +5,12 @@ on:
     branches: [main]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Force deploy (skip test checks)'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -65,6 +71,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Wait for Spec tests
+        if: ${{ github.event.inputs.skip_tests != 'true' }}
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.sha }}
@@ -74,6 +81,7 @@ jobs:
           running-workflow-name: 'Spec'
 
       - name: Wait for E2E tests
+        if: ${{ github.event.inputs.skip_tests != 'true' }}
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.sha }}
