@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
+  allow_unauthenticated_access only: [ :index, :show, :new, :new2, :explore ]
   helper_method :testnet?
   before_action :set_network
 
@@ -34,6 +34,21 @@ class PapersController < ApplicationController
       InputItem.distinct_images_for(paper_scope),
       limit: 20
     )
+  end
+
+  def new2
+    @theme = Input::Theme.find_by(id: params[:theme_id]) || Input::Theme.first
+    @frame = @theme.frame_object
+    @current_step = 1
+
+    # Build a "virtual" paper object for view compatibility
+    @paper = Paper.new
+    @paper.elements = @theme.ai
+
+    # Embed theme images as base64 for offline use
+    @template_front_base64 = helpers.base64_url(@theme.image_front)
+    @template_back_base64 = helpers.base64_url(@theme.image_back)
+    @portrait_config = @theme.portrait_config
   end
 
   def create
@@ -106,7 +121,7 @@ class PapersController < ApplicationController
 
   def set_layout
     case action_name
-    when "show"
+    when "show", "new2"
       "offline"
     when "new", "index", "explore", "edit"
       "main"

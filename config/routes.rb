@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show, :new, :create, :edit, :update ] do
       get :explore, on: :collection
+      get :new2, on: :collection
       post :like, on: :member
     end
 

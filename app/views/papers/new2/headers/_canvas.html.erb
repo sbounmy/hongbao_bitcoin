@@ -1,0 +1,19 @@
+<%# Screen 1 Header: Canvas - Offline Mode %>
+<div class="<%= 'hidden' unless current_step == 1 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="1">
+  <%= link_to root_path, class: "p-1 text-base-content hover:text-base-content/70 transition-colors" do %>
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  <% end %>
+
+  <div class="flex items-center gap-2">
+    <%= render "papers/show/headers/network_badge", network: network %>
+    <span class="font-semibold text-base-content text-sm">Create Hong₿ao</span>
+  </div>
+
+  <%# Offline indicator %>
+  <div class="flex items-center gap-1 text-base-content/50">
+    <div class="w-2 h-2 rounded-full bg-success"></div>
+    <span class="text-xs font-mono hidden sm:inline">OFFLINE</span>
+  </div>
+</div>

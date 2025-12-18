@@ -5,7 +5,12 @@ export default class extends Controller {
   static values = {
     width: Number,   // Canvas width in pixels
     height: Number,  // Canvas height in pixels
-    strict: Boolean  // Strict mode: use exact frame dimensions (for PDF)
+    strict: Boolean, // Strict mode: use exact frame dimensions (for PDF)
+    // Portrait compositing values (percentages)
+    portraitX: Number,
+    portraitY: Number,
+    portraitWidth: Number,
+    portraitHeight: Number
   }
 
   connect() {
@@ -165,6 +170,62 @@ export default class extends Controller {
         this.originalHeight
       )
     }
+    // Draw portrait layer if exists
+    this.drawPortrait()
+  }
+
+  // Handle portrait selection from preview controller
+  handlePortraitSelected(event) {
+    const file = event.detail?.file
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const img = new Image()
+      img.onload = () => {
+        this.portraitImage = img
+        // Use draw() instead of redraw(event) - preview event doesn't have bitcoin data
+        this.clear()
+        this.canvaItemTargets.forEach(item => {
+          const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
+          controller.draw()
+        })
+      }
+      img.src = reader.result
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // Draw portrait onto canvas using Papers::Composition positioning logic
+  drawPortrait() {
+    if (!this.portraitImage || !this.ctx) return
+    if (!this.portraitXValue && !this.portraitYValue) return
+
+    // Calculate pixel positions from percentages (matching composition.rb)
+    const x = this.originalWidth * (this.portraitXValue / 100)
+    const y = this.originalHeight * (this.portraitYValue / 100)
+    const boxWidth = this.originalWidth * (this.portraitWidthValue / 100)
+    const boxHeight = this.originalHeight * (this.portraitHeightValue / 100)
+
+    // Scale to fit bounding box while maintaining aspect ratio
+    const scaleX = boxWidth / this.portraitImage.width
+    const scaleY = boxHeight / this.portraitImage.height
+    const scale = Math.min(scaleX, scaleY)
+
+    const scaledWidth = this.portraitImage.width * scale
+    const scaledHeight = this.portraitImage.height * scale
+
+    // Center horizontally, align to bottom of bounding box
+    const finalX = x + (boxWidth - scaledWidth) / 2
+    const finalY = y + (boxHeight - scaledHeight)
+
+    this.ctx.drawImage(
+      this.portraitImage,
+      finalX,
+      finalY,
+      scaledWidth,
+      scaledHeight
+    )
   }
 
   hide(names) {

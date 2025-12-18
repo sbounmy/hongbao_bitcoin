@@ -1,0 +1,28 @@
+<%#
+  Paper canvas with portrait compositing support.
+  Extends the standard paper_canva with portrait position values for client-side compositing.
+%>
+<%
+  # Get canvas dimensions from frame
+  frame = local_assigns[:frame] || Frame.new
+  dimensions = frame.canvas_dimensions
+  strict = local_assigns[:strict] || false
+  portrait_config = local_assigns[:portrait_config] || {}
+%>
+<div data-controller="canva"
+     data-canva-width-value="<%= dimensions[:width] %>"
+     data-canva-height-value="<%= dimensions[:height] %>"
+     data-canva-strict-value="<%= strict %>"
+     data-canva-portrait-x-value="<%= portrait_config['x'] || 0 %>"
+     data-canva-portrait-y-value="<%= portrait_config['y'] || 0 %>"
+     data-canva-portrait-width-value="<%= portrait_config['width'] || 0 %>"
+     data-canva-portrait-height-value="<%= portrait_config['height'] || 0 %>"
+     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged preview:selected@window->canva#handlePortraitSelected"
+     class="w-full h-full">
+  <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
+  <canvas data-canva-target="container" class="w-full h-full"></canvas>
+
+  <% elements.each do |name, item| %>
+    <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
+  <% end %>
+</div>
