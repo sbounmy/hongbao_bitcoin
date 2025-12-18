@@ -1,8 +1,8 @@
 <%# Step 1: Photo Picker with Recents/My Papers tabs %>
 
 <div class='flex flex-col lg:flex-row-reverse flex-1 overflow-auto lg:overflow-visible gap-2'>
-<%# Large preview area - flexible height with contained image %>
-  <div class="flex-1 bg-base-200 relative flex items-center justify-center min-h-[50vh] lg:min-h-[200px] lg:overflow-auto">
+<%# Large preview area - sticky on desktop, doesn't overflow %>
+  <div class="flex-1 bg-base-200 relative flex items-center justify-center min-h-[50vh] lg:min-h-0 lg:sticky lg:top-0 lg:self-start lg:h-[calc(100vh-180px)]">
     <%# Preview image (hidden until selected) - contained, not cropped %>
     <%= image_tag "",
         data: { preview_target: "preview", photo_select_target: "preview" },
@@ -35,11 +35,11 @@
     <% end %>
   </div>
 
-  <%# Tabs container - sticky on mobile, scrollable photos section %>
+  <%# Tabs container - sticky on mobile, scrollable photos section on desktop %>
   <div data-controller="tabs"
       data-tabs-default-tab-value="recents"
       data-tabs-active-class="border-b-2 border-base-content text-base-content"
-      class="sticky bottom-0 lg:static flex flex-col lg:flex-1 max-h-[40vh] lg:max-h-full overflow-hidden bg-base-100">
+      class="sticky bottom-0 lg:static flex flex-col lg:flex-1 max-h-[40vh] lg:max-h-none overflow-hidden bg-base-100">
 
     <%# Tab buttons - sticky %>
     <div class="flex border-b border-base-300 flex-shrink-0">
@@ -60,8 +60,8 @@
       </button>
     </div>
 
-    <%# Recents panel: Camera + recent photos grid - scrollable %>
-    <div data-tabs-target="tab" data-tab-id="recents" class="flex-1 overflow-y-auto p-1">
+    <%# Recents panel: Camera + recent photos grid - scrollable on mobile, browser scroll on desktop %>
+    <div data-tabs-target="tab" data-tab-id="recents" class="flex-1 overflow-y-auto lg:overflow-visible p-1">
       <div id="recent-photos-grid" class="grid grid-cols-4 lg:grid-cols-2 gap-0.5">
         <%# Camera/Upload button %>
         <label for="photo-input"
@@ -93,8 +93,8 @@
       </p>
     </div>
 
-    <%# My Papers panel: Generated papers grid - scrollable %>
-    <div data-tabs-target="tab" data-tab-id="my-papers" class="hidden flex-1 overflow-y-auto p-2">
+    <%# My Papers panel: Generated papers grid - scrollable on mobile, browser scroll on desktop %>
+    <div data-tabs-target="tab" data-tab-id="my-papers" class="hidden flex-1 overflow-y-auto lg:overflow-visible p-2">
       <% if papers.any? %>
         <div class="grid grid-cols-3 gap-2">
           <% papers.each do |paper| %>
