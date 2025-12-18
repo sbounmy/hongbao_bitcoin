@@ -7,7 +7,7 @@ module Papers
     def data_attributes
       {
         controller: "disabled",
-        action: "preview:none@window->disabled#add preview:selected@window->disabled#remove",
+        action: "preview:none@window->disabled#add preview:selected@window->disabled#remove photo-select:selected@window->disabled#remove",
         turbo_submits_with: "Processing...",
         disabled_target: "element"
       }

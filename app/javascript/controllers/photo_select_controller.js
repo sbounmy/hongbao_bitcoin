@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Handles selecting a previously uploaded photo to reuse
 export default class extends Controller {
-  static targets = ["preview", "placeholder", "blobId", "input", "previewThumb"]
+  static targets = ["preview", "placeholder", "blobId", "input"]
 
   select(event) {
     event.preventDefault()
@@ -13,11 +13,6 @@ export default class extends Controller {
     if (this.hasPreviewTarget) {
       this.previewTarget.src = photoUrl
       this.previewTarget.classList.remove("hidden")
-    }
-
-    // Update thumbnail preview (step 2)
-    if (this.hasPreviewThumbTarget) {
-      this.previewThumbTarget.src = photoUrl
     }
 
     // Hide placeholder
