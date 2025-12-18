@@ -268,7 +268,7 @@ export default class extends Controller {
       this.viewportTarget.scrollLeft = 0      // Scroll to left
       // Convert content to canvas
       const canvas = await html2canvas(this.contentTarget, {
-        scale: 2, // Higher quality
+        scale: 3, // Higher quality
         useCORS: true, // Allow cross-origin images
         logging: false,
         scrollX: -window.scrollX, // negate scroll position to prevent clipping upon pdf download
@@ -323,7 +323,7 @@ export default class extends Controller {
       }
 
       // Convert canvas to data URL
-      const imgData = canvas.toDataURL('image/jpeg', 0.7)
+      const imgData = canvas.toDataURL('image/png')
 
       // Add image to PDF
       doc.image(imgData, 0, 0, {
