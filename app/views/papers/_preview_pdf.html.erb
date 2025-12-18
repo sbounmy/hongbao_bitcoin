@@ -24,6 +24,7 @@
                           class_name: "",
                           frame: frame,
                           paper:,
+                          strict: true,
                           elements: paper.back_elements,
                           image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
                   %>
@@ -39,6 +40,7 @@
                           class_name: "",
                           frame: frame,
                           paper:,
+                          strict: true,
                           elements: paper.front_elements,
                           actions: "bitcoin:modeChanged@window->canva#refresh",
                           image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''

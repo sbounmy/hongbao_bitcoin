@@ -2,11 +2,13 @@
   # Get canvas dimensions from frame (no rotation check needed)
   frame = local_assigns[:frame] || Frame.new
   dimensions = frame.canvas_dimensions
+  strict = local_assigns[:strict] || false
 %>
 <div data-controller="canva"
      <%# data-canva-canva-item-outlet=".canva-item" %>
      data-canva-width-value="<%= dimensions[:width] %>"
      data-canva-height-value="<%= dimensions[:height] %>"
+     data-canva-strict-value="<%= strict %>"
      data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
      class="w-full h-full <%= defined?(class_name) ? class_name : '' %>">
   <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>

@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["container", "canvaItem", "backgroundImage"]
   static values = {
     width: Number,   // Canvas width in pixels
-    height: Number   // Canvas height in pixels
+    height: Number,  // Canvas height in pixels
+    strict: Boolean  // Strict mode: use exact frame dimensions (for PDF)
   }
 
   connect() {
@@ -51,15 +52,23 @@ export default class extends Controller {
     canvas.width = this.originalWidth * this.qualityScale
     canvas.height = this.originalHeight * this.qualityScale
 
-    // Display size fits container while maintaining aspect ratio
-    const aspectRatio = this.originalWidth / this.originalHeight
-    let displayWidth = this.containerWidth
-    let displayHeight = displayWidth / aspectRatio
+    let displayWidth, displayHeight
 
-    // If too tall, constrain by height instead
-    if (displayHeight > this.containerHeight) {
-      displayHeight = this.containerHeight
-      displayWidth = displayHeight * aspectRatio
+    if (this.strictValue) {
+      // Strict mode: use exact frame dimensions (for PDF printing)
+      displayWidth = this.widthValue
+      displayHeight = this.heightValue
+    } else {
+      // Responsive mode: fit container while maintaining aspect ratio
+      const aspectRatio = this.originalWidth / this.originalHeight
+      displayWidth = this.containerWidth
+      displayHeight = displayWidth / aspectRatio
+
+      // If too tall, constrain by height instead
+      if (displayHeight > this.containerHeight) {
+        displayHeight = this.containerHeight
+        displayWidth = displayHeight * aspectRatio
+      }
     }
 
     canvas.style.width = `${displayWidth}px`
