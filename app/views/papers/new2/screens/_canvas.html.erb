@@ -31,16 +31,22 @@
   <%# Bottom Toolbar - Extended with Photo button %>
   <div class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
     <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
-      <%# Photo Upload Button %>
-      <label class="btn btn-ghost btn-sm gap-1 cursor-pointer">
-        <%= heroicon "photo", variant: :mini, class: "w-4 h-4" %>
-        <span class="hidden sm:inline">Photo</span>
-        <input type="file"
-               accept="image/*"
-               class="sr-only"
-               data-preview-target="input"
-               data-action="change->preview#preview" />
-      </label>
+      <%# Photo Selection Button - Opens bottom sheet %>
+      <%= render BottomSheetComponent.new(id: "photo-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "photo", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">Photo</span>
+          </button>
+        <% end %>
+        <%# No header/footer - drawer manages its own Cancel/Done buttons %>
+        <div class="h-[70vh] flex flex-col">
+          <%= render "papers/new2/drawers/photo",
+              recent_photos: recent_photos,
+              pagy: pagy,
+              styles: styles %>
+        </div>
+      <% end %>
 
       <%# Keys Button %>
       <%= render BottomSheetComponent.new(id: "keys-drawer") do |sheet| %>

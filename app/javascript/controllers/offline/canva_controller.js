@@ -1,16 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Generic canvas container - manages background and coordinates item drawing
+// Portrait, text, and image items are handled by their own controllers
 export default class extends Controller {
   static targets = ["container", "canvaItem", "backgroundImage"]
   static values = {
     width: Number,   // Canvas width in pixels
     height: Number,  // Canvas height in pixels
-    strict: Boolean, // Strict mode: use exact frame dimensions (for PDF)
-    // Portrait compositing values (percentages)
-    portraitX: Number,
-    portraitY: Number,
-    portraitWidth: Number,
-    portraitHeight: Number
+    strict: Boolean  // Strict mode: use exact frame dimensions (for PDF)
   }
 
   connect() {
@@ -132,24 +129,25 @@ export default class extends Controller {
       const isQrCode = name.endsWith('_qrcode')
       const isMnemonic = name.startsWith('mnemonic')
 
-      canvaItem.dataset.controller = 'canva-item'
-      canvaItem.dataset.canvaItemXValue = element.x
-      canvaItem.dataset.canvaItemYValue = element.y
-      canvaItem.dataset.canvaItemTextValue = element.text
-      canvaItem.dataset.canvaItemNameValue = this.camelize(name)
-      canvaItem.dataset.canvaItemTypeValue = isQrCode ? 'image' : (isMnemonic ? 'mnemonic' : 'text')
+      // Use specific controller types
+      const controllerName = isQrCode ? 'image-item' : 'text-item'
+      const prefix = isQrCode ? 'imageItem' : 'textItem'
 
-      // New unified properties: width and height for all elements
-      canvaItem.dataset.canvaItemWidthValue = element.width
-      canvaItem.dataset.canvaItemHeightValue = element.height
+      canvaItem.dataset.controller = controllerName
+      canvaItem.dataset[`${prefix}XValue`] = element.x
+      canvaItem.dataset[`${prefix}YValue`] = element.y
+      canvaItem.dataset[`${prefix}NameValue`] = this.camelize(name)
+      canvaItem.dataset[`${prefix}WidthValue`] = element.width
+      canvaItem.dataset[`${prefix}HeightValue`] = element.height
 
-      // For text elements, size is the font size
-      // For QR codes, size property shouldn't exist (using width/height instead)
       if (!isQrCode) {
-        canvaItem.dataset.canvaItemFontSizeValue = element.size
+        // Text-specific properties
+        canvaItem.dataset[`${prefix}TextValue`] = element.text
+        canvaItem.dataset[`${prefix}TypeValue`] = isMnemonic ? 'mnemonic' : 'text'
+        canvaItem.dataset[`${prefix}FontSizeValue`] = element.size
+        canvaItem.dataset[`${prefix}FontColorValue`] = element.color
       }
 
-      canvaItem.dataset.canvaItemFontColorValue = element.color
       canvaItem.classList.add('canva-item')
       canvaItem.classList.add('generated')
       canvaItem.dataset.canvaTarget = 'canvaItem'
@@ -170,69 +168,45 @@ export default class extends Controller {
         this.originalHeight
       )
     }
-    // Draw portrait layer if exists
-    this.drawPortrait()
   }
 
-  // Handle portrait selection from preview controller
-  handlePortraitSelected(event) {
-    const file = event.detail?.file
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const img = new Image()
-      img.onload = () => {
-        this.portraitImage = img
-        // Use draw() instead of redraw(event) - preview event doesn't have bitcoin data
-        this.clear()
-        this.canvaItemTargets.forEach(item => {
-          const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
-          controller.draw()
-        })
-      }
-      img.src = reader.result
-    }
-    reader.readAsDataURL(file)
+  // Called by canva items when they need to redraw the entire canvas
+  // (e.g., portrait loading animation, image loaded)
+  redrawAll() {
+    this.clear()
+    this.canvaItemTargets.forEach(item => {
+      // Get controller dynamically - could be text-item, image-item, or portrait-item
+      const controllerName = item.dataset.controller
+      const controller = this.application.getControllerForElementAndIdentifier(item, controllerName)
+      controller?.draw()
+    })
   }
 
-  // Draw portrait onto canvas using Papers::Composition positioning logic
-  drawPortrait() {
-    if (!this.portraitImage || !this.ctx) return
-    if (!this.portraitXValue && !this.portraitYValue) return
+  // Get controller for a canva item (handles different controller types)
+  getItemController(item) {
+    const controllerName = item.dataset.controller
+    return this.application.getControllerForElementAndIdentifier(item, controllerName)
+  }
 
-    // Calculate pixel positions from percentages (matching composition.rb)
-    const x = this.originalWidth * (this.portraitXValue / 100)
-    const y = this.originalHeight * (this.portraitYValue / 100)
-    const boxWidth = this.originalWidth * (this.portraitWidthValue / 100)
-    const boxHeight = this.originalHeight * (this.portraitHeightValue / 100)
+  // Get the name value from an item (handles different controller prefixes)
+  getItemName(item) {
+    const controllerName = item.dataset.controller
+    const prefix = controllerName.replace(/-/g, '')
+    return item.dataset[`${prefix}NameValue`]
+  }
 
-    // Scale to fit bounding box while maintaining aspect ratio
-    const scaleX = boxWidth / this.portraitImage.width
-    const scaleY = boxHeight / this.portraitImage.height
-    const scale = Math.min(scaleX, scaleY)
-
-    const scaledWidth = this.portraitImage.width * scale
-    const scaledHeight = this.portraitImage.height * scale
-
-    // Center horizontally, align to bottom of bounding box
-    const finalX = x + (boxWidth - scaledWidth) / 2
-    const finalY = y + (boxHeight - scaledHeight)
-
-    this.ctx.drawImage(
-      this.portraitImage,
-      finalX,
-      finalY,
-      scaledWidth,
-      scaledHeight
-    )
+  // Set hidden value for an item (handles different controller prefixes)
+  setItemHidden(item, hidden) {
+    const controllerName = item.dataset.controller
+    const prefix = controllerName.replace(/-/g, '')
+    item.dataset[`${prefix}HiddenValue`] = hidden
   }
 
   hide(names) {
     names = [names].flat()
     this.canvaItemTargets.forEach(item => {
-      if (names.includes(item.dataset.canvaItemNameValue)) {
-        item.dataset.canvaItemHiddenValue = true
+      if (names.includes(this.getItemName(item))) {
+        this.setItemHidden(item, true)
       }
     })
   }
@@ -240,8 +214,8 @@ export default class extends Controller {
   show(names) {
     names = [names].flat()
     this.canvaItemTargets.forEach(item => {
-      if (names.includes(item.dataset.canvaItemNameValue)) {
-        item.dataset.canvaItemHiddenValue = false
+      if (names.includes(this.getItemName(item))) {
+        this.setItemHidden(item, false)
       }
     })
   }
@@ -254,8 +228,7 @@ export default class extends Controller {
     this.show(event.detail.show)
     this.clear()
     this.canvaItemTargets.forEach(item => {
-      const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
-      controller.draw()
+      this.getItemController(item)?.draw()
     })
   }
 
@@ -265,8 +238,7 @@ export default class extends Controller {
 
     this.clear()
     this.canvaItemTargets.forEach(item => {
-      const controller = this.application.getControllerForElementAndIdentifier(item, 'canva-item')
-        controller.redraw(event)
+      this.getItemController(item)?.redraw(event)
     })
   }
 }

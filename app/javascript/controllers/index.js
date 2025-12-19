@@ -47,6 +47,9 @@ application.register("progress", ProgressController)
 import PhotoSelectController from "./photo_select_controller"
 application.register("photo-select", PhotoSelectController)
 
+import PortraitController from "./portrait_controller"
+application.register("portrait", PortraitController)
+
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
 
@@ -76,6 +79,21 @@ application.register('steps', StepsController)
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149
 Turbo.StreamActions.redirect = function () {
     Turbo.visit(this.target, { action: "replace" });
+};
+
+// Custom Turbo Stream action to close HTML dialog elements
+// Usage: turbo_stream.action :close_dialog, "dialog-id"
+Turbo.StreamActions.close_dialog = function () {
+  const dialog = document.getElementById(this.target)
+  if (dialog) dialog.close()
+};
+
+// Custom Turbo Stream action to dispatch window events (for cross-controller communication)
+// Usage: turbo_stream.action :dispatch, "target", event: "event-name", detail: { ... }.to_json
+Turbo.StreamActions.dispatch = function () {
+  const eventName = this.getAttribute("event")
+  const detail = JSON.parse(this.getAttribute("detail") || "{}")
+  window.dispatchEvent(new CustomEvent(eventName, { detail }))
 };
 
 import { createConsumer } from "@rails/actioncable"

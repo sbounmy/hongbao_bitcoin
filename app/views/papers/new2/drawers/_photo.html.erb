@@ -1,0 +1,153 @@
+<%# Photo Selection Drawer - Two screens using tabs %>
+<div data-controller="tabs preview photo-select"
+     data-tabs-default-tab-value="photo-select"
+     data-tabs-active-class="font-bold"
+     class="flex flex-col h-full">
+
+  <%# Screen 1: Photo Selection %>
+  <div data-tabs-target="tab" data-tab-id="photo-select" class="flex flex-col h-full">
+    <%# Header %>
+    <div class="flex items-center justify-between px-4 py-3 border-b border-base-content/10 shrink-0">
+      <span class="font-semibold text-lg">Select Photo</span>
+      <button type="button"
+              class="btn btn-ghost btn-sm gap-1"
+              data-tabs-target="btn"
+              data-tab-id="ai-style"
+              data-action="tabs#select">
+        <%= heroicon "sparkles", variant: :mini, class: "w-4 h-4" %>
+        <span>Enhance with AI</span>
+      </button>
+    </div>
+
+    <%# Main content: Preview + Photo Grid %>
+    <div class="flex-1 flex flex-col lg:flex-row-reverse overflow-hidden">
+      <%# Large preview area %>
+      <div class="flex-1 bg-base-200 relative flex items-center justify-center min-h-[30vh] lg:min-h-0">
+        <img src=""
+             data-preview-target="preview"
+             data-photo-select-target="preview"
+             class="max-w-full max-h-full object-contain hidden"
+             alt="Selected photo" />
+        <div data-preview-target="placeholder"
+             data-photo-select-target="placeholder"
+             class="flex flex-col items-center justify-center text-base-content/30">
+          <%= heroicon "photo", class: "w-16 h-16 mb-2" %>
+          <span class="text-sm">Select a photo</span>
+        </div>
+      </div>
+
+      <%# Photo Grid - scrollable %>
+      <div class="flex-1 lg:max-w-[280px] overflow-auto p-2 border-t lg:border-t-0 lg:border-r border-base-content/10">
+        <div id="photo-sheet-grid" class="grid grid-cols-4 lg:grid-cols-3 gap-1">
+          <%# Camera/Upload button %>
+          <label for="photo-sheet-input"
+                 class="aspect-square bg-base-300 flex flex-col items-center justify-center cursor-pointer hover:bg-base-200 transition-colors rounded-lg">
+            <%= heroicon "camera", class: "w-6 h-6 text-base-content/50" %>
+          </label>
+
+          <%# Recent photos %>
+          <%= render Papers::RecentPhotoComponent.with_collection(recent_photos) %>
+        </div>
+
+        <%# Infinite scroll loader %>
+        <% if pagy.next %>
+          <%= turbo_frame_tag "photo_sheet_page_#{pagy.next}",
+              src: input_items_path(type: :image, page: pagy.next, context: :photo_sheet, format: :turbo_stream),
+              loading: :lazy do %>
+            <div class="col-span-4 py-4 text-center">
+              <span class="loading loading-spinner loading-sm text-base-content/30"></span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# File input is inside screen 2 form, referenced by ID from camera button %>
+
+    <%# Footer with Cancel and Done buttons %>
+    <div class="flex items-center justify-between px-4 py-3 border-t border-base-content/10 shrink-0">
+      <form method="dialog">
+        <button type="submit" class="btn btn-ghost btn-sm">
+          Cancel
+        </button>
+      </form>
+      <span class="text-sm text-base-content/70">Photo</span>
+      <form method="dialog">
+        <button type="submit"
+                class="btn btn-ghost btn-sm text-primary font-semibold"
+                data-action="photo-select#done">
+          Done
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <%# Screen 2: AI Style Selection - Form for generating styled portrait %>
+  <div data-tabs-target="tab" data-tab-id="ai-style" class="hidden flex flex-col h-full">
+    <%= form_with url: input_items_path, method: :post, scope: :input_item, class: "flex flex-col h-full" do |f| %>
+      <%# Header with Back button %>
+      <div class="flex items-center justify-between px-4 py-3 border-b border-base-content/10 shrink-0">
+        <button type="button"
+                class="btn btn-ghost btn-sm gap-1"
+                data-tabs-target="btn"
+                data-tab-id="photo-select"
+                data-action="tabs#select">
+          <%= heroicon "chevron-left", variant: :mini, class: "w-4 h-4" %>
+          <span>Back</span>
+        </button>
+        <span class="font-semibold">AI Style</span>
+        <div class="w-16"></div>
+      </div>
+
+      <%# Hidden fields for photo selection %>
+      <%# blob_id is set by photo-select controller when selecting existing photo %>
+      <%# preview_target="blobId" allows preview controller to clear it when new file uploaded %>
+      <%= f.hidden_field :blob_id, data: { photo_select_target: "blobId", preview_target: "blobId" }, id: "ai-style-blob-id" %>
+      <%# File input - triggered by camera button in screen 1 %>
+      <%= f.file_field :image,
+          id: "photo-sheet-input",
+          accept: "image/*",
+          class: "sr-only",
+          data: {
+            preview_target: "input",
+            photo_select_target: "input",
+            action: "change->preview#preview"
+          } %>
+
+      <%# Style Grid - scrollable %>
+      <div class="flex-1 overflow-auto px-4 py-4">
+        <div class="grid grid-cols-4 gap-3">
+          <% styles.each do |style| %>
+            <label class="cursor-pointer">
+              <%= f.radio_button :input_id, style.id, class: "peer sr-only" %>
+              <div class="aspect-[3/4] bg-base-200 rounded-lg overflow-hidden border-2 border-transparent
+                          peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary
+                          hover:border-primary/50 transition-all">
+                <% if style.image.attached? %>
+                  <%= image_tag style.image.variant(resize_to_fill: [150, 200]),
+                      class: "w-full h-full object-cover",
+                      loading: "lazy" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center text-base-content/30">
+                    <%= heroicon "photo", class: "w-6 h-6" %>
+                  </div>
+                <% end %>
+              </div>
+              <p class="text-xs text-center mt-1 text-base-content/70 peer-checked:text-primary truncate">
+                <%= style.name %>
+              </p>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Sticky Generate button %>
+      <div class="sticky bottom-0 px-4 py-3 border-t border-base-content/10 bg-base-100 shrink-0">
+        <button type="submit" class="btn btn-primary w-full gap-2">
+          <%= heroicon "sparkles", variant: :mini, class: "w-4 h-4" %>
+          Generate
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>

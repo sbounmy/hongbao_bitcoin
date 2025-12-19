@@ -12,6 +12,30 @@ class InputItemsController < ApplicationController
     end
   end
 
+  # POST /input_items - Create InputItem with AI generation
+  def create
+    @input_item = InputItem.new(input_item_params)
+
+    if @input_item.save
+      # Queue AI generation job if style is selected
+      if @input_item.input.is_a?(Input::Style)
+        GenerateStyledPortraitJob.perform_later(@input_item.id)
+      end
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("flash", partial: "shared/flash_error", locals: { message: @input_item.errors.full_messages.join(", ") })
+        end
+        format.html { redirect_back fallback_location: root_path, alert: @input_item.errors.full_messages.join(", ") }
+      end
+    end
+  end
+
   private
 
   def input_items_scope
@@ -49,5 +73,9 @@ class InputItemsController < ApplicationController
 
   def paper_scope
     current_user ? current_user.papers : Paper
+  end
+
+  def input_item_params
+    params.require(:input_item).permit(:input_id, :blob_id, :image)
   end
 end

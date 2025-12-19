@@ -13,14 +13,23 @@
      data-canva-width-value="<%= dimensions[:width] %>"
      data-canva-height-value="<%= dimensions[:height] %>"
      data-canva-strict-value="<%= strict %>"
-     data-canva-portrait-x-value="<%= portrait_config['x'] || 0 %>"
-     data-canva-portrait-y-value="<%= portrait_config['y'] || 0 %>"
-     data-canva-portrait-width-value="<%= portrait_config['width'] || 0 %>"
-     data-canva-portrait-height-value="<%= portrait_config['height'] || 0 %>"
-     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged preview:selected@window->canva#handlePortraitSelected"
+     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged"
      class="w-full h-full">
   <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
+
+  <%# Portrait canva item - handles direct selection and AI generation %>
+  <% if portrait_config['x'].present? && portrait_config['x'].to_i > 0 %>
+    <div data-controller="portrait-item"
+         data-canva-target="canvaItem"
+         data-portrait-item-x-value="<%= portrait_config['x'] %>"
+         data-portrait-item-y-value="<%= portrait_config['y'] %>"
+         data-portrait-item-width-value="<%= portrait_config['width'] %>"
+         data-portrait-item-height-value="<%= portrait_config['height'] %>"
+         data-action="preview:selected@window->portrait-item#handleSelected portrait:loading@window->portrait-item#handleLoading portrait:changed@window->portrait-item#handleChanged"
+         class="hidden canva-item">
+    </div>
+  <% end %>
 
   <% elements.each do |name, item| %>
     <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>

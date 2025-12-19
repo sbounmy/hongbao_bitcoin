@@ -1,9 +1,12 @@
 # Join table to connect Bundle/Paper and Inputs
 class InputItem < ApplicationRecord
+  include Turbo::Broadcastable
+
   belongs_to :input
   belongs_to :bundle, optional: true
   belongs_to :paper, optional: true
   has_one_attached :image # only for input type Image (User uploaded image)
+  has_one_attached :generated_image # AI-generated image result
 
   # Virtual attribute to reuse an existing blob
   attr_accessor :blob_id

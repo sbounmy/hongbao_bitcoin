@@ -42,6 +42,15 @@ application.register("canva", CanvaController)
 import CanvaItemController from "./controllers/offline/canva_item_controller"
 application.register("canva-item", CanvaItemController)
 
+import TextItemController from "./controllers/offline/text_item_controller"
+application.register("text-item", TextItemController)
+
+import ImageItemController from "./controllers/offline/image_item_controller"
+application.register("image-item", ImageItemController)
+
+import PortraitItemController from "./controllers/offline/portrait_item_controller"
+application.register("portrait-item", PortraitItemController)
+
 import PdfController from "./controllers/offline/pdf_controller"
 application.register("pdf", PdfController)
 

@@ -49,6 +49,13 @@ class PapersController < ApplicationController
     @template_front_base64 = helpers.base64_url(@theme.image_front)
     @template_back_base64 = helpers.base64_url(@theme.image_back)
     @portrait_config = @theme.portrait_config
+
+    # Photo sheet data
+    @styles = Input::Style.by_position.with_attached_image
+    @pagy, @recent_photos = pagy_countless(
+      InputItem.distinct_images_for(paper_scope),
+      limit: 20
+    )
   end
 
   def create
