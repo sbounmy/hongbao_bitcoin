@@ -10,6 +10,9 @@ export default class extends CanvaItemController {
     fontColor: { type: String, default: 'black' }
   }
 
+  // Minimum font size (%) below which text is forced to single line
+  static SINGLE_LINE_THRESHOLD = 1.5
+
   draw() {
     if (!this.ctx || this.hiddenValue) return
 
@@ -25,11 +28,26 @@ export default class extends CanvaItemController {
     this.ctx.font = `${scaledFontSize}px Arial`
     this.ctx.fillStyle = this.fontColorValue
 
-    if (this.typeValue === 'mnemonic') {
-      this.wrapTextByWord(this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+    // Below threshold: single line, no wrapping
+    const forceSingleLine = this.fontSizeValue < this.constructor.SINGLE_LINE_THRESHOLD
+
+    if (forceSingleLine) {
+      // Single line mode - just draw the text without wrapping
+      this.ctx.fillText(this.textValue || '', x, y + scaledFontSize)
+      // Update height to match single line
+      this._calculatedHeight = lineHeight / this.canvasHeight * 100
+    } else if (this.typeValue === 'mnemonic') {
+      const linesDrawn = this.wrapTextByWord(this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+      this._calculatedHeight = (linesDrawn * lineHeight) / this.canvasHeight * 100
     } else {
-      this.wrapTextByChar(this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+      const linesDrawn = this.wrapTextByChar(this.textValue || '', x, y + scaledFontSize, maxWidthPx, lineHeight)
+      this._calculatedHeight = (linesDrawn * lineHeight) / this.canvasHeight * 100
     }
+  }
+
+  // Get the calculated height based on actual text content
+  getCalculatedHeight() {
+    return this._calculatedHeight || this.heightValue
   }
 
   redraw({ detail }) {
@@ -40,6 +58,7 @@ export default class extends CanvaItemController {
   wrapTextByChar(text, x, y, maxWidth, lineHeight) {
     const ctx = this.ctx
     const paragraphs = text.split('\n')
+    let lineCount = 0
 
     for (let p = 0; p < paragraphs.length; p++) {
       const paragraph = paragraphs[p]
@@ -54,20 +73,24 @@ export default class extends CanvaItemController {
           ctx.fillText(line, x, y)
           line = paragraph[i]
           y += lineHeight
+          lineCount++
         } else {
           line = testLine
         }
       }
       ctx.fillText(line, x, y)
+      lineCount++
       if (p < paragraphs.length - 1) {
         y += lineHeight
       }
     }
+    return lineCount
   }
 
   wrapTextByWord(text, x, y, maxWidth, lineHeight) {
     const ctx = this.ctx
     const paragraphs = text.split('\n')
+    let lineCount = 0
 
     for (let p = 0; p < paragraphs.length; p++) {
       const paragraph = paragraphs[p]
@@ -83,14 +106,17 @@ export default class extends CanvaItemController {
           ctx.fillText(line, x, y)
           line = words[n] + ' '
           y += lineHeight
+          lineCount++
         } else {
           line = testLine
         }
       }
       ctx.fillText(line, x, y)
+      lineCount++
       if (p < paragraphs.length - 1) {
         y += lineHeight
       }
     }
+    return lineCount
   }
 }

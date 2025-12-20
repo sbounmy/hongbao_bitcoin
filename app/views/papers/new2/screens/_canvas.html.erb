@@ -5,25 +5,26 @@
 
   <%# Paper Preview - Layout adapts to frame orientation %>
   <div class="flex-1 min-h-0 bg-base-200 p-4 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center' : 'flex flex-col gap-6 overflow-y-auto items-center' %>">
-    <%# Front Canvas - with portrait compositing support %>
+    <%# Front Canvas - with portrait compositing support and editor %>
     <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
       <%= render 'papers/new2/paper_canva',
               frame: frame,
               paper: paper,
               elements: paper.front_elements,
               image_base64: template_front_base64,
-              portrait_config: portrait_config
+              portrait_config: portrait_config,
+              editor_enabled: true
       %>
     </div>
 
-    <%# Back Canvas - no portrait %>
+    <%# Back Canvas - with editor %>
     <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
-      <%= render 'hong_baos/new/steps/paper_canva',
-              class_name: "w-full h-full",
+      <%= render 'papers/new2/paper_canva',
               frame: frame,
               paper: paper,
               elements: paper.back_elements,
-              image_base64: template_back_base64
+              image_base64: template_back_base64,
+              editor_enabled: true
       %>
     </div>
   </div>

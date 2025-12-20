@@ -1,6 +1,7 @@
 <%#
   Paper canvas with portrait compositing support.
   Extends the standard paper_canva with portrait position values for client-side compositing.
+  Wrapped with editor controller for interactive editing (drag, resize, rotate).
 %>
 <%
   # Get canvas dimensions from frame
@@ -8,30 +9,88 @@
   dimensions = frame.canvas_dimensions
   strict = local_assigns[:strict] || false
   portrait_config = local_assigns[:portrait_config] || {}
+  editor_enabled = local_assigns.fetch(:editor_enabled, false)
 %>
-<div data-controller="canva"
-     data-canva-width-value="<%= dimensions[:width] %>"
-     data-canva-height-value="<%= dimensions[:height] %>"
-     data-canva-strict-value="<%= strict %>"
-     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged"
-     class="w-full h-full">
-  <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
-  <canvas data-canva-target="container" class="w-full h-full"></canvas>
+<div <% if editor_enabled %>
+       data-controller="editor"
+       data-editor-enabled-value="true"
+     <% end %>
+     class="relative w-full h-full">
 
-  <%# Portrait canva item - handles direct selection and AI generation %>
-  <% if portrait_config['x'].present? && portrait_config['x'].to_i > 0 %>
-    <div data-controller="portrait-item"
-         data-canva-target="canvaItem"
-         data-portrait-item-x-value="<%= portrait_config['x'] %>"
-         data-portrait-item-y-value="<%= portrait_config['y'] %>"
-         data-portrait-item-width-value="<%= portrait_config['width'] %>"
-         data-portrait-item-height-value="<%= portrait_config['height'] %>"
-         data-action="preview:selected@window->portrait-item#handleSelected portrait:loading@window->portrait-item#handleLoading portrait:changed@window->portrait-item#handleChanged"
-         class="hidden canva-item">
+  <div data-controller="canva"
+       data-canva-width-value="<%= dimensions[:width] %>"
+       data-canva-height-value="<%= dimensions[:height] %>"
+       data-canva-strict-value="<%= strict %>"
+       data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged<%= ' editor:changed@window->canva#handleElementsChanged' unless editor_enabled %>"
+       class="w-full h-full">
+    <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
+    <canvas data-canva-target="container"
+            data-editor-target="canvas"
+            class="w-full h-full"></canvas>
+
+    <%# Portrait canva item - handles direct selection and AI generation %>
+    <% if portrait_config['x'].present? && portrait_config['x'].to_i > 0 %>
+      <div data-controller="portrait-item"
+           data-canva-target="canvaItem"
+           data-portrait-item-x-value="<%= portrait_config['x'] %>"
+           data-portrait-item-y-value="<%= portrait_config['y'] %>"
+           data-portrait-item-width-value="<%= portrait_config['width'] %>"
+           data-portrait-item-height-value="<%= portrait_config['height'] %>"
+           data-portrait-item-presence-value="true"
+           data-portrait-item-name-value="portrait"
+           data-portrait-item-placeholder-value="<%= asset_path('portrait-placeholder.svg') %>"
+           data-action="preview:selected@window->portrait-item#handleSelected portrait:loading@window->portrait-item#handleLoading portrait:changed@window->portrait-item#handleChanged"
+           class="hidden canva-item">
+      </div>
+    <% end %>
+
+    <% elements.each do |name, item| %>
+      <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
+    <% end %>
+  </div>
+
+  <%# Selection overlay - shows border and handles when item is selected %>
+  <% if editor_enabled %>
+    <div data-editor-target="overlay"
+         class="hidden absolute pointer-events-none border-2 border-primary rounded-sm"
+         style="box-shadow: 0 0 0 1px rgba(255,255,255,0.5);">
+
+      <%# Resize handles (desktop only) %>
+      <div class="hidden md:block">
+        <%# Corner handles %>
+        <div data-handle="nw" data-action="pointerdown->editor#startResize"
+             class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-primary rounded-full cursor-nw-resize pointer-events-auto"></div>
+        <div data-handle="ne" data-action="pointerdown->editor#startResize"
+             class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-primary rounded-full cursor-ne-resize pointer-events-auto"></div>
+        <div data-handle="sw" data-action="pointerdown->editor#startResize"
+             class="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-primary rounded-full cursor-sw-resize pointer-events-auto"></div>
+        <div data-handle="se" data-action="pointerdown->editor#startResize"
+             class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-primary rounded-full cursor-se-resize pointer-events-auto"></div>
+
+        <%# Rotation handle %>
+        <div data-action="pointerdown->editor#startRotate"
+             class="absolute -top-8 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full cursor-grab pointer-events-auto flex items-center justify-center">
+          <svg class="w-2.5 h-2.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </div>
+        <%# Line from rotation handle to item %>
+        <div class="absolute -top-6 left-1/2 w-0.5 h-5 bg-primary -translate-x-1/2"></div>
+      </div>
+
+      <%# Delete button (only for non-presence items) %>
+      <button data-delete-btn
+              data-action="click->editor#deleteSelected"
+              class="absolute -top-3 -right-3 w-6 h-6 bg-error text-error-content rounded-full pointer-events-auto flex items-center justify-center shadow-md hover:scale-110 transition-transform">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   <% end %>
 
-  <% elements.each do |name, item| %>
-    <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
+  <%# Hidden field for persisting element positions %>
+  <% if editor_enabled %>
+    <%= hidden_field_tag :elements, elements.to_json, data: { editor_target: "elementsField" } %>
   <% end %>
 </div>

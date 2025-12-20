@@ -4,13 +4,32 @@ import CanvaItemController from "./canva_item_controller"
 export default class extends CanvaItemController {
   static values = {
     ...CanvaItemController.values,
-    loading: Boolean
+    loading: Boolean,
+    placeholder: String // URL to placeholder image/SVG
   }
 
   connect() {
     super.connect()
     this.portraitImage = null
+    this.placeholderImage = null
     this.loadingAnimationId = null
+
+    // Load placeholder image if provided
+    if (this.placeholderValue) {
+      this.loadPlaceholder(this.placeholderValue)
+    }
+  }
+
+  loadPlaceholder(url) {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      this.placeholderImage = img
+      if (!this.portraitImage) {
+        this.canvaController?.redrawAll()
+      }
+    }
+    img.src = url
   }
 
   disconnect() {
@@ -84,7 +103,10 @@ export default class extends CanvaItemController {
 
     if (this.portraitImage) {
       this.drawPortraitImage(x, y, width, height)
+    } else if (this.placeholderImage) {
+      this.drawPortraitImage(x, y, width, height, this.placeholderImage)
     }
+    // If no portrait and no placeholder, draw nothing (transparent)
   }
 
   drawSpinner(x, y, width, height) {
@@ -104,8 +126,8 @@ export default class extends CanvaItemController {
     this.ctx.restore()
   }
 
-  drawPortraitImage(x, y, boxWidth, boxHeight) {
-    const img = this.portraitImage
+  drawPortraitImage(x, y, boxWidth, boxHeight, img = this.portraitImage) {
+    if (!img) return
 
     // Scale to fit bounding box while maintaining aspect ratio
     const scaleX = boxWidth / img.width

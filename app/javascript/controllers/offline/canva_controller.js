@@ -28,6 +28,29 @@ export default class extends Controller {
     this.resizeObserver?.disconnect()
   }
 
+  // Handle position updates from editor (syncs PDF preview with editor canvas)
+  handleElementsChanged(event) {
+    const { elements } = event.detail
+    if (!elements) return
+
+    let anyChanged = false
+    this.canvaItemTargets.forEach(item => {
+      const controller = this.getItemController(item)
+      if (controller) {
+        const itemName = controller.nameValue
+        if (elements[itemName]) {
+          const changed = controller.updateFromElements(elements[itemName])
+          if (changed) anyChanged = true
+        }
+      }
+    })
+
+    // Only redraw once if any items changed
+    if (anyChanged) {
+      this.redrawAll()
+    }
+  }
+
   initializeCanvas() {
     const canvas = this.containerTarget
     this.qualityScale = 3
@@ -170,8 +193,20 @@ export default class extends Controller {
     }
   }
 
+  // Schedule a redraw for the next animation frame (throttled)
+  // Use this during continuous interactions (drag, resize, pinch) to avoid excessive redraws
+  scheduleRedraw() {
+    if (this._redrawScheduled) return
+    this._redrawScheduled = true
+    requestAnimationFrame(() => {
+      this._redrawScheduled = false
+      this.redrawAll()
+    })
+  }
+
   // Called by canva items when they need to redraw the entire canvas
   // (e.g., portrait loading animation, image loaded)
+  // For continuous interactions, prefer scheduleRedraw() instead
   redrawAll() {
     this.clear()
     this.canvaItemTargets.forEach(item => {

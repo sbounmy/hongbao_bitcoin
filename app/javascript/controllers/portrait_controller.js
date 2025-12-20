@@ -53,9 +53,7 @@ export default class extends Controller {
 
   // Dispatch event for canvas to redraw with new portrait
   dispatchPortraitChanged(url) {
-    window.dispatchEvent(new CustomEvent("portrait:changed", {
-      detail: { url }
-    }))
+    this.dispatch("changed", { detail: { url } })
   }
 
   showSuccessNotification() {

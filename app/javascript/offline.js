@@ -65,3 +65,7 @@ application.register("keys-input", KeysInputController)
 
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
+
+// --- Editor controllers ---
+import EditorController from "./controllers/editor/editor_controller"
+application.register("editor", EditorController)
