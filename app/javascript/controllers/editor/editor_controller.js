@@ -1,91 +1,149 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Editor controller - orchestrates canvas item selection, drag, resize
+// Editor controller - orchestrates canvas item interactions
+// Delegates to child controllers: overlay, resize, rotate
 // Mobile: tap to select, drag to move, pinch to resize/rotate
-// Desktop: click to select, drag to move, handles for resize/rotate
+// Desktop: hover shows border, click to select (shows handles), edit button opens drawer
 export default class extends Controller {
-  static targets = ["overlay", "elementsField"]
+  static targets = ["canvas", "elementsField", "hoverOverlay", "selectionOverlay"]
   static values = {
     enabled: { type: Boolean, default: true }
   }
 
   connect() {
     this.selectedItem = null
+    this.hoveredItem = null
     this.isDragging = false
     this.dragStart = null
-
-    // Find the canva controller within this editor (not using outlets to avoid cross-canvas issues)
     this._canvaController = null
-    this._canvasElement = null
+    this._overlayController = null
+    this._rotateController = null
 
-    // Wait a tick for child controllers to connect
     requestAnimationFrame(() => {
       this.findCanvaController()
+      this.findChildControllers()
       if (this._canvaController && this.enabledValue) {
-        this.setupPointerEvents()
-        this.setupTouchEvents()
-        this.setupKeyboardEvents()
+        this.setupEvents()
       }
     })
   }
 
+  disconnect() {
+    this.removeEvents()
+  }
+
+  // --- Setup ---
+
   findCanvaController() {
-    // Find the canva element within this editor's element
     const canvaElement = this.element.querySelector('[data-controller~="canva"]')
     if (canvaElement) {
       this._canvaController = this.application.getControllerForElementAndIdentifier(canvaElement, 'canva')
-      this._canvasElement = this._canvaController?.containerTarget
     }
   }
 
-  // Get the canva controller within this editor
+  findChildControllers() {
+    // Find overlay controller within this editor's scope
+    const overlayElement = this.element.querySelector('[data-controller~="editor--overlay"]')
+    if (overlayElement) {
+      this._overlayController = this.application.getControllerForElementAndIdentifier(overlayElement, 'editor--overlay')
+    }
+
+    // Find rotate controller within this editor's scope
+    const rotateElement = this.element.querySelector('[data-controller~="editor--rotate"]')
+    if (rotateElement) {
+      this._rotateController = this.application.getControllerForElementAndIdentifier(rotateElement, 'editor--rotate')
+    }
+  }
+
   get canvaController() {
     return this._canvaController
   }
 
-  // Get the canvas element from the canva controller
   get canvasElement() {
-    return this._canvasElement
+    return this._canvaController?.containerTarget
   }
 
-  disconnect() {
-    this.removePointerEvents()
-    this.removeTouchEvents()
-    this.removeKeyboardEvents()
+  get canvasWidth() {
+    return this.canvaController?.originalWidth || 1
   }
 
-  // --- Pointer Events (unified mouse + touch) ---
+  get canvasHeight() {
+    return this.canvaController?.originalHeight || 1
+  }
 
-  setupPointerEvents() {
+  isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  }
+
+  // --- Events Setup ---
+
+  setupEvents() {
     if (!this.canvasElement) return
 
+    // Pointer events (mouse + touch)
     this.boundOnPointerDown = this.onPointerDown.bind(this)
     this.boundOnPointerMove = this.onPointerMove.bind(this)
     this.boundOnPointerUp = this.onPointerUp.bind(this)
-
     this.canvasElement.addEventListener("pointerdown", this.boundOnPointerDown)
     document.addEventListener("pointermove", this.boundOnPointerMove)
     document.addEventListener("pointerup", this.boundOnPointerUp)
+
+    // Touch events (pinch/rotate)
+    this.boundOnTouchStart = this.onTouchStart.bind(this)
+    this.boundOnTouchMove = this.onTouchMove.bind(this)
+    this.boundOnTouchEnd = this.onTouchEnd.bind(this)
+    this.canvasElement.addEventListener("touchstart", this.boundOnTouchStart, { passive: false })
+    this.canvasElement.addEventListener("touchmove", this.boundOnTouchMove, { passive: false })
+    this.canvasElement.addEventListener("touchend", this.boundOnTouchEnd)
+
+    // Keyboard events
+    this.boundOnKeyDown = this.onKeyDown.bind(this)
+    document.addEventListener("keydown", this.boundOnKeyDown)
+
+    // Hover events (desktop only)
+    if (!this.isTouchDevice()) {
+      this.boundOnHoverMove = this.onHoverMove.bind(this)
+      this.boundOnHoverLeave = this.onHoverLeave.bind(this)
+      this.canvasElement.addEventListener("pointermove", this.boundOnHoverMove)
+      this.canvasElement.addEventListener("pointerleave", this.boundOnHoverLeave)
+    }
   }
 
-  removePointerEvents() {
+  removeEvents() {
     this.canvasElement?.removeEventListener("pointerdown", this.boundOnPointerDown)
     document.removeEventListener("pointermove", this.boundOnPointerMove)
     document.removeEventListener("pointerup", this.boundOnPointerUp)
+
+    this.canvasElement?.removeEventListener("touchstart", this.boundOnTouchStart)
+    this.canvasElement?.removeEventListener("touchmove", this.boundOnTouchMove)
+    this.canvasElement?.removeEventListener("touchend", this.boundOnTouchEnd)
+
+    document.removeEventListener("keydown", this.boundOnKeyDown)
+
+    this.canvasElement?.removeEventListener("pointermove", this.boundOnHoverMove)
+    this.canvasElement?.removeEventListener("pointerleave", this.boundOnHoverLeave)
   }
 
+  // --- Pointer Events ---
+
   onPointerDown(e) {
-    // Ignore multi-touch (handled separately for pinch/rotate)
     if (e.pointerType === "touch" && e.isPrimary === false) return
 
     const point = this.canvasPoint(e)
     const item = this.hitTest(point)
+    const isMobile = e.pointerType === "touch"
 
-    // Track click start position to detect click vs drag
-    this.clickStart = { x: e.clientX, y: e.clientY, item }
+    this.clickStart = { x: e.clientX, y: e.clientY, item, isMobile }
 
     if (item) {
-      this.selectItem(item)
+      // On desktop: select item (shows handles)
+      // On mobile: just track for drag, don't show selection UI
+      if (!isMobile) {
+        this.selectItem(item)
+      } else {
+        // Mobile: track selected item for drag/pinch but don't show overlay
+        this.selectedItem = item
+      }
       this.startDrag(item, point, e)
     } else {
       this.deselectAll()
@@ -98,16 +156,14 @@ export default class extends Controller {
     e.preventDefault()
     const point = this.canvasPoint(e)
 
-    // Calculate delta in percentage
     const dx = (point.x - this.dragStart.x) / this.canvasWidth * 100
     const dy = (point.y - this.dragStart.y) / this.canvasHeight * 100
 
-    // Update item position
     const newX = Math.max(0, Math.min(100 - this.selectedItem.widthValue, this.dragStart.itemX + dx))
     const newY = Math.max(0, Math.min(100 - this.selectedItem.heightValue, this.dragStart.itemY + dy))
 
     this.selectedItem.updatePosition(newX, newY)
-    this.updateOverlayPosition()
+    this.updateOverlay()
     this.canvaController.scheduleRedraw()
   }
 
@@ -119,7 +175,7 @@ export default class extends Controller {
       const isClick = dx < 5 && dy < 5
 
       if (isClick) {
-        // Dispatch click event for the item
+        // Dispatch click event
         this.dispatch("itemClick", {
           detail: {
             name: this.clickStart.item.nameValue,
@@ -128,15 +184,23 @@ export default class extends Controller {
           }
         })
 
-        // Let the item handle opening its drawer
-        this.clickStart.item.openDrawer()
+        // On mobile: tap opens drawer directly (no selection UI)
+        if (this.clickStart.isMobile) {
+          this.clickStart.item.openDrawer()
+          this.selectedItem = null // Clear selection after opening drawer
+        }
       }
     }
 
     if (this.isDragging) {
       this.isDragging = false
-      this.canvaController.redrawAll() // Final redraw to ensure clean state
+      this.canvaController.redrawAll()
       this.persistChanges()
+
+      // On mobile, clear selection after drag (no persistent selection)
+      if (this.clickStart?.isMobile) {
+        this.selectedItem = null
+      }
     }
 
     this.clickStart = null
@@ -150,30 +214,40 @@ export default class extends Controller {
       itemX: item.xValue,
       itemY: item.yValue
     }
-
-    // Prevent text selection during drag
     e.preventDefault()
   }
 
-  // --- Touch Events (for pinch/rotate gestures) ---
+  // --- Hover Events (Desktop - Figma/Canva style) ---
+  // Hover shows border only, click shows handles
 
-  setupTouchEvents() {
-    if (!this.canvasElement) return
+  onHoverMove(e) {
+    if (this.isDragging || this.isResizing || this.isRotating || this.isPinching) return
+    if (e.pointerType === "touch") return
 
-    this.boundOnTouchStart = this.onTouchStart.bind(this)
-    this.boundOnTouchMove = this.onTouchMove.bind(this)
-    this.boundOnTouchEnd = this.onTouchEnd.bind(this)
+    const point = this.canvasPoint(e)
+    const item = this.hitTest(point)
 
-    this.canvasElement.addEventListener("touchstart", this.boundOnTouchStart, { passive: false })
-    this.canvasElement.addEventListener("touchmove", this.boundOnTouchMove, { passive: false })
-    this.canvasElement.addEventListener("touchend", this.boundOnTouchEnd)
+    // Update hover state (border only, not handles)
+    if (item !== this.hoveredItem) {
+      this.hoveredItem = item
+
+      if (item && item !== this.selectedItem) {
+        this.showHoverOverlay(item)
+      } else {
+        this.hideHoverOverlay()
+      }
+    }
   }
 
-  removeTouchEvents() {
-    this.canvasElement?.removeEventListener("touchstart", this.boundOnTouchStart)
-    this.canvasElement?.removeEventListener("touchmove", this.boundOnTouchMove)
-    this.canvasElement?.removeEventListener("touchend", this.boundOnTouchEnd)
+  onHoverLeave(e) {
+    if (this.isDragging || this.isResizing || this.isRotating || this.isPinching) return
+    if (e.pointerType === "touch") return
+
+    this.hoveredItem = null
+    this.hideHoverOverlay()
   }
+
+  // --- Touch Events (Pinch/Rotate) ---
 
   onTouchStart(e) {
     if (e.touches.length === 2 && this.selectedItem) {
@@ -189,7 +263,7 @@ export default class extends Controller {
     }
   }
 
-  onTouchEnd(e) {
+  onTouchEnd() {
     if (this.isPinching) {
       this.isPinching = false
       this.persistChanges()
@@ -198,105 +272,83 @@ export default class extends Controller {
 
   startPinch(e) {
     this.isPinching = true
-    const touch1 = e.touches[0]
-    const touch2 = e.touches[1]
+    const [t1, t2] = [e.touches[0], e.touches[1]]
 
-    this.initialPinchDistance = this.getDistance(touch1, touch2)
-    this.initialPinchAngle = this.getAngle(touch1, touch2)
-    this.initialWidth = this.selectedItem.widthValue
-    this.initialHeight = this.selectedItem.heightValue
-    this.initialRotation = this.selectedItem.rotationValue
-    // For text items, also capture font size to scale proportionally
-    this.initialFontSize = this.selectedItem.fontSizeValue
+    this.pinchStart = {
+      distance: Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY),
+      angle: Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * 180 / Math.PI,
+      width: this.selectedItem.widthValue,
+      height: this.selectedItem.heightValue,
+      rotation: this.selectedItem.rotationValue,
+      fontSize: this.selectedItem.fontSizeValue
+    }
   }
 
   handlePinch(e) {
-    const touch1 = e.touches[0]
-    const touch2 = e.touches[1]
+    const [t1, t2] = [e.touches[0], e.touches[1]]
+    const currentDistance = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
+    const currentAngle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * 180 / Math.PI
 
-    // Calculate scale from pinch
-    const currentDistance = this.getDistance(touch1, touch2)
-    const scale = currentDistance / this.initialPinchDistance
+    const scale = currentDistance / this.pinchStart.distance
+    const rotation = currentAngle - this.pinchStart.angle
 
-    // Calculate rotation
-    const currentAngle = this.getAngle(touch1, touch2)
-    const rotation = currentAngle - this.initialPinchAngle
+    const newWidth = Math.max(5, Math.min(100, this.pinchStart.width * scale))
+    const newHeight = Math.max(5, Math.min(100, this.pinchStart.height * scale))
 
-    // Apply scale to dimensions
-    const newWidth = Math.max(5, Math.min(100, this.initialWidth * scale))
-    const newHeight = Math.max(5, Math.min(100, this.initialHeight * scale))
-
-    // For text items, scale font size and auto-calculate height
-    const isTextItem = this.initialFontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
+    const isTextItem = this.pinchStart.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
     if (isTextItem) {
-      const newFontSize = Math.max(0.5, this.initialFontSize * scale)
-      this.selectedItem.fontSizeValue = newFontSize
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * scale)
       this.selectedItem.widthValue = newWidth
-      // Height will be auto-calculated after draw
     } else {
       this.selectedItem.updateSize(newWidth, newHeight)
     }
 
-    this.selectedItem.rotationValue = this.initialRotation + rotation
+    this.selectedItem.rotationValue = this.pinchStart.rotation + rotation
     this.canvaController.scheduleRedraw()
 
-    // For text items, use calculated height after draw (on next frame)
     if (isTextItem && this.selectedItem.getCalculatedHeight) {
       requestAnimationFrame(() => {
         if (this.selectedItem?.getCalculatedHeight) {
           this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
-          this.updateOverlayPosition()
+          this.updateOverlay()
         }
       })
     } else {
-      this.updateOverlayPosition()
+      this.updateOverlay()
     }
-  }
-
-  getDistance(t1, t2) {
-    return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
-  }
-
-  getAngle(t1, t2) {
-    return Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * 180 / Math.PI
   }
 
   // --- Keyboard Events ---
 
-  setupKeyboardEvents() {
-    this.boundOnKeyDown = this.onKeyDown.bind(this)
-    document.addEventListener("keydown", this.boundOnKeyDown)
-  }
-
-  removeKeyboardEvents() {
-    document.removeEventListener("keydown", this.boundOnKeyDown)
-  }
-
   onKeyDown(e) {
     if (!this.selectedItem) return
 
-    // Delete/Backspace to delete (if not presence item)
     if ((e.key === "Delete" || e.key === "Backspace") && !this.selectedItem.presenceValue) {
       e.preventDefault()
       this.deleteSelected()
       return
     }
 
-    // Escape to deselect
     if (e.key === "Escape") {
       this.deselectAll()
       return
     }
 
-    // Arrow keys to nudge
-    const nudgeAmount = e.shiftKey ? 5 : 1 // Shift for larger nudge
+    // Enter or E to edit (open drawer)
+    if (e.key === "Enter" || e.key === "e") {
+      e.preventDefault()
+      this.editSelected()
+      return
+    }
+
+    const nudge = e.shiftKey ? 5 : 1
     let dx = 0, dy = 0
 
     switch (e.key) {
-      case "ArrowUp": dy = -nudgeAmount; break
-      case "ArrowDown": dy = nudgeAmount; break
-      case "ArrowLeft": dx = -nudgeAmount; break
-      case "ArrowRight": dx = nudgeAmount; break
+      case "ArrowUp": dy = -nudge; break
+      case "ArrowDown": dy = nudge; break
+      case "ArrowLeft": dx = -nudge; break
+      case "ArrowRight": dx = nudge; break
       default: return
     }
 
@@ -305,7 +357,128 @@ export default class extends Controller {
     const newY = Math.max(0, Math.min(100 - this.selectedItem.heightValue, this.selectedItem.yValue + dy))
 
     this.selectedItem.updatePosition(newX, newY)
-    this.updateOverlayPosition()
+    this.updateOverlay()
+    this.canvaController.redrawAll()
+    this.persistChanges()
+  }
+
+  // --- Resize Events (from resize controller) ---
+
+  resizeStart(e) {
+    this.isResizing = true
+    if (!this.selectedItem || !this.canvasElement) return
+
+    this.resizeData = {
+      handle: e.detail.handle,
+      startX: e.detail.clientX,
+      startY: e.detail.clientY,
+      width: this.selectedItem.widthValue,
+      height: this.selectedItem.heightValue,
+      itemX: this.selectedItem.xValue,
+      itemY: this.selectedItem.yValue,
+      fontSize: this.selectedItem.fontSizeValue
+    }
+  }
+
+  resizeMove(e) {
+    if (!this.isResizing || !this.selectedItem || !this.canvasElement) return
+
+    const canvasRect = this.canvasElement.getBoundingClientRect()
+    const dx = e.detail.dx / canvasRect.width * 100
+    const dy = e.detail.dy / canvasRect.height * 100
+
+    let { width, height, itemX, itemY } = this.resizeData
+    let newWidth = width, newHeight = height, newX = itemX, newY = itemY
+
+    switch (this.resizeData.handle) {
+      case "se":
+        newWidth = Math.max(5, width + dx)
+        newHeight = Math.max(5, height + dy)
+        break
+      case "sw":
+        newWidth = Math.max(5, width - dx)
+        newHeight = Math.max(5, height + dy)
+        newX = itemX + dx
+        break
+      case "ne":
+        newWidth = Math.max(5, width + dx)
+        newHeight = Math.max(5, height - dy)
+        newY = itemY + dy
+        break
+      case "nw":
+        newWidth = Math.max(5, width - dx)
+        newHeight = Math.max(5, height - dy)
+        newX = itemX + dx
+        newY = itemY + dy
+        break
+    }
+
+    this.selectedItem.updatePosition(newX, newY)
+
+    const isTextItem = this.resizeData.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
+    if (isTextItem) {
+      const scale = newWidth / this.resizeData.width
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * scale)
+      this.selectedItem.widthValue = newWidth
+    } else {
+      this.selectedItem.updateSize(newWidth, newHeight)
+    }
+
+    this.canvaController.scheduleRedraw()
+
+    if (isTextItem && this.selectedItem.getCalculatedHeight) {
+      requestAnimationFrame(() => {
+        if (this.selectedItem?.getCalculatedHeight) {
+          this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
+          this.updateOverlay()
+        }
+      })
+    } else {
+      this.updateOverlay()
+    }
+  }
+
+  resizeEnd(e) {
+    this.isResizing = false
+    this.canvaController.redrawAll()
+
+    if (this.selectedItem?.getCalculatedHeight) {
+      this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
+      this.updateOverlay()
+    }
+
+    this.persistChanges()
+  }
+
+  // --- Rotate Events (from rotate controller) ---
+
+  rotateStart() {
+    this.isRotating = true
+    if (!this.selectedItem || !this.canvasElement) return
+
+    const bounds = this.selectedItem.getBounds()
+    const canvasRect = this.canvasElement.getBoundingClientRect()
+    const scaleX = canvasRect.width / this.canvasWidth
+    const scaleY = canvasRect.height / this.canvasHeight
+
+    const center = {
+      x: canvasRect.left + (bounds.x + bounds.width / 2) * scaleX,
+      y: canvasRect.top + (bounds.y + bounds.height / 2) * scaleY
+    }
+
+    this.rotateController?.setCenter(center, this.selectedItem.rotationValue)
+  }
+
+  rotateMove(e) {
+    if (!this.isRotating || !this.selectedItem) return
+
+    this.selectedItem.rotationValue = e.detail.rotation
+    this.updateOverlay()
+    this.canvaController.scheduleRedraw()
+  }
+
+  rotateEnd() {
+    this.isRotating = false
     this.canvaController.redrawAll()
     this.persistChanges()
   }
@@ -313,14 +486,16 @@ export default class extends Controller {
   // --- Selection ---
 
   selectItem(itemController) {
-    // Deselect previous
     if (this.selectedItem && this.selectedItem !== itemController) {
       this.selectedItem.deselect()
     }
 
     this.selectedItem = itemController
     this.selectedItem.select()
-    this.showOverlay()
+
+    // Hide hover overlay, show selection overlay
+    this.hideHoverOverlay()
+    this.showSelectionOverlay(itemController)
   }
 
   deselectAll() {
@@ -328,16 +503,21 @@ export default class extends Controller {
       this.selectedItem.deselect()
       this.selectedItem = null
     }
-    this.hideOverlay()
+    this.hideSelectionOverlay()
+  }
+
+  // Edit button action - opens drawer for selected item
+  editSelected() {
+    if (!this.selectedItem) return
+    this.selectedItem.openDrawer()
   }
 
   deleteSelected() {
     if (!this.selectedItem || this.selectedItem.presenceValue) return
 
-    // Remove the item element
     this.selectedItem.element.remove()
     this.selectedItem = null
-    this.hideOverlay()
+    this.hideSelectionOverlay()
     this.canvaController.redrawAll()
     this.persistChanges()
   }
@@ -346,217 +526,79 @@ export default class extends Controller {
 
   hitTest(point) {
     const items = this.getItemControllers()
-    // Reverse to check topmost items first
     return items.reverse().find(item => item.containsPoint(point.x, point.y))
   }
 
   getItemControllers() {
-    return this.canvaController.canvaItemTargets.map(el => {
+    return this.canvaController?.canvaItemTargets?.map(el => {
       return this.canvaController.getItemController(el)
-    }).filter(Boolean)
+    }).filter(Boolean) || []
   }
 
-  // --- Overlay ---
+  // --- Hover Overlay (border only) ---
 
-  showOverlay() {
-    if (!this.hasOverlayTarget || !this.selectedItem) return
+  showHoverOverlay(item) {
+    if (!this.hasHoverOverlayTarget || !item) return
 
-    this.overlayTarget.classList.remove("hidden")
-    this.updateOverlayPosition()
+    this.hoverOverlayTarget.classList.remove("hidden")
+    this.updateOverlayPosition(this.hoverOverlayTarget, item)
+  }
 
-    // Show/hide delete button based on presence
-    const deleteBtn = this.overlayTarget.querySelector("[data-delete-btn]")
-    if (deleteBtn) {
-      deleteBtn.classList.toggle("hidden", this.selectedItem.presenceValue)
+  hideHoverOverlay() {
+    if (this.hasHoverOverlayTarget) {
+      this.hoverOverlayTarget.classList.add("hidden")
     }
   }
 
-  hideOverlay() {
-    if (this.hasOverlayTarget) {
-      this.overlayTarget.classList.add("hidden")
+  // --- Selection Overlay (border + handles) ---
+
+  get overlayController() {
+    return this._overlayController
+  }
+
+  get rotateController() {
+    return this._rotateController
+  }
+
+  get canvasInfo() {
+    if (!this.canvasElement) return null
+    const canvasRect = this.canvasElement.getBoundingClientRect()
+    return {
+      scaleX: canvasRect.width / this.canvasWidth,
+      scaleY: canvasRect.height / this.canvasHeight
     }
   }
 
-  updateOverlayPosition() {
-    if (!this.hasOverlayTarget || !this.selectedItem || !this.canvasElement) return
+  showSelectionOverlay(item) {
+    this.overlayController?.show(item, this.canvasInfo)
+  }
 
-    const bounds = this.selectedItem.getBounds()
-    const canvas = this.canvasElement
-    const canvasRect = canvas.getBoundingClientRect()
+  hideSelectionOverlay() {
+    this.overlayController?.forceHide()
+  }
 
-    // Convert canvas coordinates to screen coordinates
-    const scaleX = canvasRect.width / this.canvasWidth
-    const scaleY = canvasRect.height / this.canvasHeight
+  updateOverlay() {
+    if (this.selectedItem) {
+      this.overlayController?.updatePosition(this.selectedItem, this.canvasInfo)
+    }
+  }
 
-    this.overlayTarget.style.left = `${bounds.x * scaleX}px`
-    this.overlayTarget.style.top = `${bounds.y * scaleY}px`
-    this.overlayTarget.style.width = `${bounds.width * scaleX}px`
-    this.overlayTarget.style.height = `${bounds.height * scaleY}px`
+  updateOverlayPosition(overlayEl, item) {
+    if (!item || !this.canvasElement) return
 
-    // Apply rotation if any
-    if (this.selectedItem.rotationValue !== 0) {
-      this.overlayTarget.style.transform = `rotate(${this.selectedItem.rotationValue}deg)`
+    const bounds = item.getBounds()
+    const { scaleX, scaleY } = this.canvasInfo
+
+    overlayEl.style.left = `${bounds.x * scaleX}px`
+    overlayEl.style.top = `${bounds.y * scaleY}px`
+    overlayEl.style.width = `${bounds.width * scaleX}px`
+    overlayEl.style.height = `${bounds.height * scaleY}px`
+
+    if (item.rotationValue !== 0) {
+      overlayEl.style.transform = `rotate(${item.rotationValue}deg)`
     } else {
-      this.overlayTarget.style.transform = ""
+      overlayEl.style.transform = ""
     }
-  }
-
-  // --- Resize Handles (Desktop) ---
-
-  startResize(e) {
-    const handle = e.currentTarget.dataset.handle
-    this.isResizing = true
-    this.resizeHandle = handle
-    this.resizeStart = {
-      x: e.clientX,
-      y: e.clientY,
-      width: this.selectedItem.widthValue,
-      height: this.selectedItem.heightValue,
-      itemX: this.selectedItem.xValue,
-      itemY: this.selectedItem.yValue,
-      // For text items, also capture font size to scale proportionally
-      fontSize: this.selectedItem.fontSizeValue
-    }
-
-    document.addEventListener("pointermove", this.boundOnResizeMove = this.onResizeMove.bind(this))
-    document.addEventListener("pointerup", this.boundOnResizeUp = this.onResizeUp.bind(this))
-
-    e.preventDefault()
-    e.stopPropagation()
-  }
-
-  onResizeMove(e) {
-    if (!this.isResizing || !this.selectedItem || !this.canvasElement) return
-
-    const canvas = this.canvasElement
-    const canvasRect = canvas.getBoundingClientRect()
-
-    // Calculate delta in percentage
-    const dx = (e.clientX - this.resizeStart.x) / canvasRect.width * 100
-    const dy = (e.clientY - this.resizeStart.y) / canvasRect.height * 100
-
-    let newWidth = this.resizeStart.width
-    let newHeight = this.resizeStart.height
-    let newX = this.resizeStart.itemX
-    let newY = this.resizeStart.itemY
-
-    // Adjust based on which handle is being dragged
-    switch (this.resizeHandle) {
-      case "se": // Bottom-right
-        newWidth = Math.max(5, this.resizeStart.width + dx)
-        newHeight = Math.max(5, this.resizeStart.height + dy)
-        break
-      case "sw": // Bottom-left
-        newWidth = Math.max(5, this.resizeStart.width - dx)
-        newHeight = Math.max(5, this.resizeStart.height + dy)
-        newX = this.resizeStart.itemX + dx
-        break
-      case "ne": // Top-right
-        newWidth = Math.max(5, this.resizeStart.width + dx)
-        newHeight = Math.max(5, this.resizeStart.height - dy)
-        newY = this.resizeStart.itemY + dy
-        break
-      case "nw": // Top-left
-        newWidth = Math.max(5, this.resizeStart.width - dx)
-        newHeight = Math.max(5, this.resizeStart.height - dy)
-        newX = this.resizeStart.itemX + dx
-        newY = this.resizeStart.itemY + dy
-        break
-    }
-
-    this.selectedItem.updatePosition(newX, newY)
-
-    // For text items, scale font size and auto-calculate height
-    const isTextItem = this.resizeStart.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
-    if (isTextItem) {
-      const scale = newWidth / this.resizeStart.width
-      const newFontSize = Math.max(0.5, this.resizeStart.fontSize * scale)
-      this.selectedItem.fontSizeValue = newFontSize
-      // Only update width for text - height will be auto-calculated after draw
-      this.selectedItem.widthValue = newWidth
-    } else {
-      this.selectedItem.updateSize(newWidth, newHeight)
-    }
-
-    this.canvaController.scheduleRedraw()
-
-    // For text items, use calculated height after draw (on next frame)
-    if (isTextItem && this.selectedItem.getCalculatedHeight) {
-      requestAnimationFrame(() => {
-        if (this.selectedItem?.getCalculatedHeight) {
-          this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
-          this.updateOverlayPosition()
-        }
-      })
-    } else {
-      this.updateOverlayPosition()
-    }
-  }
-
-  onResizeUp() {
-    this.isResizing = false
-    document.removeEventListener("pointermove", this.boundOnResizeMove)
-    document.removeEventListener("pointerup", this.boundOnResizeUp)
-
-    // Final redraw and height adjustment for text items
-    this.canvaController.redrawAll()
-    if (this.selectedItem?.getCalculatedHeight) {
-      this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
-      this.updateOverlayPosition()
-    }
-
-    this.persistChanges()
-  }
-
-  // --- Rotation Handle (Desktop) ---
-
-  startRotate(e) {
-    if (!this.canvasElement) return
-
-    this.isRotating = true
-
-    const bounds = this.selectedItem.getBounds()
-    const canvas = this.canvasElement
-    const canvasRect = canvas.getBoundingClientRect()
-
-    // Center of the item in screen coordinates
-    const scaleX = canvasRect.width / this.canvasWidth
-    const scaleY = canvasRect.height / this.canvasHeight
-
-    this.rotateCenter = {
-      x: canvasRect.left + (bounds.x + bounds.width / 2) * scaleX,
-      y: canvasRect.top + (bounds.y + bounds.height / 2) * scaleY
-    }
-    this.rotateStart = this.selectedItem.rotationValue
-
-    document.addEventListener("pointermove", this.boundOnRotateMove = this.onRotateMove.bind(this))
-    document.addEventListener("pointerup", this.boundOnRotateUp = this.onRotateUp.bind(this))
-
-    e.preventDefault()
-    e.stopPropagation()
-  }
-
-  onRotateMove(e) {
-    if (!this.isRotating || !this.selectedItem) return
-
-    const angle = Math.atan2(
-      e.clientY - this.rotateCenter.y,
-      e.clientX - this.rotateCenter.x
-    ) * 180 / Math.PI
-
-    // Offset by 90 degrees since handle is at top
-    this.selectedItem.rotationValue = angle + 90
-
-    this.updateOverlayPosition()
-    this.canvaController.scheduleRedraw()
-  }
-
-  onRotateUp() {
-    this.isRotating = false
-    document.removeEventListener("pointermove", this.boundOnRotateMove)
-    document.removeEventListener("pointerup", this.boundOnRotateUp)
-    this.canvaController.redrawAll() // Final redraw
-    this.persistChanges()
   }
 
   // --- Utilities ---
@@ -566,20 +608,10 @@ export default class extends Controller {
     if (!canvas) return { x: 0, y: 0 }
 
     const rect = canvas.getBoundingClientRect()
-
-    // Convert screen coordinates to canvas coordinates
     return {
       x: (e.clientX - rect.left) / rect.width * this.canvasWidth,
       y: (e.clientY - rect.top) / rect.height * this.canvasHeight
     }
-  }
-
-  get canvasWidth() {
-    return this.canvaController.originalWidth
-  }
-
-  get canvasHeight() {
-    return this.canvaController.originalHeight
   }
 
   // --- Persistence ---
@@ -596,19 +628,16 @@ export default class extends Controller {
         presence: item.presenceValue,
         hidden: item.hiddenValue
       }
-      // Include font_size for text items
       if (item.fontSizeValue !== undefined) {
         data.font_size = item.fontSizeValue
       }
       elements[item.nameValue] = data
     })
 
-    // Update hidden field if present
     if (this.hasElementsFieldTarget) {
       this.elementsFieldTarget.value = JSON.stringify(elements)
     }
 
-    // Dispatch event so other canvases (like PDF preview) can sync
     this.dispatch("changed", { detail: { elements } })
   }
 }

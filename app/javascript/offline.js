@@ -69,3 +69,12 @@ application.register("password-visibility", PasswordVisibility)
 // --- Editor controllers ---
 import EditorController from "./controllers/editor/editor_controller"
 application.register("editor", EditorController)
+
+import EditorOverlayController from "./controllers/editor/overlay_controller"
+application.register("editor--overlay", EditorOverlayController)
+
+import EditorResizeController from "./controllers/editor/resize_controller"
+application.register("editor--resize", EditorResizeController)
+
+import EditorRotateController from "./controllers/editor/rotate_controller"
+application.register("editor--rotate", EditorRotateController)
