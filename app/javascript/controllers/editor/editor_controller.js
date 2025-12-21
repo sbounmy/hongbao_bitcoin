@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 // Mobile: tap to select, drag to move, pinch to resize/rotate
 // Desktop: hover shows border, click to select (shows handles), edit button opens drawer
 export default class extends Controller {
-  static targets = ["canvas", "elementsField", "hoverOverlay", "selectionOverlay"]
+  static targets = ["canvas", "elementsField", "hoverOverlay", "hoverLabel", "selectionOverlay", "selectionLabel"]
   static values = {
     enabled: { type: Boolean, default: true }
   }
@@ -544,6 +544,11 @@ export default class extends Controller {
 
     this.hoverOverlayTarget.classList.remove("hidden")
     this.updateOverlayPosition(this.hoverOverlayTarget, item)
+
+    // Set label
+    if (this.hasHoverLabelTarget) {
+      this.hoverLabelTarget.textContent = this.getLabelForItem(item)
+    }
   }
 
   hideHoverOverlay() {
@@ -573,6 +578,11 @@ export default class extends Controller {
 
   showSelectionOverlay(item) {
     this.overlayController?.show(item, this.canvasInfo)
+
+    // Set label
+    if (this.hasSelectionLabelTarget) {
+      this.selectionLabelTarget.textContent = this.getLabelForItem(item)
+    }
   }
 
   hideSelectionOverlay() {
@@ -604,6 +614,16 @@ export default class extends Controller {
   }
 
   // --- Utilities ---
+
+  getLabelForItem(item) {
+    if (!item) return ""
+    // Humanize camelCase: "privateKeyQrcode" -> "Private Key Qrcode"
+    const name = item.nameValue
+    return name
+      .replace(/([A-Z])/g, ' $1')  // Add space before capitals
+      .replace(/^./, s => s.toUpperCase())  // Capitalize first letter
+      .trim()
+  }
 
   canvasPoint(e) {
     const canvas = this.canvasElement

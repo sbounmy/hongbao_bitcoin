@@ -36,6 +36,9 @@
     <%# Hover overlay - shows subtle border when hovering (desktop only) %>
     <div data-editor-target="hoverOverlay"
          class="hidden absolute pointer-events-none border-2 border-dashed border-primary/50 rounded-sm">
+      <%# Label %>
+      <span data-editor-target="hoverLabel"
+            class="absolute -top-6 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-primary/80 text-primary-content text-xs font-medium rounded whitespace-nowrap"></span>
     </div>
 
     <%# Selection overlay - shows border and handles when item is selected (desktop only) %>
@@ -43,6 +46,10 @@
          data-editor-target="selectionOverlay"
          class="hidden md:block absolute pointer-events-none rounded-sm"
          style="box-shadow: 0 0 0 2px hsl(var(--p)), 0 0 0 4px rgba(255,255,255,0.8);">
+
+      <%# Label %>
+      <span data-editor-target="selectionLabel"
+            class="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-primary text-primary-content text-xs font-medium rounded whitespace-nowrap shadow-md"></span>
 
       <%# Resize handles %>
       <div data-controller="editor--resize"
