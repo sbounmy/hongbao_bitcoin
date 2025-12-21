@@ -84,9 +84,11 @@ export default class extends Controller {
     this.boundOnPointerDown = this.onPointerDown.bind(this)
     this.boundOnPointerMove = this.onPointerMove.bind(this)
     this.boundOnPointerUp = this.onPointerUp.bind(this)
+    this.boundOnDocumentClick = this.onDocumentClick.bind(this)
     this.canvasElement.addEventListener("pointerdown", this.boundOnPointerDown)
     document.addEventListener("pointermove", this.boundOnPointerMove)
     document.addEventListener("pointerup", this.boundOnPointerUp)
+    document.addEventListener("pointerdown", this.boundOnDocumentClick)
 
     // Touch events (pinch/rotate)
     this.boundOnTouchStart = this.onTouchStart.bind(this)
@@ -107,12 +109,14 @@ export default class extends Controller {
       this.canvasElement.addEventListener("pointermove", this.boundOnHoverMove)
       this.canvasElement.addEventListener("pointerleave", this.boundOnHoverLeave)
     }
+
   }
 
   removeEvents() {
     this.canvasElement?.removeEventListener("pointerdown", this.boundOnPointerDown)
     document.removeEventListener("pointermove", this.boundOnPointerMove)
     document.removeEventListener("pointerup", this.boundOnPointerUp)
+    document.removeEventListener("pointerdown", this.boundOnDocumentClick)
 
     this.canvasElement?.removeEventListener("touchstart", this.boundOnTouchStart)
     this.canvasElement?.removeEventListener("touchmove", this.boundOnTouchMove)
@@ -215,6 +219,17 @@ export default class extends Controller {
       itemY: item.yValue
     }
     e.preventDefault()
+  }
+
+  // Handle clicks outside the editor area to deselect
+  onDocumentClick(e) {
+    if (!this.selectedItem) return
+
+    // Check if click is inside the editor element (canvas + overlays)
+    if (this.element.contains(e.target)) return
+
+    // Click was outside - deselect
+    this.deselectAll()
   }
 
   // --- Hover Events (Desktop - Figma/Canva style) ---
@@ -440,7 +455,7 @@ export default class extends Controller {
     }
   }
 
-  resizeEnd(e) {
+  resizeEnd() {
     this.isResizing = false
     this.canvaController.redrawAll()
 

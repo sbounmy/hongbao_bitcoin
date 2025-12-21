@@ -19,13 +19,13 @@
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
                 <%# Back - uses template image directly (no portrait) %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
-                  <%= render 'hong_baos/new/steps/paper_canva',
-                          class_name: "",
+                  <%= render 'papers/new2/paper_canva',
                           frame: frame,
                           paper: paper,
                           strict: true,
                           elements: paper.back_elements,
-                          image_base64: template_back_base64
+                          image_base64: template_back_base64,
+                          side: "back"
                   %>
                 </div>
 
@@ -36,13 +36,13 @@
                 <%# Front - uses template image with portrait compositing %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
                   <%= render 'papers/new2/paper_canva',
-                          class_name: "",
                           frame: frame,
                           paper: paper,
                           strict: true,
                           elements: paper.front_elements,
                           image_base64: template_front_base64,
-                          portrait_config: portrait_config
+                          portrait_config: portrait_config,
+                          side: "front"
                   %>
                 </div>
             <% end %>
