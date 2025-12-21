@@ -63,6 +63,9 @@ application.register("qr-code", QrCodeController)
 import KeysInputController from "./controllers/offline/keys_input_controller"
 application.register("keys-input", KeysInputController)
 
+import ThemeSelectController from "./controllers/offline/theme_select_controller"
+application.register("theme-select", ThemeSelectController)
+
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
 

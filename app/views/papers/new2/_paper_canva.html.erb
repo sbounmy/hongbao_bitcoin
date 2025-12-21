@@ -21,7 +21,7 @@
        data-canva-width-value="<%= dimensions[:width] %>"
        data-canva-height-value="<%= dimensions[:height] %>"
        data-canva-strict-value="<%= strict %>"
-       data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged<%= ' editor:changed@window->canva#handleElementsChanged' unless editor_enabled %>"
+       data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged<%= ' editor:changed@window->canva#handleElementsChanged' unless editor_enabled %> theme:<%= side %>Changed@window->canva#backgroundImageChanged"
        class="w-full h-full">
     <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
     <canvas data-canva-target="container"

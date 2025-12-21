@@ -123,7 +123,7 @@ Rails.application.routes.draw do
   get "/dashboard", to: "papers#index"
   get "/bitcoin-companies", to: "pages#business"
 
-  resources :themes, only: [ :new ]
+  resources :themes, only: [ :new, :index ]
 
   resource :getting_started, only: [ :show, :create ], controller: "getting_started"
 

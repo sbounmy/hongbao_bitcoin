@@ -126,9 +126,27 @@ export default class extends Controller {
 
   backgroundImageChanged(event) {
     this.backgroundImageTarget.src = event.detail.url
-    this.clearCanvaItems()
-    this.createCanvaItems(event.detail.elements)
+
+    // Update existing items' positions instead of recreating them
+    // This preserves drawer connections and other server-rendered attributes
+    if (event.detail.elements) {
+      this.updateCanvaItemPositions(event.detail.elements)
+    }
+
     this.loadBackgroundImage()
+  }
+
+  // Update existing canva items with new positions from theme
+  updateCanvaItemPositions(elements) {
+    this.canvaItemTargets.forEach(item => {
+      const controller = this.getItemController(item)
+      if (controller) {
+        const itemName = controller.nameValue
+        if (elements[itemName]) {
+          controller.updateFromElements(elements[itemName])
+        }
+      }
+    })
   }
 
   clearCanvaItems() {
