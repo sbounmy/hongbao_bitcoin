@@ -297,7 +297,8 @@ export default class extends Controller {
 
     const isTextItem = this.pinchStart.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
     if (isTextItem) {
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * scale)
+      const fontScale = 1 + (scale - 1) * 2  // 2x more responsive
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * fontScale)
       this.selectedItem.widthValue = newWidth
     } else {
       this.selectedItem.updateSize(newWidth, newHeight)
@@ -418,7 +419,8 @@ export default class extends Controller {
     const isTextItem = this.resizeData.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
     if (isTextItem) {
       const scale = newWidth / this.resizeData.width
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * scale)
+      const fontScale = 1 + (scale - 1) * 2  // 2x more responsive
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * fontScale)
       this.selectedItem.widthValue = newWidth
     } else {
       this.selectedItem.updateSize(newWidth, newHeight)
