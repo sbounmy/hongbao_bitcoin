@@ -76,7 +76,7 @@ class Paper < ApplicationRecord
   end
 
   def front_elements
-    elements.slice("public_address_qrcode", "public_address_text")
+    elements.slice("portrait", "public_address_qrcode", "public_address_text")
   end
 
   def back_elements

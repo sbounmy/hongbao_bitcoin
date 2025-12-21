@@ -13,7 +13,8 @@ export default class extends Controller {
     // Editor support
     selected: { type: Boolean, default: false },
     presence: { type: Boolean, default: true },  // true = required item, cannot delete
-    rotation: { type: Number, default: 0 }
+    rotation: { type: Number, default: 0 },
+    drawer: String  // ID of drawer to open on click
   }
 
   connect() {
@@ -123,5 +124,12 @@ export default class extends Controller {
   updateSize(width, height) {
     this.widthValue = width
     this.heightValue = height
+  }
+
+  // Called when item is clicked (not dragged)
+  openDrawer() {
+    if (this.drawerValue) {
+      document.getElementById(this.drawerValue)?.showModal()
+    }
   }
 }

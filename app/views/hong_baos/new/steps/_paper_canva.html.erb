@@ -15,6 +15,6 @@
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
 
   <% elements.each do |name, item| %>
-    <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
+    <%= render Canva::ItemComponent.for(name:, item:) %>
   <% end %>
 </div>

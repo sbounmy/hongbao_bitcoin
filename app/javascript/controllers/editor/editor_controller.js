@@ -127,6 +127,9 @@ export default class extends Controller {
             controller: this.clickStart.item
           }
         })
+
+        // Let the item handle opening its drawer
+        this.clickStart.item.openDrawer()
       }
     }
 

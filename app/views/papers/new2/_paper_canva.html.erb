@@ -8,7 +8,6 @@
   frame = local_assigns[:frame] || Frame.new
   dimensions = frame.canvas_dimensions
   strict = local_assigns[:strict] || false
-  portrait_config = local_assigns[:portrait_config] || {}
   editor_enabled = local_assigns.fetch(:editor_enabled, false)
 %>
 <div <% if editor_enabled %>
@@ -28,24 +27,8 @@
             data-editor-target="canvas"
             class="w-full h-full"></canvas>
 
-    <%# Portrait canva item - handles direct selection and AI generation %>
-    <% if portrait_config['x'].present? && portrait_config['x'].to_i > 0 %>
-      <div data-controller="portrait-item"
-           data-canva-target="canvaItem"
-           data-portrait-item-x-value="<%= portrait_config['x'] %>"
-           data-portrait-item-y-value="<%= portrait_config['y'] %>"
-           data-portrait-item-width-value="<%= portrait_config['width'] %>"
-           data-portrait-item-height-value="<%= portrait_config['height'] %>"
-           data-portrait-item-presence-value="true"
-           data-portrait-item-name-value="portrait"
-           data-portrait-item-placeholder-value="<%= asset_path('portrait-placeholder.svg') %>"
-           data-action="preview:selected@window->portrait-item#handleSelected portrait:loading@window->portrait-item#handleLoading portrait:changed@window->portrait-item#handleChanged"
-           class="hidden canva-item">
-      </div>
-    <% end %>
-
     <% elements.each do |name, item| %>
-      <%= render 'hong_baos/new/steps/design/canva_item', name:, item: %>
+      <%= render Canva::ItemComponent.for(name:, item:) %>
     <% end %>
   </div>
 

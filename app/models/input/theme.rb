@@ -100,7 +100,8 @@ class Input::Theme < Input
         "width" => 17,
         "height" => 17,
         "color" => "224, 120, 1",
-        "opacity" => 1.0
+        "opacity" => 1.0,
+        "type" => "qrcode"
       },
       "private_key_text" => {
         "x" => 15,
@@ -109,7 +110,8 @@ class Input::Theme < Input
         "height" => 10,
         "size" => 1.8,
         "color" => "224, 120, 1",
-        "opacity" => 1.0
+        "opacity" => 1.0,
+        "type" => "text"
       },
       "public_address_qrcode" => {
         "x" => 55,
@@ -118,7 +120,8 @@ class Input::Theme < Input
         "height" => 25,
         "color" => "224, 120, 1",
         "opacity" => 1.0,
-        "hidden" => true
+        "hidden" => true,
+        "type" => "qrcode"
       },
       "public_address_text" => {
         "x" => 55,
@@ -127,7 +130,8 @@ class Input::Theme < Input
         "height" => 10,
         "size" => 1.8,
         "color" => "0, 0, 0",
-        "opacity" => 1.0
+        "opacity" => 1.0,
+        "type" => "text"
       },
       "mnemonic_text" => {
         "x" => 20,
@@ -136,7 +140,8 @@ class Input::Theme < Input
         "height" => 15,
         "size" => 1.6,
         "color" => "0, 0, 0",
-        "opacity" => 1.0
+        "opacity" => 1.0,
+        "type" => "mnemonic"
       },
       "portrait" => {
         "x" => 34,              # percentage from left
@@ -145,7 +150,8 @@ class Input::Theme < Input
         "height" => 23,         # percentage of template height
         "color" => "",          # Tone color (hex) - empty means no tint
         "opacity" => 0.25,      # Tone opacity (0.0 - 1.0)
-        "resolution" => "1024x1024"  # AI generation size: 1024x1024, 1536x1024, 1024x1536
+        "resolution" => "1024x1024",  # AI generation size: 1024x1024, 1536x1024, 1024x1536
+        "type" => "portrait"
       }
     }
   end
