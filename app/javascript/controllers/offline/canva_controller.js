@@ -7,7 +7,8 @@ export default class extends Controller {
   static values = {
     width: Number,   // Canvas width in pixels
     height: Number,  // Canvas height in pixels
-    strict: Boolean  // Strict mode: use exact frame dimensions (for PDF)
+    strict: Boolean, // Strict mode: use exact frame dimensions (for PDF)
+    side: String     // Which side: "front" or "back"
   }
 
   connect() {
@@ -18,6 +19,8 @@ export default class extends Controller {
         this.isInitialized = true
         this.resizeObserver.disconnect()
         this.initializeCanvas()
+        // Sync from layout JSON to get custom text items (may have been created before this canvas was visible)
+        this.syncFromLayoutJson()
         this.loadBackgroundImage()
       }
     })
@@ -28,27 +31,149 @@ export default class extends Controller {
     this.resizeObserver?.disconnect()
   }
 
-  // Handle position updates from editor (syncs PDF preview with editor canvas)
-  handleElementsChanged(event) {
-    const { elements } = event.detail
-    if (!elements) return
+  // Handle wallet changes - sync wallet data from JSON and redraw
+  // JSON is the source of truth (written by bitcoin_controller)
+  handleWalletChanged() {
+    if (!this.isInitialized) return
 
-    let anyChanged = false
+    this.syncFromWalletJson()
+    this.redrawAll()
+  }
+
+  // Handle layout/element changes - sync positions and custom items from JSON
+  // JSON is the source of truth (written by editor_controller)
+  async handleElementsChanged(event) {
+    const { side } = event.detail || {}
+
+    // Only sync if this canvas matches the side (front or back)
+    if (side && this.sideValue && side !== this.sideValue) {
+      return
+    }
+
+    if (!this.isInitialized) return
+
+    await this.syncFromLayoutJson()
+    this.redrawAll()
+  }
+
+  // Read layout JSON (positions, custom text) and sync items
+  async syncFromLayoutJson() {
+    const field = document.querySelector(`input[name="${this.sideValue}_elements"]`)
+    if (!field?.value) return
+
+    try {
+      const elements = JSON.parse(field.value)
+      await this.syncItemsWithElements(elements)
+    } catch {
+      // Ignore parse errors
+    }
+  }
+
+  // Read wallet JSON (text values, QR codes) and sync items
+  syncFromWalletJson() {
+    const field = document.querySelector(`input[name="${this.sideValue}_wallet"]`)
+    if (!field?.value) return
+
+    try {
+      const wallet = JSON.parse(field.value)
+
+      console.log('wallet:', wallet)
+      // Update wallet-related items from JSON
+      this.canvaItemTargets.forEach(item => {
+        const controller = this.getItemController(item)
+        console.log('controller', controller)
+        console.log('item', item)
+        if (!controller) return
+
+        const name = controller.nameValue
+        console.log('name:', name)
+        console.log('wallet: ', wallet)
+        // For text items (mnemonicText, privateKeyText, publicAddressText)
+        if (wallet[name] !== undefined && controller.textValue !== undefined) {
+          controller.textValue = wallet[name]
+        }
+
+        // For QR code items (publicAddressQrcode, privateKeyQrcode)
+        if (wallet[name] !== undefined && controller.syncFromWallet) {
+          controller.syncFromWallet(wallet)
+        }
+      })
+    } catch {
+      // Ignore parse errors
+    }
+  }
+
+  // Sync canvas items to match elements data (single source of truth pattern)
+  // Handles CREATE, UPDATE, and DELETE in one pass
+  syncItemsWithElements(elements) {
+    const existingNames = new Set()
+    let createdNew = false
+
+    // Update or remove existing items
     this.canvaItemTargets.forEach(item => {
       const controller = this.getItemController(item)
       if (controller) {
-        const itemName = controller.nameValue
-        if (elements[itemName]) {
-          const changed = controller.updateFromElements(elements[itemName])
-          if (changed) anyChanged = true
+        const name = controller.nameValue
+        existingNames.add(name)
+
+        if (elements[name]) {
+          // Update existing item
+          controller.updateFromElements(elements[name])
+        } else {
+          // Item was deleted - remove from DOM
+          item.remove()
         }
       }
     })
 
-    // Only redraw once if any items changed
-    if (anyChanged) {
-      this.redrawAll()
+    // Create new items (not in existing)
+    Object.entries(elements).forEach(([name, data]) => {
+      if (!existingNames.has(name)) {
+        this.createItemFromData(name, data)
+        createdNew = true
+      }
+    })
+
+    // If we created new items, wait for Stimulus to connect
+    // Caller is responsible for calling redrawAll()
+    if (createdNew) {
+      return new Promise(resolve => requestAnimationFrame(resolve))
     }
+  }
+
+  // Create a canvas item from element data
+  createItemFromData(name, data) {
+    const element = document.createElement('div')
+    element.classList.add('canva-item')
+    element.dataset.canvaTarget = 'canvaItem'
+
+    // Determine type from data or name pattern
+    const isQrCode = name.endsWith('Qrcode') || name.endsWith('_qrcode')
+
+    if (isQrCode) {
+      element.dataset.controller = 'image-item'
+      element.dataset.imageItemXValue = data.x
+      element.dataset.imageItemYValue = data.y
+      element.dataset.imageItemWidthValue = data.width
+      element.dataset.imageItemHeightValue = data.height
+      element.dataset.imageItemNameValue = name
+    } else {
+      // Text item (default)
+      element.dataset.controller = 'text-item'
+      element.dataset.textItemXValue = data.x
+      element.dataset.textItemYValue = data.y
+      element.dataset.textItemWidthValue = data.width
+      element.dataset.textItemHeightValue = data.height
+      element.dataset.textItemNameValue = name
+      element.dataset.textItemTextValue = data.text || ''
+      element.dataset.textItemFontSizeValue = data.font_size || 3
+      element.dataset.textItemFontColorValue = data.font_color || '#000000'
+      element.dataset.textItemPresenceValue = data.presence ?? false
+      element.dataset.textItemTypeValue = data.type || 'text'
+    }
+
+    // Insert into DOM
+    this.containerTarget.after(element)
   }
 
   initializeCanvas() {
@@ -282,16 +407,6 @@ export default class extends Controller {
     this.clear()
     this.canvaItemTargets.forEach(item => {
       this.getItemController(item)?.draw()
-    })
-  }
-
-  // Redraw the canvas with changing data from wallet generation
-  redraw(event) {
-    if (!this.isInitialized) return
-
-    this.clear()
-    this.canvaItemTargets.forEach(item => {
-      this.getItemController(item)?.redraw(event)
     })
   }
 }

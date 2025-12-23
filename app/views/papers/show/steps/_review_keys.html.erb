@@ -33,7 +33,7 @@
               data-clipboard-target="source"
               data-keys-input-target="input"
               data-controller="binding textarea-autogrow"
-              data-binding-name-value="mnemonicText"
+              data-binding-name-value="mnemonic_text"
               data-action="bitcoin:changed@window->binding#value input->bitcoin#mnemonicChanged input->keys-input#cacheInput binding:changed->textarea-autogrow#autogrow"></textarea>
     <div class="flex flex-col gap-1 shrink-0">
       <button type="button"
@@ -59,7 +59,7 @@
            data-clipboard-target="source"
            data-keys-input-target="input"
            data-controller="binding"
-           data-binding-name-value="privateKeyText"
+           data-binding-name-value="private_key_text"
            data-action="bitcoin:changed@window->binding#value input->bitcoin#privateKeyChanged input->keys-input#cacheInput" />
     <button type="button" data-action="clipboard#copy" class="text-warning shrink-0 p-1 hover:text-warning/70 transition-colors">
       <%= heroicon "clipboard", class: "w-4 h-4" %>
@@ -77,7 +77,7 @@
            data-clipboard-target="source"
            data-keys-input-target="input"
            data-controller="binding"
-           data-binding-name-value="publicAddressText"
+           data-binding-name-value="public_address_text"
            data-action="bitcoin:changed@window->binding#value input->bitcoin#publicAddressChanged input->keys-input#cacheInput" />
     <button type="button" data-action="clipboard#copy" class="text-warning shrink-0 p-1 hover:text-warning/70 transition-colors">
       <%= heroicon "clipboard", class: "w-4 h-4" %>

@@ -50,9 +50,17 @@ export default class extends Controller {
       this.rotationValue = elementData.rotation
       changed = true
     }
-    // For text items, also update font_size
+    // For text items, also update font_size, font_color, and text
     if (elementData.font_size !== undefined && this.fontSizeValue !== undefined && elementData.font_size !== this.fontSizeValue) {
       this.fontSizeValue = elementData.font_size
+      changed = true
+    }
+    if (elementData.font_color !== undefined && this.fontColorValue !== undefined && elementData.font_color !== this.fontColorValue) {
+      this.fontColorValue = elementData.font_color
+      changed = true
+    }
+    if (elementData.text !== undefined && this.textValue !== undefined && elementData.text !== this.textValue) {
+      this.textValue = elementData.text
       changed = true
     }
     return changed

@@ -25,14 +25,20 @@ export default class extends CanvaItemController {
     this.ctx.drawImage(this.image, x, y + height - size, size, size)
   }
 
-  async redraw({ detail }) {
-    const src = await detail[this.nameValue]()
-    if (!src) return
+  // Sync QR code from wallet JSON (source of truth)
+  // Called by canva_controller.syncFromWalletJson()
+  syncFromWallet(wallet) {
+    console.log(wallet)
+    console.log('nameValue:',this.nameValue)
+    const qrData = wallet[this.nameValue]
+    if (!qrData) return
 
     const qrImage = new Image()
-    qrImage.src = src
+    qrImage.src = qrData  // base64 string from wallet JSON
     qrImage.onload = () => {
       this.image = qrImage
+      // Draw immediately when image loads (async)
+      // redrawAll() may have already been called by the time this fires
       this.draw()
     }
   }

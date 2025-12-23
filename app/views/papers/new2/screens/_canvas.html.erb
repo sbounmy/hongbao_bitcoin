@@ -123,4 +123,22 @@
       </button>
     </div>
   </div>
+
+  <%# Global Text Edit Drawer - Used by all text items %>
+  <dialog id="text-edit-drawer" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-lg">Edit Text</h3>
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost">
+            <%= heroicon "x-mark", class: "w-5 h-5" %>
+          </button>
+        </form>
+      </div>
+      <%= render "papers/new2/drawers/text_edit" %>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 </div>

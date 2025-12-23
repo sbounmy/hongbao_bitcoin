@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["iframe"]
 
   update(event) {
-    if (!event.detail.wallet.mtPelerin) return
+    // Guard against new wallet data structure that doesn't include wallet object
+    if (!event.detail.wallet?.mtPelerin) return
 
     const wallet = event.detail.wallet
     const address = event.detail.publicAddressText

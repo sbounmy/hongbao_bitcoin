@@ -55,9 +55,9 @@
             data: {
               controller: "binding",
               action: "bitcoin:changed@window->binding#attribute",
-              binding_name_value: "publicAddressText",
+              binding_name_value: "public_address_text",
               binding_attribute_value: "href",
-              binding_template_value: "https://mempool.space/address/{publicAddressText}"
+              binding_template_value: "https://mempool.space/address/{public_address_text}"
             } do %>
         <div class="flex items-center gap-3">
           <%= heroicon "arrow-top-right-on-square", variant: :outline, class: "w-5 h-5 text-base-content/70" %>
@@ -73,9 +73,9 @@
             data: {
               controller: "binding",
               action: "bitcoin:changed@window->binding#attribute",
-              binding_name_value: "publicAddressText",
+              binding_name_value: "public_address_text",
               binding_attribute_value: "href",
-              binding_template_value: "#{new_saved_hong_bao_path}?address={publicAddressText}"
+              binding_template_value: "#{new_saved_hong_bao_path}?address={public_address_text}"
             } do %>
         <div class="flex items-center gap-3">
           <%= heroicon "bookmark", variant: :outline, class: "w-5 h-5 text-base-content/70" %>

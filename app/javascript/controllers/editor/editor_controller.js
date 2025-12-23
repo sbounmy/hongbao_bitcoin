@@ -7,7 +7,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["canvas", "elementsField", "hoverOverlay", "hoverLabel", "selectionOverlay", "selectionLabel"]
   static values = {
-    enabled: { type: Boolean, default: true }
+    enabled: { type: Boolean, default: true },
+    active: { type: Boolean, default: false }
   }
 
   connect() {
@@ -30,6 +31,15 @@ export default class extends Controller {
 
   disconnect() {
     this.removeEvents()
+  }
+
+  // Mark this editor as active (for adding new items)
+  markActive() {
+    // Deactivate all other editors first
+    document.querySelectorAll('[data-controller~="editor"]').forEach(el => {
+      el.dataset.editorActiveValue = 'false'
+    })
+    this.activeValue = true
   }
 
   // --- Setup ---
@@ -85,10 +95,12 @@ export default class extends Controller {
     this.boundOnPointerMove = this.onPointerMove.bind(this)
     this.boundOnPointerUp = this.onPointerUp.bind(this)
     this.boundOnDocumentClick = this.onDocumentClick.bind(this)
+    this.boundOnDblClick = this.onDblClick.bind(this)
     this.canvasElement.addEventListener("pointerdown", this.boundOnPointerDown)
     document.addEventListener("pointermove", this.boundOnPointerMove)
     document.addEventListener("pointerup", this.boundOnPointerUp)
     document.addEventListener("pointerdown", this.boundOnDocumentClick)
+    this.canvasElement.addEventListener("dblclick", this.boundOnDblClick)
 
     // Touch events (pinch/rotate)
     this.boundOnTouchStart = this.onTouchStart.bind(this)
@@ -117,6 +129,7 @@ export default class extends Controller {
     document.removeEventListener("pointermove", this.boundOnPointerMove)
     document.removeEventListener("pointerup", this.boundOnPointerUp)
     document.removeEventListener("pointerdown", this.boundOnDocumentClick)
+    this.canvasElement?.removeEventListener("dblclick", this.boundOnDblClick)
 
     this.canvasElement?.removeEventListener("touchstart", this.boundOnTouchStart)
     this.canvasElement?.removeEventListener("touchmove", this.boundOnTouchMove)
@@ -132,6 +145,9 @@ export default class extends Controller {
 
   onPointerDown(e) {
     if (e.pointerType === "touch" && e.isPrimary === false) return
+
+    // Mark this editor as active for adding new items
+    this.markActive()
 
     const point = this.canvasPoint(e)
     const item = this.hitTest(point)
@@ -230,6 +246,17 @@ export default class extends Controller {
 
     // Click was outside - deselect
     this.deselectAll()
+  }
+
+  // Handle double-click to edit item
+  onDblClick(e) {
+    const point = this.canvasPoint(e)
+    const item = this.hitTest(point)
+
+    if (item) {
+      this.selectItem(item)
+      this.editSelected()
+    }
   }
 
   // --- Hover Events (Desktop - Figma/Canva style) ---
@@ -653,7 +680,12 @@ export default class extends Controller {
 
   // --- Persistence ---
 
-  persistChanges() {
+  // Names of wallet items (text comes from wallet JSON, not layout)
+  static walletTextItems = ['mnemonicText', 'privateKeyText', 'publicAddressText']
+
+  // Collect current element data for layout JSON
+  // Excludes wallet text (those come from wallet JSON for security)
+  getElementsData() {
     const elements = {}
     this.getItemControllers().forEach(item => {
       const data = {
@@ -668,13 +700,42 @@ export default class extends Controller {
       if (item.fontSizeValue !== undefined) {
         data.font_size = item.fontSizeValue
       }
+      if (item.fontColorValue !== undefined) {
+        data.font_color = item.fontColorValue
+      }
+      // Only include text for non-wallet items (custom text, etc.)
+      // Wallet text (mnemonic, privateKey, publicAddress) comes from wallet JSON
+      if (item.textValue !== undefined && !this.constructor.walletTextItems.includes(item.nameValue)) {
+        data.text = item.textValue
+      }
       elements[item.nameValue] = data
     })
+    return elements
+  }
+
+  // Persist to hidden field only (no event dispatch)
+  // Use this for text/color changes that shouldn't sync to other canvases
+  persistLocal() {
+    const elements = this.getElementsData()
+    if (this.hasElementsFieldTarget) {
+      this.elementsFieldTarget.value = JSON.stringify(elements)
+    }
+  }
+
+  // Persist and dispatch event (for position/size changes that should sync to PDF preview)
+  persistChanges() {
+    const elements = this.getElementsData()
 
     if (this.hasElementsFieldTarget) {
       this.elementsFieldTarget.value = JSON.stringify(elements)
     }
 
-    this.dispatch("changed", { detail: { elements } })
+    // Determine which side from hidden field name (e.g., "front_elements" -> "front")
+    const side = this.hasElementsFieldTarget
+      ? this.elementsFieldTarget.name?.replace('_elements', '') || 'front'
+      : 'front'
+
+    // Dispatch event on window so all @window listeners can receive it
+    this.dispatch("changed", { detail: { elements, side } })
   }
 }

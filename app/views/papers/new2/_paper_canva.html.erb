@@ -21,7 +21,8 @@
        data-canva-width-value="<%= dimensions[:width] %>"
        data-canva-height-value="<%= dimensions[:height] %>"
        data-canva-strict-value="<%= strict %>"
-       data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged<%= ' editor:changed@window->canva#handleElementsChanged' unless editor_enabled %> theme:<%= side %>Changed@window->canva#backgroundImageChanged"
+       data-canva-side-value="<%= side %>"
+       data-action="bitcoin:changed@window->canva#handleWalletChanged editor:changed@window->canva#handleElementsChanged canva:imageLoaded->bitcoin#dispatchWalletChanged theme:<%= side %>Changed@window->canva#backgroundImageChanged"
        class="w-full h-full">
     <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
     <canvas data-canva-target="container"
@@ -99,7 +100,10 @@
       </div>
     </div>
 
-    <%# Hidden field for persisting element positions %>
+    <%# Hidden field for persisting element positions (safe to submit to server) %>
     <%= hidden_field_tag "#{side}_elements", elements.to_json, data: { editor_target: "elementsField" } %>
+
+    <%# Hidden field for wallet data (NEVER submitted - disabled prevents form submission) %>
+    <%= hidden_field_tag "#{side}_wallet", {}.to_json, data: { canva_target: "walletField" }, disabled: true %>
   <% end %>
 </div>

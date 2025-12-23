@@ -13,6 +13,25 @@ export default class extends CanvaItemController {
   // Minimum font size (%) below which text is forced to single line
   static SINGLE_LINE_THRESHOLD = 1.5
 
+  // Override openDrawer to use global text-edit-drawer
+  openDrawer() {
+    // If item has a specific drawer, use parent behavior
+    if (this.drawerValue) {
+      super.openDrawer()
+      return
+    }
+
+    // Use global text edit drawer
+    const drawer = document.getElementById("text-edit-drawer")
+    if (drawer) {
+      // Dispatch event so text-edit controller can bind to this item
+      document.dispatchEvent(new CustomEvent("text-edit:open", {
+        detail: { itemController: this }
+      }))
+      drawer.showModal()
+    }
+  }
+
   draw() {
     if (!this.ctx || this.hiddenValue) return
 

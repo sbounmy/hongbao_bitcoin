@@ -11,9 +11,16 @@
     <span class="font-semibold text-base-content text-sm">Create Hong₿ao</span>
   </div>
 
-  <%# Offline indicator %>
-  <div class="flex items-center gap-1 text-base-content/50">
-    <div class="w-2 h-2 rounded-full bg-success"></div>
-    <span class="text-xs font-mono hidden sm:inline">OFFLINE</span>
-  </div>
+  <%# Add Element Button %>
+  <%= render BottomSheetComponent.new(id: "new-item-drawer") do |sheet| %>
+    <% sheet.with_trigger do %>
+      <button type="button" class="btn btn-ghost btn-sm btn-square">
+        <%= heroicon "plus", variant: :mini, class: "w-5 h-5" %>
+      </button>
+    <% end %>
+    <% sheet.with_footer(title: "Add Element") %>
+    <div class="p-4">
+      <%= render "papers/new2/drawers/new_item" %>
+    </div>
+  <% end %>
 </div>

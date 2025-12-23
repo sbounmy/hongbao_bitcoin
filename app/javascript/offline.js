@@ -66,6 +66,9 @@ application.register("keys-input", KeysInputController)
 import ThemeSelectController from "./controllers/offline/theme_select_controller"
 application.register("theme-select", ThemeSelectController)
 
+import NewCanvaItemController from "./controllers/offline/new_canva_item_controller"
+application.register("new-canva-item", NewCanvaItemController)
+
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
 
@@ -81,3 +84,6 @@ application.register("editor--resize", EditorResizeController)
 
 import EditorRotateController from "./controllers/editor/rotate_controller"
 application.register("editor--rotate", EditorRotateController)
+
+import TextEditController from "./controllers/text_edit_controller"
+application.register("text-edit", TextEditController)
