@@ -339,8 +339,8 @@ export default class extends Controller {
 
     const isTextItem = this.pinchStart.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
     if (isTextItem) {
-      const fontScale = 1 + (scale - 1) * 2  // 2x more responsive
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * fontScale)
+      // Scale font and width proportionally so text maintains same line breaks
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * scale)
       this.selectedItem.widthValue = newWidth
     } else {
       this.selectedItem.updateSize(newWidth, newHeight)
@@ -433,7 +433,11 @@ export default class extends Controller {
     let { width, height, itemX, itemY } = this.resizeData
     let newWidth = width, newHeight = height, newX = itemX, newY = itemY
 
-    switch (this.resizeData.handle) {
+    const handle = this.resizeData.handle
+    const isCornerHandle = ["se", "sw", "ne", "nw"].includes(handle)
+    const isSideHandle = ["e", "w"].includes(handle)
+
+    switch (handle) {
       case "se":
         newWidth = Math.max(5, width + dx)
         newHeight = Math.max(5, height + dy)
@@ -454,17 +458,30 @@ export default class extends Controller {
         newX = itemX + dx
         newY = itemY + dy
         break
+      case "e":
+        newWidth = Math.max(5, width + dx)
+        break
+      case "w":
+        newWidth = Math.max(5, width - dx)
+        newX = itemX + dx
+        break
     }
 
     this.selectedItem.updatePosition(newX, newY)
 
     const isTextItem = this.resizeData.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
-    if (isTextItem) {
+
+    if (isTextItem && isCornerHandle) {
+      // Corner handles: Scale font size AND width proportionally (text stays on single line)
       const scale = newWidth / this.resizeData.width
-      const fontScale = 1 + (scale - 1) * 2  // 2x more responsive
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * fontScale)
+      // Use same scale for font and width so text maintains same line breaks
+      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * scale)
+      this.selectedItem.widthValue = newWidth
+    } else if (isTextItem && isSideHandle) {
+      // Side handles: Change width only, text wraps (no font size change)
       this.selectedItem.widthValue = newWidth
     } else {
+      // Non-text items: resize normally
       this.selectedItem.updateSize(newWidth, newHeight)
     }
 

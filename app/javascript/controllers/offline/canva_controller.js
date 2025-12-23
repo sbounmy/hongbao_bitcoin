@@ -253,21 +253,17 @@ export default class extends Controller {
   backgroundImageChanged(event) {
     const { themeId, url, elements: themeDefaults } = event.detail
 
-    console.log('[canva] backgroundImageChanged', { themeId, url, themeDefaults, currentThemeId: this.themeIdValue })
-
     // 1. Save current theme's elements to cache (if we have a current theme)
     if (this.themeIdValue && this.hasElementsFieldTarget) {
       try {
         const currentElements = JSON.parse(this.elementsFieldTarget.value)
         this.themeElementsCache.set(this.themeIdValue, currentElements)
-        console.log('[canva] Saved to cache:', this.themeIdValue, currentElements)
       } catch { /* ignore parse errors */ }
     }
 
     // 2. Get elements for new theme (cached positions or theme defaults)
     const cachedElements = this.themeElementsCache.get(String(themeId))
     const newElements = cachedElements || themeDefaults
-    console.log('[canva] New elements:', { cachedElements, themeDefaults, newElements })
 
     // 3. Update current theme ID
     if (themeId) {
@@ -292,7 +288,6 @@ export default class extends Controller {
 
   // Update existing canva items with new positions from theme
   updateCanvaItemPositions(elements) {
-    console.log('[canva] updateCanvaItemPositions', { elementsKeys: Object.keys(elements), elements })
     this.canvaItemTargets.forEach(item => {
       const controller = this.getItemController(item)
       if (controller) {
@@ -300,7 +295,6 @@ export default class extends Controller {
         // Try both camelCase and snake_case lookups for compatibility
         const camelName = this.camelize(itemName)
         const elementData = elements[itemName] || elements[camelName]
-        console.log('[canva] Item:', itemName, 'camelName:', camelName, 'Found:', !!elementData, elementData)
         if (elementData) {
           controller.updateFromElements(elementData)
         }
