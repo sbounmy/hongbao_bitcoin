@@ -10,6 +10,7 @@
   strict = local_assigns[:strict] || false
   editor_enabled = local_assigns.fetch(:editor_enabled, false)
   side = local_assigns[:side] || "front"
+  theme = local_assigns[:theme]
 %>
 <div <% if editor_enabled %>
        data-controller="editor"
@@ -22,6 +23,7 @@
        data-canva-height-value="<%= dimensions[:height] %>"
        data-canva-strict-value="<%= strict %>"
        data-canva-side-value="<%= side %>"
+       data-canva-theme-id-value="<%= theme&.id %>"
        data-action="bitcoin:changed@window->canva#handleWalletChanged editor:changed@window->canva#handleElementsChanged canva:imageLoaded->bitcoin#dispatchWalletChanged theme:<%= side %>Changed@window->canva#backgroundImageChanged"
        class="w-full h-full">
     <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
@@ -101,7 +103,7 @@
     </div>
 
     <%# Hidden field for persisting element positions (safe to submit to server) %>
-    <%= hidden_field_tag "#{side}_elements", elements.to_json, data: { editor_target: "elementsField" } %>
+    <%= hidden_field_tag "#{side}_elements", elements.to_json, data: { editor_target: "elementsField", canva_target: "elementsField" } %>
 
     <%# Hidden field for wallet data (NEVER submitted - disabled prevents form submission) %>
     <%= hidden_field_tag "#{side}_wallet", {}.to_json, data: { canva_target: "walletField" }, disabled: true %>

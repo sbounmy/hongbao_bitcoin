@@ -26,21 +26,24 @@ export default class extends Controller {
     const theme = this.getThemeData(event.target)
     this.currentThemeId = parseInt(theme.id)
     this.applyTheme(theme)
+
+    // Update URL immediately for bookmarking/refresh
+    this.updateUrl(theme.id)
   }
 
-  // Confirm selection - update URL and close
+  // Update URL with theme ID
+  updateUrl(themeId) {
+    const url = new URL(window.location)
+    url.searchParams.set('theme_id', themeId)
+    window.history.replaceState({}, '', url)
+  }
+
+  // Confirm selection - URL already updated on preview
   confirm() {
-    const selectedRadio = this.radioTargets.find(r => r.checked)
-    if (selectedRadio) {
-      const theme = this.getThemeData(selectedRadio)
-      // Update URL for bookmarking/refresh
-      const url = new URL(window.location)
-      url.searchParams.set('theme_id', theme.slug)
-      window.history.replaceState({}, '', url)
-    }
+    // URL is already updated in preview(), nothing else to do
   }
 
-  // Cancel - revert to original theme
+  // Cancel - revert to original theme and URL
   cancel() {
     if (this.originalTheme) {
       // Save current positions before reverting
@@ -48,6 +51,9 @@ export default class extends Controller {
 
       this.currentThemeId = this.originalIdValue
       this.applyTheme(this.originalTheme)
+
+      // Restore original URL
+      this.updateUrl(this.originalTheme.id)
 
       // Re-check original radio
       const originalRadio = this.radioTargets.find(r => parseInt(r.value) === this.originalIdValue)
@@ -124,6 +130,7 @@ export default class extends Controller {
 
     window.dispatchEvent(new CustomEvent(`theme:${side}Changed`, {
       detail: {
+        themeId: parseInt(theme.id),
         url: side === 'front' ? theme.frontUrl : theme.backUrl,
         elements
       }

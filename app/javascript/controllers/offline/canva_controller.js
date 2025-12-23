@@ -3,15 +3,20 @@ import { Controller } from "@hotwired/stimulus"
 // Generic canvas container - manages background and coordinates item drawing
 // Portrait, text, and image items are handled by their own controllers
 export default class extends Controller {
-  static targets = ["container", "canvaItem", "backgroundImage"]
+  static targets = ["container", "canvaItem", "backgroundImage", "elementsField"]
   static values = {
     width: Number,   // Canvas width in pixels
     height: Number,  // Canvas height in pixels
     strict: Boolean, // Strict mode: use exact frame dimensions (for PDF)
-    side: String     // Which side: "front" or "back"
+    side: String,    // Which side: "front" or "back"
+    themeId: String  // Current theme ID for per-theme state caching
   }
 
   connect() {
+    // Per-theme state cache: themeId -> elements JSON
+    // Used to preserve positions when switching between themes
+    this.themeElementsCache = new Map()
+
     // Defer initialization until element is visible (has dimensions)
     this.resizeObserver = new ResizeObserver(() => {
       const canvas = this.containerTarget
@@ -81,13 +86,9 @@ export default class extends Controller {
       // Update wallet-related items from JSON
       this.canvaItemTargets.forEach(item => {
         const controller = this.getItemController(item)
-        console.log('controller', controller)
-        console.log('item', item)
         if (!controller) return
 
         const name = controller.nameValue
-        console.log('name:', name)
-        console.log('wallet: ', wallet)
         // For text items (mnemonicText, privateKeyText, publicAddressText)
         if (wallet[name] !== undefined && controller.textValue !== undefined) {
           controller.textValue = wallet[name]
@@ -250,12 +251,40 @@ export default class extends Controller {
   }
 
   backgroundImageChanged(event) {
-    this.backgroundImageTarget.src = event.detail.url
+    const { themeId, url, elements: themeDefaults } = event.detail
 
-    // Update existing items' positions instead of recreating them
-    // This preserves drawer connections and other server-rendered attributes
-    if (event.detail.elements) {
-      this.updateCanvaItemPositions(event.detail.elements)
+    console.log('[canva] backgroundImageChanged', { themeId, url, themeDefaults, currentThemeId: this.themeIdValue })
+
+    // 1. Save current theme's elements to cache (if we have a current theme)
+    if (this.themeIdValue && this.hasElementsFieldTarget) {
+      try {
+        const currentElements = JSON.parse(this.elementsFieldTarget.value)
+        this.themeElementsCache.set(this.themeIdValue, currentElements)
+        console.log('[canva] Saved to cache:', this.themeIdValue, currentElements)
+      } catch { /* ignore parse errors */ }
+    }
+
+    // 2. Get elements for new theme (cached positions or theme defaults)
+    const cachedElements = this.themeElementsCache.get(String(themeId))
+    const newElements = cachedElements || themeDefaults
+    console.log('[canva] New elements:', { cachedElements, themeDefaults, newElements })
+
+    // 3. Update current theme ID
+    if (themeId) {
+      this.themeIdValue = String(themeId)
+    }
+
+    // 4. Update hidden field (source of truth for current theme)
+    if (this.hasElementsFieldTarget && newElements) {
+      this.elementsFieldTarget.value = JSON.stringify(newElements)
+    }
+
+    // 5. Update background image
+    this.backgroundImageTarget.src = url
+
+    // 6. Sync canvas items with new elements
+    if (newElements) {
+      this.updateCanvaItemPositions(newElements)
     }
 
     this.loadBackgroundImage()
@@ -263,12 +292,17 @@ export default class extends Controller {
 
   // Update existing canva items with new positions from theme
   updateCanvaItemPositions(elements) {
+    console.log('[canva] updateCanvaItemPositions', { elementsKeys: Object.keys(elements), elements })
     this.canvaItemTargets.forEach(item => {
       const controller = this.getItemController(item)
       if (controller) {
         const itemName = controller.nameValue
-        if (elements[itemName]) {
-          controller.updateFromElements(elements[itemName])
+        // Try both camelCase and snake_case lookups for compatibility
+        const camelName = this.camelize(itemName)
+        const elementData = elements[itemName] || elements[camelName]
+        console.log('[canva] Item:', itemName, 'camelName:', camelName, 'Found:', !!elementData, elementData)
+        if (elementData) {
+          controller.updateFromElements(elementData)
         }
       }
     })
