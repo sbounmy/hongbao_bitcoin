@@ -12,67 +12,49 @@ tunisian_dinar:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 dollar:
   id: 1
   name: "Dollar"
@@ -97,67 +79,55 @@ dollar:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
+      portrait:
+        x: "10"
+        y: "20"
+        width: "200"
+        height: "300"
+        type: "portrait"
 euro:
   id: 2
   name: "Euro"
@@ -170,67 +140,49 @@ euro:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 monoboly:
   id: 3
   name: "Monoboly"
@@ -243,67 +195,49 @@ monoboly:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 rouble:
   id: 4
   name: "Rouble"
@@ -316,67 +250,49 @@ rouble:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 chinese_yuan:
   id: 5
   name: "Chinese Yuan"
@@ -389,67 +305,49 @@ chinese_yuan:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 indonesian_rupiah:
   id: 14
   name: "Rupiah"
@@ -462,67 +360,49 @@ indonesian_rupiah:
       private_key_qrcode:
         x: "10"
         y: "37"
-
         width: "9.0"
-
         height: "18.0"
-
         color: "#000000"
+        type: "private_key/qrcode"
       private_key_text:
         x: "9"
         y: "57"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "private_key/text"
       public_address_qrcode:
         x: "22"
         y: "24"
-
         width: "9.0"
-
         height: "18.0"
-
         color: ""
+        type: "public_address/qrcode"
       public_address_text:
         x: "21"
         y: "55"
-
         width: ""
-
         height: "10"
-
         size: "1.8"
-
         color: "#000000"
+        type: "public_address/text"
       mnemonic_text:
         x: "5"
         y: "50"
-
         width: ""
-
         height: "15"
-
         size: "1.6"
-
         color: "#000000"
+        type: "mnemonic/text"
       custom_text:
-
         x: ""
-
         y: ""
-
         width: ""
-
         height: ""
-
         size: ""
-
         color: ""
+        type: "text"
 none:
   id: 100
   position: 99

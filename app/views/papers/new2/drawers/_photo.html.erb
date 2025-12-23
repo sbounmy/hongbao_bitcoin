@@ -143,7 +143,9 @@
 
       <%# Sticky Generate button %>
       <div class="sticky bottom-0 px-4 py-3 border-t border-base-content/10 bg-base-100 shrink-0">
-        <button type="submit" class="btn btn-primary w-full gap-2">
+        <button type="submit"
+                class="btn btn-primary w-full gap-2"
+                onclick="window.dispatchEvent(new CustomEvent('portrait:loading'))">
           <%= heroicon "sparkles", variant: :mini, class: "w-4 h-4" %>
           Generate
         </button>

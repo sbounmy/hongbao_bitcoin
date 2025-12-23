@@ -34,7 +34,7 @@
   </div>
 
   <%# Bottom Toolbar - Extended with Photo button %>
-  <div class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
+  <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
     <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
       <%# Theme Selection Button %>
       <%= render BottomSheetComponent.new(id: "theme-drawer") do |sheet| %>

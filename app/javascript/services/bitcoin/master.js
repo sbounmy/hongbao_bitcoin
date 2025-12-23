@@ -111,7 +111,6 @@ export default class Master extends Wallet {
 
   get wif() {
     const ECPair = ECPairFactory(secp256k1)
-    console.log("wif", this.privateKey, this.network)
     const keyPair = ECPair.fromPrivateKey(this.privateKey, { network: this.network })
     return keyPair.toWIF()
   }

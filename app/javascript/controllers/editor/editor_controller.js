@@ -179,8 +179,8 @@ export default class extends Controller {
     const dx = (point.x - this.dragStart.x) / this.canvasWidth * 100
     const dy = (point.y - this.dragStart.y) / this.canvasHeight * 100
 
-    const newX = Math.max(0, Math.min(100 - this.selectedItem.widthValue, this.dragStart.itemX + dx))
-    const newY = Math.max(0, Math.min(100 - this.selectedItem.heightValue, this.dragStart.itemY + dy))
+    const newX = Math.max(0, Math.min(100 - this.selectedItem.width, this.dragStart.itemX + dx))
+    const newY = Math.max(0, Math.min(100 - this.selectedItem.height, this.dragStart.itemY + dy))
 
     this.selectedItem.updatePosition(newX, newY)
     this.updateOverlay()
@@ -198,9 +198,8 @@ export default class extends Controller {
         // Dispatch click event
         this.dispatch("itemClick", {
           detail: {
-            name: this.clickStart.item.nameValue,
-            type: this.clickStart.item.element.dataset.controller,
-            controller: this.clickStart.item
+            name: this.clickStart.item.name,
+            item: this.clickStart.item
           }
         })
 
@@ -231,8 +230,8 @@ export default class extends Controller {
     this.dragStart = {
       x: point.x,
       y: point.y,
-      itemX: item.xValue,
-      itemY: item.yValue
+      itemX: item.x,
+      itemY: item.y
     }
     e.preventDefault()
   }
@@ -319,10 +318,10 @@ export default class extends Controller {
     this.pinchStart = {
       distance: Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY),
       angle: Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * 180 / Math.PI,
-      width: this.selectedItem.widthValue,
-      height: this.selectedItem.heightValue,
-      rotation: this.selectedItem.rotationValue,
-      fontSize: this.selectedItem.fontSizeValue
+      width: this.selectedItem.width,
+      height: this.selectedItem.height,
+      rotation: this.selectedItem.rotation,
+      fontSize: this.selectedItem.fontSize
     }
   }
 
@@ -337,22 +336,22 @@ export default class extends Controller {
     const newWidth = Math.max(5, Math.min(100, this.pinchStart.width * scale))
     const newHeight = Math.max(5, Math.min(100, this.pinchStart.height * scale))
 
-    const isTextItem = this.pinchStart.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
+    const isTextItem = this.pinchStart.fontSize !== undefined && this.selectedItem.fontSize !== undefined
     if (isTextItem) {
       // Scale font and width proportionally so text maintains same line breaks
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.pinchStart.fontSize * scale)
-      this.selectedItem.widthValue = newWidth
+      this.selectedItem.fontSize = Math.max(0.5, this.pinchStart.fontSize * scale)
+      this.selectedItem.width = newWidth
     } else {
       this.selectedItem.updateSize(newWidth, newHeight)
     }
 
-    this.selectedItem.rotationValue = this.pinchStart.rotation + rotation
+    this.selectedItem.rotation = this.pinchStart.rotation + rotation
     this.canvaController.scheduleRedraw()
 
     if (isTextItem && this.selectedItem.getCalculatedHeight) {
       requestAnimationFrame(() => {
         if (this.selectedItem?.getCalculatedHeight) {
-          this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
+          this.selectedItem.height = this.selectedItem.getCalculatedHeight()
           this.updateOverlay()
         }
       })
@@ -366,7 +365,7 @@ export default class extends Controller {
   onKeyDown(e) {
     if (!this.selectedItem) return
 
-    if ((e.key === "Delete" || e.key === "Backspace") && !this.selectedItem.presenceValue) {
+    if ((e.key === "Delete" || e.key === "Backspace") && !this.selectedItem.presence) {
       e.preventDefault()
       this.deleteSelected()
       return
@@ -396,8 +395,8 @@ export default class extends Controller {
     }
 
     e.preventDefault()
-    const newX = Math.max(0, Math.min(100 - this.selectedItem.widthValue, this.selectedItem.xValue + dx))
-    const newY = Math.max(0, Math.min(100 - this.selectedItem.heightValue, this.selectedItem.yValue + dy))
+    const newX = Math.max(0, Math.min(100 - this.selectedItem.width, this.selectedItem.x + dx))
+    const newY = Math.max(0, Math.min(100 - this.selectedItem.height, this.selectedItem.y + dy))
 
     this.selectedItem.updatePosition(newX, newY)
     this.updateOverlay()
@@ -415,11 +414,11 @@ export default class extends Controller {
       handle: e.detail.handle,
       startX: e.detail.clientX,
       startY: e.detail.clientY,
-      width: this.selectedItem.widthValue,
-      height: this.selectedItem.heightValue,
-      itemX: this.selectedItem.xValue,
-      itemY: this.selectedItem.yValue,
-      fontSize: this.selectedItem.fontSizeValue
+      width: this.selectedItem.width,
+      height: this.selectedItem.height,
+      itemX: this.selectedItem.x,
+      itemY: this.selectedItem.y,
+      fontSize: this.selectedItem.fontSize
     }
   }
 
@@ -469,17 +468,17 @@ export default class extends Controller {
 
     this.selectedItem.updatePosition(newX, newY)
 
-    const isTextItem = this.resizeData.fontSize !== undefined && this.selectedItem.fontSizeValue !== undefined
+    const isTextItem = this.resizeData.fontSize !== undefined && this.selectedItem.fontSize !== undefined
 
     if (isTextItem && isCornerHandle) {
       // Corner handles: Scale font size AND width proportionally (text stays on single line)
       const scale = newWidth / this.resizeData.width
       // Use same scale for font and width so text maintains same line breaks
-      this.selectedItem.fontSizeValue = Math.max(0.5, this.resizeData.fontSize * scale)
-      this.selectedItem.widthValue = newWidth
+      this.selectedItem.fontSize = Math.max(0.5, this.resizeData.fontSize * scale)
+      this.selectedItem.width = newWidth
     } else if (isTextItem && isSideHandle) {
       // Side handles: Change width only, text wraps (no font size change)
-      this.selectedItem.widthValue = newWidth
+      this.selectedItem.width = newWidth
     } else {
       // Non-text items: resize normally
       this.selectedItem.updateSize(newWidth, newHeight)
@@ -490,7 +489,7 @@ export default class extends Controller {
     if (isTextItem && this.selectedItem.getCalculatedHeight) {
       requestAnimationFrame(() => {
         if (this.selectedItem?.getCalculatedHeight) {
-          this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
+          this.selectedItem.height = this.selectedItem.getCalculatedHeight()
           this.updateOverlay()
         }
       })
@@ -504,7 +503,7 @@ export default class extends Controller {
     this.canvaController.redrawAll()
 
     if (this.selectedItem?.getCalculatedHeight) {
-      this.selectedItem.heightValue = this.selectedItem.getCalculatedHeight()
+      this.selectedItem.height = this.selectedItem.getCalculatedHeight()
       this.updateOverlay()
     }
 
@@ -527,13 +526,13 @@ export default class extends Controller {
       y: canvasRect.top + (bounds.y + bounds.height / 2) * scaleY
     }
 
-    this.rotateController?.setCenter(center, this.selectedItem.rotationValue)
+    this.rotateController?.setCenter(center, this.selectedItem.rotation)
   }
 
   rotateMove(e) {
     if (!this.isRotating || !this.selectedItem) return
 
-    this.selectedItem.rotationValue = e.detail.rotation
+    this.selectedItem.rotation = e.detail.rotation
     this.updateOverlay()
     this.canvaController.scheduleRedraw()
   }
@@ -574,9 +573,11 @@ export default class extends Controller {
   }
 
   deleteSelected() {
-    if (!this.selectedItem || this.selectedItem.presenceValue) return
+    if (!this.selectedItem || this.selectedItem.presence) return
 
-    this.selectedItem.element.remove()
+    // Remove item from canva controller's items map
+    this.canvaController.items.delete(this.selectedItem.name)
+    this.selectedItem.destroy?.()
     this.selectedItem = null
     this.hideSelectionOverlay()
     this.canvaController.redrawAll()
@@ -586,14 +587,14 @@ export default class extends Controller {
   // --- Hit Testing ---
 
   hitTest(point) {
-    const items = this.getItemControllers()
-    return items.reverse().find(item => item.containsPoint(point.x, point.y))
+    const items = this.getItems()
+    // Check in reverse order (top-most items first)
+    return items.reverse().find(item => !item.hidden && item.containsPoint(point.x / this.canvasWidth * 100, point.y / this.canvasHeight * 100))
   }
 
-  getItemControllers() {
-    return this.canvaController?.canvaItemTargets?.map(el => {
-      return this.canvaController.getItemController(el)
-    }).filter(Boolean) || []
+  getItems() {
+    if (!this.canvaController?.items) return []
+    return Array.from(this.canvaController.items.values())
   }
 
   // --- Hover Overlay (border only) ---
@@ -665,8 +666,8 @@ export default class extends Controller {
     overlayEl.style.width = `${bounds.width * scaleX}px`
     overlayEl.style.height = `${bounds.height * scaleY}px`
 
-    if (item.rotationValue !== 0) {
-      overlayEl.style.transform = `rotate(${item.rotationValue}deg)`
+    if (item.rotation !== 0) {
+      overlayEl.style.transform = `rotate(${item.rotation}deg)`
     } else {
       overlayEl.style.transform = ""
     }
@@ -676,12 +677,11 @@ export default class extends Controller {
 
   getLabelForItem(item) {
     if (!item) return ""
-    // Humanize camelCase: "privateKeyQrcode" -> "Private Key Qrcode"
-    const name = item.nameValue
-    return name
-      .replace(/([A-Z])/g, ' $1')  // Add space before capitals
-      .replace(/^./, s => s.toUpperCase())  // Capitalize first letter
-      .trim()
+    // Humanize snake_case: "private_key_qrcode" -> "Private Key Qrcode"
+    return item.name
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
   }
 
   canvasPoint(e) {
@@ -697,35 +697,33 @@ export default class extends Controller {
 
   // --- Persistence ---
 
-  // Names of wallet items (text comes from wallet JSON, not layout)
-  static walletTextItems = ['mnemonicText', 'privateKeyText', 'publicAddressText']
-
   // Collect current element data for layout JSON
-  // Excludes wallet text (those come from wallet JSON for security)
+  // Excludes wallet-sourced text (those come from wallet JSON for security)
   getElementsData() {
     const elements = {}
-    this.getItemControllers().forEach(item => {
+    this.getItems().forEach(item => {
       const data = {
-        x: item.xValue,
-        y: item.yValue,
-        width: item.widthValue,
-        height: item.heightValue,
-        rotation: item.rotationValue,
-        presence: item.presenceValue,
-        hidden: item.hiddenValue
+        type: item.type,
+        x: item.x,
+        y: item.y,
+        width: item.width,
+        height: item.height,
+        rotation: item.rotation,
+        presence: item.presence,
+        hidden: item.hidden
       }
-      if (item.fontSizeValue !== undefined) {
-        data.font_size = item.fontSizeValue
+      if (item.fontSize !== undefined) {
+        data.font_size = item.fontSize
       }
-      if (item.fontColorValue !== undefined) {
-        data.font_color = item.fontColorValue
+      if (item.fontColor !== undefined) {
+        data.font_color = item.fontColor
       }
-      // Only include text for non-wallet items (custom text, etc.)
-      // Wallet text (mnemonic, privateKey, publicAddress) comes from wallet JSON
-      if (item.textValue !== undefined && !this.constructor.walletTextItems.includes(item.nameValue)) {
-        data.text = item.textValue
+      // Only include text for type: "text" (custom text)
+      // Wallet-sourced types (mnemonic/text, private_key/text, etc.) don't persist text
+      if (item.text !== undefined && item.type === 'text') {
+        data.text = item.text
       }
-      elements[item.nameValue] = data
+      elements[item.name] = data
     })
     return elements
   }

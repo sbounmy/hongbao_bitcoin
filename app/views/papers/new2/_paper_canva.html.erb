@@ -30,10 +30,7 @@
     <canvas data-canva-target="container"
             data-editor-target="canvas"
             class="w-full h-full"></canvas>
-
-    <% elements.each do |name, item| %>
-      <%= render Canva::ItemComponent.for(name:, item:) %>
-    <% end %>
+    <%# Items are now created from JSON in JavaScript - no more Ruby-rendered divs %>
   </div>
 
   <% if editor_enabled %>

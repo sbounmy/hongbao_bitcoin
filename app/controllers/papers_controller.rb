@@ -23,20 +23,6 @@ class PapersController < ApplicationController
   end
 
   def new
-    @paper = Paper.new
-    @paper.input_items.build
-    @styles = Input::Style.by_position.with_attached_image
-    @themes = Input::Theme.by_position.with_attached_image
-    @papers = paper_scope.active.recent.with_attached_image_front.with_attached_image_back
-
-    # Recent photos - distinct by checksum (same image content)
-    @pagy, @recent_photos = pagy_countless(
-      InputItem.distinct_images_for(paper_scope),
-      limit: 20
-    )
-  end
-
-  def new2
     @theme = Input::Theme.find_by(id: params[:theme_id]) || Input::Theme.first
     @frame = @theme.frame_object
     @current_step = 1
@@ -56,6 +42,12 @@ class PapersController < ApplicationController
       InputItem.distinct_images_for(paper_scope),
       limit: 20
     )
+  end
+
+  # Alias for backwards compatibility
+  def new2
+    new
+    render :new
   end
 
   def create
@@ -128,9 +120,9 @@ class PapersController < ApplicationController
 
   def set_layout
     case action_name
-    when "show", "new2"
+    when "show", "new", "new2"
       "offline"
-    when "new", "index", "explore", "edit"
+    when "index", "explore", "edit"
       "main"
     end
   end

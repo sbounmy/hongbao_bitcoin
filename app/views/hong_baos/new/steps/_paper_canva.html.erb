@@ -3,18 +3,17 @@
   frame = local_assigns[:frame] || Frame.new
   dimensions = frame.canvas_dimensions
   strict = local_assigns[:strict] || false
+  side = local_assigns[:side] || "front"
 %>
 <div data-controller="canva"
-     <%# data-canva-canva-item-outlet=".canva-item" %>
      data-canva-width-value="<%= dimensions[:width] %>"
      data-canva-height-value="<%= dimensions[:height] %>"
      data-canva-strict-value="<%= strict %>"
-     data-action="bitcoin:changed@window->canva#redraw canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
+     data-canva-side-value="<%= side %>"
+     data-action="bitcoin:changed@window->canva#handleWalletChanged canva:imageLoaded->bitcoin#dispatchWalletChanged <%= defined?(actions) ? actions : '' %>"
      class="w-full h-full <%= defined?(class_name) ? class_name : '' %>">
   <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
   <canvas data-canva-target="container" class="w-full h-full"></canvas>
-
-  <% elements.each do |name, item| %>
-    <%= render Canva::ItemComponent.for(name:, item:) %>
-  <% end %>
+  <%# Items created from JSON - hidden field provides the data %>
+  <%= hidden_field_tag "#{side}_elements", elements.to_json, data: { canva_target: "elementsField" } %>
 </div>

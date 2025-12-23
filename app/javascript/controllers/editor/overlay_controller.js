@@ -46,8 +46,8 @@ export default class extends Controller {
     this.element.style.height = `${bounds.height * scaleY}px`
 
     // Apply rotation if any
-    if (item.rotationValue !== 0) {
-      this.element.style.transform = `rotate(${item.rotationValue}deg)`
+    if (item.rotation !== 0) {
+      this.element.style.transform = `rotate(${item.rotation}deg)`
     } else {
       this.element.style.transform = ""
     }
@@ -57,7 +57,7 @@ export default class extends Controller {
     if (!this.hasDeleteBtnTarget) return
 
     // Hide delete button for presence items (required elements)
-    this.deleteBtnTarget.classList.toggle("hidden", item?.presenceValue ?? true)
+    this.deleteBtnTarget.classList.toggle("hidden", item?.presence ?? true)
   }
 
   // --- Getters ---
