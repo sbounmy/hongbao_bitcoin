@@ -66,8 +66,8 @@ application.register("keys-input", KeysInputController)
 import ThemeSelectController from "./controllers/offline/theme_select_controller"
 application.register("theme-select", ThemeSelectController)
 
-import NewCanvaItemController from "./controllers/offline/new_canva_item_controller"
-application.register("new-canva-item", NewCanvaItemController)
+import CanvaItemNewController from "./controllers/offline/canva/item/new_controller"
+application.register("canva-item-new", CanvaItemNewController)
 
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
