@@ -20,7 +20,17 @@
     <% end %>
     <% sheet.with_footer(title: "Add Element") %>
     <div class="p-4">
-      <%= render "papers/new2/drawers/new_item" %>
+      <div class="grid grid-cols-3 gap-4">
+        <form method="dialog">
+          <button type="submit"
+                  class="flex flex-col items-center gap-2 p-4 rounded-lg border-2 border-base-300
+                         hover:border-primary hover:bg-base-200 transition-all w-full"
+                  data-action="click->paper-editor#addText">
+            <%= heroicon "document-text", class: "w-8 h-8 text-base-content/70" %>
+            <span class="text-sm font-medium">Text</span>
+          </button>
+        </form>
+      </div>
     </div>
   <% end %>
 </div>

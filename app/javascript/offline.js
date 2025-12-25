@@ -36,18 +36,6 @@ application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
 import BitcoinWifController from "./controllers/offline/bitcoin_wif_controller"
 application.register("bitcoin-wif", BitcoinWifController)
 
-import CanvaItemController from "./controllers/offline/canva_item_controller"
-application.register("canva-item", CanvaItemController)
-
-import TextItemController from "./controllers/offline/text_item_controller"
-application.register("text-item", TextItemController)
-
-import ImageItemController from "./controllers/offline/image_item_controller"
-application.register("image-item", ImageItemController)
-
-import PortraitItemController from "./controllers/offline/portrait_item_controller"
-application.register("portrait-item", PortraitItemController)
-
 import PdfController from "./controllers/offline/pdf_controller"
 application.register("pdf", PdfController)
 

@@ -1,37 +1,56 @@
-<%# Screen 1: Canvas - Design your paper wallet (Offline Mode) %>
+<%# Screen 1: Canvas - Design your paper wallet (New Editor Architecture) %>
+<%#
+  This uses the new paper-editor controller which manages both canvases
+  with vanilla JS engine and canvas-rendered handles.
+%>
 <div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
      data-steps-target="content"
      data-steps-index="1">
 
-  <%# Paper Preview - Layout adapts to frame orientation %>
-  <div class="flex-1 min-h-0 bg-base-200 p-4 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center' : 'flex flex-col gap-6 overflow-y-auto items-center' %>">
-    <%# Front Canvas - with portrait compositing support and editor %>
-    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
-      <%= render 'papers/new2/paper_canva',
-              frame: frame,
-              paper: paper,
-              theme: theme,
-              image_base64: template_front_base64,
-              portrait_config: portrait_config,
-              editor_enabled: true,
-              side: "front"
-      %>
+  <%# Paper Editor Canvas Area %>
+  <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
+
+    <%# Canvas Container - Layout adapts to frame orientation %>
+    <div class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
+
+      <%# Front Canvas %>
+      <div data-paper-editor-target="frontWrapper"
+           class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-side="front">
+        <img src="<%= template_front_base64 %>"
+             class="hidden"
+             data-paper-editor-target="frontBackground" />
+        <canvas data-paper-editor-target="frontCanvas"
+                class="w-full h-full cursor-default"></canvas>
+      </div>
+
+      <%# Back Canvas %>
+      <div data-paper-editor-target="backWrapper"
+           class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-side="back">
+        <img src="<%= template_back_base64 %>"
+             class="hidden"
+             data-paper-editor-target="backBackground" />
+        <canvas data-paper-editor-target="backCanvas"
+                class="w-full h-full cursor-default"></canvas>
+      </div>
     </div>
 
-    <%# Back Canvas - with editor %>
-    <div class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>]">
-      <%= render 'papers/new2/paper_canva',
-              frame: frame,
-              paper: paper,
-              theme: theme,
-              image_base64: template_back_base64,
-              editor_enabled: true,
-              side: "back"
-      %>
+    <%# Hidden fields %>
+    <%= hidden_field_tag "paper[elements]", paper.elements.to_json, data: { paper_editor_target: "field" } %>
+    <%= hidden_field_tag "wallet_data", {}.to_json, data: { paper_editor_target: "dataSource" }, disabled: true %>
+
+    <%# Side Toggle (optional - for single view mode) %>
+    <div class="hidden">
+      <button data-paper-editor-target="sideToggle"
+              data-action="paper-editor#toggleSide"
+              class="btn btn-sm btn-ghost">
+        Front
+      </button>
     </div>
   </div>
 
-  <%# Bottom Toolbar - Extended with Photo button %>
+  <%# Bottom Toolbar %>
   <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
     <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
       <%# Theme Selection Button %>
@@ -43,25 +62,18 @@
           </button>
         <% end %>
         <div class="flex flex-col">
-          <%# Horizontal scroll theme list (lazy-loaded) %>
           <div class="py-4">
             <%= render ContentLoaderComponent.new(url: themes_path(current_id: theme.id), lazy_loading: true) %>
           </div>
-
-          <%# Footer with Cancel/Done %>
           <div class="flex items-center justify-between px-4 py-3 border-t border-base-content/10 shrink-0">
             <form method="dialog">
-              <button type="submit"
-                      class="btn btn-ghost btn-sm"
-                      data-action="click->theme-select#cancel">
+              <button type="submit" class="btn btn-ghost btn-sm" data-action="click->theme-select#cancel">
                 Cancel
               </button>
             </form>
             <span class="text-sm text-base-content/70">Theme</span>
             <form method="dialog">
-              <button type="submit"
-                      class="btn btn-ghost btn-sm text-primary font-semibold"
-                      data-action="click->theme-select#confirm">
+              <button type="submit" class="btn btn-ghost btn-sm text-primary font-semibold" data-action="click->theme-select#confirm">
                 Done
               </button>
             </form>
@@ -69,7 +81,7 @@
         </div>
       <% end %>
 
-      <%# Photo Selection Button - Opens bottom sheet %>
+      <%# Photo Selection Button %>
       <%= render BottomSheetComponent.new(id: "photo-drawer") do |sheet| %>
         <% sheet.with_trigger do %>
           <button type="button" class="btn btn-ghost btn-sm gap-1">
@@ -77,7 +89,6 @@
             <span class="hidden sm:inline">Photo</span>
           </button>
         <% end %>
-        <%# No header/footer - drawer manages its own Cancel/Done buttons %>
         <div class="h-[70vh] flex flex-col">
           <%= render "papers/new2/drawers/photo",
               recent_photos: recent_photos,
@@ -100,7 +111,7 @@
         </div>
       <% end %>
 
-      <%# QR Destination Button %>
+      <%# QR Style Button %>
       <%= render BottomSheetComponent.new(id: "style-drawer") do |sheet| %>
         <% sheet.with_trigger do %>
           <button type="button" class="btn btn-ghost btn-sm gap-1">
@@ -117,14 +128,14 @@
       <%# Next Button %>
       <button type="button"
               class="btn btn-primary btn-sm gap-1"
-              data-action="steps#next">
+              data-action="paper-editor#exportForPreview steps#next">
         Next
         <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
       </button>
     </div>
   </div>
 
-  <%# Global Text Edit Drawer - Used by all text items %>
+  <%# Text Edit Drawer %>
   <dialog id="text-edit-drawer" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
       <div class="flex items-center justify-between mb-4">
