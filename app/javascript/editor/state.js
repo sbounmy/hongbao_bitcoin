@@ -17,22 +17,38 @@ export class State {
   // Normalize elements from various formats to array
   _normalizeElements(elements) {
     if (Array.isArray(elements)) {
-      return elements.map(el => ({
-        ...el,
-        id: el.id || el.name || crypto.randomUUID()
-      }))
+      return elements.map(el => this._normalizeElement(el))
     }
 
     // Object format: { name: elementData }
     if (typeof elements === 'object' && elements !== null) {
-      return Object.entries(elements).map(([name, data]) => ({
-        ...data,
-        id: data.id || name,
-        name: name  // Keep original name for compatibility
-      }))
+      return Object.entries(elements).map(([name, data]) =>
+        this._normalizeElement({
+          ...data,
+          id: data.id || name,
+          name: name  // Keep original name for compatibility
+        })
+      )
     }
 
     return []
+  }
+
+  // Normalize a single element - ensure numeric properties are numbers
+  _normalizeElement(el) {
+    return {
+      ...el,
+      id: el.id || el.name || crypto.randomUUID(),
+      // Parse numeric properties to avoid string concatenation issues
+      x: parseFloat(el.x) || 0,
+      y: parseFloat(el.y) || 0,
+      width: parseFloat(el.width) || 10,
+      height: parseFloat(el.height) || 10,
+      rotation: parseFloat(el.rotation) || 0,
+      font_size: el.font_size ? parseFloat(el.font_size) : undefined,
+      size: el.size ? parseFloat(el.size) : undefined,
+      opacity: el.opacity !== undefined ? parseFloat(el.opacity) : undefined
+    }
   }
 
   // Get all elements

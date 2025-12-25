@@ -81,12 +81,10 @@ export class Canvas {
 
   // Load background image from URL
   loadBackgroundImage(url) {
-    console.log('[Canvas] loadBackgroundImage() - url length:', url?.length)
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.crossOrigin = 'anonymous'
       img.onload = () => {
-        console.log('[Canvas] image loaded - size:', img.width, 'x', img.height)
         this.setBackgroundImage(img)
         resolve(img)
       }

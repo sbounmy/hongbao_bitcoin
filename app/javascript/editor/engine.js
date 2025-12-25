@@ -365,8 +365,8 @@ export class Engine {
 
     // Convert delta to percentage
     const rect = canvas.getBoundingRect()
-    const dxPercent = (data.dx / rect.width) * (100 * canvas.originalWidth / canvas.displayWidth)
-    const dyPercent = (data.dy / rect.height) * (100 * canvas.originalHeight / canvas.displayHeight)
+    const dxPercent = (data.dx / rect.width) * 100
+    const dyPercent = (data.dy / rect.height) * 100
 
     if (this._activeHandle) {
       this.handleResize(this._activeHandle, dxPercent, dyPercent)
