@@ -36,9 +36,6 @@ application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
 import BitcoinWifController from "./controllers/offline/bitcoin_wif_controller"
 application.register("bitcoin-wif", BitcoinWifController)
 
-import CanvaController from "./controllers/offline/canva/controller"
-application.register("canva", CanvaController)
-
 import CanvaItemController from "./controllers/offline/canva_item_controller"
 application.register("canva-item", CanvaItemController)
 
@@ -66,27 +63,8 @@ application.register("keys-input", KeysInputController)
 import ThemeSelectController from "./controllers/offline/theme_select_controller"
 application.register("theme-select", ThemeSelectController)
 
-import CanvaItemNewController from "./controllers/offline/canva/item/new_controller"
-application.register("canva-item-new", CanvaItemNewController)
-
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
-
-// --- Editor controllers ---
-import EditorController from "./controllers/editor/editor_controller"
-application.register("editor", EditorController)
-
-import EditorStorageController from "./controllers/editor/storage_controller"
-application.register("editor-storage", EditorStorageController)
-
-import EditorOverlayController from "./controllers/editor/overlay_controller"
-application.register("editor--overlay", EditorOverlayController)
-
-import EditorResizeController from "./controllers/editor/resize_controller"
-application.register("editor--resize", EditorResizeController)
-
-import EditorRotateController from "./controllers/editor/rotate_controller"
-application.register("editor--rotate", EditorRotateController)
 
 import TextEditController from "./controllers/text_edit_controller"
 application.register("text-edit", TextEditController)
