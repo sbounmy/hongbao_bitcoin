@@ -32,16 +32,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log('[PaperEditor] connect() - designValue:', this.designValue)
-    console.log('[PaperEditor] designValue type:', typeof this.designValue)
-    console.log('[PaperEditor] designValue keys:', this.designValue ? Object.keys(this.designValue) : 'null')
-
-    // Debug: Listen for bitcoin:changed event directly
-    window.addEventListener('bitcoin:changed', (e) => {
-      console.log('[PaperEditor] bitcoin:changed event received on window!', e.detail)
-      this.syncExternalDataFrom(e.detail)
-    })
-
     // Get background URLs
     const frontBackground = this.hasFrontBackgroundTarget
       ? this.frontBackgroundTarget.src
@@ -49,8 +39,6 @@ export default class extends Controller {
     const backBackground = this.hasBackBackgroundTarget
       ? this.backBackgroundTarget.src
       : null
-
-    console.log('[PaperEditor] backgrounds - front:', frontBackground?.substring(0, 80), 'back:', backBackground?.substring(0, 80))
 
     // Initialize engine
     this.engine = new Engine(
@@ -70,9 +58,6 @@ export default class extends Controller {
     // Create exporter
     this.exporter = new Exporter(this.engine.canvases, this.engine.state)
 
-    // Enable debug mode to visualize element bounds (TODO: remove in production)
-    this.engine.setDebug(true)
-
     // Start engine
     this.engine.start()
 
@@ -81,8 +66,6 @@ export default class extends Controller {
 
     // Update UI
     this.updateSideUI(this.engine.activeSide)
-
-    console.log('[PaperEditor] initialized successfully')
   }
 
   disconnect() {
@@ -92,63 +75,39 @@ export default class extends Controller {
   // --- External Data Binding ---
   // Called on connect - tries to read from hidden field or wait for event
   syncExternalData() {
-    if (!this.hasDataSourceTarget) {
-      console.log('[PaperEditor] syncExternalData - no dataSourceTarget, waiting for bitcoin:changed event')
-      return
-    }
+    if (!this.hasDataSourceTarget) return
 
     const dataValue = this.dataSourceTarget.value
-    if (!dataValue || dataValue === '{}') {
-      console.log('[PaperEditor] syncExternalData - dataSource empty, waiting for bitcoin:changed event')
-      return
-    }
+    if (!dataValue || dataValue === '{}') return
 
     try {
       const data = JSON.parse(dataValue)
-      console.log('[PaperEditor] syncExternalData - from hidden field:', Object.keys(data))
       this.syncExternalDataFrom(data)
     } catch (e) {
-      console.error('[PaperEditor] Failed to parse external data:', e)
+      // Silently fail - wallet data will come via event
     }
   }
 
   // Sync wallet data to elements
   syncExternalDataFrom(data) {
-    console.log('[PaperEditor] syncExternalDataFrom - data keys:', Object.keys(data))
-
     for (const [type, binding] of Object.entries(DATA_BINDINGS)) {
-      // Find element by type
       const element = this.engine.state.elements.find(e => e.type === type)
-      if (!element) {
-        console.log('[PaperEditor] element not found for type:', type)
-        continue
-      }
+      if (!element) continue
 
       const value = data[binding.dataKey]
-      if (value === undefined || value === null) {
-        console.log('[PaperEditor] no value for:', binding.dataKey)
-        continue
-      }
+      if (value === undefined || value === null) continue
 
-      console.log('[PaperEditor] syncing:', type, '← data key:', binding.dataKey, 'value length:', value?.length || 0)
-
-      // Update element
       if (binding.isImage) {
-        // For images, set via the element instance
         const instance = this.engine.canvases.getInstanceById(element.id || element.name)
-        console.log('[PaperEditor] setting image for:', element.id, 'instance:', instance?.constructor?.name)
         if (instance?.setImageData) {
           instance.setImageData(value)
         } else if (instance?.loadImage) {
           instance.loadImage(value)
         }
       } else {
-        // For text, update state and instance
-        console.log('[PaperEditor] setting text for:', element.id, 'value:', value?.substring?.(0, 50) || value)
         this.engine.updateElement(element.id || element.name, {
           [binding.prop]: value
         })
-        // Also update the instance directly
         const instance = this.engine.canvases.getInstanceById(element.id || element.name)
         if (instance) {
           instance[binding.prop] = value
@@ -161,14 +120,8 @@ export default class extends Controller {
 
   // Listen for external data changes (bitcoin:changed event)
   dataSourceChanged(event) {
-    console.log('[PaperEditor] dataSourceChanged - event.detail:', event?.detail)
-
-    // Get wallet data from event detail (dispatched by bitcoin controller)
     const data = event?.detail
-    if (!data) {
-      console.log('[PaperEditor] dataSourceChanged - no data in event.detail')
-      return
-    }
+    if (!data) return
 
     this.syncExternalDataFrom(data)
     this.engine.scheduleRender()

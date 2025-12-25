@@ -81,20 +81,6 @@ export class BaseElement {
       ctx.translate(-centerX, -centerY)
     }
 
-    // Debug: draw element bounds
-    if (options.debug) {
-      ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'
-      ctx.lineWidth = 1
-      ctx.setLineDash([4, 4])
-      ctx.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height)
-      ctx.setLineDash([])
-
-      // Draw element type label
-      ctx.font = '10px monospace'
-      ctx.fillStyle = 'rgba(255, 0, 0, 0.7)'
-      ctx.fillText(this.type, bounds.x + 2, bounds.y + 12)
-    }
-
     this.draw(ctx, bounds, canvasWidth, canvasHeight)
 
     ctx.restore()

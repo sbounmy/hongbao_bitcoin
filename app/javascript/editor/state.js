@@ -16,30 +16,22 @@ export class State {
 
   // Normalize elements from various formats to array
   _normalizeElements(elements) {
-    console.log('[State] _normalizeElements input:', typeof elements, elements)
-
     if (Array.isArray(elements)) {
-      const normalized = elements.map(el => ({
+      return elements.map(el => ({
         ...el,
         id: el.id || el.name || crypto.randomUUID()
       }))
-      console.log('[State] _normalizeElements (array):', normalized.length, 'elements')
-      return normalized
     }
 
     // Object format: { name: elementData }
     if (typeof elements === 'object' && elements !== null) {
-      const normalized = Object.entries(elements).map(([name, data]) => ({
+      return Object.entries(elements).map(([name, data]) => ({
         ...data,
         id: data.id || name,
         name: name  // Keep original name for compatibility
       }))
-      console.log('[State] _normalizeElements (object):', normalized.length, 'elements')
-      console.log('[State] normalized elements:', normalized.map(e => ({ id: e.id, type: e.type, side: e.side })))
-      return normalized
     }
 
-    console.log('[State] _normalizeElements: no elements found')
     return []
   }
 
@@ -50,10 +42,7 @@ export class State {
 
   // Get elements for a specific side
   elementsForSide(side) {
-    const result = this._elements.filter(el => el.side === side)
-    console.log('[State] elementsForSide(', side, '):', result.length, 'of', this._elements.length, 'total')
-    console.log('[State] all elements sides:', this._elements.map(e => ({ id: e.id, side: e.side })))
-    return result
+    return this._elements.filter(el => el.side === side)
   }
 
   // Get element by ID

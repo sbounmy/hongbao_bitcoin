@@ -90,27 +90,15 @@ export class CanvasPair {
   // Render a specific side
   renderSide(side, state, selection = null, options = {}) {
     const canvas = this[side]
-    if (!canvas.ctx) {
-      console.log('[CanvasPair] renderSide() - no ctx for side:', side)
-      return
-    }
+    if (!canvas.ctx) return
 
     canvas.clear()
 
     const elements = state.elementsForSide(side)
-    console.log('[CanvasPair] renderSide()', side, '- elements:', elements.length, elements.map(e => ({ type: e.type, side: e.side, id: e.id || e.name })))
 
     // Render elements
     for (const elementData of elements) {
       const instance = this.getElementInstance(elementData)
-      console.log('[CanvasPair] rendering element:', {
-        id: elementData.id || elementData.name,
-        type: elementData.type,
-        side: elementData.side,
-        hasText: !!instance.text,
-        hasImage: !!instance.image,
-        instance: instance?.constructor?.name
-      })
 
       // Set up image load callback
       instance.onImageLoaded = () => {

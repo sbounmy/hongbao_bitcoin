@@ -10,13 +10,8 @@ export class Engine {
   constructor(frontCanvasEl, backCanvasEl, options = {}) {
     this.options = options
 
-    console.log('[Engine] constructor - initialState:', options.initialState)
-
     // Core components
     this.state = new State(options.initialState || {})
-    console.log('[Engine] state elements:', this.state.elements)
-    console.log('[Engine] front elements:', this.state.elementsForSide('front'))
-    console.log('[Engine] back elements:', this.state.elementsForSide('back'))
 
     this.canvases = new CanvasPair(frontCanvasEl, backCanvasEl, {
       qualityScale: options.qualityScale || 3
@@ -41,37 +36,25 @@ export class Engine {
 
   // Initialize and start the engine
   async start() {
-    console.log('[Engine] start() called')
-
     // Load background images if provided
     const { frontBackground, backBackground } = this.options
-    console.log('[Engine] backgrounds - front:', frontBackground?.length, 'chars, back:', backBackground?.length, 'chars')
 
     if (frontBackground || backBackground) {
       try {
         await this.canvases.loadBackgrounds(frontBackground, backBackground)
-        console.log('[Engine] backgrounds loaded successfully')
       } catch (err) {
         console.error('[Engine] failed to load backgrounds:', err)
       }
     } else {
       // No backgrounds - initialize canvases with default size
-      console.log('[Engine] no backgrounds provided, initializing with default size')
       this.canvases.init(1080, 1920) // Default wallet size
     }
 
-    console.log('[Engine] front canvas size:', this.canvases.front.width, 'x', this.canvases.front.height)
-    console.log('[Engine] back canvas size:', this.canvases.back.width, 'x', this.canvases.back.height)
-    console.log('[Engine] front canvas ctx:', !!this.canvases.front.ctx)
-    console.log('[Engine] back canvas ctx:', !!this.canvases.back.ctx)
-
-    // Setup touch handler on wrapper element
-    const wrapperEl = this.canvases.active.el.parentElement
-    this.bindTouch(wrapperEl)
+    // Setup touch handlers on BOTH canvas wrappers
+    this.bindTouchToBothCanvases()
 
     // Start render loop
     this.render()
-    console.log('[Engine] render loop started')
   }
 
   // Cleanup
@@ -81,25 +64,37 @@ export class Engine {
       this._rafId = null
     }
 
-    this.touch?.destroy()
+    this.touchFront?.destroy()
+    this.touchBack?.destroy()
     this.canvases.destroy()
   }
 
-  // Bind touch handler to element
-  bindTouch(element) {
-    this.touch?.destroy()
+  // Bind touch handlers to both canvas wrappers
+  bindTouchToBothCanvases() {
+    this.touchFront?.destroy()
+    this.touchBack?.destroy()
 
-    this.touch = new TouchHandler(element, {
-      onTap: (point) => this.handleTap(point),
-      onDoubleTap: (point) => this.handleDoubleTap(point),
-      onDragStart: (point) => this.handleDragStart(point),
+    const createCallbacks = (side) => ({
+      onTap: (point) => { this.setSide(side); this.handleTap(point) },
+      onDoubleTap: (point) => { this.setSide(side); this.handleDoubleTap(point) },
+      onDragStart: (point) => { this.setSide(side); this.handleDragStart(point) },
       onDrag: (data) => this.handleDrag(data),
       onDragEnd: (point) => this.handleDragEnd(point),
       onHover: (point) => this.handleHover(point),
-      onPinchStart: (data) => this.handlePinchStart(data),
+      onPinchStart: (data) => { this.setSide(side); this.handlePinchStart(data) },
       onPinch: (data) => this.handlePinch(data),
       onPinchEnd: () => this.handlePinchEnd()
     })
+
+    this.touchFront = new TouchHandler(
+      this.canvases.front.el.parentElement,
+      createCallbacks('front')
+    )
+
+    this.touchBack = new TouchHandler(
+      this.canvases.back.el.parentElement,
+      createCallbacks('back')
+    )
   }
 
   // Toggle between front and back
@@ -198,7 +193,6 @@ export class Engine {
 
     // Don't delete presence elements
     if (selected.presence) {
-      console.log('[Engine] Cannot delete presence element:', selected.id)
       return false
     }
 
