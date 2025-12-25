@@ -31,6 +31,12 @@ export default class extends Controller {
     themeId: String     // Current theme ID
   }
 
+  // Export canvas images for PDF preview
+  async exportForPreview() {
+    const { front, back } = await this.exporter.exportPNG()
+    this.dispatch("exported", { detail: { front, back } })
+  }
+
   connect() {
     // Get background URLs
     const frontBackground = this.hasFrontBackgroundTarget

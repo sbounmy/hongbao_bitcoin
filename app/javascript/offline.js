@@ -63,6 +63,9 @@ application.register("keys-input", KeysInputController)
 import ThemeSelectController from "./controllers/offline/theme_select_controller"
 application.register("theme-select", ThemeSelectController)
 
+import PreviewCanvasController from "./controllers/offline/preview_canvas_controller"
+application.register("preview-canvas", PreviewCanvasController)
+
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
 

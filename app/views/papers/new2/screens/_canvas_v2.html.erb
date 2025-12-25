@@ -4,15 +4,15 @@
   with vanilla JS engine and canvas-rendered handles.
 %>
 <div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+     data-controller="paper-editor"
+     data-paper-editor-design-value="<%= paper.elements.to_json %>"
+     data-paper-editor-theme-id-value="<%= theme&.id %>"
+     data-action="theme:changed@window->paper-editor#loadTheme bitcoin:changed@window->paper-editor#dataSourceChanged keydown@window->paper-editor#keydown"
      data-steps-target="content"
      data-steps-index="1">
 
-  <%# Paper Editor - Single controller for both canvases %>
-  <div data-controller="paper-editor"
-       data-paper-editor-design-value="<%= paper.elements.to_json %>"
-       data-paper-editor-theme-id-value="<%= theme&.id %>"
-       data-action="theme:changed@window->paper-editor#loadTheme bitcoin:changed@window->paper-editor#dataSourceChanged keydown@window->paper-editor#keydown"
-       class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
+  <%# Paper Editor Canvas Area %>
+  <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
 
     <%# Canvas Container - Layout adapts to frame orientation %>
     <div class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
@@ -140,7 +140,7 @@
       <%# Next Button %>
       <button type="button"
               class="btn btn-primary btn-sm gap-1"
-              data-action="steps#next">
+              data-action="paper-editor#exportForPreview steps#next">
         Next
         <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
       </button>

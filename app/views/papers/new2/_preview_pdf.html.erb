@@ -1,4 +1,6 @@
-<div class="flex-1 flex flex-col bg-[#2a2a2e]">
+<div class="flex-1 flex flex-col bg-[#2a2a2e]"
+     data-controller="preview-canvas"
+     data-action="paper-editor:exported@window->preview-canvas#handleExported">
     <!-- Viewport for scrolling - expands to fullscreen via pdf controller -->
     <div data-pdf-target="viewport"
          class="max-h-[300px] md:max-h-[50vh] bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
@@ -17,31 +19,22 @@
           <div class="flex flex-col justify-between">
             <div class="flex items-center">
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
-                <%# Back - uses template image directly (no portrait) %>
+                <%# Back - uses exported canvas image %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
-                  <%= render 'papers/new2/paper_canva',
-                          frame: frame,
-                          paper: paper,
-                          strict: true,
-                          image_base64: template_back_base64,
-                          side: "back"
-                  %>
+                  <img src="<%= template_back_base64 %>"
+                       data-preview-canvas-target="back"
+                       class="w-full h-full object-contain" />
                 </div>
 
               <%# Fold Line %>
               <div class="<%= frame.fold_line %> border-white">
               </div>
 
-                <%# Front - uses template image with portrait compositing %>
+                <%# Front - uses exported canvas image %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
-                  <%= render 'papers/new2/paper_canva',
-                          frame: frame,
-                          paper: paper,
-                          strict: true,
-                          image_base64: template_front_base64,
-                          portrait_config: portrait_config,
-                          side: "front"
-                  %>
+                  <img src="<%= template_front_base64 %>"
+                       data-preview-canvas-target="front"
+                       class="w-full h-full object-contain" />
                 </div>
             <% end %>
             <div class="relative w-8" data-reveal-target="item">
