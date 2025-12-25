@@ -76,6 +76,9 @@ application.register("password-visibility", PasswordVisibility)
 import EditorController from "./controllers/editor/editor_controller"
 application.register("editor", EditorController)
 
+import EditorStorageController from "./controllers/editor/storage_controller"
+application.register("editor-storage", EditorStorageController)
+
 import EditorOverlayController from "./controllers/editor/overlay_controller"
 application.register("editor--overlay", EditorOverlayController)
 
@@ -87,3 +90,7 @@ application.register("editor--rotate", EditorRotateController)
 
 import TextEditController from "./controllers/text_edit_controller"
 application.register("text-edit", TextEditController)
+
+// --- New Editor Architecture ---
+import PaperEditorController from "./controllers/paper_editor_controller"
+application.register("paper-editor", PaperEditorController)

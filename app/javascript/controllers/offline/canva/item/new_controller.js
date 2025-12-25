@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Factory controller for creating new canvas items
-// Adds items to JSON, then lets canva_controller sync to create instances
+// Adds items to storage, then lets canva_controller sync to create instances
 export default class extends Controller {
   // --- Public API: Create methods for each item type ---
 
@@ -18,39 +18,33 @@ export default class extends Controller {
   // --- Private: Shared creation logic ---
 
   create(type, options = {}) {
-    const { canvaController, editorController } = this.findControllers()
-    if (!canvaController) return
+    const { canvaController, editorController, storageController } = this.findControllers()
+    if (!canvaController || !storageController) return
+
+    // Get side from the active canvas
+    const side = canvaController.sideValue || 'back'
 
     const name = this.generateName(type)
-    const data = this.buildItemData(type, options)
+    const data = this.buildItemData(type, { ...options, side })
 
-    // Add to canva controller's items via JSON field
-    const field = canvaController.elementsFieldTarget
-    if (!field) return
+    // Add to storage controller
+    storageController.updateElement(name, data)
 
-    try {
-      const elements = JSON.parse(field.value || '{}')
-      elements[name] = data
-      field.value = JSON.stringify(elements)
+    // Sync items from storage
+    canvaController.loadItemsFromJson()
+    canvaController.redrawAll()
 
-      // Sync items from JSON
-      canvaController.loadItemsFromJson()
-      canvaController.redrawAll()
+    // Persist and auto-select the new item
+    if (editorController) {
+      editorController.persistChanges()
 
-      // Persist and auto-select the new item
-      if (editorController) {
-        editorController.persistChanges()
-
-        // Auto-select after a frame (item needs to be created first)
-        requestAnimationFrame(() => {
-          const item = canvaController.getItem(name)
-          if (item) {
-            editorController.selectItem(item)
-          }
-        })
-      }
-    } catch {
-      // Ignore parse errors
+      // Auto-select after a frame (item needs to be created first)
+      requestAnimationFrame(() => {
+        const item = canvaController.getItem(name)
+        if (item) {
+          editorController.selectItem(item)
+        }
+      })
     }
   }
 
@@ -69,7 +63,13 @@ export default class extends Controller {
     // Get the canva controller from within the editor
     const canvaController = editorController?.canvaController
 
-    return { canvaController, editorController }
+    // Find the storage controller
+    const storageElement = document.querySelector("[data-controller='editor-storage']")
+    const storageController = storageElement
+      ? this.application.getControllerForElementAndIdentifier(storageElement, 'editor-storage')
+      : null
+
+    return { canvaController, editorController, storageController }
   }
 
   generateName(type) {
@@ -86,6 +86,7 @@ export default class extends Controller {
       presence: false,  // Custom items can be deleted
       hidden: false,
       type: type,
+      side: options.side || 'back',  // Inherit from active canvas
       text: options.text ?? 'Text',
       font_size: options.font_size ?? 3,
       font_color: options.font_color ?? '#000000'

@@ -29,6 +29,14 @@ const controllers = {
 // Factory function to create the right controller based on type
 export function createItem(name, data, canvaController) {
   const type = data.type || 'text'
-  const Controller = controllers[type] || controllers['text']
-  return new Controller(name, data, canvaController)
+  const Controller = controllers[type]
+
+  if (!Controller) {
+    console.warn("[Canva Item] Unknown type:", type, "for item:", name, "- falling back to text")
+  }
+
+  const FinalController = Controller || controllers['text']
+  console.log("[Canva Item] createItem():", name, "type:", type, "controller:", FinalController.name)
+
+  return new FinalController(name, data, canvaController)
 }

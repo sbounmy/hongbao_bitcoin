@@ -65,28 +65,18 @@ export default class extends Controller {
   saveCurrentPositions() {
     if (!this.currentThemeId) return
 
-    const frontPositions = this.getCurrentPositions('front')
-    const backPositions = this.getCurrentPositions('back')
+    const storageElement = document.querySelector("[data-controller='editor-storage']")
+    if (!storageElement) return
 
-    if (Object.keys(frontPositions).length > 0 || Object.keys(backPositions).length > 0) {
-      this.customizations.set(this.currentThemeId, {
-        front: frontPositions,
-        back: backPositions
-      })
-    }
-  }
+    const field = storageElement.querySelector("input[data-editor-storage-target='field']")
+    if (!field?.value) return
 
-  // Get current positions from the hidden elements field
-  getCurrentPositions(side) {
-    const field = document.querySelector(`input[name="${side}_elements"]`)
-    if (field && field.value) {
-      try {
-        return JSON.parse(field.value)
-      } catch (e) {
-        return {}
-      }
+    try {
+      const allElements = JSON.parse(field.value)
+      this.customizations.set(this.currentThemeId, allElements)
+    } catch (e) {
+      // Ignore parse errors
     }
-    return {}
   }
 
   getThemeData(radio) {
@@ -95,7 +85,7 @@ export default class extends Controller {
       slug: radio.dataset.themeSlug,
       frontUrl: radio.dataset.themeFrontUrl,
       backUrl: radio.dataset.themeBackUrl,
-      elements: JSON.parse(radio.dataset.themeElements)
+      elements: JSON.parse(radio.dataset.themeElements || '{}')
     }
   }
 
@@ -103,47 +93,18 @@ export default class extends Controller {
     const themeId = parseInt(theme.id)
     const savedCustomizations = this.customizations.get(themeId)
 
-    this.dispatchThemeChange('front', theme, savedCustomizations?.front)
-    this.dispatchThemeChange('back', theme, savedCustomizations?.back)
-  }
+    // Use saved customizations if available, otherwise use theme defaults
+    // Elements already have 'side' property in their data
+    const elements = savedCustomizations || theme.elements
 
-  dispatchThemeChange(side, theme, savedPositions) {
-    // Element names in snake_case (as stored in theme.elements)
-    const frontElements = ['portrait', 'public_address_qrcode', 'public_address_text']
-    const backElements = ['private_key_qrcode', 'private_key_text', 'mnemonic_text']
-
-    const elementNames = side === 'front' ? frontElements : backElements
-    const elements = {}
-
-    elementNames.forEach(name => {
-      // savedPositions uses camelCase keys (from editor controller)
-      const camelName = this.camelize(name)
-
-      // Use saved positions if available, otherwise use theme defaults
-      if (savedPositions && savedPositions[camelName]) {
-        elements[camelName] = savedPositions[camelName]
-      } else if (theme.elements[name]) {
-        // Convert theme defaults to camelCase key format
-        elements[camelName] = theme.elements[name]
-      }
-    })
-
-    window.dispatchEvent(new CustomEvent(`theme:${side}Changed`, {
+    // Dispatch single event with all elements
+    window.dispatchEvent(new CustomEvent('theme:changed', {
       detail: {
-        themeId: parseInt(theme.id),
-        url: side === 'front' ? theme.frontUrl : theme.backUrl,
+        themeId,
+        frontUrl: theme.frontUrl,
+        backUrl: theme.backUrl,
         elements
       }
     }))
-  }
-
-  // Convert snake_case to camelCase
-  camelize(name) {
-    return name
-      .split('_')
-      .map((word, index) =>
-        index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      )
-      .join('')
   }
 }

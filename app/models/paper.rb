@@ -75,12 +75,20 @@ class Paper < ApplicationRecord
     inputs.find { |i| i.is_a?(Input::Event) }
   end
 
+  # Filter elements by side (front or back)
+  # Uses the `side` property stored in each element's data
+  def elements_for_side(side)
+    return {} unless elements.is_a?(Hash)
+
+    elements.select { |_, data| data.is_a?(Hash) && data["side"] == side.to_s }
+  end
+
   def front_elements
-    elements.slice("portrait", "public_address_qrcode", "public_address_text")
+    elements_for_side("front")
   end
 
   def back_elements
-    elements.slice("private_key_qrcode", "private_key_text", "mnemonic_text", "custom_text")
+    elements_for_side("back")
   end
 
   def processing?

@@ -34,10 +34,15 @@ export default class TextController extends BaseController {
   }
 
   draw() {
-    if (!this.ctx || this.hidden) return
+    console.log("[Canva Text] draw():", this.name, "ctx:", !!this.ctx, "hidden:", this.hidden, "text:", this.text?.substring(0, 30))
+    if (!this.ctx || this.hidden) {
+      console.log("[Canva Text] draw() skipped:", this.name, "reason:", !this.ctx ? "no ctx" : "hidden")
+      return
+    }
 
     const { x, y } = this.getBounds()
     const maxWidthPx = this.canvasWidth * (this.width / 100)
+    console.log("[Canva Text] draw() bounds:", this.name, "x:", x, "y:", y, "maxWidth:", maxWidthPx, "canvasWidth:", this.canvasWidth)
 
     // Font size is a percentage of canvas width
     const fontCorrectionFactor = 0.95

@@ -1,12 +1,12 @@
 class AddNamespacedTypeToElements < ActiveRecord::Migration[8.0]
-  # Add namespaced type to elements:
-  # - mnemonic_text -> mnemonic/text
-  # - private_key_text -> private_key/text
-  # - private_key_qrcode -> private_key/qrcode
-  # - public_address_text -> public_address/text
-  # - public_address_qrcode -> public_address/qrcode
-  # - portrait -> portrait
-  # - custom_text -> text
+  # Add namespaced type and side to elements:
+  # - mnemonic_text -> type: mnemonic/text, side: back
+  # - private_key_text -> type: private_key/text, side: back
+  # - private_key_qrcode -> type: private_key/qrcode, side: back
+  # - public_address_text -> type: public_address/text, side: front
+  # - public_address_qrcode -> type: public_address/qrcode, side: front
+  # - portrait -> type: portrait, side: front
+  # - custom_text -> type: text, side: back (default)
 
   ELEMENT_TYPES = {
     "mnemonic_text" => "mnemonic/text",
@@ -16,6 +16,16 @@ class AddNamespacedTypeToElements < ActiveRecord::Migration[8.0]
     "public_address_qrcode" => "public_address/qrcode",
     "portrait" => "portrait",
     "custom_text" => "text"
+  }.freeze
+
+  ELEMENT_SIDES = {
+    "portrait" => "front",
+    "public_address_qrcode" => "front",
+    "public_address_text" => "front",
+    "private_key_qrcode" => "back",
+    "private_key_text" => "back",
+    "mnemonic_text" => "back",
+    "custom_text" => "back"
   }.freeze
 
   def up
@@ -77,14 +87,17 @@ class AddNamespacedTypeToElements < ActiveRecord::Migration[8.0]
   def add_type_to_hash(elements)
     elements.each_with_object({}) do |(name, element), hash|
       next unless element.is_a?(Hash)
-      hash[name] = element.to_h.merge("type" => ELEMENT_TYPES[name])
+      hash[name] = element.to_h.merge(
+        "type" => ELEMENT_TYPES[name],
+        "side" => ELEMENT_SIDES[name] || "back"
+      )
     end
   end
 
   def remove_type_from_hash(elements)
     elements.each_with_object({}) do |(name, element), hash|
       next unless element.is_a?(Hash)
-      hash[name] = element.to_h.except("type")
+      hash[name] = element.to_h.except("type", "side")
     end
   end
 end

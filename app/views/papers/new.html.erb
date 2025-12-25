@@ -11,7 +11,7 @@
 <% attributes_for(:screen_attributes, {
   class: 'relative overflow-hidden group',
   data: {
-    controller: 'steps bitcoin pdf preview portrait',
+    controller: 'steps bitcoin pdf portrait',
     steps_current_value: @current_step.to_s,
     steps_hidden_class: 'hidden',
     bitcoin_auto_generate_value: 'true',
@@ -55,28 +55,35 @@
   </div>
 </div>
 
-<%# Screen 1: Canvas - Paper preview with toolbar %>
-<%= render "papers/new2/screens/canvas",
-    theme: @theme,
-    frame: @frame,
-    template_front_base64: @template_front_base64,
-    template_back_base64: @template_back_base64,
-    portrait_config: @portrait_config,
-    paper: @paper,
-    current_step: @current_step,
-    recent_photos: @recent_photos,
-    pagy: @pagy,
-    styles: @styles %>
+<%# Storage controller - single source of truth for all elements %>
+<div data-controller="editor-storage"
+     data-action="canva:persist@window->editor-storage#handleCanvaPersist">
+  <%= hidden_field_tag "elements", @paper.elements.to_json,
+      data: { editor_storage_target: "field" } %>
 
-<%# Screen 2: Finish - Download, Fund, Track %>
-<div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
-     data-steps-target="content"
-     data-steps-index="2">
-  <%= render "papers/new2/screens/finish",
-      paper: @paper,
+  <%# Screen 1: Canvas - Paper preview with toolbar %>
+  <%= render "papers/new2/screens/canvas_v2",
+      theme: @theme,
       frame: @frame,
       template_front_base64: @template_front_base64,
       template_back_base64: @template_back_base64,
       portrait_config: @portrait_config,
-      current_step: @current_step %>
+      paper: @paper,
+      current_step: @current_step,
+      recent_photos: @recent_photos,
+      pagy: @pagy,
+      styles: @styles %>
+
+  <%# Screen 2: Finish - Download, Fund, Track %>
+  <div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+       data-steps-target="content"
+       data-steps-index="2">
+    <%= render "papers/new2/screens/finish",
+        paper: @paper,
+        frame: @frame,
+        template_front_base64: @template_front_base64,
+        template_back_base64: @template_back_base64,
+        portrait_config: @portrait_config,
+        current_step: @current_step %>
+  </div>
 </div>

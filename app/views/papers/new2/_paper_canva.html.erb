@@ -24,13 +24,17 @@
        data-canva-strict-value="<%= strict %>"
        data-canva-side-value="<%= side %>"
        data-canva-theme-id-value="<%= theme&.id %>"
-       data-action="bitcoin:changed@window->canva#handleWalletChanged editor:changed@window->canva#handleElementsChanged canva:imageLoaded->bitcoin#dispatchWalletChanged theme:<%= side %>Changed@window->canva#backgroundImageChanged"
+       data-action="editor-storage:ready@window->canva#handleStorageReady editor-storage:changed@window->canva#handleStorageChanged bitcoin:changed@window->canva#handleWalletChanged theme:changed@window->canva#handleThemeChanged canva:imageLoaded->bitcoin#dispatchWalletChanged"
        class="w-full h-full">
     <%= image_tag image_base64, class: "hidden", data: { canva_target: "backgroundImage" } %>
     <canvas data-canva-target="container"
             data-editor-target="canvas"
             class="w-full h-full"></canvas>
     <%# Items are now created from JSON in JavaScript - no more Ruby-rendered divs %>
+    <% if editor_enabled %>
+      <%# Hidden field for wallet data (NEVER submitted - disabled prevents form submission) %>
+      <%= hidden_field_tag "#{side}_wallet", {}.to_json, data: { canva_target: "walletField" }, disabled: true %>
+    <% end %>
   </div>
 
   <% if editor_enabled %>
@@ -103,11 +107,5 @@
         </button>
       </div>
     </div>
-
-    <%# Hidden field for persisting element positions (safe to submit to server) %>
-    <%= hidden_field_tag "#{side}_elements", elements.to_json, data: { editor_target: "elementsField", canva_target: "elementsField" } %>
-
-    <%# Hidden field for wallet data (NEVER submitted - disabled prevents form submission) %>
-    <%= hidden_field_tag "#{side}_wallet", {}.to_json, data: { canva_target: "walletField" }, disabled: true %>
   <% end %>
 </div>
