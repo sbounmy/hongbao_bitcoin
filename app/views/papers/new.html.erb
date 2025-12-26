@@ -11,7 +11,7 @@
 <% attributes_for(:screen_attributes, {
   class: 'relative overflow-hidden group',
   data: {
-    controller: 'steps bitcoin pdf portrait paper-editor',
+    controller: 'steps bitcoin pdf image paper-editor',
     steps_current_value: @current_step.to_s,
     steps_hidden_class: 'hidden',
     bitcoin_auto_generate_value: 'true',
@@ -36,8 +36,8 @@
 <%# Turbo Streams container for ActionCable subscriptions %>
 <div id="turbo-streams"></div>
 
-<%# Portrait AI generation loading indicator - non-blocking toast %>
-<div data-portrait-target="loading" class="hidden toast toast-bottom toast-center z-50 mb-20">
+<%# Image AI generation loading indicator - non-blocking toast %>
+<div data-image-target="loading" class="hidden toast toast-bottom toast-center z-50 mb-20">
   <div class="alert bg-base-100 shadow-xl border border-base-300 flex-col items-start gap-2 w-80">
     <div class="flex items-center gap-3 w-full">
       <span class="loading loading-spinner loading-sm text-primary"></span>
@@ -50,11 +50,11 @@
   </div>
 </div>
 
-<%# Portrait AI generation success notification %>
-<div data-portrait-target="success" class="hidden toast toast-top toast-end z-50">
+<%# Image AI generation success notification %>
+<div data-image-target="success" class="hidden toast toast-top toast-end z-50">
   <div class="alert alert-success">
     <%= heroicon "check-circle", variant: :mini, class: "w-5 h-5" %>
-    <span>AI portrait ready!</span>
+    <span>AI image ready!</span>
   </div>
 </div>
 

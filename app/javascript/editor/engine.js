@@ -154,7 +154,7 @@ export class Engine {
         font_color: "#000000",
         presence: false
       },
-      portrait: {
+      image: {
         x: 30,
         y: 20,
         width: 20,

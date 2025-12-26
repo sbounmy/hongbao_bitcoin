@@ -1,7 +1,8 @@
 <%# Photo Selection Drawer - Two screens using tabs %>
-<div data-controller="tabs preview photo-select"
+<div data-controller="tabs preview photo-select image-edit"
      data-tabs-default-tab-value="photo-select"
      data-tabs-active-class="font-bold"
+     data-action="paper-editor:drawerOpen@window->image-edit#open preview:selected->image-edit#applyImage"
      class="flex flex-col h-full">
 
   <%# Screen 1: Photo Selection %>
@@ -145,7 +146,7 @@
       <div class="sticky bottom-0 px-4 py-3 border-t border-base-content/10 bg-base-100 shrink-0">
         <button type="submit"
                 class="btn btn-primary w-full gap-2"
-                onclick="window.dispatchEvent(new CustomEvent('portrait:loading'))">
+                onclick="window.dispatchEvent(new CustomEvent('image:loading'))">
           <%= heroicon "sparkles", variant: :mini, class: "w-4 h-4" %>
           Generate
         </button>

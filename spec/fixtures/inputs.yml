@@ -16,6 +16,7 @@ tunisian_dinar:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -24,6 +25,7 @@ tunisian_dinar:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -31,6 +33,7 @@ tunisian_dinar:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -39,6 +42,7 @@ tunisian_dinar:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -47,6 +51,7 @@ tunisian_dinar:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -55,6 +60,7 @@ tunisian_dinar:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 dollar:
   id: 1
   name: "Dollar"
@@ -83,6 +89,7 @@ dollar:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -91,6 +98,7 @@ dollar:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -98,6 +106,7 @@ dollar:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -106,6 +115,7 @@ dollar:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -114,6 +124,7 @@ dollar:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -122,12 +133,14 @@ dollar:
         size: ""
         color: ""
         type: "text"
+        side: "back"
       portrait:
         x: "10"
         y: "20"
         width: "200"
         height: "300"
         type: "portrait"
+        side: "front"
 euro:
   id: 2
   name: "Euro"
@@ -144,6 +157,7 @@ euro:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -152,6 +166,7 @@ euro:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -159,6 +174,7 @@ euro:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -167,6 +183,7 @@ euro:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -175,6 +192,7 @@ euro:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -183,6 +201,7 @@ euro:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 monoboly:
   id: 3
   name: "Monoboly"
@@ -199,6 +218,7 @@ monoboly:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -207,6 +227,7 @@ monoboly:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -214,6 +235,7 @@ monoboly:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -222,6 +244,7 @@ monoboly:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -230,6 +253,7 @@ monoboly:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -238,6 +262,7 @@ monoboly:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 rouble:
   id: 4
   name: "Rouble"
@@ -254,6 +279,7 @@ rouble:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -262,6 +288,7 @@ rouble:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -269,6 +296,7 @@ rouble:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -277,6 +305,7 @@ rouble:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -285,6 +314,7 @@ rouble:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -293,6 +323,7 @@ rouble:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 chinese_yuan:
   id: 5
   name: "Chinese Yuan"
@@ -309,6 +340,7 @@ chinese_yuan:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -317,6 +349,7 @@ chinese_yuan:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -324,6 +357,7 @@ chinese_yuan:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -332,6 +366,7 @@ chinese_yuan:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -340,6 +375,7 @@ chinese_yuan:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -348,6 +384,7 @@ chinese_yuan:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 indonesian_rupiah:
   id: 14
   name: "Rupiah"
@@ -364,6 +401,7 @@ indonesian_rupiah:
         height: "18.0"
         color: "#000000"
         type: "private_key/qrcode"
+        side: "back"
       private_key_text:
         x: "9"
         y: "57"
@@ -372,6 +410,7 @@ indonesian_rupiah:
         size: "1.8"
         color: "#000000"
         type: "private_key/text"
+        side: "back"
       public_address_qrcode:
         x: "22"
         y: "24"
@@ -379,6 +418,7 @@ indonesian_rupiah:
         height: "18.0"
         color: ""
         type: "public_address/qrcode"
+        side: "front"
       public_address_text:
         x: "21"
         y: "55"
@@ -387,6 +427,7 @@ indonesian_rupiah:
         size: "1.8"
         color: "#000000"
         type: "public_address/text"
+        side: "front"
       mnemonic_text:
         x: "5"
         y: "50"
@@ -395,6 +436,7 @@ indonesian_rupiah:
         size: "1.6"
         color: "#000000"
         type: "mnemonic/text"
+        side: "back"
       custom_text:
         x: ""
         y: ""
@@ -403,6 +445,7 @@ indonesian_rupiah:
         size: ""
         color: ""
         type: "text"
+        side: "back"
 none:
   id: 100
   position: 99

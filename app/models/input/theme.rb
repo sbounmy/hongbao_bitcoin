@@ -151,7 +151,7 @@ class Input::Theme < Input
         "color" => "",          # Tone color (hex) - empty means no tint
         "opacity" => 0.25,      # Tone opacity (0.0 - 1.0)
         "resolution" => "1024x1024",  # AI generation size: 1024x1024, 1536x1024, 1024x1536
-        "type" => "portrait"
+        "type" => "image"
       }
     }
   end

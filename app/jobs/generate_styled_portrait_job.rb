@@ -40,13 +40,13 @@ class GenerateStyledPortraitJob < ApplicationJob
   end
 
   def broadcast_result
-    # Broadcast custom event via Turbo Stream to notify portrait:generated
+    # Broadcast custom event via Turbo Stream to notify image:generated
     Turbo::StreamsChannel.broadcast_action_to(
       @input_item,
       action: :dispatch,
-      target: "portrait",
+      target: "image",
       attributes: {
-        event: "portrait:generated",
+        event: "image:generated",
         detail: { url: rails_blob_path(@input_item.generated_image, only_path: true) }.to_json
       }
     )

@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Handles portrait display, loading states, and AI generation updates
+// Handles image display, loading states, and AI generation updates
 // Reusable across different views (papers/new2, papers/show, etc.)
 export default class extends Controller {
   static targets = ["loading", "success"]
@@ -9,17 +9,17 @@ export default class extends Controller {
   }
 
   connect() {
-    // Listen for AI portrait generation events
+    // Listen for AI image generation events
     this.handleLoading = this.handleLoading.bind(this)
     this.handleGenerated = this.handleGenerated.bind(this)
 
-    window.addEventListener("portrait:loading", this.handleLoading)
-    window.addEventListener("portrait:generated", this.handleGenerated)
+    window.addEventListener("image:loading", this.handleLoading)
+    window.addEventListener("image:generated", this.handleGenerated)
   }
 
   disconnect() {
-    window.removeEventListener("portrait:loading", this.handleLoading)
-    window.removeEventListener("portrait:generated", this.handleGenerated)
+    window.removeEventListener("image:loading", this.handleLoading)
+    window.removeEventListener("image:generated", this.handleGenerated)
   }
 
   // Handle loading event - show loading indicator
@@ -28,13 +28,13 @@ export default class extends Controller {
     this.showLoading()
   }
 
-  // Handle AI-generated portrait from Turbo Stream broadcast
+  // Handle AI-generated image from Turbo Stream broadcast
   handleGenerated(event) {
     const url = event.detail?.url
     if (url) {
       this.loadingValue = false
       this.hideLoading()
-      this.dispatchPortraitChanged(url)
+      this.dispatchImageChanged(url)
       this.showSuccessNotification()
     }
   }
@@ -51,8 +51,8 @@ export default class extends Controller {
     }
   }
 
-  // Dispatch event for canvas to redraw with new portrait
-  dispatchPortraitChanged(url) {
+  // Dispatch event for canvas to redraw with new image
+  dispatchImageChanged(url) {
     this.dispatch("changed", { detail: { url } })
   }
 

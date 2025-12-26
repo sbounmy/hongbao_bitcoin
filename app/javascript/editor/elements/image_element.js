@@ -1,13 +1,13 @@
 import { BaseElement } from "./base_element"
 
-// Portrait/image element with loading state support
-export class PortraitElement extends BaseElement {
+// Image element with loading state support
+export class ImageElement extends BaseElement {
   static drawer = 'photo-drawer'
 
   constructor(data) {
     super(data)
 
-    this.portraitImage = null
+    this.image = null
     this.placeholderImage = null
     this.loading = false
     this.loadingAnimationId = null
@@ -35,14 +35,14 @@ export class PortraitElement extends BaseElement {
     img.crossOrigin = 'anonymous'
     img.onload = () => {
       this.placeholderImage = img
-      if (!this.portraitImage) {
+      if (!this.image) {
         this.onImageLoaded?.()
       }
     }
     img.src = url
   }
 
-  // Load portrait image from URL or file data
+  // Load image from URL or file data
   loadImage(url) {
     this.loading = false
     this.stopLoadingAnimation()
@@ -50,7 +50,7 @@ export class PortraitElement extends BaseElement {
     const img = new Image()
     img.crossOrigin = 'anonymous'
     img.onload = () => {
-      this.portraitImage = img
+      this.image = img
       this.onImageLoaded?.()
     }
     img.src = url
@@ -60,7 +60,7 @@ export class PortraitElement extends BaseElement {
   setLoading(loading) {
     this.loading = loading
     if (loading) {
-      this.portraitImage = null
+      this.image = null
       this.startLoadingAnimation()
     } else {
       this.stopLoadingAnimation()
@@ -95,12 +95,12 @@ export class PortraitElement extends BaseElement {
       return
     }
 
-    if (this.portraitImage) {
-      this.drawPortraitImage(ctx, x, y, width, height, this.portraitImage)
+    if (this.image) {
+      this.drawImage(ctx, x, y, width, height, this.image)
     } else if (this.placeholderImage) {
-      this.drawPortraitImage(ctx, x, y, width, height, this.placeholderImage)
+      this.drawImage(ctx, x, y, width, height, this.placeholderImage)
     }
-    // If no portrait and no placeholder, draw nothing (transparent)
+    // If no image and no placeholder, draw nothing (transparent)
   }
 
   drawSpinner(ctx, x, y, width, height) {
@@ -120,7 +120,7 @@ export class PortraitElement extends BaseElement {
     ctx.restore()
   }
 
-  drawPortraitImage(ctx, x, y, boxWidth, boxHeight, img) {
+  drawImage(ctx, x, y, boxWidth, boxHeight, img) {
     if (!img) return
 
     // Scale to fit bounding box while maintaining aspect ratio

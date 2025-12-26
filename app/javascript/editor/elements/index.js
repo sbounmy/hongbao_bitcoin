@@ -1,6 +1,6 @@
 import { BaseElement } from "./base_element"
 import { TextElement } from "./text_element"
-import { PortraitElement } from "./portrait_element"
+import { ImageElement } from "./image_element"
 
 // Wallet elements
 import { WalletTextElement } from "./wallet/text_element"
@@ -16,7 +16,7 @@ import { PublicAddressQRElement } from "./wallet/public_address_qr_element"
 const ELEMENT_TYPES = {
   // User elements
   'text': TextElement,
-  'portrait': PortraitElement,
+  'image': ImageElement,
 
   // Wallet text elements
   'private_key/text': PrivateKeyTextElement,
@@ -50,7 +50,7 @@ export function getRegisteredTypes() {
 export {
   BaseElement,
   TextElement,
-  PortraitElement,
+  ImageElement,
   WalletTextElement,
   WalletQRElement,
   PrivateKeyTextElement,

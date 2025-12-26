@@ -5,7 +5,7 @@ class AddNamespacedTypeToElements < ActiveRecord::Migration[8.0]
   # - private_key_qrcode -> type: private_key/qrcode, side: back
   # - public_address_text -> type: public_address/text, side: front
   # - public_address_qrcode -> type: public_address/qrcode, side: front
-  # - portrait -> type: portrait, side: front
+  # - portrait -> type: image, side: front (renamed from portrait)
   # - custom_text -> type: text, side: back (default)
 
   ELEMENT_TYPES = {
@@ -14,7 +14,7 @@ class AddNamespacedTypeToElements < ActiveRecord::Migration[8.0]
     "private_key_qrcode" => "private_key/qrcode",
     "public_address_text" => "public_address/text",
     "public_address_qrcode" => "public_address/qrcode",
-    "portrait" => "portrait",
+    "portrait" => "image",
     "custom_text" => "text"
   }.freeze
 

@@ -47,8 +47,11 @@ application.register("progress", ProgressController)
 import PhotoSelectController from "./photo_select_controller"
 application.register("photo-select", PhotoSelectController)
 
-import PortraitController from "./portrait_controller"
-application.register("portrait", PortraitController)
+import ImageController from "./image_controller"
+application.register("image", ImageController)
+
+import ImageEditController from "./image_edit_controller"
+application.register("image-edit", ImageEditController)
 
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
