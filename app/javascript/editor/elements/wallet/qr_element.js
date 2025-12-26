@@ -1,7 +1,8 @@
-import { BaseElement } from "./base_element"
+import { BaseElement } from "../base_element"
 
-// QR code element - displays QR code images
-export class QRElement extends BaseElement {
+// Base for wallet QR elements (private key QR, public address QR)
+// QR code images are set externally from wallet data
+export class WalletQRElement extends BaseElement {
   constructor(data) {
     super(data)
 
@@ -40,7 +41,7 @@ export class QRElement extends BaseElement {
       this.onImageLoaded?.()
     }
     img.onerror = (err) => {
-      console.error('[QRElement] Failed to load image:', url, err)
+      console.error('[WalletQRElement] Failed to load image:', url, err)
     }
     img.src = url
   }
@@ -77,7 +78,7 @@ export class QRElement extends BaseElement {
     return {
       ...super.toJSON(),
       color: this.color
-      // image_url is not persisted - comes from external source
+      // image_url is not persisted - comes from external wallet data
     }
   }
 }

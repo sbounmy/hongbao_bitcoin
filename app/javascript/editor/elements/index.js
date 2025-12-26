@@ -1,27 +1,31 @@
 import { BaseElement } from "./base_element"
 import { TextElement } from "./text_element"
-import { TransientTextElement } from "./transient_text_element"
-import { QRElement } from "./qr_element"
 import { PortraitElement } from "./portrait_element"
+
+// Wallet elements
+import { WalletTextElement } from "./wallet/text_element"
+import { WalletQRElement } from "./wallet/qr_element"
+import { PrivateKeyTextElement } from "./wallet/private_key_text_element"
+import { PublicAddressTextElement } from "./wallet/public_address_text_element"
+import { MnemonicTextElement } from "./wallet/mnemonic_text_element"
+import { PrivateKeyQRElement } from "./wallet/private_key_qr_element"
+import { PublicAddressQRElement } from "./wallet/public_address_qr_element"
 
 // Element type registry
 // Maps type strings to element classes
 const ELEMENT_TYPES = {
-  // Custom user text
+  // User elements
   'text': TextElement,
-
-  // Transient text (content set externally)
-  'mnemonic/text': TransientTextElement,
-  'private_key/text': TransientTextElement,
-  'public_address/text': TransientTextElement,
-
-  // QR codes
-  'qrcode': QRElement,
-  'private_key/qrcode': QRElement,
-  'public_address/qrcode': QRElement,
-
-  // Portrait/image
   'portrait': PortraitElement,
+
+  // Wallet text elements
+  'private_key/text': PrivateKeyTextElement,
+  'public_address/text': PublicAddressTextElement,
+  'mnemonic/text': MnemonicTextElement,
+
+  // Wallet QR elements
+  'private_key/qrcode': PrivateKeyQRElement,
+  'public_address/qrcode': PublicAddressQRElement,
 }
 
 // Factory function to create element instances
@@ -46,7 +50,12 @@ export function getRegisteredTypes() {
 export {
   BaseElement,
   TextElement,
-  TransientTextElement,
-  QRElement,
-  PortraitElement
+  PortraitElement,
+  WalletTextElement,
+  WalletQRElement,
+  PrivateKeyTextElement,
+  PublicAddressTextElement,
+  MnemonicTextElement,
+  PrivateKeyQRElement,
+  PublicAddressQRElement
 }

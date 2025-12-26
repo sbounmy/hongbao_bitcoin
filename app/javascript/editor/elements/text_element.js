@@ -2,6 +2,7 @@ import { BaseElement } from "./base_element"
 
 // Text element - user-created text that persists to elements JSON
 export class TextElement extends BaseElement {
+  static drawer = 'text-edit-drawer'
   static SINGLE_LINE_THRESHOLD = 1.5
 
   constructor(data) {

@@ -1,96 +1,59 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Controller for the text edit drawer
-// Binds to a text item and updates it in real-time
+// Opens via data-action="paper-editor:drawerOpen->text-edit#open"
 export default class extends Controller {
   static targets = ["text", "size", "sizeLabel", "colorPicker", "deleteBtn"]
 
-  connect() {
-    // Listen for text-edit:open events from text items
-    this.boundOnOpen = this.onOpen.bind(this)
-    document.addEventListener("text-edit:open", this.boundOnOpen)
+  engine = null
+  elementId = null
+  element_ = null
 
-    // Clear state on connect
-    this.currentItemElement = null
-    this.currentEditorElement = null
+  // Called via data-action="paper-editor:drawerOpen->text-edit#open"
+  open(event) {
+    const { element, elementId, engine } = event.detail
+    this.engine = engine
+    this.elementId = elementId
+    this.element_ = element
+
+    this.populateForm(element)
+    this.updateDeleteButton(element)
   }
 
-  disconnect() {
-    document.removeEventListener("text-edit:open", this.boundOnOpen)
-    this.currentItemElement = null
-    this.currentEditorElement = null
-  }
-
-  // Get the current item controller (fresh lookup to avoid stale references)
-  get currentItem() {
-    if (!this.currentItemElement) return null
-    const controllerName = this.currentItemElement.dataset.controller
-    return this.application.getControllerForElementAndIdentifier(this.currentItemElement, controllerName)
-  }
-
-  // Get the editor controller for this item
-  get editorController() {
-    if (!this.currentEditorElement) return null
-    return this.application.getControllerForElementAndIdentifier(this.currentEditorElement, 'editor')
-  }
-
-  onOpen(event) {
-    const { itemController } = event.detail
-    if (!itemController || !itemController.element) return
-
-    // Store element references (not controller references which can become stale)
-    this.currentItemElement = itemController.element
-    this.currentEditorElement = itemController.element.closest('[data-controller~="editor"]')
-
-    this.populateForm()
-    this.updateDeleteButton()
-  }
-
-  populateForm() {
-    const item = this.currentItem
-    if (!item) return
-
-    // Populate text
+  populateForm(element) {
     if (this.hasTextTarget) {
-      this.textTarget.value = item.textValue || ""
+      this.textTarget.value = element.text || ""
     }
 
-    // Populate size
     if (this.hasSizeTarget) {
-      this.sizeTarget.value = item.fontSizeValue || 3
+      this.sizeTarget.value = element.font_size || 3
       this.updateSizeLabel()
     }
 
-    // Populate color
     if (this.hasColorPickerTarget) {
-      this.colorPickerTarget.value = item.fontColorValue || "#000000"
+      this.colorPickerTarget.value = element.font_color || "#000000"
     }
   }
 
-  updateDeleteButton() {
+  updateDeleteButton(element) {
     if (!this.hasDeleteBtnTarget) return
 
-    const item = this.currentItem
     // Hide delete for presence items (required elements)
-    const isPresence = item?.presenceValue ?? true
+    const isPresence = element?.presence ?? true
     this.deleteBtnTarget.classList.toggle("hidden", isPresence)
   }
 
   updateText() {
-    const item = this.currentItem
-    if (!item || !this.hasTextTarget) return
+    if (!this.engine || !this.hasTextTarget) return
 
-    item.textValue = this.textTarget.value
-    this.redrawAndPersist()
+    this.engine.updateElement(this.elementId, { text: this.textTarget.value })
   }
 
   updateSize() {
-    const item = this.currentItem
-    if (!item || !this.hasSizeTarget) return
+    if (!this.engine || !this.hasSizeTarget) return
 
-    item.fontSizeValue = parseFloat(this.sizeTarget.value)
+    this.engine.updateElement(this.elementId, { font_size: parseFloat(this.sizeTarget.value) })
     this.updateSizeLabel()
-    this.redrawAndPersist()
   }
 
   updateSizeLabel() {
@@ -101,55 +64,41 @@ export default class extends Controller {
 
   selectColor(event) {
     const color = event.currentTarget.dataset.color
-    const item = this.currentItem
-    if (!color || !item) return
+    if (!color || !this.engine) return
 
-    item.fontColorValue = color
+    this.engine.updateElement(this.elementId, { font_color: color })
 
     if (this.hasColorPickerTarget) {
       this.colorPickerTarget.value = color
     }
-    this.redrawAndPersist()
   }
 
   updateColor() {
-    const item = this.currentItem
-    if (!item || !this.hasColorPickerTarget) return
+    if (!this.engine || !this.hasColorPickerTarget) return
 
-    item.fontColorValue = this.colorPickerTarget.value
-    this.redrawAndPersist()
+    this.engine.updateElement(this.elementId, { font_color: this.colorPickerTarget.value })
   }
 
   delete() {
-    const item = this.currentItem
-    if (!item || item.presenceValue) return
+    if (!this.engine) return
 
-    const editor = this.editorController
-    if (editor) {
-      // Select the item first so deleteSelected works
-      editor.selectItem(item)
-      editor.deleteSelected()
-    }
-
-    // Close the drawer
-    document.getElementById("text-edit-drawer")?.close()
-    this.currentItemElement = null
-    this.currentEditorElement = null
-  }
-
-  redrawAndPersist() {
-    const item = this.currentItem
-    if (!item) return
-
-    const canvaController = item.canvaController
-    if (canvaController) {
-      canvaController.redrawAll()
-
-      const editor = this.editorController
-      if (editor) {
-        // Persist and dispatch to sync PDF preview
-        editor.persistChanges()
+    // Select element first if not selected
+    const current = this.engine.selection.current
+    if (!current || (current.id || current.name) !== this.elementId) {
+      const el = this.engine.state.elements.find(e => (e.id || e.name) === this.elementId)
+      if (el) {
+        this.engine.selection.select(el)
       }
     }
+
+    this.engine.deleteSelected()
+    this.close()
+  }
+
+  close() {
+    this.engine = null
+    this.elementId = null
+    this.element_ = null
+    this.element.closest("dialog")?.close()
   }
 }

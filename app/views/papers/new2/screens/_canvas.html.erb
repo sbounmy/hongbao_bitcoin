@@ -136,7 +136,10 @@
   </div>
 
   <%# Text Edit Drawer %>
-  <dialog id="text-edit-drawer" class="modal modal-bottom sm:modal-middle">
+  <dialog id="text-edit-drawer"
+          class="modal modal-bottom sm:modal-middle"
+          data-controller="text-edit"
+          data-action="paper-editor:drawerOpen->text-edit#open">
     <div class="modal-box">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-bold text-lg">Edit Text</h3>

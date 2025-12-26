@@ -2,6 +2,8 @@ import { BaseElement } from "./base_element"
 
 // Portrait/image element with loading state support
 export class PortraitElement extends BaseElement {
+  static drawer = 'photo-drawer'
+
   constructor(data) {
     super(data)
 

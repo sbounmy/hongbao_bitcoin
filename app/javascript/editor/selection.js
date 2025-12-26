@@ -85,6 +85,10 @@ export class Selection {
       rotate: {
         x: bounds.x + bounds.width/2 - hs/2,
         y: bounds.y - this.rotateHandleDistance - hs/2
+      },
+      settings: {
+        x: bounds.x + bounds.width + hs/2,
+        y: bounds.y - hs/2
       }
     }
 
@@ -94,9 +98,10 @@ export class Selection {
     ctx.lineTo(bounds.x + bounds.width/2, bounds.y - this.rotateHandleDistance)
     ctx.stroke()
 
-    // Draw handles
+    // Draw handles (skip rotate and settings - they're drawn specially)
     ctx.fillStyle = this.handleColor
-    Object.values(handles).forEach(h => {
+    Object.entries(handles).forEach(([key, h]) => {
+      if (key === 'rotate' || key === 'settings') return
       ctx.fillRect(h.x, h.y, hs, hs)
     })
 
@@ -110,6 +115,18 @@ export class Selection {
       Math.PI * 2
     )
     ctx.fill()
+
+    // Draw settings handle as gear icon
+    const sx = handles.settings.x + hs/2
+    const sy = handles.settings.y + hs/2
+    ctx.beginPath()
+    ctx.arc(sx, sy, hs * 0.7, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = '#fff'
+    ctx.font = `${hs}px sans-serif`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText('\u2699', sx, sy)
 
     // Store handles in percentage coordinates for hit testing
     this._handles = {}
@@ -155,7 +172,8 @@ export class Selection {
       s: 'ns-resize',
       e: 'ew-resize',
       w: 'ew-resize',
-      rotate: 'grab'
+      rotate: 'grab',
+      settings: 'pointer'
     }
     return cursors[handleName] || 'default'
   }

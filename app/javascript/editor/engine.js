@@ -312,6 +312,11 @@ export class Engine {
     const handle = this.selection.getHandleAt(percent.x, percent.y)
 
     if (handle) {
+      // Settings handle opens element drawer
+      if (handle === 'settings' && this.selection.current) {
+        this.options.onElementEdit?.(this.selection.current)
+        return
+      }
       this._activeHandle = handle
       return
     }
@@ -345,6 +350,9 @@ export class Engine {
     // Check for handle
     const handle = this.selection.getHandleAt(percent.x, percent.y)
     if (handle) {
+      // Settings handle doesn't drag
+      if (handle === 'settings') return
+
       this._activeHandle = handle
       this._dragStartElement = this.selection.current ? { ...this.selection.current } : null
       return

@@ -2,16 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 import { Engine } from "../editor/engine"
 import { Exporter } from "../editor/exporter"
 
-// Domain-specific: maps element types to external data keys
-// This is the ONLY place where app-specific data binding logic lives
-const DATA_BINDINGS = {
-  "private_key/text":       { prop: "text", dataKey: "private_key_text" },
-  "private_key/qrcode":     { prop: "imageUrl", dataKey: "private_key_qrcode", isImage: true },
-  "public_address/text":    { prop: "text", dataKey: "public_address_text" },
-  "public_address/qrcode":  { prop: "imageUrl", dataKey: "public_address_qrcode", isImage: true },
-  "mnemonic/text":          { prop: "text", dataKey: "mnemonic_text" }
-}
-
 // Paper editor controller - thin Stimulus bridge to the vanilla JS Engine
 export default class extends Controller {
   static targets = [
@@ -94,30 +84,27 @@ export default class extends Controller {
     }
   }
 
-  // Sync wallet data to elements
+  // Sync wallet data to elements using element.constructor.dataKey
   syncExternalDataFrom(data) {
-    for (const [type, binding] of Object.entries(DATA_BINDINGS)) {
-      const element = this.engine.state.elements.find(e => e.type === type)
-      if (!element) continue
+    for (const element of this.engine.state.elements) {
+      const instance = this.engine.canvases.getInstanceById(element.id || element.name)
+      if (!instance) continue
 
-      const value = data[binding.dataKey]
+      const dataKey = instance.constructor.dataKey
+      if (!dataKey) continue
+
+      const value = data[dataKey]
       if (value === undefined || value === null) continue
 
-      if (binding.isImage) {
-        const instance = this.engine.canvases.getInstanceById(element.id || element.name)
-        if (instance?.setImageData) {
-          instance.setImageData(value)
-        } else if (instance?.loadImage) {
-          instance.loadImage(value)
-        }
+      // QR elements use setImageData/loadImage, text elements use text property
+      if (instance.setImageData) {
+        instance.setImageData(value)
+      } else if (instance.loadImage) {
+        instance.loadImage(value)
       } else {
-        this.engine.updateElement(element.id || element.name, {
-          [binding.prop]: value
-        })
-        const instance = this.engine.canvases.getInstanceById(element.id || element.name)
-        if (instance) {
-          instance[binding.prop] = value
-        }
+        // Text element
+        this.engine.updateElement(element.id || element.name, { text: value })
+        instance.text = value
       }
     }
 
@@ -236,14 +223,25 @@ export default class extends Controller {
   openDrawerForElement(element) {
     if (!element) return
 
-    // Dispatch event for drawer controllers to handle
-    this.dispatch("edit", {
+    // Get drawer from element class
+    const instance = this.engine.canvases.getInstanceById(element.id || element.name)
+    const drawerId = instance?.constructor?.drawer
+    if (!drawerId) return
+
+    const dialog = document.getElementById(drawerId)
+    if (!dialog) return
+
+    // Dispatch Stimulus event to the drawer element
+    this.dispatch("drawerOpen", {
       detail: {
-        element,
-        instance: this.engine.canvases.getInstanceById(element.id || element.name),
-        type: element.type
-      }
+        element: structuredClone(element),
+        elementId: element.id || element.name,
+        engine: this.engine
+      },
+      target: dialog
     })
+
+    dialog.showModal()
   }
 
   // --- View Mode ---
