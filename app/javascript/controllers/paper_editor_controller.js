@@ -160,14 +160,41 @@ export default class extends Controller {
   // --- Theme Integration ---
 
   // Handle theme change (called from theme selector)
-  loadTheme(event) {
+  async loadTheme(event) {
     const { themeId, frontUrl, backUrl, elements } = event.detail
 
     this.themeIdValue = themeId
-    this.engine.loadTheme({ frontUrl, backUrl, elements })
+
+    // Load theme and wait for backgrounds
+    await this.engine.loadTheme({ frontUrl, backUrl, elements })
+
+    // Update hidden img sources with base64 from canvas (for E2E test verification)
+    if (this.hasFrontBackgroundTarget) {
+      this.frontBackgroundTarget.src = this.engine.canvases.front.toDataURL()
+    }
+    if (this.hasBackBackgroundTarget) {
+      this.backBackgroundTarget.src = this.engine.canvases.back.toDataURL()
+    }
 
     // Re-sync external data after theme change
     this.syncExternalData()
+  }
+
+  // Handle AI-generated image update (from Turbo Stream broadcast)
+  updateImage(event) {
+    const url = event.detail?.url
+    if (!url) return
+
+    // Find the image element in current state
+    const imageElement = this.engine.state.elements.find(el => el.type === 'image')
+    if (!imageElement) return
+
+    // Get the element instance and load the new image
+    const instance = this.engine.canvases.getInstanceById(imageElement.id || imageElement.name)
+    if (instance?.loadImage) {
+      instance.loadImage(url)
+      this.engine.scheduleRender()
+    }
   }
 
   // --- Persistence ---

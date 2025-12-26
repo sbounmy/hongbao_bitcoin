@@ -12,35 +12,47 @@ test.describe('Paper creation', () => {
     });
   });
 
-  test('user can create a bundle', async ({ page }) => {
+  test('user can upload an image and enhance with AI', async ({ page }) => {
+    // Capture browser console logs for debugging
+    page.on('console', msg => console.log(`[BROWSER] ${msg.type()}: ${msg.text()}`));
+
     await page.goto('/papers/new');
     await turboCableConnected(page);
+    console.log('[TEST] Initial turboCableConnected done');
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao'); // General check for balance display
 
-    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    await page.getByRole('button', { name: 'Next' }).click();
+    await page.locator('#toolbar').getByRole('button', { name: 'Photo' }).click();
+    await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.getByRole('button', { name: 'Enhance with AI' }).click();
 
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true });
-    await page.getByRole('button', { name: 'Next' }).click();
+    console.log('[TEST] Clicking Generate button...');
+    await page.getByRole('button', { name: /Generate/ }).click();
 
+    console.log('[TEST] Waiting for loading indicator to be visible...');
     await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
-    expect(await page.getByText('Select Theme').filter({ visible: true }).first().count()).toBe(1)
 
     await page.goto('/dashboard');
     await expect(page.locator('.badge')).toContainText('489 ₿ao'); // General check for balance display
   });
 
   test('can switch theme', async ({ page }) => {
-    await page.goto('/papers/1/edit');
+    await page.goto('/papers/new');
+    const frontBg = page.locator('[data-paper-editor-target="frontBackground"]')
+    const initialBase64 = await frontBg.getAttribute('src')
+
     await turboCableConnected(page);
+    await page.getByRole('button', {name: /Theme/}).click()
     await expect(page.getByText('Dollar').first()).toBeVisible()
-    await page.locator('#edit_paper_1').getByText('Euro', { exact: true }).click();
-    await expect(page.getByText('Ghibli Euro').first()).toBeVisible()
+    await page.locator('body').getByText('Euro', { exact: true }).click();
+    await page.getByRole('button', {name: 'Done'}).first().click()
+
+    await expect(frontBg).not.toHaveAttribute('src', initialBase64)
   });
 
-  test('creating paper with None style does not deduct tokens', async ({ page }) => {
+  test('creating paper with no AI does not deduct tokens', async ({ page }) => {
     await page.goto('/papers/new');
     await turboCableConnected(page);
 
@@ -48,32 +60,18 @@ test.describe('Paper creation', () => {
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao');
 
     // Upload image
-    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    await page.getByRole('button', { name: 'Next' }).click();
-
-    // Select None style (free) - it should be first and have FREE badge
-    await page.getByText('None').filter({ visible: true }).first().click({ force: true });
-
-    // Verify FREE badge is visible
-    await expect(page.getByText('FREE')).toBeVisible();
-
-
-    await expect(page.getByText('Processing...')).toBeHidden();
-
-    // Generate paper
-    await page.getByRole('button', { name: 'Generate' }).click();
-    await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.getByText('Processing...')).toBeHidden();
-
-    // Perform background jobs
-    await app('perform_jobs');
-
-    // Verify we're on edit page
-    expect(await page.getByText('Select Theme').filter({ visible: true }).first()).toBeVisible();
-
-    // Go back to dashboard and verify balance unchanged
-    await page.goto('/dashboard');
-    await expect(page.locator('.badge').first()).toContainText('490 ₿ao'); // No tokens deducted
+    await page.locator('#toolbar').getByRole('button', { name: 'Photo' }).click();
+    await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.waitForTimeout(1_000)
+    await page.getByRole('button', { name: 'Done' }).click();
+    await expect(page.locator('#photo-sheet-input')).not.toBeVisible()
+    await expect(page.locator('.badge').first()).toContainText('490 ₿ao');
   });
+
+  // test('user can change qrcode destination');
+
+  // test('user can add custom text item');
+
+  // test('user can change element position');
 
 });

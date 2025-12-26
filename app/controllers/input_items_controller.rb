@@ -14,12 +14,13 @@ class InputItemsController < ApplicationController
 
   # POST /input_items - Create InputItem with AI generation
   def create
-    @input_item = InputItem.new(input_item_params)
+    @input_item = current_user.input_items.build(input_item_params)
 
     if @input_item.save
       # Queue AI generation job if style is selected
       if @input_item.input.is_a?(Input::Style)
         GenerateStyledPortraitJob.perform_later(@input_item.id)
+        current_user.tokens.create(quantity: -1, description: @input_item.input.name)
       end
 
       respond_to do |format|

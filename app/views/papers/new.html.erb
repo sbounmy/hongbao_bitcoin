@@ -22,7 +22,7 @@
     pdf_filename_value: "hongbao-#{@theme.slug}",
     paper_editor_design_value: @paper.elements.to_json,
     paper_editor_theme_id_value: @theme&.id,
-    action: 'theme:changed@window->paper-editor#loadTheme bitcoin:changed@window->paper-editor#dataSourceChanged keydown@window->paper-editor#keydown'
+    action: 'theme:changed@window->paper-editor#loadTheme bitcoin:changed@window->paper-editor#dataSourceChanged image:generated@window->paper-editor#updateImage keydown@window->paper-editor#keydown'
   }
 }) %>
 
@@ -87,3 +87,6 @@
         current_step: @current_step %>
   </div>
 </div>
+
+<%# Subscribe to AI generation channel - must exist before job runs %>
+<%= turbo_stream_from current_user, :ai_generation %>

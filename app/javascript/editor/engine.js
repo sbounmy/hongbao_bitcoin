@@ -234,20 +234,28 @@ export class Engine {
   }
 
   // Load theme (replaces elements with theme defaults)
-  loadTheme(themeData) {
+  async loadTheme(themeData) {
     const { frontUrl, backUrl, elements: allElements } = themeData
 
     // Load new background images
+    const promises = []
     if (frontUrl) {
-      this.canvases.front.loadBackgroundImage(frontUrl).then(() => {
-        this.scheduleRender()
-      })
+      promises.push(
+        this.canvases.front.loadBackgroundImage(frontUrl).then(() => {
+          this.scheduleRender()
+        })
+      )
     }
     if (backUrl) {
-      this.canvases.back.loadBackgroundImage(backUrl).then(() => {
-        this.scheduleRender()
-      })
+      promises.push(
+        this.canvases.back.loadBackgroundImage(backUrl).then(() => {
+          this.scheduleRender()
+        })
+      )
     }
+
+    // Wait for backgrounds to load
+    await Promise.all(promises)
 
     // Replace elements if provided
     if (allElements) {

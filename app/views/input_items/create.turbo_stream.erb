@@ -1,10 +1,5 @@
 <%# Close the photo drawer dialog %>
 <%= turbo_stream.action :close_dialog, "photo-drawer", "" %>
 
-<%# Subscribe to this input_item's Turbo Stream for AI result %>
-<%= turbo_stream.append "turbo-streams" do %>
-  <%= turbo_stream_from @input_item %>
-<% end %>
-
-<%# Show loading state %>
+<%# Show loading state - subscription already exists on page load %>
 <%= turbo_stream.action :dispatch, "image", "", event: "image:loading" %>

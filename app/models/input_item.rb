@@ -5,6 +5,7 @@ class InputItem < ApplicationRecord
   belongs_to :input
   belongs_to :bundle, optional: true
   belongs_to :paper, optional: true
+  belongs_to :user, optional: true
   has_one_attached :image # only for input type Image (User uploaded image)
   has_one_attached :generated_image # AI-generated image result
 
