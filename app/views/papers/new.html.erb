@@ -58,11 +58,8 @@
   </div>
 </div>
 
-<%# Storage controller - single source of truth for all elements %>
-<div data-controller="editor-storage"
-     data-action="canva:persist@window->editor-storage#handleCanvaPersist">
-  <%= hidden_field_tag "elements", @paper.elements.to_json,
-      data: { editor_storage_target: "field" } %>
+<%# Container for paper editor screens %>
+<div>
 
   <%# Screen 1: Canvas - Paper preview with toolbar %>
   <%= render "papers/new2/screens/canvas",

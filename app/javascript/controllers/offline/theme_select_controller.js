@@ -65,10 +65,8 @@ export default class extends Controller {
   saveCurrentPositions() {
     if (!this.currentThemeId) return
 
-    const storageElement = document.querySelector("[data-controller='editor-storage']")
-    if (!storageElement) return
-
-    const field = storageElement.querySelector("input[data-editor-storage-target='field']")
+    // Read from paper-editor field which has the actual current positions
+    const field = document.querySelector("input[data-paper-editor-target='field']")
     if (!field?.value) return
 
     try {
@@ -93,9 +91,20 @@ export default class extends Controller {
     const themeId = parseInt(theme.id)
     const savedCustomizations = this.customizations.get(themeId)
 
-    // Use saved customizations if available, otherwise use theme defaults
-    // Elements already have 'side' property in their data
-    const elements = savedCustomizations || theme.elements
+    // Always start with theme defaults, then merge customizations on top
+    // This ensures sensitive elements (back-side wallet elements) are never lost
+    // since they are excluded from the hidden field but present in theme defaults
+    let elements = { ...theme.elements }
+
+    if (savedCustomizations) {
+      // Merge customizations - only override position/size, keep all theme elements
+      Object.entries(savedCustomizations).forEach(([name, customData]) => {
+        if (elements[name]) {
+          // Merge customization into existing theme element
+          elements[name] = { ...elements[name], ...customData }
+        }
+      })
+    }
 
     // Dispatch single event with all elements
     window.dispatchEvent(new CustomEvent('theme:changed', {
