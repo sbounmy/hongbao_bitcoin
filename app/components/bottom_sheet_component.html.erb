@@ -20,8 +20,8 @@
 
         <%# Footer %>
         <%= footer %>
-      <% else %>
-        <%# Header (default) %>
+      <% elsif header? %>
+        <%# Header with close button %>
         <div class="flex items-center justify-between px-4 pb-3 border-b border-base-content/10 shrink-0">
           <div class="font-semibold text-lg"><%= header %></div>
           <form method="dialog">
@@ -33,6 +33,11 @@
 
         <%# Content %>
         <div class="flex-1 overflow-auto">
+          <%= content %>
+        </div>
+      <% else %>
+        <%# Content only - drawer manages its own UI %>
+        <div class="flex-1 overflow-auto flex flex-col">
           <%= content %>
         </div>
       <% end %>

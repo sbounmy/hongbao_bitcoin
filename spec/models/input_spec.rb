@@ -26,7 +26,9 @@ RSpec.describe Input, type: :model do
             "y" => "37",
             "width" => "9.0",
             "height" => "18.0",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "private_key/qrcode",
+            "side" => "back"
           },
           "private_key_text" => {
             "x" => "9",
@@ -34,14 +36,18 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "10",
             "size" => "1.8",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "private_key/text",
+            "side" => "back"
           },
           "public_address_qrcode" => {
             "x" => "22",
             "y" => "24",
             "width" => "9.0",
             "height" => "18.0",
-            "color" => ""
+            "color" => "",
+            "type" => "public_address/qrcode",
+            "side" => "front"
           },
           "public_address_text" => {
             "x" => "21",
@@ -49,7 +55,9 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "10",
             "size" => "1.8",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "public_address/text",
+            "side" => "front"
           },
           "mnemonic_text" => {
             "x" => "5",
@@ -57,7 +65,9 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "15",
             "size" => "1.6",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "mnemonic/text",
+            "side" => "back"
           },
           "custom_text" => {
             "x" => "",
@@ -65,7 +75,17 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "",
             "size" => "",
-            "color" => ""
+            "color" => "",
+            "type" => "text",
+            "side" => "back"
+          },
+          "portrait" => {
+            "x" => "50",
+            "y" => "60",
+            "width" => 18,
+            "height" => 36,
+            "type" => "image",
+            "side" => "front"
           }
         }
       })
@@ -97,7 +117,9 @@ RSpec.describe Input, type: :model do
             "y" => "37",
             "width" => "9.0",
             "height" => "18.0",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "private_key/qrcode",
+            "side" => "back"
           },
         "private_key_text" => {
             "x" => "9",
@@ -105,14 +127,18 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "10",
             "size" => "1.8",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "private_key/text",
+            "side" => "back"
           },
         "public_address_qrcode" => {
             "x" => "22",
             "y" => "24",
             "width" => "9.0",
             "height" => "18.0",
-            "color" => ""
+            "color" => "",
+            "type" => "public_address/qrcode",
+            "side" => "front"
           },
         "public_address_text" => {
             "x" => "21",
@@ -120,7 +146,9 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "10",
             "size" => "1.8",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "public_address/text",
+            "side" => "front"
           },
         "mnemonic_text" => {
             "x" => "5",
@@ -128,7 +156,9 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "15",
             "size" => "1.6",
-            "color" => "#000000"
+            "color" => "#000000",
+            "type" => "mnemonic/text",
+            "side" => "back"
           },
         "custom_text" => {
             "x" => "",
@@ -136,7 +166,17 @@ RSpec.describe Input, type: :model do
             "width" => "",
             "height" => "",
             "size" => "",
-            "color" => ""
+            "color" => "",
+            "type" => "text",
+            "side" => "back"
+          },
+        "portrait" => {
+            "x" => "50",
+            "y" => "60",
+            "width" => 18,
+            "height" => 36,
+            "type" => "image",
+            "side" => "front"
           }
       })
     end
@@ -174,7 +214,9 @@ RSpec.describe Input, type: :model do
           "y" => "37",
           "width" => "9.0",
           "height" => "18.0",
-          "color" => "#000000"
+          "color" => "#000000",
+          "type" => "private_key/qrcode",
+          "side" => "back"
         }
       })
     end

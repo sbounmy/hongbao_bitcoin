@@ -1,4 +1,6 @@
-<div class="flex-1 flex flex-col bg-[#2a2a2e]">
+<div class="flex-1 flex flex-col bg-[#2a2a2e]"
+     data-controller="preview-canvas"
+     data-action="editor:exported@window->preview-canvas#handleExported">
     <!-- Viewport for scrolling - expands to fullscreen via pdf controller -->
     <div data-pdf-target="viewport"
          class="max-h-[300px] md:max-h-[50vh] bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
@@ -16,35 +18,23 @@
           <!-- Main content of the page -->
           <div class="flex flex-col justify-between">
             <div class="flex items-center">
-              <% frame = paper.theme&.frame_object || Frame.new %>
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
-                <%# Back %>
+                <%# Back - uses exported canvas image %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
-                  <%= render 'hong_baos/new/steps/paper_canva',
-                          class_name: "",
-                          frame: frame,
-                          paper:,
-                          strict: true,
-                          elements: paper.back_elements,
-                          image_base64: paper.image_back.attached? ? base64_url(paper.image_back) : ''
-                  %>
+                  <img src="<%= template_back_base64 %>"
+                       data-preview-canvas-target="back"
+                       class="w-full h-full object-contain" />
                 </div>
 
               <%# Fold Line %>
               <div class="<%= frame.fold_line %> border-white">
               </div>
 
-                <%# Front %>
+                <%# Front - uses exported canvas image %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
-                  <%= render 'hong_baos/new/steps/paper_canva',
-                          class_name: "",
-                          frame: frame,
-                          paper:,
-                          strict: true,
-                          elements: paper.front_elements,
-                          actions: "bitcoin:modeChanged@window->canva#refresh",
-                          image_base64: paper.image_front.attached? ? base64_url(paper.image_front) : ''
-                  %>
+                  <img src="<%= template_front_base64 %>"
+                       data-preview-canvas-target="front"
+                       class="w-full h-full object-contain" />
                 </div>
             <% end %>
             <div class="relative w-8" data-reveal-target="item">
@@ -72,7 +62,7 @@
           </div>
         </div>
         <div data-reveal-target="item">
-          <%= render 'hong_baos/pdf/footer', paper: %>
+          <%= render 'hong_baos/pdf/footer', paper: paper %>
         </div>
       </div>
     </div>

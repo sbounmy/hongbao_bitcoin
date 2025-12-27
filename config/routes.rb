@@ -29,10 +29,11 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :show, :new, :create, :edit, :update ] do
       get :explore, on: :collection
+      get :new2, on: :collection
       post :like, on: :member
     end
 
-    resources :input_items, only: [ :index ]
+    resources :input_items, only: [ :index, :create ]
 
     # Instructions page for printed inserts
     get "/instructions", to: "pages#instructions", as: :instructions
@@ -122,7 +123,7 @@ Rails.application.routes.draw do
   get "/dashboard", to: "papers#index"
   get "/bitcoin-companies", to: "pages#business"
 
-  resources :themes, only: [ :new ]
+  resources :themes, only: [ :new, :index ]
 
   resource :getting_started, only: [ :show, :create ], controller: "getting_started"
 

@@ -51,10 +51,7 @@ export default class extends Controller {
     })
 
     // Dispatch mode change event for other controllers (e.g., fund tabs)
-    // Use window event to communicate across different parts of the page
-    window.dispatchEvent(new CustomEvent("keys:modeChanged", {
-      detail: { mode: this.modeValue, isCustom }
-    }))
+    this.dispatch("modeChanged", { detail: { mode: this.modeValue, isCustom } })
   }
 
   // Cache values as user types (in custom mode)

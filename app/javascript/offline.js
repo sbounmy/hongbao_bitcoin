@@ -36,12 +36,6 @@ application.register("bitcoin-segwit-key", BitcoinSegwitKeyController)
 import BitcoinWifController from "./controllers/offline/bitcoin_wif_controller"
 application.register("bitcoin-wif", BitcoinWifController)
 
-import CanvaController from "./controllers/offline/canva_controller"
-application.register("canva", CanvaController)
-
-import CanvaItemController from "./controllers/offline/canva_item_controller"
-application.register("canva-item", CanvaItemController)
-
 import PdfController from "./controllers/offline/pdf_controller"
 application.register("pdf", PdfController)
 
@@ -54,5 +48,18 @@ application.register("qr-code", QrCodeController)
 import KeysInputController from "./controllers/offline/keys_input_controller"
 application.register("keys-input", KeysInputController)
 
+import ThemeSelectController from "./controllers/offline/theme_select_controller"
+application.register("theme-select", ThemeSelectController)
+
+import PreviewCanvasController from "./controllers/offline/preview_canvas_controller"
+application.register("preview-canvas", PreviewCanvasController)
+
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
+
+import TextEditController from "./controllers/text_edit_controller"
+application.register("text-edit", TextEditController)
+
+// --- New Editor Architecture ---
+import EditorController from "./controllers/editor_controller"
+application.register("editor", EditorController)
