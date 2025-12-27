@@ -21,7 +21,7 @@ class GenerateStyledPortraitJob < ApplicationJob
 
   def generate_and_attach_portrait
     base_config = Input::Configuration.instance
-    full_prompt = [base_config.prompt, @style.prompt].compact_blank.join(". ")
+    full_prompt = [ base_config.prompt, @style.prompt ].compact_blank.join(". ")
 
     Rails.logger.info "[GenerateStyledPortraitJob] Using prompt: #{full_prompt}"
 
@@ -49,7 +49,7 @@ class GenerateStyledPortraitJob < ApplicationJob
 
     # Broadcast to user's AI generation channel (subscription exists on page load)
     Turbo::StreamsChannel.broadcast_action_to(
-      [user, :ai_generation],
+      [ user, :ai_generation ],
       action: :dispatch,
       target: "image",
       attributes: {
