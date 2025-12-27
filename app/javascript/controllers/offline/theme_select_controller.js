@@ -65,8 +65,8 @@ export default class extends Controller {
   saveCurrentPositions() {
     if (!this.currentThemeId) return
 
-    // Read from paper-editor field which has the actual current positions
-    const field = document.querySelector("input[data-paper-editor-target='field']")
+    // Read from editor field which has the actual current positions
+    const field = document.querySelector("input[data-editor-target='field']")
     if (!field?.value) return
 
     try {

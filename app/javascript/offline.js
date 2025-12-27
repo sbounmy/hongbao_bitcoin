@@ -61,5 +61,5 @@ import TextEditController from "./controllers/text_edit_controller"
 application.register("text-edit", TextEditController)
 
 // --- New Editor Architecture ---
-import PaperEditorController from "./controllers/paper_editor_controller"
-application.register("paper-editor", PaperEditorController)
+import EditorController from "./controllers/editor_controller"
+application.register("editor", EditorController)

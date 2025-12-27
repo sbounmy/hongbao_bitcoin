@@ -11,7 +11,7 @@
 <% attributes_for(:screen_attributes, {
   class: 'relative overflow-hidden group',
   data: {
-    controller: 'steps bitcoin pdf image paper-editor',
+    controller: 'steps bitcoin pdf image editor',
     steps_current_value: @current_step.to_s,
     steps_hidden_class: 'hidden',
     bitcoin_auto_generate_value: 'true',
@@ -20,9 +20,9 @@
     bitcoin_hongbao_logo_value: asset_to_base64('hongbao-bitcoin.png'),
     bitcoin_bitcoin_logo_value: asset_to_base64('bitcoin-64x64.svg'),
     pdf_filename_value: "hongbao-#{@theme.slug}",
-    paper_editor_design_value: @paper.elements.to_json,
-    paper_editor_theme_id_value: @theme&.id,
-    action: 'theme:changed@window->paper-editor#loadTheme bitcoin:changed@window->paper-editor#dataSourceChanged image:generated@window->paper-editor#updateImage keydown@window->paper-editor#keydown'
+    editor_design_value: @paper.elements.to_json,
+    editor_theme_id_value: @theme&.id,
+    action: 'theme:changed@window->editor#loadTheme bitcoin:changed@window->editor#dataSourceChanged image:generated@window->editor#updateImage keydown@window->editor#keydown'
   }
 }) %>
 

@@ -1,6 +1,6 @@
 <%# Screen 1: Canvas - Design your paper wallet (New Editor Architecture) %>
 <%#
-  This uses the new paper-editor controller which manages both canvases
+  This uses the new editor controller which manages both canvases
   with vanilla JS engine and canvas-rendered handles.
 %>
 <div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
@@ -14,36 +14,36 @@
     <div class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
 
       <%# Front Canvas %>
-      <div data-paper-editor-target="frontWrapper"
+      <div data-editor-target="frontWrapper"
            class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="front">
         <img src="<%= template_front_base64 %>"
              class="hidden"
-             data-paper-editor-target="frontBackground" />
-        <canvas data-paper-editor-target="frontCanvas"
+             data-editor-target="frontBackground" />
+        <canvas data-editor-target="frontCanvas"
                 class="w-full h-full cursor-default"></canvas>
       </div>
 
       <%# Back Canvas %>
-      <div data-paper-editor-target="backWrapper"
+      <div data-editor-target="backWrapper"
            class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="back">
         <img src="<%= template_back_base64 %>"
              class="hidden"
-             data-paper-editor-target="backBackground" />
-        <canvas data-paper-editor-target="backCanvas"
+             data-editor-target="backBackground" />
+        <canvas data-editor-target="backCanvas"
                 class="w-full h-full cursor-default"></canvas>
       </div>
     </div>
 
     <%# Hidden fields %>
-    <%= hidden_field_tag "paper[elements]", paper.elements.to_json, data: { paper_editor_target: "field" } %>
-    <%= hidden_field_tag "wallet_data", {}.to_json, data: { paper_editor_target: "dataSource" }, disabled: true %>
+    <%= hidden_field_tag "paper[elements]", paper.elements.to_json, data: { editor_target: "field" } %>
+    <%= hidden_field_tag "wallet_data", {}.to_json, data: { editor_target: "dataSource" }, disabled: true %>
 
     <%# Side Toggle (optional - for single view mode) %>
     <div class="hidden">
-      <button data-paper-editor-target="sideToggle"
-              data-action="paper-editor#toggleSide"
+      <button data-editor-target="sideToggle"
+              data-action="editor#toggleSide"
               class="btn btn-sm btn-ghost">
         Front
       </button>
@@ -128,7 +128,7 @@
       <%# Next Button %>
       <button type="button"
               class="btn btn-primary btn-sm gap-1"
-              data-action="paper-editor#exportForPreview steps#next">
+              data-action="editor#exportForPreview steps#next">
         Next
         <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
       </button>
@@ -139,7 +139,7 @@
   <dialog id="text-edit-drawer"
           class="modal modal-bottom sm:modal-middle"
           data-controller="text-edit"
-          data-action="paper-editor:drawerOpen->text-edit#open">
+          data-action="editor:drawerOpen->text-edit#open">
     <div class="modal-box">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-bold text-lg">Edit Text</h3>

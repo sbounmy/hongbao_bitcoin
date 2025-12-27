@@ -40,7 +40,7 @@ test.describe('Paper creation', () => {
 
   test('can switch theme', async ({ page }) => {
     await page.goto('/papers/new');
-    const frontBg = page.locator('[data-paper-editor-target="frontBackground"]')
+    const frontBg = page.locator('[data-editor-target="frontBackground"]')
     const initialBase64 = await frontBg.getAttribute('src')
 
     await turboCableConnected(page);

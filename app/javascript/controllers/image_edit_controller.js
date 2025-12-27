@@ -7,7 +7,7 @@ export default class extends Controller {
   elementId = null
   element_ = null
 
-  // Called via data-action="paper-editor:drawerOpen@window->image-edit#open"
+  // Called via data-action="editor:drawerOpen@window->image-edit#open"
   // Filters for image elements only (type === 'image')
   open(event) {
     const { element, elementId, engine } = event.detail
