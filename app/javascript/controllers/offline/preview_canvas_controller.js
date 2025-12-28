@@ -1,19 +1,34 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Displays exported canvas images from the editor in the PDF preview
+// Displays cloned DOM elements from the editor in the PDF preview
 // Listens via data-action: editor:exported@window->preview-canvas#handleExported
 export default class extends Controller {
   static targets = ["front", "back"]
 
   handleExported(event) {
-    const { front, back } = event.detail
+    const { frontEl, backEl } = event.detail
 
-    if (this.hasFrontTarget && front) {
-      this.frontTarget.src = front
+    if (frontEl && this.hasFrontTarget) {
+      // Style the clone to fit the preview container
+      this.styleCloneForPreview(frontEl)
+      this.frontTarget.replaceWith(frontEl)
+      // Update target reference to the new element
+      frontEl.dataset.previewCanvasTarget = 'front'
     }
 
-    if (this.hasBackTarget && back) {
-      this.backTarget.src = back
+    if (backEl && this.hasBackTarget) {
+      this.styleCloneForPreview(backEl)
+      this.backTarget.replaceWith(backEl)
+      backEl.dataset.previewCanvasTarget = 'back'
     }
+  }
+
+  // Ensure cloned element fills its container properly
+  styleCloneForPreview(el) {
+    Object.assign(el.style, {
+      width: '100%',
+      height: '100%',
+      position: 'relative'
+    })
   }
 }

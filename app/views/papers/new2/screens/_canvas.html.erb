@@ -1,38 +1,40 @@
-<%# Screen 1: Canvas - Design your paper wallet (New Editor Architecture) %>
+<%# Screen 1: Canvas - Design your paper wallet (DOM-based Editor) %>
 <%#
-  This uses the new editor controller which manages both canvases
-  with vanilla JS engine and canvas-rendered handles.
+  This uses the new DOM-based editor controller which renders elements
+  as HTML/CSS for easier testing and better text rendering.
 %>
 <div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
      data-steps-target="content"
      data-steps-index="1">
 
-  <%# Paper Editor Canvas Area %>
+  <%# Paper Editor Area %>
   <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
 
-    <%# Canvas Container - Layout adapts to frame orientation %>
+    <%# DOM Container - Layout adapts to frame orientation %>
     <div class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
 
-      <%# Front Canvas %>
+      <%# Front Container %>
       <div data-editor-target="frontWrapper"
            class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="front">
         <img src="<%= template_front_base64 %>"
              class="hidden"
              data-editor-target="frontBackground" />
-        <canvas data-editor-target="frontCanvas"
-                class="w-full h-full cursor-default"></canvas>
+        <div data-editor-target="frontContainer"
+             class="w-full h-full cursor-default"
+             style="container-type: inline-size;"></div>
       </div>
 
-      <%# Back Canvas %>
+      <%# Back Container %>
       <div data-editor-target="backWrapper"
            class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="back">
         <img src="<%= template_back_base64 %>"
              class="hidden"
              data-editor-target="backBackground" />
-        <canvas data-editor-target="backCanvas"
-                class="w-full h-full cursor-default"></canvas>
+        <div data-editor-target="backContainer"
+             class="w-full h-full cursor-default"
+             style="container-type: inline-size;"></div>
       </div>
     </div>
 
@@ -128,7 +130,7 @@
       <%# Next Button %>
       <button type="button"
               class="btn btn-primary btn-sm gap-1"
-              data-action="editor#exportForPreview steps#next">
+              data-action="editor#exportForPreview exportComplete@window->steps#next">
         Next
         <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
       </button>

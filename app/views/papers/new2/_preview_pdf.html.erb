@@ -19,22 +19,30 @@
           <div class="flex flex-col justify-between">
             <div class="flex items-center">
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
-                <%# Back - uses exported canvas image %>
+                <%# Back - placeholder replaced by cloned DOM from editor %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
-                  <img src="<%= template_back_base64 %>"
-                       data-preview-canvas-target="back"
-                       class="w-full h-full object-contain" />
+                  <div data-preview-canvas-target="back"
+                       class="w-full h-full"
+                       style="background-image: url(<%= template_back_base64 %>);
+                              background-size: cover;
+                              background-position: center;
+                              position: relative;">
+                  </div>
                 </div>
 
               <%# Fold Line %>
               <div class="<%= frame.fold_line %> border-white">
               </div>
 
-                <%# Front - uses exported canvas image %>
+                <%# Front - placeholder replaced by cloned DOM from editor %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
-                  <img src="<%= template_front_base64 %>"
-                       data-preview-canvas-target="front"
-                       class="w-full h-full object-contain" />
+                  <div data-preview-canvas-target="front"
+                       class="w-full h-full"
+                       style="background-image: url(<%= template_front_base64 %>);
+                              background-size: cover;
+                              background-position: center;
+                              position: relative;">
+                  </div>
                 </div>
             <% end %>
             <div class="relative w-8" data-reveal-target="item">

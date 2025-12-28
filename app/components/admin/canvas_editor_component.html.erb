@@ -7,11 +7,11 @@
       <p>Please attach Front and Back images to use the canvas editor.</p>
     </div>
   <% else %>
-    <%# Canvas Container %>
+    <%# DOM Container - Elements rendered as HTML/CSS %>
     <div class="<%= frame.portrait? ? 'flex flex-row gap-6 items-start justify-center' : 'flex flex-col gap-6 items-center' %>"
          style="min-height: 400px;">
 
-      <%# Front Canvas %>
+      <%# Front Container %>
       <% if image_front.attached? %>
         <div data-editor-target="frontWrapper"
              class="shrink-0 rounded-lg shadow-xl overflow-hidden relative bg-gray-300"
@@ -21,13 +21,14 @@
                class="hidden"
                crossorigin="anonymous"
                data-editor-target="frontBackground" />
-          <canvas data-editor-target="frontCanvas"
-                  class="w-full h-full cursor-default"></canvas>
-          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Front</div>
+          <div data-editor-target="frontContainer"
+               class="w-full h-full cursor-default"
+               style="container-type: inline-size;"></div>
+          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none z-50">Front</div>
         </div>
       <% end %>
 
-      <%# Back Canvas %>
+      <%# Back Container %>
       <% if image_back.attached? %>
         <div data-editor-target="backWrapper"
              class="shrink-0 rounded-lg shadow-xl overflow-hidden relative bg-gray-300"
@@ -37,9 +38,10 @@
                class="hidden"
                crossorigin="anonymous"
                data-editor-target="backBackground" />
-          <canvas data-editor-target="backCanvas"
-                  class="w-full h-full cursor-default"></canvas>
-          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Back</div>
+          <div data-editor-target="backContainer"
+               class="w-full h-full cursor-default"
+               style="container-type: inline-size;"></div>
+          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none z-50">Back</div>
         </div>
       <% end %>
     </div>

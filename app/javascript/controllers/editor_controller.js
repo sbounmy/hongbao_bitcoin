@@ -1,14 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
-import { Engine } from "../editor/engine"
-import { Exporter } from "../editor/exporter"
+import { DOMEngine } from "../editor/dom/dom_engine"
+import { DOMExporter } from "../editor/dom/dom_exporter"
 
-// Paper editor controller - thin Stimulus bridge to the vanilla JS Engine
+// Paper editor controller - thin Stimulus bridge to the DOM-based Engine
+// Uses HTML/CSS elements for rendering instead of canvas for:
+// - Easier E2E testing with data attributes
+// - Better text rendering with CSS fonts
+// - Simpler debugging in dev tools
 export default class extends Controller {
   static targets = [
-    "frontCanvas",      // Front side canvas element
-    "backCanvas",       // Back side canvas element
-    "frontWrapper",     // Front canvas wrapper (for show/hide)
-    "backWrapper",      // Back canvas wrapper (for show/hide)
+    "frontContainer",   // Front side container div
+    "backContainer",    // Back side container div
+    "frontWrapper",     // Front container wrapper (for show/hide)
+    "backWrapper",      // Back container wrapper (for show/hide)
     "field",            // Hidden input for elements JSON
     "dataSource",       // Hidden input for external data (e.g., wallet JSON)
     "sideToggle",       // Button showing current side
@@ -21,10 +25,27 @@ export default class extends Controller {
     themeId: String     // Current theme ID
   }
 
-  // Export canvas images for PDF preview
-  async exportForPreview() {
-    const { front, back } = await this.exporter.exportPNG()
-    this.dispatch("exported", { detail: { front, back } })
+  // Export DOM elements for PDF preview (instant - no html2canvas)
+  // Clones the DOM containers instead of converting to images
+  exportForPreview() {
+    // Clone front/back containers with all their children
+    const frontClone = this.frontContainerTarget.cloneNode(true)
+    const backClone = this.backContainerTarget.cloneNode(true)
+
+    // Remove selection overlays from clones
+    frontClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
+    backClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
+
+    // Dispatch clones for preview to insert
+    this.dispatch("exported", {
+      detail: {
+        frontEl: frontClone,
+        backEl: backClone
+      }
+    })
+
+    // Trigger step change
+    this.dispatch("exportComplete", { bubbles: true, prefix: false })
   }
 
   async connect() {
@@ -36,10 +57,10 @@ export default class extends Controller {
       ? this.backBackgroundTarget.src
       : null
 
-    // Initialize engine
-    this.engine = new Engine(
-      this.frontCanvasTarget,
-      this.backCanvasTarget,
+    // Initialize DOM-based engine
+    this.engine = new DOMEngine(
+      this.frontContainerTarget,
+      this.backContainerTarget,
       {
         initialState: this.designValue,
         frontBackground,
@@ -51,8 +72,8 @@ export default class extends Controller {
       }
     )
 
-    // Create exporter
-    this.exporter = new Exporter(this.engine.canvases, this.engine.state)
+    // Create DOM exporter (uses html2canvas)
+    this.exporter = new DOMExporter(this.engine.canvases, this.engine.state)
 
     // Start engine and wait for it to be ready
     await this.engine.start()
@@ -168,12 +189,13 @@ export default class extends Controller {
     // Load theme and wait for backgrounds
     await this.engine.loadTheme({ frontUrl, backUrl, elements })
 
-    // Update hidden img sources with base64 from canvas (for E2E test verification)
-    if (this.hasFrontBackgroundTarget) {
-      this.frontBackgroundTarget.src = this.engine.canvases.front.toDataURL()
+    // Update hidden img sources with the background URLs (for E2E test verification)
+    // DOM-based engine stores the URL directly instead of converting to base64
+    if (this.hasFrontBackgroundTarget && frontUrl) {
+      this.frontBackgroundTarget.src = frontUrl
     }
-    if (this.hasBackBackgroundTarget) {
-      this.backBackgroundTarget.src = this.engine.canvases.back.toDataURL()
+    if (this.hasBackBackgroundTarget && backUrl) {
+      this.backBackgroundTarget.src = backUrl
     }
 
     // Re-sync external data after theme change
