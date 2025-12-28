@@ -5,7 +5,7 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 test.describe('PDF Password Protection', () => {
   test.beforeEach(async ({ page }) => {
     test.setTimeout(60_000);
-    await page.goto('/papers/1');
+    await page.goto('/papers/new');
     await page.getByRole('button', { name: /Next/ }).click();
     await page.getByRole('button', { name: /Password/ }).click()
   });

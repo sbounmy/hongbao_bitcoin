@@ -3,7 +3,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
 
   permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, :frame,
     Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" },
-    ai: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+    elements: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
 
 
   remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
@@ -86,7 +86,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
                 filtered_ai_data[element_type] = filtered_properties if filtered_properties.present?
               end
             end
-            theme.ai = filtered_ai_data if filtered_ai_data.present?
+            theme.elements = filtered_ai_data if filtered_ai_data.present?
           end
           # --- END: Assign AI properties ---
 
@@ -210,7 +210,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     end
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
-      render Admin::VisualEditorComponent.new(form: f, input_base_name: "input_theme[ai]")
+      render Admin::CanvasEditorComponent.new(form: f, input_base_name: "input_theme[elements]")
     end
 
     f.inputs "Portrait Positioning" do
@@ -226,9 +226,9 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
           [ "1024x1536 (Portrait)", "1024x1536" ]
         ],
         input_html: {
-          name: "input_theme[ai][portrait][resolution]"
+          name: "input_theme[elements][portrait][resolution]"
         },
-        selected: f.object&.ai&.dig("portrait", "resolution") || "1024x1024"
+        selected: f.object&.elements&.dig("portrait", "resolution") || "1024x1024"
     end
 
     # Define hints based on property descriptions

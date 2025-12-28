@@ -29,7 +29,7 @@ class PapersController < ApplicationController
 
     # Build a "virtual" paper object for view compatibility
     @paper = Paper.new
-    @paper.elements = @theme.ai
+    @paper.elements = @theme.elements
 
     # Embed theme images as base64 for offline use
     @template_front_base64 = helpers.base64_url(@theme.image_front)

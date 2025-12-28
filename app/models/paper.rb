@@ -113,7 +113,7 @@ class Paper < ApplicationRecord
 
   def set_default_elements
     return if elements.present?
-    self.elements = theme&.ai || Input::Theme.default_ai_elements
+    self.elements = theme&.elements || Input::Theme.default_elements
   end
 
   def set_name_from_inputs

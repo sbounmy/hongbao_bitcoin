@@ -1,0 +1,63 @@
+<div data-controller="editor"
+     data-editor-design-value="<%= elements_json %>"
+     class="canvas-editor-container border rounded-lg p-4 bg-base-200">
+
+  <% if !image_front.attached? && !image_back.attached? %>
+    <div class="text-center p-10 bg-gray-100 rounded">
+      <p>Please attach Front and Back images to use the canvas editor.</p>
+    </div>
+  <% else %>
+    <%# Canvas Container %>
+    <div class="<%= frame.portrait? ? 'flex flex-row gap-6 items-start justify-center' : 'flex flex-col gap-6 items-center' %>"
+         style="min-height: 400px;">
+
+      <%# Front Canvas %>
+      <% if image_front.attached? %>
+        <div data-editor-target="frontWrapper"
+             class="shrink-0 rounded-lg shadow-xl overflow-hidden relative bg-gray-300"
+             style="<%= frame.portrait? ? 'height: 500px;' : 'width: 100%; max-width: 600px;' %> aspect-ratio: <%= frame.aspect_ratio %>;"
+             data-side="front">
+          <img src="<%= front_image_url %>"
+               class="hidden"
+               crossorigin="anonymous"
+               data-editor-target="frontBackground" />
+          <canvas data-editor-target="frontCanvas"
+                  class="w-full h-full cursor-default"></canvas>
+          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Front</div>
+        </div>
+      <% end %>
+
+      <%# Back Canvas %>
+      <% if image_back.attached? %>
+        <div data-editor-target="backWrapper"
+             class="shrink-0 rounded-lg shadow-xl overflow-hidden relative bg-gray-300"
+             style="<%= frame.portrait? ? 'height: 500px;' : 'width: 100%; max-width: 600px;' %> aspect-ratio: <%= frame.aspect_ratio %>;"
+             data-side="back">
+          <img src="<%= back_image_url %>"
+               class="hidden"
+               crossorigin="anonymous"
+               data-editor-target="backBackground" />
+          <canvas data-editor-target="backCanvas"
+                  class="w-full h-full cursor-default"></canvas>
+          <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Back</div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Hidden field for elements JSON %>
+    <input type="hidden"
+           name="<%= input_base_name %>"
+           data-editor-target="field"
+           value="<%= elements_json %>" />
+
+    <%# Sample wallet data for placeholder visualization %>
+    <input type="hidden"
+           data-editor-target="dataSource"
+           value="<%= sample_wallet_data %>" />
+
+    <%# Instructions %>
+    <div class="mt-4 text-sm text-gray-600">
+      <p><strong>Instructions:</strong> Click elements to select, drag to move, use handles to resize. Changes are saved automatically.</p>
+    </div>
+  <% end %>
+</div>

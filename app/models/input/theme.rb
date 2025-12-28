@@ -92,7 +92,7 @@ class Input::Theme < Input
 
   AI_PROPERTIES = AI_ELEMENT_TYPES.index_with { |_type| AI_ELEMENT_PROPERTIES }.freeze
 
-  def self.default_ai_elements
+  def self.default_elements
     {
       "private_key_qrcode" => {
         "x" => 12,
@@ -101,7 +101,8 @@ class Input::Theme < Input
         "height" => 17,
         "color" => "224, 120, 1",
         "opacity" => 1.0,
-        "type" => "qrcode"
+        "type" => "private_key/qrcode",
+        "side" => "back"
       },
       "private_key_text" => {
         "x" => 15,
@@ -111,7 +112,8 @@ class Input::Theme < Input
         "size" => 1.8,
         "color" => "224, 120, 1",
         "opacity" => 1.0,
-        "type" => "text"
+        "type" => "private_key/text",
+        "side" => "back"
       },
       "public_address_qrcode" => {
         "x" => 55,
@@ -121,7 +123,8 @@ class Input::Theme < Input
         "color" => "224, 120, 1",
         "opacity" => 1.0,
         "hidden" => true,
-        "type" => "qrcode"
+        "type" => "public_address/qrcode",
+        "side" => "front"
       },
       "public_address_text" => {
         "x" => 55,
@@ -131,7 +134,8 @@ class Input::Theme < Input
         "size" => 1.8,
         "color" => "0, 0, 0",
         "opacity" => 1.0,
-        "type" => "text"
+        "type" => "public_address/text",
+        "side" => "front"
       },
       "mnemonic_text" => {
         "x" => 20,
@@ -141,7 +145,8 @@ class Input::Theme < Input
         "size" => 1.6,
         "color" => "0, 0, 0",
         "opacity" => 1.0,
-        "type" => "mnemonic"
+        "type" => "mnemonic/text",
+        "side" => "back"
       },
       "portrait" => {
         "x" => 34,              # percentage from left
@@ -151,7 +156,8 @@ class Input::Theme < Input
         "color" => "",          # Tone color (hex) - empty means no tint
         "opacity" => 0.25,      # Tone opacity (0.0 - 1.0)
         "resolution" => "1024x1024",  # AI generation size: 1024x1024, 1536x1024, 1024x1536
-        "type" => "image"
+        "type" => "image",
+        "side" => "front"
       }
     }
   end
@@ -164,13 +170,8 @@ class Input::Theme < Input
   validates :slug, presence: true, uniqueness: true
 
   metadata :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
-  metadata :ai, accessors: [ :name ] + AI_ELEMENT_TYPES, prefix: true
   metadata :spotify, accessors: [ :path ], prefix: true
   metadata :frame
-
-  AI_ELEMENT_TYPES.each do |type|
-    store :"ai_#{type}", accessors: AI_ELEMENT_PROPERTIES, prefix: true
-  end
 
 
   before_save :delete_empty_ui_properties
@@ -185,9 +186,15 @@ class Input::Theme < Input
     ui.delete_if { |key, value| value.blank? || value == "#000000" }
   end
 
+  # Override elements to provide defaults when empty
+  def elements
+    result = super
+    result.presence || self.class.default_elements
+  end
+
   # Helper method to get portrait configuration with defaults
   def portrait_config
-    ai["portrait"] || self.class.default_ai_elements["portrait"]
+    elements["portrait"] || self.class.default_elements["portrait"]
   end
 
   # Override frame getter to provide default value

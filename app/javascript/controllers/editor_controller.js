@@ -27,7 +27,7 @@ export default class extends Controller {
     this.dispatch("exported", { detail: { front, back } })
   }
 
-  connect() {
+  async connect() {
     // Get background URLs
     const frontBackground = this.hasFrontBackgroundTarget
       ? this.frontBackgroundTarget.src
@@ -54,10 +54,10 @@ export default class extends Controller {
     // Create exporter
     this.exporter = new Exporter(this.engine.canvases, this.engine.state)
 
-    // Start engine
-    this.engine.start()
+    // Start engine and wait for it to be ready
+    await this.engine.start()
 
-    // Sync initial external data
+    // Sync initial external data (after engine is ready and elements are rendered)
     this.syncExternalData()
 
     // Update UI

@@ -17,7 +17,7 @@
                data-theme-slug="<%= theme.slug %>"
                data-theme-front-url="<%= url_for(theme.image_front) %>"
                data-theme-back-url="<%= url_for(theme.image_back) %>"
-               data-theme-elements="<%= (theme.ai.presence || Input::Theme.default_ai_elements).to_json %>">
+               data-theme-elements="<%= theme.elements.to_json %>">
 
         <%# Thumbnail %>
         <div class="aspect-square rounded-lg overflow-hidden bg-base-200 border-2 border-transparent

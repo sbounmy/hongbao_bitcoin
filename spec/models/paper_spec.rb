@@ -8,7 +8,7 @@ RSpec.describe Paper, type: :model do
   it 'sets elements from theme' do
     # Paper already has input_items through fixtures
     expect(@paper.theme).to eq(inputs(:dollar))
-    expect(@paper.elements).to eq(inputs(:dollar).ai)
+    expect(@paper.elements).to eq(inputs(:dollar).elements)
     expect(@paper.elements.keys).to include("private_key_qrcode", "private_key_text", "public_address_qrcode", "public_address_text", "mnemonic_text", "custom_text", "portrait")
   end
 
@@ -16,7 +16,7 @@ RSpec.describe Paper, type: :model do
     # Create a new paper without theme
     paper = Paper.new(name: 'Test Paper')
     paper.save!
-    expect(paper.elements).to eq(Input::Theme.default_ai_elements)
+    expect(paper.elements).to eq(Input::Theme.default_elements)
     expect(paper.elements.keys).to include("private_key_qrcode", "private_key_text", "public_address_qrcode", "public_address_text", "mnemonic_text")
   end
 

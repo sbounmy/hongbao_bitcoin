@@ -66,8 +66,8 @@ module Admin
     end
 
     def hidden_input_value(element_type, property)
-      source_hash = object.is_a?(Input::Theme) ? object.ai : object.elements
-      default_hash = Input::Theme.default_ai_elements
+      source_hash = object.elements
+      default_hash = Input::Theme.default_elements
 
       # First try to get from source, then from defaults, then provide a sensible fallback
       value = source_hash&.dig(element_type, property.to_s) ||
@@ -94,8 +94,8 @@ module Admin
     end
 
     def element_data(element_type)
-      source_hash = object.is_a?(Input::Theme) ? object.ai : object.elements
-      default_hash = Input::Theme.default_ai_elements
+      source_hash = object.elements
+      default_hash = Input::Theme.default_elements
       (source_hash || {}).fetch(element_type, default_hash.fetch(element_type, {}))
     end
   end

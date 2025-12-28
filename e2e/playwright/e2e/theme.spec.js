@@ -125,17 +125,16 @@ test.describe('Theme', () => {
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
     // Navigate to dashboard to generate a new paper with the updated theme
     await page.goto('/papers/new');
-    await page.locator('#photo-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    await page.getByRole('button', {name: /Next/}).click()
+    await page.getByRole('button', { name: /Photo/});
+    await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
+    await page.getByRole('button', {name: /Enhance with AI/}).click()
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
 
     await turboCableConnected(page);
-    await expect(page.getByText('Processing...')).toBeHidden();
-    await page.getByRole('button', { name: 'Generate' }).click();
-    await expect(page.getByText('Processing...')).toBeVisible();
-    await expect(page.getByText('Processing...')).toBeHidden();
-
+    await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
+    await expect(page.getByText('45-60 seconds')).toBeHidden();
+
     // Open the print preview for the newly generated paper
     // const printPromise = page.waitForEvent('popup');
     await page.getByRole('link', {name: /Print/}).click()
