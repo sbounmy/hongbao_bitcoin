@@ -122,7 +122,6 @@ class Input::Theme < Input
         "height" => 25,
         "color" => "224, 120, 1",
         "opacity" => 1.0,
-        "hidden" => true,
         "type" => "public_address/qrcode",
         "side" => "front"
       },
@@ -190,6 +189,11 @@ class Input::Theme < Input
   def elements
     result = super
     result.presence || self.class.default_elements
+  end
+
+
+  def elements=(json)
+    super(JSON.parse(json))
   end
 
   # Helper method to get portrait configuration with defaults

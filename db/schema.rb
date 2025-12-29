@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_23_164648) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_27_103629) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -111,21 +111,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_23_164648) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "paper_id"
+    t.integer "user_id"
     t.index ["bundle_id"], name: "index_input_items_on_bundle_id"
     t.index ["input_id"], name: "index_input_items_on_input_id"
     t.index ["paper_id"], name: "index_input_items_on_paper_id"
+    t.index ["user_id"], name: "index_input_items_on_user_id"
   end
 
   create_table "inputs", force: :cascade do |t|
     t.string "name"
     t.string "type"
-    t.text "prompt"
+    t.string "prompt"
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "metadata", default: {}
     t.integer "position", default: 0
     t.json "tag_ids", default: []
+    t.json "elements", default: {}
     t.index ["position"], name: "index_inputs_on_position"
   end
 
@@ -281,7 +284,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_23_164648) do
     t.datetime "imported_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "price_updated_at", default: {}
     t.index ["date"], name: "index_spots_on_date", unique: true
   end
 
@@ -359,6 +361,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_23_164648) do
   add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
   add_foreign_key "input_items", "papers"
+  add_foreign_key "input_items", "users"
   add_foreign_key "line_items", "orders"
   add_foreign_key "option_values", "option_types"
   add_foreign_key "orders", "users"

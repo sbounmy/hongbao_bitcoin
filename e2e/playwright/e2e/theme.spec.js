@@ -85,19 +85,21 @@ test.describe('Theme', () => {
       redirect_to: '/admin/themes/1/edit'
     });
 
-    // Locate element, canvas, and corresponding hidden inputs
-    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
-    const xInput = page.locator('input[name="input_theme[ai][public_address_qrcode][x]"]');
-    const yInput = page.locator('input[name="input_theme[ai][public_address_qrcode][y]"]');
-    const canvas = page.locator('[data-visual-editor-target="canvas"]');
-
-    // Wait for the image inside the canvas to be loaded and stable
-    await expect(page.locator('[data-visual-editor-target="frontImage"]')).toBeVisible();
+    // Wait for the editor to be loaded
+    await expect(page.locator('[data-editor-target="frontWrapper"]')).toBeVisible();
     await page.waitForLoadState('networkidle');
 
-    // Get initial coordinates from hidden inputs
-    const initialXStr = await xInput.inputValue();
-    const initialYStr = await yInput.inputValue();
+    // Locate element and canvas container (new DOM-based editor)
+    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const canvas = page.locator('[data-editor-target="frontContainer"]');
+
+    // Wait for element to be visible
+    await expect(element).toBeVisible();
+
+    // Get initial coordinates from element's data attributes
+    const initialXStr = await element.getAttribute('data-element-x');
+    const initialYStr = await element.getAttribute('data-element-y');
+
     // Get canvas dimensions for coordinate calculation
     const canvasBox = await canvas.boundingBox();
     if (!canvasBox) throw new Error('Canvas not found');
@@ -109,25 +111,27 @@ test.describe('Theme', () => {
     // Drag the element to a new position
     await drag(page, element, { dx, dy });
 
-    // Get the new coordinate values from the hidden inputs
-    const newXStr = await xInput.inputValue();
-    const newYStr = await yInput.inputValue();
+    // Get the new coordinate values from element's data attributes
+    const newXStr = await element.getAttribute('data-element-x');
+    const newYStr = await element.getAttribute('data-element-y');
 
     // Calculate expected percentage values based on drag distance and canvas size
     const expectedX = parseFloat(initialXStr) + (dx / canvasBox.width) * 100;
     const expectedY = parseFloat(initialYStr) + (dy / canvasBox.height) * 100;
-    // 1. Verify the hidden input values were updated correctly
+
+    // 1. Verify the element's data attributes were updated correctly
     expect(parseFloat(newXStr)).toBeCloseTo(expectedX, 1);
     expect(parseFloat(newYStr)).toBeCloseTo(expectedY, 1);
 
     // Save the theme
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Theme was successfully updated')).toBeVisible();
-    // Navigate to dashboard to generate a new paper with the updated theme
+
+    // Navigate to papers/new to generate a new paper with the updated theme
     await page.goto('/papers/new');
-    await page.getByRole('button', { name: /Photo/});
+    await page.getByRole('button', { name: /Photo/ }).click();
     await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
-    await page.getByRole('button', {name: /Enhance with AI/}).click()
+    await page.getByRole('button', { name: /Enhance with AI/ }).click();
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
 
     await turboCableConnected(page);
@@ -135,18 +139,14 @@ test.describe('Theme', () => {
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
 
-    // Open the print preview for the newly generated paper
-    // const printPromise = page.waitForEvent('popup');
-    await page.getByRole('link', {name: /Print/}).click()
-    await page.waitForURL(/\/papers\/\d+$/);
+    // Verify the element in the paper editor has the new coordinates
+    // The DOM-based editor renders elements with data-element-* attributes
+    const paperElement = page.locator('[data-element-type="public_address_qrcode"]').first();
+    await expect(paperElement).toBeVisible();
 
-    // await page.locator('#preview-column .papers-item-component').first().click();
-    // const print = await printPromise;
-
-    // Verify the element in the print preview has the new coordinates
-    const canvaItem = page.locator('.canva-item[data-canva-item-name-value="publicAddressQrcode"]').first();
-    await expect(canvaItem).toHaveAttribute('data-canva-item-x-value', newXStr);
-    await expect(canvaItem).toHaveAttribute('data-canva-item-y-value', newYStr);
+    // Verify coordinates match what was saved in the theme
+    await expect(paperElement).toHaveAttribute('data-element-x', newXStr);
+    await expect(paperElement).toHaveAttribute('data-element-y', newYStr);
   });
 
   test.afterEach(async ({ page }) => {

@@ -1,9 +1,15 @@
 ActiveAdmin.register Input::Theme, as: "Theme" do
   menu parent: "Inputs", priority: 1
 
-  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, :frame,
-    Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" },
-    elements: Input::Theme::AI_ELEMENT_TYPES.map { |et| { et.to_sym => Input::Theme::AI_ELEMENT_PROPERTIES.to_a } }.reduce(:merge) || {}
+  # Use FriendlyId slug for finding records
+  controller do
+    def find_resource
+      scoped_collection.friendly.find(params[:id])
+    end
+  end
+
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :ui_name, :spotify_path, :frame, :elements,
+    Input::Theme::UI_PROPERTIES.map { |p| "ui_#{p}" }
 
 
   remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
@@ -211,24 +217,6 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
       render Admin::CanvasEditorComponent.new(form: f, input_base_name: "input_theme[elements]")
-    end
-
-    f.inputs "Portrait Positioning" do
-      para "Configure where the portrait should be positioned on the template (percentages of template dimensions)"
-
-      f.input :portrait_resolution,
-        label: "AI Portrait Resolution",
-        hint: "Size for AI portrait generation (affects quality and aspect ratio)",
-        as: :select,
-        collection: [
-          [ "1024x1024 (Square)", "1024x1024" ],
-          [ "1536x1024 (Landscape)", "1536x1024" ],
-          [ "1024x1536 (Portrait)", "1024x1536" ]
-        ],
-        input_html: {
-          name: "input_theme[elements][portrait][resolution]"
-        },
-        selected: f.object&.elements&.dig("portrait", "resolution") || "1024x1024"
     end
 
     # Define hints based on property descriptions

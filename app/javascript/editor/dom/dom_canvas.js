@@ -28,11 +28,11 @@ export class DOMCanvas {
     this.originalHeight = height
 
     // Set container style for positioning context
+    // Note: Don't set aspectRatio here - parent wrapper already has it set
     Object.assign(this.el.style, {
       position: 'relative',
       overflow: 'hidden',
-      containerType: 'inline-size',  // Enable container queries for font sizing
-      aspectRatio: `${width} / ${height}`  // Match container to image aspect ratio
+      containerType: 'inline-size'  // Enable container queries for font sizing
     })
   }
 
@@ -40,7 +40,7 @@ export class DOMCanvas {
   setBackgroundImage(url) {
     this.backgroundUrl = url
     Object.assign(this.el.style, {
-      backgroundImage: `url(${url})`,
+      backgroundImage: `url("${url}")`,  // Quotes needed for URLs with special chars
       backgroundSize: 'contain',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'

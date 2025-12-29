@@ -225,8 +225,8 @@ export default class extends Controller {
     if (!this.hasFieldTarget) return
 
     // Serialize state in object format for Rails
+    // Always save all elements - they define positions, not wallet data
     const state = this.engine.state.serialize({
-      excludeSensitive: true,
       objectFormat: true
     })
 
