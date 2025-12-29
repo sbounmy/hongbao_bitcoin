@@ -87,10 +87,9 @@ test.describe('Theme', () => {
 
     // Wait for the editor to be loaded
     await expect(page.locator('[data-editor-target="frontWrapper"]')).toBeVisible();
-    await page.waitForLoadState('networkidle');
 
     // Locate element and canvas container (new DOM-based editor)
-    const element = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const element = page.locator('[data-element-type="public_address/qrcode"]').first();
     const canvas = page.locator('[data-editor-target="frontContainer"]');
 
     // Wait for element to be visible
@@ -133,6 +132,7 @@ test.describe('Theme', () => {
     await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
     await page.getByRole('button', { name: /Enhance with AI/ }).click();
     await page.getByText('Marvel').filter({ visible: true }).first().click({ force: true }); // uncheck Marvel
+    await page.getByRole('button', { name: /Generate/ }).click()
 
     await turboCableConnected(page);
     await expect(page.getByText('45-60 seconds')).toBeVisible();
@@ -141,7 +141,7 @@ test.describe('Theme', () => {
 
     // Verify the element in the paper editor has the new coordinates
     // The DOM-based editor renders elements with data-element-* attributes
-    const paperElement = page.locator('[data-element-type="public_address_qrcode"]').first();
+    const paperElement = page.locator('[data-element-type="public_address/qrcode"]').first();
     await expect(paperElement).toBeVisible();
 
     // Verify coordinates match what was saved in the theme
