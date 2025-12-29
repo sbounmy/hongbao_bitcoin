@@ -31,7 +31,8 @@ export class DOMCanvas {
     Object.assign(this.el.style, {
       position: 'relative',
       overflow: 'hidden',
-      containerType: 'inline-size'  // Enable container queries for font sizing
+      containerType: 'inline-size',  // Enable container queries for font sizing
+      aspectRatio: `${width} / ${height}`  // Match container to image aspect ratio
     })
   }
 
@@ -40,8 +41,9 @@ export class DOMCanvas {
     this.backgroundUrl = url
     Object.assign(this.el.style, {
       backgroundImage: `url(${url})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
     })
   }
 
