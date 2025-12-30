@@ -156,7 +156,7 @@ ActiveAdmin.register Paper do
 
       f.inputs "Visual Element Editor" do
         para "Position elements visually on your paper images. Elements unique to Papers are managed below."
-        render Admin::VisualEditorComponent.new(form: f, input_base_name: "paper[elements]")
+        render Admin::CanvasEditorComponent.new(form: f, input_base_name: "paper[elements]")
       end
       # JSONB elements handling
       paper_only_elements = Paper::ELEMENTS - Input::Theme::AI_ELEMENT_TYPES
