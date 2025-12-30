@@ -3,46 +3,7 @@ require 'rails_helper'
 RSpec.describe Input, type: :model do
   subject { inputs(:dollar) }
 
-  it 'can store metadata' do
-    # Metadata stores UI properties, elements are stored in dedicated column
-    expect(subject.metadata).to include({
-        "ui" => {
-          "name" => "cyberpunk",
-          "color_base_100" => "#e6f4f1",
-          "color_primary" => "#006e8f",
-          "radius_selector" => "1rem",
-          "color_base_200" => "#ccecf2",
-          "color_base_300" => "#00a8cc",
-          "color_base_content" => "#112f4e",
-          "color_primary_content" => "#ffffff",
-          "color_secondary" => "#d83933",
-          "color_secondary_content" => "#ffffff",
-          "color_accent" => "#a3edeb",
-          "color_accent_content" => "#112f4e",
-          "depth" => "2"
-        }
-      })
-  end
-
   context 'for theme' do
-    it 'is accessible as ui' do
-      expect(subject.ui).to include({
-        "name" => "cyberpunk",
-        "color_base_100" => "#e6f4f1",
-        "color_primary" => "#006e8f",
-        "radius_selector" => "1rem",
-        "color_base_200" => "#ccecf2",
-        "color_base_300" => "#00a8cc",
-        "color_base_content" => "#112f4e",
-        "color_primary_content" => "#ffffff",
-        "color_secondary" => "#d83933",
-        "color_secondary_content" => "#ffffff",
-        "color_accent" => "#a3edeb",
-        "color_accent_content" => "#112f4e",
-        "depth" => "2"
-      })
-    end
-
     it 'is accessible as elements' do
       expect(subject.elements).to include({
         "private_key_qrcode" => {
@@ -112,33 +73,6 @@ RSpec.describe Input, type: :model do
             "side" => "front"
           }
       })
-    end
-
-    it 'supports ui properties accessor' do
-      expect {
-        subject.update ui_color_primary: 'yellow'
-      }.to change(subject, :ui_color_primary).from('#006e8f').to('yellow')
-
-      expect(subject.ui).to include({
-        "name" => "cyberpunk",
-        "color_base_100" => "#e6f4f1",
-        "color_primary" => "yellow",
-        "radius_selector" => "1rem",
-        "color_base_200" => "#ccecf2",
-        "color_base_300" => "#00a8cc",
-        "color_base_content" => "#112f4e",
-        "color_primary_content" => "#ffffff",
-        "color_secondary" => "#d83933",
-        "color_secondary_content" => "#ffffff",
-        "color_accent" => "#a3edeb",
-        "color_accent_content" => "#112f4e",
-        "depth" => "2"
-      })
-    end
-
-    it 'is accessible by ui[...]' do
-      expect(subject.ui_name).to eql('cyberpunk')
-      expect(subject.ui['color_primary']).to eql('#006e8f')
     end
   end
 end

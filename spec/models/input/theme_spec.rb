@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Input::Theme, type: :model do
-  it 'works with UI metadata accessors' do
-    theme = Input::Theme.new(name: 'Test Theme', slug: 'test-theme')
-
-    # Set UI properties
-    theme.ui_name = 'dark'
-    theme.ui_color_primary = '#ff0000'
-
-    expect(theme.metadata).to have_key('ui')
-    expect(theme.ui).to include('name' => 'dark', 'color_primary' => '#ff0000')
-  end
-
   it 'stores elements in dedicated column' do
     theme = Input::Theme.new(name: 'Test Theme', slug: 'test-theme')
 

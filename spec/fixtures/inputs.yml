@@ -6,8 +6,6 @@ tunisian_dinar:
   created_at: "2025-05-01T14:02:26.940Z"
   updated_at: "2025-05-01T14:02:27.327Z"
   metadata:
-    ui:
-      name: "bumblebee"
     elements:
       private_key_qrcode:
         x: "10"
@@ -67,20 +65,6 @@ dollar:
   type: "Input::Theme"
   slug: "usd"
   metadata:
-    ui:
-      name: "cyberpunk"
-      color_base_100: "#e6f4f1"
-      color_primary: "#006e8f"
-      radius_selector: "1rem"
-      color_base_200: "#ccecf2"
-      color_base_300: "#00a8cc"
-      color_base_content: "#112f4e"
-      color_primary_content: "#ffffff"
-      color_secondary: "#d83933"
-      color_secondary_content: "#ffffff"
-      color_accent: "#a3edeb"
-      color_accent_content: "#112f4e"
-      depth: "2"
     elements:
       private_key_qrcode:
         x: "10"
@@ -147,8 +131,6 @@ euro:
   type: "Input::Theme"
   slug: "eur"
   metadata:
-    ui:
-      name: "aqua"
     elements:
       private_key_qrcode:
         x: "10"
@@ -208,8 +190,6 @@ monoboly:
   type: "Input::Theme"
   slug: "monopoly"
   metadata:
-    ui:
-      name: "lofi"
     elements:
       private_key_qrcode:
         x: "10"
@@ -269,8 +249,6 @@ rouble:
   type: "Input::Theme"
   slug: "rub"
   metadata:
-    ui:
-      name: "emerald"
     elements:
       private_key_qrcode:
         x: "10"
@@ -330,8 +308,6 @@ chinese_yuan:
   type: "Input::Theme"
   slug: "cny"
   metadata:
-    ui:
-      name: "valentine"
     elements:
       private_key_qrcode:
         x: "10"
@@ -391,8 +367,6 @@ indonesian_rupiah:
   type: "Input::Theme"
   slug: "rup"
   metadata:
-    ui:
-      name: "winter"
     elements:
       private_key_qrcode:
         x: "10"
