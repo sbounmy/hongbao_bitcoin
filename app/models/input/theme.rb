@@ -171,6 +171,7 @@ class Input::Theme < Input
   metadata :ui, accessors: [ :name ] + UI_PROPERTIES, prefix: true
   metadata :spotify, accessors: [ :path ], prefix: true
   metadata :frame
+  metadata :elements
 
 
   before_save :delete_empty_ui_properties
@@ -191,10 +192,18 @@ class Input::Theme < Input
     result.presence || self.class.default_elements
   end
 
-
-  def elements=(json)
-    super(JSON.parse(json))
+  # Parse JSON string from form submissions
+  def elements=(value)
+    if value.is_a?(String)
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
+  rescue JSON::ParserError
+    super(value)
   end
+
+
 
   # Helper method to get portrait configuration with defaults
   def portrait_config

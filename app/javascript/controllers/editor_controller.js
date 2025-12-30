@@ -137,6 +137,12 @@ export default class extends Controller {
     const data = event?.detail
     if (!data) return
 
+    // Persist to hidden field so syncExternalData works after theme changes
+    // Note: dataSource field is disabled so it's never submitted to server
+    if (this.hasDataSourceTarget) {
+      this.dataSourceTarget.value = JSON.stringify(data)
+    }
+
     this.syncExternalDataFrom(data)
     this.engine.scheduleRender()
   }

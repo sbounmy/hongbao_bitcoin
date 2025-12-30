@@ -66,10 +66,10 @@ test.describe('PDF Generation', () => {
     await page.locator('#private_key_text').fill('my-own-private-key')
     await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
 
-    // Verify the input fields have correct values (canvas renders from these)
-    await expect(page.locator('#public_address_text')).toHaveValue('my-own-public-address')
-    await expect(page.locator('#private_key_text')).toHaveValue('my-own-private-key')
-    await expect(page.locator('#mnemonic_text')).toHaveValue('my own mnemonic is here but you can change it')
+    // Verify elements are rendered in the DOM canvas with correct text
+    await expect(page.locator('[data-element-type="public_address/text"]')).toContainText('my-own-public-address')
+    await expect(page.locator('[data-element-type="private_key/text"]')).toContainText('my-own-private-key')
+    await expect(page.locator('[data-element-type="mnemonic/text"]')).toContainText('my own mnemonic is here but you can change it')
   });
 
   test('user top up notice for custom keys', async ({ page }) => {
