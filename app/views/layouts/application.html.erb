@@ -46,7 +46,6 @@
 
     <%# Includes all stylesheet files in app/views/stylesheets %>
     <%= stylesheet_link_tag "application", "tailwind", "data-turbo-track": "reload" %>
-    <%= theme_css(current_theme) %>
     <%# Support importmap for legacy browsers https://caniuse.com/import-maps %>
     <%= render "shared/plausible" %>
 
