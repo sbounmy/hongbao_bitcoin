@@ -13,6 +13,7 @@ export default class extends Controller {
     "backContainer",    // Back side container div
     "frontWrapper",     // Front container wrapper (for show/hide)
     "backWrapper",      // Back container wrapper (for show/hide)
+    "layoutContainer",  // Container for layout direction (flex-row/flex-col)
     "field",            // Hidden input for elements JSON
     "dataSource",       // Hidden input for external data (e.g., wallet JSON)
     "sideToggle",       // Button showing current side
@@ -25,6 +26,9 @@ export default class extends Controller {
     themeId: String     // Current theme ID
   }
 
+  // Store current layout direction for export
+  currentLayoutDirection = null
+
   // Export DOM elements for PDF preview (instant - no html2canvas)
   // Clones the DOM containers instead of converting to images
   exportForPreview() {
@@ -36,11 +40,12 @@ export default class extends Controller {
     frontClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
     backClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
 
-    // Dispatch clones for preview to insert
+    // Dispatch clones for preview to insert (include layout direction for preview to update)
     this.dispatch("exported", {
       detail: {
         frontEl: frontClone,
-        backEl: backClone
+        backEl: backClone,
+        layoutDirection: this.currentLayoutDirection
       }
     })
 
@@ -188,9 +193,15 @@ export default class extends Controller {
 
   // Handle theme change (called from theme selector)
   async loadTheme(event) {
-    const { themeId, frontUrl, backUrl, elements } = event.detail
+    const { themeId, frontUrl, backUrl, elements, aspectRatio, layoutDirection } = event.detail
 
     this.themeIdValue = themeId
+
+    // Update layout if frame changed (orientation switch)
+    if (layoutDirection) {
+      this.currentLayoutDirection = layoutDirection
+      this.updateLayout(layoutDirection, aspectRatio)
+    }
 
     // Load theme and wait for backgrounds
     await this.engine.loadTheme({ frontUrl, backUrl, elements })
@@ -206,6 +217,39 @@ export default class extends Controller {
 
     // Re-sync external data after theme change
     this.syncExternalData()
+  }
+
+  // Update container layout when frame orientation changes
+  updateLayout(layoutDirection, aspectRatio) {
+    // Use Stimulus target instead of querySelector
+    if (!this.hasLayoutContainerTarget) return
+    const container = this.layoutContainerTarget
+
+    // Remove old layout classes, add new ones from server
+    container.classList.remove('flex-row', 'flex-col', 'overflow-x-auto', 'overflow-y-auto')
+    layoutDirection.split(' ').forEach(cls => container.classList.add(cls))
+
+    // Parse aspect ratio to determine orientation
+    const [w, h] = aspectRatio.split('/').map(Number)
+    const isPortrait = h > w
+
+    // Update wrapper sizing classes based on orientation
+    ;[this.frontWrapperTarget, this.backWrapperTarget].forEach(wrapper => {
+      if (!wrapper) return
+
+      // Update aspect ratio
+      wrapper.style.aspectRatio = aspectRatio
+
+      // Update sizing classes
+      // Portrait: h-full (fill height, width from aspect-ratio)
+      // Landscape: h-[48%] (partial height so both cards fit, width from aspect-ratio)
+      wrapper.classList.remove('h-full', 'w-full', 'max-w-full', 'max-h-full', 'max-h-[45%]', 'h-[48%]', 'shrink-0')
+      if (isPortrait) {
+        wrapper.classList.add('shrink-0', 'h-full')
+      } else {
+        wrapper.classList.add('shrink-0', 'h-[48%]')
+      }
+    })
   }
 
   // Handle AI-generated image update (from Turbo Stream broadcast)

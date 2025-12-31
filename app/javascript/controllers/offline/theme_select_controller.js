@@ -83,7 +83,9 @@ export default class extends Controller {
       slug: radio.dataset.themeSlug,
       frontUrl: radio.dataset.themeFrontUrl,
       backUrl: radio.dataset.themeBackUrl,
-      elements: JSON.parse(radio.dataset.themeElements || '{}')
+      elements: JSON.parse(radio.dataset.themeElements || '{}'),
+      aspectRatio: radio.dataset.themeAspectRatio,
+      layoutDirection: radio.dataset.themeLayoutDirection
     }
   }
 
@@ -112,7 +114,9 @@ export default class extends Controller {
         themeId,
         frontUrl: theme.frontUrl,
         backUrl: theme.backUrl,
-        elements
+        elements,
+        aspectRatio: theme.aspectRatio,
+        layoutDirection: theme.layoutDirection
       }
     }))
   }

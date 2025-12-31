@@ -7,7 +7,7 @@ class Frame
       rotation_front: "",
       rotation_back: "transform rotate-180",
       fold_line: "border-t-2",
-      layout_direction: "flex-col",  # Stack vertically for landscape
+      layout_direction: "flex-col overflow-y-auto",  # Stack vertically for landscape
       layout_classes: "items-stretch w-[150mm]"
     },
     "portrait" => {
@@ -15,7 +15,7 @@ class Frame
       rotation_front: "",
       rotation_back: "",
       fold_line: "border-l-2",
-      layout_direction: "flex-row",  # Stack horizontally for portrait
+      layout_direction: "flex-row overflow-x-auto",  # Stack horizontally for portrait
       layout_classes: "items-stretch min-h-[88mm]"  # Ensure full height with correct ratio
     }
   }.freeze

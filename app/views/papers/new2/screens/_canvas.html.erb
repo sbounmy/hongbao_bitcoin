@@ -11,11 +11,14 @@
   <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
 
     <%# DOM Container - Layout adapts to frame orientation %>
-    <div class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
+    <div data-editor-target="layoutContainer"
+         class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
 
       <%# Front Container %>
+      <%# Portrait: h-full (fill height, width from aspect-ratio) %>
+      <%# Landscape: h-[48%] (partial height so both cards fit, width from aspect-ratio) %>
       <div data-editor-target="frontWrapper"
-           class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="front">
         <img src="<%= template_front_base64 %>"
              class="hidden"
@@ -26,8 +29,9 @@
       </div>
 
       <%# Back Container %>
+      <%# Same sizing as front for consistency %>
       <div data-editor-target="backWrapper"
-           class="shrink-0 rounded-lg shadow-xl overflow-hidden h-full aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
            data-side="back">
         <img src="<%= template_back_base64 %>"
              class="hidden"

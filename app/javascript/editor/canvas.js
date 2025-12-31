@@ -40,7 +40,7 @@ export class Canvas {
     this.backgroundUrl = url
     Object.assign(this.el.style, {
       backgroundImage: `url("${url}")`,  // Quotes needed for URLs with special chars
-      backgroundSize: 'contain',
+      backgroundSize: 'cover',  // Cover ensures background fills container (elements positioned as % of container)
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     })

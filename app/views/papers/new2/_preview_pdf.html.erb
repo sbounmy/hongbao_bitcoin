@@ -17,7 +17,8 @@
         <div data-pdf-target='content' class="w-[210mm] h-[297mm] bg-white p-8 flex flex-col justify-between gap-2 shadow-lg origin-top-left">
           <!-- Main content of the page -->
           <div class="flex flex-col justify-between">
-            <div class="flex items-center">
+            <div class="flex items-center"
+                 data-preview-canvas-target="layoutContainer">
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
                 <%# Back - placeholder replaced by cloned DOM from editor %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
