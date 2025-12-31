@@ -150,8 +150,8 @@ euro:
         type: "private_key/text"
         side: "back"
       public_address_qrcode:
-        x: "22"
-        y: "24"
+        x: "50"
+        y: "90"
         width: "9.0"
         height: "18.0"
         color: ""

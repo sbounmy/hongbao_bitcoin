@@ -364,6 +364,38 @@ await page.getByText('Delete Event').click();
 
 The goal is to write tests that read like user stories and survive refactoring of the implementation details.
 
+### Editor Drag & Drop Testing
+
+The paper wallet editor uses `TouchHandler` with a **300ms double-tap threshold**. When testing drag operations:
+
+**IMPORTANT**: After selecting an element, wait 350ms+ before dragging to avoid the drag being detected as a double-tap (which aborts the drag).
+
+```javascript
+// Helper for dragging elements or handles
+async function dragHandle(page, handleSelector, deltaX, deltaY) {
+  const handle = page.locator(handleSelector);
+  await handle.waitFor({ state: 'visible' });
+  const box = await handle.boundingBox();
+
+  await handle.hover();  // Use hover() to properly trigger pointer events
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 + deltaX, box.y + box.height / 2 + deltaY, { steps: 5 });
+  await page.mouse.up();
+}
+
+// Usage in tests - note the 350ms delay after selection
+await textElement.click();
+await expect(frontContainer.locator('.editor-selection-overlay')).toBeVisible();
+await page.waitForTimeout(350);  // Wait past double-tap threshold!
+await dragHandle(page, '.editor-handle-se', 50, 50);
+```
+
+**Key selectors:**
+- Container: `[data-editor-target="frontContainer"]`
+- Selection overlay: `.editor-selection-overlay`
+- Resize handles: `.editor-handle-se`, `.editor-handle-e`, etc.
+- Elements: `[data-element-type="text"]`, `[data-element-type="image"]`
+
 ### Git Workflow
 - Feature branches for new work
 - Descriptive commit messages
