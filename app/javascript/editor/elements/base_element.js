@@ -1,8 +1,9 @@
-// Base class for all canvas elements
-// Elements are plain JS objects that draw on a shared canvas
+// Base class for editor elements
+// Renders as positioned div elements
 export class BaseElement {
   constructor(data) {
     this.id = data.id || data.name || crypto.randomUUID()
+    this.name = data.name || this.id
     this.type = data.type || 'unknown'
     this.side = data.side || 'front'
 
@@ -17,20 +18,81 @@ export class BaseElement {
     this.hidden = data.hidden ?? false
     this.presence = data.presence ?? true  // Cannot delete if true
     this.sensitive = data.sensitive ?? false  // Strip from server save if true
+
+    // DOM element reference
+    this.el = null
   }
 
-  // Convert percentage bounds to pixel coordinates
-  getBounds(canvasWidth, canvasHeight) {
-    return {
-      x: (this.x / 100) * canvasWidth,
-      y: (this.y / 100) * canvasHeight,
-      width: (this.width / 100) * canvasWidth,
-      height: (this.height / 100) * canvasHeight
-    }
+  // Create the DOM element
+  createElement() {
+    this.el = document.createElement('div')
+    this.el.className = 'editor-element'
+    this.applyStyles()
+    this.applyDataAttributes()
+    this.renderContent()
+    return this.el
+  }
+
+  // Apply CSS positioning using percentages
+  applyStyles() {
+    if (!this.el) return
+
+    Object.assign(this.el.style, {
+      position: 'absolute',
+      left: `${this.x}%`,
+      top: `${this.y}%`,
+      width: `${this.width}%`,
+      height: `${this.height}%`,
+      transform: this.rotation ? `rotate(${this.rotation}deg)` : 'none',
+      transformOrigin: 'center center',
+      display: this.hidden ? 'none' : 'block',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+      userSelect: 'none',        // Prevent text selection during drag
+      WebkitUserDrag: 'none'     // Prevent Safari drag
+    })
+  }
+
+  // Add data attributes for E2E testing
+  applyDataAttributes() {
+    if (!this.el) return
+
+    this.el.dataset.elementId = this.id
+    this.el.dataset.elementName = this.name
+    this.el.dataset.elementType = this.type
+    this.el.dataset.elementSide = this.side
+    this.el.dataset.elementX = this.x
+    this.el.dataset.elementY = this.y
+    this.el.dataset.elementWidth = this.width
+    this.el.dataset.elementHeight = this.height
+  }
+
+  // Override in subclasses to render specific content
+  renderContent() {
+    // Base class does nothing
+  }
+
+  // Update element from new data
+  update(data) {
+    if (data.x !== undefined) this.x = parseFloat(data.x)
+    if (data.y !== undefined) this.y = parseFloat(data.y)
+    if (data.width !== undefined) this.width = parseFloat(data.width)
+    if (data.height !== undefined) this.height = parseFloat(data.height)
+    if (data.rotation !== undefined) this.rotation = parseFloat(data.rotation) || 0
+    if (data.hidden !== undefined) this.hidden = data.hidden
+    if (data.side !== undefined) this.side = data.side
+
+    this.applyStyles()
+    this.applyDataAttributes()
+    this.updateContent(data)
+  }
+
+  // Override in subclasses to update specific content
+  updateContent(data) {
+    // Base class does nothing
   }
 
   // Check if a point (in percentage coordinates) is within this element's bounds
-  // TODO: Handle rotation for accurate hit testing
   containsPoint(px, py) {
     if (this.hidden) return false
     return (
@@ -41,65 +103,17 @@ export class BaseElement {
     )
   }
 
-  // Update element from new data
-  updateFromData(data) {
-    if (data.x !== undefined) this.x = parseFloat(data.x)
-    if (data.y !== undefined) this.y = parseFloat(data.y)
-    if (data.width !== undefined) this.width = parseFloat(data.width)
-    if (data.height !== undefined) this.height = parseFloat(data.height)
-    if (data.rotation !== undefined) this.rotation = parseFloat(data.rotation) || 0
-    if (data.hidden !== undefined) this.hidden = data.hidden
-    if (data.side !== undefined) this.side = data.side
-  }
-
-  // Update position (used by drag)
-  updatePosition(x, y) {
-    this.x = x
-    this.y = y
-  }
-
-  // Update size (used by resize)
-  updateSize(width, height) {
-    this.width = width
-    this.height = height
-  }
-
-  // Render with rotation transform applied
-  render(ctx, canvasWidth, canvasHeight, options = {}) {
-    if (this.hidden) return
-
-    const bounds = this.getBounds(canvasWidth, canvasHeight)
-
-    ctx.save()
-
-    // Apply rotation around element center
-    if (this.rotation !== 0) {
-      const centerX = bounds.x + bounds.width / 2
-      const centerY = bounds.y + bounds.height / 2
-      ctx.translate(centerX, centerY)
-      ctx.rotate(this.rotation * Math.PI / 180)
-      ctx.translate(-centerX, -centerY)
-    }
-
-    this.draw(ctx, bounds, canvasWidth, canvasHeight)
-
-    ctx.restore()
-  }
-
-  // Draw the element - override in subclasses
-  draw(ctx, bounds, canvasWidth, canvasHeight) {
-    // Base class does nothing
-  }
-
-  // Cleanup - override in subclasses if needed
+  // Cleanup
   destroy() {
-    // Base class does nothing
+    this.el?.remove()
+    this.el = null
   }
 
   // Export current state to JSON-serializable object
   toJSON() {
     return {
       id: this.id,
+      name: this.name,
       type: this.type,
       side: this.side,
       x: this.x,

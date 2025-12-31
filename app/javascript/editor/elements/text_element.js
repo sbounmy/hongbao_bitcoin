@@ -1,24 +1,72 @@
-import { BaseElement } from "./base_element"
+import { BaseElement } from './base_element'
 
-// Text element - user-created text that persists to elements JSON
+// Text element rendered as DOM
+// Uses CSS for fonts and text wrapping
 export class TextElement extends BaseElement {
-  static drawer = 'text-edit-drawer'
   static SINGLE_LINE_THRESHOLD = 1.5
 
   constructor(data) {
     super(data)
 
-    this.text = data.text || ""
-    // Accept both font_size and fontSize (normalize to fontSize internally)
+    this.text = data.text || ''
     this.fontSize = parseFloat(data.font_size ?? data.fontSize ?? data.size) || 3
-    this.fontColor = data.font_color || data.fontColor || data.color || "#000000"
-
-    // Calculated height after text wrapping
-    this._calculatedHeight = null
+    this.fontColor = data.font_color || data.fontColor || data.color || '#000000'
   }
 
-  updateFromData(data) {
-    super.updateFromData(data)
+  renderContent() {
+    // Create text span
+    this.textNode = document.createElement('span')
+    this.textNode.className = 'editor-element-text'
+    this.el.appendChild(this.textNode)
+
+    this.updateTextContent()
+    this.applyTextStyles()
+  }
+
+  applyStyles() {
+    super.applyStyles()
+    this.applyTextStyles()
+  }
+
+  applyTextStyles() {
+    if (!this.el) return
+
+    // Font size as container query width units (cqw)
+    // This scales with the container size
+    const fontSizeCqw = this.fontSize
+
+    // Normalize color - handle '0, 0, 0' format from theme data
+    let color = this.fontColor || '#000000'
+    if (color && !color.startsWith('#') && !color.startsWith('rgb')) {
+      // Convert '0, 0, 0' to 'rgb(0, 0, 0)'
+      color = `rgb(${color})`
+    }
+
+    Object.assign(this.el.style, {
+      fontSize: `${fontSizeCqw}cqw`,
+      color,
+      fontFamily: 'Arial, sans-serif',
+      lineHeight: '1.25',
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word',
+      whiteSpace: this.fontSize < TextElement.SINGLE_LINE_THRESHOLD ? 'nowrap' : 'normal'
+    })
+  }
+
+  applyDataAttributes() {
+    super.applyDataAttributes()
+    if (this.el) {
+      this.el.dataset.elementText = this.text || ''
+    }
+  }
+
+  updateTextContent() {
+    if (this.textNode) {
+      this.textNode.textContent = this.text || ''
+    }
+  }
+
+  updateContent(data) {
     if (data.text !== undefined) this.text = data.text
     if (data.font_size !== undefined) this.fontSize = parseFloat(data.font_size)
     else if (data.fontSize !== undefined) this.fontSize = parseFloat(data.fontSize)
@@ -26,67 +74,10 @@ export class TextElement extends BaseElement {
     if (data.font_color !== undefined) this.fontColor = data.font_color
     else if (data.fontColor !== undefined) this.fontColor = data.fontColor
     else if (data.color !== undefined) this.fontColor = data.color
-  }
 
-  draw(ctx, bounds, canvasWidth, canvasHeight) {
-    if (!ctx || !this.text) return
-
-    const { x, y, width: maxWidthPx } = bounds
-
-    // Font size is a percentage of canvas width
-    const fontCorrectionFactor = 0.95
-    const fontSizePx = (this.fontSize / 100) * canvasWidth
-    const scaledFontSize = fontSizePx / fontCorrectionFactor
-    const lineHeight = scaledFontSize * 1.25
-
-    ctx.font = `${scaledFontSize}px Arial`
-    ctx.fillStyle = this.fontColor
-
-    // Below threshold: single line, no wrapping
-    const forceSingleLine = this.fontSize < TextElement.SINGLE_LINE_THRESHOLD
-
-    if (forceSingleLine) {
-      ctx.fillText(this.text, x, y + scaledFontSize)
-      this._calculatedHeight = (lineHeight / canvasHeight) * 100
-    } else {
-      const linesDrawn = this.wrapTextByChar(ctx, this.text, x, y + scaledFontSize, maxWidthPx, lineHeight)
-      this._calculatedHeight = (linesDrawn * lineHeight / canvasHeight) * 100
-    }
-  }
-
-  getCalculatedHeight() {
-    return this._calculatedHeight || this.height
-  }
-
-  wrapTextByChar(ctx, text, x, y, maxWidth, lineHeight) {
-    const paragraphs = text.split('\n')
-    let lineCount = 0
-
-    for (let p = 0; p < paragraphs.length; p++) {
-      const paragraph = paragraphs[p]
-      let line = ''
-
-      for (let i = 0; i < paragraph.length; i++) {
-        const testLine = line + paragraph[i]
-        const metrics = ctx.measureText(testLine)
-        const testWidth = metrics.width
-
-        if (testWidth > maxWidth && i > 0) {
-          ctx.fillText(line, x, y)
-          line = paragraph[i]
-          y += lineHeight
-          lineCount++
-        } else {
-          line = testLine
-        }
-      }
-      ctx.fillText(line, x, y)
-      lineCount++
-      if (p < paragraphs.length - 1) {
-        y += lineHeight
-      }
-    }
-    return lineCount
+    this.updateTextContent()
+    this.applyTextStyles()
+    this.applyDataAttributes()
   }
 
   toJSON() {
@@ -97,4 +88,33 @@ export class TextElement extends BaseElement {
       font_color: this.fontColor
     }
   }
+}
+
+// Wallet text elements - same as text but sensitive (text not persisted)
+export class WalletTextElement extends TextElement {
+  static sensitive = true
+
+  constructor(data) {
+    super(data)
+    this.sensitive = true
+  }
+
+  toJSON() {
+    const json = super.toJSON()
+    delete json.text  // Don't persist wallet text
+    return json
+  }
+}
+
+// Specific wallet text elements with dataKey for external data binding
+export class PrivateKeyTextElement extends WalletTextElement {
+  static dataKey = 'private_key_text'
+}
+
+export class PublicAddressTextElement extends WalletTextElement {
+  static dataKey = 'public_address_text'
+}
+
+export class MnemonicTextElement extends WalletTextElement {
+  static dataKey = 'mnemonic_text'
 }

@@ -1,145 +1,117 @@
-import { BaseElement } from "./base_element"
+import { BaseElement } from './base_element'
 
-// Image element with loading state support
+// Image element rendered as DOM
+// Uses <img> tag with loading state support
 export class ImageElement extends BaseElement {
   static drawer = 'photo-drawer'
 
   constructor(data) {
     super(data)
 
-    this.image = null
-    this.placeholderImage = null
-    this.loading = false
-    this.loadingAnimationId = null
+    this.imageUrl = null
     this.placeholderUrl = data.placeholder || null
-
-    // Load placeholder image if provided
-    if (this.placeholderUrl) {
-      this.loadPlaceholder(this.placeholderUrl)
-    }
-  }
-
-  updateFromData(data) {
-    super.updateFromData(data)
-
-    if (data.placeholder !== undefined && data.placeholder !== this.placeholderUrl) {
-      this.placeholderUrl = data.placeholder
-      if (this.placeholderUrl) {
-        this.loadPlaceholder(this.placeholderUrl)
-      }
-    }
-  }
-
-  loadPlaceholder(url) {
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      this.placeholderImage = img
-      if (!this.image) {
-        this.onImageLoaded?.()
-      }
-    }
-    img.src = url
-  }
-
-  // Load image from URL or file data
-  loadImage(url) {
     this.loading = false
-    this.stopLoadingAnimation()
+  }
 
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      this.image = img
+  renderContent() {
+    // Container for centering
+    this.container = document.createElement('div')
+    this.container.className = 'editor-element-image-container'
+    Object.assign(this.container.style, {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'center'
+    })
+
+    // Image element
+    this.imgEl = document.createElement('img')
+    this.imgEl.className = 'editor-element-image'
+    this.imgEl.draggable = false  // Prevent native browser image drag
+    Object.assign(this.imgEl.style, {
+      maxWidth: '100%',
+      maxHeight: '100%',
+      objectFit: 'contain',
+      pointerEvents: 'none'  // Let parent handle all pointer events
+    })
+    this.imgEl.crossOrigin = 'anonymous'
+
+    // Loading spinner
+    this.spinnerEl = this.createSpinner()
+
+    this.container.appendChild(this.imgEl)
+    this.container.appendChild(this.spinnerEl)
+    this.el.appendChild(this.container)
+
+    // Load placeholder if provided
+    if (this.placeholderUrl) {
+      this.imgEl.src = this.placeholderUrl
+    }
+  }
+
+  createSpinner() {
+    const spinner = document.createElement('div')
+    spinner.className = 'editor-element-spinner'
+    Object.assign(spinner.style, {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '24px',
+      height: '24px',
+      border: '3px solid #f3f3f3',
+      borderTop: '3px solid #f97316',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite',
+      display: 'none'
+    })
+    return spinner
+  }
+
+  loadImage(url) {
+    this.imageUrl = url
+    this.loading = false
+    this.hideSpinner()
+
+    this.imgEl.onload = () => {
       this.onImageLoaded?.()
     }
-    img.src = url
+    this.imgEl.onerror = () => {
+      console.error('[ImageElement] Failed to load image:', url)
+    }
+    this.imgEl.src = url
   }
 
-  // Set loading state (e.g., during AI generation)
   setLoading(loading) {
     this.loading = loading
     if (loading) {
-      this.image = null
-      this.startLoadingAnimation()
+      this.imgEl.src = ''
+      this.showSpinner()
     } else {
-      this.stopLoadingAnimation()
+      this.hideSpinner()
     }
   }
 
-  startLoadingAnimation() {
-    if (this.loadingAnimationId) return
-
-    const animate = () => {
-      if (!this.loading) return
-      this.onImageLoaded?.() // Trigger redraw
-      this.loadingAnimationId = requestAnimationFrame(animate)
-    }
-    animate()
-  }
-
-  stopLoadingAnimation() {
-    if (this.loadingAnimationId) {
-      cancelAnimationFrame(this.loadingAnimationId)
-      this.loadingAnimationId = null
+  showSpinner() {
+    if (this.spinnerEl) {
+      this.spinnerEl.style.display = 'block'
     }
   }
 
-  draw(ctx, bounds, canvasWidth, canvasHeight) {
-    if (!ctx) return
-
-    const { x, y, width, height } = bounds
-
-    if (this.loading) {
-      this.drawSpinner(ctx, x, y, width, height)
-      return
+  hideSpinner() {
+    if (this.spinnerEl) {
+      this.spinnerEl.style.display = 'none'
     }
+  }
 
-    if (this.image) {
-      this.drawImage(ctx, x, y, width, height, this.image)
-    } else if (this.placeholderImage) {
-      this.drawImage(ctx, x, y, width, height, this.placeholderImage)
+  updateContent(data) {
+    if (data.placeholder !== undefined && data.placeholder !== this.placeholderUrl) {
+      this.placeholderUrl = data.placeholder
+      if (this.placeholderUrl && !this.imageUrl) {
+        this.imgEl.src = this.placeholderUrl
+      }
     }
-    // If no image and no placeholder, draw nothing (transparent)
-  }
-
-  drawSpinner(ctx, x, y, width, height) {
-    const centerX = x + width / 2
-    const centerY = y + height / 2
-    const radius = Math.min(width, height) * 0.1
-
-    ctx.save()
-    ctx.strokeStyle = '#f97316' // Orange
-    ctx.lineWidth = radius * 0.25
-    ctx.lineCap = 'round'
-
-    const startAngle = (Date.now() / 400) % (2 * Math.PI)
-    ctx.beginPath()
-    ctx.arc(centerX, centerY, radius, startAngle, startAngle + Math.PI * 1.5)
-    ctx.stroke()
-    ctx.restore()
-  }
-
-  drawImage(ctx, x, y, boxWidth, boxHeight, img) {
-    if (!img) return
-
-    // Scale to fit bounding box while maintaining aspect ratio
-    const scaleX = boxWidth / img.width
-    const scaleY = boxHeight / img.height
-    const scale = Math.min(scaleX, scaleY)
-
-    const scaledWidth = img.width * scale
-    const scaledHeight = img.height * scale
-
-    // Center horizontally, align to bottom of bounding box
-    const finalX = x + (boxWidth - scaledWidth) / 2
-    const finalY = y + (boxHeight - scaledHeight)
-
-    ctx.drawImage(img, finalX, finalY, scaledWidth, scaledHeight)
-  }
-
-  destroy() {
-    this.stopLoadingAnimation()
   }
 
   toJSON() {

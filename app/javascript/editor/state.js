@@ -1,4 +1,4 @@
-import { createElement } from "./elements"
+import { createElement } from "./index"
 
 // State manager for editor elements
 // Single source of truth for element data

@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import { DOMEngine } from "../editor/dom/dom_engine"
-import { DOMExporter } from "../editor/dom/dom_exporter"
+import { Engine } from "../editor/engine"
+import { Exporter } from "../editor/exporter"
 
-// Paper editor controller - thin Stimulus bridge to the DOM-based Engine
+// Paper editor controller - thin Stimulus bridge to the Engine
 // Uses HTML/CSS elements for rendering instead of canvas for:
 // - Easier E2E testing with data attributes
 // - Better text rendering with CSS fonts
@@ -57,8 +57,8 @@ export default class extends Controller {
       ? this.backBackgroundTarget.src
       : null
 
-    // Initialize DOM-based engine
-    this.engine = new DOMEngine(
+    // Initialize engine
+    this.engine = new Engine(
       this.frontContainerTarget,
       this.backContainerTarget,
       {
@@ -72,8 +72,8 @@ export default class extends Controller {
       }
     )
 
-    // Create DOM exporter (uses html2canvas)
-    this.exporter = new DOMExporter(this.engine.canvases, this.engine.state)
+    // Create exporter (uses html2canvas)
+    this.exporter = new Exporter(this.engine.canvases, this.engine.state)
 
     // Start engine and wait for it to be ready
     await this.engine.start()

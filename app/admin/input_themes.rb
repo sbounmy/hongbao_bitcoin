@@ -187,7 +187,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     end
     f.inputs "Visual Element Editor" do
       para "Drag and resize elements on the theme images. Positions and sizes are saved automatically into the form."
-      render Admin::CanvasEditorComponent.new(form: f, input_base_name: "input_theme[elements]")
+      render Admin::EditorComponent.new(form: f, input_base_name: "input_theme[elements]")
     end
 
     f.actions

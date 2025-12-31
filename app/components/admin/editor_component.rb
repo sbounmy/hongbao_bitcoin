@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class CanvasEditorComponent < ApplicationComponent
+  class EditorComponent < ApplicationComponent
     attr_reader :form, :object, :input_base_name
 
     def initialize(form:, input_base_name:)

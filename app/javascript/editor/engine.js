@@ -1,29 +1,30 @@
-import { State } from "./state"
-import { CanvasPair } from "./canvas_pair"
-import { Selection } from "./selection"
-import { TouchHandler } from "./touch_handler"
-import { createElement } from "./elements"
+import { State } from './state'
+import { CanvasPair } from './canvas_pair'
+import { Selection } from './selection'
+import { TouchHandler } from './touch_handler'
+import { createElement } from './index'
 
-// Editor engine - orchestrates all editor components
+// Editor Engine - orchestrates all editor components
 // Note: Engine has NO wallet knowledge. Domain-specific data binding is handled in the controller.
 export class Engine {
-  constructor(frontCanvasEl, backCanvasEl, options = {}) {
+  constructor(frontContainerEl, backContainerEl, options = {}) {
     this.options = options
 
     // Core components
     this.state = new State(options.initialState || {})
 
-    this.canvases = new CanvasPair(frontCanvasEl, backCanvasEl, {
+    this.canvases = new CanvasPair(frontContainerEl, backContainerEl, {
       qualityScale: options.qualityScale || 3
     })
-    this.selection = new Selection()
 
-    // Touch handler - attached to active canvas
-    this.touch = null
+    // Selection overlays for each side
+    this.selectionFront = new Selection(frontContainerEl)
+    this.selectionBack = new Selection(backContainerEl)
+    this.selection = this.selectionFront  // Active selection
 
-    // Animation frame ID
-    this._rafId = null
-    this._needsRender = true
+    // Touch handlers
+    this.touchFront = null
+    this.touchBack = null
 
     // Interaction state
     this._activeHandle = null
@@ -46,30 +47,28 @@ export class Engine {
         console.error('[Engine] failed to load backgrounds:', err)
       }
     } else {
-      // No backgrounds - initialize canvases with default size
-      this.canvases.init(1080, 1920) // Default wallet size
+      // No backgrounds - initialize with default size
+      this.canvases.front.init(1080, 1920)
+      this.canvases.back.init(1080, 1920)
     }
 
-    // Setup touch handlers on BOTH canvas wrappers
+    // Setup touch handlers on both containers
     this.bindTouchToBothCanvases()
 
-    // Start render loop
+    // Initial render
     this.render()
   }
 
   // Cleanup
   destroy() {
-    if (this._rafId) {
-      cancelAnimationFrame(this._rafId)
-      this._rafId = null
-    }
-
     this.touchFront?.destroy()
     this.touchBack?.destroy()
+    this.selectionFront?.destroy()
+    this.selectionBack?.destroy()
     this.canvases.destroy()
   }
 
-  // Bind touch handlers to both canvas wrappers
+  // Bind touch handlers to both containers
   bindTouchToBothCanvases() {
     this.touchFront?.destroy()
     this.touchBack?.destroy()
@@ -87,12 +86,12 @@ export class Engine {
     })
 
     this.touchFront = new TouchHandler(
-      this.canvases.front.el.parentElement,
+      this.canvases.front.el,
       createCallbacks('front')
     )
 
     this.touchBack = new TouchHandler(
-      this.canvases.back.el.parentElement,
+      this.canvases.back.el,
       createCallbacks('back')
     )
   }
@@ -100,8 +99,10 @@ export class Engine {
   // Toggle between front and back
   toggleSide() {
     this.selection.clear()
-    const newSide = this.canvases.toggle()
-    this.scheduleRender()
+    const newSide = this.activeSide === 'front' ? 'back' : 'front'
+    this.canvases.activeSide = newSide
+    this.selection = newSide === 'front' ? this.selectionFront : this.selectionBack
+    this.render()
     this.options.onSideChange?.(newSide)
     return newSide
   }
@@ -110,8 +111,9 @@ export class Engine {
   setSide(side) {
     if (side !== this.activeSide) {
       this.selection.clear()
-      this.canvases.setSide(side)
-      this.scheduleRender()
+      this.canvases.activeSide = side
+      this.selection = side === 'front' ? this.selectionFront : this.selectionBack
+      this.render()
       this.options.onSideChange?.(side)
     }
     return this.activeSide
@@ -130,11 +132,11 @@ export class Engine {
 
     const element = this.state.addElement(elementData, this.activeSide)
 
-    // Select the new element
-    const instance = this.canvases.getElementInstance(element)
+    // Render and select the new element
+    this.render()
+    const instance = this.canvases.getInstanceById(element.id)
     this.selection.select(element, instance)
 
-    this.scheduleRender()
     this.options.onStateChange?.()
     this.options.onSelectionChange?.(element)
 
@@ -169,10 +171,10 @@ export class Engine {
   updateElement(id, data) {
     const element = this.state.updateElement(id, data)
     if (element) {
-      // Update instance if it exists
+      // Update DOM instance if it exists
       const instance = this.canvases.getInstanceById(id)
       if (instance) {
-        instance.updateFromData(data)
+        instance.update(data)
       }
 
       // Update selection if this element is selected
@@ -180,7 +182,6 @@ export class Engine {
         this.selection.select(element, instance)
       }
 
-      this.scheduleRender()
       this.options.onStateChange?.()
     }
     return element
@@ -198,7 +199,7 @@ export class Engine {
 
     this.state.removeElement(selected.id || selected.name)
     this.selection.clear()
-    this.scheduleRender()
+    this.render()
     this.options.onStateChange?.()
     this.options.onSelectionChange?.(null)
 
@@ -213,7 +214,7 @@ export class Engine {
     const newSide = this.activeSide === 'front' ? 'back' : 'front'
     this.state.moveToSide(selected.id || selected.name, newSide)
     this.selection.clear()
-    this.scheduleRender()
+    this.render()
     this.options.onStateChange?.()
     this.options.onSelectionChange?.(null)
 
@@ -227,7 +228,7 @@ export class Engine {
 
     const newSide = this.activeSide === 'front' ? 'back' : 'front'
     const copy = this.state.copyToSide(selected.id || selected.name, newSide)
-    this.scheduleRender()
+    this.render()
     this.options.onStateChange?.()
 
     return copy
@@ -240,18 +241,10 @@ export class Engine {
     // Load new background images
     const promises = []
     if (frontUrl) {
-      promises.push(
-        this.canvases.front.loadBackgroundImage(frontUrl).then(() => {
-          this.scheduleRender()
-        })
-      )
+      promises.push(this.canvases.front.loadBackgroundImage(frontUrl))
     }
     if (backUrl) {
-      promises.push(
-        this.canvases.back.loadBackgroundImage(backUrl).then(() => {
-          this.scheduleRender()
-        })
-      )
+      promises.push(this.canvases.back.loadBackgroundImage(backUrl))
     }
 
     // Wait for backgrounds to load
@@ -259,9 +252,10 @@ export class Engine {
 
     // Replace elements if provided
     if (allElements) {
+      this.canvases.clear()  // Clear existing DOM elements
       this.state.replaceAll(allElements)
       this.selection.clear()
-      this.scheduleRender()
+      this.render()
       this.options.onStateChange?.()
     }
   }
@@ -271,42 +265,26 @@ export class Engine {
     return this.state.serialize(opts)
   }
 
-  // Schedule a render
-  scheduleRender() {
-    this._needsRender = true
-  }
-
-  // Render loop
+  // Render - update DOM elements
   render() {
-    if (this._needsRender) {
-      // Enable debug mode to visualize element bounds
-      this.canvases.renderBoth(this.state, this.selection, { debug: this._debug })
-      this._needsRender = false
-    }
-
-    this._rafId = requestAnimationFrame(() => this.render())
+    this.canvases.renderBoth(this.state, this.selection)
   }
 
-  // Toggle debug mode
-  setDebug(enabled) {
-    this._debug = enabled
-    this.scheduleRender()
+  // Schedule a render (immediate for DOM - no animation frame needed)
+  scheduleRender() {
+    this.render()
   }
 
-  // Hit test - find element at point
+  // Hit test - find element at point using DOM
   hitTest(clientX, clientY) {
-    const canvas = this.canvases.active
-    const percent = canvas.clientToPercentage(clientX, clientY)
+    // Use elementFromPoint for DOM-based hit testing
+    const el = document.elementFromPoint(clientX, clientY)
 
-    const elements = this.state.elementsForSide(this.activeSide)
-
-    // Reverse order - top elements first
-    for (let i = elements.length - 1; i >= 0; i--) {
-      const el = elements[i]
-      const instance = createElement(el)
-      if (instance.containsPoint(percent.x, percent.y)) {
-        return el
-      }
+    // Find element with data-element-id
+    const elementDiv = el?.closest('[data-element-id]')
+    if (elementDiv) {
+      const id = elementDiv.dataset.elementId
+      return this.state.getElementById(id)
     }
 
     return null
@@ -315,9 +293,7 @@ export class Engine {
   // Touch/mouse handlers
   handleTap(point) {
     // First check if tapping a handle
-    const canvas = this.canvases.active
-    const percent = canvas.clientToPercentage(point.x, point.y)
-    const handle = this.selection.getHandleAt(percent.x, percent.y)
+    const handle = this.selection.getHandleAt(point.x, point.y)
 
     if (handle) {
       // Settings handle opens element drawer
@@ -340,8 +316,6 @@ export class Engine {
       this.selection.clear()
       this.options.onSelectionChange?.(null)
     }
-
-    this.scheduleRender()
   }
 
   handleDoubleTap(point) {
@@ -352,11 +326,8 @@ export class Engine {
   }
 
   handleDragStart(point) {
-    const canvas = this.canvases.active
-    const percent = canvas.clientToPercentage(point.x, point.y)
-
-    // Check for handle
-    const handle = this.selection.getHandleAt(percent.x, percent.y)
+    // Check for handle first
+    const handle = this.selection.getHandleAt(point.x, point.y)
     if (handle) {
       // Settings handle doesn't drag
       if (handle === 'settings') return
@@ -366,7 +337,10 @@ export class Engine {
       return
     }
 
-    // Check for element
+    // Check if dragging selected element
+    const canvas = this.canvases.active
+    const percent = canvas.clientToPercentage(point.x, point.y)
+
     if (this.selection.current && this.selection.isInsideBounds(percent.x, percent.y)) {
       this._dragStartElement = { ...this.selection.current }
     } else {
@@ -392,9 +366,8 @@ export class Engine {
       el.x += dxPercent
       el.y += dyPercent
 
-      // Update state
-      this.state.updateElement(el.id || el.name, { x: el.x, y: el.y })
-      this.scheduleRender()
+      // Update state and DOM
+      this.updateElement(el.id || el.name, { x: el.x, y: el.y })
     }
   }
 
@@ -416,10 +389,8 @@ export class Engine {
 
     // Handle rotation separately
     if (handle === 'rotate') {
-      // Simplified rotation - adjust based on horizontal drag
       el.rotation = (el.rotation || 0) + dxPercent
-      this.state.updateElement(el.id || el.name, { rotation: el.rotation })
-      this.scheduleRender()
+      this.updateElement(el.id || el.name, { rotation: el.rotation })
       return
     }
 
@@ -476,18 +447,15 @@ export class Engine {
     el.width = newWidth
     el.height = newHeight
 
-    this.state.updateElement(el.id || el.name, {
+    this.updateElement(el.id || el.name, {
       x: newX,
       y: newY,
       width: newWidth,
       height: newHeight
     })
-
-    this.scheduleRender()
   }
 
   handlePinchStart(_data) {
-    // Store initial element state for pinch
     if (this.selection.current) {
       this._dragStartElement = { ...this.selection.current }
     }
@@ -506,14 +474,12 @@ export class Engine {
     // Apply rotation
     el.rotation = (startEl.rotation || 0) + pinchData.rotation
 
-    // Update state
-    this.state.updateElement(el.id || el.name, {
+    // Update state and DOM
+    this.updateElement(el.id || el.name, {
       width: el.width,
       height: el.height,
       rotation: el.rotation
     })
-
-    this.scheduleRender()
   }
 
   handlePinchEnd() {

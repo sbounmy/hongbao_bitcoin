@@ -1,8 +1,8 @@
-import { BaseDOMElement } from './base_dom_element'
+import { BaseElement } from './base_element'
 
 // QR code element rendered as DOM
 // Uses <img> tag for QR code images
-export class QRDOMElement extends BaseDOMElement {
+export class QRElement extends BaseElement {
   constructor(data) {
     super(data)
 
@@ -50,7 +50,7 @@ export class QRDOMElement extends BaseDOMElement {
       this.onImageLoaded?.()
     }
     this.imgEl.onerror = () => {
-      console.error('[QRDOMElement] Failed to load image:', url)
+      console.error('[QRElement] Failed to load image:', url)
     }
     this.imgEl.src = url
   }
@@ -88,12 +88,12 @@ export class QRDOMElement extends BaseDOMElement {
 }
 
 // Wallet QR elements with dataKey for external data binding
-export class PrivateKeyQRDOMElement extends QRDOMElement {
+export class PrivateKeyQRElement extends QRElement {
   static drawer = 'keys-drawer'
   static dataKey = 'private_key_qrcode'
 }
 
-export class PublicAddressQRDOMElement extends QRDOMElement {
+export class PublicAddressQRElement extends QRElement {
   static drawer = 'keys-drawer'
   static dataKey = 'public_address_qrcode'
 }

@@ -1,26 +1,16 @@
-// Canvas wrapper - handles rendering and coordinate conversion
+// Canvas - manages a container div that holds DOM elements
 export class Canvas {
-  constructor(canvasElement, options = {}) {
-    this.el = canvasElement
-    this.ctx = null
+  constructor(containerElement, options = {}) {
+    this.el = containerElement
     this.qualityScale = options.qualityScale || 3
 
-    // Original dimensions (before scaling)
+    // Original dimensions (from background image)
     this.originalWidth = 0
     this.originalHeight = 0
 
-    // Display dimensions (CSS)
-    this.displayWidth = 0
-    this.displayHeight = 0
-
-    // Background image
-    this.backgroundImage = null
-    this.backgroundColor = options.backgroundColor || '#ffffff'
-  }
-
-  // Get canvas context
-  get context() {
-    return this.ctx
+    // Background
+    this.backgroundUrl = null
+    this.backgroundLoaded = false
   }
 
   get width() {
@@ -31,61 +21,40 @@ export class Canvas {
     return this.originalHeight
   }
 
-  // Initialize canvas with dimensions
+  // Initialize container with dimensions
   init(width, height) {
     this.originalWidth = width
     this.originalHeight = height
 
-    // Set canvas internal size (high-res)
-    this.el.width = width * this.qualityScale
-    this.el.height = height * this.qualityScale
-
-    // Setup context
-    this.ctx = this.el.getContext('2d')
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.ctx.scale(this.qualityScale, this.qualityScale)
-    this.ctx.imageSmoothingEnabled = true
-    this.ctx.imageSmoothingQuality = 'high'
+    // Set container style for positioning context
+    // Note: Don't set aspectRatio here - parent wrapper already has it set
+    Object.assign(this.el.style, {
+      position: 'relative',
+      overflow: 'hidden',
+      containerType: 'inline-size'  // Enable container queries for font sizing
+    })
   }
 
-  // Resize canvas to fit container
-  resize(containerWidth, containerHeight, strict = false) {
-    if (strict) {
-      // Use exact dimensions
-      this.displayWidth = this.originalWidth
-      this.displayHeight = this.originalHeight
-    } else {
-      // Fit to container maintaining aspect ratio
-      const aspectRatio = this.originalWidth / this.originalHeight
-      this.displayWidth = containerWidth
-      this.displayHeight = containerWidth / aspectRatio
-
-      if (this.displayHeight > containerHeight) {
-        this.displayHeight = containerHeight
-        this.displayWidth = containerHeight * aspectRatio
-      }
-    }
-
-    this.el.style.width = `${this.displayWidth}px`
-    this.el.style.height = `${this.displayHeight}px`
+  // Set background image via CSS
+  setBackgroundImage(url) {
+    this.backgroundUrl = url
+    Object.assign(this.el.style, {
+      backgroundImage: `url("${url}")`,  // Quotes needed for URLs with special chars
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    })
   }
 
-  // Set background image
-  setBackgroundImage(image) {
-    this.backgroundImage = image
-    if (image) {
-      // Update dimensions from image
-      this.init(image.width, image.height)
-    }
-  }
-
-  // Load background image from URL
+  // Load background image and get dimensions
   loadBackgroundImage(url) {
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.crossOrigin = 'anonymous'
       img.onload = () => {
-        this.setBackgroundImage(img)
+        this.init(img.width, img.height)
+        this.setBackgroundImage(url)
+        this.backgroundLoaded = true
         resolve(img)
       }
       img.onerror = (err) => {
@@ -96,66 +65,49 @@ export class Canvas {
     })
   }
 
-  // Clear canvas and draw background
+  // Clear all child elements (except labels)
   clear() {
-    if (!this.ctx) return
-
-    this.ctx.clearRect(0, 0, this.originalWidth, this.originalHeight)
-
-    if (this.backgroundImage) {
-      this.ctx.drawImage(
-        this.backgroundImage,
-        0, 0,
-        this.originalWidth,
-        this.originalHeight
-      )
-    } else {
-      this.ctx.fillStyle = this.backgroundColor
-      this.ctx.fillRect(0, 0, this.originalWidth, this.originalHeight)
-    }
+    const children = Array.from(this.el.children)
+    children.forEach(child => {
+      // Keep labels and non-element children
+      if (child.classList.contains('editor-element')) {
+        child.remove()
+      }
+    })
   }
 
-  // Convert client coordinates to canvas coordinates
-  toCanvasCoords(clientX, clientY) {
-    const rect = this.el.getBoundingClientRect()
-    const scaleX = this.originalWidth / rect.width
-    const scaleY = this.originalHeight / rect.height
-
-    return {
-      x: (clientX - rect.left) * scaleX,
-      y: (clientY - rect.top) * scaleY
-    }
-  }
-
-  // Convert canvas coordinates to percentage (0-100)
-  toPercentage(canvasX, canvasY) {
-    return {
-      x: (canvasX / this.originalWidth) * 100,
-      y: (canvasY / this.originalHeight) * 100
-    }
-  }
-
-  // Convert percentage to canvas coordinates
-  fromPercentage(percentX, percentY) {
-    return {
-      x: (percentX / 100) * this.originalWidth,
-      y: (percentY / 100) * this.originalHeight
-    }
-  }
-
-  // Convert client coordinates directly to percentage
+  // Convert client coordinates to percentage (0-100)
   clientToPercentage(clientX, clientY) {
-    const canvas = this.toCanvasCoords(clientX, clientY)
-    return this.toPercentage(canvas.x, canvas.y)
+    const rect = this.el.getBoundingClientRect()
+    return {
+      x: ((clientX - rect.left) / rect.width) * 100,
+      y: ((clientY - rect.top) / rect.height) * 100
+    }
   }
 
-  // Get canvas bounds in client coordinates
+  // Convert percentage to client coordinates
+  percentageToClient(percentX, percentY) {
+    const rect = this.el.getBoundingClientRect()
+    return {
+      x: rect.left + (percentX / 100) * rect.width,
+      y: rect.top + (percentY / 100) * rect.height
+    }
+  }
+
+  // Get container bounds
   getBoundingRect() {
     return this.el.getBoundingClientRect()
   }
 
-  // Export canvas as data URL
-  toDataURL(type = 'image/png', quality = 1.0) {
-    return this.el.toDataURL(type, quality)
+  // Add element to container
+  appendChild(element) {
+    this.el.appendChild(element)
+  }
+
+  // Remove element from container
+  removeChild(element) {
+    if (this.el.contains(element)) {
+      this.el.removeChild(element)
+    }
   }
 }
