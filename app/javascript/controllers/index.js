@@ -50,9 +50,6 @@ application.register("photo-select", PhotoSelectController)
 import ImageController from "./image_controller"
 application.register("image", ImageController)
 
-import ImageEditController from "./image_edit_controller"
-application.register("image-edit", ImageEditController)
-
 import QrScannerController from "./qr_scanner_controller"
 application.register("qr-scanner", QrScannerController)
 

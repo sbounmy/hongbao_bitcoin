@@ -1,6 +1,6 @@
 <div class="flex-1 flex flex-col bg-[#2a2a2e]"
-     data-controller="preview-canvas"
-     data-action="editor:exported@window->preview-canvas#handleExported">
+     data-controller="editor--preview-canvas"
+     data-action="editor:exported@window->editor--preview-canvas#handleExported">
     <!-- Viewport for scrolling - expands to fullscreen via pdf controller -->
     <div data-pdf-target="viewport"
          class="max-h-[300px] md:max-h-[50vh] bg-[#2a2a2e] p-4 w-full mx-auto overflow-auto"
@@ -18,11 +18,11 @@
           <!-- Main content of the page -->
           <div class="flex flex-col justify-between">
             <div class="flex items-center"
-                 data-preview-canvas-target="layoutContainer">
+                 data-editor--preview-canvas-target="layoutContainer">
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
                 <%# Back - placeholder replaced by cloned DOM from editor %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
-                  <div data-preview-canvas-target="back"
+                  <div data-editor--preview-canvas-target="back"
                        class="w-full h-full"
                        style="background-image: url(<%= template_back_base64 %>);
                               background-size: cover;
@@ -37,7 +37,7 @@
 
                 <%# Front - placeholder replaced by cloned DOM from editor %>
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
-                  <div data-preview-canvas-target="front"
+                  <div data-editor--preview-canvas-target="front"
                        class="w-full h-full"
                        style="background-image: url(<%= template_front_base64 %>);
                               background-size: cover;

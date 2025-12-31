@@ -51,14 +51,17 @@ application.register("keys-input", KeysInputController)
 import ThemeSelectController from "./controllers/offline/theme_select_controller"
 application.register("theme-select", ThemeSelectController)
 
-import PreviewCanvasController from "./controllers/offline/preview_canvas_controller"
-application.register("preview-canvas", PreviewCanvasController)
+import PreviewCanvasController from "./controllers/editor/preview_canvas_controller"
+application.register("editor--preview-canvas", PreviewCanvasController)
 
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
 
-import TextController from "./controllers/text_controller"
-application.register("text", TextController)
+import TextController from "./controllers/editor/text_controller"
+application.register("editor--text", TextController)
+
+import ImageEditController from "./controllers/editor/image_edit_controller"
+application.register("editor--image-edit", ImageEditController)
 
 // --- New Editor Architecture ---
 import EditorController from "./controllers/editor_controller"

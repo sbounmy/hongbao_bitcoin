@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Displays cloned DOM elements from the editor in the PDF preview
-// Listens via data-action: editor:exported@window->preview-canvas#handleExported
+// Listens via data-action: editor:exported@window->editor--preview-canvas#handleExported
 export default class extends Controller {
   static targets = ["front", "back", "layoutContainer"]
 
@@ -22,13 +22,13 @@ export default class extends Controller {
       this.styleCloneForPreview(frontEl)
       this.frontTarget.replaceWith(frontEl)
       // Update target reference to the new element
-      frontEl.dataset.previewCanvasTarget = 'front'
+      frontEl.setAttribute('data-editor--preview-canvas-target', 'front')
     }
 
     if (backEl && this.hasBackTarget) {
       this.styleCloneForPreview(backEl)
       this.backTarget.replaceWith(backEl)
-      backEl.dataset.previewCanvasTarget = 'back'
+      backEl.setAttribute('data-editor--preview-canvas-target', 'back')
     }
   }
 
