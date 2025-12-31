@@ -62,7 +62,7 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('#private_key_text')).toBeEmpty()
     await expect(page.locator('#mnemonic_text')).toBeEmpty()
 
-    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
+    await page.locator('#public_address_text').fill('my-own-public-address')
     await page.locator('#private_key_text').fill('my-own-private-key')
     await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
 
