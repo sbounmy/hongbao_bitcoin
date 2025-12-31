@@ -96,7 +96,7 @@
           </button>
         <% end %>
         <div class="h-[70vh] flex flex-col">
-          <%= render "papers/new2/drawers/photo",
+          <%= render "papers/new/drawers/photo",
               recent_photos: recent_photos,
               pagy: pagy,
               styles: styles %>
@@ -141,11 +141,11 @@
     </div>
   </div>
 
-  <%# Text Edit Drawer %>
-  <dialog id="text-edit-drawer"
+  <%# Text Drawer %>
+  <dialog id="text-drawer"
           class="modal modal-bottom sm:modal-middle"
-          data-controller="text-edit"
-          data-action="editor:drawerOpen->text-edit#open">
+          data-controller="text"
+          data-action="editor:drawerOpen->text#open">
     <div class="modal-box">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-bold text-lg">Edit Text</h3>
@@ -155,7 +155,7 @@
           </button>
         </form>
       </div>
-      <%= render "papers/new2/drawers/text_edit" %>
+      <%= render "papers/new/drawers/text" %>
     </div>
     <form method="dialog" class="modal-backdrop">
       <button>close</button>

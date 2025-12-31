@@ -57,8 +57,8 @@ application.register("preview-canvas", PreviewCanvasController)
 import PasswordVisibility from "@stimulus-components/password-visibility"
 application.register("password-visibility", PasswordVisibility)
 
-import TextEditController from "./controllers/text_edit_controller"
-application.register("text-edit", TextEditController)
+import TextController from "./controllers/text_controller"
+application.register("text", TextController)
 
 // --- New Editor Architecture ---
 import EditorController from "./controllers/editor_controller"

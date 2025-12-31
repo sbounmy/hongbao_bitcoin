@@ -3,6 +3,7 @@ import { BaseElement } from './base_element'
 // Text element rendered as DOM
 // Uses CSS for fonts and text wrapping
 export class TextElement extends BaseElement {
+  static drawer = 'text-drawer'
   static SINGLE_LINE_THRESHOLD = 1.5
 
   constructor(data) {

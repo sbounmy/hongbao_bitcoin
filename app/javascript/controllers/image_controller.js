@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Handles image display, loading states, and AI generation updates
-// Reusable across different views (papers/new2, papers/show, etc.)
+// Reusable across different views (papers/new, papers/show, etc.)
 export default class extends Controller {
   static targets = ["loading", "success"]
   static values = {

@@ -27,7 +27,7 @@
 }) %>
 
 <% content_for(:screen_header) do %>
-  <%= render "papers/new2/headers/canvas", theme: @theme, current_step: @current_step, network: Current.network %>
+  <%= render "papers/new/headers/canvas", theme: @theme, current_step: @current_step, network: Current.network %>
   <%= render "papers/show/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
 <% end %>
 
@@ -62,7 +62,7 @@
 <div>
 
   <%# Screen 1: Canvas - Paper preview with toolbar %>
-  <%= render "papers/new2/screens/canvas",
+  <%= render "papers/new/screens/canvas",
       theme: @theme,
       frame: @frame,
       template_front_base64: @template_front_base64,
@@ -78,7 +78,7 @@
   <div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
        data-steps-target="content"
        data-steps-index="2">
-    <%= render "papers/new2/screens/finish",
+    <%= render "papers/new/screens/finish",
         paper: @paper,
         frame: @frame,
         template_front_base64: @template_front_base64,
