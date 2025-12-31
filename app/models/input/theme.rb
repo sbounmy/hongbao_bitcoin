@@ -115,11 +115,12 @@ class Input::Theme < Input
         "type" => "mnemonic/text",
         "side" => "back"
       },
+
       "portrait" => {
-        "x" => 34,              # percentage from left
-        "y" => 8,               # percentage from top
-        "width" => 18,          # percentage of template width
-        "height" => 23,         # percentage of template height
+        "x" => 11.31,              # percentage from left
+        "y" => 12.26,               # percentage from top
+        "width" => 79,          # percentage of template width
+        "height" => 36,         # percentage of template height
         "color" => "",          # Tone color (hex) - empty means no tint
         "opacity" => 0.25,      # Tone opacity (0.0 - 1.0)
         "resolution" => "1024x1024",  # AI generation size: 1024x1024, 1536x1024, 1024x1536

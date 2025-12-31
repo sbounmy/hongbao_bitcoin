@@ -1,7 +1,7 @@
 import { BaseElement } from './base_element'
 
 // Image element rendered as DOM
-// Uses <img> tag with loading state support
+// Uses CSS background-image with loading state support
 export class ImageElement extends BaseElement {
   static drawer = 'photo-drawer'
 
@@ -9,45 +9,27 @@ export class ImageElement extends BaseElement {
     super(data)
 
     this.imageUrl = null
-    this.placeholderUrl = data.placeholder || null
     this.loading = false
   }
 
   renderContent() {
-    // Container for centering
+    // Container with background-image for displaying images
     this.container = document.createElement('div')
     this.container.className = 'editor-element-image-container'
     Object.assign(this.container.style, {
       width: '100%',
       height: '100%',
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'center'
+      backgroundImage: 'var(--image-placeholder)',
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
     })
-
-    // Image element
-    this.imgEl = document.createElement('img')
-    this.imgEl.className = 'editor-element-image'
-    this.imgEl.draggable = false  // Prevent native browser image drag
-    Object.assign(this.imgEl.style, {
-      maxWidth: '100%',
-      maxHeight: '100%',
-      objectFit: 'contain',
-      pointerEvents: 'none'  // Let parent handle all pointer events
-    })
-    this.imgEl.crossOrigin = 'anonymous'
 
     // Loading spinner
     this.spinnerEl = this.createSpinner()
 
-    this.container.appendChild(this.imgEl)
     this.container.appendChild(this.spinnerEl)
     this.el.appendChild(this.container)
-
-    // Load placeholder if provided
-    if (this.placeholderUrl) {
-      this.imgEl.src = this.placeholderUrl
-    }
   }
 
   createSpinner() {
@@ -74,19 +56,25 @@ export class ImageElement extends BaseElement {
     this.loading = false
     this.hideSpinner()
 
-    this.imgEl.onload = () => {
+    // Preload image then set as background
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      this.container.style.backgroundImage = `url('${url}')`
       this.onImageLoaded?.()
     }
-    this.imgEl.onerror = () => {
+    img.onerror = () => {
       console.error('[ImageElement] Failed to load image:', url)
     }
-    this.imgEl.src = url
+    img.src = url
   }
 
   setLoading(loading) {
     this.loading = loading
     if (loading) {
-      this.imgEl.src = ''
+      this.imageUrl = null
+      // Restore placeholder while loading
+      this.container.style.backgroundImage = 'var(--image-placeholder)'
       this.showSpinner()
     } else {
       this.hideSpinner()
@@ -102,22 +90,6 @@ export class ImageElement extends BaseElement {
   hideSpinner() {
     if (this.spinnerEl) {
       this.spinnerEl.style.display = 'none'
-    }
-  }
-
-  updateContent(data) {
-    if (data.placeholder !== undefined && data.placeholder !== this.placeholderUrl) {
-      this.placeholderUrl = data.placeholder
-      if (this.placeholderUrl && !this.imageUrl) {
-        this.imgEl.src = this.placeholderUrl
-      }
-    }
-  }
-
-  toJSON() {
-    return {
-      ...super.toJSON(),
-      placeholder: this.placeholderUrl
     }
   }
 }

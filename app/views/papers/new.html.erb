@@ -10,6 +10,7 @@
 
 <% attributes_for(:screen_attributes, {
   class: 'relative overflow-hidden group',
+  style: "--image-placeholder: url('#{asset_path('portrait-placeholder.svg')}')",
   data: {
     controller: 'steps bitcoin pdf image editor',
     steps_current_value: @current_step.to_s,

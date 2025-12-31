@@ -33,17 +33,32 @@ export class BaseElement {
     return this.el
   }
 
+  // Ensure numeric value is valid (not NaN or Infinity)
+  _safeNumber(value, fallback = 0) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) {
+      return fallback
+    }
+    return value
+  }
+
   // Apply CSS positioning using percentages
   applyStyles() {
     if (!this.el) return
 
+    // Sanitize all numeric values before applying to CSS
+    const x = this._safeNumber(this.x, 0)
+    const y = this._safeNumber(this.y, 0)
+    const width = this._safeNumber(this.width, 10)
+    const height = this._safeNumber(this.height, 10)
+    const rotation = this._safeNumber(this.rotation, 0)
+
     Object.assign(this.el.style, {
       position: 'absolute',
-      left: `${this.x}%`,
-      top: `${this.y}%`,
-      width: `${this.width}%`,
-      height: `${this.height}%`,
-      transform: this.rotation ? `rotate(${this.rotation}deg)` : 'none',
+      left: `${x}%`,
+      top: `${y}%`,
+      width: `${width}%`,
+      height: `${height}%`,
+      transform: rotation ? `rotate(${rotation}deg)` : 'none',
       transformOrigin: 'center center',
       display: this.hidden ? 'none' : 'block',
       boxSizing: 'border-box',
@@ -90,6 +105,69 @@ export class BaseElement {
   // Override in subclasses to update specific content
   updateContent(data) {
     // Base class does nothing
+  }
+
+  // Handle resize - override in subclasses for custom behavior
+  // Returns an object with the changed properties
+  handleResize(handle, dxPercent, dyPercent) {
+    // Sanitize input deltas
+    const dx = this._safeNumber(dxPercent, 0)
+    const dy = this._safeNumber(dyPercent, 0)
+
+    let newX = this._safeNumber(this.x, 0)
+    let newY = this._safeNumber(this.y, 0)
+    let newWidth = this._safeNumber(this.width, 10)
+    let newHeight = this._safeNumber(this.height, 10)
+
+    switch (handle) {
+      case 'se':
+        newWidth += dx
+        newHeight += dy
+        break
+      case 'sw':
+        newX += dx
+        newWidth -= dx
+        newHeight += dy
+        break
+      case 'ne':
+        newWidth += dx
+        newY += dy
+        newHeight -= dy
+        break
+      case 'nw':
+        newX += dx
+        newY += dy
+        newWidth -= dx
+        newHeight -= dy
+        break
+      case 'e':
+        newWidth += dx
+        break
+      case 'w':
+        newX += dx
+        newWidth -= dx
+        break
+      case 'n':
+        newY += dy
+        newHeight -= dy
+        break
+      case 's':
+        newHeight += dy
+        break
+    }
+
+    // Ensure minimum size and clamp to reasonable bounds
+    newWidth = Math.max(2, Math.min(200, newWidth))
+    newHeight = Math.max(2, Math.min(200, newHeight))
+    newX = Math.max(-100, Math.min(200, newX))
+    newY = Math.max(-100, Math.min(200, newY))
+
+    this.x = newX
+    this.y = newY
+    this.width = newWidth
+    this.height = newHeight
+
+    return { x: newX, y: newY, width: newWidth, height: newHeight }
   }
 
   // Check if a point (in percentage coordinates) is within this element's bounds

@@ -394,65 +394,13 @@ export class Engine {
       return
     }
 
-    // Resize based on handle
-    let newX = el.x
-    let newY = el.y
-    let newWidth = el.width
-    let newHeight = el.height
-
-    switch (handle) {
-      case 'se':
-        newWidth += dxPercent
-        newHeight += dyPercent
-        break
-      case 'sw':
-        newX += dxPercent
-        newWidth -= dxPercent
-        newHeight += dyPercent
-        break
-      case 'ne':
-        newWidth += dxPercent
-        newY += dyPercent
-        newHeight -= dyPercent
-        break
-      case 'nw':
-        newX += dxPercent
-        newY += dyPercent
-        newWidth -= dxPercent
-        newHeight -= dyPercent
-        break
-      case 'e':
-        newWidth += dxPercent
-        break
-      case 'w':
-        newX += dxPercent
-        newWidth -= dxPercent
-        break
-      case 'n':
-        newY += dyPercent
-        newHeight -= dyPercent
-        break
-      case 's':
-        newHeight += dyPercent
-        break
+    // Delegate to element instance - each element type handles its own resize
+    const instance = this.canvases.getInstanceById(el.id || el.name)
+    if (instance) {
+      const changes = instance.handleResize(handle, dxPercent, dyPercent)
+      Object.assign(el, changes)
+      this.updateElement(el.id || el.name, changes)
     }
-
-    // Ensure minimum size
-    if (newWidth < 2) newWidth = 2
-    if (newHeight < 2) newHeight = 2
-
-    // Update element
-    el.x = newX
-    el.y = newY
-    el.width = newWidth
-    el.height = newHeight
-
-    this.updateElement(el.id || el.name, {
-      x: newX,
-      y: newY,
-      width: newWidth,
-      height: newHeight
-    })
   }
 
   handlePinchStart(_data) {

@@ -125,18 +125,33 @@ export class Selection {
     return (this._current.id || this._current.name) === (elementData.id || elementData.name)
   }
 
+  // Ensure numeric value is valid (not NaN or Infinity)
+  _safeNumber(value, fallback = 0) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) {
+      return fallback
+    }
+    return value
+  }
+
   // Update overlay position based on selected element
   updatePosition() {
     if (!this._current) return
 
     const el = this._current
 
+    // Sanitize all numeric values before applying to CSS
+    const x = this._safeNumber(el.x, 0)
+    const y = this._safeNumber(el.y, 0)
+    const width = this._safeNumber(el.width, 10)
+    const height = this._safeNumber(el.height, 10)
+    const rotation = this._safeNumber(el.rotation, 0)
+
     Object.assign(this.overlay.style, {
-      left: `${el.x}%`,
-      top: `${el.y}%`,
-      width: `${el.width}%`,
-      height: `${el.height}%`,
-      transform: el.rotation ? `rotate(${el.rotation}deg)` : 'none',
+      left: `${x}%`,
+      top: `${y}%`,
+      width: `${width}%`,
+      height: `${height}%`,
+      transform: rotation ? `rotate(${rotation}deg)` : 'none',
       transformOrigin: 'center center'
     })
 
