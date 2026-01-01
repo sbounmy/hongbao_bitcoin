@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_30_095138) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_01_020513) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -51,15 +51,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_30_095138) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "bundles", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "name"
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_bundles_on_user_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -106,13 +97,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_30_095138) do
 
   create_table "input_items", force: :cascade do |t|
     t.integer "input_id", null: false
-    t.integer "bundle_id"
     t.string "prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "paper_id"
     t.integer "user_id"
-    t.index ["bundle_id"], name: "index_input_items_on_bundle_id"
     t.index ["input_id"], name: "index_input_items_on_input_id"
     t.index ["paper_id"], name: "index_input_items_on_paper_id"
     t.index ["user_id"], name: "index_input_items_on_user_id"
@@ -196,16 +185,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_30_095138) do
     t.json "elements"
     t.integer "user_id"
     t.boolean "public", default: false
-    t.integer "bundle_id"
     t.json "input_item_ids", default: []
     t.json "input_ids", default: [], null: false
     t.json "metadata", default: {}
     t.integer "views_count", default: 0, null: false
-    t.integer "likes_count", default: 0, null: false
-    t.json "liker_ids", default: []
     t.json "tag_ids", default: []
-    t.index ["bundle_id"], name: "index_papers_on_bundle_id"
-    t.index ["likes_count"], name: "index_papers_on_likes_count"
     t.index ["user_id"], name: "index_papers_on_user_id"
     t.index ["views_count"], name: "index_papers_on_views_count"
     t.check_constraint "JSON_TYPE(input_ids) = 'array'", name: "paper_input_ids_is_array"
@@ -355,17 +339,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_30_095138) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "bundles", "users"
   add_foreign_key "contents", "contents", column: "parent_id"
   add_foreign_key "identities", "users"
-  add_foreign_key "input_items", "bundles"
   add_foreign_key "input_items", "inputs"
   add_foreign_key "input_items", "papers"
   add_foreign_key "input_items", "users"
   add_foreign_key "line_items", "orders"
   add_foreign_key "option_values", "option_types"
   add_foreign_key "orders", "users"
-  add_foreign_key "papers", "bundles"
   add_foreign_key "papers", "users"
   add_foreign_key "saved_hong_baos", "spots", column: "spot_buy_id"
   add_foreign_key "saved_hong_baos", "spots", column: "spot_sell_id"

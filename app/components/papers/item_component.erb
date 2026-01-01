@@ -15,14 +15,11 @@
       </div>
     </div>
 
-    <%# Like button and stats overlay %>
+    <%# Stats overlay %>
     <div class="absolute bottom-2 right-2 flex items-center gap-2 z-10 pointer-events-none">
       <div class="paper-views-count flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm pointer-events-auto">
         <%= heroicon "eye", variant: :solid, class: "w-4 h-4" %>
         <span><%= item.views_count %></span>
-      </div>
-      <div class="bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full pointer-events-auto">
-        <%= render Papers::LikeButtonComponent.new(paper: item, size: :small, show_count: true, variant: :light) %>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@ ActiveAdmin.register Input::Event, as: "Event" do
 
   permit_params :name, :image, :date, :description, :price_usd, :fixed_day, tag_ids: []
 
-  remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :image_attachment, :image_blob, :input_items, :prompt, :slug, :metadata
 
   # Index page configuration
   index do

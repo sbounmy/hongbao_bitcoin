@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     end
     resources :papers, only: [ :new ] do
       get :explore, on: :collection
-      post :like, on: :member
     end
 
     resources :input_items, only: [ :index, :create ]

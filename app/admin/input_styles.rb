@@ -3,7 +3,7 @@ ActiveAdmin.register Input::Style, as: "Style" do
 
   permit_params :name, :image, :prompt, :position
 
-  remove_filter :image_attachment, :image_blob, :input_items, :bundles, :prompt, :slug
+  remove_filter :image_attachment, :image_blob, :input_items, :prompt, :slug
 
   config.sort_order = "position_asc"
 

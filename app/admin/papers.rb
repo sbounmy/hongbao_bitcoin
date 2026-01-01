@@ -2,7 +2,7 @@ ActiveAdmin.register Paper do
   permit_params :name, :year, :active, :public, :user_id,
                 :image_front, :image_back, :image_full,
                 { elements: Paper::ELEMENTS.map { |e| [ e.to_sym, Paper::ELEMENT_ATTRIBUTES ] }.to_h },
-                :bundle_id, :parent_id, :task_id, { tag_ids: [] },
+                :parent_id, :task_id, { tag_ids: [] },
                 *Paper::ELEMENTS.map { |el| { "elements_#{el}".to_sym => Paper::ELEMENT_ATTRIBUTES } }
 
   remove_filter :image_front_attachment

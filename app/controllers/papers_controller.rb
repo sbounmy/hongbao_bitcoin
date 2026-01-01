@@ -38,16 +38,6 @@ class PapersController < ApplicationController
     end
   end
 
-  def like
-    @paper = Paper.find(params[:id])
-    @paper.like_toggle!(current_user)
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to explore_papers_path }
-    end
-  end
-
   private
 
   def paper_scope

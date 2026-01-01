@@ -11,7 +11,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
   permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :spotify_path, :frame, :elements
 
 
-  remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :bundles, :prompt, :slug, :metadata
+  remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :prompt, :slug, :metadata
 
   # --- START: Import Functionality ---
 
