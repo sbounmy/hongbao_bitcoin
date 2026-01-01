@@ -116,6 +116,8 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/btcdex", to: "btcdex#index"
 
+  get "/dashboard", to: redirect("/papers/new"), as: :dashboard
+
   get "/bitcoin-companies", to: "pages#business"
 
   resources :themes, only: [ :new, :index ]
