@@ -305,7 +305,11 @@ test.describe('Editor interactions', () => {
       await page.keyboard.press('ArrowRight');
       await page.keyboard.press('ArrowDown');
 
+      await page.waitForTimeout(2_000)
       const movedPos = await getElementPosition(element);
+
+      // Get the element's ID to track it across theme switches
+      const elementId = await element.getAttribute('data-element-id');
 
       // Switch theme
       await page.getByRole('button', { name: /Theme/ }).click();
@@ -320,8 +324,10 @@ test.describe('Editor interactions', () => {
       await page.locator('body').getByText('Dollar', { exact: true }).click();
       await page.getByRole('button', { name: 'Done' }).first().click();
 
-      // Position should be preserved
-      const restoredPos = await getElementPosition(frontContainer.locator('.editor-element').first());
+      await page.waitForTimeout(2_000)
+      // Find the SAME element by ID and check position is preserved
+      const sameElement = frontContainer.locator(`[data-element-id="${elementId}"]`);
+      const restoredPos = await getElementPosition(sameElement);
       expect(restoredPos.x).toBeCloseTo(movedPos.x, 0);
       expect(restoredPos.y).toBeCloseTo(movedPos.y, 0);
     });
