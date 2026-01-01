@@ -100,7 +100,7 @@ test.describe('Paper creation', () => {
   });
 
   test('Mt Pelerin widget updates when user regenerates keys', async ({ page }) => {
-    page.setTimeout(60_000)
+    test.setTimeout(60_000)
     await page.goto('/papers/new');
     await turboCableConnected(page);
 
