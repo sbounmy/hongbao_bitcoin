@@ -101,4 +101,47 @@ test.describe('Paper creation', () => {
     expect(url.searchParams.get('addr')).toBe(publicAddr);
   });
 
+  test('Mt Pelerin widget updates when user regenerates keys', async ({ page }) => {
+    await page.goto('/papers/new');
+    await turboCableConnected(page);
+
+    // Get initial address
+    const publicAddrInput = page.locator('#public_address_text');
+    await expect(publicAddrInput).toHaveValue(/^bc1/);
+    const initialAddr = await publicAddrInput.inputValue();
+
+    // Open Keys drawer
+    await page.getByRole('button', { name: 'Keys' }).click();
+
+    // Regenerate keys 3 times
+    for (let i = 0; i < 3; i++) {
+      await page.locator('#bitcoin-generate').click();
+      await page.waitForTimeout(500); // Wait for key generation
+    }
+
+    // Get the latest address
+    const latestAddr = await publicAddrInput.inputValue();
+    expect(latestAddr).not.toBe(initialAddr); // Should be different
+
+    // Close drawer and go to finish screen
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: /Next/ }).click();
+
+    // Download PDF
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    await downloadPromise;
+
+    // Open Fund drawer
+    await page.getByRole('button', { name: 'Fund wallet' }).click();
+
+    // Verify Mt Pelerin has the LATEST address
+    const iframeElement = page.locator('iframe[data-mt-pelerin-target="iframe"]');
+    await expect(iframeElement).toBeVisible();
+
+    const iframeSrc = await iframeElement.getAttribute('src');
+    const url = new URL(iframeSrc);
+    expect(url.searchParams.get('addr')).toBe(latestAddr);
+  });
+
 });
