@@ -1,26 +1,8 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
+  allow_unauthenticated_access only: [ :new, :explore ]
   helper_method :testnet?
   before_action :set_network
-
-  def index
-    @styles = Input::Style.with_attached_image
-    @bundle = Bundle.new
-    @bundle.input_items.build(input: Input::Theme.first)
-
-    # Processing papers for current user (generating section)
-    @processing_papers = current_user&.papers&.processing&.recent || Paper.none
-  end
-
-  def show
-    @paper = Paper.find(params[:id])
-    @paper.increment_views!(session)
-    @hong_bao = HongBao.new
-    @payment_methods = PaymentMethod.active.by_position.with_attached_logo
-    @steps = Step.for_new
-    @current_step = (params[:step] || 1).to_i
-  end
 
   def new
     @theme = Input::Theme.find_by(id: params[:theme_id]) || Input::Theme.first
@@ -62,7 +44,7 @@ class PapersController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to @paper }
+      format.html { redirect_to explore_papers_path }
     end
   end
 
@@ -84,9 +66,9 @@ class PapersController < ApplicationController
 
   def set_layout
     case action_name
-    when "show", "new"
+    when "new"
       "offline"
-    when "index", "explore"
+    when "explore"
       "main"
     end
   end

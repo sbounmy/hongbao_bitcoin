@@ -28,7 +28,7 @@
 
 <% content_for(:screen_header) do %>
   <%= render "papers/new/headers/canvas", theme: @theme, current_step: @current_step, network: Current.network %>
-  <%= render "papers/show/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
+  <%= render "papers/new/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
 <% end %>
 
 <%= turbo_frame_tag "qr_scanner" %>

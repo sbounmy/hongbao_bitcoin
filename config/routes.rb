@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show, :new ] do
+    resources :papers, only: [ :new ] do
       get :explore, on: :collection
       post :like, on: :member
     end
@@ -116,7 +116,6 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/btcdex", to: "btcdex#index"
 
-  get "/dashboard", to: "papers#index"
   get "/bitcoin-companies", to: "pages#business"
 
   resources :themes, only: [ :new, :index ]

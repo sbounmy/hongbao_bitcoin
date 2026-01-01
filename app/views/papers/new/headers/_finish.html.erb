@@ -1,16 +1,16 @@
-<%# Step 5 Header: ← | Badge + Title | Zoom + Done (single line) %>
-<div class="<%= 'hidden' unless current_step == 5 %> flex items-center justify-between"
+<%# Screen 2 Header: Finish %>
+<div class="<%= 'hidden' unless current_step == 2 %> flex items-center justify-between"
      data-steps-target="content"
-     data-steps-index="5">
+     data-steps-index="2">
   <button type="button"
-          class="p-1 text-base-content hover:text-base-content/70 transition-colors"
+          class="back p-1 text-base-content hover:text-base-content/70 transition-colors"
           data-action="steps#previous">
     <%= heroicon "arrow-left", class: "w-5 h-5" %>
   </button>
 
   <div class="flex items-center gap-2">
-    <%= render "papers/show/headers/network_badge", network: network %>
-    <span class="font-semibold text-base-content text-sm">Track</span>
+    <%= render "papers/new/headers/network_badge", network: network %>
+    <span class="font-semibold text-base-content text-sm">Finish</span>
   </div>
 
   <div class="flex items-center gap-1">
@@ -24,8 +24,5 @@
     <button data-action="pdf#zoomIn" class="p-1 text-base-content/60 hover:text-base-content transition-colors">
       <%= heroicon "plus-circle", variant: :mini, class: "w-4 h-4" %>
     </button>
-    <%= link_to dashboard_path, class: "font-semibold text-primary text-sm ml-2" do %>
-      Done ✓
-    <% end %>
   </div>
 </div>
