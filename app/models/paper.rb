@@ -6,7 +6,6 @@ class Paper < ApplicationRecord
   include Taggable
 
   belongs_to :user, optional: true
-  belongs_to :bundle, optional: true
 
   has_many :input_items, dependent: :destroy
   has_many :inputs, through: :input_items, dependent: :destroy
