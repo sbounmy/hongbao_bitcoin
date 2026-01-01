@@ -1,5 +1,4 @@
 class Paper < ApplicationRecord
-  include Likeable
   include Viewable
   include ArrayColumns
   include Metadata

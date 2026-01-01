@@ -6,8 +6,6 @@ dollar:
   created_at: "2025-05-05T10:07:56.136Z"
   updated_at: "2025-05-05T10:16:20.522Z"
   views_count: 10
-  likes_count: 0
-  liker_ids: []
   user: satoshi
   elements: |
     {
@@ -86,8 +84,6 @@ pizza_day:
   created_at: "2025-05-05T10:07:56.136Z"
   updated_at: "2025-05-05T10:16:20.522Z"
   views_count: 5
-  likes_count: 2
-  liker_ids: [1, 2]
   tag_ids: [3] # tags(:featured)
 
 none_style:
