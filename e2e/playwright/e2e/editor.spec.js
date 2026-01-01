@@ -87,7 +87,7 @@ test.describe('Editor interactions', () => {
       await expect(drawer).toBeVisible();
 
       // Find the text input and change content
-      const textInput = drawer.locator('[data-text-target="text"]');
+      const textInput = drawer.locator('[data-editor--text-target="text"]');
       await textInput.clear();
       await textInput.fill('Updated Text Content');
 
