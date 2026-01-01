@@ -26,8 +26,8 @@ export default class extends Controller {
     themeId: String     // Current theme ID
   }
 
-  // Store current layout direction for export
-  currentLayoutDirection = null
+  // Store current frame data for export (from theme selection)
+  currentFrameData = null
 
   // Export DOM elements for PDF preview (instant - no html2canvas)
   // Clones the DOM containers instead of converting to images
@@ -40,12 +40,12 @@ export default class extends Controller {
     frontClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
     backClone.querySelectorAll('.editor-selection-overlay').forEach(el => el.remove())
 
-    // Dispatch clones for preview to insert (include layout direction for preview to update)
+    // Dispatch clones for preview to insert (include frame data for preview to update)
     this.dispatch("exported", {
       detail: {
         frontEl: frontClone,
         backEl: backClone,
-        layoutDirection: this.currentLayoutDirection
+        frameData: this.currentFrameData
       }
     })
 
@@ -193,13 +193,13 @@ export default class extends Controller {
 
   // Handle theme change (called from theme selector)
   async loadTheme(event) {
-    const { themeId, frontUrl, backUrl, elements, aspectRatio, layoutDirection } = event.detail
+    const { themeId, frontUrl, backUrl, elements, aspectRatio, layoutDirection, cssClasses, rotationBack, foldLine, layoutClasses } = event.detail
 
     this.themeIdValue = themeId
 
-    // Update layout if frame changed (orientation switch)
+    // Store all frame data for export to preview
     if (layoutDirection) {
-      this.currentLayoutDirection = layoutDirection
+      this.currentFrameData = { aspectRatio, layoutDirection, cssClasses, rotationBack, foldLine, layoutClasses }
       this.updateLayout(layoutDirection, aspectRatio)
     }
 

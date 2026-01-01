@@ -6,3 +6,5 @@ dollar_theme_front_blob: <%= ActiveStorage::FixtureSet.blob filename: "dollar_fr
 dollar_theme_back_blob: <%= ActiveStorage::FixtureSet.blob filename: "dollar_back.jpg", service_name: "test_fixtures" %>
 euro_theme_front_blob: <%= ActiveStorage::FixtureSet.blob filename: "euro_front.jpg", service_name: "test_fixtures" %>
 euro_theme_back_blob: <%= ActiveStorage::FixtureSet.blob filename: "euro_back.jpg", service_name: "test_fixtures" %>
+pokemon_theme_front_blob: <%= ActiveStorage::FixtureSet.blob filename: "pokemon_front.jpg", service_name: "test_fixtures" %>
+pokemon_theme_back_blob: <%= ActiveStorage::FixtureSet.blob filename: "pokemon_back.jpg", service_name: "test_fixtures" %>

@@ -65,6 +65,7 @@ dollar:
   type: "Input::Theme"
   slug: "usd"
   metadata:
+    frame: 'landscape'
     elements:
       private_key_qrcode:
         x: "10"
@@ -131,6 +132,7 @@ euro:
   type: "Input::Theme"
   slug: "eur"
   metadata:
+    frame: 'landscape'
     elements:
       private_key_qrcode:
         x: "10"
@@ -349,6 +351,66 @@ chinese_yuan:
         width: ""
         height: "15"
         size: "1.6"
+        color: "#000000"
+        type: "mnemonic/text"
+        side: "back"
+      custom_text:
+        x: ""
+        y: ""
+        width: ""
+        height: ""
+        size: ""
+        color: ""
+        type: "text"
+        side: "back"
+pokemon:
+  id: 57
+  name: "Pokemon"
+  type: "Input::Theme"
+  slug: "pokemon"
+  metadata:
+    frame: "portrait"
+    elements:
+      private_key_qrcode:
+        x: "5"
+        y: "10"
+        width: "12.0"
+        height: "24.0"
+        color: "#000000"
+        type: "private_key/qrcode"
+        side: "back"
+      private_key_text:
+        x: "5"
+        y: "35"
+        width: ""
+        height: "10"
+        size: "1.5"
+        color: "#000000"
+        type: "private_key/text"
+        side: "back"
+      public_address_qrcode:
+        x: "10"
+        y: "15"
+        width: "12.0"
+        height: "24.0"
+        color: ""
+        type: "public_address/qrcode"
+        side: "front"
+      public_address_text:
+        x: "10"
+        y: "42"
+        width: ""
+        height: "10"
+        size: "1.5"
+        color: "#000000"
+        type: "public_address/text"
+        side: "front"
+      mnemonic_text:
+        x: "5"
+        y: "50"
+        width: ""
+        height: "15"
+        size: "1.4"
         color: "#000000"
         type: "mnemonic/text"
         side: "back"

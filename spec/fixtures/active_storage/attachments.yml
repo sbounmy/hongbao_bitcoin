@@ -69,3 +69,15 @@ none_style_image:
   record_type: InputItem
   record_id: 7
   blob: satoshi_avatar_blob
+
+pokemon_theme_front:
+  name: image_front
+  record_type: Input
+  record_id: 57
+  blob: pokemon_theme_front_blob
+
+pokemon_theme_back:
+  name: image_back
+  record_type: Input
+  record_id: 57
+  blob: pokemon_theme_back_blob

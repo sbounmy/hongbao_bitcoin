@@ -84,8 +84,13 @@ export default class extends Controller {
       frontUrl: radio.dataset.themeFrontUrl,
       backUrl: radio.dataset.themeBackUrl,
       elements: JSON.parse(radio.dataset.themeElements || '{}'),
+      // Frame properties (from Frame model via data attributes)
       aspectRatio: radio.dataset.themeAspectRatio,
-      layoutDirection: radio.dataset.themeLayoutDirection
+      layoutDirection: radio.dataset.themeLayoutDirection,
+      cssClasses: radio.dataset.themeCssClasses,
+      rotationBack: radio.dataset.themeRotationBack,
+      foldLine: radio.dataset.themeFoldLine,
+      layoutClasses: radio.dataset.themeLayoutClasses
     }
   }
 
@@ -108,15 +113,20 @@ export default class extends Controller {
       })
     }
 
-    // Dispatch single event with all elements
+    // Dispatch single event with all elements and frame properties
     window.dispatchEvent(new CustomEvent('theme:changed', {
       detail: {
         themeId,
         frontUrl: theme.frontUrl,
         backUrl: theme.backUrl,
         elements,
+        // Frame properties
         aspectRatio: theme.aspectRatio,
-        layoutDirection: theme.layoutDirection
+        layoutDirection: theme.layoutDirection,
+        cssClasses: theme.cssClasses,
+        rotationBack: theme.rotationBack,
+        foldLine: theme.foldLine,
+        layoutClasses: theme.layoutClasses
       }
     }))
   }

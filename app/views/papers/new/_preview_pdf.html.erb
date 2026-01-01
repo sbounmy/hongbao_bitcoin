@@ -21,7 +21,8 @@
                  data-editor--preview-canvas-target="layoutContainer">
               <%= cuttable_content class: "flex #{frame.layout_direction} #{frame.layout_classes}" do %>
                 <%# Back - placeholder replaced by cloned DOM from editor %>
-                <div class="<%= frame.css_classes %> <%= frame.rotation_back %>">
+                <div class="<%= frame.css_classes %> <%= frame.rotation_back %>"
+                     data-editor--preview-canvas-target="backWrapper">
                   <div data-editor--preview-canvas-target="back"
                        class="w-full h-full"
                        style="background-image: url(<%= template_back_base64 %>);
@@ -32,11 +33,13 @@
                 </div>
 
               <%# Fold Line %>
-              <div class="<%= frame.fold_line %> border-white">
+              <div class="<%= frame.fold_line %> border-white"
+                   data-editor--preview-canvas-target="foldLine">
               </div>
 
                 <%# Front - placeholder replaced by cloned DOM from editor %>
-                <div class="<%= frame.css_classes %> <%= frame.rotation_front %>">
+                <div class="<%= frame.css_classes %> <%= frame.rotation_front %>"
+                     data-editor--preview-canvas-target="frontWrapper">
                   <div data-editor--preview-canvas-target="front"
                        class="w-full h-full"
                        style="background-image: url(<%= template_front_base64 %>);
