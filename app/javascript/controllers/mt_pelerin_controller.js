@@ -8,7 +8,7 @@ export default class extends Controller {
     if (!event.detail.wallet?.mtPelerin) return
 
     const wallet = event.detail.wallet
-    const address = event.detail.publicAddressText
+    const address = event.detail.public_address_text
     const code = Math.floor(1000 + Math.random() * 9000).toString()
     const hash = wallet.sign(`MtPelerin-${code}`)
 

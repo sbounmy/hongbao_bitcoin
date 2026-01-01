@@ -68,10 +68,37 @@ test.describe('Paper creation', () => {
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao');
   });
 
-  // test('user can change qrcode destination');
+  test('user can top up with correct address in Mt Pelerin widget', async ({ page }) => {
+    await page.goto('/papers/new');
+    await turboCableConnected(page);
 
-  // test('user can add custom text item');
+    // Wait for wallet generation and get public address
+    const publicAddrInput = page.locator('#public_address_text');
+    await expect(publicAddrInput).toHaveValue(/^bc1/);
+    const publicAddr = await publicAddrInput.inputValue();
 
-  // test('user can change element position');
+    // Go to finish screen
+    await page.getByRole('button', { name: /Next/ }).click();
+
+    // Download PDF (required to enable Fund wallet)
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+
+    // Open Fund drawer
+    const fundButton = page.getByRole('button', { name: 'Fund wallet' });
+    await expect(fundButton).toBeEnabled();
+    await fundButton.click();
+
+    // Verify Mt Pelerin iframe has correct address in URL
+    const iframeElement = page.locator('iframe[data-mt-pelerin-target="iframe"]');
+    await expect(iframeElement).toBeVisible();
+
+    // Method 1: Verify URL parameter
+    const iframeSrc = await iframeElement.getAttribute('src');
+    const url = new URL(iframeSrc);
+    expect(url.searchParams.get('addr')).toBe(publicAddr);
+  });
 
 });

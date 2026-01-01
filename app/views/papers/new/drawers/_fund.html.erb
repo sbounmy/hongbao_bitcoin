@@ -18,23 +18,14 @@
     </button>
   </div>
 
-  <%# Tab 1: Buy BTC - Single button opens Mt Pelerin %>
+  <%# Tab 1: Buy BTC - Mt Pelerin widget directly embedded %>
   <div data-tabs-target="tab" data-tab-id="buy" class="flex flex-col gap-4">
     <%= render AlertComponent.new(
       icon: 'information-circle',
       message: 'Card / Bank Transfer top up might not be available for custom keys.',
       class: 'hidden group-[div[data-bitcoin-custom-wallet-value="true"]]:!flex'
     ) %>
-    <%= render BottomSheetComponent.new(id: "mt-pelerin-widget") do |sheet| %>
-      <% sheet.with_trigger do %>
-        <button type="button" class="btn btn-primary btn-lg w-full">
-          <%= heroicon "credit-card", class: "w-5 h-5" %>
-          Buy with Card or Bank
-        </button>
-      <% end %>
-      <% sheet.with_header do %>Buy Bitcoin<% end %>
-      <%= render "payment_methods/mt_pelerin_inline", payment_method: "card" %>
-    <% end %>
+    <%= render "payment_methods/mt_pelerin_inline", payment_method: "card" %>
 
     <p class="text-xs text-base-content/50 text-center">
       Powered by Mt Pelerin •

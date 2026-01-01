@@ -69,6 +69,7 @@ export default class extends Controller {
   getWalletData() {
     const walletInfo = this.wallet.info
     return {
+      wallet: this.wallet,
       mnemonic_text: this.master?.mnemonic || '',
       private_key_text: walletInfo.privateKeyText,
       public_address_text: walletInfo.publicAddressText,
