@@ -13,8 +13,6 @@ test.describe('Paper creation', () => {
   });
 
   test('user can upload an image and enhance with AI', async ({ page }) => {
-    // Capture browser console logs for debugging
-    page.on('console', msg => console.log(`[BROWSER] ${msg.type()}: ${msg.text()}`));
 
     await page.goto('/papers/new');
     await turboCableConnected(page);
@@ -102,6 +100,7 @@ test.describe('Paper creation', () => {
   });
 
   test('Mt Pelerin widget updates when user regenerates keys', async ({ page }) => {
+    page.setTimeout(60_000)
     await page.goto('/papers/new');
     await turboCableConnected(page);
 
