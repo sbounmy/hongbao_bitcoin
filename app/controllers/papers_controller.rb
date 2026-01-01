@@ -1,6 +1,6 @@
 class PapersController < ApplicationController
   layout :set_layout
-  allow_unauthenticated_access only: [ :index, :show, :new, :new2, :explore ]
+  allow_unauthenticated_access only: [ :index, :show, :new, :explore ]
   helper_method :testnet?
   before_action :set_network
 
@@ -44,34 +44,6 @@ class PapersController < ApplicationController
     )
   end
 
-  # Alias for backwards compatibility
-  def new2
-    new
-    render :new
-  end
-
-  def create
-    @paper = Papers::Create.call(
-      user: current_user,
-      params: paper_params
-    )
-    redirect_to edit_paper_path(@paper)
-  end
-
-  def edit
-    @paper = current_user.papers.find params[:id]
-  end
-
-  def update
-    @paper = current_user.papers.find(params[:id])
-    Papers::Update.call(paper: @paper, params: paper_params)
-
-    respond_to do |format|
-      format.turbo_stream { head :ok }  # Broadcasting handles the update
-      format.html { redirect_to edit_paper_path(@paper) }
-    end
-  end
-
   def explore
     @pagy, @papers = pagy_countless(
       Paper.active.recent.with_attached_image_front.with_attached_image_back,
@@ -96,14 +68,6 @@ class PapersController < ApplicationController
 
   private
 
-  def paper_params
-    params.require(:paper).permit(
-      input_item_theme_attributes: [ :id, :input_id ],
-      input_item_style_attributes: [ :id, :input_id ],
-      input_items_attributes: [ :id, :input_id, :image, :blob_id, :_destroy ]
-    )
-  end
-
   def paper_scope
     current_user ? current_user.papers : Paper
   end
@@ -120,9 +84,9 @@ class PapersController < ApplicationController
 
   def set_layout
     case action_name
-    when "show", "new", "new2"
+    when "show", "new"
       "offline"
-    when "index", "explore", "edit"
+    when "index", "explore"
       "main"
     end
   end

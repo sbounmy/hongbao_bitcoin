@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :bundles, only: [ :create ]
-
   ActiveAdmin.routes(self)
   resource :session, except: [ :new ]
   resources :passwords, param: :token
@@ -27,9 +25,8 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show, :new, :create, :edit, :update ] do
+    resources :papers, only: [ :show, :new ] do
       get :explore, on: :collection
-      get :new2, on: :collection
       post :like, on: :member
     end
 
@@ -117,7 +114,6 @@ Rails.application.routes.draw do
   get "v1", to: "hong_baos#new" # for dev
 
   get "/pricing", to: "pages#pricing"
-  get "/v2", to: "pages#v2"
   get "/btcdex", to: "btcdex#index"
 
   get "/dashboard", to: "papers#index"
