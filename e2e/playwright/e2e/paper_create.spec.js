@@ -34,8 +34,8 @@ test.describe('Paper creation', () => {
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
 
-    await page.goto('/dashboard');
-    await expect(page.locator('.badge')).toContainText('489 ₿ao'); // General check for balance display
+    await page.goto('/papers/new');
+    await expect(page.locator('.badge').first()).toContainText('489 ₿ao'); // General check for balance display
   });
 
   test('can switch theme', async ({ page }) => {
