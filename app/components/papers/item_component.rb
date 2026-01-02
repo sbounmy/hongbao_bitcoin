@@ -21,7 +21,6 @@ module Papers
     end
 
     def render_face(image_url:)
-      background_url = processing? ? original_image_url : image_url
       aspect_ratio = item.theme&.aspect_ratio || "150/75"
 
       tag.div class: "w-full aspect-[#{aspect_ratio}] relative rounded-lg overflow-hidden" do
@@ -30,7 +29,7 @@ module Papers
         concat(
           tag.div(
             class: background_classes.join(" "),
-            style: background_style(background_url)
+            style: background_style(image_url)
           )
         )
 
@@ -59,11 +58,6 @@ module Papers
 
     def background_style(image_url)
       "background-image: url('#{image_url}')" if image_url.present?
-    end
-
-    def original_image_url
-      input_image = item.bundle&.input_items&.last&.image
-      url_for(input_image) if input_image&.attached?
     end
 
     def image_front_url

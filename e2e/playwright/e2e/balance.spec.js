@@ -132,5 +132,4 @@ test.describe('Balance', () => {
     await expect(page.getByText('Your transaction has been submitted to the network.')).toBeVisible();
   });
 
-
 });

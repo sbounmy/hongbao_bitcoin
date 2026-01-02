@@ -14,7 +14,7 @@ const expectGeneratedKeys = async (page) => {
 
 test.describe('PDF Generation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/papers/1');
+    await page.goto('/papers/new');
   });
 
   test('should generate PDF with correct layout and content', async ({ page }) => {
@@ -62,14 +62,14 @@ test.describe('PDF Generation', () => {
     await expect(page.locator('#private_key_text')).toBeEmpty()
     await expect(page.locator('#mnemonic_text')).toBeEmpty()
 
-    await page.locator('#public_address_text').pressSequentially('my-own-public-address')
+    await page.locator('#public_address_text').fill('my-own-public-address')
     await page.locator('#private_key_text').fill('my-own-private-key')
     await page.locator('#mnemonic_text').fill('my own mnemonic is here but you can change it')
 
-    // check if pdf is generated with correct values
-    await expect(page.locator('[data-canva-item-name-value="publicAddressText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my-own-public-address')
-    await expect(page.locator('[data-canva-item-name-value="privateKeyText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my-own-private-key')
-    await expect(page.locator('[data-canva-item-name-value="mnemonicText"]').first()).toHaveAttribute('data-canva-item-text-value', 'my own mnemonic is here but you can change it')
+    // Verify elements are rendered in the DOM canvas with correct text
+    await expect(page.locator('[data-element-type="public_address/text"]')).toContainText('my-own-public-address')
+    await expect(page.locator('[data-element-type="private_key/text"]')).toContainText('my-own-private-key')
+    await expect(page.locator('[data-element-type="mnemonic/text"]')).toContainText('my own mnemonic is here but you can change it')
   });
 
   test('user top up notice for custom keys', async ({ page }) => {

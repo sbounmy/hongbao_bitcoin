@@ -402,7 +402,7 @@ diamond hands gift-giving traditions - now they just need to diamond hand actual
         <%= card.with_title do %>
           <div class="w-full flex gap-2 justify-between">
             <p>Self-Custody & KYC-Free</p>
-            <%= link_to "Try demo", paper_path(ENV.fetch("DEMO_PAPER_ID", Paper.last.id)), class: "btn btn-xs btn-outline" %>
+            <%= link_to "Try demo", new_paper_path, class: "btn btn-xs btn-outline" %>
           </div>
         <% end %>
         <%= card.with_body do %>

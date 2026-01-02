@@ -1,4 +1,0 @@
-<%= turbo_stream.replace dom_id(@paper, :like_button) do %>
-  <% variant = params[:variant]&.to_sym || :default %>
-  <%= render Papers::LikeButtonComponent.new(paper: @paper, size: :small, show_count: true, variant: variant) %>
-<% end %>

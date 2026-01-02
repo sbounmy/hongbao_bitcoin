@@ -17,14 +17,4 @@ class PagesController < ApplicationController
   def instructions
     render layout: false
   end
-
-  def v2
-    # Will be used to list available styles and papers
-    @styles = Input::Style.by_position.with_attached_image
-    @papers = Paper.active.recent.with_attached_image_front.with_attached_image_back.limit(5)
-    @bundle = Bundle.new
-    @bundle.input_items.build(input: Input::Theme.first)
-    @instagram_posts = cache("instagram_posts", expires_in: 2.hour) { InstagramService.new.fetch_media }
-    @product = Product.published.ordered.includes(variants: { images_attachments: :blob }, images_attachments: :blob).last
-  end
 end

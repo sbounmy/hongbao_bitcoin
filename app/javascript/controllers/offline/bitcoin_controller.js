@@ -52,34 +52,63 @@ export default class extends Controller {
     this.dispatchWalletChanged()
   }
 
-  dispatchWalletChanged() {
-    this.dispatch("changed", {
-      detail: this.detail
-    })
+  async dispatchWalletChanged() {
+    // Build wallet data with text values
+    const walletData = this.getWalletData()
+
+    // Generate QR codes asynchronously
+    await this.generateQrCodes(walletData)
+
+    // Write to wallet JSON hidden fields (both front and back)
+    this.updateWalletFields(walletData)
+
+    // Dispatch event on window so all @window listeners can receive it
+    this.dispatch("changed", { detail: walletData })
   }
 
-  get detail() {
-    const walletInfo = this.wallet.info;
+  getWalletData() {
+    const walletInfo = this.wallet.info
+    return {
+      wallet: this.wallet,
+      mnemonic_text: this.master?.mnemonic || '',
+      private_key_text: walletInfo.privateKeyText,
+      public_address_text: walletInfo.publicAddressText,
+      // QR codes will be filled in async
+      public_address_qrcode: null,
+      private_key_qrcode: null
+    }
+  }
 
-    // Choose which QRCODE to use based on the current mode.
+  async generateQrCodes(walletData) {
+    const walletInfo = this.wallet.info
+
+    // Choose which QR code to use based on mode
     const activeQrCodeFunction = this.modeValue === 'beginner'
       ? walletInfo.appPublicAddressQrcode
-      : walletInfo.publicAddressQrcode;
+      : walletInfo.publicAddressQrcode
 
     // Choose logo based on mode
     const logoUrl = this.modeValue === 'beginner'
       ? this.hongbaoLogoValue
-      : this.bitcoinLogoValue;
+      : this.bitcoinLogoValue
 
-    return {
-      wallet: this.wallet,
-      mnemonicText: this.master?.mnemonic || '',
-      // Pass all original info from the wallet, including appPublicAddressQrcode.
-      ...walletInfo,
-      // we have to override QR code functions to include logo
-      publicAddressQrcode: async () => await activeQrCodeFunction(logoUrl),
-      privateKeyQrcode: walletInfo.privateKeyQrcode  // No logo for private key
-    };
+    // Generate QR codes and store base64 strings
+    walletData.public_address_qrcode = await activeQrCodeFunction(logoUrl)
+    walletData.private_key_qrcode = await walletInfo.privateKeyQrcode()
+  }
+
+  updateWalletFields(walletData) {
+    ['front', 'back'].forEach(side => {
+      const field = document.querySelector(`input[name="${side}_wallet"]`)
+      if (field) {
+        field.value = JSON.stringify(walletData)
+      }
+    })
+  }
+
+  // Legacy getter for backward compatibility (if needed)
+  get detail() {
+    return this.getWalletData()
   }
 
   async transfer(address, fee) {

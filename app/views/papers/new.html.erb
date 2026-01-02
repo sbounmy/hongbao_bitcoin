@@ -1,37 +1,92 @@
-<%# Suppress dock bar on this page %>
-<% content_for(:footer) do %>
-  <!-- No dock bar on paper new -->
+<% content_for :skip_analytics, true %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, follow">
 <% end %>
 
-<%# Instagram-style header in screen_header slot %>
+<% content_for :footer do %>
+  <span class="text-white"></span>
+<% end %>
+
+<% attributes_for(:screen_attributes, {
+  class: 'relative overflow-hidden group',
+  data: {
+    controller: 'steps bitcoin pdf image editor',
+    steps_current_value: @current_step.to_s,
+    steps_hidden_class: 'hidden',
+    bitcoin_auto_generate_value: 'true',
+    bitcoin_network_value: Current.network.to_s,
+    bitcoin_custom_wallet_value: 'false',
+    bitcoin_hongbao_logo_value: asset_to_base64('hongbao-bitcoin.png'),
+    bitcoin_bitcoin_logo_value: asset_to_base64('bitcoin-64x64.svg'),
+    pdf_filename_value: "hongbao-#{@theme.slug}",
+    editor_design_value: @paper.elements.to_json,
+    editor_theme_id_value: @theme&.id,
+    action: 'theme:changed@window->editor#loadTheme bitcoin:changed@window->editor#dataSourceChanged image:generated@window->editor#updateImage keydown@window->editor#keydown'
+  }
+}) %>
+
 <% content_for(:screen_header) do %>
-  <%= render "papers/new/header" %>
+  <%= render "papers/new/headers/canvas", theme: @theme, current_step: @current_step, network: Current.network %>
+  <%= render "papers/new/headers/finish", paper: @paper, current_step: @current_step, network: Current.network %>
 <% end %>
 
-<% attributes_for(:screen_attributes, {data: {controller: 'steps', steps_current_value: '1', steps_hidden_class: 'hidden'}}) %>
+<%= turbo_frame_tag "qr_scanner" %>
 
-<%# Instagram-style single-page wizard %>
-<div class="flex flex-col min-h-[calc(100dvh-var(--canvas-offset))] bg-base-100 rounded-xl"
-     data-controller="preview photo-select">
+<%# Turbo Streams container for ActionCable subscriptions %>
+<div id="turbo-streams"></div>
 
-  <%= form_with(model: @paper, id: "paper-form", class: "flex-1 flex flex-col", local: false) do |form| %>
-    <%# Step 1: Photo Picker with Recents/My Papers tabs %>
-    <div data-steps-target="content"
-         data-steps-index="1"
-         class="flex-1 flex flex-col">
-      <%= render "papers/new/steps/photo", form: form, papers: @papers, recent_photos: @recent_photos, pagy: @pagy %>
+<%# Image AI generation loading indicator - non-blocking toast %>
+<div data-image-target="loading" class="hidden toast toast-bottom toast-center z-50 mb-20">
+  <div class="alert bg-base-100 shadow-xl border border-base-300 flex-col items-start gap-2 w-80">
+    <div class="flex items-center gap-3 w-full">
+      <span class="loading loading-spinner loading-sm text-primary"></span>
+      <div class="flex-1">
+        <p class="text-base-content font-medium text-sm">Creating your unique design</p>
+        <p class="text-base-content/60 text-xs">This typically takes 45-60 seconds</p>
+      </div>
     </div>
-
-    <%# Step 2: Style Selection %>
-    <div data-steps-target="content"
-         data-steps-index="2"
-         class="hidden flex-1 flex flex-col">
-      <%= render "papers/new/steps/style", form: form, styles: @styles %>
-    </div>
-
-    <%# Hidden theme field (theme selection comes later in flow) %>
-    <%= form.fields_for :input_item_theme_attributes do |theme_form| %>
-      <%= theme_form.hidden_field :input_id, value: @themes.first.id %>
-    <% end %>
-  <% end %>
+    <%= render ProgressBarComponent.new(animated: true, duration: 60, class: "w-full") %>
+  </div>
 </div>
+
+<%# Image AI generation success notification %>
+<div data-image-target="success" class="hidden toast toast-top toast-end z-50">
+  <div class="alert alert-success">
+    <%= heroicon "check-circle", variant: :mini, class: "w-5 h-5" %>
+    <span>AI image ready!</span>
+  </div>
+</div>
+
+<%# Container for paper editor screens %>
+<div>
+
+  <%# Screen 1: Canvas - Paper preview with toolbar %>
+  <%= render "papers/new/screens/canvas",
+      theme: @theme,
+      frame: @frame,
+      template_front_base64: @template_front_base64,
+      template_back_base64: @template_back_base64,
+      portrait_config: @portrait_config,
+      paper: @paper,
+      current_step: @current_step,
+      recent_photos: @recent_photos,
+      pagy: @pagy,
+      styles: @styles %>
+
+  <%# Screen 2: Finish - Download, Fund, Track %>
+  <div class="<%= 'hidden' unless @current_step == 2 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+       data-steps-target="content"
+       data-steps-index="2">
+    <%= render "papers/new/screens/finish",
+        paper: @paper,
+        frame: @frame,
+        template_front_base64: @template_front_base64,
+        template_back_base64: @template_back_base64,
+        portrait_config: @portrait_config,
+        current_step: @current_step %>
+  </div>
+</div>
+
+<%# Subscribe to AI generation channel - must exist before job runs %>
+<%= turbo_stream_from current_user, :ai_generation %>

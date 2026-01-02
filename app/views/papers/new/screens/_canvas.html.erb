@@ -1,0 +1,164 @@
+<%# Screen 1: Canvas - Design your paper wallet (DOM-based Editor) %>
+<%#
+  This uses the new DOM-based editor controller which renders elements
+  as HTML/CSS for easier testing and better text rendering.
+%>
+<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+     data-steps-target="content"
+     data-steps-index="1">
+
+  <%# Paper Editor Area %>
+  <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
+
+    <%# DOM Container - Layout adapts to frame orientation %>
+    <div data-editor-target="layoutContainer"
+         class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
+
+      <%# Front Container %>
+      <%# Portrait: h-full (fill height, width from aspect-ratio) %>
+      <%# Landscape: h-[48%] (partial height so both cards fit, width from aspect-ratio) %>
+      <div data-editor-target="frontWrapper"
+           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-side="front">
+        <img src="<%= template_front_base64 %>"
+             class="hidden"
+             data-editor-target="frontBackground" />
+        <div data-editor-target="frontContainer"
+             class="w-full h-full cursor-default"
+             style="container-type: inline-size;"></div>
+      </div>
+
+      <%# Back Container %>
+      <%# Same sizing as front for consistency %>
+      <div data-editor-target="backWrapper"
+           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-side="back">
+        <img src="<%= template_back_base64 %>"
+             class="hidden"
+             data-editor-target="backBackground" />
+        <div data-editor-target="backContainer"
+             class="w-full h-full cursor-default"
+             style="container-type: inline-size;"></div>
+      </div>
+    </div>
+
+    <%# Hidden fields %>
+    <%= hidden_field_tag "paper[elements]", paper.elements.to_json, data: { editor_target: "field" } %>
+    <%= hidden_field_tag "wallet_data", {}.to_json, data: { editor_target: "dataSource" }, disabled: true %>
+
+    <%# Side Toggle (optional - for single view mode) %>
+    <div class="hidden">
+      <button data-editor-target="sideToggle"
+              data-action="editor#toggleSide"
+              class="btn btn-sm btn-ghost">
+        Front
+      </button>
+    </div>
+  </div>
+
+  <%# Bottom Toolbar %>
+  <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
+    <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
+      <%# Theme Selection Button %>
+      <%= render BottomSheetComponent.new(id: "theme-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "swatch", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">Theme</span>
+          </button>
+        <% end %>
+        <div class="flex flex-col">
+          <div class="py-4">
+            <%= render ContentLoaderComponent.new(url: themes_path(current_id: theme.id), lazy_loading: true) %>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3 border-t border-base-content/10 shrink-0">
+            <form method="dialog">
+              <button type="submit" class="btn btn-ghost btn-sm" data-action="click->theme-select#cancel">
+                Cancel
+              </button>
+            </form>
+            <span class="text-sm text-base-content/70">Theme</span>
+            <form method="dialog">
+              <button type="submit" class="btn btn-ghost btn-sm text-primary font-semibold" data-action="click->theme-select#confirm">
+                Done
+              </button>
+            </form>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Photo Selection Button %>
+      <%= render BottomSheetComponent.new(id: "photo-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "photo", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">Photo</span>
+          </button>
+        <% end %>
+        <div class="h-[70vh] flex flex-col">
+          <%= render "papers/new/drawers/photo",
+              recent_photos: recent_photos,
+              pagy: pagy,
+              styles: styles %>
+        </div>
+      <% end %>
+
+      <%# Keys Button %>
+      <%= render BottomSheetComponent.new(id: "keys-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "key", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">Keys</span>
+          </button>
+        <% end %>
+        <% sheet.with_footer(title: "Bitcoin Keys") %>
+        <div class="p-4">
+          <%= render "papers/new/drawers/keys" %>
+        </div>
+      <% end %>
+
+      <%# QR Style Button %>
+      <%= render BottomSheetComponent.new(id: "style-drawer") do |sheet| %>
+        <% sheet.with_trigger do %>
+          <button type="button" class="btn btn-ghost btn-sm gap-1">
+            <%= heroicon "qr-code", variant: :mini, class: "w-4 h-4" %>
+            <span class="hidden sm:inline">QR Style</span>
+          </button>
+        <% end %>
+        <% sheet.with_footer(title: "QR Code Destination") %>
+        <div class="p-4">
+          <%= render "papers/new/drawers/style" %>
+        </div>
+      <% end %>
+
+      <%# Next Button %>
+      <button type="button"
+              class="btn btn-primary btn-sm gap-1"
+              data-action="editor#exportForPreview exportComplete@window->steps#next">
+        Next
+        <%= heroicon "arrow-right", variant: :mini, class: "w-4 h-4" %>
+      </button>
+    </div>
+  </div>
+
+  <%# Text Drawer %>
+  <dialog id="text-drawer"
+          class="modal modal-bottom sm:modal-middle"
+          data-controller="editor--text"
+          data-action="editor:drawerOpen->editor--text#open">
+    <div class="modal-box">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-lg">Edit Text</h3>
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost">
+            <%= heroicon "x-mark", class: "w-5 h-5" %>
+          </button>
+        </form>
+      </div>
+      <%= render "papers/new/drawers/text" %>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+</div>

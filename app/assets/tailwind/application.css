@@ -56,6 +56,9 @@
   --iti-path-globe-1x: url("/intl-tel-input/globe.webp");
   --iti-path-globe-2x: url("/intl-tel-input/globe@2x.webp");
 
+  /* Editor placeholder */
+  --image-placeholder: url('/images/portrait-placeholder.svg');
+
   /* Layout spacing variables for canvas height calculation */
   --header-offset: 6.5rem;   /* pt-26 - header padding top */
   --bottom-offset: 1rem;     /* pb-4 - bottom padding */

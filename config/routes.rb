@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :bundles, only: [ :create ]
-
   ActiveAdmin.routes(self)
   resource :session, except: [ :new ]
   resources :passwords, param: :token
@@ -27,12 +25,11 @@ Rails.application.routes.draw do
       get :form, on: :member
       get :utxos, on: :member
     end
-    resources :papers, only: [ :show, :new, :create, :edit, :update ] do
+    resources :papers, only: [ :new ] do
       get :explore, on: :collection
-      post :like, on: :member
     end
 
-    resources :input_items, only: [ :index ]
+    resources :input_items, only: [ :index, :create ]
 
     # Instructions page for printed inserts
     get "/instructions", to: "pages#instructions", as: :instructions
@@ -116,13 +113,13 @@ Rails.application.routes.draw do
   get "v1", to: "hong_baos#new" # for dev
 
   get "/pricing", to: "pages#pricing"
-  get "/v2", to: "pages#v2"
   get "/btcdex", to: "btcdex#index"
 
-  get "/dashboard", to: "papers#index"
+  get "/dashboard", to: redirect("/papers/new"), as: :dashboard
+
   get "/bitcoin-companies", to: "pages#business"
 
-  resources :themes, only: [ :new ]
+  resources :themes, only: [ :new, :index ]
 
   resource :getting_started, only: [ :show, :create ], controller: "getting_started"
 

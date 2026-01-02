@@ -16,7 +16,7 @@ test.describe('User Bottom Sheet', () => {
     await page.locator('label[for="user-bottom-sheet"]:visible').click();
 
     // Bottom sheet should be visible
-    await expect(page.locator('.modal-box')).toBeVisible();
+    await expect(page.locator('.modal-box:visible')).toHaveCount(1);
     await expect(page.getByText('satoshi@example.com')).toBeVisible();
     await expect(page.getByRole('link', { name: /Billing & Credits/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /My Orders/i })).toBeVisible();
@@ -25,20 +25,20 @@ test.describe('User Bottom Sheet', () => {
 
   test('can close user menu by clicking X button', async ({ page }) => {
     await page.locator('label[for="user-bottom-sheet"]:visible').click();
-    await expect(page.locator('.modal-box')).toBeVisible();
+    await expect(page.locator('.modal-box:visible')).toHaveCount(1);
 
     await page.getByLabel('close sidebar').click();
-    await expect(page.locator('.modal-box')).not.toBeVisible();
+    await expect(page.locator('.modal-box:visible')).toHaveCount(0);
   });
 
   test('can close user menu by clicking backdrop', async ({ page }) => {
     await page.locator('label[for="user-bottom-sheet"]:visible').click();
-    await expect(page.locator('.modal-box')).toBeVisible();
-    await expect(page.locator('.modal-backdrop')).toBeVisible();
+    await expect(page.locator('.modal-box:visible')).toHaveCount(1);
+    await expect(page.locator('.modal-backdrop:visible')).toHaveCount(1);
 
     // Click on the top-left corner of backdrop to avoid modal-box interception
-    await page.locator('.modal-backdrop').first().click({ position: { x: 10, y: 10 } });
-    await expect(page.locator('.modal-box')).not.toBeVisible();
+    await page.locator('.modal-backdrop:visible').first().click({ position: { x: 10, y: 10 } });
+    await expect(page.locator('.modal-box:visible')).toHaveCount(0);
   });
 
   test('can navigate to Billing & Credits', async ({ page }) => {
@@ -64,7 +64,7 @@ test.describe('User Bottom Sheet', () => {
   test('displays user name when available', async ({ page }) => {
     await page.locator('label[for="user-bottom-sheet"]:visible').click();
 
-    const userInfo = page.locator('.modal-box .font-semibold').first();
+    const userInfo = page.locator('.modal-box:visible .font-semibold').first();
     await expect(userInfo).toBeVisible();
     await expect(userInfo).toContainText(/\S+/);
   });
@@ -73,6 +73,6 @@ test.describe('User Bottom Sheet', () => {
     await page.locator('label[for="user-bottom-sheet"]:visible').click();
 
     // Token balance should be visible in the bottom sheet
-    await expect(page.locator('.modal-box')).toContainText('₿ao');
+    await expect(page.locator('.modal-box:visible')).toContainText('₿ao');
   });
 });

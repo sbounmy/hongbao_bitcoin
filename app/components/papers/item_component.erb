@@ -1,7 +1,7 @@
 <%# Paper selection card with front/back flip animation %>
 <div class="papers-item-component group/paper relative break-inside-avoid mb-4" id="<%= dom_id(item) %>">
   <div class="group-open/paper:ring-secondary group-open/paper:ring-8 relative flex flex-col w-full">
-    <%= link_to paper_path(item), target: "_blank", class: "group/hover w-full cursor-pointer flex-shrink-0 [perspective:1000px] transition-all block" do %>
+    <div class="group/hover w-full flex-shrink-0 [perspective:1000px] transition-all block">
       <div class="relative flex flex-col w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover/paper:[transform:rotateY(180deg)]">
         <%# Front face %>
         <div class="bg-base-300 rounded-lg w-full [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
@@ -13,22 +13,14 @@
           <%= render_face(image_url: image_back_url) %>
         </div>
       </div>
-    <% end %>
+    </div>
 
-    <%# Like button and stats overlay - outside the link %>
+    <%# Stats overlay %>
     <div class="absolute bottom-2 right-2 flex items-center gap-2 z-10 pointer-events-none">
       <div class="paper-views-count flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm pointer-events-auto">
         <%= heroicon "eye", variant: :solid, class: "w-4 h-4" %>
         <span><%= item.views_count %></span>
       </div>
-      <div class="bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full pointer-events-auto">
-        <%= render Papers::LikeButtonComponent.new(paper: item, size: :small, show_count: true, variant: :light) %>
-      </div>
-      <% if item.user == Current.user %>
-        <div class="paper-views-count flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm pointer-events-auto">
-          <%= link_to heroicon('pencil-square', variant: :solid, class: "text-white w-4 h-4") + " Edit", edit_paper_path(item), class: 'flex' %>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>

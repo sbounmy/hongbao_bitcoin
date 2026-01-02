@@ -1,0 +1,5 @@
+<%# Close the photo drawer dialog %>
+<%= turbo_stream.action :close_dialog, "photo-drawer", "" %>
+
+<%# Show loading state - subscription already exists on page load %>
+<%= turbo_stream.action :dispatch, "image", "", event: "image:loading" %>

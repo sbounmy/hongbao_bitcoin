@@ -1,0 +1,36 @@
+<%# Screen 1 Header: Canvas - Offline Mode %>
+<div class="<%= 'hidden' unless current_step == 1 %> flex items-center justify-between"
+     data-steps-target="content"
+     data-steps-index="1">
+  <%= link_to root_path, class: "p-1 text-base-content hover:text-base-content/70 transition-colors" do %>
+    <%= heroicon "arrow-left", class: "w-5 h-5" %>
+  <% end %>
+
+  <div class="flex items-center gap-2">
+    <%= render "papers/new/headers/network_badge", network: network %>
+    <span class="font-semibold text-base-content text-sm">Create Hong₿ao</span>
+  </div>
+
+  <%# Add Element Button %>
+  <%= render BottomSheetComponent.new(id: "new-element-drawer") do |sheet| %>
+    <% sheet.with_trigger do %>
+      <button type="button" class="btn btn-ghost btn-sm btn-square">
+        <%= heroicon "plus", variant: :mini, class: "w-5 h-5" %>
+      </button>
+    <% end %>
+    <% sheet.with_footer(title: "Add Element") %>
+    <div class="p-4">
+      <div class="grid grid-cols-3 gap-4">
+        <form method="dialog">
+          <button type="submit"
+                  class="flex flex-col items-center gap-2 p-4 rounded-lg border-2 border-base-300
+                         hover:border-primary hover:bg-base-200 transition-all w-full"
+                  data-action="click->editor#addText">
+            <%= heroicon "document-text", class: "w-8 h-8 text-base-content/70" %>
+            <span class="text-sm font-medium">Text</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  <% end %>
+</div>

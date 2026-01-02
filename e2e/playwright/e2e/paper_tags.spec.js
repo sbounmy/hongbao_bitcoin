@@ -3,12 +3,14 @@ import { forceLogin  } from '../support/on-rails';
 
 test.describe('Paper Tags - Featured Section', () => {
   test('should display paper with featured tag in Featured section', async ({ page }) => {
+    test.skip('for now until we figure what to do with dashboard')
     await page.goto('/dashboard');
 
     await expect(page.locator('#featured')).toContainText("Pizza Day");
   });
 
   test('should not display paper in Featured section after removing featured tag', async ({ page }) => {
+    test.skip('for now until we figure what to do with dashboard')
     await forceLogin(page, {
       email: 'admin@example.com',
       redirect_to: '/admin/papers/2/edit'
