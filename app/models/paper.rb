@@ -1,4 +1,5 @@
 class Paper < ApplicationRecord
+  include Activable
   include Viewable
   include ArrayColumns
   include Metadata
@@ -26,7 +27,6 @@ class Paper < ApplicationRecord
   validates :name, presence: true
   validates :elements, presence: true
 
-  scope :active, -> { where(active: true) }
   scope :template, -> { where(public: true) }
   scope :recent, -> { order(created_at: :desc) }
   scope :processing, -> { left_joins(:image_front_attachment).where(active_storage_attachments: { id: nil }) }

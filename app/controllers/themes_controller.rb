@@ -7,7 +7,7 @@ class ThemesController < ApplicationController
   end
 
   def index
-    @themes = Input::Theme.by_position.with_attached_image_hero.with_attached_image_front.with_attached_image_back
+    @themes = Input::Theme.active.by_position.with_attached_image_hero.with_attached_image_front.with_attached_image_back
     @current_id = params[:current_id].to_i
     render layout: false
   end

@@ -1,4 +1,5 @@
 class Input < ApplicationRecord
+  include Activable
   include Positionable
   include ArrayColumns
   include Metadata

@@ -8,14 +8,25 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     end
   end
 
-  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :spotify_path, :frame, :elements
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :spotify_path, :frame, :elements, :active
 
 
   remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :prompt, :slug, :metadata
 
+  member_action :toggle_active, method: :patch do
+    resource.update!(active: !resource.active)
+    redirect_to admin_themes_path, notice: "#{resource.name} is now #{resource.active? ? 'active' : 'inactive'}"
+  end
+
   index do
     selectable_column
     id_column
+    column :active do |theme|
+      link_to(theme.active? ? "Active" : "Inactive",
+              toggle_active_admin_theme_path(theme),
+              method: :patch,
+              class: theme.active? ? "text-green-600" : "text-red-600")
+    end
     column :name
     column :slug
     column :prompt
@@ -76,6 +87,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     f.semantic_errors(*f.object.errors.attribute_names)
     # ONLY FOR INPUT::THEME TO BE MOVED TO admin/input_themes :todo:
     f.inputs "Theme Details" do
+      f.input :active
       f.input :name
       f.input :prompt, as: :text
       f.input :image, as: :file, hint: (f.object.image.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image), width: 500) : nil
