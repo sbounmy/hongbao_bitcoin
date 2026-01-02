@@ -4,9 +4,4 @@
   --image-placeholder: url('/images/portrait-placeholder.svg');
 }
 
-/* Fixes Cannot apply unknown utility class: ring-opacity-5 https://github.com/activeadmin/activeadmin/discussions/8621#discussioncomment-12026614 */
-@utility ring-opacity-5 {
-    --tw-ring-opacity: 0.05;
-  }
-
 @config "../../../tailwind-active_admin.config.mjs";
