@@ -26,7 +26,7 @@ export class BaseElement {
   // Create the DOM element
   createElement() {
     this.el = document.createElement('div')
-    this.el.className = 'editor-element'
+    this.el.className = 'editor-element hover:not-data-[selected]:ring-2 hover:not-data-[selected]:ring-primary'
     this.applyStyles()
     this.applyDataAttributes()
     this.renderContent()

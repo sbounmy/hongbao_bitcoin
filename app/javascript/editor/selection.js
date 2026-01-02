@@ -106,14 +106,30 @@ export class Selection {
 
   // Select an element
   select(elementData, elementInstance = null) {
+    // Clear previous selection's data-selected attribute
+    if (this._currentInstance?.el) {
+      delete this._currentInstance.el.dataset.selected
+    }
+
     this._current = elementData
     this._currentInstance = elementInstance
+
+    // Mark new element as selected
+    if (elementInstance?.el) {
+      elementInstance.el.dataset.selected = 'true'
+    }
+
     this.updatePosition()
     this.show()
   }
 
   // Clear selection
   clear() {
+    // Remove data-selected attribute from element
+    if (this._currentInstance?.el) {
+      delete this._currentInstance.el.dataset.selected
+    }
+
     this._current = null
     this._currentInstance = null
     this.hide()
