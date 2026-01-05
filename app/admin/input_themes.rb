@@ -8,7 +8,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     end
   end
 
-  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :spotify_path, :frame, :elements, :active
+  permit_params :name, :image_front, :image_back, :image_hero, :image, :prompt, :slug, :spotify_path, :frame, :elements, :active, :position
 
 
   remove_filter :image_hero_attachment, :image_hero_blob, :image_attachment, :image_blob, :image_front_blob, :image_front_attachment, :image_back_attachment, :image_back_blob, :input_items, :prompt, :slug, :metadata
@@ -29,6 +29,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     end
     column :name
     column :slug
+    column :position
     column :prompt
     column :spotify_path
     column :image_hero do |theme|
@@ -88,6 +89,7 @@ ActiveAdmin.register Input::Theme, as: "Theme" do
     # ONLY FOR INPUT::THEME TO BE MOVED TO admin/input_themes :todo:
     f.inputs "Theme Details" do
       f.input :active
+      f.input :position, as: :number
       f.input :name
       f.input :prompt, as: :text
       f.input :image, as: :file, hint: (f.object.image.attached? && f.object.persisted?) ? image_tag(url_for(f.object.image), width: 500) : nil

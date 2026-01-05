@@ -5,7 +5,7 @@ class PapersController < ApplicationController
   before_action :set_network
 
   def new
-    @theme = Input::Theme.find_by(id: params[:theme_id]) || Input::Theme.first
+    @theme = Input::Theme.find_by(id: params[:theme_id]) || Input::Theme.active.by_position.first
     @frame = @theme.frame_object
     @current_step = 1
 
