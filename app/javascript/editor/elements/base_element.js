@@ -27,6 +27,7 @@ export class BaseElement {
   createElement() {
     this.el = document.createElement('div')
     this.el.className = 'editor-element hover:not-data-[selected]:ring-2 hover:not-data-[selected]:ring-primary'
+    this.el.draggable = false  // Prevent browser's native drag ghost image
     this.applyStyles()
     this.applyDataAttributes()
     this.renderContent()
