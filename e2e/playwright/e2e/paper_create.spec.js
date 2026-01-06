@@ -18,6 +18,8 @@ test.describe('Paper creation', () => {
     await turboCableConnected(page);
     console.log('[TEST] Initial turboCableConnected done');
     await expect(page.locator('.badge').first()).toContainText('490 ₿ao'); // General check for balance display
+    const imageContainer = page.locator('.editor-element-image-container').first()
+    const initialBg = await imageContainer.evaluate(el => getComputedStyle(el).backgroundImage);
 
     await page.locator('#toolbar').getByRole('button', { name: 'Photo' }).click();
     await page.locator('#photo-sheet-input').setInputFiles('spec/fixtures/files/satoshi.jpg');
@@ -31,8 +33,11 @@ test.describe('Paper creation', () => {
     await expect(page.getByText('45-60 seconds')).toBeVisible();
     await app('perform_jobs');
     await expect(page.getByText('45-60 seconds')).toBeHidden();
+    await page.waitForTimeout(1_000)
+    const newBg = await imageContainer.evaluate(el => getComputedStyle(el).backgroundImage);
+    expect(newBg).not.toEqual(initialBg);
 
-    await page.goto('/papers/new');
+    await page.goto('papers/new')
     await expect(page.locator('.badge').first()).toContainText('489 ₿ao'); // General check for balance display
   });
 
