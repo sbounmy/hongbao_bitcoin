@@ -13,6 +13,11 @@ RSpec.describe Activable, type: :concern do
     end
   end
 
+  after(:all) do
+    ActiveRecord::Base.connection.drop_table(:posts, if_exists: true)
+    Object.send(:remove_const, :Post) if Object.const_defined?(:Post)
+  end
+
   let(:post) { Post.create! }
 
   describe '.active' do

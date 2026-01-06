@@ -19,6 +19,11 @@ RSpec.describe ArrayColumns, type: :concern do
     end
   end
 
+  after(:all) do
+    ActiveRecord::Base.connection.drop_table(:posts, if_exists: true)
+    Object.send(:remove_const, :Post) if Object.const_defined?(:Post)
+  end
+
   let!(:post_1) { Post.create!(tags: %w[a b c d]) }
   let!(:post_2) { Post.create!(tags: %w[c d e f]) }
   let!(:post_3) { Post.create! }
