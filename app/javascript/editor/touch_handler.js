@@ -68,6 +68,9 @@ export class TouchHandler {
     // Skip if multi-touch is happening
     if (this.isPinching) return
 
+    // Prevent scroll on touch devices
+    event.preventDefault()
+
     const point = this.getPoint(event)
     this.dragStart = point
 
@@ -95,6 +98,9 @@ export class TouchHandler {
       this.callbacks.onHover?.(point)
       return
     }
+
+    // Prevent scroll during drag on touch devices
+    event.preventDefault()
 
     // Skip if pinching
     if (this.isPinching) return

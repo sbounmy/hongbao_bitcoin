@@ -7,57 +7,89 @@
      data-steps-target="content"
      data-steps-index="1">
 
-  <%# Paper Editor Area %>
-  <div class="flex-1 min-h-0 bg-base-200 p-4 flex flex-col">
+  <%# Paper Editor Area - using tabs controller for front/back switching %>
+  <div class="flex-1 min-h-0 bg-base-200 flex flex-col"
+       data-controller="tabs"
+       data-tabs-default-tab-value="front"
+       data-tabs-active-class="ring-primary">
 
-    <%# DOM Container - Layout adapts to frame orientation %>
+    <%# DOM Container - Single card view, scrollable for tall cards %>
     <div data-editor-target="layoutContainer"
-         class="flex-1 min-h-0 <%= frame.portrait? ? 'flex flex-row gap-6 overflow-x-auto items-center justify-center' : 'flex flex-col gap-6 overflow-y-auto items-center justify-center' %>">
+         class="flex-1 min-h-0 flex items-start justify-center overflow-y-auto">
 
       <%# Front Container %>
-      <%# Portrait: h-full (fill height, width from aspect-ratio) %>
-      <%# Landscape: h-[48%] (partial height so both cards fit, width from aspect-ratio) %>
       <div data-editor-target="frontWrapper"
-           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-tabs-target="tab"
+           data-tab-id="front"
+           class="rounded-lg shadow-xl overflow-hidden aspect-[<%= frame.aspect_ratio %>] relative
+                  w-full h-auto"
            data-side="front">
         <img src="<%= template_front_base64 %>"
              class="hidden"
              data-editor-target="frontBackground" />
         <div data-editor-target="frontContainer"
-             class="w-full h-full cursor-default"
+             class="w-full h-full cursor-default touch-none"
              style="container-type: inline-size;"></div>
       </div>
 
-      <%# Back Container %>
-      <%# Same sizing as front for consistency %>
+      <%# Back Container - hidden by default, tabs controller shows on select %>
       <div data-editor-target="backWrapper"
-           class="rounded-lg shadow-xl overflow-hidden <%= frame.portrait? ? 'shrink-0 h-full' : 'shrink-0 h-[48%]' %> aspect-[<%= frame.aspect_ratio %>] relative transition-opacity"
+           data-tabs-target="tab"
+           data-tab-id="back"
+           class="hidden rounded-lg shadow-xl overflow-hidden aspect-[<%= frame.aspect_ratio %>] relative
+                  w-full h-auto"
            data-side="back">
         <img src="<%= template_back_base64 %>"
              class="hidden"
              data-editor-target="backBackground" />
         <div data-editor-target="backContainer"
-             class="w-full h-full cursor-default"
+             class="w-full h-full cursor-default touch-none"
              style="container-type: inline-size;"></div>
       </div>
+    </div>
+
+    <%# Thumbnail Strip - Canva-style page navigation %>
+    <div class="bg-base-200 px-4 py-2 flex justify-center gap-2">
+      <%# Front Thumbnail %>
+      <button type="button"
+              data-tabs-target="btn"
+              data-tab-id="front"
+              data-action="tabs#select editor#switchSide"
+              class="relative w-12 aspect-square rounded overflow-hidden
+                     ring-2 ring-offset-2 ring-offset-base-200 ring-transparent
+                     transition-all hover:scale-105">
+        <div class="absolute inset-0 bg-cover bg-center"
+             data-editor-target="frontThumbnail"
+             style="background-image: url('<%= template_front_base64 %>');"></div>
+        <span class="absolute bottom-0 inset-x-0 bg-base-content/80 text-base-100 text-[10px] py-px text-center">
+          Front
+        </span>
+      </button>
+
+      <%# Back Thumbnail %>
+      <button type="button"
+              data-tabs-target="btn"
+              data-tab-id="back"
+              data-action="tabs#select editor#switchSide"
+              class="relative w-12 aspect-square rounded overflow-hidden
+                     ring-2 ring-offset-2 ring-offset-base-200 ring-transparent
+                     transition-all hover:scale-105">
+        <div class="absolute inset-0 bg-cover bg-center"
+             data-editor-target="backThumbnail"
+             style="background-image: url('<%= template_back_base64 %>');"></div>
+        <span class="absolute bottom-0 inset-x-0 bg-base-content/80 text-base-100 text-[10px] py-px text-center">
+          Back
+        </span>
+      </button>
     </div>
 
     <%# Hidden fields %>
     <%= hidden_field_tag "paper[elements]", paper.elements.to_json, data: { editor_target: "field" } %>
     <%= hidden_field_tag "wallet_data", {}.to_json, data: { editor_target: "dataSource" }, disabled: true %>
-
-    <%# Side Toggle (optional - for single view mode) %>
-    <div class="hidden">
-      <button data-editor-target="sideToggle"
-              data-action="editor#toggleSide"
-              class="btn btn-sm btn-ghost">
-        Front
-      </button>
-    </div>
   </div>
 
   <%# Bottom Toolbar %>
-  <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 py-3">
+  <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 pt-3">
     <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
       <%# Theme Selection Button %>
       <%= render BottomSheetComponent.new(id: "theme-drawer") do |sheet| %>

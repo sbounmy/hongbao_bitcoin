@@ -18,7 +18,9 @@ export default class extends Controller {
     "dataSource",       // Hidden input for external data (e.g., wallet JSON)
     "sideToggle",       // Button showing current side
     "frontBackground",  // Hidden img for front background
-    "backBackground"    // Hidden img for back background
+    "backBackground",   // Hidden img for back background
+    "frontThumbnail",   // Front thumbnail background div
+    "backThumbnail"     // Back thumbnail background div
   ]
 
   static values = {
@@ -164,6 +166,12 @@ export default class extends Controller {
     this.engine.toggleSide()
   }
 
+  // Switch to specific side (called from tabs controller)
+  switchSide(event) {
+    const side = event.currentTarget.dataset.tabId
+    this.engine.setSide(side)
+  }
+
   // Delete selected element
   deleteSelected() {
     this.engine.deleteSelected()
@@ -215,40 +223,24 @@ export default class extends Controller {
       this.backBackgroundTarget.src = backUrl
     }
 
+    // Update thumbnails
+    if (this.hasFrontThumbnailTarget && frontUrl) {
+      this.frontThumbnailTarget.style.backgroundImage = `url('${frontUrl}')`
+    }
+    if (this.hasBackThumbnailTarget && backUrl) {
+      this.backThumbnailTarget.style.backgroundImage = `url('${backUrl}')`
+    }
+
     // Re-sync external data after theme change
     this.syncExternalData()
   }
 
   // Update container layout when frame orientation changes
   updateLayout(layoutDirection, aspectRatio) {
-    // Use Stimulus target instead of querySelector
-    if (!this.hasLayoutContainerTarget) return
-    const container = this.layoutContainerTarget
-
-    // Remove old layout classes, add new ones from server
-    container.classList.remove('flex-row', 'flex-col', 'overflow-x-auto', 'overflow-y-auto')
-    layoutDirection.split(' ').forEach(cls => container.classList.add(cls))
-
-    // Parse aspect ratio to determine orientation
-    const [w, h] = aspectRatio.split('/').map(Number)
-    const isPortrait = h > w
-
-    // Update wrapper sizing classes based on orientation
+    // Update wrapper aspect ratio when theme changes
     ;[this.frontWrapperTarget, this.backWrapperTarget].forEach(wrapper => {
       if (!wrapper) return
-
-      // Update aspect ratio
       wrapper.style.aspectRatio = aspectRatio
-
-      // Update sizing classes
-      // Portrait: h-full (fill height, width from aspect-ratio)
-      // Landscape: h-[48%] (partial height so both cards fit, width from aspect-ratio)
-      wrapper.classList.remove('h-full', 'w-full', 'max-w-full', 'max-h-full', 'max-h-[45%]', 'h-[48%]', 'shrink-0')
-      if (isPortrait) {
-        wrapper.classList.add('shrink-0', 'h-full')
-      } else {
-        wrapper.classList.add('shrink-0', 'h-[48%]')
-      }
     })
   }
 
