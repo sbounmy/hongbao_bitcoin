@@ -489,4 +489,31 @@ test.describe('Editor interactions', () => {
       expect(backClasses).not.toContain('rotate-180');
     });
   });
+
+  test('clicking thumbnail switches side with correct elements', async ({ page }) => {
+    const frontWrapper = page.locator('[data-editor-target="frontWrapper"]');
+    const backWrapper = page.locator('[data-editor-target="backWrapper"]');
+    const frontContainer = page.locator('[data-editor-target="frontContainer"]');
+    const backContainer = page.locator('[data-editor-target="backContainer"]');
+
+    // Front has public_address QR, no private_key QR
+    await expect(frontContainer.locator('[data-element-type="public_address/qrcode"]')).toBeVisible();
+    await expect(frontContainer.locator('[data-element-type="private_key/qrcode"]')).toBeHidden();
+
+    // Click back thumbnail
+    await page.locator('button[data-tab-id="back"]').click();
+
+    // Back side visible, front hidden
+    await expect(backWrapper).toBeVisible();
+    await expect(frontWrapper).toBeHidden();
+
+    // Back has private_key QR, no public_address QR
+    await expect(backContainer.locator('[data-element-type="private_key/qrcode"]')).toBeVisible();
+    await expect(backContainer.locator('[data-element-type="public_address/qrcode"]')).toBeHidden();
+
+    // Click front thumbnail again
+    await page.locator('button[data-tab-id="front"]').click();
+    await expect(frontContainer.locator('[data-element-type="public_address/qrcode"]')).toBeVisible();
+    await expect(frontContainer.locator('[data-element-type="private_key/qrcode"]')).toBeHidden();
+  });
 });
