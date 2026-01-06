@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Controller for the text edit drawer
-// Opens via data-action="editor:drawerOpen->text-edit#open"
+// Opens via data-action="editor:drawerOpen@window->editor--text#open"
 export default class extends Controller {
   static targets = ["text", "size", "sizeLabel", "colorPicker", "deleteBtn"]
 
@@ -9,9 +9,10 @@ export default class extends Controller {
   elementId = null
   element_ = null
 
-  // Called via data-action="editor:drawerOpen->text-edit#open"
+  // Called via data-action="editor:drawerOpen@window->editor--text#open"
   open(event) {
     const { element, elementId, engine } = event.detail
+
     this.engine = engine
     this.elementId = elementId
     this.element_ = element

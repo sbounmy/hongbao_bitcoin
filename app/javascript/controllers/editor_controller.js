@@ -322,14 +322,15 @@ export default class extends Controller {
     const dialog = document.getElementById(drawerId)
     if (!dialog) return
 
-    // Dispatch Stimulus event to the drawer element
+    // Use Stimulus dispatch - events bubble to window by default
+    // Each drawer controller filters by element type
     this.dispatch("drawerOpen", {
       detail: {
         element: structuredClone(element),
         elementId: element.id || element.name,
         engine: this.engine
       },
-      target: dialog
+      bubbles: true
     })
 
     dialog.showModal()
