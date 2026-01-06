@@ -22,6 +22,14 @@
     pdf_filename_value: "hongbao-#{@theme.slug}",
     editor_design_value: @paper.elements.to_json,
     editor_theme_id_value: @theme&.id,
+    editor_frame_data_value: {
+      aspectRatio: @frame.aspect_ratio,
+      layoutDirection: @frame.layout_direction,
+      cssClasses: @frame.css_classes,
+      rotationBack: @frame.rotation_back,
+      foldLine: @frame.fold_line,
+      layoutClasses: @frame.layout_classes
+    }.to_json,
     action: 'theme:changed@window->editor#loadTheme bitcoin:changed@window->editor#dataSourceChanged image:generated@window->editor#updateImage keydown@window->editor#keydown'
   }
 }) %>

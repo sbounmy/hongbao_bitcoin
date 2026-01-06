@@ -25,7 +25,8 @@ export default class extends Controller {
 
   static values = {
     design: Object,     // Initial elements state from server
-    themeId: String     // Current theme ID
+    themeId: String,    // Current theme ID
+    frameData: Object   // Initial frame data for export
   }
 
   // Store current frame data for export (from theme selection)
@@ -56,6 +57,11 @@ export default class extends Controller {
   }
 
   async connect() {
+    // Initialize frame data from page's initial frame (before any theme change)
+    if (this.hasFrameDataValue && this.frameDataValue) {
+      this.currentFrameData = this.frameDataValue
+    }
+
     // Get background URLs
     const frontBackground = this.hasFrontBackgroundTarget
       ? this.frontBackgroundTarget.src
