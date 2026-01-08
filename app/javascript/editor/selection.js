@@ -7,7 +7,7 @@ export class Selection {
     this._currentInstance = null  // DOM element instance
 
     // Handle configuration
-    this.handleSize = options.handleSize || 10
+    this.handleSize = options.handleSize || 16
     this.handleColor = options.handleColor || '#f97316'  // Orange
     this.borderColor = options.borderColor || '#f97316'
     this.borderWidth = options.borderWidth || 2
@@ -49,7 +49,7 @@ export class Selection {
 
     positions.forEach(pos => {
       const handle = document.createElement('div')
-      handle.className = `editor-handle editor-handle-${pos}`
+      handle.className = `editor-handle editor-handle-${pos} touch-target`
       handle.dataset.handle = pos
       Object.assign(handle.style, {
         position: 'absolute',
@@ -59,7 +59,8 @@ export class Selection {
         cursor: this.getCursorForHandle(pos),
         pointerEvents: 'auto',
         zIndex: '1001',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        touchAction: 'none'  // Prevent browser scroll during handle drag
       })
 
       // Special styling for rotate handle (circle)
