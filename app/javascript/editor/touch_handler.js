@@ -6,10 +6,6 @@ export class TouchHandler {
 
     // Touch state
     this.touches = new Map()
-    this.lastTap = 0
-    this.doubleTapThreshold = 300
-    this.tapThreshold = 10  // pixels - max movement for a tap
-    this.pointerDownPoint = null
 
     // Drag state
     this.isDragging = false
@@ -25,6 +21,8 @@ export class TouchHandler {
       pointerMove: this.onPointerMove.bind(this),
       pointerUp: this.onPointerUp.bind(this),
       pointerCancel: this.onPointerUp.bind(this),
+      click: this.onClick.bind(this),
+      dblclick: this.onDblClick.bind(this),
       touchStart: this.onTouchStart.bind(this),
       touchMove: this.onTouchMove.bind(this),
       touchEnd: this.onTouchEnd.bind(this)
@@ -34,11 +32,15 @@ export class TouchHandler {
   }
 
   bindEvents() {
-    // Pointer events for mouse and single touch
+    // Pointer events for drag
     this.element.addEventListener('pointerdown', this.boundHandlers.pointerDown)
     document.addEventListener('pointermove', this.boundHandlers.pointerMove)
     document.addEventListener('pointerup', this.boundHandlers.pointerUp)
     document.addEventListener('pointercancel', this.boundHandlers.pointerCancel)
+
+    // Native click/dblclick - browser handles timing
+    this.element.addEventListener('click', this.boundHandlers.click)
+    this.element.addEventListener('dblclick', this.boundHandlers.dblclick)
 
     // Touch events for multi-touch (pinch/rotate)
     this.element.addEventListener('touchstart', this.boundHandlers.touchStart, { passive: false })
@@ -51,6 +53,9 @@ export class TouchHandler {
     document.removeEventListener('pointermove', this.boundHandlers.pointerMove)
     document.removeEventListener('pointerup', this.boundHandlers.pointerUp)
     document.removeEventListener('pointercancel', this.boundHandlers.pointerCancel)
+
+    this.element.removeEventListener('click', this.boundHandlers.click)
+    this.element.removeEventListener('dblclick', this.boundHandlers.dblclick)
 
     this.element.removeEventListener('touchstart', this.boundHandlers.touchStart)
     this.element.removeEventListener('touchmove', this.boundHandlers.touchMove)
@@ -70,16 +75,12 @@ export class TouchHandler {
     // Skip if multi-touch is happening
     if (this.isPinching) return
 
-    // Prevent scroll on touch devices
-    event.preventDefault()
+    // Don't preventDefault here - it blocks click events on mobile
+    // We preventDefault in onPointerMove when actually dragging
 
     const point = this.getPoint(event)
     this.dragStart = point
-    this.pointerDownPoint = point  // Store for tap detection in onPointerUp
-
-    // Don't call onTap here - wait for onPointerUp to detect real tap vs drag
     this.callbacks.onDragStart?.(point)
-
     this.isDragging = true
   }
 
@@ -118,29 +119,24 @@ export class TouchHandler {
   onPointerUp(event) {
     const point = this.getPoint(event)
 
-    // Detect tap: minimal movement between down and up
-    if (this.pointerDownPoint) {
-      const moved = this.distance(point, this.pointerDownPoint)
-      if (moved < this.tapThreshold) {
-        // It's a tap! Check for double-tap
-        const now = Date.now()
-        if (now - this.lastTap < this.doubleTapThreshold) {
-          this.callbacks.onDoubleTap?.(point)
-          this.lastTap = 0
-        } else {
-          this.callbacks.onTap?.(point)
-          this.lastTap = now
-        }
-      }
-    }
-
     if (this.isDragging) {
       this.callbacks.onDragEnd?.(point)
     }
 
     this.isDragging = false
     this.dragStart = null
-    this.pointerDownPoint = null
+  }
+
+  // Native click - browser handles tap detection
+  onClick(event) {
+    const point = this.getPoint(event)
+    this.callbacks.onTap?.(point)
+  }
+
+  // Native dblclick - browser handles double-tap detection
+  onDblClick(event) {
+    const point = this.getPoint(event)
+    this.callbacks.onDoubleTap?.(point)
   }
 
   // Touch events for multi-touch
