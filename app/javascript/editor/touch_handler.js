@@ -8,6 +8,8 @@ export class TouchHandler {
     this.touches = new Map()
     this.lastTap = 0
     this.doubleTapThreshold = 300
+    this.tapThreshold = 10  // pixels - max movement for a tap
+    this.pointerDownPoint = null
 
     // Drag state
     this.isDragging = false
@@ -73,18 +75,9 @@ export class TouchHandler {
 
     const point = this.getPoint(event)
     this.dragStart = point
+    this.pointerDownPoint = point  // Store for tap detection in onPointerUp
 
-    // Check for double tap
-    const now = Date.now()
-    if (now - this.lastTap < this.doubleTapThreshold) {
-      this.callbacks.onDoubleTap?.(point)
-      this.lastTap = 0
-      return
-    }
-    this.lastTap = now
-
-    // Notify tap/click
-    this.callbacks.onTap?.(point)
+    // Don't call onTap here - wait for onPointerUp to detect real tap vs drag
     this.callbacks.onDragStart?.(point)
 
     this.isDragging = true
@@ -123,13 +116,31 @@ export class TouchHandler {
   }
 
   onPointerUp(event) {
+    const point = this.getPoint(event)
+
+    // Detect tap: minimal movement between down and up
+    if (this.pointerDownPoint) {
+      const moved = this.distance(point, this.pointerDownPoint)
+      if (moved < this.tapThreshold) {
+        // It's a tap! Check for double-tap
+        const now = Date.now()
+        if (now - this.lastTap < this.doubleTapThreshold) {
+          this.callbacks.onDoubleTap?.(point)
+          this.lastTap = 0
+        } else {
+          this.callbacks.onTap?.(point)
+          this.lastTap = now
+        }
+      }
+    }
+
     if (this.isDragging) {
-      const point = this.getPoint(event)
       this.callbacks.onDragEnd?.(point)
     }
 
     this.isDragging = false
     this.dragStart = null
+    this.pointerDownPoint = null
   }
 
   // Touch events for multi-touch

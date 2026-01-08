@@ -3,20 +3,20 @@
   This uses the new DOM-based editor controller which renders elements
   as HTML/CSS for easier testing and better text rendering.
 %>
-<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col h-[calc(100dvh-var(--canvas-offset))]"
+<div class="<%= 'hidden' unless current_step == 1 %> flex flex-col min-h-[calc(100dvh-var(--canvas-offset))]"
      data-steps-target="content"
      data-steps-index="1">
 
   <%# Paper Editor Area - using tabs controller for front/back switching %>
-  <div class="flex-1 min-h-0 bg-base-200 flex flex-col"
+  <div class="flex-1 bg-base-200 flex flex-col"
        data-controller="tabs"
        data-tabs-default-tab-value="front"
        data-tabs-active-class="ring-primary">
 
-    <%# DOM Container - Single card view, scrollable for tall cards %>
+    <%# DOM Container - Single card view, body scrolls when tall %>
     <div data-editor-target="layoutContainer"
          data-enabled
-         class="flex-1 min-h-0 flex items-start justify-center overflow-y-auto">
+         class="flex-1 flex items-start justify-center">
 
       <%# Front Container %>
       <div data-editor-target="frontWrapper"
@@ -29,7 +29,7 @@
              class="hidden"
              data-editor-target="frontBackground" />
         <div data-editor-target="frontContainer"
-             class="w-full h-full cursor-default touch-none"
+             class="w-full h-full cursor-default touch-pan-y"
              style="container-type: inline-size;"></div>
       </div>
 
@@ -44,13 +44,13 @@
              class="hidden"
              data-editor-target="backBackground" />
         <div data-editor-target="backContainer"
-             class="w-full h-full cursor-default touch-none"
+             class="w-full h-full cursor-default touch-pan-y"
              style="container-type: inline-size;"></div>
       </div>
     </div>
 
-    <%# Thumbnail Strip - Canva-style page navigation %>
-    <div class="bg-base-200 px-4 py-2 flex justify-center gap-2">
+    <%# Thumbnail Strip - Canva-style page navigation, sticky above toolbar %>
+    <div class="sticky bottom-[60px] z-10 bg-base-200 px-4 py-2 flex justify-center gap-2">
       <%# Front Thumbnail %>
       <button type="button"
               data-tabs-target="btn"
@@ -89,8 +89,8 @@
     <%= hidden_field_tag "wallet_data", {}.to_json, data: { editor_target: "dataSource" }, disabled: true %>
   </div>
 
-  <%# Bottom Toolbar %>
-  <div id='toolbar' class="bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 pt-3">
+  <%# Bottom Toolbar - sticky at bottom %>
+  <div id='toolbar' class="sticky bottom-0 z-10 bg-base-100 border-t border-base-300 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] px-4 pt-3">
     <div class="flex items-center justify-between gap-2 max-w-3xl mx-auto">
       <%# Theme Selection Button %>
       <%= render BottomSheetComponent.new(id: "theme-drawer") do |sheet| %>

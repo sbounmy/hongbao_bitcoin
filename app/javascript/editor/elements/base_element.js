@@ -26,7 +26,7 @@ export class BaseElement {
   // Create the DOM element
   createElement() {
     this.el = document.createElement('div')
-    this.el.className = 'editor-element [[data-enabled]_&]:hover:not-data-[selected]:ring-2 [[data-enabled]_&]:hover:not-data-[selected]:ring-primary'
+    this.el.className = 'editor-element touch-pan-y data-[selected]:touch-none [[data-enabled]_&]:hover:not-data-[selected]:ring-2 [[data-enabled]_&]:hover:not-data-[selected]:ring-primary'
     this.el.draggable = false  // Prevent browser's native drag ghost image
     this.applyStyles()
     this.applyDataAttributes()
