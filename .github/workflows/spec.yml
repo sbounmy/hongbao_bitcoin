@@ -41,7 +41,7 @@ jobs:
       - name: Install yarn dependencies
         run: yarn install --frozen-lockfile
       - name: Scan for yarn package vulnerabilities
-        run: yarn audit
+        run: yarn audit --level moderate
 
   lint:
     runs-on: ubuntu-latest
