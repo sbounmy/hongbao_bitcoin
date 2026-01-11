@@ -28,6 +28,9 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: isParallelRun ? 'blob' : 'html',
   timeout: process.env.CI ? 45_000 : 30_000,
+  /* Snapshot configuration - store in e2e/playwright/fixtures/screenshots with browser-specific baselines */
+  snapshotPathTemplate: './e2e/playwright/fixtures/screenshots/{arg}-{projectName}{ext}',
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

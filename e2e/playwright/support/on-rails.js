@@ -235,4 +235,40 @@ const authenticatePDF = async (filePath, password) => {
   }
 };
 
-export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout, timecop, authenticatePDF, fs }
+// Render PDF to PNG image in browser context (for visual regression testing)
+// Uses PDF.js loaded from CDN since node-canvas has compatibility issues
+const renderPDFInBrowser = async (page, pdfBase64, options = {}) => {
+  const { scale = 2, pageNum = 1 } = options
+
+  const pngBase64 = await page.evaluate(async ({ pdfData, scale, pageNum }) => {
+    // Load PDF.js if not already loaded
+    if (!window.pdfjsLib) {
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'
+      document.head.appendChild(script)
+      await new Promise(resolve => script.onload = resolve)
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'
+    }
+
+    const pdfBytes = Uint8Array.from(atob(pdfData), c => c.charCodeAt(0))
+    const pdf = await window.pdfjsLib.getDocument({ data: pdfBytes }).promise
+    const pdfPage = await pdf.getPage(pageNum)
+    const viewport = pdfPage.getViewport({ scale })
+
+    const canvas = document.createElement('canvas')
+    canvas.width = viewport.width
+    canvas.height = viewport.height
+
+    await pdfPage.render({
+      canvasContext: canvas.getContext('2d'),
+      viewport
+    }).promise
+
+    return canvas.toDataURL('image/png').split(',')[1]
+  }, { pdfData: pdfBase64, scale, pageNum })
+
+  return Buffer.from(pngBase64, 'base64')
+}
+
+export { appCommands, appGetCredentials, app, appScenario, appEval, appFactories, appVcrInsertCassette, appVcrEjectCassette, forceLogin, turboCableConnected, savePageAs, fillCheckout, timecop, authenticatePDF, renderPDFInBrowser, fs }
