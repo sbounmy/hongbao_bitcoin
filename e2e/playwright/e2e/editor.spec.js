@@ -409,13 +409,15 @@ test.describe('Editor interactions', () => {
       const finishScreen = page.locator('div.flex.flex-col[data-steps-index="2"]');
       await expect(finishScreen).toBeVisible();
 
-      // The preview uses data-editor--preview-canvas-target elements with background-image styles
+      // The preview uses data-editor--preview-canvas-target elements with <img> for background
       const previewFront = finishScreen.locator('[data-editor--preview-canvas-target="front"]');
       await expect(previewFront).toBeVisible();
 
       // Verify the preview has a background image set (theme applied)
-      const previewBgStyle = await previewFront.getAttribute('style');
-      expect(previewBgStyle).toContain('background-image');
+      const previewImg = previewFront.locator('img.editor-background');
+      await expect(previewImg).toBeVisible();
+      const previewSrc = await previewImg.getAttribute('src');
+      expect(previewSrc).toBeTruthy();
 
       // Verify we're on the finish screen with preview
       await expect(page.getByRole('button', { name: 'Download PDF' })).toBeVisible();
