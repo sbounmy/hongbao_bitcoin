@@ -38,7 +38,7 @@ test.describe('PDF Export Quality', () => {
     // Compare against baseline using Playwright's built-in snapshot
     // Each browser gets its own baseline (chromium, firefox, webkit)
     expect(pngBuffer).toMatchSnapshot('pdf-quality-baseline.png', {
-      maxDiffPixelRatio: 0.01  // 1% tolerance for minor rendering differences
+      maxDiffPixelRatio: 0.001  // 0.1% tolerance for minor rendering differences
     })
 
     // Cleanup temp file
