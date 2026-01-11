@@ -11,6 +11,7 @@ export class Canvas {
     // Background
     this.backgroundUrl = null
     this.backgroundLoaded = false
+    this.backgroundImgEl = null  // <img> element for background
   }
 
   get width() {
@@ -35,15 +36,34 @@ export class Canvas {
     })
   }
 
-  // Set background image via CSS
+  // Set background image using <img> element (not CSS background-image)
+  // This ensures html2canvas captures at native resolution
   setBackgroundImage(url) {
     this.backgroundUrl = url
-    Object.assign(this.el.style, {
-      backgroundImage: `url("${url}")`,  // Quotes needed for URLs with special chars
-      backgroundSize: 'cover',  // Cover ensures background fills container (elements positioned as % of container)
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
+
+    // Remove existing background img if present
+    if (this.backgroundImgEl) {
+      this.backgroundImgEl.remove()
+    }
+
+    // Create <img> element for background
+    this.backgroundImgEl = document.createElement('img')
+    this.backgroundImgEl.src = url
+    this.backgroundImgEl.crossOrigin = 'anonymous'
+    this.backgroundImgEl.classList.add('editor-background')
+    Object.assign(this.backgroundImgEl.style, {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      zIndex: '0',
+      pointerEvents: 'none'  // Allow clicks to pass through to elements
     })
+
+    // Insert as first child so elements render on top
+    this.el.insertBefore(this.backgroundImgEl, this.el.firstChild)
   }
 
   // Load background image and get dimensions
@@ -65,11 +85,11 @@ export class Canvas {
     })
   }
 
-  // Clear all child elements (except labels)
+  // Clear all child elements (except background image)
   clear() {
     const children = Array.from(this.el.children)
     children.forEach(child => {
-      // Keep labels and non-element children
+      // Keep background image, remove editor elements
       if (child.classList.contains('editor-element')) {
         child.remove()
       }

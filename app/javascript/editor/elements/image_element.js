@@ -1,7 +1,7 @@
 import { BaseElement } from './base_element'
 
 // Image element rendered as DOM
-// Uses CSS background-image with loading state support
+// Uses <img> element for crisp PDF export (not CSS background-image)
 export class ImageElement extends BaseElement {
   static drawer = 'photo-drawer'
 
@@ -12,22 +12,36 @@ export class ImageElement extends BaseElement {
     this.loading = false
   }
 
+  static placeholderSrc = '/images/portrait-placeholder.svg'
+
   renderContent() {
-    // Container with background-image for displaying images
+    // Container for image and spinner
     this.container = document.createElement('div')
     this.container.className = 'editor-element-image-container'
     Object.assign(this.container.style, {
       width: '100%',
       height: '100%',
-      backgroundImage: 'var(--image-placeholder)',
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
+      position: 'relative'
     })
+
+    // <img> element for displaying images (not CSS background-image)
+    // This ensures html2canvas captures at native resolution
+    this.imgEl = document.createElement('img')
+    this.imgEl.className = 'editor-element-image'
+    this.imgEl.crossOrigin = 'anonymous'
+    Object.assign(this.imgEl.style, {
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain',
+      display: 'block'
+    })
+    // Start with placeholder
+    this.imgEl.src = ImageElement.placeholderSrc
 
     // Loading spinner
     this.spinnerEl = this.createSpinner()
 
+    this.container.appendChild(this.imgEl)
     this.container.appendChild(this.spinnerEl)
     this.el.appendChild(this.container)
   }
@@ -56,17 +70,14 @@ export class ImageElement extends BaseElement {
     this.loading = false
     this.hideSpinner()
 
-    // Preload image then set as background
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      this.container.style.backgroundImage = `url('${url}')`
+    // Set image src directly (html2canvas will capture at native resolution)
+    this.imgEl.onload = () => {
       this.onImageLoaded?.()
     }
-    img.onerror = () => {
+    this.imgEl.onerror = () => {
       console.error('[ImageElement] Failed to load image:', url)
     }
-    img.src = url
+    this.imgEl.src = url
   }
 
   setLoading(loading) {
@@ -74,7 +85,7 @@ export class ImageElement extends BaseElement {
     if (loading) {
       this.imageUrl = null
       // Restore placeholder while loading
-      this.container.style.backgroundImage = 'var(--image-placeholder)'
+      this.imgEl.src = ImageElement.placeholderSrc
       this.showSpinner()
     } else {
       this.hideSpinner()

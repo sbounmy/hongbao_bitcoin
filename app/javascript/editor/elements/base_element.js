@@ -65,7 +65,8 @@ export class BaseElement {
       boxSizing: 'border-box',
       overflow: 'hidden',
       userSelect: 'none',        // Prevent text selection during drag
-      WebkitUserDrag: 'none'     // Prevent Safari drag
+      WebkitUserDrag: 'none',    // Prevent Safari drag
+      zIndex: '1'                // Render above background image
     })
   }
 

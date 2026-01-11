@@ -24,11 +24,10 @@
                 <div class="<%= frame.css_classes %> <%= frame.rotation_back %>"
                      data-editor--preview-canvas-target="backWrapper">
                   <div data-editor--preview-canvas-target="back"
-                       class="w-full h-full"
-                       style="background-image: url(<%= template_back_base64 %>);
-                              background-size: cover;
-                              background-position: center;
-                              position: relative;">
+                       class="w-full h-full relative">
+                    <img src="<%= template_back_base64 %>"
+                         class="absolute inset-0 w-full h-full object-cover"
+                         crossorigin="anonymous" />
                   </div>
                 </div>
 
@@ -41,11 +40,10 @@
                 <div class="<%= frame.css_classes %> <%= frame.rotation_front %>"
                      data-editor--preview-canvas-target="frontWrapper">
                   <div data-editor--preview-canvas-target="front"
-                       class="w-full h-full"
-                       style="background-image: url(<%= template_front_base64 %>);
-                              background-size: cover;
-                              background-position: center;
-                              position: relative;">
+                       class="w-full h-full relative">
+                    <img src="<%= template_front_base64 %>"
+                         class="absolute inset-0 w-full h-full object-cover"
+                         crossorigin="anonymous" />
                   </div>
                 </div>
             <% end %>
