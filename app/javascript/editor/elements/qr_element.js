@@ -32,7 +32,6 @@ export class QRElement extends BaseElement {
       objectFit: 'contain',
       pointerEvents: 'none'  // Let parent handle all pointer events
     })
-    this.imgEl.crossOrigin = 'anonymous'
 
     this.container.appendChild(this.imgEl)
     this.el.appendChild(this.container)

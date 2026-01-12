@@ -12,7 +12,8 @@ export class ImageElement extends BaseElement {
     this.loading = false
   }
 
-  static placeholderSrc = '/images/portrait-placeholder.svg'
+  // Base64 embedded SVG for reliable PDF export (html2canvas needs embedded data)
+  static placeholderSrc = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjUwIiBmaWxsPSJub25lIj4KICA8IS0tIEJhY2tncm91bmQgd2l0aCBzdWJ0bGUgYm9yZGVyIC0tPgogIDxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSIxOTYiIGhlaWdodD0iMjQ2IiByeD0iOCIgZmlsbD0iI2Y5ZmFmYiIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjggNCIvPgoKICA8IS0tIFBlcnNvbiBzaWxob3VldHRlIC0tPgogIDxnIGZpbGw9IiNkMWQ1ZGIiPgogICAgPCEtLSBIZWFkIC0tPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iODUiIHI9IjM1Ii8+CiAgICA8IS0tIEJvZHkvU2hvdWxkZXJzIC0tPgogICAgPHBhdGggZD0iTTEwMCAxMzAgQzUwIDEzMCAzMCAxNzAgMzAgMjAwIEwzMCAyMjAgQzMwIDIzMCAzNSAyMzUgNDUgMjM1IEwxNTUgMjM1IEMxNjUgMjM1IDE3MCAyMzAgMTcwIDIyMCBMMTcwIDIwMCBDMTcwIDE3MCAxNTAgMTMwIDEwMCAxMzBaIi8+CiAgPC9nPgoKICA8IS0tIENhbWVyYSBpY29uIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDc1LCAxNjApIj4KICAgIDxyZWN0IHg9IjAiIHk9IjgiIHdpZHRoPSI1MCIgaGVpZ2h0PSIzNSIgcng9IjQiIGZpbGw9IiM5Y2EzYWYiLz4KICAgIDxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjNmI3MjgwIi8+CiAgICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSI2IiBmaWxsPSIjOWNhM2FmIi8+CiAgICA8cmVjdCB4PSI4IiB5PSIxMiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjYiIHJ4PSIyIiBmaWxsPSIjNmI3MjgwIi8+CiAgPC9nPgo8L3N2Zz4K'
 
   renderContent() {
     // Container for image and spinner
@@ -28,7 +29,6 @@ export class ImageElement extends BaseElement {
     // This ensures html2canvas captures at native resolution
     this.imgEl = document.createElement('img')
     this.imgEl.className = 'editor-element-image'
-    this.imgEl.crossOrigin = 'anonymous'
     Object.assign(this.imgEl.style, {
       width: '100%',
       height: '100%',

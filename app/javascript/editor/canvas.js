@@ -41,15 +41,19 @@ export class Canvas {
   setBackgroundImage(url) {
     this.backgroundUrl = url
 
-    // Remove existing background img if present
+    // Remove existing background img if present (check both tracked ref and DOM)
     if (this.backgroundImgEl) {
       this.backgroundImgEl.remove()
+    }
+    // Also check DOM for any existing editor-background elements (e.g., from saved HTML)
+    const existingBg = this.el.querySelector('.editor-background')
+    if (existingBg) {
+      existingBg.remove()
     }
 
     // Create <img> element for background
     this.backgroundImgEl = document.createElement('img')
     this.backgroundImgEl.src = url
-    this.backgroundImgEl.crossOrigin = 'anonymous'
     this.backgroundImgEl.classList.add('editor-background')
     Object.assign(this.backgroundImgEl.style, {
       position: 'absolute',
@@ -70,7 +74,6 @@ export class Canvas {
   loadBackgroundImage(url) {
     return new Promise((resolve, reject) => {
       const img = new Image()
-      img.crossOrigin = 'anonymous'
       img.onload = () => {
         this.init(img.width, img.height)
         this.setBackgroundImage(url)

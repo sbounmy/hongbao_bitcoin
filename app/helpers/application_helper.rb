@@ -120,24 +120,21 @@ module ApplicationHelper
   end
 
   def base64_url(attachment)
-    # Converts an Active Storage attachment to a Base64 data URL.
+    # Converts an Active Storage attachment to a Base64 data URL (WebP format).
     # Returns an empty string if the attachment is not present, not attached,
     # or is not an image.
-    # Check if attachment is provided, attached, and its blob is present
     return "" unless attachment.respond_to?(:attached?) && attachment.attached? && attachment.blob.present?
 
     blob = attachment.blob
-
-    # Ensure it's an image type before proceeding
     return "" unless blob.content_type.start_with?("image/")
 
-    # Download the file content from storage
-    file_content = blob.download
-    # Encode the content to Base64
-    base64_encoded_content = Base64.strict_encode64(file_content)
+    # Use named :webp variant for compression (cached by ActiveStorage)
+    variant = attachment.variant(:webp).processed
 
-  # Construct the data URL
-  "data:#{blob.content_type};base64,#{base64_encoded_content}"
+    # Download variant content and encode as base64
+    file_content = variant.download
+    base64_encoded_content = Base64.strict_encode64(file_content)
+    "data:image/webp;base64,#{base64_encoded_content}"
   end
 
   # Push data attributes up the layout

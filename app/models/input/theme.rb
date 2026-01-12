@@ -130,9 +130,15 @@ class Input::Theme < Input
     }
   end
 
-  has_one_attached :image_hero
-  has_one_attached :image_back
-  has_one_attached :image_front
+  has_one_attached :image_hero do |attachable|
+    attachable.variant :webp, convert: :webp
+  end
+  has_one_attached :image_back do |attachable|
+    attachable.variant :webp, convert: :webp
+  end
+  has_one_attached :image_front do |attachable|
+    attachable.variant :webp, convert: :webp
+  end
 
   validates :slug, presence: true, uniqueness: true
 
