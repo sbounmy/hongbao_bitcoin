@@ -24,7 +24,7 @@ export class QRElement extends BaseElement {
 
     // QR image element (always square)
     this.imgEl = document.createElement('img')
-    this.imgEl.className = 'editor-element-qr'
+    this.imgEl.className = 'editor-element-qr select-none'
     this.imgEl.draggable = false  // Prevent native browser image drag
     Object.assign(this.imgEl.style, {
       width: '100%',

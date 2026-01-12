@@ -54,7 +54,8 @@ export class Canvas {
     // Create <img> element for background
     this.backgroundImgEl = document.createElement('img')
     this.backgroundImgEl.src = url
-    this.backgroundImgEl.classList.add('editor-background')
+    this.backgroundImgEl.classList.add('editor-background', 'select-none')
+    this.backgroundImgEl.draggable = false  // Prevent native browser drag
     Object.assign(this.backgroundImgEl.style, {
       position: 'absolute',
       top: '0',

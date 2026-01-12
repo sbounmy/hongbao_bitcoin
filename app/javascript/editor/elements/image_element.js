@@ -28,7 +28,8 @@ export class ImageElement extends BaseElement {
     // <img> element for displaying images (not CSS background-image)
     // This ensures html2canvas captures at native resolution
     this.imgEl = document.createElement('img')
-    this.imgEl.className = 'editor-element-image'
+    this.imgEl.className = 'editor-element-image select-none'
+    this.imgEl.draggable = false  // Prevent native browser drag
     Object.assign(this.imgEl.style, {
       width: '100%',
       height: '100%',
