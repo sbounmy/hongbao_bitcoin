@@ -4,6 +4,10 @@ export class TouchHandler {
     this.element = element
     this.callbacks = callbacks
 
+    // Desktop: drag selects immediately (no click-to-select required)
+    // Mobile: requires tap-to-select first for better UX
+    this.directDrag = !this.isTouchDevice()
+
     // Touch state
     this.touches = new Map()
 
@@ -79,6 +83,12 @@ export class TouchHandler {
     // We preventDefault in onPointerMove when actually dragging
 
     const point = this.getPoint(event)
+
+    // Desktop: trigger selection before drag (reuses existing tap logic)
+    if (this.directDrag) {
+      this.callbacks.onTap?.(point)
+    }
+
     this.dragStart = point
     this.callbacks.onDragStart?.(point)
     this.isDragging = true
@@ -227,5 +237,10 @@ export class TouchHandler {
       x: (p1.x + p2.x) / 2,
       y: (p1.y + p2.y) / 2
     }
+  }
+
+  // Detect touch-capable device
+  isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
   }
 }
