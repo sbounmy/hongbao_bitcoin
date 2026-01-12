@@ -33,7 +33,8 @@ export class ImageElement extends BaseElement {
       width: '100%',
       height: '100%',
       objectFit: 'contain',
-      display: 'block'
+      display: 'block',
+      pointerEvents: 'none'
     })
     // Start with placeholder
     this.imgEl.src = ImageElement.placeholderSrc
