@@ -21,7 +21,7 @@ class PapersController < ApplicationController
     # Photo sheet data
     @styles = Input::Style.by_position.with_attached_image
     @pagy, @recent_photos = pagy_countless(
-      InputItem.distinct_images_for(paper_scope),
+      InputItem.distinct_images_for(paper_scope).with_attached_image,
       limit: 20
     )
   end
