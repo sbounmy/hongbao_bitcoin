@@ -75,6 +75,10 @@ export class CanvasPair {
     const canvas = this[side]
     const elements = state.elementsForSide(side)
 
+    // Clear ALL elements from DOM (backgrounds use .editor-background, not data-element-id)
+    // Recreate from JSON (single source of truth) - fixes offline mode
+    canvas.el.querySelectorAll('[data-element-id]').forEach(el => el.remove())
+
     // Track current element IDs for this side
     const currentIds = new Set()
 
@@ -90,13 +94,8 @@ export class CanvasPair {
         // DOM handles image display automatically, but we might want to notify
       }
 
-      // Check if element with this ID already exists (e.g., from saved HTML)
-      const existingElement = canvas.el.querySelector(`[data-element-id="${id}"]`)
-      if (existingElement) {
-        // Adopt existing DOM element instead of creating duplicate
-        instance.el = existingElement
-        instance.update(elementData)
-      } else if (!canvas.el.contains(instance.el)) {
+      // Append element to canvas if not already there
+      if (!canvas.el.contains(instance.el)) {
         canvas.appendChild(instance.el)
       }
     }
