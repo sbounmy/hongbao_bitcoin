@@ -41,7 +41,11 @@ jobs:
       - name: Install yarn dependencies
         run: yarn install --frozen-lockfile
       - name: Scan for yarn package vulnerabilities
-        run: yarn audit --level moderate
+        run: |
+          yarn audit --level moderate || exit_code=$?
+          # Exit codes: 2=low, 4=moderate, 8=high, 16=critical (bitmask)
+          # Only fail on moderate or higher (exit code >= 4)
+          if [ "${exit_code:-0}" -ge 4 ]; then exit 1; fi
 
   lint:
     runs-on: ubuntu-latest
