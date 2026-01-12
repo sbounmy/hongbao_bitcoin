@@ -262,6 +262,16 @@ export default class extends Controller {
   async download(event) {
     event.preventDefault()
 
+    // Loading state
+    const button = event.currentTarget
+    const originalHTML = button.innerHTML
+    button.disabled = true
+    button.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Processing...'
+    const resetButton = () => {
+      button.innerHTML = originalHTML
+      button.disabled = false
+    }
+
     try {
       this.contentTarget.style.transform = '' // Remove zoom transform
       this.viewportTarget.scrollTop = 0       // Scroll to top
@@ -348,11 +358,12 @@ export default class extends Controller {
         // Clean up
         setTimeout(() => URL.revokeObjectURL(link.href), 100)
 
-        // Dispatch event on successful download
+        resetButton()
         this.dispatch("downloaded", { detail: { filename } })
       })
 
     } catch (error) {
+      resetButton()
       console.error("PDF generation failed:", error)
       this.dispatch("error", { detail: { error: error.message } })
     }
