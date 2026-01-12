@@ -23,7 +23,7 @@
            data-tabs-target="tab"
            data-tab-id="front"
            class="rounded-lg shadow-xl overflow-hidden aspect-[<%= frame.aspect_ratio %>] relative
-                  w-full h-auto"
+                  w-full max-w-lg h-auto"
            data-side="front">
         <img src="<%= template_front_base64 %>"
              class="hidden"
@@ -38,7 +38,7 @@
            data-tabs-target="tab"
            data-tab-id="back"
            class="hidden rounded-lg shadow-xl overflow-hidden aspect-[<%= frame.aspect_ratio %>] relative
-                  w-full h-auto"
+                  w-full max-w-lg h-auto"
            data-side="back">
         <img src="<%= template_back_base64 %>"
              class="hidden"
