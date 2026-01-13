@@ -50,7 +50,8 @@ export class TextElement extends BaseElement {
       lineHeight: '1.25',
       wordWrap: 'break-word',
       overflowWrap: 'break-word',
-      whiteSpace: this.fontSize < TextElement.SINGLE_LINE_THRESHOLD ? 'nowrap' : 'normal'
+      whiteSpace: this.fontSize < TextElement.SINGLE_LINE_THRESHOLD ? 'nowrap' : 'normal',
+      overflow: 'visible'
     })
   }
 
