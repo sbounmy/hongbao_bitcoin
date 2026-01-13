@@ -75,6 +75,13 @@ application.register('password-meter', PasswordMeterController)
 import StepsController from './steps_controller'
 application.register('steps', StepsController)
 
+// Editor controllers (for admin theme editing)
+import EditorController from './editor_controller'
+application.register('editor', EditorController)
+
+import EditorTextController from './editor/text_controller'
+application.register('editor--text', EditorTextController)
+
 // To breakout of turbo frames from server e.g successful login frame we redirect to /
 // https://github.com/hotwired/turbo-rails/pull/367#issuecomment-1934729149
 Turbo.StreamActions.redirect = function () {

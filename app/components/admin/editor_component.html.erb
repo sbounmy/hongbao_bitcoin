@@ -7,6 +7,16 @@
       <p>Please attach Front and Back images to use the canvas editor.</p>
     </div>
   <% else %>
+    <%# Toolbar %>
+    <div class="flex items-center gap-2 mb-4">
+      <button type="button"
+              class="btn btn-sm btn-outline gap-1"
+              data-action="click->editor#addText">
+        <%= heroicon "plus", variant: :mini, class: "w-4 h-4" %>
+        Add Text
+      </button>
+    </div>
+
     <%# DOM Container - Elements rendered as HTML/CSS %>
     <div class="<%= frame.portrait? ? 'flex flex-row gap-6 items-start justify-center' : 'flex flex-col gap-6 items-center' %>"
          style="min-height: 400px;">
@@ -60,6 +70,36 @@
     <%# Instructions %>
     <div class="mt-4 text-sm text-gray-600">
       <p><strong>Instructions:</strong> Click elements to select, drag to move, use handles to resize. Changes are saved automatically.</p>
+    </div>
+
+    <%# Text Drawer - opened programmatically via editor %>
+    <div data-controller="editor--text"
+         data-action="editor:drawerOpen@window->editor--text#open">
+      <dialog id="text-drawer" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg mb-4">Edit Text</h3>
+
+          <%# Render shared text drawer partial %>
+          <%= render "papers/new/drawers/text" %>
+
+          <div class="modal-action">
+            <button type="button"
+                    class="btn btn-error btn-outline btn-sm"
+                    data-action="click->editor--text#delete"
+                    data-editor--text-target="deleteBtn">
+              Delete
+            </button>
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    data-action="click->editor--text#close">
+              Done
+            </button>
+          </div>
+        </div>
+        <div class="modal-backdrop">
+          <button type="button" data-action="click->editor--text#close">close</button>
+        </div>
+      </dialog>
     </div>
   <% end %>
 </div>

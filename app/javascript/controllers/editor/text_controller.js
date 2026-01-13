@@ -100,6 +100,6 @@ export default class extends Controller {
     this.engine = null
     this.elementId = null
     this.element_ = null
-    this.element.closest("dialog")?.close()
+    this.element.querySelector("dialog")?.close()
   }
 }
