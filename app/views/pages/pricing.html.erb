@@ -3,5 +3,21 @@
   <section class="max-w-7xl mx-auto flex flex-col items-center gap-8 p-8 justify-center">
     <%= render V3::PricingComponent.new(product: @product, title: false) %>
   </section>
+
+  <!-- Schedule a Call Section -->
+  <section class="py-16 md:py-24 bg-base-200">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="mb-12 flex w-full flex-col text-center">
+        <p class="mb-3 text-sm font-medium uppercase tracking-wider text-primary">SCHEDULE A CALL</p>
+        <h2 class="mx-auto text-3xl font-extrabold tracking-tight md:text-5xl text-base-content">
+          Have questions?
+        </h2>
+        <p class="mt-4 text-lg text-base-content/70">
+          Book a call and let's chat about your Bitcoin gifting needs.
+        </p>
+      </div>
+      <%= render CalEmbedComponent.new %>
+    </div>
+  </section>
 </div>
 
