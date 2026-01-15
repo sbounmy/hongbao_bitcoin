@@ -1,0 +1,37 @@
+<div class="p-6 bg-base-100 border border-base-300 rounded-xl">
+  <div class="flex items-center gap-3 mb-6">
+    <span class="text-3xl">📈</span>
+    <div>
+      <h2 class="text-xl font-bold text-base-content">Bitcoin Gifting Simulator</h2>
+      <p class="text-sm text-base-content/70">See how gifts grow over time</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Form -->
+    <div>
+      <%= render Simulations::FormComponent.new(simulation: @simulation, stats_only: true) %>
+    </div>
+
+    <!-- Results -->
+    <div>
+      <%= turbo_frame_tag "simulation_results" do %>
+        <% if @result&.success? && @result.payload[:event_hong_baos]&.any? %>
+          <%= render Simulations::StatsComponent.new(event_hong_baos: @result.payload[:event_hong_baos]) %>
+        <% else %>
+          <div class="card bg-base-200 h-full min-h-[300px]">
+            <div class="card-body flex items-center justify-center text-center">
+              <p class="text-base-content/50">Adjust the form to see your simulation results</p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-6 text-center">
+    <a href="/simulations/new" target="_blank" rel="noopener" class="btn btn-primary">
+      Open Full Simulator →
+    </a>
+  </div>
+</div>

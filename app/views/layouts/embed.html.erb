@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" data-theme="bumblebee">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Gifting Simulator - HongBao</title>
+
+    <%= stylesheet_link_tag "application", "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+    <%= action_cable_meta_tag %>
+    <%= csp_meta_tag %>
+  </head>
+
+  <body class="bg-transparent">
+    <%= yield %>
+  </body>
+</html>

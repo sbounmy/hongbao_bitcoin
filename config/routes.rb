@@ -55,7 +55,9 @@ Rails.application.routes.draw do
   end
 
   # Bitcoin Gifting Simulation
-  resources :simulations, only: [ :new, :create ]
+  resources :simulations, only: [ :new, :create ] do
+    get :embed, on: :collection
+  end
 
   resources :checkout, only: [ :new, :create, :update ] do
     collection do

@@ -2,10 +2,17 @@
 
 class SimulationsController < ApplicationController
   allow_unauthenticated_access
+  layout "embed", only: :embed
 
   def new
     @simulation = Simulation.new
     @result = Simulations::Create.call(@simulation.to_service_params)
+  end
+
+  def embed
+    @simulation = Simulation.new
+    @result = Simulations::Create.call(@simulation.to_service_params)
+    render :embed
   end
 
   def create
