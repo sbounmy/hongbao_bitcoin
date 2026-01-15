@@ -62,6 +62,10 @@ class R2CLI
       list_files(args[0], args[1])
     when 'sync'
       sync_buckets(args)
+    when 'publish'
+      publish
+    when 'cleanup'
+      cleanup(args)
     when 'backup'
       backup_production
     when 'help', nil
@@ -622,6 +626,117 @@ class R2CLI
     end
   end
 
+  def publish
+    puts Colors.yellow("Publishing Blog Images")
+    puts "=" * 50
+
+    dev_url = ENV['R2_DEV_CDN_URL']
+    prod_url = ENV['R2_PROD_CDN_URL']
+
+    unless dev_url && prod_url
+      puts Colors.red("✗ Missing R2_DEV_CDN_URL or R2_PROD_CDN_URL in .env")
+      exit 1
+    end
+
+    blog_dir = File.join(@project_root, 'app/content/pages/blog')
+
+    # Find and replace dev URLs in all blog posts
+    files_changed = []
+    Dir.glob("#{blog_dir}/*.{md,markerb}").each do |file|
+      content = File.read(file)
+      if content.include?(dev_url)
+        new_content = content.gsub(dev_url, prod_url)
+        File.write(file, new_content)
+        files_changed << File.basename(file)
+      end
+    end
+
+    # Report changes
+    if files_changed.empty?
+      puts Colors.green("✓ No dev URLs found in blog posts")
+    else
+      puts Colors.green("✓ Updated #{files_changed.size} files:")
+      files_changed.each { |f| puts "  - #{f}" }
+    end
+
+    puts ""
+    # Sync to production
+    sync_buckets(['--from', 'dev', '--to', 'prod'])
+  end
+
+  def cleanup(args)
+    puts Colors.yellow("Blog Image Cleanup")
+    puts "=" * 50
+
+    delete_mode = args.include?('--delete')
+    dev_url = ENV['R2_DEV_CDN_URL']
+    prod_url = ENV['R2_PROD_CDN_URL']
+
+    unless dev_url && prod_url
+      puts Colors.red("✗ Missing R2_DEV_CDN_URL or R2_PROD_CDN_URL in .env")
+      exit 1
+    end
+
+    blog_dir = File.join(@project_root, 'app/content/pages/blog')
+
+    # Get all images from R2
+    puts "Scanning R2 bucket..."
+    r2_output = `rclone ls r2dev:#{@dev_bucket}/blog 2>/dev/null`
+    r2_images = r2_output.split("\n").map { |line| line.split.last }.compact
+
+    if r2_images.empty?
+      puts Colors.yellow("No images found in R2 bucket")
+      return
+    end
+
+    puts "Found #{r2_images.size} images in R2"
+
+    # Get all referenced images from blog posts
+    puts "Scanning blog posts..."
+    referenced = Set.new
+    Dir.glob("#{blog_dir}/*.{md,markerb}").each do |file|
+      content = File.read(file)
+
+      # Match CDN URLs in markdown (both dev and prod)
+      url_pattern = %r{(?:#{Regexp.escape(dev_url)}|#{Regexp.escape(prod_url)})/blog/([^\s\)\"]+)}
+      content.scan(url_pattern) do |match|
+        referenced << match[0]
+      end
+
+      # Match cdn_image_tag helper in .markerb files: cdn_image_tag "blog/path/image.jpg"
+      erb_pattern = /cdn_image_tag\s*[\(\s]["']blog\/([^"']+)["']/
+      content.scan(erb_pattern) do |match|
+        referenced << match[0]
+      end
+    end
+
+    puts "Found #{referenced.size} referenced images in blog posts"
+    puts ""
+
+    # Find orphans
+    orphans = r2_images - referenced.to_a
+
+    if orphans.empty?
+      puts Colors.green("✓ No orphan images found - all images are referenced")
+    else
+      puts Colors.yellow("Found #{orphans.size} orphan images (not referenced in any blog post):")
+      orphans.each { |img| puts "  - blog/#{img}" }
+
+      if delete_mode
+        puts ""
+        puts Colors.yellow("Deleting orphan images...")
+        orphans.each do |img|
+          system("rclone delete r2dev:#{@dev_bucket}/blog/#{img}")
+          puts "  Deleted: blog/#{img}"
+        end
+        puts Colors.green("\n✓ Deleted #{orphans.size} orphan images")
+      else
+        puts ""
+        puts "Run '#{Colors.blue('bin/r2 cleanup --delete')}' to remove them"
+      end
+    end
+  end
+
   def show_help
     puts Colors.yellow("Hong₿ao R2 Storage Management")
     puts "=" * 50
@@ -636,6 +751,8 @@ class R2CLI
     puts "  #{Colors.green('test')} [--debug]       Test R2 connections (use --debug for details)"
     puts "  #{Colors.green('ls')} [env] [path]      List files (env: dev/prod, default: dev)"
     puts "  #{Colors.green('sync')} --from SRC --to DST  Sync between buckets (requires confirmation)"
+    puts "  #{Colors.green('publish')}              Replace dev URLs with prod URLs in blog posts + sync"
+    puts "  #{Colors.green('cleanup')} [--delete]   Find orphan images not referenced in blog posts"
     puts "  #{Colors.green('backup')}               Backup production bucket"
     puts "  #{Colors.green('help')}                 Show this help message"
     puts ""
@@ -649,6 +766,9 @@ class R2CLI
     puts "  bin/r2 sync --from dev --to prod        # Sync dev to production"
     puts "  bin/r2 sync --from prod --to dev        # Restore from production"
     puts "  bin/r2 sync -f dev -t prod --path blog/2024  # Sync specific path"
+    puts "  bin/r2 publish                  # Replace dev URLs + sync to prod"
+    puts "  bin/r2 cleanup                  # Find orphan images"
+    puts "  bin/r2 cleanup --delete         # Delete orphan images"
     puts "  bin/r2 backup                   # Backup production before updates"
     puts ""
     puts "Configuration:"
