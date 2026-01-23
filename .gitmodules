@@ -1,3 +1,6 @@
 [submodule "app/content"]
 	path = app/content
 	url = https://github.com/sbounmy/hongbao_blog.git
+[submodule "automation"]
+	path = automation
+	url = git@github.com:sbounmy/hongbao-automation.git
